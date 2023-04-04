@@ -1,0 +1,25 @@
+{
+  "name": "revue",
+  "version": "1.0.0",
+  "description": "Project for Distributed Systems course at University of Bologna",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mala1180/revue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mala1180/revue/issues"
+  },
+  "homepage": "https://github.com/Mala1180/revue#readme"
+}

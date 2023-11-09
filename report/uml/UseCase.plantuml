@@ -2,7 +2,7 @@
 left to right direction
 actor "User" as fc
 rectangle "Video Surveillance Application" {
-  usecase "View Dashboard" as UC1
+  usecase "Dashboard access" as UC1
   usecase "Monitor cameras" as UC2
   usecase "Manage alarms" as UC3
 }

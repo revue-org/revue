@@ -1,0 +1,56 @@
+@startuml
+
+
+interface Device {
+ + getDeviceId(): Int
+ + getIpAddress(): String
+ + isCapturing(): Boolean
+ + startCapturing(): void
+ + stopCapturing(): void
+}
+
+note left: Entity
+
+interface Camera {
+ + getResolution(): Resolution
+}
+
+note left: Entity
+
+interface Sensor {
+ + getIntervalMillis(): Int
+ + addMeasure(): void
+}
+
+note left: Entity
+
+Device *-- Camera
+Device *-- Sensor
+
+class Resolution {
+ + height
+ + width
+}
+
+Camera o-- Resolution
+
+
+enum Measure {
+ HUMIDITY
+ TEMPERATURE
+ PRESSURE
+ ...
+}
+
+interface EnvironmentData {
+ + getValue(): Float
+ + getMeasure(): Measure
+}
+
+note left: Value Object
+
+
+EnvironmentData o-- Measure
+Sensor o-- Measure
+
+@enduml

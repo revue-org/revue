@@ -1,0 +1,40 @@
+@startuml
+
+interface Alarm {
+  + getSecurityRules(): Set<SecurityRules>
+}
+
+interface SecurityRule {
+  + getSecurityRuleId(): Int
+  + getDescription(): String
+  + getFrom(): Timestamp
+  + getTo(): Timestamp
+}
+
+interface IntrusionRule {
+  + getObjectClass(): ObjectClass
+}
+
+interface AnomalyRule {
+  + getMinValue(): Float
+  + getMaxValue(): Float
+}
+
+enum ObjectClass {
+  PERSON
+  ANIMAL
+  CAR
+  ...
+}
+
+note left of SecurityRule: Entity
+
+SecurityRule --* AnomalyRule
+
+SecurityRule --* IntrusionRule
+
+Alarm o-- SecurityRule
+
+IntrusionRule o-- ObjectClass
+
+@enduml

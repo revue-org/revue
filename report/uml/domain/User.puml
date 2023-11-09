@@ -1,0 +1,24 @@
+@startuml
+
+interface User {
+ + getUserId(): Int
+ + getName(): String
+ + addContact(c: Contact): void
+ + removeContact(c: Contact): void
+
+}
+note left: Entity
+
+interface Contact {
+ + getValue(): String
+ + setValue(v: String): void
+ + getContactType(): ContactType
+ + setContactType(c: ContactType): void
+}
+
+ContactType -left-o User
+
+
+Contact o-- ContactType
+
+@enduml

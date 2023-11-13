@@ -1,24 +1,48 @@
 @startuml
 
-interface User {
- + getUserId(): Int
- + getName(): String
- + addContact(c: Contact): void
- + removeContact(c: Contact): void
+package Monitoring <<Rectangle>> {
+
+
+    interface ControlRoom <<root>> {
+      + registerDevice(device: Device): void
+      + enableDevice(deviceId: DeviceId): void
+      + disableDevice(deviceId: DeviceId): void
+      + createSecurityRule(): void
+      + deleteSecurityRule(): void
+      + getHistory(deviceId: DeviceId): List<Anomaly>
+    }
+    note left: Service
+    ControlRoom --> User : uses
+
+
+    interface Notification {
+      + getTimestamp(): Date
+
+    }
+
+    interface User {
+     + getUserId(): Int
+     + getName(): String
+     + addContact(c: Contact): void
+     + removeContact(c: Contact): void
+    }
+    note left: Entity
+    User o-right- Contact
+
+    interface Contact {
+     + getValue(): String
+     + setValue(v: String): void
+     + getContactType(): ContactType
+     + setContactType(c: ContactType): void
+    }
+    note right: Value Object
+
+    enum ContactType {
+      EMAIL
+      SMS
+    }
+    Contact o-- ContactType
 
 }
-note left: Entity
-
-interface Contact {
- + getValue(): String
- + setValue(v: String): void
- + getContactType(): ContactType
- + setContactType(c: ContactType): void
-}
-
-ContactType -left-o User
-
-
-Contact o-- ContactType
 
 @enduml

@@ -1,40 +1,93 @@
 @startuml
 
-interface Alarm {
-  + getSecurityRules(): Set<SecurityRules>
+package SecurityRules <<Rectangle>> {
+
+    interface SecurityRuleRepository <<root>> {
+      + getSecurityRules(): Set<SecurityRules>
+      + addSecurityRule(securityRule: SecurityRule): void
+      + removeSecurityRule(securityRule: SecurityRule): void
+    }
+    note right of SecurityRuleRepository : Repository
+    SecurityRuleRepository o-- SecurityRule
+
+
+    interface SecurityRule {
+      + getDeviceId(): DeviceId
+      + getCreatorId(): UserId
+      + getContactsToNotify(): Set<Contact>
+      + getDescription(): String
+      + getFrom(): Timestamp
+      + getTo(): Timestamp
+    }
+
+    interface IntrusionRule {
+      + getObjectClass(): ObjectClass
+    }
+    IntrusionRule o-- ObjectClass
+
+    interface ExceedingRule {
+      + getMinValue(): Float
+      + getMaxValue(): Float
+    }
+
+    enum ObjectClass {
+      PERSON
+      ANIMAL
+      CAR
+      ...
+    }
+    note right of SecurityRule: Entity
+
 }
 
-interface SecurityRule {
-  + getSecurityRuleId(): Int
-  + getDescription(): String
-  + getFrom(): Timestamp
-  + getTo(): Timestamp
+package Alarm <<Rectangle>> {
+
+    interface Anomaly {
+      + getAnomalyId(): String
+      + getTimestamp(): Date
+    }
+    note left of Anomaly: Domain Event
+
+    interface Exceeding {
+      + getExceedingValue(): Float
+    }
+
+    interface Intrusion {
+      + getIntrusionObject(): ObjectClass
+    }
+
+    Exceeding *-- Anomaly
+    Intrusion *-- Anomaly
+
+
+    interface Notification {
+      + getNotificationId(): Int
+      + getTimestamp(): Date
+      + getAnomaly(): Anomaly
+    }
+    note right of Notification: Entity
+    Notification o-left- Anomaly
+
+    interface AlarmService <<root>> {
+      + startMonitoring(deviceId: DeviceId): void
+      + stopMonitoring(deviceId: DeviceId): void
+      + sendNotification(anomaly: Anomaly): void
+    }
+    note left of AlarmService: Service
+    SecurityRule --* ExceedingRule
+    SecurityRule --* IntrusionRule
+    AlarmService --> Notification : uses
+    AlarmService --> SecurityRuleRepository : uses
+
+    interface MonitoringNode {
+      + getMonitoringNodeId(): String
+      + getIpAddress(): String
+      + getDeviceIds(): Set<DeviceId>
+      + anomalyDetected(): Anomaly
+    }
+    note left of MonitoringNode: Entity
+    MonitoringNode <-up- AlarmService: uses
+
 }
-
-interface IntrusionRule {
-  + getObjectClass(): ObjectClass
-}
-
-interface AnomalyRule {
-  + getMinValue(): Float
-  + getMaxValue(): Float
-}
-
-enum ObjectClass {
-  PERSON
-  ANIMAL
-  CAR
-  ...
-}
-
-note left of SecurityRule: Entity
-
-SecurityRule --* AnomalyRule
-
-SecurityRule --* IntrusionRule
-
-Alarm o-- SecurityRule
-
-IntrusionRule o-- ObjectClass
 
 @enduml

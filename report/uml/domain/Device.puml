@@ -1,39 +1,59 @@
 @startuml
 
+enum DeviceType {
+  CAMERA
+  SENSOR
+}
+
+interface DeviceId {
+ + getType(): DeviceType
+ + getCode(): String
+}
+DeviceId o-- DeviceType
 
 interface Device {
- + getDeviceId(): Int
+ + getDeviceId(): DeviceId
  + getIpAddress(): String
  + isCapturing(): Boolean
  + startCapturing(): void
  + stopCapturing(): void
 }
+Device o-right- DeviceId
 
 note left: Entity
 
 interface Camera {
  + getResolution(): Resolution
 }
-
 note left: Entity
+Camera o-- Resolution
+Device *-- Camera
+Device *-- Sensor
 
 interface Sensor {
  + getIntervalMillis(): Int
+ + getMeasures(): Set<Measure>
  + addMeasure(): void
+ + sendEnvironmentData(): void
+}
+note left: Entity
+Sensor --> EnvironmentData : uses
+Sensor o-- Measure
+
+
+interface EnvironmentData {
+ + getSourceDeviceId(): DeviceId
+ + getValue(): Float
+ + getMeasure(): Measure
+ + getTimestamp(): Date
 }
 
-note left: Entity
-
-Device *-- Camera
-Device *-- Sensor
+note right: Value Object
 
 class Resolution {
  + height
  + width
 }
-
-Camera o-- Resolution
-
 
 enum Measure {
  HUMIDITY
@@ -41,16 +61,5 @@ enum Measure {
  PRESSURE
  ...
 }
-
-interface EnvironmentData {
- + getValue(): Float
- + getMeasure(): Measure
-}
-
-note left: Value Object
-
-
-EnvironmentData o-- Measure
-Sensor o-- Measure
 
 @enduml

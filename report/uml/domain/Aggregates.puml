@@ -11,5 +11,6 @@ package Monitoring <<Rectangle>> {
 }
 
 Monitor -- AlarmService
+Monitor -- DeviceService
 
 @enduml

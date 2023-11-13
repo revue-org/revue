@@ -21,15 +21,40 @@ interface Device {
  + stopCapturing(): void
 }
 Device o-right- DeviceId
-
 note left: Entity
+
+interface DeviceNode {
+
+}
 
 interface DeviceFactory {
  + createSensor(): Device
  + createCamera(): Device
 }
-note left: Factory
+note right: Factory
 DeviceFactory --> Device: creates
+DeviceFactory --> DeviceId: creates
+
+interface DeviceRepository {
+ + getAllDevices(): Set<Device>
+ + getDevice(deviceId: DeviceId): Device
+ + insertDevice(device: Device): void
+ + deleteDevice(deviceId: DeviceId): void
+}
+note left: Repository
+DeviceRepository o-- Device
+
+interface DeviceService {
+ + getAllDevices(): Set<Device>
+ + getDevice(deviceId: DeviceId): Device
+ + addDevice(device: Device): void
+ + removeDevice(deviceId: DeviceId): void
+ + deployDevice(deviceId: DeviceId): void
+}
+note right: Service
+DeviceService --> DeviceRepository: uses
+DeviceService --> DeviceFactory: uses
+DeviceService -left-> DeviceNode: deploy
 
 interface Camera {
  + getResolution(): Resolution

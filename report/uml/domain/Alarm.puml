@@ -48,15 +48,15 @@ package Anomaly <<Rectangle>> {
 
 }
 
-package Monitoring <<Rectangle>> {
-    interface MonitoringNode <<root>> {
-      + getMonitoringNodeId(): String
+package Recognizing <<Rectangle>> {
+    interface RecognizingNode <<root>> {
+      + getRecognizingNodeId(): String
       + getIpAddress(): String
       + getDeviceIds(): Set<DeviceId>
       + anomalyDetected(): Anomaly
     }
-    note left of MonitoringNode: Entity
-    MonitoringNode --> AnomalyService: uses
+    note left of RecognizingNode: Entity
+    RecognizingNode --> AnomalyService: uses
 }
 
 package SecurityRules <<Rectangle>> {
@@ -120,15 +120,15 @@ package SecurityRules <<Rectangle>> {
 package AlarmSystem <<Rectangle>> {
 
     interface AlarmService <<root>> {
-      + startMonitoring(deviceId: DeviceId): void
-      + stopMonitoring(deviceId: DeviceId): void
+      + startRecognizing(deviceId: DeviceId): void
+      + stopRecognizing(deviceId: DeviceId): void
       + sendNotification(anomaly: Anomaly): void
     }
     note left of AlarmService: Service
     SecurityRule --* ExceedingRule
     SecurityRule --* IntrusionRule
     AlarmService --> SecurityRuleService : uses
-    MonitoringNode <-up- AlarmService : deploy
+    RecognizingNode <-up- AlarmService : deploy
     AnomalyService --> AlarmService : notifies
 
     interface Notification {

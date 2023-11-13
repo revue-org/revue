@@ -1,5 +1,7 @@
 @startuml
 
+!startsub Device
+
 enum DeviceType {
   CAMERA
   SENSOR
@@ -21,6 +23,13 @@ interface Device {
 Device o-right- DeviceId
 
 note left: Entity
+
+interface DeviceFactory {
+ + createSensor(): Device
+ + createCamera(): Device
+}
+note left: Factory
+DeviceFactory --> Device: creates
 
 interface Camera {
  + getResolution(): Resolution
@@ -61,5 +70,7 @@ enum Measure {
  PRESSURE
  ...
 }
+
+!endsub Device
 
 @enduml

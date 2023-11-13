@@ -1,17 +1,87 @@
 @startuml
 
+!startsub Alarm
+
+package Anomaly <<Rectangle>> {
+
+    interface Anomaly {
+      + getAnomalyId(): Int
+      + getTimestamp(): Date
+    }
+    note right of Anomaly: Domain Event
+
+    interface Exceeding {
+      + getExceedingValue(): Float
+    }
+
+    interface Intrusion {
+      + getIntrusionObject(): ObjectClass
+    }
+
+    Exceeding *-- Anomaly
+    Intrusion *-- Anomaly
+
+    interface AnomalyService <<root>> {
+      + addIntrusion(...): Anomaly
+      + addExceeding(...): Anomaly
+      + removeAnomaly(anomalyId: String): void
+      + notifyAlarmService(anomaly: Anomaly): void
+    }
+    note left of AnomalyService: Service
+
+    interface AnomalyFactory {
+      + createIntrusion(): Anomaly
+      + createExceeding(): Anomaly
+    }
+    note left: Factory
+    AnomalyFactory --> Anomaly : creates
+    AnomalyFactory <-- AnomalyService : uses
+
+    interface AnomalyRepository {
+      + getAnomalies(): Set<Anomaly>
+      + insertAnomaly(anomaly: Anomaly): void
+      + deleteAnomaly(anomalyId: Int): void
+    }
+    note left of AnomalyRepository: Repository
+    AnomalyRepository o-up- Anomaly
+    AnomalyService --> AnomalyRepository : uses
+
+}
+
+package Monitoring <<Rectangle>> {
+    interface MonitoringNode <<root>> {
+      + getMonitoringNodeId(): String
+      + getIpAddress(): String
+      + getDeviceIds(): Set<DeviceId>
+      + anomalyDetected(): Anomaly
+    }
+    note left of MonitoringNode: Entity
+    MonitoringNode --> AnomalyService: uses
+}
+
 package SecurityRules <<Rectangle>> {
 
-    interface SecurityRuleRepository <<root>> {
-      + getSecurityRules(): Set<SecurityRules>
-      + addSecurityRule(securityRule: SecurityRule): void
-      + removeSecurityRule(securityRule: SecurityRule): void
+    interface SecurityRuleService <<root>> {
+      + addIntrusionRule(...): SecurityRule
+      + addExceedingRule(...): SecurityRule
+      + removeRule(ruleId: Int): void
     }
-    note right of SecurityRuleRepository : Repository
+    note left of SecurityRuleService: Service
+    SecurityRuleService --> SecurityRuleRepository : uses
+    SecurityRuleService --> SecurityRuleFactory : uses
+
+
+    interface SecurityRuleRepository {
+      + getSecurityRules(): Set<SecurityRules>
+      + insertSecurityRule(securityRule: SecurityRule): void
+      + deleteSecurityRule(securityRule: SecurityRule): void
+    }
+    note left of SecurityRuleRepository : Repository
     SecurityRuleRepository o-- SecurityRule
 
 
     interface SecurityRule {
+      + getSecurityRuleId(): Int
       + getDeviceId(): DeviceId
       + getCreatorId(): UserId
       + getContactsToNotify(): Set<Contact>
@@ -19,6 +89,14 @@ package SecurityRules <<Rectangle>> {
       + getFrom(): Timestamp
       + getTo(): Timestamp
     }
+    note left of SecurityRule: Entity
+
+    interface SecurityRuleFactory {
+      + createIntrusionRule(...): SecurityRule
+      + createExceedingRule(...): SecurityRule
+    }
+    note right of SecurityRuleFactory : Factory
+    SecurityRuleFactory -left-> SecurityRule : creates
 
     interface IntrusionRule {
       + getObjectClass(): ObjectClass
@@ -36,37 +114,10 @@ package SecurityRules <<Rectangle>> {
       CAR
       ...
     }
-    note right of SecurityRule: Entity
 
 }
 
-package Alarm <<Rectangle>> {
-
-    interface Anomaly {
-      + getAnomalyId(): String
-      + getTimestamp(): Date
-    }
-    note left of Anomaly: Domain Event
-
-    interface Exceeding {
-      + getExceedingValue(): Float
-    }
-
-    interface Intrusion {
-      + getIntrusionObject(): ObjectClass
-    }
-
-    Exceeding *-- Anomaly
-    Intrusion *-- Anomaly
-
-
-    interface Notification {
-      + getNotificationId(): Int
-      + getTimestamp(): Date
-      + getAnomaly(): Anomaly
-    }
-    note right of Notification: Entity
-    Notification o-left- Anomaly
+package AlarmSystem <<Rectangle>> {
 
     interface AlarmService <<root>> {
       + startMonitoring(deviceId: DeviceId): void
@@ -76,18 +127,21 @@ package Alarm <<Rectangle>> {
     note left of AlarmService: Service
     SecurityRule --* ExceedingRule
     SecurityRule --* IntrusionRule
-    AlarmService --> Notification : uses
-    AlarmService --> SecurityRuleRepository : uses
+    AlarmService --> SecurityRuleService : uses
+    MonitoringNode <-up- AlarmService : deploy
+    AnomalyService --> AlarmService : notifies
 
-    interface MonitoringNode {
-      + getMonitoringNodeId(): String
-      + getIpAddress(): String
-      + getDeviceIds(): Set<DeviceId>
-      + anomalyDetected(): Anomaly
+    interface Notification {
+      + getNotificationId(): Int
+      + getTimestamp(): Date
+      + getAnomaly(): Anomaly
     }
-    note left of MonitoringNode: Entity
-    MonitoringNode <-up- AlarmService: uses
+    note right of Notification: Entity
+    AlarmService --> Notification : uses
 
 }
+
+
+!endsub Alarm
 
 @enduml

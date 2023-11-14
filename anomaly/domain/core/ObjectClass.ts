@@ -1,0 +1,4 @@
+enum ObjectClass {
+    PERSON,
+    ANIMAL,
+}

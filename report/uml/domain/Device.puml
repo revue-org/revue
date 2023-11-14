@@ -1,7 +1,5 @@
 @startuml
 
-!startsub Device
-
 enum DeviceType {
   CAMERA
   SENSOR
@@ -23,10 +21,6 @@ interface Device {
 Device o-right- DeviceId
 note left: Entity
 
-interface DeviceNode {
-
-}
-
 interface DeviceFactory {
  + createSensor(): Device
  + createCamera(): Device
@@ -44,6 +38,8 @@ interface DeviceRepository {
 note left: Repository
 DeviceRepository o-- Device
 
+!startsub DeviceRoot
+
 interface DeviceService {
  + getAllDevices(): Set<Device>
  + getDevice(deviceId: DeviceId): Device
@@ -51,10 +47,11 @@ interface DeviceService {
  + removeDevice(deviceId: DeviceId): void
  + deployDevice(deviceId: DeviceId): void
 }
+!endsub DeviceRoot
 note right: Service
+
 DeviceService --> DeviceRepository: uses
 DeviceService --> DeviceFactory: uses
-DeviceService -left-> DeviceNode: deploy
 
 interface Camera {
  + getResolution(): Resolution
@@ -96,6 +93,5 @@ enum Measure {
  ...
 }
 
-!endsub Device
 
 @enduml

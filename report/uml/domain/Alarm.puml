@@ -1,6 +1,5 @@
 @startuml
 
-!startsub Alarm
 
 package Anomaly <<Rectangle>> {
 
@@ -21,12 +20,13 @@ package Anomaly <<Rectangle>> {
     Exceeding *-- Anomaly
     Intrusion *-- Anomaly
 
+    !startsub AnomalyRoot
     interface AnomalyService <<root>> {
-      + addIntrusion(...): Anomaly
-      + addExceeding(...): Anomaly
+      + addAnomaly(anomaly: Anomaly): void
       + removeAnomaly(anomalyId: String): void
       + notifyAlarmService(anomaly: Anomaly): void
     }
+    !endsub AnomalyRoot
     note left of AnomalyService: Service
 
     interface AnomalyFactory {
@@ -48,28 +48,18 @@ package Anomaly <<Rectangle>> {
 
 }
 
-package Recognizing <<Rectangle>> {
-    interface RecognizingNode <<root>> {
-      + getRecognizingNodeId(): String
-      + getIpAddress(): String
-      + getDeviceIds(): Set<DeviceId>
-      + anomalyDetected(): Anomaly
-    }
-    note left of RecognizingNode: Entity
-    RecognizingNode --> AnomalyService: uses
-}
-
 package SecurityRules <<Rectangle>> {
 
+    !startsub SecurityRuleRoot
+
     interface SecurityRuleService <<root>> {
-      + addIntrusionRule(...): SecurityRule
-      + addExceedingRule(...): SecurityRule
-      + removeRule(ruleId: Int): void
+      + addSecurityRule(securityRule: SecurityRule): void
+      + removeSecurityRule(securityRuleId: Int): void
     }
+    !endsub SecurityRuleRoot
     note left of SecurityRuleService: Service
     SecurityRuleService --> SecurityRuleRepository : uses
     SecurityRuleService --> SecurityRuleFactory : uses
-
 
     interface SecurityRuleRepository {
       + getSecurityRules(): Set<SecurityRules>
@@ -119,18 +109,29 @@ package SecurityRules <<Rectangle>> {
 
 package AlarmSystem <<Rectangle>> {
 
+    !startsub AlarmServiceRoot
     interface AlarmService <<root>> {
       + startRecognizing(deviceId: DeviceId): void
       + stopRecognizing(deviceId: DeviceId): void
       + sendNotification(anomaly: Anomaly): void
     }
-    note left of AlarmService: Service
-    SecurityRule --* ExceedingRule
-    SecurityRule --* IntrusionRule
     AlarmService --> SecurityRuleService : uses
-    RecognizingNode <-up- AlarmService : deploy
+    RecognizingNode <-down- AlarmService : deploy
     AnomalyService --> AlarmService : notifies
 
+    interface RecognizingNode <<root>> {
+      + getRecognizingNodeId(): String
+      + getIpAddress(): String
+      + getDeviceIds(): Set<DeviceId>
+      + anomalyDetected(): Anomaly
+    }
+    RecognizingNode --> AnomalyService: uses
+    !endsub AlarmServiceRoot
+    note left of AlarmService: Service
+
+    note left of RecognizingNode: Entity
+    SecurityRule --* ExceedingRule
+    SecurityRule --* IntrusionRule
     interface Notification {
       + getNotificationId(): Int
       + getTimestamp(): Date
@@ -139,9 +140,8 @@ package AlarmSystem <<Rectangle>> {
     note right of Notification: Entity
     AlarmService --> Notification : uses
 
+
 }
 
-
-!endsub Alarm
 
 @enduml

@@ -1,0 +1,20 @@
+@startuml
+
+!include Alarm.puml
+
+package Device <<Rectangle>> {
+    !include Device.puml
+}
+
+package Monitoring <<Rectangle>> {
+    !include Monitoring.puml
+}
+
+MonitoringRoom <<root>>
+DeviceService <<root>>
+
+MonitoringRoom -down- AlarmService
+MonitoringRoom -down- DeviceService
+
+
+@enduml

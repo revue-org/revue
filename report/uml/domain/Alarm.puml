@@ -21,7 +21,7 @@ package Anomaly <<Rectangle>> {
     Intrusion *-- Anomaly
 
     !startsub AnomalyRoot
-    interface AnomalyService <<root>> {
+    interface AnomalyService <<aggregate root>> {
       + addAnomaly(anomaly: Anomaly): void
       + removeAnomaly(anomalyId: String): void
       + notifyAlarmService(anomaly: Anomaly): void
@@ -52,7 +52,7 @@ package SecurityRules <<Rectangle>> {
 
     !startsub SecurityRuleRoot
 
-    interface SecurityRuleService <<root>> {
+    interface SecurityRuleService <<aggregate root>> {
       + addSecurityRule(securityRule: SecurityRule): void
       + removeSecurityRule(securityRuleId: Int): void
     }
@@ -110,7 +110,7 @@ package SecurityRules <<Rectangle>> {
 package AlarmSystem <<Rectangle>> {
 
     !startsub AlarmServiceRoot
-    interface AlarmService <<root>> {
+    interface AlarmService <<aggregate root>> {
       + startRecognizing(deviceId: DeviceId): void
       + stopRecognizing(deviceId: DeviceId): void
       + sendNotification(anomaly: Anomaly): void
@@ -119,7 +119,7 @@ package AlarmSystem <<Rectangle>> {
     RecognizingNode <-down- AlarmService : deploy
     AnomalyService --> AlarmService : notifies
 
-    interface RecognizingNode <<root>> {
+    interface RecognizingNode {
       + getRecognizingNodeId(): String
       + getIpAddress(): String
       + getDeviceIds(): Set<DeviceId>

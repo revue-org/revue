@@ -10,8 +10,8 @@ package Monitoring <<Rectangle>> {
     !include Monitoring.puml
 }
 
-MonitoringRoom <<root>>
-DeviceService <<root>>
+MonitoringRoom <<aggregate root>>
+DeviceService <<aggregate root>>
 
 MonitoringRoom -down- AlarmService
 MonitoringRoom -down- DeviceService

@@ -20,8 +20,8 @@ package AlarmSystem <<Rectangle>> {
     !includesub Alarm.puml!AlarmServiceRoot
 }
 
-MonitoringRoom <<root>>
-DeviceService <<root>>
+MonitoringRoom <<aggregate root>>
+DeviceService <<aggregate root>>
 
 MonitoringRoom -right- AlarmService
 MonitoringRoom -- DeviceService

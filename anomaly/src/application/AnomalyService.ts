@@ -1,3 +1,5 @@
+import {Anomaly} from "../domain/core/Anomaly";
+
 interface AnomalyService {
     addAnomaly(anomaly: Anomaly): void;
 

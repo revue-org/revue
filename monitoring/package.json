@@ -1,11 +1,11 @@
 {
   "type": "module",
-  "name": "revue",
+  "name": "monitoring",
   "version": "1.0.0",
-  "description": "Project for Distributed Systems course at University of Bologna",
+  "description": "Subproject of revue",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "../node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/Mala1180/revue.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mattia Matteini, Alberto Paganelli",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Mala1180/revue/issues"

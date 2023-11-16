@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package anomaly;
-
-message Anomaly {
-  int32 anomalyId = 1;
-  string timestamp = 2;
-}

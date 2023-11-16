@@ -73,7 +73,7 @@ package SecurityRules <<Rectangle>> {
     interface SecurityRule {
       + getSecurityRuleId(): Int
       + getDeviceId(): DeviceId
-      + getCreatorId(): UserId
+      + getCreatorId(): Int
       + getContactsToNotify(): Set<Contact>
       + getDescription(): String
       + getFrom(): Timestamp

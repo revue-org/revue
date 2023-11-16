@@ -5,7 +5,8 @@
   "description": "Subproject of revue",
   "main": "index.js",
   "scripts": {
-    "build": "../node_modules/.bin/tsc",
+    "build": "./node_modules/.bin/tsc",
+    "watch": "./node_modules/.bin/tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
+    "domain": "file:../domain",
     "express": "^4.18.2"
   },
   "devDependencies": {

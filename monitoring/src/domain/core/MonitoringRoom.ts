@@ -1,4 +1,4 @@
-import {Anomaly} from "./anomaly/Anomaly";
+import {Anomaly} from "domain";
 
 interface MonitoringRoom {
     registerDevice(device: string): void;
@@ -8,16 +8,10 @@ interface MonitoringRoom {
     deleteSecurityRule(): void;
     getHistory(deviceId: number): Anomaly[];
 }
-class AnomalyImpl implements Anomaly {
-    anomalyId: number;
-    timestamp: string;
-
-    constructor(anomalyId: number, timestamp: string) {
-        this.anomalyId = anomalyId;
-        this.timestamp = timestamp;
+class Ciao {
+    constructor() {
+        var a: Anomaly = new Anomaly();
     }
 }
-
-let anomaly: Anomaly = new AnomalyImpl(1, "2020-01-01T00:00:00.000Z")
 
 const test = new MonitoringRoom();

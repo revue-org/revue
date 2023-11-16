@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = "revue"
-include("monitoring", "anomaly")
+include("domain", "monitoring")

@@ -1,3 +1,5 @@
+import {Anomaly} from "../core/Anomaly";
+
 interface AnomalyRepository {
     getAnomalies(): Set<Anomaly>;
 

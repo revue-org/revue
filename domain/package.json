@@ -2,10 +2,10 @@
   "type": "module",
   "name": "anomaly",
   "version": "1.0.0",
-  "description": "Subproject of revue",
+  "description": "Domain module of revue",
   "main": "index.js",
   "scripts": {
-    "build": "../node_modules/.bin/tsc",
+    "build": "./node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

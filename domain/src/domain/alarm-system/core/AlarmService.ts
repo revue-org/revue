@@ -7,5 +7,4 @@ export interface AlarmService {
     stopRecognizing(deviceId: DeviceId): void;
 
     sendNotification(anomaly: Anomaly): void;
-
 }

@@ -1,6 +1,6 @@
 import {Anomaly} from "../core/Anomaly";
 
-interface AnomalyRepository {
+export interface AnomalyRepository {
     getAnomalies(): Set<Anomaly>;
 
     insertAnomaly(anomaly: Anomaly): void;

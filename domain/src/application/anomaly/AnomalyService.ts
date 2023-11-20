@@ -1,6 +1,6 @@
 import {Anomaly} from "../../domain/anomaly/core/Anomaly";
 
-interface AnomalyService {
+export interface AnomalyService {
     addAnomaly(anomaly: Anomaly): void;
 
     removeAnomaly(anomalyId: string): void;

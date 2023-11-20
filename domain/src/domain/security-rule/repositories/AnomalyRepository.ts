@@ -1,6 +1,6 @@
 import {SecurityRule} from "../core/SecurityRule";
 
-interface AnomalyRepository {
+export interface AnomalyRepository {
     getAnomalies(): Set<SecurityRule>;
 
     insertAnomaly(anomaly: SecurityRule): void;

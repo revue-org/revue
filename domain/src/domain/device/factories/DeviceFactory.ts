@@ -1,6 +1,6 @@
 import {Device} from "../core/Device";
 
-interface DeviceFactory {
+export interface DeviceFactory {
     createSensor(): Device;
 
     createCamera(): Device;

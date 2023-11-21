@@ -1,0 +1,56 @@
+[
+  {
+    "_id": 1,
+    "deviceId": {
+      "type": "camera",
+      "code": "cam-01"
+    },
+    "creatorId": 1,
+    "description": "Person detected",
+    "intrusionObject": "PERSON",
+    "contacts": [
+      {
+        "value": "3667161457",
+        "type": "SMS"
+      }
+    ],
+    "from": "2016-01-01T00:00:00.000Z",
+    "to": "2016-01-03T00:00:00.000Z"
+  },
+  {
+    "_id": 2,
+    "deviceId": {
+      "type": "camera",
+      "code": "cam-01"
+    },
+    "creatorId": 1,
+    "description": "Animal detected",
+    "intrusionObject": "ANIMAL",
+    "contacts": [
+      {
+        "value": "3667161457",
+        "type": "SMS"
+      }
+    ],
+    "from": "2016-01-01T00:00:00.000Z",
+    "to": "2016-01-03T00:00:00.000Z"
+  },
+  {
+    "_id": 3,
+    "deviceId": {
+      "type": "camera",
+      "code": "cam-01"
+    },
+    "creatorId": 1,
+    "description": "Car detected",
+    "intrusionObject": "CAR",
+    "contacts": [
+      {
+        "value": "3667161457",
+        "type": "SMS"
+      }
+    ],
+    "from": "2016-01-01T00:00:00.000Z",
+    "to": "2016-01-03T00:00:00.000Z"
+  }
+]

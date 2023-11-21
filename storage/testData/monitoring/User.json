@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Alberto",
+    "surname": "Paga",
+    "contact": {
+      "value": "3667161457",
+      "type": "SMS"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Mattia",
+    "surname": "Mat",
+    "contact": {
+      "value": "3333333333",
+      "type": "SMS"
+    }
+  }
+]

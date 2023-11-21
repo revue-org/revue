@@ -10,7 +10,8 @@ package Anomaly <<Rectangle>> {
     note right of Anomaly: Domain Event
 
     interface Exceeding {
-      + getExceedingValue(): Float
+      + getValue(): Float,
+      + getMeasure(): Measure
     }
 
     interface Intrusion {
@@ -96,6 +97,7 @@ package SecurityRules <<Rectangle>> {
     interface ExceedingRule {
       + getMinValue(): Float
       + getMaxValue(): Float
+      + getMeasure(): Measure
     }
 
     enum ObjectClass {
@@ -120,7 +122,7 @@ package AlarmSystem <<Rectangle>> {
     AnomalyService --> AlarmService : notifies
 
     interface RecognizingNode {
-      + getRecognizingNodeId(): String
+      + getRecognizingNodeId(): Number
       + getIpAddress(): String
       + getDeviceIds(): Set<DeviceId>
       + anomalyDetected(): Anomaly

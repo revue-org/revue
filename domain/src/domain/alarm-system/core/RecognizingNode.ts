@@ -2,7 +2,7 @@ import {Anomaly} from "../../anomaly/core/Anomaly";
 import {DeviceId} from "../../device/core/DeviceId";
 
 export interface RecognizingNode {
-    getRecognizingNodeId(): string;
+    getRecognizingNodeId(): number;
 
     getIpAddress(): string;
 

@@ -1,0 +1,32 @@
+[
+  {
+    "_id": 1,
+    "deviceId": {
+      "type": "sensor",
+      "code": "sen-01"
+    },
+    "timestamp": "2016-01-01T01:00:00.000Z",
+    "value": 90.0,
+    "measure": "TEMPERATURE"
+  },
+  {
+    "_id": 2,
+    "deviceId": {
+      "type": "sensor",
+      "code": "sen-01"
+    },
+    "timestamp": "2016-01-02T02:00:00.000Z",
+    "value": -10.0,
+    "measure": "TEMPERATURE"
+  },
+  {
+    "_id": 3,
+    "deviceId": {
+      "type": "sensor",
+      "code": "sen-01"
+    },
+    "timestamp": "2016-01-03T03:00:00.000Z",
+    "value": 100.0,
+    "measure": "TEMPERATURE"
+  }
+]

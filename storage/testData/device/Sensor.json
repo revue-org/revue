@@ -1,0 +1,25 @@
+[
+  {
+    "_id": {
+      "type": "sensor",
+      "code": "sen-01"
+    },
+    "ipAddress": "192.168.1.15",
+    "intervalMillis": 1000,
+    "measures": [
+      "TEMPERATURE",
+      "HUMIDITY"
+    ]
+  },
+  {
+    "_id": {
+      "type": "sensor",
+      "code": "sen-02"
+    },
+    "ipAddress": "192.168.1.20",
+    "intervalMillis": 1000,
+    "measures": [
+      "PRESSURE"
+    ]
+  }
+]

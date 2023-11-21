@@ -12,3 +12,4 @@ plugins {
 
 rootProject.name = "revue"
 include("domain", "monitoring")
+include("storage")

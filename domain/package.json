@@ -1,12 +1,12 @@
 {
   "type": "module",
   "name": "domain",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Domain module of revue",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "watch": "./node_modules/.bin/tsc -w",
+    "build": "tsc",
+    "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

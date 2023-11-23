@@ -1,0 +1,30 @@
+import { Request, Response } from 'express'
+//import {MonitoringManager} from 'storage/monitoring/MonitoringManager'
+import {MonitoringManager} from 'domain/src/storage/monitoring/MonitoringManager'
+
+const monitoringManager: MonitoringManager = new MonitoringManager();
+export const userController = {
+
+  getAllUsers: async (req: Request, res: Response) => {
+    res.json(monitoringManager.getAllUsers());
+  },
+
+  getUser: async (req: Request, res: Response) => {
+    /*try {
+      res.json(await deviceModel.findById(req.params.id))
+    } catch (err) {
+      console.log(err)
+    }*/
+  },
+
+  createUser: async (req: Request, res: Response) => {
+    /*try {
+      res.json(await deviceModel.findById(req.params.id))
+    } catch (err) {
+      console.log(err)
+    }
+    deviceModel.create({})*/
+  },
+
+  updateMovie: async (req: Request, res: Response) => {}
+}

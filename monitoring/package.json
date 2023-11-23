@@ -6,7 +6,7 @@
   "description": "Subproject of revue",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start:client && npm run start:server",
+    "start": "npm run build:client && npm run start:server",
     "build": "npm run build:client && npm run build:server",
     "build:client": "run-p type-check build-only",
     "start:client": "npm run build:client && vite --config client/vite.config.js",

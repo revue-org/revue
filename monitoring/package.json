@@ -14,7 +14,7 @@
     "build:server": "tsc -p server/tsconfig.json",
     "type-check": "vue-tsc -p client/tsconfig.json --noEmit --composite false",
     "build-only": "vite build --config client/vite.config.js",
-    "watch:server": "tsc -p server/tsconfig.json -w & nodemon --experimental-specifier-resolution=node dist/index.js",
+    "watch": "tsc -p server/tsconfig.json -w & vite build --config client/vite.config.js -w & nodemon --experimental-specifier-resolution=node dist/server/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "format": "prettier --write src/",

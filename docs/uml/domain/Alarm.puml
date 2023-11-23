@@ -63,7 +63,7 @@ package SecurityRules <<Rectangle>> {
     SecurityRuleService --> SecurityRuleFactory : uses
 
     interface SecurityRuleRepository {
-      + getSecurityRules(): Set<SecurityRules>
+      + getSecurityRules(): Set<SecurityRule>
       + insertSecurityRule(securityRule: SecurityRule): void
       + deleteSecurityRule(securityRule: SecurityRule): void
     }

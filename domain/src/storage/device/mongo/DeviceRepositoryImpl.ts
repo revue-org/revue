@@ -13,19 +13,11 @@ class DeviceRepositoryImpl implements DeviceRepository {
     }
 
     getCameras(): Set<Device> {
-        cameraModel.find({}, (err: Error, res: Set<Camera>) => {
-            //TODO return res if type is ok, to check!
-            return new Set<Device>(res);
-        });
-        return new Set<Device>();
+        return cameraModel.find();
     }
 
     getSensors(): Set<Device> {
-        cameraModel.find({}, (err: Error, res: Set<Camera>) => {
-            //TODO return res if type is ok, to check!
-            return new Set<Device>(res);
-        });
-        return new Set<Device>();
+        return sensorModel.find();
     }
 
     getDevice(deviceId: DeviceId): Device {

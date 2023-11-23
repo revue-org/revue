@@ -134,3 +134,18 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+
+### LaTeX ###
+## Core latex/pdflatex auxiliary files:
+docs/**/*.aux
+docs/**/*.lof
+docs/**/*.lot
+docs/**/*.fls
+docs/**/*.out
+docs/**/*.toc
+docs/**/*.fmt
+docs/**/*.fot
+docs/**/*.cb
+docs/**/*.cb2
+docs/**/*.gz

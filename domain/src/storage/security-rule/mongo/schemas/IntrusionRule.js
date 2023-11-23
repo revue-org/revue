@@ -1,4 +1,6 @@
-const ExceedingSchema = new Schema({
+import {Schema, model} from "mongoose";
+
+export const intrusionModel = new model('IntrusionRule', new Schema({
     _id: Number,
     deviceId: {
         type: String,
@@ -6,13 +8,11 @@ const ExceedingSchema = new Schema({
     },
     creatorId: Number,
     description: String,
-    minValue: Number,
-    maxValue: Number,
-    measure: String,
-    contacts : [{
+    intrusionObject: String,
+    contacts: [{
         value: String,
         type: String
     }],
     from: Date,
     to: Date
-});
+}));

@@ -1,6 +1,6 @@
 import {RecognizingNode} from "../core/RecognizingNode";
 
-export interface AnomalyRepository {
+export interface AlarmRepository {
     getAnomalies(): Set<RecognizingNode>;
 
     insertAnomaly(anomaly: RecognizingNode): void;

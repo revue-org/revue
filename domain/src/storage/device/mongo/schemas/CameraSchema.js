@@ -1,4 +1,6 @@
-const CameraSchema = new Schema({
+import {Schema, model} from "mongoose";
+
+export const cameraModel = new model('Camera', new Schema({
     _id: {
         type: String,
         code: String
@@ -8,4 +10,4 @@ const CameraSchema = new Schema({
         height: Number,
         width: Number
     }
-});
+}));

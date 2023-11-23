@@ -1,4 +1,6 @@
-const SensorSchema = new Schema({
+import {Schema, model} from "mongoose";
+
+export const sensorModel = new model('Sensor', new Schema({
     _id: {
         type: String,
         code: String
@@ -6,4 +8,4 @@ const SensorSchema = new Schema({
     ipAddress: String,
     intervalMillis: Number,
     measures: [String]
-});
+}));

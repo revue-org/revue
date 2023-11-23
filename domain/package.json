@@ -22,5 +22,8 @@
   "homepage": "https://github.com/Mala1180/revue#readme",
   "devDependencies": {
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "mongoose": "^8.0.1"
   }
 }

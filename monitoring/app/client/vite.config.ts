@@ -4,25 +4,22 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: 'client',
+  root: 'app',
   base: './',
   // publicDir: 'client/public',
   build: {
     rollupOptions: {
       input: {
-        main: 'client/index.html'
+        main: 'app/client/index.html'
       }
     },
-    outDir: '../dist/client',
+    outDir: '../dist/app',
     target: 'es2020'
   },
-  plugins: [
-    vue()
-  ],
+  plugins: [vue()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
     }
   }
 })
-

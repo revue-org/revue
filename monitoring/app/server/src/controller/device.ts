@@ -1,22 +1,23 @@
 import type { Request, Response } from 'express'
-
 import { MonitoringManager } from 'storage/monitoring/MonitoringManager.js'
 
 const monitoringManager: MonitoringManager = new MonitoringManager()
-export const userController = {
-  getAllUsers: async (req: Request, res: Response) => {
-    res.json(monitoringManager.getAllUsers())
-  },
+export const deviceController = {
 
-  getUser: async (req: Request, res: Response) => {
+  getCameras: async (req: Request, res: Response) => {
+    // res.json(monitoringManager.getAllCameras())
+  },
+  getSensors: async (req: Request, res: Response) => {
+    // res.json(monitoringManager.getAllSensors())
+  },
+  getDevice: async (req: Request, res: Response) => {
     /*try {
       res.json(await deviceModel.findById(req.params.id))
     } catch (err) {
       console.log(err)
     }*/
   },
-
-  createUser: async (req: Request, res: Response) => {
+  createDevice: async (req: Request, res: Response) => {
     /*try {
       res.json(await deviceModel.findById(req.params.id))
     } catch (err) {
@@ -24,7 +25,6 @@ export const userController = {
     }
     deviceModel.create({})*/
   },
-
-  updateUser: async (req: Request, res: Response) => {
+  updateDevice: async (req: Request, res: Response) => {
   }
 }

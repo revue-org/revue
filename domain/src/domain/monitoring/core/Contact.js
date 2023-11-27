@@ -1,1 +1,1 @@
-export {};
+import { ContactType } from "./ContactType";

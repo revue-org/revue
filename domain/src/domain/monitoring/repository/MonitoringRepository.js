@@ -1,1 +1,1 @@
-export {};
+import { User } from "../core/User";

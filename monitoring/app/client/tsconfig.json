@@ -1,7 +1,7 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
-    "src/**/*",
-    "../node_modules/domain/src/**/*.ts"
+    "src/**/*", "public/**/*"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
@@ -34,16 +34,13 @@
 
     /* Modules */
     "module": "ESNext",
-    "rootDirs": [".", "../node_modules/domain/src"],
     /* Specify what module code is generated. */
-    "rootDir": "../",
+    "rootDir": ".",
     /* Specify the root folder within your source files. */
     "moduleResolution": "Node",                     /* Specify how TypeScript looks up a file from a given module specifier. */
      "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
      "paths": {
-       //"domain/*": ["../../domain/src/domain/*"],
-       //"storage/*": ["../../domain/src/storage/*"],
-       "application/*": ["../../domain/src/application/*"]
+       "@/*": ["./src/*"]
      },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
@@ -72,7 +69,7 @@
     // "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
     // "inlineSourceMap": true,                          /* Include sourcemap files inside the emitted JavaScript. */
     // "outFile": "./",                                  /* Specify a file that bundles all outputs into one JavaScript file. If 'declaration' is true, also designates a file that bundles all .d.ts output. */
-    "outDir": "../dist/server",
+    "outDir": "../../dist/client",
     /* Specify an output folder for all emitted files. */
     // "removeComments": true,                           /* Disable emitting comments. */
     // "noEmit": true,                                   /* Disable emitting files from a compilation. */

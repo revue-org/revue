@@ -1,11 +1,13 @@
-import express, {Express} from 'express'
+import express from 'express'
+import type {Express} from 'express'
+import type MonitoringManager from 'domain'
+
 import {config} from 'dotenv'
 import path, {dirname} from 'path'
 import {fileURLToPath} from 'url'
 import {indexRouter} from './routes'
 import mongoose from 'mongoose';
 import {userRouter} from "./routes/user";
-
 
 config()
 

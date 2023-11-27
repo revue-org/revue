@@ -1,9 +1,9 @@
-import {Anomaly} from "../../anomaly/core/Anomaly";
+import { Anomaly } from '../../anomaly/core/Anomaly'
 
 export interface Notification {
-    getNotificationId(): number;
+  getNotificationId(): number
 
-    getTimestamp(): Date;
+  getTimestamp(): Date
 
-    getAnomaly(): Anomaly;
+  getAnomaly(): Anomaly
 }

@@ -1,10 +1,15 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export const recognizingNodeModel = new model('RecognizingNode', new Schema({
+export const recognizingNodeModel = new model(
+  'RecognizingNode',
+  new Schema({
     _id: Number,
     ipAddress: String,
-    deviceIds: [{
+    deviceIds: [
+      {
         type: String,
         code: String
-    }]
-}));
+      }
+    ]
+  })
+)

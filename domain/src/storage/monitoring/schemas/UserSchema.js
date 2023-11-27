@@ -1,11 +1,14 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export const userModel = new model('User', new Schema({
+export const userModel = new model(
+  'User',
+  new Schema({
     _id: Number,
     name: String,
     surname: String,
     contact: {
-        value: String,
-        type: String
+      value: String,
+      type: String
     }
-}));
+  })
+)

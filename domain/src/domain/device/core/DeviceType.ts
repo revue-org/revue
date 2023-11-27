@@ -1,4 +1,4 @@
 export enum DeviceType {
-    CAMERA,
-    SENSOR,
+  CAMERA,
+  SENSOR
 }

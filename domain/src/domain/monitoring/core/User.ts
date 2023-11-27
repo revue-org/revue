@@ -1,11 +1,11 @@
-import {Contact} from "./Contact";
+import { Contact } from './Contact'
 
 export interface User {
-    getUserId(): number;
+  getUserId(): number
 
-    getName(): string;
+  getName(): string
 
-    addContact(c: Contact): void;
+  addContact(c: Contact): void
 
-    removeContact(c: Contact): void;
+  removeContact(c: Contact): void
 }

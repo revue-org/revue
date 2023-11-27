@@ -1,11 +1,14 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export const sensorModel = new model('Sensor', new Schema({
+export const sensorModel = new model(
+  'Sensor',
+  new Schema({
     _id: {
-        type: String,
-        code: String
+      type: String,
+      code: String
     },
     ipAddress: String,
     intervalMillis: Number,
     measures: [String]
-}));
+  })
+)

@@ -1,1 +1,1 @@
-export const intrusionModel: any;
+export const intrusionModel: any

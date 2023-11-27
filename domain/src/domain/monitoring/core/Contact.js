@@ -1,1 +1,1 @@
-import { ContactType } from "./ContactType";
+import { ContactType } from './ContactType'

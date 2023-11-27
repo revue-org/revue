@@ -1,20 +1,25 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export const exceedingModel = new model('ExceedingRule', new Schema({
+export const exceedingModel = new model(
+  'ExceedingRule',
+  new Schema({
     _id: Number,
     deviceId: {
-        type: String,
-        code: String
+      type: String,
+      code: String
     },
     creatorId: Number,
     description: String,
     minValue: Number,
     maxValue: Number,
     measure: String,
-    contacts: [{
+    contacts: [
+      {
         value: String,
         type: String
-    }],
+      }
+    ],
     from: Date,
     to: Date
-}));
+  })
+)

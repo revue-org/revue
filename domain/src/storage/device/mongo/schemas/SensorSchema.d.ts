@@ -1,1 +1,1 @@
-export const sensorModel: any;
+export const sensorModel: any

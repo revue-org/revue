@@ -1,1 +1,1 @@
-export const cameraModel: any;
+export const cameraModel: any

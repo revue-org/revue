@@ -1,12 +1,12 @@
-import {Anomaly} from "../../anomaly/core/Anomaly";
-import {DeviceId} from "../../device/core/DeviceId";
+import { Anomaly } from '../../anomaly/core/Anomaly'
+import { DeviceId } from '../../device/core/DeviceId'
 
 export interface RecognizingNode {
-    getRecognizingNodeId(): number;
+  getRecognizingNodeId(): number
 
-    getIpAddress(): string;
+  getIpAddress(): string
 
-    getDeviceIds(): Set<DeviceId>;
+  getDeviceIds(): Set<DeviceId>
 
-    anomalyDetected(): Anomaly;
+  anomalyDetected(): Anomaly
 }

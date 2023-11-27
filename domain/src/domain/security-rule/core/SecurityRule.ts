@@ -1,18 +1,18 @@
-import {Contact} from "../../monitoring/core/Contact";
-import {DeviceId} from "../../device/core/DeviceId";
+import { Contact } from '../../monitoring/core/Contact'
+import { DeviceId } from '../../device/core/DeviceId'
 
 export interface SecurityRule {
-    getSecurityRuleId(): number;
+  getSecurityRuleId(): number
 
-    getDeviceId(): DeviceId;
+  getDeviceId(): DeviceId
 
-    getCreatorId(): number;
+  getCreatorId(): number
 
-    getContactsToNotify(): Set<Contact>;
+  getContactsToNotify(): Set<Contact>
 
-    getDescription(): string;
+  getDescription(): string
 
-    getFrom(): Date;
+  getFrom(): Date
 
-    getTo(): Date;
+  getTo(): Date
 }

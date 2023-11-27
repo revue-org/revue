@@ -1,1 +1,1 @@
-import { User } from "../core/User";
+import { User } from '../core/User'

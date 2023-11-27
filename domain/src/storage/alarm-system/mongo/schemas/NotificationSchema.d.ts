@@ -1,1 +1,1 @@
-export const notificationModel: any;
+export const notificationModel: any

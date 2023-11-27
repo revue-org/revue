@@ -1,9 +1,9 @@
-import {Anomaly} from "../core/Anomaly";
+import { Anomaly } from '../core/Anomaly'
 
 export interface AnomalyRepository {
-    getAnomalies(): Set<Anomaly>;
+  getAnomalies(): Set<Anomaly>
 
-    insertAnomaly(anomaly: Anomaly): void;
+  insertAnomaly(anomaly: Anomaly): void
 
-    deleteAnomaly(anomalyId: number): void;
+  deleteAnomaly(anomalyId: number): void
 }

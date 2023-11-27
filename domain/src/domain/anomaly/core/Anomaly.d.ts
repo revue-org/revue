@@ -1,4 +1,4 @@
 export interface Anomaly {
-    getAnomalyId(): number;
-    getTimestamp(): Date;
+  getAnomalyId(): number
+  getTimestamp(): Date
 }

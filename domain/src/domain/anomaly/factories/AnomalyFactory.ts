@@ -1,8 +1,8 @@
-import {Intrusion} from "../core/Intrusion";
-import {Exceeding} from "../core/Exceeding";
+import { Intrusion } from '../core/Intrusion'
+import { Exceeding } from '../core/Exceeding'
 
 export interface AnomalyFactory {
-    createIntrusion(): Intrusion;
+  createIntrusion(): Intrusion
 
-    createExceeding(): Exceeding;
+  createExceeding(): Exceeding
 }

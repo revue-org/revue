@@ -1,13 +1,16 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export const cameraModel = new model('Camera', new Schema({
+export const cameraModel = new model(
+  'Camera',
+  new Schema({
     _id: {
-        type: String,
-        code: String
+      type: String,
+      code: String
     },
     ipAddress: String,
     resolution: {
-        height: Number,
-        width: Number
+      height: Number,
+      width: Number
     }
-}));
+  })
+)

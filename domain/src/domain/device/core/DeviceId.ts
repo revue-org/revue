@@ -1,7 +1,7 @@
-import {DeviceType} from "./DeviceType";
+import { DeviceType } from './DeviceType'
 
 export interface DeviceId {
-    getType(): DeviceType;
+  getType(): DeviceType
 
-    getCode(): string;
+  getCode(): string
 }

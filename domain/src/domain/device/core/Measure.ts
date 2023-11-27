@@ -1,5 +1,5 @@
 export enum Measure {
-    HUMIDITY,
-    TEMPERATURE,
-    PRESSURE,
+  HUMIDITY,
+  TEMPERATURE,
+  PRESSURE
 }

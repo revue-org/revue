@@ -1,13 +1,13 @@
-import {DeviceId} from "./DeviceId";
+import { DeviceId } from './DeviceId'
 
 export interface Device {
-    getDeviceId(): DeviceId;
+  getDeviceId(): DeviceId
 
-    getIpAddress(): string;
+  getIpAddress(): string
 
-    isCapturing(): boolean;
+  isCapturing(): boolean
 
-    startCapturing(): void;
+  startCapturing(): void
 
-    stopCapturing(): void;
+  stopCapturing(): void
 }

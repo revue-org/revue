@@ -1,1 +1,1 @@
-export const recognizingNodeModel: any;
+export const recognizingNodeModel: any

@@ -1,5 +1,5 @@
-import {User} from "../core/User";
+import { User } from '../core/User'
 
 export interface MonitoringRepository {
-    getAllUsers(): Set<User>;
+  getAllUsers(): Set<User>
 }

@@ -1,12 +1,12 @@
-import {DeviceId} from "./DeviceId";
-import {Measure} from "./Measure";
+import { DeviceId } from './DeviceId'
+import { Measure } from './Measure'
 
 export interface EnvironmentData {
-    getSourceDeviceId(): DeviceId;
+  getSourceDeviceId(): DeviceId
 
-    getValue(): number;
+  getValue(): number
 
-    getMeasure(): Measure;
+  getMeasure(): Measure
 
-    getTimestamp(): Date;
+  getTimestamp(): Date
 }

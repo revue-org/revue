@@ -5,6 +5,7 @@ package Anomaly <<Rectangle>> {
 
     interface Anomaly {
       + getAnomalyId(): Int
+      + getDeviceId(): DeviceId
       + getTimestamp(): Date
     }
     note right of Anomaly: Domain Event

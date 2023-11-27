@@ -1,1 +1,1 @@
-export const environmentDataModel: any;
+export const environmentDataModel: any

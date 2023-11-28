@@ -8,6 +8,9 @@ import mongoose from 'mongoose'
 import { userRouter } from './routes/user.js'
 import { indexRouter } from './routes'
 import { deviceRouter } from './routes/device.js'
+import { MonitoringManager } from 'storage/monitoring/MonitoringManager'
+
+new MonitoringManager().getAllUsers()
 
 config()
 
@@ -20,22 +23,22 @@ app.use(express.static(path.join(__dirname, 'client')))
 const PORT: number = Number(process.env.PORT) || 443
 
 app.use(indexRouter)
-app.use("/user", userRouter);
-app.use("/device", deviceRouter);
+app.use('/user', userRouter)
+app.use('/device', deviceRouter)
 
 app.use((_: Request, res: Response) => {
   res.status(404).send('<h1>404 Page Not Found!</h1>')
 })
 
 const mongoConnect = async () => {
-    try {
-        await mongoose.connect('mongodb://root:example@localhost:27017/monitoring?authSource=admin');
-    } catch (err) {
-        console.log(err);
-    }
+  try {
+    await mongoose.connect('mongodb://root:example@localhost:27017/monitoring?authSource=admin')
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 app.listen(PORT, () => {
-    console.log(`Listening on http://localhost:${PORT}`)
-    // mongoConnect().then(r => console.log("connected to monitoring database"))
+  console.log(`Listening on http://localhost:${PORT}`)
+  // mongoConnect().then(r => console.log("connected to monitoring database"))
 })

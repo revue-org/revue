@@ -3,7 +3,6 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
-  parser: "vue-eslint-parser",
   extends: [
     'plugin:@typescript-eslint/recommended',
     'eslint:recommended',

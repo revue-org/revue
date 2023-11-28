@@ -3,7 +3,6 @@ import { MonitoringManager } from 'domain/dist/storage/monitoring/MonitoringMana
 
 const monitoringManager: MonitoringManager = new MonitoringManager()
 export const deviceController = {
-
   getCameras: async (req: Request, res: Response) => {
     // res.json(monitoringManager.getAllCameras())
   },
@@ -25,6 +24,5 @@ export const deviceController = {
     }
     deviceModel.create({})*/
   },
-  updateDevice: async (req: Request, res: Response) => {
-  }
+  updateDevice: async (req: Request, res: Response) => {}
 }

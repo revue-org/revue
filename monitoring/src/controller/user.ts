@@ -25,6 +25,5 @@ export const userController = {
     deviceModel.create({})*/
   },
 
-  updateUser: async (req: Request, res: Response) => {
-  }
+  updateUser: async (req: Request, res: Response) => {}
 }

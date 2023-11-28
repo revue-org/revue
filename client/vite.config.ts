@@ -6,9 +6,4 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   // publicDir: 'client/public',
   plugins: [vue()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src')
-    }
-  }
 })

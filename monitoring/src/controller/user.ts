@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 
-import { MonitoringManager } from 'storage/monitoring/MonitoringManager.js'
+import { MonitoringManager } from 'domain/dist/storage/monitoring/MonitoringManager.js'
 
 const monitoringManager: MonitoringManager = new MonitoringManager()
 export const userController = {

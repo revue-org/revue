@@ -1,6 +1,6 @@
-import { Anomaly } from '../../domain/anomaly/core/Anomaly'
+import { Anomaly } from '../../domain/anomaly/core/Anomaly';
 export interface AnomalyService {
-  addAnomaly(anomaly: Anomaly): void
-  removeAnomaly(anomalyId: string): void
-  notifyAlarmService(anomaly: Anomaly): void
+    addAnomaly(anomaly: Anomaly): void;
+    removeAnomaly(anomalyId: string): void;
+    notifyAlarmService(anomaly: Anomaly): void;
 }

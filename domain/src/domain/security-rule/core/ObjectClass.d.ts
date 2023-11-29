@@ -1,4 +1,4 @@
 export declare enum ObjectClass {
-  PERSON = 0,
-  ANIMAL = 1
+    PERSON = 0,
+    ANIMAL = 1
 }

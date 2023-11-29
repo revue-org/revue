@@ -22,17 +22,12 @@ app.use((_: Request, res: Response) => {
 })
 
 const mongoConnect = async () => {
-  try {
-    await mongoose
-      .connect('mongodb://root:example@localhost:27017/auth?authSource=admin')
-      .then(async () => {
-        console.log(`Authentication server listening on http://127.0.0.1:${PORT}`)
-        //console.log(await uuuModel.find({username: "paga16-hash"}))
-      })
-      .catch((e) => console.log(e))
-  } catch (err) {
-    console.log(err)
-  }
+  await mongoose
+    .connect('mongodb://root:example@localhost:27017/auth?authSource=admin')
+    .then(async () => {
+      console.log(`Authentication server listening on http://127.0.0.1:${PORT}`)
+    })
+    .catch((e) => console.log(e))
 }
 
 app.listen(PORT, () => {

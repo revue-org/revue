@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-export const cameraModel = new model(
+export const cameraModel = model(
   'Camera',
   new Schema({
     _id: {

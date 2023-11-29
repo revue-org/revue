@@ -2,7 +2,9 @@ import type { Request, Response } from 'express'
 import { User } from 'domain/dist/domain/monitoring/core/User'
 import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema'
 import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository'
-import { model } from "mongoose";
+import { Model, model } from "mongoose";
+
+const mod = model("user", userSchema, "user")
 
 const userManager: MyMonitoringRepository = new MyMonitoringRepository(model<User>("user", userSchema, "user"))
 

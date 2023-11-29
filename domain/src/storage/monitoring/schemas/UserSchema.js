@@ -1,22 +1,25 @@
-import { Schema, model } from 'mongoose'
+import { Schema } from 'mongoose'
 
-export const userModel = new model(
-  'User',
-  new Schema({
-    _id: Number,
-    name: String,
-    surname: String,
-    contact: {
-      value: String,
-      type: String
-    },
-    deviceIds: [{
-        type: String,
-        code: String
-    }]
-  })
-)
-
+export const userSchema = new Schema({
+  _id: Number,
+  name: String,
+  surname: String,
+  username: String,
+  password: String,
+  token: String,
+  refreshToken: String,
+  contact: {
+    value: String,
+    type: String
+  },
+  deviceIds: [
+    {
+      type: String,
+      code: String
+    }
+  ]
+})
+/*
 export const cameraModel = new model(
     'Device',
     new Schema({
@@ -44,3 +47,4 @@ export const sensorModel = new model(
         measures: [String]
     })
 )
+*/

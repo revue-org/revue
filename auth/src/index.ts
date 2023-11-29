@@ -2,8 +2,6 @@ import type { Express, Request, Response } from 'express'
 import express from 'express'
 
 import { config } from 'dotenv'
-import path, { dirname } from 'path'
-import { fileURLToPath } from 'url'
 import mongoose from 'mongoose'
 import { userRouter } from './routes/user.js'
 
@@ -25,13 +23,18 @@ app.use((_: Request, res: Response) => {
 
 const mongoConnect = async () => {
   try {
-    await mongoose.connect('mongodb://root:example@localhost:27017/auth?authSource=admin')
+    await mongoose
+      .connect('mongodb://root:example@localhost:27017/auth?authSource=admin')
+      .then(async () => {
+        console.log(`Authentication server listening on http://127.0.0.1:${PORT}`)
+        //console.log(await uuuModel.find({username: "paga16-hash"}))
+      })
+      .catch((e) => console.log(e))
   } catch (err) {
     console.log(err)
   }
 }
 
 app.listen(PORT, () => {
-  console.log(`Authentication server listening on http://localhost:${PORT}`)
-  mongoConnect().then(r => console.log("connected to monitoring database"))
+  mongoConnect()
 })

@@ -5,6 +5,14 @@ export interface User {
 
   getName(): string
 
+  getUsername(): string
+
+  getPassword(): string
+
+  getToken(): string
+
+  getRefreshToken(): string
+
   addContact(c: Contact): void
 
   removeContact(c: Contact): void

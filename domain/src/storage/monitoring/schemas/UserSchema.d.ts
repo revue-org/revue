@@ -1,1 +1,1 @@
-export const userModel: any
+export const userSchema: any

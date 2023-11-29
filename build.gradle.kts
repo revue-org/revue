@@ -5,29 +5,26 @@ repositories {
     mavenCentral()
 }
 
+fun Project.registerNpmTask(taskName: String, npmScript: String, dependencies: List<String> = emptyList()) {
+    tasks.register(taskName, Exec::class) {
+        if (dependencies.isNotEmpty()) dependsOn(dependencies)
+        commandLine("npm", "run", npmScript)
+    }
+}
+
 // Domain module
 project(":domain") {
-    tasks.register("build", Exec::class) {
-        commandLine("npm", "run", "build")
-    }
+    registerNpmTask("build", "build")
+    registerNpmTask("lint", "lint:check")
 }
 
 // Monitoring module
 project(":monitoring") {
-    tasks.register("build", Exec::class) {
-        dependsOn(":domain:build")
-        commandLine("npm", "run", "build")
-    }
+    registerNpmTask("build", "build", listOf(":domain:build"))
 }
 
 // Client module
 project(":client") {
-    tasks.register("build", Exec::class) {
-        dependsOn(":domain:build")
-        commandLine("npm", "run", "build")
-    }
-
-    tasks.register("runClient", Exec::class) {
-        commandLine("npm", "start")
-    }
+    registerNpmTask("build", "build", listOf(":domain:build"))
+    registerNpmTask("start", "start")
 }

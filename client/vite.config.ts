@@ -6,6 +6,9 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: './',
   plugins: [vue()],
+  server: {
+    port: 443,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')

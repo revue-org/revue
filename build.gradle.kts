@@ -1,9 +1,8 @@
-group = "com.example" // Replace with your project's group
+group = "it.ldt" // Replace with your project's group
 version = "1.0"       // Replace with your project's version
 
 repositories {
     mavenCentral()
-    // Add other repositories as needed
 }
 
 // Domain module

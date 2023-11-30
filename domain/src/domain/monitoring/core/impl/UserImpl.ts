@@ -1,35 +1,32 @@
-import { User } from "../User";
-import { Contact } from "../Contact";
-
+import { User } from '../User'
+import { Contact } from '../Contact'
 
 export class UserImpl implements User {
-  addContact(c: Contact): void {
-  }
+  addContact(c: Contact): void {}
 
   getName(): string {
-    return "";
+    return ''
   }
 
   getUsername(): string {
-    return "";
+    return ''
   }
 
   getPassword(): string {
-    return "";
+    return ''
   }
 
   getToken(): string {
-    return "";
+    return ''
   }
 
   getRefreshToken(): string {
-    return "";
+    return ''
   }
 
   getUserId(): number {
-    return 0;
+    return 0
   }
 
-  removeContact(c: Contact): void {
-  }
+  removeContact(c: Contact): void {}
 }

@@ -15,16 +15,25 @@ fun Project.registerNpmTask(taskName: String, npmScript: String, dependencies: L
 // Domain module
 project(":domain") {
     registerNpmTask("build", "build")
-    registerNpmTask("lint", "lint:check")
+    registerNpmTask("test", "test")
+    registerNpmTask("format", "format")
+    registerNpmTask("format-fix", "format:fix")
+    registerNpmTask("lint", "lint")
 }
 
 // Monitoring module
 project(":monitoring") {
     registerNpmTask("build", "build", listOf(":domain:build"))
+//    registerNpmTask("test", "test", listOf(":domain:build"))
+    registerNpmTask("format", "format")
+    registerNpmTask("format-fix", "format:fix")
+    registerNpmTask("lint", "lint")
 }
 
 // Client module
 project(":client") {
     registerNpmTask("build", "build", listOf(":domain:build"))
+    registerNpmTask("format-fix", "format:fix")
     registerNpmTask("start", "start")
+//    registerNpmTask("test", "test", listOf(":domain:build"))
 }

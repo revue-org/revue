@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:architecture": "npx depcruise src",
     "lint": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "lint:check": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts",
     "format": "prettier --write src/",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.3.3",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "dependency-cruiser": "^15.5.0",
     "eslint": "^8.49.0",
     "prettier": "^3.0.3",
     "typescript": "5.2.2"

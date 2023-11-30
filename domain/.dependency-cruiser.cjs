@@ -3,13 +3,35 @@ module.exports = {
   forbidden: [
     {
       name: 'no-unreachable-from-domain',
-      comment: 'The domain should not depend by any other module',
+      comment: 'The domain layer should not depend on any other layer',
       severity: 'error',
       from: {
         path: '^(src/domain)'
       },
       to: {
         pathNot: '^(src/domain)'
+      }
+    },
+    {
+      name: 'no-unreachable-from-application',
+      comment: 'The application layer should only depend on the domain layer',
+      severity: 'error',
+      from: {
+        path: '^(src/application)'
+      },
+      to: {
+        pathNot: '^(src/domain)|^(src/application)'
+      }
+    },
+    {
+      name: 'no-unreachable-from-presentation',
+      comment: 'The presentation layer should only depend on the domain layer',
+      severity: 'error',
+      from: {
+        path: '^(src/presentation)'
+      },
+      to: {
+        pathNot: '^(src/domain)|^(src/application)|^(src/presentation)'
       }
     },
     {

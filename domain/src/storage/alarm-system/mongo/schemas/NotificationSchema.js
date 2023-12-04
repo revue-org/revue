@@ -1,11 +1,8 @@
-import { Schema, model } from 'mongoose'
+import { Schema } from 'mongoose'
 
-export const notificationModel = new model(
-  'Notification',
-  new Schema({
-    _id: Number,
-    anomalyId: Number,
-    anomalyType: String,
-    timestamp: Date
-  })
-)
+export const notificationSchema = new Schema({
+  _id: Number,
+  anomalyId: Number,
+  anomalyType: String,
+  timestamp: Date
+})

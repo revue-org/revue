@@ -1,19 +1,26 @@
 import { Contact } from './Contact'
+import { DeviceId } from "../../device/core/DeviceId";
 
 export interface User {
-  getUserId(): number
 
-  getName(): string
+  get id(): number
 
-  getUsername(): string
+  get name(): string
 
-  getPassword(): string
+  get surname(): string
 
-  getToken(): string
+  get username(): string
 
-  getRefreshToken(): string
+  get password(): string
 
-  addContact(c: Contact): void
+  get token(): string
 
-  removeContact(c: Contact): void
+  get refreshToken(): string
+
+  get contact(): Contact
+
+  get deviceIds(): Set<DeviceId>
+
+  addDevice(deviceId: DeviceId): void
+
 }

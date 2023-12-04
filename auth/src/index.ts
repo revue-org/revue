@@ -5,13 +5,10 @@ import { config } from 'dotenv'
 import mongoose from 'mongoose'
 import { userRouter } from './routes/user.js'
 
-config()
-
-//export const __dirname: string = dirname(fileURLToPath(import.meta.url)) + '/../../'
 const app: Express = express()
-
 app.use(express.json())
-//app.use(express.static(path.join(__dirname, 'client')))
+
+config()
 
 const PORT: number = Number(process.env.PORT) || 4000
 
@@ -22,10 +19,18 @@ app.use((_: Request, res: Response) => {
 })
 
 const mongoConnect = async () => {
+  const password = "password";
+
+/*
+  const passwor = await bcrypt.hash(password, 1)
+  console.log(passwor)
+  console.log(await bcrypt.compare(password, passwor))*/
+  const connectionString =
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`;
   await mongoose
-    .connect('mongodb://root:example@localhost:27017/auth?authSource=admin')
+    .connect(connectionString)
     .then(async () => {
-      console.log(`Authentication server listening on http://127.0.0.1:${PORT}`)
+      console.log(`Authentication server listening on http://${process.env.DB_HOST}:${PORT}`)
     })
     .catch((e) => console.log(e))
 }

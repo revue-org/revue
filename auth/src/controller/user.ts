@@ -1,37 +1,36 @@
 import type { Request, Response } from 'express'
-import { User } from 'domain/dist/domain/monitoring/core/User'
 import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema'
 import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository'
-import { Model, model } from "mongoose";
+import { Model, model } from 'mongoose'
+import * as console from 'console'
+import { UserImpl } from 'domain/dist/domain/monitoring/core/impl/UserImpl'
+import bcrypt from 'bcryptjs'
+import { jwtManager } from '../utils/JWTManager'
 
-const mod = model("user", userSchema, "user")
-
-const userManager: MyMonitoringRepository = new MyMonitoringRepository(model<User>("user", userSchema, "user"))
+const userModel: Model<UserImpl> = model<UserImpl>('user', userSchema, 'user')
+const userManager: MyMonitoringRepository = new MyMonitoringRepository(userModel)
 
 export const userController = {
-
   login: async (req: Request, res: Response) => {
     try {
+      const user: UserImpl = await userManager.getUser(req.body.username)
 
-      const user: User = await userManager.getUser(req.body.username)
-      res.json(user);
-/*
-      const match = req.body.password === user.getPassword()
-//      const match = await bcrypt.compare(req.body.password, userPassword);
-      if (!match) return res.status(401).send('Wrong password');
+      const match = await bcrypt.compare(req.body.password, user.password)
+      if (!match) return res.status(401).send('Wrong password')
 
       const infos = {
-        id: user.getUserId(),
-        username: user.getUsername()
-      };
-      const accessToken = jwtManager.generateAccessToken(user);
-      const refreshToken = jwtManager.generateRefreshToken(user);
-      await dbUserManager.setUserToken(userId, refreshToken);
+        id: user.id,
+        username: user.username
+      }
+      const accessToken = jwtManager.generateAccessToken(infos)
+      const refreshToken = jwtManager.generateRefreshToken(infos)
+      user.token = accessToken
+      user.refreshToken = refreshToken
+      //TODO refresh the token on the db
+      //await dbUserManager.setUserToken(userId, refreshToken);
+      userManager.updateUser(user)
 
-      res.json({accessToken: accessToken, refreshToken: refreshToken, userId: userId});
-*/
-
-      //res.json(await deviceModel.findById(req.params.id))
+      res.json(user)
     } catch (err) {
       console.log(err)
     }

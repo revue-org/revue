@@ -8,9 +8,6 @@ import mongoose from 'mongoose'
 import { userRouter } from './routes/user.js'
 import { indexRouter } from './routes'
 import { deviceRouter } from './routes/device.js'
-import { MonitoringManager } from 'storage/monitoring/MonitoringManager'
-
-new MonitoringManager().getAllUsers()
 
 config()
 
@@ -20,7 +17,7 @@ const app: Express = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'client')))
 
-const PORT: number = Number(process.env.PORT) || 443
+const PORT: number = Number(process.env.PORT) || 3000
 
 app.use(indexRouter)
 app.use('/user', userRouter)

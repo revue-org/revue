@@ -19,12 +19,6 @@ app.use((_: Request, res: Response) => {
 })
 
 const mongoConnect = async () => {
-  const password = "password";
-
-/*
-  const passwor = await bcrypt.hash(password, 1)
-  console.log(passwor)
-  console.log(await bcrypt.compare(password, passwor))*/
   const connectionString =
     `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`;
   await mongoose

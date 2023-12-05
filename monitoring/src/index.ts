@@ -5,12 +5,8 @@ import { config } from 'dotenv'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import mongoose from 'mongoose'
-import { userRouter } from './routes/user.js'
 import { indexRouter } from './routes'
 import { deviceRouter } from './routes/device.js'
-import { MonitoringManager } from 'storage/monitoring/MonitoringManager'
-
-new MonitoringManager().getAllUsers()
 
 config()
 
@@ -23,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'client')))
 const PORT: number = Number(process.env.PORT) || 443
 
 app.use(indexRouter)
-app.use('/user', userRouter)
 app.use('/device', deviceRouter)
 
 app.use((_: Request, res: Response) => {
@@ -31,14 +26,16 @@ app.use((_: Request, res: Response) => {
 })
 
 const mongoConnect = async () => {
-  try {
-    await mongoose.connect('mongodb://root:example@localhost:27017/monitoring?authSource=admin')
-  } catch (err) {
-    console.log(err)
-  }
+  const connectionString =
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`;
+  await mongoose
+    .connect(connectionString)
+    .then(async () => {
+      console.log(`Authentication server listening on http://${process.env.DB_HOST}:${PORT}`)
+    })
+    .catch((e) => console.log(e))
 }
 
 app.listen(PORT, () => {
-  console.log(`Listening on http://localhost:${PORT}`)
-  // mongoConnect().then(r => console.log("connected to monitoring database"))
+  mongoConnect()
 })

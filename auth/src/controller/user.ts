@@ -22,17 +22,13 @@ export const userController = {
         id: user.id,
         username: user.username
       }
-      const accessToken = jwtManager.generateAccessToken(infos)
-      const refreshToken = jwtManager.generateRefreshToken(infos)
-      user.token = accessToken
-      user.refreshToken = refreshToken
-      //TODO refresh the token on the db
-      //await dbUserManager.setUserToken(userId, refreshToken);
-      userManager.updateUser(user)
+      user.token = jwtManager.generateAccessToken(infos)
+      user.refreshToken = jwtManager.generateRefreshToken(infos)
 
-      res.json(user)
+      res.json(await userManager.updateUser(user))
     } catch (err) {
       console.log(err)
+      res.status(500).send(err)
     }
   }
 }

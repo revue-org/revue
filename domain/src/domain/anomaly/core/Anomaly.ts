@@ -1,11 +1,13 @@
+import { DeviceId } from '../../device/core/DeviceId'
+
 export interface Anomaly {
   get anomalyId(): number
 
   set anomalyId(anomalyId: number)
 
-  get deviceId(): number
+  get deviceId(): DeviceId
 
-  set deviceId(deviceId: number)
+  set deviceId(deviceId: DeviceId)
 
   get timestamp(): Date
 

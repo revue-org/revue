@@ -7,6 +7,9 @@ import { UserImpl } from 'domain/dist/domain/monitoring/core/impl/UserImpl'
 export const deviceController = {
   getCameras: async (req: Request, res: Response) => {
     // res.json(monitoringManager.getAllCameras())
+    //console.log(req.body.username)
+    //console.log("ci sono")
+    res.send("ok")
   },
   getSensors: async (req: Request, res: Response) => {
     // res.json(monitoringManager.getAllSensors())

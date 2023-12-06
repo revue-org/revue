@@ -2,7 +2,7 @@ import { DeviceRepository } from '../../../domain/device/repositories/DeviceRepo
 import { DeviceId } from '../../../domain/device/core/DeviceId'
 import { Device } from '../../../domain/device/core/Device'
 import { cameraModel } from './schemas/CameraSchema'
-import { DeviceType } from '../../../domain/device/core/DeviceType'
+import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType'
 import { sensorModel } from './schemas/SensorSchema'
 import { Camera } from '../../../domain/device/core/Camera'
 

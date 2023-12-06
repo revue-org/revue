@@ -1,5 +1,5 @@
 import { Device } from './Device'
-import { Measure } from './Measure'
+import { Measure } from './impl/enum/Measure'
 
 export interface Sensor extends Device {
   get intervalMillis(): number
@@ -10,7 +10,7 @@ export interface Sensor extends Device {
 
   set measures(measures: Set<Measure>)
 
-  addMeasure(): void
+  addMeasure(measure: Measure): void
 
   sendEnvironmentData(): void
 }

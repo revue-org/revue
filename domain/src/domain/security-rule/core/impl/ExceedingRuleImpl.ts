@@ -1,7 +1,7 @@
 import { ExceedingRule } from '../ExceedingRule'
 import { Contact } from '../../../monitoring/core/Contact'
 import { DeviceId } from '../../../device/core/DeviceId'
-import { Measure } from '../../../device/core/Measure'
+import { Measure } from '../../../device/core/impl/enum/Measure'
 
 export class ExceedingRuleImpl implements ExceedingRule {
   private _min: number

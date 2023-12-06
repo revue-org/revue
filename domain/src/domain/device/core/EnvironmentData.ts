@@ -1,5 +1,5 @@
 import { DeviceId } from './DeviceId'
-import { Measure } from './Measure'
+import { Measure } from './impl/enum/Measure'
 
 export interface EnvironmentData {
   get sourceDeviceId(): DeviceId

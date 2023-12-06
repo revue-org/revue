@@ -1,5 +1,5 @@
 import { SecurityRule } from './SecurityRule'
-import { Measure } from '../../device/core/Measure'
+import { Measure } from '../../device/core/impl/enum/Measure'
 
 export interface ExceedingRule extends SecurityRule {
   get min(): number

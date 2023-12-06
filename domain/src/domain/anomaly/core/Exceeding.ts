@@ -1,5 +1,5 @@
 import { Anomaly } from './Anomaly'
-import { Measure } from '../../device/core/Measure'
+import { Measure } from '../../device/core/impl/enum/Measure'
 
 export interface Exceeding extends Anomaly {
   get value(): number

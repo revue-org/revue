@@ -1,9 +1,9 @@
-export class Resolution {
-  height: number
-  width: number
+export interface Resolution {
+  get height(): number
 
-  constructor(height: number, width: number) {
-    this.height = height
-    this.width = width
-  }
+  set height(height: number)
+
+  get width(): number
+
+  set width(width: number)
 }

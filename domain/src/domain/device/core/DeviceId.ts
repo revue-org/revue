@@ -1,4 +1,4 @@
-import { DeviceType } from './DeviceType'
+import { DeviceType } from './impl/enum/DeviceType'
 
 export interface DeviceId {
   get type(): DeviceType

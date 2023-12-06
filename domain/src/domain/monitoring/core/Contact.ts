@@ -1,11 +1,11 @@
 import { ContactType } from './ContactType'
 
 export interface Contact {
-  getValue(): string
+  get value(): string
 
-  setValue(v: string): void
+  set value(v: string)
 
-  getContactType(): ContactType
+  get contactType(): ContactType
 
-  setContactType(c: ContactType): void
+  set contactType(c: ContactType)
 }

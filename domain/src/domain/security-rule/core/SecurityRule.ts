@@ -2,17 +2,31 @@ import { Contact } from '../../monitoring/core/Contact'
 import { DeviceId } from '../../device/core/DeviceId'
 
 export interface SecurityRule {
-  getSecurityRuleId(): number
+  get securityRuleId(): number
 
-  getDeviceId(): DeviceId
+  set securityRuleId(id: number)
 
-  getCreatorId(): number
+  get deviceId(): DeviceId
 
-  getContactsToNotify(): Set<Contact>
+  set deviceId(deviceId: DeviceId)
 
-  getDescription(): string
+  get creatorId(): number
 
-  getFrom(): Date
+  set creatorId(creatorId: number)
 
-  getTo(): Date
+  get contactsToNotify(): Set<Contact>
+
+  set contactsToNotify(contactsToNotify: Set<Contact>)
+
+  get description(): string
+
+  set description(description: string)
+
+  get from(): Date
+
+  set from(from: Date)
+
+  get to(): Date
+
+  set to(to: Date)
 }

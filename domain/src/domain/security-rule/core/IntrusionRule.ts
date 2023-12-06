@@ -2,5 +2,7 @@ import { SecurityRule } from './SecurityRule'
 import { ObjectClass } from './ObjectClass'
 
 export interface IntrusionRule extends SecurityRule {
-  getObjectClass(): ObjectClass
+  get objectClass(): ObjectClass
+
+  set objectClass(objectClass: ObjectClass)
 }

@@ -1,7 +1,13 @@
 export interface Anomaly {
-  getAnomalyId(): number
+  get anomalyId(): number
 
-  getDeviceId(): number
+  set anomalyId(anomalyId: number)
 
-  getTimestamp(): Date
+  get deviceId(): number
+
+  set deviceId(deviceId: number)
+
+  get timestamp(): Date
+
+  set timestamp(timestamp: Date)
 }

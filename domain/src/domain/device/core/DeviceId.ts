@@ -1,7 +1,11 @@
 import { DeviceType } from './DeviceType'
 
 export interface DeviceId {
-  getType(): DeviceType
+  get type(): DeviceType
 
-  getCode(): string
+  set type(type: DeviceType)
+
+  get code(): string
+
+  set code(code: string)
 }

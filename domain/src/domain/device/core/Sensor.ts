@@ -2,9 +2,13 @@ import { Device } from './Device'
 import { Measure } from './Measure'
 
 export interface Sensor extends Device {
-  getIntervalMillis(): number
+  get intervalMillis(): number
 
-  getMeasures(): Set<Measure>
+  set intervalMillis(intervalMillis: number)
+
+  get measures(): Set<Measure>
+
+  set measures(measures: Set<Measure>)
 
   addMeasure(): void
 

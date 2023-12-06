@@ -1,9 +1,15 @@
 import { Anomaly } from '../../anomaly/core/Anomaly'
 
 export interface Notification {
-  getNotificationId(): number
+  get notificationId(): number
 
-  getTimestamp(): Date
+  set notificationId(notificationId: number)
 
-  getAnomaly(): Anomaly
+  get timestamp(): Date
+
+  set timestamp(timestamp: Date)
+
+  get anomaly(): Anomaly
+
+  set anomaly(anomaly: Anomaly)
 }

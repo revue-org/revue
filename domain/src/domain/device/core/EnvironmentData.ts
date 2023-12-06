@@ -2,11 +2,19 @@ import { DeviceId } from './DeviceId'
 import { Measure } from './Measure'
 
 export interface EnvironmentData {
-  getSourceDeviceId(): DeviceId
+  get sourceDeviceId(): DeviceId
 
-  getValue(): number
+  set sourceDeviceId(sourceDeviceId: DeviceId)
 
-  getMeasure(): Measure
+  get value(): number
 
-  getTimestamp(): Date
+  set value(value: number)
+
+  get measure(): Measure
+
+  set measure(measure: Measure)
+
+  get timestamp(): Date
+
+  set timestamp(timestamp: Date)
 }

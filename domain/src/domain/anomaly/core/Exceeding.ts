@@ -2,7 +2,11 @@ import { Anomaly } from './Anomaly'
 import { Measure } from '../../device/core/Measure'
 
 export interface Exceeding extends Anomaly {
-  getValue(): number
+  get value(): number
 
-  getMeasure(): Measure
+  set value(value: number)
+
+  get measure(): Measure
+
+  set measure(measure: Measure)
 }

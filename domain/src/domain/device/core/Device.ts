@@ -1,11 +1,15 @@
 import { DeviceId } from './DeviceId'
 
 export interface Device {
-  getDeviceId(): DeviceId
+  get deviceId(): DeviceId
 
-  getIpAddress(): string
+  set deviceId(deviceId: DeviceId)
 
-  isCapturing(): boolean
+  get ipAddress(): string
+
+  set ipAddress(ipAddress: string)
+
+  get isCapturing(): boolean
 
   startCapturing(): void
 

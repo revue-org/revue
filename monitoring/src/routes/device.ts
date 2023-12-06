@@ -13,11 +13,3 @@ deviceRouter.route('/cameras').get((req, res) => {
 deviceRouter.route('/sensors').get((req, res) => {
   deviceController.getSensors(req, res)
 })
-
-/*deviceRouter
-  .route('/:id')
-  .get((req, res) => {
-    deviceController.getDevice(req, res)
-  })
-  .put((req, res) => {})
-  .delete((req, res) => {})*/

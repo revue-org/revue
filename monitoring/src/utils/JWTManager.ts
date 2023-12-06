@@ -30,9 +30,6 @@ class JWTManager {
     console.log('Authentication token: ' + token)
     this.jwt.verify(token, this.secret, (err: any, user: any) => {
       if (err) return res.sendStatus(403)
-      //TODO to set the user in the request
-      //TODO: to chech what end in user
-      //req.user = user;
       console.log(user)
       next()
     })

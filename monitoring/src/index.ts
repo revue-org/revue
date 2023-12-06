@@ -1,10 +1,10 @@
 import type { Express, NextFunction, Request, Response } from "express";
 import express from 'express'
+import mongoose from 'mongoose'
 
 import { config } from 'dotenv'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import mongoose from 'mongoose'
 import { indexRouter } from './routes'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
@@ -26,6 +26,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   if (token !== process.env.DEV_API_KEY) {
     jwtManager.authenticate(req, res, next)
   } else {
+    console.log('Develop authentication token: ' + token)
     return next()
   }
   res.send('No token provided')

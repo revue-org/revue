@@ -13,6 +13,7 @@ export const userController = {
   login: async (req: Request, res: Response) => {
     try {
       const user: UserImpl = await userManager.getUser(req.body.username)
+      console.log(user)
 
       const match = await bcrypt.compare(req.body.password, user.password)
       if (!match) return res.status(401).send('Wrong password')

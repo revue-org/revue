@@ -1,4 +1,6 @@
 import { Schema } from 'mongoose'
+import { Contact } from '../../../domain/monitoring/core/Contact'
+import { DeviceId } from '../../../domain/device/core/DeviceId'
 
 export const userSchema = new Schema({
   _id: Number,
@@ -8,16 +10,8 @@ export const userSchema = new Schema({
   password: String,
   token: String,
   refreshToken: String,
-  contact: {
-    value: String,
-    type: String
-  },
-  deviceIds: [
-    {
-      type: String,
-      code: String
-    }
-  ]
+  contact: Contact,
+  deviceIds: [DeviceId]
 })
 /*
 export const cameraModel = new model(

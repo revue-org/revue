@@ -3,14 +3,13 @@ import jsonwebtoken from 'jsonwebtoken';
 import { Request, Response } from "express";
 import { Connect } from "vite";
 import NextFunction = Connect.NextFunction;
-import console from "console";
 
 config();
 
 class JWTManager {
     private jwt: any;
-    private secret: any;
-    private refreshSecret: any;
+    private readonly secret?: string;
+    private readonly refreshSecret?: string;
     constructor() {
         this.jwt = jsonwebtoken;
         this.secret = process.env.JWT_SECRET;

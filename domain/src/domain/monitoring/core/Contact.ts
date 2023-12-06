@@ -1,4 +1,4 @@
-import { ContactType } from './ContactType'
+import { ContactType } from './impl/ContactType'
 
 export interface Contact {
   get value(): string

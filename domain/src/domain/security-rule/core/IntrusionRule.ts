@@ -1,5 +1,5 @@
 import { SecurityRule } from './SecurityRule'
-import { ObjectClass } from './ObjectClass'
+import { ObjectClass } from './impl/ObjectClass'
 
 export interface IntrusionRule extends SecurityRule {
   get objectClass(): ObjectClass

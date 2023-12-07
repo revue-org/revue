@@ -3,6 +3,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { Request, Response } from "express";
 import { Connect } from "vite";
 import NextFunction = Connect.NextFunction;
+import { UserInfo } from "./UserInfo";
 
 config();
 
@@ -59,6 +60,10 @@ class JWTManager {
           //console.log(user)
           next()
         })
+    }
+
+    verify(token: string, callback: (err: Error, userInfo: UserInfo) => void) {
+        this.jwt.verify(token, this.refreshSecret, callback);
     }
 }
 

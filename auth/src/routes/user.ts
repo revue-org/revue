@@ -15,5 +15,5 @@ userRouter.route('/logout')
 
 userRouter.route('/newToken')
   .post((req, res) => {
-
+    userController.newToken(req, res);
   })

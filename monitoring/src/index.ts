@@ -29,7 +29,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     console.log('Develop authentication token: ' + token)
     return next()
   }
-  res.send('No token provided')
 })
 
 app.use(indexRouter)

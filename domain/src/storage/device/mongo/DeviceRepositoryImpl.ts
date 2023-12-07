@@ -21,7 +21,7 @@ class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   getDevice(deviceId: DeviceId): Device {
-    switch (deviceId.getType()) {
+    switch (deviceId.type) {
       case DeviceType.CAMERA:
         return cameraModel.findById(deviceId)
       case DeviceType.SENSOR:
@@ -30,7 +30,7 @@ class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async insertDevice(device: Device): Promise<void> {
-    switch (device.getDeviceId().getType()) {
+    switch (device.deviceId.type) {
       case DeviceType.CAMERA:
         await new cameraModel(device).save()
         break
@@ -41,7 +41,7 @@ class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
-    switch (deviceId.getType()) {
+    switch (deviceId.type) {
       case DeviceType.CAMERA:
         await cameraModel.findByIdAndDelete(deviceId)
         break

@@ -10,8 +10,8 @@ export const userSchema = new Schema({
   password: String,
   token: String,
   refreshToken: String,
-  contact: ContactImpl,
-  deviceIds: [DeviceIdImpl]
+  contact: {},
+  deviceIds: [{}]
 })
 /*
 export const cameraModel = new model(

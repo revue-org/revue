@@ -15,8 +15,7 @@ export class MyMonitoringRepository implements MonitoringRepository {
   }
 
   async getUser(username: String): Promise<UserImpl> {
-    console.log(await this.userModel.findOne({ username: username }) as unknown)// as unknown as UserImpl
-    return this.userModel.findOne({ username: username }) as unknown as UserImpl
+    return await this.userModel.findOne({ username: username }) as unknown as UserImpl
   }
 
   async updateUser(user: UserImpl): Promise<UserImpl> {

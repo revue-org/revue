@@ -49,11 +49,14 @@ class JWTManager {
         if (token == null) return res.sendStatus(401);
 
         console.log("Authentication token: " + token);
-        this.jwt.verify(token, this.secret, (err: any, user: any) => {
+        this.jwt.verify(token, this.secret, (err: Error, userInfo: any) => {
           if (err) return res.sendStatus(403)
+
+          //req.headers["user"] = userInfo
           //TODO to set the user in the request
-          //req.user = user;
-          console.log(user)
+          //req.headers. = userInfoS;
+          //TODO: da legare user info ricavate dal token al req in modo tale da verificare se un utente puo o meno fare una determinata cosa
+          //console.log(user)
           next()
         })
     }

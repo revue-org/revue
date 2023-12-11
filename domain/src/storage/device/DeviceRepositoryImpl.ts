@@ -35,6 +35,11 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   async insertDevice(device: Device): Promise<void> {
     switch (device.deviceId.type) {
       case DeviceType.CAMERA:
+        console.log(device)
+        //await this.cameraModel.insertMany(device)
+        console.log(new this.cameraModel(device))
+
+        //this.cameraModel.in
         await new this.cameraModel(device).save()
         break
       case DeviceType.SENSOR:

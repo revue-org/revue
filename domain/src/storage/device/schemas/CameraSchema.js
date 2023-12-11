@@ -1,10 +1,7 @@
 import { Schema } from 'mongoose'
 
 export const cameraSchema = new Schema({
-  _id: {
-    type: String,
-    code: String
-  },
+  _id: {},
   ipAddress: String,
   resolution: {
     height: Number,

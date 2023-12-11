@@ -1,6 +1,6 @@
-import { cameraModel } from './schemas/CameraSchema';
+import { cameraModel } from './schemas/CameraSchema.js';
 import { DeviceType } from '../../../domain/device/core/DeviceType';
-import { sensorModel } from './schemas/SensorSchema';
+import { sensorModel } from './schemas/SensorSchema.js';
 class DeviceRepositoryImpl {
     getAllDevices() {
         //TODO: to check if this && works

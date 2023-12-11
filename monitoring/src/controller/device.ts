@@ -1,18 +1,24 @@
 import type { Request, Response } from 'express'
-import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema'
-import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository'
 import { Model, model } from 'mongoose'
-import { UserImpl } from 'domain/dist/domain/monitoring/core/impl/UserImpl'
-//import { jwtManager } from '../utils/JWTManager'
+import { cameraSchema } from 'domain/dist/storage/device/schemas/CameraSchema'
+import { sensorSchema } from 'domain/dist/storage/device/schemas/SensorSchema'
+import { CameraImpl } from 'domain/dist/domain/device/core/impl/CameraImpl'
+import { SensorImpl } from 'domain/dist/domain/device/core/impl/SensorImpl'
+import { DeviceRepositoryImpl } from 'domain/dist/storage/device/DeviceRepositoryImpl'
+
+const cameraModel: Model<CameraImpl> = model<CameraImpl>('CameraImpl', cameraSchema, 'device')
+const sensorModel: Model<SensorImpl> = model<SensorImpl>('SensorImpl', sensorSchema, 'device')
+const deviceManager: DeviceRepositoryImpl = new DeviceRepositoryImpl(cameraModel, sensorModel)
+
 export const deviceController = {
   getCameras: async (req: Request, res: Response) => {
-    // res.json(monitoringManager.getAllCameras())
+    res.json(await deviceManager.getCameras())
     //console.log(req.body.username)
     //console.log("ci sono")
-    res.send("ok")
+      //res.send("ok")
   },
   getSensors: async (req: Request, res: Response) => {
-    // res.json(monitoringManager.getAllSensors())
+    res.json(await deviceManager.getSensors())
   },
   getDevice: async (req: Request, res: Response) => {
     /*try {

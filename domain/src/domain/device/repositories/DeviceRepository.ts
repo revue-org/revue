@@ -1,10 +1,10 @@
 import { Device } from '../core/Device'
 import { DeviceId } from '../core/DeviceId'
+import { SensorImpl } from "../core/impl/SensorImpl";
+import { CameraImpl } from "../core/impl/CameraImpl";
 
 export interface DeviceRepository {
-  getAllDevices(): Set<Device>
-
-  getDevice(deviceId: DeviceId): Device
+  getDevice(deviceId: DeviceId): Promise<CameraImpl | SensorImpl>
 
   insertDevice(device: Device): void
 

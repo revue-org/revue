@@ -6,7 +6,6 @@ import { UserImpl } from 'domain/dist/domain/monitoring/core/impl/UserImpl'
 import bcrypt from 'bcryptjs'
 import { jwtManager } from '../utils/JWTManager'
 import { UserInfo } from '../utils/UserInfo'
-import { User } from 'domain/dist/domain/monitoring/core/User'
 
 const userModel: Model<UserImpl> = model<UserImpl>('UserImpl', userSchema, 'user')
 const userManager: MyMonitoringRepository = new MyMonitoringRepository(userModel)

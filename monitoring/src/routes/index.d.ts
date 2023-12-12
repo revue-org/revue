@@ -1,1 +1,1 @@
-export declare const indexRouter: import("express-serve-static-core").Router;
+export declare const indexRouter: import('express-serve-static-core').Router

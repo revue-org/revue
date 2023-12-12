@@ -10,10 +10,10 @@
     "start": "npm run build && vite",
     "watch": "vite build -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts --fix",
-    "lint:check": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts",
-    "format": "prettier --write src/",
-    "format:check": "prettier --check src/"
+    "lint:fix": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts --fix",
+    "lint": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts",
+    "format:fix": "prettier --write src/",
+    "format": "prettier --check src/"
   },
   "repository": {
     "type": "git",

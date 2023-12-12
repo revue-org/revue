@@ -1,20 +1,17 @@
 import { MonitoringManager } from 'domain/dist/storage/monitoring/MonitoringManager.js'
 const monitoringManager = new MonitoringManager()
-export const deviceController = {
-  getCameras: async (req, res) => {
-    // res.json(monitoringManager.getAllCameras())
+export const userController = {
+  getAllUsers: async (req, res) => {
+    res.json(monitoringManager.getAllUsers())
   },
-  getSensors: async (req, res) => {
-    // res.json(monitoringManager.getAllSensors())
-  },
-  getDevice: async (req, res) => {
+  getUser: async (req, res) => {
     /*try {
           res.json(await deviceModel.findById(req.params.id))
         } catch (err) {
           console.log(err)
         }*/
   },
-  createDevice: async (req, res) => {
+  createUser: async (req, res) => {
     /*try {
           res.json(await deviceModel.findById(req.params.id))
         } catch (err) {
@@ -22,5 +19,5 @@ export const deviceController = {
         }
         deviceModel.create({})*/
   },
-  updateDevice: async (req, res) => {}
+  updateUser: async (req, res) => {}
 }

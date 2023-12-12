@@ -1,6 +1,7 @@
-import { userModel } from './schemas/UserSchema';
+import { userSchema } from './schemas/UserSchema.js'
+
 export class MonitoringManager {
-    getAllUsers() {
-        return userModel.find();
-    }
+  getAllUsers() {
+    return userSchema.find()
+  }
 }

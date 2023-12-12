@@ -7,3 +7,5 @@ export interface AlarmRepository {
 
   deleteAnomaly(anomalyId: number): void
 }
+
+import { AlarmService } from '../../../application/alarm-system/AlarmService'

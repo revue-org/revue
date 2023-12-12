@@ -6,14 +6,15 @@
   "description": "Monitoring microservice",
   "main": "dist/src/index.js",
   "scripts": {
-    "start": "npm run build && node --experimental-specifier-resolution=node .",
+    "serve": "node .",
+    "start": "npm run build && node .",
     "build": "tsc && tsc-alias",
-    "watch": "tsc -w & tsc-alias -w & nodemon --experimental-specifier-resolution=node .",
+    "watch": "tsc -w & tsc-alias -w & nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
-    "lint:check": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
-    "format": "prettier --write src/",
-    "format:check": "prettier --check src/"
+    "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
+    "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
+    "format:fix": "prettier --write src/",
+    "format": "prettier --check src/"
   },
   "repository": {
     "type": "git",

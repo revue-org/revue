@@ -10,6 +10,7 @@ import { UserInfo } from '../utils/UserInfo'
 const userModel: Model<UserImpl> = model<UserImpl>('UserImpl', userSchema, 'user')
 const userManager: MyMonitoringRepository = new MyMonitoringRepository(userModel)
 
+
 export const userController = {
   login: async (req: Request, res: Response) => {
     try {

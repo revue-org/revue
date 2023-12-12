@@ -3,10 +3,9 @@ import express from 'express'
 
 export const userRouter = express.Router()
 
-userRouter.route('/login')
-  .post((req, res) => {
-      userController.login(req, res);
-  })
+userRouter.route('/login').post((req, res) => {
+  userController.login(req, res)
+})
 
 userRouter.route('/logout')
   .post((req, res) => {
@@ -17,3 +16,4 @@ userRouter.route('/newToken')
   .post((req, res) => {
     userController.newToken(req, res);
   })
+

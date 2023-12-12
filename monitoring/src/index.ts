@@ -17,7 +17,7 @@ const app: Express = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'client')))
 
-const PORT: number = Number(process.env.PORT) || 443
+const PORT: number = Number(process.env.PORT) || 3000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

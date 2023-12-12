@@ -5,16 +5,16 @@ import { sensorSchema } from 'domain/dist/storage/device/schemas/SensorSchema'
 import { DeviceId } from 'domain/dist/domain/device/core/DeviceId'
 import { DeviceIdImpl } from 'domain/dist/domain/device/core/impl/DeviceIdImpl'
 import { ResolutionImpl } from 'domain/dist/domain/device/core/impl/ResolutionImpl'
-import { CameraImpl } from 'domain/dist/domain/device/core/impl/CameraImpl'
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { SensorImpl } from 'domain/dist/domain/device/core/impl/SensorImpl'
 import { DeviceRepositoryImpl } from 'domain/dist/storage/device/DeviceRepositoryImpl'
 import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType'
-import { DeviceTypeConverter } from '../utils/DeviceTypeConverter'
+import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter'
+import { Sensor } from "domain/dist/domain/device/core/Sensor";
+import { Camera } from "domain/dist/domain/device/core/Camera";
 
-const cameraModel: Model<CameraImpl> = model<CameraImpl>('CameraImpl', cameraSchema, 'device')
-const sensorModel: Model<SensorImpl> = model<SensorImpl>('SensorImpl', sensorSchema, 'device')
+const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
+const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
 const deviceManager: DeviceRepositoryImpl = new DeviceRepositoryImpl(cameraModel, sensorModel)
 const deviceFactory: DeviceFactoryImpl = new DeviceFactoryImpl()
 
@@ -31,7 +31,7 @@ export const deviceController = {
   },
   createDevice: async (req: Request, res: Response) => {
     let deviceId: DeviceId = new DeviceIdImpl(
-      DeviceTypeConverter.convert(req.body.type),
+      DeviceTypeConverter.convertToDeviceType(req.body.type),
       req.body.code
     )
     if ((await deviceManager.getDevice(deviceId)) !== null) {

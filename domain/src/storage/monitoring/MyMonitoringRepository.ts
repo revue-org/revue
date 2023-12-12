@@ -1,6 +1,6 @@
 import { Model } from 'mongoose'
-import { User } from '../../domain/monitoring/core/User'
-import { MonitoringRepository } from '../../domain/monitoring/repository/MonitoringRepository'
+import { User } from '../../domain/monitoring/core/User.js'
+import { MonitoringRepository } from '../../domain/monitoring/repository/MonitoringRepository.js'
 
 export class MyMonitoringRepository implements MonitoringRepository {
   userModel: Model<User>

@@ -3,20 +3,13 @@ import express from 'express'
 
 export const userRouter = express.Router()
 
-userRouter.route('/login')
-  .post((req, res) => {
-      userController.login(req, res);
-  })
+userRouter.route('/login').post((req, res) => {
+  userController.login(req, res)
+})
 
-userRouter.route('/logout')
-  .post((req, res) => {
+userRouter.route('/logout').post((req, res) => {})
 
-  })
-
-userRouter.route('/newToken')
-  .post((req, res) => {
-
-  })/*
+userRouter.route('/newToken').post((req, res) => {}) /*
 app.post('/login', async (req, res) => {
   const userId = await dbUserManager.getIdByUsername(req.body.username);
   if (!userId) return res.status(400).send('User not found');
@@ -55,4 +48,3 @@ app.delete('/logout', async (req, res) => {
   console.log(await dbUserManager.removeUserToken(req.body.id));
   res.sendStatus(204);
 });*/
-

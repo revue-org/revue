@@ -1,21 +1,21 @@
 import type { Request, Response } from 'express'
-import { User } from 'domain/dist/domain/monitoring/core/User'
-import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema'
-import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository'
-import { Model, model } from "mongoose";
+import { User } from 'domain/dist/domain/monitoring/core/User.js'
+import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema.js'
+import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository.js'
+import { Model, model } from 'mongoose'
 
-const mod = model("user", userSchema, "user")
+const mod = model('user', userSchema, 'user')
 
-const userManager: MyMonitoringRepository = new MyMonitoringRepository(model<User>("user", userSchema, "user"))
+const userManager: MyMonitoringRepository = new MyMonitoringRepository(
+  model<User>('user', userSchema, 'user')
+)
 
 export const userController = {
-
   login: async (req: Request, res: Response) => {
     try {
-
       const user: User = await userManager.getUser(req.body.username)
-      res.json(user);
-/*
+      res.json(user)
+      /*
       const match = req.body.password === user.getPassword()
 //      const match = await bcrypt.compare(req.body.password, userPassword);
       if (!match) return res.status(401).send('Wrong password');

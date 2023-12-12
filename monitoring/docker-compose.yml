@@ -5,7 +5,9 @@ services:
   monitoring:
     image: monitoring
     container_name: monitoring
-    build: .
+    build:
+      context: ../
+      dockerfile: ./monitoring/Dockerfile
     restart: on-failure
     ports:
       - "3000:3000"

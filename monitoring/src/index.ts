@@ -6,7 +6,7 @@ import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import mongoose from 'mongoose'
 import { userRouter } from './routes/user.js'
-import { indexRouter } from './routes'
+import { indexRouter } from './routes/index.js'
 import { deviceRouter } from './routes/device.js'
 
 config()

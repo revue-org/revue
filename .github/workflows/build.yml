@@ -27,8 +27,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build
-        run: ./gradlew build --no-daemon --info
+      - name: Run build
+        run: ./gradlew build
       - name: Run tests
         run: ./gradlew test
 

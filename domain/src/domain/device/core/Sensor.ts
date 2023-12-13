@@ -1,5 +1,5 @@
-import { Device } from './Device'
-import { Measure } from './impl/enum/Measure'
+import { Device } from './Device.js'
+import { Measure } from './impl/enum/Measure.js'
 
 export interface Sensor extends Device {
   get intervalMillis(): number

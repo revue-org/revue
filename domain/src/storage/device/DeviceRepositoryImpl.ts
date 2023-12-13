@@ -1,14 +1,11 @@
-import { DeviceRepository } from '../../domain/device/repositories/DeviceRepository'
+import { DeviceRepository } from '../../domain/device/repositories/DeviceRepository.js'
 import { Model } from 'mongoose'
-import { CameraImpl } from '../../domain/device/core/impl/CameraImpl'
-import { SensorImpl } from '../../domain/device/core/impl/SensorImpl'
-import { DeviceId } from '../../domain/device/core/DeviceId'
-import { DeviceType } from '../../domain/device/core/impl/enum/DeviceType'
-import { Device } from '../../domain/device/core/Device'
-import { cameraSchema } from './schemas/CameraSchema'
-import { Camera } from '../../domain/device/core/Camera'
-import { Sensor } from '../../domain/device/core/Sensor'
-import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter'
+import { DeviceId } from '../../domain/device/core/DeviceId.js'
+import { DeviceType } from '../../domain/device/core/impl/enum/DeviceType.js'
+import { Device } from '../../domain/device/core/Device.js'
+import { Camera } from '../../domain/device/core/Camera.js'
+import { Sensor } from '../../domain/device/core/Sensor.js'
+import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
 
 export class DeviceRepositoryImpl implements DeviceRepository {
   cameraModel: Model<Camera>

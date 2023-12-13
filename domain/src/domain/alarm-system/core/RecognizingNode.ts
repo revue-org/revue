@@ -1,5 +1,5 @@
-import { Anomaly } from '../../anomaly/core/Anomaly'
-import { DeviceId } from '../../device/core/DeviceId'
+import { Anomaly } from '../../anomaly/core/Anomaly.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface RecognizingNode {
   get recognizingNodeId(): number

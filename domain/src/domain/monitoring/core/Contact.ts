@@ -1,4 +1,4 @@
-import { ContactType } from './impl/ContactType'
+import { ContactType } from './impl/ContactType.js'
 
 export interface Contact {
   get value(): string

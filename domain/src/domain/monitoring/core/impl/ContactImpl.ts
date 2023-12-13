@@ -1,5 +1,5 @@
-import { Contact } from '../Contact'
-import { ContactType } from './ContactType'
+import { Contact } from '../Contact.js'
+import { ContactType } from './ContactType.js'
 
 export class ContactImpl implements Contact {
   private _value: string

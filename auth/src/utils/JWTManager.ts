@@ -3,7 +3,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { Request, Response } from "express";
 import { Connect } from "vite";
 import NextFunction = Connect.NextFunction;
-import { UserInfo } from "./UserInfo";
+import { UserInfo } from "./UserInfo.js";
 
 config();
 

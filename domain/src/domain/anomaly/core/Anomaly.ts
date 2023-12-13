@@ -1,4 +1,4 @@
-import { DeviceId } from '../../device/core/DeviceId'
+import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface Anomaly {
   get anomalyId(): number

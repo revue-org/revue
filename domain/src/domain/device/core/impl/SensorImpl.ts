@@ -1,6 +1,6 @@
-import { Sensor } from '../Sensor'
-import { DeviceId } from '../DeviceId'
-import { Measure } from './enum/Measure'
+import { Sensor } from '../Sensor.js'
+import { DeviceId } from '../DeviceId.js'
+import { Measure } from './enum/Measure.js'
 
 export class SensorImpl implements Sensor {
   private _deviceId: DeviceId

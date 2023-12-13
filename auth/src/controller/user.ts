@@ -1,11 +1,11 @@
 import type { Request, Response } from 'express'
-import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema'
-import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository'
 import { Model, model } from 'mongoose'
-import { UserImpl } from 'domain/dist/domain/monitoring/core/impl/UserImpl'
+import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema.js'
+import { MyMonitoringRepository } from 'domain/dist/storage/monitoring/MyMonitoringRepository.js'
+import { UserImpl } from 'domain/dist/domain/monitoring/core/impl/UserImpl.js'
 import bcrypt from 'bcryptjs'
-import { jwtManager } from '../utils/JWTManager'
-import { UserInfo } from '../utils/UserInfo'
+import { jwtManager } from '../utils/JWTManager.js'
+import { UserInfo } from '../utils/UserInfo.js'
 
 const userModel: Model<UserImpl> = model<UserImpl>('UserImpl', userSchema, 'user')
 const userManager: MyMonitoringRepository = new MyMonitoringRepository(userModel)

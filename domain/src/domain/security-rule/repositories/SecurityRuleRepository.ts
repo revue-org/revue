@@ -1,4 +1,4 @@
-import { SecurityRule } from '../core/SecurityRule'
+import { SecurityRule } from '../core/SecurityRule.js'
 
 export interface SecurityRuleRepository {
   getSecurityRules(): Set<SecurityRule>

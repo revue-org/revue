@@ -1,4 +1,4 @@
-import { DeviceId } from './DeviceId'
+import { DeviceId } from './DeviceId.js'
 
 export interface Device {
   get deviceId(): DeviceId

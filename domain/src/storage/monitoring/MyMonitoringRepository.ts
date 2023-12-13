@@ -1,7 +1,7 @@
 import { Model } from 'mongoose'
-import { User } from '../../domain/monitoring/core/User'
-import { MonitoringRepository } from '../../domain/monitoring/repository/MonitoringRepository'
-import { UserImpl } from '../../domain/monitoring/core/impl/UserImpl'
+import { User } from '../../domain/monitoring/core/User.js'
+import { MonitoringRepository } from '../../domain/monitoring/repository/MonitoringRepository.js'
+import { UserImpl } from '../../domain/monitoring/core/impl/UserImpl.js'
 
 export class MyMonitoringRepository implements MonitoringRepository {
   userModel: Model<UserImpl>

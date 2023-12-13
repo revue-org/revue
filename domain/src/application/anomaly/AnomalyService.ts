@@ -1,4 +1,4 @@
-import { Anomaly } from '../../domain/anomaly/core/Anomaly'
+import { Anomaly } from '../../domain/anomaly/core/Anomaly.js'
 
 export interface AnomalyService {
   addAnomaly(anomaly: Anomaly): void

@@ -1,6 +1,6 @@
-import { RecognizingNode } from '../RecognizingNode'
-import { DeviceId } from '../../../device/core/DeviceId'
-import { Anomaly } from '../../../anomaly/core/Anomaly'
+import { RecognizingNode } from '../RecognizingNode.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 
 export class RecognizingNodeImpl implements RecognizingNode {
   private _recognizingNodeId: number

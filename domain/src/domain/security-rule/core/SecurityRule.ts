@@ -1,5 +1,5 @@
-import { Contact } from '../../monitoring/core/Contact'
-import { DeviceId } from '../../device/core/DeviceId'
+import { Contact } from '../../monitoring/core/Contact.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface SecurityRule {
   get securityRuleId(): number

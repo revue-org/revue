@@ -1,7 +1,6 @@
-import { Camera } from '../Camera'
-import { DeviceId } from '../DeviceId'
-import { Resolution } from '../Resolution'
-import { Measure } from "./enum/Measure";
+import { Camera } from '../Camera.js'
+import { DeviceId } from '../DeviceId.js'
+import { Resolution } from '../Resolution.js'
 
 export class CameraImpl implements Camera {
   private _deviceId: DeviceId

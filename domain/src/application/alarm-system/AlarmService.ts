@@ -1,5 +1,5 @@
-import { Anomaly } from '../../domain/anomaly/core/Anomaly'
-import { DeviceId } from '../../domain/device/core/DeviceId'
+import { Anomaly } from '../../domain/anomaly/core/Anomaly.js'
+import { DeviceId } from '../../domain/device/core/DeviceId.js'
 
 export interface AlarmService {
   startRecognizing(deviceId: DeviceId): void

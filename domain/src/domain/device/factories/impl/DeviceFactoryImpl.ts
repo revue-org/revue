@@ -1,12 +1,11 @@
-import { DeviceFactory } from '../DeviceFactory'
-import { Device } from '../../core/Device'
-import { Sensor } from '../../core/Sensor'
-import { Camera } from '../../core/Camera'
-import { CameraImpl } from '../../core/impl/CameraImpl'
-import { DeviceId } from '../../core/DeviceId'
-import { Resolution } from '../../core/Resolution'
-import { Measure } from '../../core/impl/enum/Measure'
-import { SensorImpl } from "../../core/impl/SensorImpl";
+import { DeviceFactory } from '../DeviceFactory.js'
+import { Sensor } from '../../core/Sensor.js'
+import { Camera } from '../../core/Camera.js'
+import { CameraImpl } from '../../core/impl/CameraImpl.js'
+import { DeviceId } from '../../core/DeviceId.js'
+import { Resolution } from '../../core/Resolution.js'
+import { Measure } from '../../core/impl/enum/Measure.js'
+import { SensorImpl } from "../../core/impl/SensorImpl.js";
 
 export class DeviceFactoryImpl implements DeviceFactory {
   createCamera(deviceId: DeviceId, ipAddress: string, resolution: Resolution): Camera {

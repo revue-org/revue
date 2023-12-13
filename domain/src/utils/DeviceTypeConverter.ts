@@ -1,4 +1,4 @@
-import { DeviceType } from '../domain/device/core/impl/enum/DeviceType'
+import { DeviceType } from '../domain/device/core/impl/enum/DeviceType.js'
 
 export class DeviceTypeConverter {
   static convertToDeviceType(type: String): DeviceType {

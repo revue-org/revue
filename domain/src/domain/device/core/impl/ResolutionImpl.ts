@@ -1,4 +1,4 @@
-import { Resolution } from '../Resolution'
+import { Resolution } from '../Resolution.js'
 
 export class ResolutionImpl implements Resolution {
   private _height: number

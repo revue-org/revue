@@ -1,5 +1,5 @@
-import { Contact } from './Contact'
-import { DeviceId } from "../../device/core/DeviceId";
+import { Contact } from './Contact.js'
+import { DeviceId } from '../../device/core/DeviceId.js';
 
 export interface User {
 

@@ -1,7 +1,7 @@
-import { MonitoringRoom } from '../MonitoringRoom'
-import { Device } from '../../../device/core/Device'
-import { DeviceId } from '../../../device/core/DeviceId'
-import { Anomaly } from '../../../anomaly/core/Anomaly'
+import { MonitoringRoom } from '../MonitoringRoom.js'
+import { Device } from '../../../device/core/Device.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 
 export class MonitoringRoomImpl implements MonitoringRoom {
   createSecurityRule(): void {

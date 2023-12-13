@@ -1,5 +1,5 @@
-import { Notification } from '../Notification'
-import { Anomaly } from '../../../anomaly/core/Anomaly'
+import { Notification } from '../Notification.js'
+import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 
 export class NotificationImpl implements Notification {
   private _notificationId: number

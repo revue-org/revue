@@ -1,6 +1,5 @@
-import { Anomaly } from "../../../anomaly/core/Anomaly";
-import { AnomalyService } from "../../../../application/anomaly/AnomalyService";
-import { DeviceId } from "../../../device/core/DeviceId";
+import { Anomaly } from "../../../anomaly/core/Anomaly.js";
+import { AnomalyService } from "../../../../application/anomaly/AnomalyService.js";
 import { Error } from "mongoose";
 
 

@@ -1,4 +1,4 @@
-import { Anomaly } from '../../anomaly/core/Anomaly'
+import { Anomaly } from '../../anomaly/core/Anomaly.js'
 
 export interface Notification {
   get notificationId(): number

@@ -1,5 +1,5 @@
-import { DeviceId } from '../../domain/device/core/DeviceId'
-import { Device } from '../../domain/device/core/Device'
+import { DeviceId } from '../../domain/device/core/DeviceId.js'
+import { Device } from '../../domain/device/core/Device.js'
 
 export interface DeviceService {
   getAllDevices(): Set<Device>

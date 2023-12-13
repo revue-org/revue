@@ -1,17 +1,17 @@
 import type { Request, Response } from 'express'
 import { Model, model } from 'mongoose'
-import { cameraSchema } from 'domain/dist/storage/device/schemas/CameraSchema'
-import { sensorSchema } from 'domain/dist/storage/device/schemas/SensorSchema'
-import { DeviceId } from 'domain/dist/domain/device/core/DeviceId'
-import { DeviceIdImpl } from 'domain/dist/domain/device/core/impl/DeviceIdImpl'
-import { ResolutionImpl } from 'domain/dist/domain/device/core/impl/ResolutionImpl'
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { DeviceRepositoryImpl } from 'domain/dist/storage/device/DeviceRepositoryImpl'
-import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl'
-import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType'
-import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter'
-import { Sensor } from "domain/dist/domain/device/core/Sensor";
-import { Camera } from "domain/dist/domain/device/core/Camera";
+import { cameraSchema } from 'domain/dist/storage/device/schemas/CameraSchema.js'
+import { sensorSchema } from 'domain/dist/storage/device/schemas/SensorSchema.js'
+import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
+import { DeviceIdImpl } from 'domain/dist/domain/device/core/impl/DeviceIdImpl.js'
+import { ResolutionImpl } from 'domain/dist/domain/device/core/impl/ResolutionImpl.js'
+import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
+import { DeviceRepositoryImpl } from 'domain/dist/storage/device/DeviceRepositoryImpl.js'
+import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl.js'
+import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
+import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
+import { Sensor } from "domain/dist/domain/device/core/Sensor.js";
+import { Camera } from "domain/dist/domain/device/core/Camera.js";
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
@@ -60,5 +60,8 @@ export const deviceController = {
         throw new Error('Error while creating device')
     }
   },
-  updateDevice: async (req: Request, res: Response) => {}
+  updateDevice: async (req: Request, res: Response) => {
+    console.log("updateDevice");
+    res.status(200).send("ok");
+  }
 }

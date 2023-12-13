@@ -1,7 +1,7 @@
-import { ExceedingRule } from '../ExceedingRule'
-import { Contact } from '../../../monitoring/core/Contact'
-import { DeviceId } from '../../../device/core/DeviceId'
-import { Measure } from '../../../device/core/impl/enum/Measure'
+import { ExceedingRule } from '../ExceedingRule.js'
+import { Contact } from '../../../monitoring/core/Contact.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Measure } from '../../../device/core/impl/enum/Measure.js'
 
 export class ExceedingRuleImpl implements ExceedingRule {
   private _min: number

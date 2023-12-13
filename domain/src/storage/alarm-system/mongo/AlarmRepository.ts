@@ -1,4 +1,4 @@
-import { RecognizingNode } from '../../../domain/alarm-system/core/RecognizingNode'
+import { RecognizingNode } from '../../../domain/alarm-system/core/RecognizingNode.js'
 
 export interface AlarmRepository {
   getAnomalies(): Set<RecognizingNode>
@@ -7,5 +7,3 @@ export interface AlarmRepository {
 
   deleteAnomaly(anomalyId: number): void
 }
-
-import { AlarmService } from '../../../application/alarm-system/AlarmService'

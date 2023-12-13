@@ -1,6 +1,6 @@
-import { Anomaly } from '../../anomaly/core/Anomaly'
-import { DeviceId } from '../../device/core/DeviceId'
-import { Device } from '../../device/core/Device'
+import { Anomaly } from '../../anomaly/core/Anomaly.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
+import { Device } from '../../device/core/Device.js'
 
 export interface MonitoringRoom {
   registerDevice(device: Device): void

@@ -1,6 +1,6 @@
-import { User } from '../User'
-import { Contact } from '../Contact'
-import { DeviceId } from '../../../device/core/DeviceId'
+import { User } from '../User.js'
+import { Contact } from '../Contact.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
 
 export class UserImpl implements User {
   private _id: number

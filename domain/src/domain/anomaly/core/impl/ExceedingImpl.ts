@@ -1,6 +1,6 @@
-import { Exceeding } from '../Exceeding'
-import { DeviceId } from '../../../device/core/DeviceId'
-import { Measure } from '../../../device/core/impl/enum/Measure'
+import { Exceeding } from '../Exceeding.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Measure } from '../../../device/core/impl/enum/Measure.js'
 
 export class ExceedingImpl implements Exceeding {
   private _anomalyId: number

@@ -1,4 +1,4 @@
-import { Anomaly } from '../core/Anomaly'
+import { Anomaly } from '../core/Anomaly.js'
 
 export interface AnomalyRepository {
   getAnomalies(): Set<Anomaly>

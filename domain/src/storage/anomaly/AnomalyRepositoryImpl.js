@@ -1,5 +1,5 @@
-import { exceedingModel } from '../../security-rule/mongo/schemas/ExceedingRule'
-import { intrusionModel } from '../../security-rule/mongo/schemas/IntrusionRule'
+import { exceedingModel } from '../security-rule/schemas/ExceedingRule.js'
+import { intrusionModel } from '../security-rule/schemas/IntrusionRule.js'
 class AnomalyRepositoryImpl {
   getAnomalies() {
     return this.getExceedings() && this.getIntrusions()

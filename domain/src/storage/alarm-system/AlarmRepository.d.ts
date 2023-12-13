@@ -1,4 +1,4 @@
-import { RecognizingNode } from '../../../domain/alarm-system/core/RecognizingNode'
+import { RecognizingNode } from '../../domain/alarm-system/core/RecognizingNode'
 export interface AlarmRepository {
   getAnomalies(): Set<RecognizingNode>
   insertAnomaly(anomaly: RecognizingNode): void

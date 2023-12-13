@@ -1,24 +1,40 @@
-import { exceedingModel } from '../security-rule/schemas/ExceedingRule.js'
+import { Model } from 'mongoose'
 import { Exceeding } from '../../domain/anomaly/core/Exceeding.js'
-import { intrusionModel } from '../security-rule/schemas/IntrusionRule.js'
 import { Anomaly } from '../../domain/anomaly/core/Anomaly.js'
 import { Intrusion } from '../../domain/anomaly/core/Intrusion.js'
 import { AnomalyRepository } from '../../domain/anomaly/repositories/AnomalyRepository.js'
 
 class AnomalyRepositoryImpl implements AnomalyRepository {
-  getAnomalies(): Set<Anomaly> {
-    return this.getExceedings() && this.getIntrusions()
+  exceedingModel: Model<Exceeding>
+  intrusionModel: Model<Intrusion>
+  anomalySchema: Model<Anomaly>
+
+  constructor(
+    exceedingModel: Model<Exceeding>,
+    intrusionModel: Model<Intrusion>,
+    anomalySchema: Model<Anomaly>
+  ) {
+    this.exceedingModel = exceedingModel
+    this.intrusionModel = intrusionModel
+    this.anomalySchema = anomalySchema
   }
 
-  getExceedings(): Set<Exceeding> {
-    return exceedingModel.find()
+  async getExceedings(): Promise<Array<Exceeding>> {
+    return this.exceedingModel.find()
   }
 
-  getIntrusions(): Set<Intrusion> {
-    return intrusionModel.find()
+  async getIntrusions(): Promise<Array<Intrusion>> {
+    return this.intrusionModel.find()
   }
 
-  insertAnomaly(anomaly: Anomaly): void {}
+  async getAnomaly(anomalyId: number): Promise<Exceeding | Intrusion | null> {
+    throw new Error('Method not implemented.')
+    //return this.anomalySchema.findById({ anomalyId }).orFail()
+  }
 
-  deleteAnomaly(anomalyId: number): void {}
+  async insertAnomaly(anomaly: Anomaly): Promise<void> {}
+
+  async updateAnomaly(anomaly: Anomaly): Promise<void> {}
+
+  async deleteAnomaly(anomalyId: number): Promise<void> {}
 }

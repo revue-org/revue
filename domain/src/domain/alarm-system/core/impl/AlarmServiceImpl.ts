@@ -4,11 +4,6 @@ import { Error } from "mongoose";
 
 
 export class AlarmServiceImpl implements AnomalyService {
-  /*startRecognizing(deviceId: DeviceId): void
-
-  stopRecognizing(deviceId: DeviceId): void
-
-  sendNotification(anomaly: Anomaly): void*/
 
   constructor() {
     throw new Error("TO BE implemented.");

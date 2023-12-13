@@ -1,9 +1,17 @@
 import { Anomaly } from '../core/Anomaly.js'
+import { Exceeding } from '../core/Exceeding'
+import { Intrusion } from '../core/Intrusion'
 
 export interface AnomalyRepository {
-  getAnomalies(): Set<Anomaly>
+  getExceedings(): Promise<Array<Exceeding>>
 
-  insertAnomaly(anomaly: Anomaly): void
+  getIntrusions(): Promise<Array<Intrusion>>
 
-  deleteAnomaly(anomalyId: number): void
+  getAnomaly(anomalyId: number): Promise<Exceeding | Intrusion | null>
+
+  insertAnomaly(anomaly: Anomaly): Promise<void>
+
+  updateAnomaly(anomaly: Anomaly): Promise<void>
+
+  deleteAnomaly(anomalyId: number): Promise<void>
 }

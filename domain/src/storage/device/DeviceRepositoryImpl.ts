@@ -16,20 +16,20 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     this.sensorModel = sensorModel
   }
 
-  getCameras(): Promise<Array<Camera>> {
-    return this.cameraModel.find()
+  async getCameras(): Promise<Array<Camera>> {
+    return this.cameraModel.find();
   }
 
-  getSensors(): Promise<Array<Sensor>> {
+  async getSensors(): Promise<Array<Sensor>> {
     return this.sensorModel.find()
   }
 
   async getDevice(deviceId: DeviceId): Promise<Camera | Sensor> {
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        return (await this.cameraModel.findOne(deviceId)) as unknown as Camera
+        return await this.cameraModel.findOne(deviceId) as unknown as Camera
       case DeviceType.SENSOR:
-        return (await this.sensorModel.findById(deviceId)) as unknown as Sensor
+        return await this.sensorModel.findById(deviceId) as unknown as Sensor
     }
   }
 
@@ -78,7 +78,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
               width: (device as Camera).resolution.width
             }
           }
-        )
+        ).orFail()
         break
       case DeviceType.SENSOR:
         await this.sensorModel
@@ -113,6 +113,5 @@ export class DeviceRepositoryImpl implements DeviceRepository {
         })
         break
     }
-    throw new Error('Device not found')
   }
 }

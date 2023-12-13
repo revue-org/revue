@@ -7,7 +7,7 @@ export interface AnomalyRepository {
 
   getIntrusions(): Promise<Array<Intrusion>>
 
-  getAnomaly(anomalyId: number): Promise<Exceeding | Intrusion | null>
+  getAnomaly(anomalyId: number): Promise<Exceeding | Intrusion>
 
   insertAnomaly(anomaly: Anomaly): Promise<void>
 

@@ -1,8 +1,7 @@
 import { Contact } from './Contact.js'
-import { DeviceId } from '../../device/core/DeviceId.js';
+import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface User {
-
   get id(): number
 
   get name(): string
@@ -22,5 +21,4 @@ export interface User {
   get deviceIds(): Set<DeviceId>
 
   addDevice(deviceId: DeviceId): void
-
 }

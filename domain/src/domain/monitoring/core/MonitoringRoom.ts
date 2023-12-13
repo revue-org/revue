@@ -14,5 +14,4 @@ export interface MonitoringRoom {
   deleteSecurityRule(): void
 
   getDeviceHistory(deviceId: DeviceId): Anomaly[]
-
 }

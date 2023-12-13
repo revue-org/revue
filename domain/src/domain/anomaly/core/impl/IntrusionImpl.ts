@@ -1,6 +1,6 @@
 import { DeviceId } from '../../../device/core/DeviceId.js'
-import { ObjectClass } from "../../../security-rule/core/impl/ObjectClass.js";
-import { Intrusion } from "../Intrusion.js";
+import { ObjectClass } from '../../../security-rule/core/impl/ObjectClass.js'
+import { Intrusion } from '../Intrusion.js'
 
 export class IntrusionImpl implements Intrusion {
   private _anomalyId: number

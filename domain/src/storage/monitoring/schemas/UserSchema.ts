@@ -1,6 +1,4 @@
 import { Schema } from 'mongoose'
-import { ContactImpl } from "../../../domain/monitoring/core/impl/ContactImpl";
-import { DeviceIdImpl } from "../../../domain/device/core/impl/DeviceIdImpl";
 
 export const userSchema = new Schema({
   _id: Number,

@@ -1,9 +1,17 @@
 import { SecurityRule } from '../core/SecurityRule.js'
+import { IntrusionRule } from '../core/IntrusionRule'
+import { ExceedingRule } from '../core/ExceedingRule'
 
 export interface SecurityRuleRepository {
-  getSecurityRules(): Set<SecurityRule>
+  getExceedingRules(): Promise<Array<ExceedingRule>>
 
-  insertSecurityRule(securityRule: SecurityRule): void
+  getIntrusionRules(): Promise<Array<IntrusionRule>>
 
-  deleteSecurityRule(securityRule: SecurityRule): void
+  getSecurityRule(securityRuleId: number): Promise<ExceedingRule | IntrusionRule>
+
+  insertSecurityRule(securityRule: SecurityRule): Promise<void>
+
+  updateSecurityRule(securityRule: SecurityRule): Promise<void>
+
+  deleteSecurityRule(securityRuleId: number): Promise<void>
 }

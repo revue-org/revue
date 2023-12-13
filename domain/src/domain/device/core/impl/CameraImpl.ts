@@ -50,5 +50,4 @@ export class CameraImpl implements Camera {
   stopCapturing(): void {
     this._isCapturing = false
   }
-
 }

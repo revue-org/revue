@@ -1,10 +1,8 @@
-import { EnvironmentData } from "../EnvironmentData.js";
-import { DeviceId } from "../DeviceId.js";
-import { Measure } from "./enum/Measure.js";
-
+import { EnvironmentData } from '../EnvironmentData.js'
+import { DeviceId } from '../DeviceId.js'
+import { Measure } from './enum/Measure.js'
 
 export class EnvironmentDataImpl implements EnvironmentData {
-
   private _sourceDeviceId: DeviceId
   private _value: number
   private _measure: Measure

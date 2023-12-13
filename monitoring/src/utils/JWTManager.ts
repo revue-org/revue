@@ -1,6 +1,6 @@
 import { config } from 'dotenv'
 import jsonwebtoken from 'jsonwebtoken'
-import { Request, Response, NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import * as console from 'console'
 
 config()

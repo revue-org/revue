@@ -21,4 +21,3 @@ export class DeviceFactoryImpl implements DeviceFactory {
     return new SensorImpl(deviceId, ipAddress, intervalMillis, measures)
   }
 }
-

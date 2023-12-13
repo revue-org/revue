@@ -1,6 +1,5 @@
-import { Anomaly } from '../../../anomaly/core/Anomaly.js'
-import { AnomalyService } from '../../../../application/anomaly/AnomalyService.js'
-import { Error } from 'mongoose'
+import { Anomaly } from '../../../domain/anomaly/core/Anomaly.js'
+import { AnomalyService } from '../../anomaly/AnomalyService.js'
 
 export class AlarmServiceImpl implements AnomalyService {
   constructor() {

@@ -62,13 +62,55 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     }
   }
 
+  async updateDevice(device: Device): Promise<void> {
+    console.log(device)
+    switch (device.deviceId.type) {
+      case DeviceType.CAMERA:
+        await this.cameraModel.findByIdAndUpdate(
+          {
+            type: DeviceTypeConverter.convertToString(device.deviceId.type),
+            code: device.deviceId.code
+          },
+          {
+            ipAddress: device.ipAddress,
+            resolution: {
+              height: (device as Camera).resolution.height,
+              width: (device as Camera).resolution.width
+            }
+          }
+        )
+        break
+      case DeviceType.SENSOR:
+        await this.sensorModel
+          .findByIdAndUpdate(
+            {
+              type: DeviceTypeConverter.convertToString(device.deviceId.type),
+              code: device.deviceId.code
+            },
+            {
+              ipAddress: device.ipAddress,
+              intervalMillis: (device as Sensor).intervalMillis,
+              measures: (device as Sensor).measures
+            }
+          )
+          .orFail()
+        break
+    }
+  }
+
   async deleteDevice(deviceId: DeviceId): Promise<void> {
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        await this.cameraModel.findByIdAndDelete(deviceId)
+        await this.cameraModel.findByIdAndDelete({
+          type: DeviceTypeConverter.convertToString(deviceId.type),
+          code: deviceId.code
+        })
         break
       case DeviceType.SENSOR:
-        await this.sensorModel.findByIdAndDelete(deviceId)
+        await this.sensorModel.findByIdAndDelete({
+          type: DeviceTypeConverter.convertToString(deviceId.type),
+          code: deviceId.code
+        })
         break
     }
     throw new Error('Device not found')

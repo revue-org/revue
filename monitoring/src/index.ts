@@ -1,7 +1,6 @@
 import type { Express, NextFunction, Request, Response } from "express";
 import express from 'express'
 import mongoose from 'mongoose'
-
 import { config } from 'dotenv'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -17,7 +16,7 @@ const app: Express = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'client')))
 
-const PORT: number = Number(process.env.PORT) || 3000
+const PORT: number = Number(process.env.PORT) || 443
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

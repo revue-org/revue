@@ -61,7 +61,30 @@ export const deviceController = {
     }
   },
   updateDevice: async (req: Request, res: Response) => {
-    console.log("updateDevice");
-    res.status(200).send("ok");
+    let deviceId: DeviceId = new DeviceIdImpl(
+      DeviceTypeConverter.convertToDeviceType(req.body.type),
+      req.body.code
+    )
+    switch (deviceId.type) {
+      case DeviceType.CAMERA:
+        const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
+        res.json(await deviceManager.updateDevice(
+          deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+        ))
+        break
+      case DeviceType.SENSOR:
+        const measures: Set<Measure> = req.body.measures
+        res.json(await deviceManager.updateDevice(
+          deviceFactory.createSensor(
+            deviceId,
+            req.body.ipAddress,
+            req.body.intervalMillis,
+            measures
+          )
+        ))
+        break
+      default:
+        throw new Error('Error while creating device')
+    }
   }
 }

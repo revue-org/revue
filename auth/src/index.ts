@@ -19,8 +19,7 @@ app.use((_: Request, res: Response) => {
 })
 
 const mongoConnect = async () => {
-  const connectionString =
-    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`;
+  const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
     .connect(connectionString)
     .then(async () => {

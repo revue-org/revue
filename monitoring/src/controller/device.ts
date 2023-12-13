@@ -10,8 +10,8 @@ import { DeviceRepositoryImpl } from 'domain/dist/storage/device/DeviceRepositor
 import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
-import { Sensor } from "domain/dist/domain/device/core/Sensor.js";
-import { Camera } from "domain/dist/domain/device/core/Camera.js";
+import { Sensor } from 'domain/dist/domain/device/core/Sensor.js'
+import { Camera } from 'domain/dist/domain/device/core/Camera.js'
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
@@ -41,20 +41,24 @@ export const deviceController = {
     switch (deviceId.type) {
       case DeviceType.CAMERA:
         const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
-        res.json(await deviceManager.insertDevice(
-          deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
-        ))
+        res.json(
+          await deviceManager.insertDevice(
+            deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+          )
+        )
         break
       case DeviceType.SENSOR:
         const measures: Set<Measure> = req.body.measures
-        res.json(await deviceManager.insertDevice(
-          deviceFactory.createSensor(
-            deviceId,
-            req.body.ipAddress,
-            req.body.intervalMillis,
-            measures
+        res.json(
+          await deviceManager.insertDevice(
+            deviceFactory.createSensor(
+              deviceId,
+              req.body.ipAddress,
+              req.body.intervalMillis,
+              measures
+            )
           )
-        ))
+        )
         break
       default:
         throw new Error('Error while creating device')
@@ -68,20 +72,24 @@ export const deviceController = {
     switch (deviceId.type) {
       case DeviceType.CAMERA:
         const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
-        res.json(await deviceManager.updateDevice(
-          deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
-        ))
+        res.json(
+          await deviceManager.updateDevice(
+            deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+          )
+        )
         break
       case DeviceType.SENSOR:
         const measures: Set<Measure> = req.body.measures
-        res.json(await deviceManager.updateDevice(
-          deviceFactory.createSensor(
-            deviceId,
-            req.body.ipAddress,
-            req.body.intervalMillis,
-            measures
+        res.json(
+          await deviceManager.updateDevice(
+            deviceFactory.createSensor(
+              deviceId,
+              req.body.ipAddress,
+              req.body.intervalMillis,
+              measures
+            )
           )
-        ))
+        )
         break
       default:
         throw new Error('Error while creating device')

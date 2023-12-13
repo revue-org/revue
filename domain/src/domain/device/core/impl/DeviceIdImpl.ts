@@ -1,6 +1,5 @@
-import { DeviceId } from "../DeviceId.js";
-import { DeviceType } from "./enum/DeviceType.js";
-
+import { DeviceId } from '../DeviceId.js'
+import { DeviceType } from './enum/DeviceType.js'
 
 export class DeviceIdImpl implements DeviceId {
   private _type: DeviceType

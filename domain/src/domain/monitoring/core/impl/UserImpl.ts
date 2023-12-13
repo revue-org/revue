@@ -110,5 +110,4 @@ export class UserImpl implements User {
   addDevice(device: DeviceId) {
     this._deviceIds.add(device)
   }
-
 }

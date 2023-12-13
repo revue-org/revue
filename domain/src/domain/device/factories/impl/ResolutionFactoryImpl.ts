@@ -9,7 +9,7 @@ import { SensorImpl } from '../../core/impl/SensorImpl.js'
 import { ResolutionImpl } from '../../core/impl/ResolutionImpl'
 import { EnvironmentDataImpl } from '../../core/impl/EnvironmentDataImpl'
 import { EnvironmentData } from '../../core/EnvironmentData'
-import { ResolutionFactory } from "../ResolutionFactory";
+import { ResolutionFactory } from '../ResolutionFactory'
 
 export class ResolutionFactoryImpl implements ResolutionFactory {
   createResolution(height: number, width: number): Resolution {

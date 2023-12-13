@@ -15,15 +15,13 @@ export class MyMonitoringRepository implements MonitoringRepository {
   }
 
   async getUser(username: String): Promise<UserImpl> {
-    return await this.userModel.findOne({ username: username }) as unknown as UserImpl
+    return (await this.userModel.findOne({ username: username })) as unknown as UserImpl
   }
 
   async updateUser(user: UserImpl): Promise<UserImpl> {
-    return this.userModel
-      .findOneAndUpdate(
-        { _id: user.id },
-        user,
-        { new: true, useFindAndModify: false }
-      ) as unknown as UserImpl
+    return this.userModel.findOneAndUpdate({ _id: user.id }, user, {
+      new: true,
+      useFindAndModify: false
+    }) as unknown as UserImpl
   }
 }

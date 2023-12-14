@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+
+  monitoring:
+    image: monitoring
+    container_name: monitoring
+    build:
+      context: ../
+      dockerfile: ./monitoring/Dockerfile
+    restart: on-failure
+    ports:
+      - "3000:3000"
+
+  db:
+    image: mongo
+    container_name: monitoring-db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"

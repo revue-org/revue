@@ -1,12 +1,6 @@
-<<<<<<< HEAD:domain/src/storage/device/DeviceRepositoryImpl.js
 import { cameraModel } from './schemas/CameraSchema.js';
-import { DeviceType } from '../../../domain/device/core/DeviceType';
+import { DeviceType } from '../../domain/device/core/impl/enum/DeviceType.js';
 import { sensorModel } from './schemas/SensorSchema.js';
-=======
-import { cameraModel } from './schemas/CameraSchema'
-import { DeviceType } from '../../../domain/device/core/DeviceType'
-import { sensorModel } from './schemas/SensorSchema'
->>>>>>> dependency-cruiser:domain/src/storage/device/mongo/DeviceRepositoryImpl.js
 class DeviceRepositoryImpl {
   getAllDevices() {
     //TODO: to check if this && works

@@ -7,19 +7,14 @@ repositories {
 
 plugins {
     id("com.github.node-gradle.node") version "7.0.1"
-//    id("co.uzzu.dotenv.gradle") version "3.0.0"
 }
 
 subprojects {
 
-
     apply(plugin = "com.github.node-gradle.node")
 
     node {
-        // versions useful only if download = true
-        download = true
-        version = "20.10.0"   // env.NODE_VERSION.value
-        npmVersion = "10.2.3" // env.NPM_VERSION.value
+        download = false
     }
 
     tasks.register("install") {
@@ -46,5 +41,4 @@ subprojects {
         tasks.findByPath(":${project.name}:npmInstall")?.mustRunAfter(":domain:npm_run_build")
     }
     tasks.findByPath(":${project.name}:npm_run_build")?.mustRunAfter(":${project.name}:npmInstall")
-    tasks.findByPath(":${project.name}:npmInstall")?.doNotTrackState("error in ci")
 }

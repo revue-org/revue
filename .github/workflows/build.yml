@@ -13,7 +13,6 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [ 20.x ]
         os:
           - ubuntu-latest
           - windows-latest
@@ -33,11 +32,7 @@ jobs:
         run: ./gradlew domain:test --info
 
   format:
-    strategy:
-      matrix:
-        node-version: [ 20.x ]
-        os: [ ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17

@@ -2,21 +2,21 @@ import { Notification } from '../Notification.js'
 import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 
 export class NotificationImpl implements Notification {
-  private _notificationId: number
+  private _notificationId: string
   private _timestamp: Date
   private _anomaly: Anomaly
 
-  constructor(notificationId: number, timestamp: Date, anomaly: Anomaly) {
+  constructor(notificationId: string, timestamp: Date, anomaly: Anomaly) {
     this._notificationId = notificationId
     this._timestamp = timestamp
     this._anomaly = anomaly
   }
 
-  get notificationId(): number {
+  get notificationId(): string {
     return this._notificationId
   }
 
-  set notificationId(notificationId: number) {
+  set notificationId(notificationId: string) {
     this._notificationId = notificationId
   }
 

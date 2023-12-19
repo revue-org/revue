@@ -2,7 +2,7 @@ import { Contact } from './Contact.js'
 import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface User {
-  get id(): number
+  get id(): string
 
   get name(): string
 

@@ -3,7 +3,7 @@ import { Contact } from '../Contact.js'
 import { DeviceId } from '../../../device/core/DeviceId.js'
 
 export class UserImpl implements User {
-  private _id: number
+  private _id: string
   private _name: string
   private _surname: string
   private _username: string
@@ -14,7 +14,7 @@ export class UserImpl implements User {
   private _deviceIds: Set<DeviceId>
 
   constructor(
-    id: number,
+    id: string,
     name: string,
     surname: string,
     username: string,
@@ -35,11 +35,11 @@ export class UserImpl implements User {
     this._deviceIds = deviceIds
   }
 
-  get id(): number {
+  get id(): string {
     return this._id
   }
 
-  set id(id: number) {
+  set id(id: string) {
     this._id = id
   }
 

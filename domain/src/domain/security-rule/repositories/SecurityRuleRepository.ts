@@ -7,11 +7,11 @@ export interface SecurityRuleRepository {
 
   getIntrusionRules(): Promise<Array<IntrusionRule>>
 
-  getSecurityRule(securityRuleId: number): Promise<ExceedingRule | IntrusionRule>
+  getSecurityRule(securityRuleId: string): Promise<ExceedingRule | IntrusionRule>
 
   insertSecurityRule(securityRule: SecurityRule): Promise<void>
 
   updateSecurityRule(securityRule: SecurityRule): Promise<void>
 
-  deleteSecurityRule(securityRuleId: number): Promise<void>
+  deleteSecurityRule(securityRuleId: string): Promise<void>
 }

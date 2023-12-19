@@ -11,7 +11,7 @@ import { Measure } from '../../../device/core/impl/enum/Measure'
 export class SecurityRuleFactoryImpl implements SecurityRuleFactory {
   createIntrusionRule(
     objectClass: ObjectClass,
-    securityRuleId: number,
+    securityRuleId: string,
     deviceId: DeviceId,
     creatorId: number,
     contactsToNotify: Set<Contact>,
@@ -35,7 +35,7 @@ export class SecurityRuleFactoryImpl implements SecurityRuleFactory {
     min: number,
     max: number,
     measure: Measure,
-    securityRuleId: number,
+    securityRuleId: string,
     deviceId: DeviceId,
     creatorId: number,
     contactsToNotify: Set<Contact>,

@@ -1,12 +1,12 @@
 import { Schema } from 'mongoose'
 
 export const intrusionRuleSchema = new Schema({
-  _id: Number,
+  _id: String,
   deviceId: {
     type: String,
     code: String
   },
-  creatorId: Number,
+  creatorId: String,
   description: String,
   intrusionObject: String,
   contacts: [

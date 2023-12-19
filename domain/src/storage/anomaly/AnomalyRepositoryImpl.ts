@@ -6,19 +6,13 @@ import { AnomalyRepository } from '../../domain/anomaly/repositories/AnomalyRepo
 import { ExceedingImpl } from '../../domain/anomaly/core/impl/ExceedingImpl'
 import { IntrusionImpl } from '../../domain/anomaly/core/impl/IntrusionImpl'
 
-class AnomalyRepositoryImpl implements AnomalyRepository {
+export class AnomalyRepositoryImpl implements AnomalyRepository {
   exceedingModel: Model<Exceeding>
   intrusionModel: Model<Intrusion>
-  anomalySchema: Model<Anomaly>
 
-  constructor(
-    exceedingModel: Model<Exceeding>,
-    intrusionModel: Model<Intrusion>,
-    anomalySchema: Model<Anomaly>
-  ) {
+  constructor(exceedingModel: Model<Exceeding>, intrusionModel: Model<Intrusion>) {
     this.exceedingModel = exceedingModel
     this.intrusionModel = intrusionModel
-    this.anomalySchema = anomalySchema
   }
 
   async getExceedings(): Promise<Array<Exceeding>> {
@@ -29,7 +23,7 @@ class AnomalyRepositoryImpl implements AnomalyRepository {
     return this.intrusionModel.find()
   }
 
-  async getAnomaly(anomalyId: number): Promise<Exceeding | Intrusion> {
+  async getAnomaly(anomalyId: string): Promise<Exceeding | Intrusion> {
     const exceeding = await this.exceedingModel.findById(anomalyId)
     if (exceeding) {
       return exceeding
@@ -95,8 +89,8 @@ class AnomalyRepositoryImpl implements AnomalyRepository {
     }
   }
 
-  async deleteAnomaly(anomalyId: number): Promise<void> {
+  async deleteAnomaly(anomalyId: string): Promise<void> {
     //TODO TO TEST
-    await this.anomalySchema.findByIdAndDelete(anomalyId)
+    //await this.anomalySchema.findByIdAndDelete(anomalyId)
   }
 }

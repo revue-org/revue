@@ -7,11 +7,11 @@ export interface AnomalyRepository {
 
   getIntrusions(): Promise<Array<Intrusion>>
 
-  getAnomaly(anomalyId: number): Promise<Exceeding | Intrusion>
+  getAnomaly(anomalyId: string): Promise<Exceeding | Intrusion>
 
   insertAnomaly(anomaly: Anomaly): Promise<void>
 
   updateAnomaly(anomaly: Anomaly): Promise<void>
 
-  deleteAnomaly(anomalyId: number): Promise<void>
+  deleteAnomaly(anomalyId: string): Promise<void>
 }

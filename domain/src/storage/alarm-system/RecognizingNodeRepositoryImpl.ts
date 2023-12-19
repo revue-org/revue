@@ -13,7 +13,7 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
     return this.recognizingNodeModel.find()
   }
 
-  async getRecognizingNode(recognizingNodeId: number): Promise<RecognizingNode> {
+  async getRecognizingNode(recognizingNodeId: string): Promise<RecognizingNode> {
     return this.recognizingNodeModel.findById(recognizingNodeId).orFail()
   }
 
@@ -32,7 +32,7 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
     })
   }
 
-  async deleteRecognizingNode(recognizingNodeId: number): Promise<void> {
+  async deleteRecognizingNode(recognizingNodeId: string): Promise<void> {
     await this.recognizingNodeModel.findByIdAndDelete(recognizingNodeId)
   }
 }

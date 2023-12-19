@@ -5,7 +5,7 @@ import { DeviceId } from '../../../device/core/DeviceId'
 
 export class RecognizingNodeFactoryImpl implements RecognizingNodeFactory {
   createRecognizingNode(
-    recognizingNodeId: number,
+    recognizingNodeId: string,
     ipAddress: string,
     deviceIds: Set<DeviceId>
   ): RecognizingNode {

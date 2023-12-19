@@ -2,17 +2,17 @@ import { Contact } from '../../monitoring/core/Contact.js'
 import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface SecurityRule {
-  get securityRuleId(): number
+  get securityRuleId(): string
 
-  set securityRuleId(id: number)
+  set securityRuleId(id: string)
 
   get deviceId(): DeviceId
 
   set deviceId(deviceId: DeviceId)
 
-  get creatorId(): number
+  get creatorId(): string
 
-  set creatorId(creatorId: number)
+  set creatorId(creatorId: string)
 
   get contactsToNotify(): Set<Contact>
 

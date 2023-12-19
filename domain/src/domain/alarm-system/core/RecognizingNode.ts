@@ -2,9 +2,9 @@ import { Anomaly } from '../../anomaly/core/Anomaly.js'
 import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface RecognizingNode {
-  get recognizingNodeId(): number
+  get recognizingNodeId(): string
 
-  set recognizingNodeId(recognizingNodeId: number)
+  set recognizingNodeId(recognizingNodeId: string)
 
   get ipAddress(): string
 

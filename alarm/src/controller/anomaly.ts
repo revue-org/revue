@@ -1,21 +1,62 @@
 import type { Request, Response } from 'express'
 import { Model, model } from 'mongoose'
-import { anomalySchema } from 'domain/dist/storage/anomaly/schemas/AnomalySchema.js'
-import { Anomaly } from 'domain/dist/domain/anomaly/core/Anomaly'
+import { exceedingSchema } from 'domain/dist/storage/anomaly/schemas/exceedingSchema.js'
 
-const anomalyModel: Model<Anomaly> = model<Anomaly>('Anomaly', anomalySchema, 'anomaly')
-const anomalyManager: AnomalyRepositoryImpl = new AnomalyRepositoryImpl(anomalyModel)
-const notificationFactory: AnomalyFactoryImpl = new AnomalyFactoryImpl()
+import { intrusionSchema } from 'domain/dist/storage/anomaly/schemas/intrusionSchema.js'
+import { AnomalyRepositoryImpl } from 'domain/dist/storage/anomaly/AnomalyRepositoryImpl.js'
+import { AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
+import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding'
+import { Intrusion } from 'domain/dist/domain/anomaly/core/Intrusion'
+
+const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
+const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
+
+const anomalyManager: AnomalyRepositoryImpl = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
+const anomalyFactory: AnomalyFactoryImpl = new AnomalyFactoryImpl()
 
 export const anomalyController = {
-  getAnomalies: async (req: Request, res: Response) => {
-    res.json('ok')
+
+  getExceedings: async (req: Request, res: Response) => {
+    res.json(await anomalyManager.getExceedings())
+  },
+  getIntrusions: async (req: Request, res: Response) => {
+    res.json(await anomalyManager.getIntrusions())
   },
   getAnomaly: async (req: Request, res: Response) => {
-    res.json('ok')
+    const anomalyId: number = req.body.id;
+    res.json(await anomalyManager.getAnomaly(anomalyId))
   },
   createAnomaly: async (req: Request, res: Response) => {
-    res.json('ok')
+    let anomalyId: number = req.body.id;
+    if ((await anomalyManager.getAnomaly(anomalyId)) !== null) {
+      throw new Error('Anomaly already present')
+    }
+
+    switch (deviceId.type) {
+      case DeviceType.CAMERA:
+        const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
+        res.json(
+          await deviceManager.insertDevice(
+            deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+          )
+        )
+        break
+      case DeviceType.SENSOR:
+        const measures: Set<Measure> = req.body.measures
+        res.json(
+          await deviceManager.insertDevice(
+            deviceFactory.createSensor(
+              deviceId,
+              req.body.ipAddress,
+              req.body.intervalMillis,
+              measures
+            )
+          )
+        )
+        break
+      default:
+        throw new Error('Error while creating device')
+    }
   },
   updateAnomaly: async (req: Request, res: Response) => {
     res.json('ok')
@@ -24,3 +65,86 @@ export const anomalyController = {
     res.json('ok')
   }
 }
+
+/*
+
+export const deviceController = {
+  getCameras: async (req: Request, res: Response) => {
+    res.json(await deviceManager.getCameras())
+  },
+  getSensors: async (req: Request, res: Response) => {
+    res.json(await deviceManager.getSensors())
+  },
+  getDevice: async (req: Request, res: Response) => {
+    const deviceId: DeviceId = new DeviceIdImpl(req.body.id, req.body.type)
+    res.json(await deviceManager.getDevice(deviceId))
+  },
+  createDevice: async (req: Request, res: Response) => {
+    let deviceId: DeviceId = new DeviceIdImpl(
+      DeviceTypeConverter.convertToDeviceType(req.body.type),
+      req.body.code
+    )
+    if ((await deviceManager.getDevice(deviceId)) !== null) {
+      throw new Error('Device already present')
+    }
+
+    switch (deviceId.type) {
+      case DeviceType.CAMERA:
+        const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
+        res.json(
+          await deviceManager.insertDevice(
+            deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+          )
+        )
+        break
+      case DeviceType.SENSOR:
+        const measures: Set<Measure> = req.body.measures
+        res.json(
+          await deviceManager.insertDevice(
+            deviceFactory.createSensor(
+              deviceId,
+              req.body.ipAddress,
+              req.body.intervalMillis,
+              measures
+            )
+          )
+        )
+        break
+      default:
+        throw new Error('Error while creating device')
+    }
+  },
+  updateDevice: async (req: Request, res: Response) => {
+    let deviceId: DeviceId = new DeviceIdImpl(
+      DeviceTypeConverter.convertToDeviceType(req.body.type),
+      req.body.code
+    )
+    switch (deviceId.type) {
+      case DeviceType.CAMERA:
+        const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
+        res.json(
+          await deviceManager.updateDevice(
+            deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+          )
+        )
+        break
+      case DeviceType.SENSOR:
+        const measures: Set<Measure> = req.body.measures
+        res.json(
+          await deviceManager.updateDevice(
+            deviceFactory.createSensor(
+              deviceId,
+              req.body.ipAddress,
+              req.body.intervalMillis,
+              measures
+            )
+          )
+        )
+        break
+      default:
+        throw new Error('Error while creating device')
+    }
+  }
+}
+
+* */

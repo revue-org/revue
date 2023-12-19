@@ -5,9 +5,9 @@ import { ObjectClass } from './ObjectClass.js'
 
 export class IntrusionRuleImpl implements IntrusionRule {
   private _objectClass: ObjectClass
-  private _securityRuleId: number
+  private _securityRuleId: string
   private _deviceId: DeviceId
-  private _creatorId: number
+  private _creatorId: string
   private _contactsToNotify: Set<Contact>
   private _description: string
   private _from: Date
@@ -15,9 +15,9 @@ export class IntrusionRuleImpl implements IntrusionRule {
 
   constructor(
     objectClass: ObjectClass,
-    securityRuleId: number,
+    securityRuleId: string,
     deviceId: DeviceId,
-    creatorId: number,
+    creatorId: string,
     contactsToNotify: Set<Contact>,
     description: string,
     from: Date,
@@ -41,11 +41,11 @@ export class IntrusionRuleImpl implements IntrusionRule {
     this._objectClass = objectClass
   }
 
-  get securityRuleId(): number {
+  get securityRuleId(): string {
     return this._securityRuleId
   }
 
-  set securityRuleId(id: number) {
+  set securityRuleId(id: string) {
     this._securityRuleId = id
   }
 
@@ -57,11 +57,11 @@ export class IntrusionRuleImpl implements IntrusionRule {
     this._deviceId = deviceId
   }
 
-  get creatorId(): number {
+  get creatorId(): string {
     return this._creatorId
   }
 
-  set creatorId(creatorId: number) {
+  set creatorId(creatorId: string) {
     this._creatorId = creatorId
   }
 

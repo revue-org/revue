@@ -23,7 +23,7 @@ class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     return this.intrusionRuleModel.find()
   }
 
-  async getSecurityRule(securityRuleId: number): Promise<ExceedingRule | IntrusionRule> {
+  async getSecurityRule(securityRuleId: string): Promise<ExceedingRule | IntrusionRule> {
     const exceedingRule = await this.exceedingRuleModel.findById(securityRuleId)
     if (exceedingRule) {
       return exceedingRule
@@ -101,7 +101,7 @@ class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     }
   }
 
-  async deleteSecurityRule(securityRuleId: number): Promise<void> {
+  async deleteSecurityRule(securityRuleId: string): Promise<void> {
     //TODO: to check anomaly: if the merged schema works well, it is not necessary to delete exceedings OR intrusions
     //TODO: but we can use the merger schema to delete all the anomalies by only securityRuleId
     throw new Error('Method not implemented.')

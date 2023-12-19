@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 
 export const anomalySchema = new Schema({
-  _id: Number,
+  _id: String,
   deviceId: {
     type: String,
     code: String

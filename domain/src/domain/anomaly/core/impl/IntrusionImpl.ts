@@ -3,13 +3,13 @@ import { ObjectClass } from '../../../security-rule/core/impl/ObjectClass.js'
 import { Intrusion } from '../Intrusion.js'
 
 export class IntrusionImpl implements Intrusion {
-  private _anomalyId: number
+  private _anomalyId: string
   private _deviceId: DeviceId
   private _timestamp: Date
   private _intrusionObject: ObjectClass
 
   constructor(
-    anomalyId: number,
+    anomalyId: string,
     deviceId: DeviceId,
     timestamp: Date,
     intrusionObject: ObjectClass
@@ -20,11 +20,11 @@ export class IntrusionImpl implements Intrusion {
     this._intrusionObject = intrusionObject
   }
 
-  get anomalyId(): number {
+  get anomalyId(): string {
     return this._anomalyId
   }
 
-  set anomalyId(anomalyId: number) {
+  set anomalyId(anomalyId: string) {
     this._anomalyId = anomalyId
   }
 

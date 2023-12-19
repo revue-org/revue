@@ -15,7 +15,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     return this.notificationModel.find()
   }
 
-  async getNotification(notificationId: number): Promise<Notification> {
+  async getNotification(notificationId: string): Promise<Notification> {
     return this.notificationModel.findById(notificationId).orFail()
   }
 
@@ -54,7 +54,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     })
   }
 
-  async deleteNotification(notificationId: number): Promise<void> {
+  async deleteNotification(notificationId: string): Promise<void> {
     await this.notificationModel.findByIdAndDelete(notificationId)
   }
 }

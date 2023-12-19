@@ -1,15 +1,17 @@
 name: Revue Release
 
 on:
-  workflow_call: # Trigger when someone calls the workflow
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
 
 jobs:
 
   release:
     runs-on: ubuntu-latest
     concurrency:
-      # Only one release job at a time per branch, as only master releases.
-      # Strictly sequential.
+      # Only one release job at a time per branch, strictly sequential.
       group: release-${{ github.event.number || github.ref }}
     permissions:
       contents: write # to be able to publish a GitHub release

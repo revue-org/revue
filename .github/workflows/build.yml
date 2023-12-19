@@ -42,7 +42,3 @@ jobs:
           distribution: 'temurin'
       - name: Check format
         run: ./gradlew format --info
-
-  release:
-    if: github.ref == 'refs/heads/develop'
-    uses: ./.github/workflows/release.yml

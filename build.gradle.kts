@@ -1,3 +1,5 @@
+import com.github.gradle.node.npm.task.NpmTask
+
 group = "it.ldt"
 version = "1.0"
 
@@ -16,29 +18,26 @@ subprojects {
     node {
         download = false
     }
+    class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
 
-    tasks.register("install") {
-        dependsOn(":npmInstall")
-    }
-    tasks.register("build") {
-        dependsOn(":${project.name}:npm_run_build")
-        dependsOn(":${project.name}:npmInstall")
-        dependsOn(":domain:npm_run_build")
-    }
-    tasks.register("test") {
-        dependsOn(":${project.name}:npm_run_build")
-        dependsOn(":${project.name}:npm_run_test")
-    }
-    tasks.register("format") {
-        dependsOn(":${project.name}:npm_run_format")
-    }
-    tasks.register("lint") {
-        dependsOn(":${project.name}:npm_run_lint")
+    listOf(
+        Task("install", listOf("install")),
+        Task("build", listOf("run", "build")),
+        Task("test", listOf("run", "test")),
+        Task("format", listOf("run", "format")),
+        Task("format-fix", listOf("run", "format:fix")),
+        Task("lint", listOf("run", "lint"))
+    ).forEach { task ->
+        tasks.register<NpmTask>(task.name) {
+            args = task.args
+            if (task.name != "install") dependsOn(":${project.name}:install")
+            if (project.name != "domain") dependsOn(":domain:build")
+        }
     }
 
     // ordering task execution
     if (project.name != "domain") {
-        tasks.findByPath(":${project.name}:npmInstall")?.mustRunAfter(":domain:npm_run_build")
+        tasks.findByPath(":${project.name}:install")?.mustRunAfter(":domain:build")
     }
-    tasks.findByPath(":${project.name}:npm_run_build")?.mustRunAfter(":${project.name}:npmInstall")
+    tasks.findByPath(":${project.name}:build")?.mustRunAfter(":${project.name}:install")
 }

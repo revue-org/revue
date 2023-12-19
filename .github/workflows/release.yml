@@ -1,0 +1,36 @@
+name: Revue Release
+
+on:
+  workflow_call: # Trigger when someone calls the workflow
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    concurrency:
+      # Only one release job at a time per branch, as only master releases.
+      # Strictly sequential.
+      group: release-${{ github.event.number || github.ref }}
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    if: >-
+      !github.event.repository.fork
+      && (
+        github.event_name != 'pull_request'
+        || github.event.pull_request.head.repo.full_name == github.repository
+      )
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release

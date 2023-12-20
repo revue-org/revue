@@ -1,0 +1,11 @@
+{
+  "name": "revue",
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "devDependencies": {
+    "semantic-release-preconfigured-conventional-commits": "latest"
+  }
+}

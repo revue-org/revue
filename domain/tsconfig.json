@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.shared.json",
+  "exclude": ["node_modules", "./dist"],
+  "compilerOptions": {
+    // override tsconfig.shared.json
+    "rootDir": "./src",
+    // override tsconfig.shared.json
+    "outDir": "./dist",
+    // override tsconfig.shared.json
+    "paths": {},
+  }
+}

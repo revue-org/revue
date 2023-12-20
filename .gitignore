@@ -102,3 +102,50 @@ dist
 
 # TernJS port file
 .tern-port
+
+# JetBrains IDEs
+.idea
+
+.DS_Store
+
+### Gradle ###
+.gradle
+**/build/
+!src/**/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+### Gradle Patch ###
+# Java heap dump
+*.hprof
+
+
+### LaTeX ###
+## Core latex/pdflatex auxiliary files:
+docs/**/*.aux
+docs/**/*.lof
+docs/**/*.lot
+docs/**/*.fls
+docs/**/*.out
+docs/**/*.toc
+docs/**/*.fmt
+docs/**/*.fot
+docs/**/*.cb
+docs/**/*.cb2
+docs/**/*.gz

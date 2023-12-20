@@ -1,0 +1,97 @@
+@startuml
+
+enum DeviceType {
+  CAMERA
+  SENSOR
+}
+
+interface DeviceId {
+ + getType(): DeviceType
+ + getCode(): String
+}
+DeviceId o-- DeviceType
+
+interface Device {
+ + getDeviceId(): DeviceId
+ + getIpAddress(): String
+ + isCapturing(): Boolean
+ + startCapturing(): void
+ + stopCapturing(): void
+}
+Device o-right- DeviceId
+note left: Entity
+
+interface DeviceFactory {
+ + createSensor(): Device
+ + createCamera(): Device
+}
+note right: Factory
+DeviceFactory --> Device: creates
+DeviceFactory --> DeviceId: creates
+
+interface DeviceRepository {
+ + getAllDevices(): Set<Device>
+ + getDevice(deviceId: DeviceId): Device
+ + insertDevice(device: Device): void
+ + deleteDevice(deviceId: DeviceId): void
+}
+note left: Repository
+DeviceRepository o-- Device
+
+!startsub DeviceRoot
+
+interface DeviceService {
+ + getAllDevices(): Set<Device>
+ + getDevice(deviceId: DeviceId): Device
+ + addDevice(device: Device): void
+ + removeDevice(deviceId: DeviceId): void
+ + deployDevice(deviceId: DeviceId): void
+}
+!endsub DeviceRoot
+note right: Service
+
+DeviceService --> DeviceRepository: uses
+DeviceService --> DeviceFactory: uses
+
+interface Camera {
+ + getResolution(): Resolution
+}
+note left: Entity
+Camera o-- Resolution
+Device *-- Camera
+Device *-- Sensor
+
+interface Sensor {
+ + getIntervalMillis(): Int
+ + getMeasures(): Set<Measure>
+ + addMeasure(): void
+ + sendEnvironmentData(): void
+}
+note left: Entity
+Sensor --> EnvironmentData : uses
+Sensor o-- Measure
+
+
+interface EnvironmentData {
+ + getSourceDeviceId(): DeviceId
+ + getValue(): Float
+ + getMeasure(): Measure
+ + getTimestamp(): Date
+}
+
+note right: Value Object
+
+class Resolution {
+ + height
+ + width
+}
+
+enum Measure {
+ HUMIDITY
+ TEMPERATURE
+ PRESSURE
+ ...
+}
+
+
+@enduml

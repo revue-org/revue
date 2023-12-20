@@ -1,0 +1,150 @@
+@startuml
+
+
+package Anomaly <<Rectangle>> {
+
+    interface Anomaly {
+      + getAnomalyId(): Int
+      + getDeviceId(): DeviceId
+      + getTimestamp(): Date
+    }
+    note right of Anomaly: Domain Event
+
+    interface Exceeding {
+      + getValue(): Float,
+      + getMeasure(): Measure
+    }
+
+    interface Intrusion {
+      + getIntrusionObject(): ObjectClass
+    }
+
+    Exceeding *-- Anomaly
+    Intrusion *-- Anomaly
+
+    !startsub AnomalyRoot
+    interface AnomalyService <<aggregate root>> {
+      + addAnomaly(anomaly: Anomaly): void
+      + removeAnomaly(anomalyId: String): void
+      + notifyAlarmService(anomaly: Anomaly): void
+    }
+    !endsub AnomalyRoot
+    note left of AnomalyService: Service
+
+    interface AnomalyFactory {
+      + createIntrusion(): Anomaly
+      + createExceeding(): Anomaly
+    }
+    note left: Factory
+    AnomalyFactory --> Anomaly : creates
+    AnomalyFactory <-- AnomalyService : uses
+
+    interface AnomalyRepository {
+      + getAnomalies(): Set<Anomaly>
+      + insertAnomaly(anomaly: Anomaly): void
+      + deleteAnomaly(anomalyId: Int): void
+    }
+    note left of AnomalyRepository: Repository
+    AnomalyRepository o-up- Anomaly
+    AnomalyService --> AnomalyRepository : uses
+
+}
+
+package SecurityRules <<Rectangle>> {
+
+    !startsub SecurityRuleRoot
+
+    interface SecurityRuleService <<aggregate root>> {
+      + addSecurityRule(securityRule: SecurityRule): void
+      + removeSecurityRule(securityRuleId: Int): void
+    }
+    !endsub SecurityRuleRoot
+    note left of SecurityRuleService: Service
+    SecurityRuleService --> SecurityRuleRepository : uses
+    SecurityRuleService --> SecurityRuleFactory : uses
+
+    interface SecurityRuleRepository {
+      + getSecurityRules(): Set<SecurityRule>
+      + insertSecurityRule(securityRule: SecurityRule): void
+      + deleteSecurityRule(securityRule: SecurityRule): void
+    }
+    note left of SecurityRuleRepository : Repository
+    SecurityRuleRepository o-- SecurityRule
+
+
+    interface SecurityRule {
+      + getSecurityRuleId(): Int
+      + getDeviceId(): DeviceId
+      + getCreatorId(): Int
+      + getContactsToNotify(): Set<Contact>
+      + getDescription(): String
+      + getFrom(): Timestamp
+      + getTo(): Timestamp
+    }
+    note left of SecurityRule: Entity
+
+    interface SecurityRuleFactory {
+      + createIntrusionRule(...): SecurityRule
+      + createExceedingRule(...): SecurityRule
+    }
+    note right of SecurityRuleFactory : Factory
+    SecurityRuleFactory -left-> SecurityRule : creates
+
+    interface IntrusionRule {
+      + getObjectClass(): ObjectClass
+    }
+    IntrusionRule o-- ObjectClass
+
+    interface ExceedingRule {
+      + getMinValue(): Float
+      + getMaxValue(): Float
+      + getMeasure(): Measure
+    }
+
+    enum ObjectClass {
+      PERSON
+      ANIMAL
+      CAR
+      ...
+    }
+
+}
+
+package AlarmSystem <<Rectangle>> {
+
+    !startsub AlarmServiceRoot
+    interface AlarmService <<aggregate root>> {
+      + startRecognizing(deviceId: DeviceId): void
+      + stopRecognizing(deviceId: DeviceId): void
+      + sendNotification(anomaly: Anomaly): void
+    }
+    AlarmService --> SecurityRuleService : uses
+    RecognizingNode <-down- AlarmService : deploy
+    AnomalyService --> AlarmService : notifies
+
+    interface RecognizingNode {
+      + getRecognizingNodeId(): Number
+      + getIpAddress(): String
+      + getDeviceIds(): Set<DeviceId>
+      + anomalyDetected(): Anomaly
+    }
+    RecognizingNode --> AnomalyService: uses
+    !endsub AlarmServiceRoot
+    note left of AlarmService: Service
+
+    note left of RecognizingNode: Entity
+    SecurityRule --* ExceedingRule
+    SecurityRule --* IntrusionRule
+    interface Notification {
+      + getNotificationId(): Int
+      + getTimestamp(): Date
+      + getAnomaly(): Anomaly
+    }
+    note right of Notification: Entity
+    AlarmService --> Notification : uses
+
+
+}
+
+
+@enduml

@@ -2,7 +2,7 @@ name: Revue Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "release-test" ]
 
   workflow_dispatch:
 

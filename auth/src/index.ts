@@ -3,7 +3,6 @@ import express from 'express'
 
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
-import { userAccessRouter } from './routes/userAccess.js'
 import { userRouter } from "./routes/user.js";
 
 const app: Express = express()
@@ -13,7 +12,6 @@ config()
 
 const PORT: number = Number(process.env.PORT) || 4000
 
-app.use('/', userAccessRouter)
 app.use('/', userRouter)
 
 app.use((_: Request, res: Response) => {

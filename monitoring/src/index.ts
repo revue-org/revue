@@ -4,9 +4,10 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { indexRouter } from './routes/index.js'
+import { indexRouter } from "./routes/index.js"
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
+import { userRouter } from "./routes/user.js";
 
 config()
 
@@ -32,9 +33,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use(indexRouter)
 app.use('/device', deviceRouter)
+app.use('/user', userRouter)
+
 
 const mongoConnect = async () => {
-  const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+  const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
     .connect(connectionString)
     .then(async () => {

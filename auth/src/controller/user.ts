@@ -1,29 +1,73 @@
 import type { Request, Response } from 'express'
-import { Model, model } from 'mongoose'
-import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema.js'
-import { UserRepository } from 'domain/dist/domain/monitoring/repository/UserRepository.js'
+import { model, Model } from "mongoose";
+import bcrypt from 'bcryptjs'
+import { jwtManager } from '../utils/JWTManager.js'
+import { UserInfo } from '../utils/UserInfo.js'
 import { UserRepositoryImpl } from 'domain/dist/storage/monitoring/UserRepositoryImpl.js'
-import { User } from "domain/dist/domain/monitoring/core/User";
+import { UserRepository } from 'domain/dist/domain/monitoring/repository/UserRepository.js'
+import { User } from "domain/dist/domain/monitoring/core/User.js";
+import { userSchema } from "domain/dist/storage/monitoring/schemas/UserSchema.js";
 
 const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
 
 export const userController = {
-  getUser: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
-    console.log(req.params.id);
-    res.send(req.params.id);
+  login: async (req: Request, res: Response) => {
+    try {
+      const user: User = await userManager.getUserByUsername(req.body.username)
+      if (!user) return res.status(400).send('User not found')
+      const match = await bcrypt.compare(req.body.password, user.password)
+      if (!match) return res.status(401).send('Wrong password')
+
+      const infos: UserInfo = new UserInfo(user.id, user.username)
+      user.token = jwtManager.generateAccessToken(infos)
+      user.refreshToken = jwtManager.generateRefreshToken(infos)
+
+      res.json(await userManager.updateUser(user))
+    } catch (err) {
+      console.log(err)
+      res.status(500).send(err)
+    }
   },
-  getUsers: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
+
+  logout: async (req: Request, res: Response) => {
+    try {
+      const user: User = await userManager.getUserByUsername(req.body.username)
+      if (!user) return res.status(400).send('User not found')
+
+      //TODO da aggiungere il controllo che guarda se l'utente che ha richiesto il logout è giusto o meno.
+      //TODO controllando dai dati in req e dal token
+      user.token = ''
+      user.refreshToken = ''
+      //console.log(req.headers["user"])
+      await userManager.updateUser(user)
+      res.status(200).send('Logout successful')
+    } catch (err) {
+      console.log(err)
+      res.status(500).send(err)
+    }
   },
-  createUser: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
-  },
-  updateUser: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
-  },
-  deleteUser: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
+
+  newToken: async (req: Request, res: Response) => {
+    try {
+      const refreshToken = req.body.refreshToken
+      if (refreshToken == null) return res.status(401).send('Refresh token not valid')
+
+      const user: User = await userManager.getUserByUsername(req.body.username)
+      if (!user) return res.status(400).send('User not found')
+
+      if (user.refreshToken != refreshToken) return res.status(401).send('Refresh token not valid')
+
+      jwtManager.verify(refreshToken, async (err: Error, infos: UserInfo) => {
+        if (err) return res.sendStatus(403)
+        const accessToken = jwtManager.generateAccessToken(infos)
+        user.token = accessToken
+        await userManager.updateUser(user)
+        res.status(200).json({ accessToken: accessToken })
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).send(err)
+    }
   }
 }

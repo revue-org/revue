@@ -4,24 +4,14 @@ import { MonitoringRepository } from '../../domain/monitoring/repository/Monitor
 import { UserImpl } from '../../domain/monitoring/core/impl/UserImpl.js'
 
 export class MyMonitoringRepository implements MonitoringRepository {
-  userModel: Model<UserImpl>
+  userModel: Model<User>
 
-  constructor(model: Model<UserImpl>) {
+  constructor(model: Model<User>) {
     this.userModel = model
   }
 
   getAllUsers(): Set<User> {
-    return new Set<UserImpl>()
+    return new Set<User>()
   }
 
-  async getUser(username: String): Promise<UserImpl> {
-    return (await this.userModel.findOne({ username: username })) as unknown as UserImpl
-  }
-
-  async updateUser(user: UserImpl): Promise<UserImpl> {
-    return this.userModel.findOneAndUpdate({ _id: user.id }, user, {
-      new: true,
-      useFindAndModify: false
-    }) as unknown as UserImpl
-  }
 }

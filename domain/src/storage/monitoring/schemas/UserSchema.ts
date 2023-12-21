@@ -1,42 +1,54 @@
 import { Schema } from 'mongoose'
 
-export const userSchema = new Schema({
-  _id: Number,
-  name: String,
-  surname: String,
-  username: String,
-  password: String,
-  token: String,
-  refreshToken: String,
-  contact: {},
-  deviceIds: [{}]
+const deviceIdSchema = new Schema({
+  type: {
+    type: String,
+    enum: ['camera', 'sensor'],
+    required: true
+  },
+  code: {
+    type: String,
+    required: true
+  }
 })
-/*
-export const cameraModel = new model(
-    'Device',
-    new Schema({
-        _id: {
-            type: String,
-            code: String
-        },
-        ipAddress: String,
-        resolution: {
-            height: Number,
-            width: Number
-        }
-    })
-)
 
-export const sensorModel = new model(
-    'Device',
-    new Schema({
-        _id: {
-            type: String,
-            code: String
-        },
-        ipAddress: String,
-        intervalMillis: Number,
-        measures: [String]
-    })
-)
-*/
+const contactSchema = new Schema({
+  type: String,
+  code: String
+})
+
+export const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  surname: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  token: {
+    type: String,
+    default: ''
+  },
+  refreshToken: {
+    type: String,
+    default: ''
+  },
+  contact: {
+    type: [contactSchema],
+    default: []
+  },
+  deviceIds: {
+    type: [deviceIdSchema],
+    default: []
+  }
+})

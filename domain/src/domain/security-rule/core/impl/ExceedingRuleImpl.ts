@@ -9,7 +9,7 @@ export class ExceedingRuleImpl implements ExceedingRule {
   private _measure: Measure
   private _securityRuleId: string
   private _deviceId: DeviceId
-  private _creatorId: number
+  private _creatorId: string
   private _contactsToNotify: Set<Contact>
   private _description: string
   private _from: Date
@@ -21,7 +21,7 @@ export class ExceedingRuleImpl implements ExceedingRule {
     measure: Measure,
     securityRuleId: string,
     deviceId: DeviceId,
-    creatorId: number,
+    creatorId: string,
     contactsToNotify: Set<Contact>,
     description: string,
     from: Date,
@@ -79,11 +79,11 @@ export class ExceedingRuleImpl implements ExceedingRule {
     this._deviceId = deviceId
   }
 
-  get creatorId(): number {
+  get creatorId(): string {
     return this._creatorId
   }
 
-  set creatorId(creatorId: number) {
+  set creatorId(creatorId: string) {
     this._creatorId = creatorId
   }
 

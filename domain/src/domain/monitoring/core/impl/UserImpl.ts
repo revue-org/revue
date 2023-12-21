@@ -1,6 +1,7 @@
 import { User } from '../User.js'
 import { Contact } from '../Contact.js'
 import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Device } from "../../../device/core/Device";
 
 export class UserImpl implements User {
   private _id: string
@@ -10,8 +11,8 @@ export class UserImpl implements User {
   private _password: string
   private _token: string
   private _refreshToken: string
-  private _contact: Contact
-  private _deviceIds: Set<DeviceId>
+  private _contact: Contact[]
+  private _deviceIds: DeviceId[]
 
   constructor(
     id: string,
@@ -21,8 +22,8 @@ export class UserImpl implements User {
     password: string,
     token: string,
     refreshToken: string,
-    contact: Contact,
-    deviceIds: Set<DeviceId>
+    contact: Contact[],
+    deviceIds: DeviceId[]
   ) {
     this._id = id
     this._name = name
@@ -91,23 +92,23 @@ export class UserImpl implements User {
     this._refreshToken = refreshToken
   }
 
-  get contact(): Contact {
+  get contact(): Contact[] {
     return this._contact
   }
 
-  set contact(contact: Contact) {
+  set contact(contact: Contact[]) {
     this._contact = contact
   }
 
-  get deviceIds(): Set<DeviceId> {
+  get deviceIds(): DeviceId[] {
     return this._deviceIds
   }
 
-  set deviceIds(devices: Set<DeviceId>) {
+  set deviceIds(devices: DeviceId[]) {
     this._deviceIds = devices
   }
 
   addDevice(device: DeviceId) {
-    this._deviceIds.add(device)
+    this._deviceIds.push(device)
   }
 }

@@ -7,6 +7,8 @@ import { AnomalyRepositoryImpl } from 'domain/dist/storage/anomaly/AnomalyReposi
 import { AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
 import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding'
 import { Intrusion } from 'domain/dist/domain/anomaly/core/Intrusion'
+import { DeviceType } from "domain/dist/domain/device/core/impl/enum/DeviceType";
+import { Measure } from "domain/dist/domain/device/core/impl/enum/Measure";
 
 const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
@@ -23,16 +25,16 @@ export const anomalyController = {
     res.json(await anomalyManager.getIntrusions())
   },
   getAnomaly: async (req: Request, res: Response) => {
-    const anomalyId: number = req.body.id;
+    const anomalyId: string = req.body.id;
     res.json(await anomalyManager.getAnomaly(anomalyId))
   },
   createAnomaly: async (req: Request, res: Response) => {
-    let anomalyId: number = req.body.id;
+    let anomalyId: string = req.body.id;
     if ((await anomalyManager.getAnomaly(anomalyId)) !== null) {
       throw new Error('Anomaly already present')
     }
 
-    switch (deviceId.type) {
+    /*switch (deviceId.type) {
       case DeviceType.CAMERA:
         const resolution = new ResolutionImpl(req.body.resolutionHeight, req.body.resolutionWidth)
         res.json(
@@ -56,7 +58,7 @@ export const anomalyController = {
         break
       default:
         throw new Error('Error while creating device')
-    }
+    }*/
   },
   updateAnomaly: async (req: Request, res: Response) => {
     res.json('ok')

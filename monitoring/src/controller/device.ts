@@ -6,7 +6,9 @@ import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
 import { DeviceIdImpl } from 'domain/dist/domain/device/core/impl/DeviceIdImpl.js'
 import { ResolutionImpl } from 'domain/dist/domain/device/core/impl/ResolutionImpl.js'
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
-import { DeviceRepositoryImpl } from 'domain/dist/storage/device/DeviceRepositoryImpl.js'
+import { DeviceRepository} from '@domain/device/repositories/DeviceRepository.js'
+import { DeviceRepositoryImpl } from '@storage/device/DeviceRepositoryImpl.js'
+import { DeviceFactory } from '@domain/device/factories/DeviceFactory.js'
 import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
@@ -15,8 +17,8 @@ import { Camera } from 'domain/dist/domain/device/core/Camera.js'
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
-const deviceManager: DeviceRepositoryImpl = new DeviceRepositoryImpl(cameraModel, sensorModel)
-const deviceFactory: DeviceFactoryImpl = new DeviceFactoryImpl()
+const deviceManager: DeviceRepository = new DeviceRepositoryImpl(cameraModel, sensorModel)
+const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 
 export const deviceController = {
   getCameras: async (req: Request, res: Response) => {

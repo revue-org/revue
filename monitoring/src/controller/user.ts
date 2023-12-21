@@ -19,6 +19,21 @@ export const userController = {
     res.send(await userManager.getUsers());
   },
   createUser: async (req: Request, res: Response) => {
+
+
+    /*
+    *     id: string,
+    name: string,
+    surname: string,
+    username: string,
+    password: string,
+    token: string,
+    refreshToken: string,
+    contact: Contact[],
+    deviceIds: DeviceId[]*/
+
+
+
     //da parsare l'utente dalla richiesta post
     res.json(
       await userManager.insertUser(

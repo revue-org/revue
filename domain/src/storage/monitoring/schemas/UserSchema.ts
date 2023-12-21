@@ -1,21 +1,6 @@
 import { Schema } from 'mongoose'
-
-const deviceIdSchema = new Schema({
-  type: {
-    type: String,
-    enum: ['camera', 'sensor'],
-    required: true
-  },
-  code: {
-    type: String,
-    required: true
-  }
-})
-
-const contactSchema = new Schema({
-  type: String,
-  code: String
-})
+import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
+import { contactSchema } from './ContactSchema.js'
 
 export const userSchema = new Schema({
   name: {

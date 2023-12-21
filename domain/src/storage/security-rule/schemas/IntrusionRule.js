@@ -1,20 +1,35 @@
 import { Schema } from 'mongoose'
+import { deviceIdSchema } from "../../device/schemas/DeviceIdSchema.js";
+import { contactSchema } from "../../monitoring/schemas/ContactSchema.js";
 
 export const intrusionRuleSchema = new Schema({
-  _id: String,
   deviceId: {
-    type: String,
-    code: String
+    type: deviceIdSchema,
+    required: true
   },
-  creatorId: String,
-  description: String,
-  intrusionObject: String,
-  contacts: [
-    {
-      value: String,
-      type: String
-    }
-  ],
-  from: Date,
-  to: Date
+  creatorId: {
+    type: Schema.ObjectId,
+    required: true
+  },
+  description: {
+    type: String,
+    default: ''
+  },
+  intrusionObject: {
+    type: String,
+    enum: ['PERSON', 'ANIMAL', 'VEHICLE'],
+    required: true
+  },
+  contacts: {
+    type: [contactSchema],
+    required: true
+  },
+  from: {
+    type: Date,
+    default: Date.now
+  },
+  to: {
+    type: Date,
+    default: null
+  }
 })

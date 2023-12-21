@@ -1,13 +1,27 @@
 import { Schema } from 'mongoose'
+import { deviceIdSchema } from "../../device/schemas/DeviceIdSchema.js";
 
 export const anomalySchema = new Schema({
-  _id: String,
   deviceId: {
-    type: String,
-    code: String
+    type: deviceIdSchema,
+    required: true
   },
-  timestamp: Date,
-  intrusionObject: String,
-  value: Number,
-  measure: String
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
+  intrusionObject: {
+    type: String,
+    enum: ['PERSON', 'ANIMAL', 'VEHICLE', 'OTHER'],
+    required: true
+  },
+  value: {
+    type: Number,
+    required: true
+  },
+  measure: {
+    type: String,
+    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'], //to add all from enum
+    required: true
+  }
 })

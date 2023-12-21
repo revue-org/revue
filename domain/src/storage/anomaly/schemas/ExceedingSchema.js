@@ -1,12 +1,22 @@
 import { Schema } from 'mongoose'
+import { deviceIdSchema } from "../../device/schemas/DeviceIdSchema.js";
 
 export const exceedingSchema = new Schema({
-  _id: Number,
   deviceId: {
-    type: String,
-    code: String
+    type: deviceIdSchema,
+    required: true
   },
-  timestamp: Date,
-  value: Number,
-  measure: String
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
+  value: {
+    type: Number,
+    required: true
+  },
+  measure: {
+    type: String,
+    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'], //to add all from enum
+    required: true
+  }
 })

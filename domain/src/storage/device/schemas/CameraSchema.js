@@ -1,10 +1,18 @@
 import { Schema } from 'mongoose'
+import { deviceIdSchema } from './DeviceIdSchema.js'
+import { resolutionSchema } from './ResolutionSchema.js'
 
 export const cameraSchema = new Schema({
-  _id: {},
-  ipAddress: String,
+  _id: {
+    type: deviceIdSchema,
+    required: true
+  },
+  ipAddress: {
+    type: String,
+    required: true
+  },
   resolution: {
-    height: Number,
-    width: Number
+    type: resolutionSchema,
+    required: true
   }
 })

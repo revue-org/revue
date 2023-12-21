@@ -16,11 +16,11 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     this.sensorModel = sensorModel
   }
 
-  async getCameras(): Promise<Array<Camera>> {
+  async getCameras(): Promise<Camera[]> {
     return this.cameraModel.find()
   }
 
-  async getSensors(): Promise<Array<Sensor>> {
+  async getSensors(): Promise<Sensor[]> {
     return this.sensorModel.find()
   }
 

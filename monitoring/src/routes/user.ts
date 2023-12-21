@@ -1,24 +1,60 @@
+import express, { Request, Response, Router } from 'express'
+import { User } from '@domain/monitoring/core/User'
 import { userController } from '../controller/user.js'
-import express, { Request, Response } from "express";
 
-export const userRouter = express.Router()
+export const userRouter: Router = express.Router()
 
-userRouter.route('/').post((req: Request, res: Response) => {
-  userController.createUser(req, res)
+userRouter.route('/').get((req: Request, res: Response): void => {
+  userController
+    .getUsers()
+    .then((users: User[]): void => {
+      res.send(users)
+    })
+    .catch((): void => {
+      res.send({ error: 'No user found' })
+    })
 })
 
-userRouter.route('/:id').get((req: Request, res: Response) => {
-  userController.getUser(req, res)
+userRouter.route('/:id').get((req: Request, res: Response): void => {
+  userController
+    .getUser(req)
+    .then((user: User): void => {
+      res.send(user)
+    })
+    .catch((): void => {
+      res.send({ error: 'User not found' })
+    })
 })
 
-userRouter.route('/').get((req: Request, res: Response) => {
-  userController.getUsers(req, res)
+userRouter.route('/').post((req: Request, res: Response): void => {
+  userController
+    .createUser(req)
+    .then((): void => {
+      res.send({ success: 'User created' })
+    })
+    .catch(() => {
+      res.send({ error: 'User not created' })
+    })
 })
 
-userRouter.route('/').put((req: Request, res: Response) => {
-  userController.updateUser(req, res)
+userRouter.route('/').put((req: Request, res: Response): void => {
+  userController
+    .updateUser(req)
+    .then((): void => {
+      res.send({ success: 'User correctly updated' })
+    })
+    .catch((): void => {
+      res.send({ error: 'User not updated' })
+    })
 })
 
-userRouter.route('/').delete((req: Request, res: Response) => {
-  userController.deleteUser(req, res)
+userRouter.route('/').delete((req: Request, res: Response): void => {
+  userController
+    .deleteUser(req)
+    .then((): void => {
+      res.send({ success: 'User correctly deleted' })
+    })
+    .catch((): void => {
+      res.send({ error: 'User not deleted' })
+    })
 })

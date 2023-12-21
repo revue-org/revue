@@ -1,6 +1,6 @@
-import { User } from '../core/User'
-import { DeviceId } from '../../device/core/DeviceId'
-import { Contact } from '../core/Contact'
+import { User } from '../core/User.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
+import { Contact } from '../core/Contact.js'
 
 export interface UserFactory {
   createUser(

@@ -16,7 +16,7 @@ export const userController = {
     try {
       const user: User = await userManager.getUserByUsername(req.body.username)
       if (!user) return res.status(400).send('User not found')
-      const match = await bcrypt.compare(req.body.password, user.password)
+      const match: boolean = await bcrypt.compare(req.body.password, user.password)
       if (!match) return res.status(401).send('Wrong password')
 
       const infos: UserInfo = new UserInfo(user.id, user.username)

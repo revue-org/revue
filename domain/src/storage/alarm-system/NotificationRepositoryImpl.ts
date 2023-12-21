@@ -11,7 +11,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     this.notificationModel = notificationModel
   }
 
-  getNotifications(): Promise<Array<Notification>> {
+  getNotifications(): Promise<Notification[]> {
     return this.notificationModel.find()
   }
 
@@ -23,10 +23,10 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     let anomalyType: string = ''
     switch (typeof notification.anomaly) {
       case typeof ExceedingImpl:
-        anomalyType = 'exceeding'
+        anomalyType = 'EXCEEDING'
         break
       case typeof IntrusionImpl:
-        anomalyType = 'intrusion'
+        anomalyType = 'INTRUSION'
         break
     }
     await this.notificationModel.create({
@@ -41,10 +41,10 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     let anomalyType: string = ''
     switch (typeof notification.anomaly) {
       case typeof ExceedingImpl:
-        anomalyType = 'exceeding'
+        anomalyType = 'EXCEEDING'
         break
       case typeof IntrusionImpl:
-        anomalyType = 'intrusion'
+        anomalyType = 'INTRUSION'
         break
     }
     await this.notificationModel.findByIdAndUpdate(notification.notificationId, {

@@ -9,7 +9,7 @@ export class UserRepositoryImpl implements UserRepository {
     this.userModel = model
   }
 
-  async getUsers(): Promise<Array<User>> {
+  async getUsers(): Promise<User[]> {
     return this.userModel.find().orFail()
   }
 
@@ -22,7 +22,18 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async insertUser(user: User): Promise<void> {
-    await this.userModel.create(user)
+    await this.userModel.create({
+      name: user.name,
+      surname: user.surname,
+      username: user.username,
+      password: user.password,
+      token: user.token,
+      refreshToken: user.refreshToken,
+      contact: user.contact,
+      deviceIds: user.deviceIds
+    }).catch((err) => {
+      throw err
+    })
   }
 
   async updateUser(user: User): Promise<void> {

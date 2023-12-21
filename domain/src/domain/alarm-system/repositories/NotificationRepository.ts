@@ -1,7 +1,7 @@
 import { Notification } from '../core/Notification'
 
 export interface NotificationRepository {
-  getNotifications(): Promise<Array<Notification>>
+  getNotifications(): Promise<Notification[]>
 
   getNotification(notificationId: string): Promise<Notification>
 

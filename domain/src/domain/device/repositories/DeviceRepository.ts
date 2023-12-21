@@ -4,9 +4,9 @@ import { Sensor } from '../core/Sensor.js'
 import { Camera } from '../core/Camera.js'
 
 export interface DeviceRepository {
-  getCameras(): Promise<Array<Camera>>
+  getCameras(): Promise<Camera[]>
 
-  getSensors(): Promise<Array<Sensor>>
+  getSensors(): Promise<Sensor[]>
 
   getDevice(deviceId: DeviceId): Promise<Camera | Sensor>
 

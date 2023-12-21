@@ -15,11 +15,11 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
     this.intrusionModel = intrusionModel
   }
 
-  async getExceedings(): Promise<Array<Exceeding>> {
+  async getExceedings(): Promise<Exceeding[]> {
     return this.exceedingModel.find()
   }
 
-  async getIntrusions(): Promise<Array<Intrusion>> {
+  async getIntrusions(): Promise<Intrusion[]> {
     return this.intrusionModel.find()
   }
 

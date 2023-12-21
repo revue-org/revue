@@ -9,7 +9,7 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
     this.recognizingNodeModel = recognizingNodeModel
   }
 
-  async getRecognizingNodes(): Promise<Array<RecognizingNode>> {
+  async getRecognizingNodes(): Promise<RecognizingNode[]> {
     return this.recognizingNodeModel.find()
   }
 

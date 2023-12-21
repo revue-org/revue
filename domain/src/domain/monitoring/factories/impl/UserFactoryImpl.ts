@@ -1,12 +1,12 @@
-import { UserFactory } from '../UserFactory'
-import { Contact } from "../../core/Contact";
-import { User } from "../../core/User";
-import { UserImpl } from "../../core/impl/UserImpl";
-import { DeviceId } from "../../../device/core/DeviceId";
+import { UserFactory } from '../UserFactory.js'
+import { Contact } from '../../core/Contact.js'
+import { User } from '../../core/User.js'
+import { UserImpl } from '../../core/impl/UserImpl.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
 
 export class UserFactoryImpl implements UserFactory {
   createUser(
-    id: string,
+    id: string = "",
     name: string,
     surname: string,
     username: string,

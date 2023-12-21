@@ -3,9 +3,9 @@ import { IntrusionRule } from '../core/IntrusionRule'
 import { ExceedingRule } from '../core/ExceedingRule'
 
 export interface SecurityRuleRepository {
-  getExceedingRules(): Promise<Array<ExceedingRule>>
+  getExceedingRules(): Promise<ExceedingRule[]>
 
-  getIntrusionRules(): Promise<Array<IntrusionRule>>
+  getIntrusionRules(): Promise<IntrusionRule[]>
 
   getSecurityRule(securityRuleId: string): Promise<ExceedingRule | IntrusionRule>
 

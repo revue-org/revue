@@ -3,7 +3,7 @@ import { Exceeding } from '../core/Exceeding'
 import { Intrusion } from '../core/Intrusion'
 
 export interface AnomalyRepository {
-  getExceedings(): Promise<Array<Exceeding>>
+  getExceedings(): Promise<Exceeding[]>
 
   getIntrusions(): Promise<Array<Intrusion>>
 

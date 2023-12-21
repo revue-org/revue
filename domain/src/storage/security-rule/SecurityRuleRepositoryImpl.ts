@@ -15,11 +15,11 @@ class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     this.intrusionRuleModel = intrusionRuleModel
   }
 
-  async getExceedingRules(): Promise<Array<ExceedingRule>> {
+  async getExceedingRules(): Promise<ExceedingRule[]> {
     return this.exceedingRuleModel.find()
   }
 
-  async getIntrusionRules(): Promise<Array<IntrusionRule>> {
+  async getIntrusionRules(): Promise<IntrusionRule[]> {
     return this.intrusionRuleModel.find()
   }
 

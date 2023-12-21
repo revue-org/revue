@@ -1,8 +1,8 @@
 import { EnvironmentDataFactory } from '../EnvironmentDataFactory.js'
 import { DeviceId } from '../../core/DeviceId.js'
 import { Measure } from '../../core/impl/enum/Measure.js'
-import { EnvironmentDataImpl } from '../../core/impl/EnvironmentDataImpl'
-import { EnvironmentData } from '../../core/EnvironmentData'
+import { EnvironmentDataImpl } from '../../core/impl/EnvironmentDataImpl.js'
+import { EnvironmentData } from '../../core/EnvironmentData.js'
 
 export class EnvironmentDataFactoryImpl implements EnvironmentDataFactory {
   createEnvironmentData(

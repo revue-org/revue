@@ -1,7 +1,7 @@
 import { User } from '../core/User.js'
 
 export interface UserRepository {
-  getUsers(): Promise<Array<User>>
+  getUsers(): Promise<User[]>
 
   getUserById(userId: string): Promise<User>
 

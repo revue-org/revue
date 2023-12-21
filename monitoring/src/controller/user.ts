@@ -12,44 +12,41 @@ const userManager: UserRepository = new UserRepositoryImpl(userModel)
 const userFactory: UserFactory = new UserFactoryImpl()
 
 export const userController = {
-  getUser: async (req: Request, res: Response) => {
-    res.send(await userManager.getUserById(req.params.id));
+  getUser: async (req: Request): Promise<User> => {
+    return await userManager.getUserById(req.params.id)
   },
-  getUsers: async (req: Request, res: Response) => {
-    res.send(await userManager.getUsers());
+  getUsers: async (): Promise<User[]> => {
+    return await userManager.getUsers()
   },
-  createUser: async (req: Request, res: Response) => {
-
-
-    /*
-    *     id: string,
-    name: string,
-    surname: string,
-    username: string,
-    password: string,
-    token: string,
-    refreshToken: string,
-    contact: Contact[],
-    deviceIds: DeviceId[]*/
-
-
-
-    //da parsare l'utente dalla richiesta post
-    res.json(
-      await userManager.insertUser(
-        userFactory.createUser(deviceId, req.body.ipAddress, resolution)
-      )
+  createUser: async (req: Request): Promise<void> => {
+    const user: User = userFactory.createUser(
+      req.body.id,
+      req.body.name,
+      req.body.surname,
+      req.body.username,
+      req.body.password,
+      req.body.token,
+      req.body.refreshToken,
+      req.body.contact,
+      req.body.deviceIds
     )
-    const user: User =
-    userModel.create(req.body)
-    res.send("createUser")
+    return await userManager.insertUser(user)
   },
-  updateUser: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
-    res.send("updateUser")
+  updateUser: async (req: Request): Promise<void> => {
+    const user: User = userFactory.createUser(
+      req.body.id,
+      req.body.name,
+      req.body.surname,
+      req.body.username,
+      req.body.password,
+      req.body.token,
+      req.body.refreshToken,
+      req.body.contact,
+      req.body.deviceIds
+    )
+    return await userManager.updateUser(user)
   },
-  deleteUser: async (req: Request, res: Response) => {
-    //da parsare l'utente dalla richiesta post
-    res.send("deleteUser")
+  deleteUser: async (req: Request): Promise<void> => {
+    return await userManager.deleteUser(req.body.id)
   }
 }

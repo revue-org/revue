@@ -1,9 +1,9 @@
 {
   "type": "module",
-  "name": "client",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "description": "Client microservice",
+  "description": "Frontend microservice",
   "main": "src/main.ts",
   "scripts": {
     "build": "vite build",

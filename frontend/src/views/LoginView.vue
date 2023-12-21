@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const username = ref('')
-const password = ref('')
+const username = ref("");
+const password = ref("");
 
 function login() {
-  console.log('login')
-  console.log(username.value)
-  console.log(password.value)
+  console.log("login");
+  console.log(username.value);
+  console.log(password.value);
   // POST request to /api/login
 }
-
 </script>
 
 <template>
@@ -18,10 +17,22 @@ function login() {
     <h1>Login</h1>
     <form @submit.prevent="login">
       <label for="username">Username:</label>
-      <input type="text" v-model="username" id="username" autocomplete="true" required>
+      <input
+        type="text"
+        v-model="username"
+        id="username"
+        autocomplete="true"
+        required
+      />
 
       <label for="password">Password:</label>
-      <input type="password" v-model="password" id="password" autocomplete="true" required>
+      <input
+        type="password"
+        v-model="password"
+        id="password"
+        autocomplete="true"
+        required
+      />
 
       <button type="submit">Login</button>
     </form>
@@ -29,7 +40,6 @@ function login() {
 </template>
 
 <style scoped>
-
 /* Add your component-specific styles here */
 .login-container {
   max-width: 300px;

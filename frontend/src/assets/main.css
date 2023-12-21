@@ -6,12 +6,11 @@ body {
 }
 
 #app {
-  max-width:  1280px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
 }
-
 
 @media (hover: hover) {
   a:hover {
@@ -20,7 +19,6 @@ body {
 }
 
 @media (min-width: 1024px) {
-
   #app {
     padding: 0 2rem;
   }

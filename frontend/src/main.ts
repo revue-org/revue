@@ -1,14 +1,30 @@
-import "./assets/main.css";
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 
-import { createApp } from "vue";
-import { createPinia } from "pinia";
+import App from './App.vue'
+import router from './router'
+import { Quasar } from 'quasar'
 
-import App from "./App.vue";
-import router from "./router";
+// Import icon libraries
+import '@quasar/extras/material-icons/material-icons.css'
 
-const app = createApp(App);
+// Import Quasar css
+import 'quasar/src/css/index.sass'
 
-app.use(createPinia());
-app.use(router);
+import './assets/main.css'
+import { useUserStore } from './stores/user'
 
-app.mount("#app");
+const app = createApp(App)
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  if (to.name != 'Login' && !userStore.isLoggedIn) next('/login')
+  else next()
+})
+const pinia = createPinia()
+app.use(pinia)
+app.use(router)
+app.use(Quasar, {
+  plugins: {} // import Quasar plugins and add here
+})
+app.mount('#app')

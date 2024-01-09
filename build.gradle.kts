@@ -23,6 +23,7 @@ subprojects {
     listOf(
         Task("install", listOf("install")),
         Task("build", listOf("run", "build")),
+        Task("start", listOf("start")),
         Task("test", listOf("run", "test")),
         Task("format", listOf("run", "format")),
         Task("format-fix", listOf("run", "format:fix")),

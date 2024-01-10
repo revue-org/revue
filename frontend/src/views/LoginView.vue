@@ -33,8 +33,7 @@ function login() {
         autocomplete="true"
         required
       />
-
-      <button type="submit">Login</button>
+      <q-btn color="secondary" type="submit">Login</q-btn>
     </form>
   </div>
 </template>

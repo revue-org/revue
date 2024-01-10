@@ -1,11 +1,11 @@
 import type { Request } from 'express'
 import { Model, model } from 'mongoose'
-import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
-import { RecognizingNodeFactory } from 'domain/dist/domain/alarm-system/factories/RecognizingNodeFactory.js'
-import { RecognizingNodeFactoryImpl } from 'domain/dist/domain/alarm-system/factories/impl/RecognizingNodeFactoryImpl.js'
-import { RecognizingNodeRepository } from 'domain/dist/domain/alarm-system/repositories/RecognizingNodeRepository.js'
-import { RecognizingNodeRepositoryImpl } from 'domain/dist/storage/alarm-system/RecognizingNodeRepositoryImpl.js'
-import { recognizingNodeSchema } from 'domain/dist/storage/alarm-system/schemas/RecognizingNodeSchema.js'
+import { RecognizingNode } from '@domain/alarm-system/core/RecognizingNode.js'
+import { RecognizingNodeFactory } from '@domain/alarm-system/factories/RecognizingNodeFactory.js'
+import { RecognizingNodeFactoryImpl } from '@domain/alarm-system/factories/impl/RecognizingNodeFactoryImpl.js'
+import { RecognizingNodeRepository } from '@domain/alarm-system/repositories/RecognizingNodeRepository.js'
+import { RecognizingNodeRepositoryImpl } from '@storage/alarm-system/RecognizingNodeRepositoryImpl.js'
+import { recognizingNodeSchema } from '@storage/alarm-system/schemas/RecognizingNodeSchema.js'
 
 const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNode>(
   'RecognizingNode',

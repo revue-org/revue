@@ -1,20 +1,27 @@
 import type { Request } from 'express'
 import { Model, model } from 'mongoose'
-import { exceedingSchema } from 'domain/dist/storage/anomaly/schemas/exceedingSchema.js'
-
-import { intrusionSchema } from 'domain/dist/storage/anomaly/schemas/intrusionSchema.js'
-import { AnomalyRepositoryImpl } from 'domain/dist/storage/anomaly/AnomalyRepositoryImpl.js'
-import { AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
-import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding.js'
-import { Intrusion } from 'domain/dist/domain/anomaly/core/Intrusion.js'
-import { AnomalyRepository } from 'domain/dist/domain/anomaly/repositories/AnomalyRepository.js'
-import { AnomalyFactory } from 'domain/dist/domain/anomaly/factories/AnomalyFactory.js'
+import { exceedingSchema } from '@storage/anomaly/schemas/exceedingSchema.js'
+import { intrusionSchema } from '@storage/anomaly/schemas/intrusionSchema.js'
+import { AnomalyRepositoryImpl } from '@storage/anomaly/AnomalyRepositoryImpl.js'
+import { AnomalyFactoryImpl } from '@domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
+import { Exceeding } from '@domain/anomaly/core/Exceeding.js'
+import { Intrusion } from '@domain/anomaly/core/Intrusion.js'
+import { AnomalyType } from '@domain/anomaly/core/impl/enum/AnomalyType.js'
+import { AnomalyFactory } from '@domain/anomaly/factories/AnomalyFactory.js'
+import { AnomalyRepository } from '@domain/anomaly/repositories/AnomalyRepository.js'
+import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
+import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
+import { MeasureConverter } from '@utils/MeasureConverter.js'
+import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 
 const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
 
 const anomalyManager: AnomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
+
+const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const anomalyController = {
   getExceedings: async (): Promise<Exceeding[]> => {
@@ -24,15 +31,71 @@ export const anomalyController = {
     return await anomalyManager.getIntrusions()
   },
   createAnomaly: async (req: Request): Promise<void> => {
-    let anomalyId: string = req.body.id
-    if ((await anomalyManager.getAnomaly(anomalyId)) !== null) {
-      throw new Error('Anomaly already present')
+    console.log(req.body)
+    console.log(AnomalyTypeConverter.convertToAnomalyType(req.body.type))
+    if (req.body.type === undefined) {
+      throw new Error('No type present in request body')
+    }
+    switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
+      case AnomalyType.EXCEEDING:
+        return await anomalyManager.insertAnomaly(
+          anomalyFactory.createExceeding(
+            '',
+            deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
+            new Date(),
+            req.body.value,
+            MeasureConverter.convertToMeasure(req.body.measure)
+          )
+        )
+      case AnomalyType.INTRUSION:
+        console.log("ciao")
+        console.log(anomalyFactory.createIntrusion(
+          '',
+          deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
+          new Date(),
+          ObjectClassConverter.convertToObjectClass(req.body.objectClass)
+        ))
+        return await anomalyManager.insertAnomaly(
+          anomalyFactory.createIntrusion(
+            '',
+            deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
+            new Date(),
+            ObjectClassConverter.convertToObjectClass(req.body.objectClass)
+          )
+        )
+      default:
+        throw new Error('Error while creating anomaly')
     }
   },
   updateAnomaly: async (req: Request): Promise<void> => {
-    //res.json('ok')
+    if (req.body.type === undefined) {
+      throw new Error('No type present in request body')
+    }
+    switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
+      case AnomalyType.EXCEEDING:
+        return await anomalyManager.updateAnomaly(
+          anomalyFactory.createExceeding(
+            req.body.id,
+            deviceIdFactory.createId(req.body.deviceType, req.body.deviceCode),
+            req.body.timestamp,
+            req.body.value,
+            MeasureConverter.convertToMeasure(req.body.measure)
+          )
+        )
+      case AnomalyType.INTRUSION:
+        return await anomalyManager.updateAnomaly(
+          anomalyFactory.createIntrusion(
+            req.body.id,
+            deviceIdFactory.createId(req.body.deviceType, req.body.deviceCode),
+            req.body.timestamp,
+            ObjectClassConverter.convertToObjectClass(req.body.objectClass)
+          )
+        )
+      default:
+        throw new Error('Error while creating anomaly')
+    }
   },
   deleteAnomaly: async (req: Request): Promise<void> => {
-    //res.json('ok')
+    await anomalyManager.deleteAnomaly(req.params.id)
   }
 }

@@ -5,7 +5,7 @@ import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding.js'
 
 export const anomalyRouter: Router = express.Router()
 
-anomalyRouter.route('/intrusions').get((req, res) => {
+anomalyRouter.route('/intrusion').get((req, res) => {
   anomalyController
     .getIntrusions()
     .then((intrusions: Intrusion[]): void => {
@@ -15,7 +15,7 @@ anomalyRouter.route('/intrusions').get((req, res) => {
       res.send({ error: 'No intrusions found' })
     })
 })
-anomalyRouter.route('/exceedings').get((req, res) => {
+anomalyRouter.route('/exceeding').get((req, res) => {
   anomalyController
     .getExceedings()
     .then((exceedings: Exceeding[]): void => {

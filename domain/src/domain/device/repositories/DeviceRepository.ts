@@ -8,7 +8,7 @@ export interface DeviceRepository {
 
   getSensors(): Promise<Sensor[]>
 
-  getDevice(deviceId: DeviceId): Promise<Camera | Sensor>
+  getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor>
 
   insertDevice(device: Device): Promise<void>
 

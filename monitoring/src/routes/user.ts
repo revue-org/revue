@@ -4,7 +4,7 @@ import { userController } from '../controller/user.js'
 
 export const userRouter: Router = express.Router()
 
-userRouter.route('/').get((req: Request, res: Response): void => {
+userRouter.route('/').get((res: Response): void => {
   userController
     .getUsers()
     .then((users: User[]): void => {

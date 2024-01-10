@@ -2,6 +2,9 @@ import express, { Request, Response, Router } from 'express'
 import { deviceController } from '../controller/device.js'
 import { Camera } from 'domain/dist/domain/device/core/Camera'
 import { Sensor } from 'domain/dist/domain/device/core/Sensor'
+import { userController } from "../controller/user";
+import { User } from "domain/dist/domain/monitoring/core/User";
+import { userRouter } from "./user";
 
 export const deviceRouter: Router = express.Router()
 
@@ -23,6 +26,18 @@ deviceRouter.route('/sensors').get((req: Request, res: Response) => {
     })
     .catch((): void => {
       res.send({ error: 'No sensors found' })
+    })
+})
+
+//TODO: metto un get con l'id tra i params, quindi nell'url ?
+userRouter.route('/:id').get((req: Request, res: Response): void => {
+  userController
+    .getUser(req)
+    .then((user: User): void => {
+      res.send(user)
+    })
+    .catch((): void => {
+      res.send({ error: 'User not found' })
     })
 })
 

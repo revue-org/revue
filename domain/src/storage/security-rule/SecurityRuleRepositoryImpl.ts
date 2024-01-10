@@ -16,14 +16,14 @@ class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   }
 
   async getExceedingRules(): Promise<ExceedingRule[]> {
-    return this.exceedingRuleModel.find()
+    return this.exceedingRuleModel.find().orFail()
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.intrusionRuleModel.find()
+    return this.intrusionRuleModel.find().orFail()
   }
 
-  async getSecurityRule(securityRuleId: string): Promise<ExceedingRule | IntrusionRule> {
+  async getSecurityRuleById(securityRuleId: string): Promise<ExceedingRule | IntrusionRule> {
     const exceedingRule = await this.exceedingRuleModel.findById(securityRuleId)
     if (exceedingRule) {
       return exceedingRule

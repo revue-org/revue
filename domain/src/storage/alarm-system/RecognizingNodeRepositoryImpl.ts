@@ -10,10 +10,10 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
   }
 
   async getRecognizingNodes(): Promise<RecognizingNode[]> {
-    return this.recognizingNodeModel.find()
+    return this.recognizingNodeModel.find().orFail()
   }
 
-  async getRecognizingNode(recognizingNodeId: string): Promise<RecognizingNode> {
+  async getRecognizingNodeById(recognizingNodeId: string): Promise<RecognizingNode> {
     return this.recognizingNodeModel.findById(recognizingNodeId).orFail()
   }
 

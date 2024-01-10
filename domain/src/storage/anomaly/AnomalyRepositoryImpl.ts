@@ -16,14 +16,14 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
   }
 
   async getExceedings(): Promise<Exceeding[]> {
-    return this.exceedingModel.find()
+    return this.exceedingModel.find().orFail()
   }
 
   async getIntrusions(): Promise<Intrusion[]> {
-    return this.intrusionModel.find()
+    return this.intrusionModel.find().orFail()
   }
 
-  async getAnomaly(anomalyId: string): Promise<Exceeding | Intrusion> {
+  async getAnomalyById(anomalyId: string): Promise<Exceeding | Intrusion> {
     const exceeding = await this.exceedingModel.findById(anomalyId)
     if (exceeding) {
       return exceeding

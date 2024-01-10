@@ -3,7 +3,7 @@ import { RecognizingNode } from '../core/RecognizingNode'
 export interface RecognizingNodeRepository {
   getRecognizingNodes(): Promise<RecognizingNode[]>
 
-  getRecognizingNode(recognizingNodeId: string): Promise<RecognizingNode>
+  getRecognizingNodeById(recognizingNodeId: string): Promise<RecognizingNode>
 
   insertRecognizingNode(recognizingNode: RecognizingNode): Promise<void>
 

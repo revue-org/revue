@@ -12,10 +12,10 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   getNotifications(): Promise<Notification[]> {
-    return this.notificationModel.find()
+    return this.notificationModel.find().orFail()
   }
 
-  async getNotification(notificationId: string): Promise<Notification> {
+  async getNotificationById(notificationId: string): Promise<Notification> {
     return this.notificationModel.findById(notificationId).orFail()
   }
 

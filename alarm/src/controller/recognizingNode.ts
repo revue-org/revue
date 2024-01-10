@@ -1,6 +1,6 @@
-import type { Request, Response } from 'express'
+import type { Request } from 'express'
 import { Model, model } from 'mongoose'
-import {RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
+import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
 import { RecognizingNodeFactory } from 'domain/dist/domain/alarm-system/factories/RecognizingNodeFactory.js'
 import { RecognizingNodeFactoryImpl } from 'domain/dist/domain/alarm-system/factories/impl/RecognizingNodeFactoryImpl.js'
 import { RecognizingNodeRepository } from 'domain/dist/domain/alarm-system/repositories/RecognizingNodeRepository.js'
@@ -15,22 +15,22 @@ const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNode>(
 const recognizingNodeManager: RecognizingNodeRepository = new RecognizingNodeRepositoryImpl(
   recognizingNodeModel
 )
-const notificationFactory: RecognizingNodeFactory = new RecognizingNodeFactoryImpl()
+const recognizingNodeFactory: RecognizingNodeFactory = new RecognizingNodeFactoryImpl()
 
 export const recognizingNodeController = {
-  getRecognizingNodes: async (req: Request, res: Response) => {
-    res.json('ok')
+  getRecognizingNode: async (req: Request): Promise<RecognizingNode> => {
+    return await recognizingNodeManager.getRecognizingNodeById(req.params.id)
   },
-  getRecognizingNode: async (req: Request, res: Response) => {
-    res.json('ok')
+  getRecognizingNodes: async (): Promise<RecognizingNode[]> => {
+    return await recognizingNodeManager.getRecognizingNodes()
   },
-  createRecognizingNode: async (req: Request, res: Response) => {
-    res.json('ok')
+  createRecognizingNode: async (req: Request): Promise<void> => {
+    //recognizingNodeManager.insertRecognizingNode()
   },
-  updateRecognizingNode: async (req: Request, res: Response) => {
-    res.json('ok')
+  updateRecognizingNode: async (req: Request): Promise<void> => {
+    //recognizingNodeManager.updateRecognizingNode()
   },
-  deleteRecognizingNode: async (req: Request, res: Response) => {
-    res.json('ok')
+  deleteRecognizingNode: async (req: Request): Promise<void> => {
+    //recognizingNodeManager.deleteRecognizingNode()
   }
 }

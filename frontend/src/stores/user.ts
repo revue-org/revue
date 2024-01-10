@@ -1,16 +1,16 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from "vue";
+import { defineStore } from "pinia";
 
-export const useUserStore = defineStore('user', () => {
-  const isLoggedIn = ref(false)
+export const useUserStore = defineStore("user", () => {
+  const isLoggedIn = ref(false);
 
   function login() {
-    isLoggedIn.value = true
+    isLoggedIn.value = true;
   }
 
   function logout() {
-    isLoggedIn.value = false
+    isLoggedIn.value = false;
   }
 
-  return { isLoggedIn, login, logout }
-})
+  return { isLoggedIn, login, logout };
+});

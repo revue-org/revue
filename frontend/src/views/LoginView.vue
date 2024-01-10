@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const username = ref('')
-const password = ref('')
+const username = ref("");
+const password = ref("");
 
 function login() {
-  console.log('login')
-  console.log(username.value)
-  console.log(password.value)
+  console.log("login");
+  console.log(username.value);
+  console.log(password.value);
   // POST request to /api/login
 }
 </script>
 
 <template>
-
   <div class="login-container">
     <h1>Login</h1>
     <form @submit.prevent="login">

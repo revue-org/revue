@@ -2,7 +2,6 @@ const config = require('semantic-release-preconfigured-conventional-commits')
 // this already includes:
 // - semantic-release/commit-analyzer
 // - semantic-release/release-notes-generator
-// - semantic-release/changelog
 config.plugins.push(
   // [
   //   '@semantic-release/exec',
@@ -10,6 +9,7 @@ config.plugins.push(
   //     prepareCmd: './update-version.sh ${nextRelease.version}'
   //   }
   // ],
+  "@semantic-release/changelog",
   '@semantic-release/github',
   '@semantic-release/git',
 )

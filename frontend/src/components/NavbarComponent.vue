@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { RouterLink, useRoute } from 'vue-router'
-import { computed } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { RouterLink } from "vue-router";
+import { useUserStore } from "@/stores/user";
 
-const route = useRoute()
-const userStorage = useUserStore()
-const isLoginPage = computed(() => {
-  return route.name === 'login'
-})
+const userStorage = useUserStore();
 </script>
 
 <template>
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/login">Login</RouterLink>
-      <input type="button" value="Logout" @click="userStorage.logout()" />
+      <RouterLink to="/login" name="logout" @click="userStorage.logout()"
+        >Logout</RouterLink
+      >
     </nav>
   </header>
 </template>
@@ -36,25 +32,20 @@ header {
     justify-content: flex-start;
     gap: 0.5rem;
 
-    a, input {
-      background-color: transparent;
+    a {
       color: white;
       text-decoration: none;
       padding: 5px 10px;
+
+      &[name="logout"] {
+        margin-left: auto;
+      }
 
       &:hover {
         background-color: $secondary-color;
         border-radius: 5px;
       }
     }
-
-    input {
-      margin-left: auto;
-      cursor: pointer;
-      border: none;
-    }
-
   }
 }
-
 </style>

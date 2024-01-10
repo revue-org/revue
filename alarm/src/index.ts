@@ -7,8 +7,8 @@ import { fileURLToPath } from 'url'
 import { indexRouter } from './routes/index.js'
 import { notificationRouter } from './routes/notification.js'
 import { jwtManager } from './utils/JWTManager.js'
-import { anomalyRouter } from "./routes/anomaly";
-import { recognizingNodeRouter } from "./routes/recognizingNode";
+import { anomalyRouter } from "./routes/anomaly.js";
+import { recognizingNodeRouter } from "./routes/recognizingNode.js";
 
 config()
 

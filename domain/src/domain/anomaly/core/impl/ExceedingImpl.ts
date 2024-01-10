@@ -8,7 +8,6 @@ export class ExceedingImpl implements Exceeding {
   private _timestamp: Date
   private _value: number
   private _measure: Measure
-
   constructor(
     anomalyId: string,
     deviceId: DeviceId,

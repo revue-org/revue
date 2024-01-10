@@ -1,15 +1,15 @@
-import { AnomalyFactory } from '../AnomalyFactory'
-import { ObjectClass } from '../../../security-rule/core/impl/ObjectClass'
-import { Exceeding } from '../../core/Exceeding'
-import { DeviceId } from '../../../device/core/DeviceId'
-import { Measure } from '../../../device/core/impl/enum/Measure'
-import { Intrusion } from '../../core/Intrusion'
-import { ExceedingImpl } from '../../core/impl/ExceedingImpl'
-import { IntrusionImpl } from '../../core/impl/IntrusionImpl'
+import { AnomalyFactory } from '../AnomalyFactory.js'
+import { ObjectClass } from '../../../security-rule/core/impl/enum/ObjectClass.js'
+import { Exceeding } from '../../core/Exceeding.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Measure } from '../../../device/core/impl/enum/Measure.js'
+import { Intrusion } from '../../core/Intrusion.js'
+import { ExceedingImpl } from '../../core/impl/ExceedingImpl.js'
+import { IntrusionImpl } from '../../core/impl/IntrusionImpl.js'
 
 export class AnomalyFactoryImpl implements AnomalyFactory {
   createExceeding(
-    anomalyId: string,
+    anomalyId: string = "",
     deviceId: DeviceId,
     timestamp: Date,
     value: number,
@@ -19,7 +19,7 @@ export class AnomalyFactoryImpl implements AnomalyFactory {
   }
 
   createIntrusion(
-    anomalyId: string,
+    anomalyId: string = "",
     deviceId: DeviceId,
     timestamp: Date,
     intrusionObject: ObjectClass

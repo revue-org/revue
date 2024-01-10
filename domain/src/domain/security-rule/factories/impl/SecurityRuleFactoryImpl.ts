@@ -1,12 +1,12 @@
-import { SecurityRuleFactory } from '../SecurityRuleFactory'
-import { IntrusionRule } from '../../core/IntrusionRule'
-import { ExceedingRule } from '../../core/ExceedingRule'
-import { IntrusionRuleImpl } from '../../core/impl/IntrusionRuleImpl'
-import { ExceedingRuleImpl } from '../../core/impl/ExceedingRuleImpl'
-import { ObjectClass } from '../../core/impl/ObjectClass'
-import { DeviceId } from '../../../device/core/DeviceId'
-import { Contact } from '../../../monitoring/core/Contact'
-import { Measure } from '../../../device/core/impl/enum/Measure'
+import { SecurityRuleFactory } from '../SecurityRuleFactory.js'
+import { IntrusionRule } from '../../core/IntrusionRule.js'
+import { ExceedingRule } from '../../core/ExceedingRule.js'
+import { IntrusionRuleImpl } from '../../core/impl/IntrusionRuleImpl.js'
+import { ExceedingRuleImpl } from '../../core/impl/ExceedingRuleImpl.js'
+import { ObjectClass } from '../../core/impl/enum/ObjectClass.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
+import { Contact } from '../../../monitoring/core/Contact.js'
+import { Measure } from '../../../device/core/impl/enum/Measure.js'
 
 export class SecurityRuleFactoryImpl implements SecurityRuleFactory {
   createIntrusionRule(

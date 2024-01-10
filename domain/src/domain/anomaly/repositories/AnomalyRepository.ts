@@ -1,6 +1,6 @@
 import { Anomaly } from '../core/Anomaly.js'
-import { Exceeding } from '../core/Exceeding'
-import { Intrusion } from '../core/Intrusion'
+import { Exceeding } from '../core/Exceeding.js'
+import { Intrusion } from '../core/Intrusion.js'
 
 export interface AnomalyRepository {
   getExceedings(): Promise<Exceeding[]>

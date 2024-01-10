@@ -1,9 +1,9 @@
 import { IntrusionRule } from '../core/IntrusionRule.js'
 import { ExceedingRule } from '../core/ExceedingRule.js'
-import { ObjectClass } from '../core/impl/ObjectClass'
-import { DeviceId } from '../../device/core/DeviceId'
-import { Contact } from '../../monitoring/core/Contact'
-import { Measure } from '../../device/core/impl/enum/Measure'
+import { ObjectClass } from '../core/impl/enum/ObjectClass.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
+import { Contact } from '../../monitoring/core/Contact.js'
+import { Measure } from '../../device/core/impl/enum/Measure.js'
 
 export interface SecurityRuleFactory {
   createIntrusionRule(

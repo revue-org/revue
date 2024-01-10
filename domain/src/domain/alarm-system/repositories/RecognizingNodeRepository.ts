@@ -1,4 +1,4 @@
-import { RecognizingNode } from '../core/RecognizingNode'
+import { RecognizingNode } from '../core/RecognizingNode.js'
 
 export interface RecognizingNodeRepository {
   getRecognizingNodes(): Promise<RecognizingNode[]>

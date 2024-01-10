@@ -1,7 +1,7 @@
 import { Contact } from '../../../monitoring/core/Contact.js'
 import { DeviceId } from '../../../device/core/DeviceId.js'
 import { IntrusionRule } from '../IntrusionRule.js'
-import { ObjectClass } from './ObjectClass.js'
+import { ObjectClass } from './enum/ObjectClass.js'
 
 export class IntrusionRuleImpl implements IntrusionRule {
   private _objectClass: ObjectClass

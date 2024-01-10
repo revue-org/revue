@@ -1,8 +1,8 @@
 import { Intrusion } from '../core/Intrusion.js'
 import { Exceeding } from '../core/Exceeding.js'
-import { Measure } from '../../device/core/impl/enum/Measure'
-import { DeviceId } from '../../device/core/DeviceId'
-import { ObjectClass } from '../../security-rule/core/impl/ObjectClass'
+import { Measure } from '../../device/core/impl/enum/Measure.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
+import { ObjectClass } from '../../security-rule/core/impl/enum/ObjectClass.js'
 
 export interface AnomalyFactory {
   createExceeding(

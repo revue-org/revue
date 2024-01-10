@@ -1,10 +1,10 @@
 import { SecurityRuleRepository } from '../../domain/security-rule/repositories/SecurityRuleRepository.js'
 import { SecurityRule } from '../../domain/security-rule/core/SecurityRule.js'
 import { Model, Promise } from 'mongoose'
-import { ExceedingRule } from '../../domain/security-rule/core/ExceedingRule'
-import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule'
-import { ExceedingRuleImpl } from '../../domain/security-rule/core/impl/ExceedingRuleImpl'
-import { IntrusionRuleImpl } from '../../domain/security-rule/core/impl/IntrusionRuleImpl'
+import { ExceedingRule } from '../../domain/security-rule/core/ExceedingRule.js'
+import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule.js'
+import { ExceedingRuleImpl } from '../../domain/security-rule/core/impl/ExceedingRuleImpl.js'
+import { IntrusionRuleImpl } from '../../domain/security-rule/core/impl/IntrusionRuleImpl.js'
 
 class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   exceedingRuleModel: Model<ExceedingRule>

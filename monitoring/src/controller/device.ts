@@ -34,7 +34,7 @@ export const deviceController = {
     return await deviceManager.getSensors()
   },
   getDevice: async (req: Request): Promise<Device> => {
-    return await deviceManager.getDevice(
+    return await deviceManager.getDeviceById(
       deviceIdFactory.createId(
         DeviceTypeConverter.convertToDeviceType(req.body.type),
         req.body.code
@@ -46,7 +46,7 @@ export const deviceController = {
       DeviceTypeConverter.convertToDeviceType(req.body.type),
       req.body.code
     )
-    if ((await deviceManager.getDevice(deviceId)) !== null) {
+    if ((await deviceManager.getDeviceById(deviceId)) !== null) {
       throw new Error('Device already present')
     }
 
@@ -98,7 +98,7 @@ export const deviceController = {
           )
         )
       default:
-        throw new Error('Error while creating device')
+        throw new Error('Error while updating device')
     }
   }
 }

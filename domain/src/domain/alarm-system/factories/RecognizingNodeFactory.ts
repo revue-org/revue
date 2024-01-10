@@ -1,5 +1,5 @@
-import { RecognizingNode } from '../core/RecognizingNode'
-import { DeviceId } from '../../device/core/DeviceId'
+import { RecognizingNode } from '../core/RecognizingNode.js'
+import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface RecognizingNodeFactory {
   createRecognizingNode(

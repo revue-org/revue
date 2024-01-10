@@ -37,6 +37,7 @@
       "@domain/*": ["node_modules/domain/dist/domain/*"],
       "@application/*": ["node_modules/domain/dist/application/*"],
       "@storage/*": ["node_modules/domain/dist/storage/*"],
+      "@utils/*": ["node_modules/domain/dist/utils/*"],
     },/* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

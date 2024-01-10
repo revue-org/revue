@@ -1,9 +1,9 @@
 import express, { Request, Response, Router } from 'express'
 import { deviceController } from '../controller/device.js'
-import { Camera } from 'domain/dist/domain/device/core/Camera'
-import { Sensor } from 'domain/dist/domain/device/core/Sensor'
+import { Camera } from '@domain/device/core/Camera'
+import { Sensor } from '@domain/device/core/Sensor'
 import { userController } from "../controller/user";
-import { User } from "domain/dist/domain/monitoring/core/User";
+import { User } from "@domain/monitoring/core/User";
 import { userRouter } from "./user";
 
 export const deviceRouter: Router = express.Router()

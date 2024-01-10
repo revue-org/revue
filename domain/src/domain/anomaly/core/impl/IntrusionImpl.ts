@@ -1,5 +1,5 @@
 import { DeviceId } from '../../../device/core/DeviceId.js'
-import { ObjectClass } from '../../../security-rule/core/impl/ObjectClass.js'
+import { ObjectClass } from '../../../security-rule/core/impl/enum/ObjectClass.js'
 import { Intrusion } from '../Intrusion.js'
 
 export class IntrusionImpl implements Intrusion {

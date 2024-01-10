@@ -31,8 +31,6 @@ export const anomalyController = {
     return await anomalyManager.getIntrusions()
   },
   createAnomaly: async (req: Request): Promise<void> => {
-    console.log(req.body)
-    console.log(AnomalyTypeConverter.convertToAnomalyType(req.body.type))
     if (req.body.type === undefined) {
       throw new Error('No type present in request body')
     }
@@ -48,19 +46,12 @@ export const anomalyController = {
           )
         )
       case AnomalyType.INTRUSION:
-        console.log("ciao")
-        console.log(anomalyFactory.createIntrusion(
-          '',
-          deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
-          new Date(),
-          ObjectClassConverter.convertToObjectClass(req.body.objectClass)
-        ))
         return await anomalyManager.insertAnomaly(
           anomalyFactory.createIntrusion(
             '',
             deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
             new Date(),
-            ObjectClassConverter.convertToObjectClass(req.body.objectClass)
+            ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
           )
         )
       default:
@@ -76,7 +67,7 @@ export const anomalyController = {
         return await anomalyManager.updateAnomaly(
           anomalyFactory.createExceeding(
             req.body.id,
-            deviceIdFactory.createId(req.body.deviceType, req.body.deviceCode),
+            deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
             req.body.timestamp,
             req.body.value,
             MeasureConverter.convertToMeasure(req.body.measure)
@@ -86,9 +77,9 @@ export const anomalyController = {
         return await anomalyManager.updateAnomaly(
           anomalyFactory.createIntrusion(
             req.body.id,
-            deviceIdFactory.createId(req.body.deviceType, req.body.deviceCode),
+            deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
             req.body.timestamp,
-            ObjectClassConverter.convertToObjectClass(req.body.objectClass)
+            ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
           )
         )
       default:

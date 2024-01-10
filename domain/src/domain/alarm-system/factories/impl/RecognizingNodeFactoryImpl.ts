@@ -1,7 +1,7 @@
-import { RecognizingNode } from '../../core/RecognizingNode'
-import { RecognizingNodeImpl } from '../../core/impl/RecognizingNodeImpl'
-import { RecognizingNodeFactory } from '../RecognizingNodeFactory'
-import { DeviceId } from '../../../device/core/DeviceId'
+import { RecognizingNode } from '../../core/RecognizingNode.js'
+import { RecognizingNodeImpl } from '../../core/impl/RecognizingNodeImpl.js'
+import { RecognizingNodeFactory } from '../RecognizingNodeFactory.js'
+import { DeviceId } from '../../../device/core/DeviceId.js'
 
 export class RecognizingNodeFactoryImpl implements RecognizingNodeFactory {
   createRecognizingNode(

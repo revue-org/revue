@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
-
+const userStorage = useUserStore()
 const isLoginPage = computed(() => {
   return route.name === 'login'
 })
@@ -14,13 +15,13 @@ const isLoginPage = computed(() => {
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/login">Login</RouterLink>
-      <input type="button" value="Logout" />
+      <input type="button" value="Logout" @click="userStorage.logout()" />
     </nav>
   </header>
 </template>
 
 <style scoped lang="scss">
-@import "src/assets/variables";
+@import "src/assets/variables.scss";
 
 header {
   position: absolute;

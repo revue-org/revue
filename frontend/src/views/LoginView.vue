@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 
-const username = ref("");
-const password = ref("");
+const username = ref('')
+const password = ref('')
 
 function login() {
-  console.log("login");
-  console.log(username.value);
-  console.log(password.value);
+  console.log('login')
+  console.log(username.value)
+  console.log(password.value)
   // POST request to /api/login
 }
 </script>
@@ -32,6 +33,7 @@ function login() {
         autocomplete="true"
         required
       />
+      <input type="button" id="" value="login fake" @click="useUserStore().login()" />
       <q-btn color="secondary" type="submit">Login</q-btn>
     </form>
   </div>

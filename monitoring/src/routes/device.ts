@@ -1,25 +1,53 @@
-import express, { Request, Response, Router } from "express";
-import { Device } from '@domain/device/core/Device'
+import express, { Request, Response, Router } from 'express'
 import { deviceController } from '../controller/device.js'
+import { Camera } from 'domain/dist/domain/device/core/Camera'
+import { Sensor } from 'domain/dist/domain/device/core/Sensor'
 
 export const deviceRouter: Router = express.Router()
 
 deviceRouter.route('/cameras').get((req: Request, res: Response) => {
-  deviceController.getCameras()
+  deviceController
+    .getCameras()
+    .then((cameras: Camera[]): void => {
+      res.send(cameras)
+    })
+    .catch((): void => {
+      res.send({ error: 'No cameras found' })
+    })
 })
 deviceRouter.route('/sensors').get((req: Request, res: Response) => {
-  deviceController.getSensors()
+  deviceController
+    .getSensors()
+    .then((sensors: Sensor[]): void => {
+      res.send(sensors)
+    })
+    .catch((): void => {
+      res.send({ error: 'No sensors found' })
+    })
 })
 
 deviceRouter.route('/').post((req: Request, res: Response) => {
-  deviceController.createDevice(req)
+  deviceController
+    .createDevice(req)
+    .then((): void => {
+      res.send({ success: 'Device created' })
+    })
+    .catch(() => {
+      res.send({ error: 'Device not created' })
+    })
 })
 
 deviceRouter.route('/').put((req: Request, res: Response) => {
-  deviceController.updateDevice(req)
+  deviceController
+    .updateDevice(req)
+    .then((): void => {
+      res.send({ success: 'Device correctly updated' })
+    })
+    .catch((): void => {
+      res.send({ error: 'Device not updated' })
+    })
 })
 
 deviceRouter.route('/').delete((req: Request, res: Response) => {
   //deviceController.deleteDevice(req)
 })
-

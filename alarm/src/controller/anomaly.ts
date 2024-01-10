@@ -18,6 +18,85 @@ const anomalyFactory: AnomalyFactoryImpl = new AnomalyFactoryImpl()
 
 export const anomalyController = {
 
+  /*
+  *   getCameras: async (): Promise<Camera[]> => {
+    return await deviceManager.getCameras()
+  },
+  getSensors: async (): Promise<Sensor[]> => {
+    return await deviceManager.getSensors()
+  },
+  getDevice: async (req: Request): Promise<Device> => {
+    return await deviceManager.getDevice(
+      deviceIdFactory.createId(
+        DeviceTypeConverter.convertToDeviceType(req.body.type),
+        req.body.code
+      )
+    )
+  },
+  createDevice: async (req: Request): Promise<void> => {
+    let deviceId: DeviceId = deviceIdFactory.createId(
+      DeviceTypeConverter.convertToDeviceType(req.body.type),
+      req.body.code
+    )
+    if ((await deviceManager.getDevice(deviceId)) !== null) {
+      throw new Error('Device already present')
+    }
+
+    switch (deviceId.type) {
+      case DeviceType.CAMERA:
+        const resolution: Resolution = resolutionFactory.createResolution(
+          req.body.resolutionHeight,
+          req.body.resolutionWidth
+        )
+        return await deviceManager.insertDevice(
+          deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+        )
+      case DeviceType.SENSOR:
+        const measures: Set<Measure> = req.body.measures
+        return await deviceManager.insertDevice(
+          deviceFactory.createSensor(
+            deviceId,
+            req.body.ipAddress,
+            req.body.intervalMillis,
+            measures
+          )
+        )
+      default:
+        throw new Error('Error while creating device')
+    }
+  },
+  updateDevice: async (req: Request): Promise<void> => {
+    let deviceId: DeviceId = deviceIdFactory.createId(
+      DeviceTypeConverter.convertToDeviceType(req.body.type),
+      req.body.code
+    )
+    switch (deviceId.type) {
+      case DeviceType.CAMERA:
+        const resolution: Resolution = resolutionFactory.createResolution(
+          req.body.resolutionHeight,
+          req.body.resolutionWidth
+        )
+        return await deviceManager.updateDevice(
+          deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
+        );
+      case DeviceType.SENSOR:
+        const measures: Set<Measure> = req.body.measures
+        return await deviceManager.updateDevice(
+          deviceFactory.createSensor(
+            deviceId,
+            req.body.ipAddress,
+            req.body.intervalMillis,
+            measures
+          )
+        )
+      default:
+        throw new Error('Error while creating device')
+    }
+  }*/
+  getCameras: async (): Promise<Camera[]> => {
+    return await deviceManager.getCameras()
+  },
+
   getExceedings: async (req: Request, res: Response) => {
     res.json(await anomalyManager.getExceedings())
   },

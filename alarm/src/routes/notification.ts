@@ -4,6 +4,17 @@ import { Notification } from 'domain/dist/domain/alarm-system/core/Notification.
 
 export const notificationRouter: Router = express.Router()
 
+notificationRouter.route('/:id').get((req, res) => {
+  notificationController
+    .getNotificationById(req)
+    .then((notification: Notification): void => {
+      res.send(notification)
+    })
+    .catch((): void => {
+      res.send({ error: 'No notification found' })
+    })
+})
+
 notificationRouter.route('/').get((req, res) => {
   notificationController
     .getNotifications()

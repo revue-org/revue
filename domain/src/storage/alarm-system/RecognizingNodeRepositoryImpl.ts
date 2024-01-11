@@ -19,7 +19,6 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
 
   async insertRecognizingNode(recognizingNode: RecognizingNode): Promise<void> {
     await this.recognizingNodeModel.create({
-      _id: recognizingNode.recognizingNodeId,
       ipAddress: recognizingNode.ipAddress,
       deviceIds: recognizingNode.deviceIds
     })

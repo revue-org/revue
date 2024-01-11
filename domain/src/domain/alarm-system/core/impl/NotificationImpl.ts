@@ -6,7 +6,7 @@ export class NotificationImpl implements Notification {
   private _timestamp: Date
   private _anomaly: Anomaly
 
-  constructor(notificationId: string, timestamp: Date, anomaly: Anomaly) {
+  constructor(notificationId: string = '', timestamp: Date, anomaly: Anomaly) {
     this._notificationId = notificationId
     this._timestamp = timestamp
     this._anomaly = anomaly

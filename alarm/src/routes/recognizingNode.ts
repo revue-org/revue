@@ -6,7 +6,7 @@ export const recognizingNodeRouter: Router = express.Router()
 
 recognizingNodeRouter.route('/:id').get((req, res) => {
   recognizingNodeController
-    .getRecognizingNode(req)
+    .getRecognizingNodeById(req)
     .then((recognizingNode: RecognizingNode): void => {
       res.send(recognizingNode)
     })

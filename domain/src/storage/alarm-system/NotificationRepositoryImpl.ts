@@ -29,12 +29,16 @@ export class NotificationRepositoryImpl implements NotificationRepository {
         anomalyType = 'INTRUSION'
         break
     }
-    await this.notificationModel.create({
-      _id: notification.notificationId,
-      anomalyId: notification.anomaly.anomalyId,
-      anomalyType: anomalyType,
-      timestamp: notification.timestamp
-    })
+    await this.notificationModel
+      .create({
+        anomalyId: notification.anomaly.anomalyId,
+        anomalyType: anomalyType,
+        timestamp: notification.timestamp
+      })
+      .catch((err): void => {
+        console.log(err)
+        throw err
+      })
   }
 
   async updateNotification(notification: Notification): Promise<void> {
@@ -48,7 +52,6 @@ export class NotificationRepositoryImpl implements NotificationRepository {
         break
     }
     await this.notificationModel.findByIdAndUpdate(notification.notificationId, {
-      anomalyId: notification.anomaly.anomalyId,
       anomalyType: anomalyType,
       timestamp: new Date()
     })

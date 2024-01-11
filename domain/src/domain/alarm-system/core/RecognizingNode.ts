@@ -10,9 +10,9 @@ export interface RecognizingNode {
 
   set ipAddress(ipAddress: string)
 
-  get deviceIds(): Set<DeviceId>
+  get deviceIds(): DeviceId[]
 
-  set deviceIds(deviceIds: Set<DeviceId>)
+  set deviceIds(deviceIds: DeviceId[])
 
   anomalyDetected(): Anomaly
 }

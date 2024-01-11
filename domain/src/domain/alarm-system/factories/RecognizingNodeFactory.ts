@@ -5,6 +5,6 @@ export interface RecognizingNodeFactory {
   createRecognizingNode(
     recognizingNodeId: string,
     ipAddress: string,
-    deviceIds: Set<DeviceId>
+    deviceIds: DeviceId[]
   ): RecognizingNode
 }

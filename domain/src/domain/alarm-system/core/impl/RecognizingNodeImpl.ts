@@ -5,9 +5,9 @@ import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 export class RecognizingNodeImpl implements RecognizingNode {
   private _recognizingNodeId: string
   private _ipAddress: string
-  private _deviceIds: Set<DeviceId>
+  private _deviceIds: DeviceId[]
 
-  constructor(recognizingNodeId: string, ipAddress: string, deviceIds: Set<DeviceId>) {
+  constructor(recognizingNodeId: string, ipAddress: string, deviceIds: DeviceId[]) {
     this._recognizingNodeId = recognizingNodeId
     this._ipAddress = ipAddress
     this._deviceIds = deviceIds
@@ -29,11 +29,11 @@ export class RecognizingNodeImpl implements RecognizingNode {
     this._ipAddress = ipAddress
   }
 
-  get deviceIds(): Set<DeviceId> {
+  get deviceIds(): DeviceId[] {
     return this._deviceIds
   }
 
-  set deviceIds(deviceIds: Set<DeviceId>) {
+  set deviceIds(deviceIds: DeviceId[]) {
     this._deviceIds = deviceIds
   }
 

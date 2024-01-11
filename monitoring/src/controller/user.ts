@@ -12,7 +12,7 @@ const userManager: UserRepository = new UserRepositoryImpl(userModel)
 const userFactory: UserFactory = new UserFactoryImpl()
 
 export const userController = {
-  getUser: async (req: Request): Promise<User> => {
+  getUserById: async (req: Request): Promise<User> => {
     return await userManager.getUserById(req.params.id)
   },
   getUsers: async (): Promise<User[]> => {

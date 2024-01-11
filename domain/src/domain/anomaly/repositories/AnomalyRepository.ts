@@ -1,6 +1,7 @@
 import { Anomaly } from '../core/Anomaly.js'
 import { Exceeding } from '../core/Exceeding.js'
 import { Intrusion } from '../core/Intrusion.js'
+import { AnomalyType } from "../core/impl/enum/AnomalyType";
 
 export interface AnomalyRepository {
   getExceedings(): Promise<Exceeding[]>
@@ -13,5 +14,5 @@ export interface AnomalyRepository {
 
   updateAnomaly(anomaly: Anomaly): Promise<void>
 
-  deleteAnomaly(anomalyId: string): Promise<void>
+  deleteAnomaly(anomalyId: string, type: AnomalyType): Promise<void>
 }

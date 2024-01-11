@@ -2,7 +2,7 @@ import { Measure } from '../domain/device/core/impl/enum/Measure.js'
 
 export class MeasureConverter {
   static convertToMeasure(measure: String): Measure {
-    switch (measure.toLowerCase()) {
+    switch (measure.toUpperCase()) {
       case 'TEMPERATURE':
         return Measure.TEMPERATURE
       case 'HUMIDITY':

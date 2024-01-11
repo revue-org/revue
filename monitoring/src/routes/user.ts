@@ -17,7 +17,7 @@ userRouter.route('/').get((res: Response): void => {
 
 userRouter.route('/:id').get((req: Request, res: Response): void => {
   userController
-    .getUser(req)
+    .getUserById(req)
     .then((user: User): void => {
       res.send(user)
     })

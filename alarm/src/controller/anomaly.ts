@@ -24,6 +24,9 @@ const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const anomalyController = {
+  getAnomalyById: async (req: Request): Promise<Exceeding | Intrusion> => {
+    return await anomalyManager.getAnomalyById(req.params.id)
+  },
   getExceedings: async (): Promise<Exceeding[]> => {
     return await anomalyManager.getExceedings()
   },
@@ -87,6 +90,6 @@ export const anomalyController = {
     }
   },
   deleteAnomaly: async (req: Request): Promise<void> => {
-    await anomalyManager.deleteAnomaly(req.params.id)
+    await anomalyManager.deleteAnomaly(req.body.id, AnomalyTypeConverter.convertToAnomalyType(req.body.type))
   }
 }

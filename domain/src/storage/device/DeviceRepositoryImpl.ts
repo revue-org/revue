@@ -100,8 +100,9 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     }
   }
 
-  async deleteDevice(deviceId: DeviceId): Promise<void> {
-    switch (deviceId.type) {
+  async deleteDevice(deviceId: DeviceId, type: DeviceType): Promise<void> {
+    //TODO TO CHECK AND TRY
+    switch (type) {
       case DeviceType.CAMERA:
         await this.cameraModel.findByIdAndDelete({
           type: DeviceTypeConverter.convertToString(deviceId.type),

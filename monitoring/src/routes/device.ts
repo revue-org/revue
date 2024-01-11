@@ -64,5 +64,12 @@ deviceRouter.route('/').put((req: Request, res: Response) => {
 })
 
 deviceRouter.route('/').delete((req: Request, res: Response) => {
-  //deviceController.deleteDevice(req)
+  deviceController
+    .deleteDevice(req)
+    .then((): void => {
+      res.send({ success: 'Device correctly deleted' })
+    })
+    .catch((): void => {
+      res.send({ error: 'Device not deleted' })
+    })
 })

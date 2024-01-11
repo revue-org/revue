@@ -1,10 +1,13 @@
-import mongoose, { Model, Types } from "mongoose";
+import mongoose, { Model } from 'mongoose'
 import { Exceeding } from '../../domain/anomaly/core/Exceeding.js'
 import { Anomaly } from '../../domain/anomaly/core/Anomaly.js'
 import { Intrusion } from '../../domain/anomaly/core/Intrusion.js'
 import { AnomalyRepository } from '../../domain/anomaly/repositories/AnomalyRepository.js'
 import { ExceedingImpl } from '../../domain/anomaly/core/impl/ExceedingImpl.js'
 import { IntrusionImpl } from '../../domain/anomaly/core/impl/IntrusionImpl.js'
+import { ObjectClassConverter } from "../../utils/ObjectClassConverter.js";
+import { MeasureConverter } from "../../utils/MeasureConverter.js";
+import { AnomalyType } from "../../domain/anomaly/core/impl/enum/AnomalyType.js";
 
 export class AnomalyRepositoryImpl implements AnomalyRepository {
   exceedingModel: Model<Exceeding>
@@ -36,68 +39,71 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
   }
 
   async insertAnomaly(anomaly: Anomaly): Promise<void> {
-    switch (typeof anomaly) {
-      case typeof ExceedingImpl:
-        await this.exceedingModel.create({
-          _id: anomaly.anomalyId,
+    if (anomaly instanceof ExceedingImpl) {
+      await this.exceedingModel
+        .create({
           deviceId: {
             type: anomaly.deviceId.type,
             code: anomaly.deviceId.code
           },
           timestamp: anomaly.timestamp,
           value: (anomaly as ExceedingImpl).value,
-          measure: (anomaly as ExceedingImpl).measure
-        }).catch((err) => {
-        throw err
-      })
-        break
-      case typeof IntrusionImpl:
-        console.log("ci sono su int impl")
-        await this.intrusionModel.create({
-          _id: anomaly.anomalyId,
+          measure: MeasureConverter.convertToString((anomaly as ExceedingImpl).measure)
+        })
+        .catch((err): void => {
+          console.log(err)
+          throw err
+        })
+    }
+    if (anomaly instanceof IntrusionImpl) {
+      await this.intrusionModel
+        .create({
           deviceId: {
             type: anomaly.deviceId.type,
             code: anomaly.deviceId.code
           },
           timestamp: anomaly.timestamp,
-          intrusionObject: (anomaly as IntrusionImpl).intrusionObject
-        }).catch((err) => {
-        throw err
-      })
-        break
+          intrusionObject: ObjectClassConverter.convertToString((anomaly as IntrusionImpl).intrusionObject)
+        })
+        .catch((err): void => {
+          console.log(err)
+          throw err
+        })
     }
   }
 
   async updateAnomaly(anomaly: Anomaly): Promise<void> {
-    switch (typeof anomaly) {
-      case typeof ExceedingImpl:
-        await this.exceedingModel.findByIdAndUpdate(anomaly.anomalyId, {
-          deviceId: {
-            type: anomaly.deviceId.type,
-            code: anomaly.deviceId.code
-          },
-          timestamp: anomaly.timestamp,
-          value: (anomaly as ExceedingImpl).value,
-          measure: (anomaly as ExceedingImpl).measure
-        })
-        break
-      case typeof IntrusionImpl:
+    if(anomaly instanceof ExceedingImpl) {
+      await this.exceedingModel.findByIdAndUpdate(anomaly.anomalyId, {
+        deviceId: {
+          type: anomaly.deviceId.type,
+          code: anomaly.deviceId.code
+        },
+        timestamp: anomaly.timestamp,
+        value: (anomaly as ExceedingImpl).value,
+        measure: MeasureConverter.convertToString((anomaly as ExceedingImpl).measure)
+      })
+    }
+    if (anomaly instanceof IntrusionImpl) {
         await this.intrusionModel.findByIdAndUpdate(anomaly.anomalyId, {
           deviceId: {
             type: anomaly.deviceId.type,
             code: anomaly.deviceId.code
           },
           timestamp: anomaly.timestamp,
-          intrusionObject: (anomaly as IntrusionImpl).intrusionObject
+          intrusionObject: ObjectClassConverter.convertToString((anomaly as IntrusionImpl).intrusionObject)
         })
-        break
     }
   }
 
-  async deleteAnomaly(anomalyId: string): Promise<void> {
-    //devo passare anche il tipo in modo da sapere che modello usare per
-    //eliminare il record su mongo db
-    await this.intrusionModel.deleteOne({ _id: new mongoose.Types.ObjectId(anomalyId) })
-    await this.exceedingModel.deleteOne({ _id: new mongoose.Types.ObjectId(anomalyId) })
+  async deleteAnomaly(anomalyId: string, type: AnomalyType): Promise<void> {
+    switch (type) {
+      case AnomalyType.EXCEEDING:
+        await this.exceedingModel.deleteOne({ _id: new mongoose.Types.ObjectId(anomalyId) })
+        break;
+      case AnomalyType.INTRUSION:
+        await this.intrusionModel.deleteOne({ _id: new mongoose.Types.ObjectId(anomalyId) })
+        break;
+    }
   }
 }

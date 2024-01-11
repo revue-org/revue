@@ -2,10 +2,10 @@ import { DeviceType } from '../domain/device/core/impl/enum/DeviceType.js'
 
 export class DeviceTypeConverter {
   static convertToDeviceType(type: String): DeviceType {
-    switch (type) {
-      case 'camera':
+    switch (type.toUpperCase()) {
+      case 'CAMERA':
         return DeviceType.CAMERA
-      case 'sensor':
+      case 'SENSOR':
         return DeviceType.SENSOR
       default:
         throw new Error('Device type not found')
@@ -15,9 +15,9 @@ export class DeviceTypeConverter {
   static convertToString(type: DeviceType): String {
     switch (type) {
       case DeviceType.CAMERA:
-        return 'camera'
+        return 'CAMERA'
       case DeviceType.SENSOR:
-        return 'sensor'
+        return 'SENSOR'
       default:
         throw new Error('Device type not found')
     }

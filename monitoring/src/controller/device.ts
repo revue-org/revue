@@ -100,5 +100,8 @@ export const deviceController = {
       default:
         throw new Error('Error while updating device')
     }
+  },
+  deleteDevice: async (req: Request): Promise<void> => {
+    return await deviceManager.deleteDevice(req.body.id, DeviceTypeConverter.convertToDeviceType(req.body.type))
   }
 }

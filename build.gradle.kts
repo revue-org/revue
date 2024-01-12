@@ -1,64 +1,44 @@
-//import com.github.gradle.node.task.NodeTask
+import com.github.gradle.node.npm.task.NpmTask
 
-group = "it.ldt" // Replace with your project's group
-version = "1.0"       // Replace with your project's version
+group = "it.ldt"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
 }
 
-fun Project.registerNpmTask(taskName: String, npmCommand: String, dependencies: List<String> = emptyList(), isScript: Boolean = true) {
-    tasks.register(taskName, Exec::class) {
-        val deps = if (npmCommand != "install") dependencies + ":${project.name}:install" else dependencies
-        dependsOn(deps)
-        if (isScript) commandLine("npm", "run", npmCommand)
-        else commandLine("npm", npmCommand)
+plugins {
+    id("com.github.node-gradle.node") version "7.0.1"
+}
+
+subprojects {
+
+    apply(plugin = "com.github.node-gradle.node")
+
+    node {
+        download = false
     }
-}
+    class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
 
-// Domain module
-project(":domain") {
-    registerNpmTask("install", "install", emptyList(), false)
-    registerNpmTask("build", "build")
-    registerNpmTask("test", "test")
-    registerNpmTask("format", "format")
-    registerNpmTask("format-fix", "format:fix")
-    registerNpmTask("lint", "lint")
-}
-
-// Monitoring module
-project(":monitoring") {
-    registerNpmTask("install", "install", emptyList(), false)
-    registerNpmTask("build", "build", listOf(":domain:build"))
-    registerNpmTask("start", "start")
-//    registerNpmTask("test", "test", listOf(":domain:build"))
-    registerNpmTask("format", "format")
-    registerNpmTask("format-fix", "format:fix")
-    registerNpmTask("lint", "lint")
-    tasks.register("deploy", Exec::class) {
-        commandLine("docker", "compose", "up", "-d", "--build", "--force-recreate")
+    listOf(
+        Task("install", listOf("install")),
+        Task("build", listOf("run", "build")),
+        Task("start", listOf("start")),
+        Task("test", listOf("run", "test")),
+        Task("format", listOf("run", "format")),
+        Task("format-fix", listOf("run", "format:fix")),
+        Task("lint", listOf("run", "lint"))
+    ).forEach { task ->
+        tasks.register<NpmTask>(task.name) {
+            args = task.args
+            if (task.name != "install") dependsOn(":${project.name}:install")
+            if (project.name != "domain") dependsOn(":domain:build")
+        }
     }
-}
 
-// Auth module
-project(":auth") {
-    registerNpmTask("install", "install", emptyList(), false)
-    registerNpmTask("build", "build", listOf(":domain:build"))
-//    registerNpmTask("test", "test", listOf(":domain:build"))
-    registerNpmTask("format", "format")
-    registerNpmTask("format-fix", "format:fix")
-    registerNpmTask("lint", "lint")
-    tasks.register("deploy", Exec::class) {
-        commandLine("docker", "compose", "up", "-d", "--build", "--force-recreate")
+    // ordering task execution
+    if (project.name != "domain") {
+        tasks.findByPath(":${project.name}:install")?.mustRunAfter(":domain:build")
     }
-}
-
-
-// Client module
-project(":client") {
-    registerNpmTask("install", "install", emptyList(), false)
-    registerNpmTask("build", "build", listOf(":domain:build"))
-    registerNpmTask("format-fix", "format:fix")
-    registerNpmTask("start", "start")
-//    registerNpmTask("test", "test", listOf(":domain:build"))
+    tasks.findByPath(":${project.name}:build")?.mustRunAfter(":${project.name}:install")
 }

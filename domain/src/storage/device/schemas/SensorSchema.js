@@ -19,4 +19,4 @@ export const sensorSchema = new Schema({
     enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'],
     required: true
   }
-})
+}, { _id: false })

@@ -6,7 +6,6 @@ import { Device } from "@domain/device/core/Device";
 import { Camera } from '@domain/device/core/Camera.js'
 import { Sensor } from '@domain/device/core/Sensor.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
-import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceType } from '@domain/device/core/impl/enum/DeviceType.js'
 import { DeviceRepository } from '@domain/device/repositories/DeviceRepository.js'
 import { DeviceRepositoryImpl } from '@storage/device/DeviceRepositoryImpl.js'
@@ -16,8 +15,8 @@ import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { ResolutionFactory } from '@domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
-import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
-import { Resolution } from "domain/dist/domain/device/core/Resolution.js";
+import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
+import { Resolution } from "@domain/device/core/Resolution.js";
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
@@ -60,13 +59,19 @@ export const deviceController = {
           deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
         )
       case DeviceType.SENSOR:
-        const measures: Set<Measure> = req.body.measures
+        console.log("ci passo")
+        console.log(deviceFactory.createSensor(
+          deviceId,
+          req.body.ipAddress,
+          req.body.intervalMillis,
+          req.body.measures
+        ))
         return await deviceManager.insertDevice(
           deviceFactory.createSensor(
             deviceId,
             req.body.ipAddress,
             req.body.intervalMillis,
-            measures
+            req.body.measures
           )
         )
       default:
@@ -88,13 +93,12 @@ export const deviceController = {
           deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
         );
       case DeviceType.SENSOR:
-        const measures: Set<Measure> = req.body.measures
         return await deviceManager.updateDevice(
           deviceFactory.createSensor(
             deviceId,
             req.body.ipAddress,
             req.body.intervalMillis,
-            measures
+            req.body.measures
           )
         )
       default:

@@ -36,28 +36,37 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   async insertDevice(device: Device): Promise<void> {
     switch (device.deviceId.type) {
       case DeviceType.CAMERA:
-        await this.cameraModel.create({
-          _id: {
-            type: DeviceTypeConverter.convertToString(device.deviceId.type),
-            code: device.deviceId.code
-          },
-          ipAddress: device.ipAddress,
-          resolution: {
-            height: (device as Camera).resolution.height,
-            width: (device as Camera).resolution.width
-          }
-        })
+        await this.cameraModel
+          .create({
+            _id: {
+              type: DeviceTypeConverter.convertToString(device.deviceId.type),
+              code: device.deviceId.code
+            },
+            ipAddress: device.ipAddress,
+            resolution: {
+              height: (device as Camera).resolution.height,
+              width: (device as Camera).resolution.width
+            }
+          })
+          .catch((err): void => {
+            throw err
+          })
         break
       case DeviceType.SENSOR:
-        await this.sensorModel.create({
-          _id: {
-            type: DeviceTypeConverter.convertToString(device.deviceId.type),
-            code: device.deviceId.code
-          },
-          ipAddress: device.ipAddress,
-          intervalMillis: (device as Sensor).intervalMillis,
-          measures: (device as Sensor).measures
-        })
+        await this.sensorModel
+          .create({
+            _id: {
+              type: DeviceTypeConverter.convertToString(device.deviceId.type),
+              code: device.deviceId.code
+            },
+            ipAddress: device.ipAddress,
+            intervalMillis: (device as Sensor).intervalMillis,
+            measures: (device as Sensor).measures
+          })
+          .catch((err): void => {
+            console.log(err)
+            throw err
+          })
         break
     }
   }
@@ -101,13 +110,32 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
+    console.log('ci sono akmeno qua')
+    console.log(deviceId.type)
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        await this.cameraModel.deleteOne(deviceId).orFail()
+        console.log('ci sono')
+        await this.cameraModel
+          .deleteOne({
+            _id: {
+              type: DeviceTypeConverter.convertToString(deviceId.type),
+              code: deviceId.code
+            }
+          })
+          .orFail()
         break
       case DeviceType.SENSOR:
-        await this.sensorModel.deleteOne(deviceId).orFail()
+        console.log('ci sono sensor')
+        await this.sensorModel
+          .deleteOne({
+            _id: {
+              type: DeviceTypeConverter.convertToString(deviceId.type),
+              code: deviceId.code
+            }
+          })
+          .orFail()
         break
     }
+    console.log('non fo nulla')
   }
 }

@@ -51,8 +51,6 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
           measure: MeasureConverter.convertToString((anomaly as ExceedingImpl).measure)
         })
         .catch((err): void => {
-          console.log(err)
-
           throw err
         })
     }

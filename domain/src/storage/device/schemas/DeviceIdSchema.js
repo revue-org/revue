@@ -10,4 +10,4 @@ export const deviceIdSchema = new Schema({
     type: String,
     required: true
   }
-})
+}, { _id: false })

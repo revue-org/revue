@@ -15,12 +15,12 @@ import { useUserStore } from "@/stores/user";
 
 const app = createApp(App);
 
-router.beforeEach((to, from, next) => {
-  const userStore = useUserStore();
-  if (to.name != "Login" && !userStore.isLoggedIn) next("/login");
-  else if (to.name == "Login" && userStore.isLoggedIn) next("/");
-  else next();
-});
+// router.beforeEach((to, from, next) => {
+//   const userStore = useUserStore();
+//   if (to.name != "Login" && !userStore.isLoggedIn) next("/login");
+//   else if (to.name == "Login" && userStore.isLoggedIn) next("/");
+//   else next();
+// });
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate); // here you are applying a package to the second instance that is not the one which is connected to the vue app.
 app.use(pinia);

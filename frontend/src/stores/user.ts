@@ -5,7 +5,7 @@ import router from "@/router";
 export const useUserStore = defineStore(
   "user",
   () => {
-    const isLoggedIn = ref(true);
+    const isLoggedIn = ref(false);
 
     function login() {
       isLoggedIn.value = true;

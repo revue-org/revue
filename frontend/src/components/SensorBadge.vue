@@ -4,12 +4,6 @@ import { Sensor } from '@/views/HomeView.vue'
 defineProps<{
   sensor: Sensor;
 }>()
-
-// define emit to delete the sensor
-// const emit = defineEmits<{
-//   deleteSensor: [sensor: Sensor] // named tuple syntax
-// }>()
-//
 </script>
 
 <template>

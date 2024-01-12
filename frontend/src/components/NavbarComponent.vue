@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
-import { useUserStore } from "@/stores/user";
+import { RouterLink } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
-const userStorage = useUserStore();
+const userStorage = useUserStore()
+
 </script>
 
 <template>
-  <header>
+  <div>
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/login" name="logout" @click="userStorage.logout()"
-        >Logout</RouterLink
+      >Logout
+      </RouterLink
       >
+      <q-btn flat @click="$emit('toggle-aside')" round dense icon="menu" />
     </nav>
-  </header>
+  </div>
 </template>
 
 <style scoped lang="scss">
 @import "src/assets/variables.scss";
 
-header {
-  position: absolute;
-  top: 0;
-  left: 0;
+div {
   width: 100%;
   background-color: $primary-color;
   padding: 10px;

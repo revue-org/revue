@@ -1,96 +1,99 @@
 <script lang="ts">
 export class Sensor {
-  private _deviceId: string
-  private _ipAddress: string
-  private _isCapturing: boolean
-  private _intervalMillis: number
-  private _measures: Set<string>
+  private _deviceId: string;
+  private _ipAddress: string;
+  private _isCapturing: boolean;
+  private _intervalMillis: number;
+  private _measures: Set<string>;
 
   constructor(
     deviceId: string,
     ipAddress: string,
     intervalMillis: number,
-    measures: Set<string>
+    measures: Set<string>,
   ) {
-    this._deviceId = deviceId
-    this._ipAddress = ipAddress
-    this._isCapturing = true
-    this._intervalMillis = intervalMillis
-    this._measures = measures
+    this._deviceId = deviceId;
+    this._ipAddress = ipAddress;
+    this._isCapturing = true;
+    this._intervalMillis = intervalMillis;
+    this._measures = measures;
   }
 
   get deviceId(): string {
-    return this._deviceId
+    return this._deviceId;
   }
 
   get ipAddress(): string {
-    return this._ipAddress
+    return this._ipAddress;
   }
 
   get isCapturing(): boolean {
-    return this._isCapturing
+    return this._isCapturing;
   }
 
   set isCapturing(bool: boolean) {
-    this._isCapturing = bool
+    this._isCapturing = bool;
   }
 
   get intervalMillis(): number {
-    return this._intervalMillis
+    return this._intervalMillis;
   }
 
   get measures(): Set<string> {
-    return this._measures
+    return this._measures;
   }
 }
 </script>
 <script setup lang="ts">
+import NavbarComponent from "../components/NavbarComponent.vue";
+import SensorBadge from "@/components/SensorBadge.vue";
+import ClusterTree from "@/components/ClusterTree.vue";
+import { ref } from "vue";
 
-import NavbarComponent from '../components/NavbarComponent.vue'
-import SensorBadge from '@/components/SensorBadge.vue'
-import ClusterTree from '@/components/ClusterTree.vue'
-import { ref } from 'vue'
-
-const sensors: ref<Sensor[]> = ref([new Sensor(
-  'Device Id 1',
-  '192.168.1.10',
-  5,
-  new Set(['HUMIDITY', 'TEMPERATURE', 'PRESSURE'])
-), new Sensor(
-  'Device Id 2',
-  '192.168.1.12',
-  10,
-  new Set(['HUMIDITY', 'TEMPERATURE'])
-)])
+const sensors: ref<Sensor[]> = ref([
+  new Sensor(
+    "Device Id 1",
+    "192.168.1.10",
+    5,
+    new Set(["HUMIDITY", "TEMPERATURE", "PRESSURE"]),
+  ),
+  new Sensor(
+    "Device Id 2",
+    "192.168.1.12",
+    10,
+    new Set(["HUMIDITY", "TEMPERATURE"]),
+  ),
+]);
 
 const deleteSensor = (sensor: Sensor) => {
-  const index = sensors.value.findIndex((s: Sensor) => s.deviceId === sensor.deviceId);
+  const index = sensors.value.findIndex(
+    (s: Sensor) => s.deviceId === sensor.deviceId,
+  );
   if (index !== -1) {
     sensors.value.splice(index, 1);
   }
-}
-
+};
 </script>
 
 <template>
   <NavbarComponent />
   <main>
-    <SensorBadge v-for="sensor in sensors" :key="sensor.deviceId"
-                 :sensor="sensor"
-                 @delete-sensor="deleteSensor" />
+    <SensorBadge
+      v-for="sensor in sensors"
+      :key="sensor.deviceId"
+      :sensor="sensor"
+      @delete-sensor="deleteSensor"
+    />
     <aside>
       <ClusterTree />
     </aside>
   </main>
 </template>
 
-
 <style scoped>
-
 main {
   position: absolute;
   top: 60px;
   left: 0;
 }
-
 </style>

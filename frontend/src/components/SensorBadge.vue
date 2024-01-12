@@ -10,7 +10,6 @@ defineProps<{
 //   deleteSensor: [sensor: Sensor] // named tuple syntax
 // }>()
 //
-
 </script>
 
 <template>
@@ -26,17 +25,28 @@ defineProps<{
       <li><i>IP Address:</i> {{ sensor.ipAddress }}</li>
       <li><i>Acquisition Rate:</i> {{ sensor.intervalMillis }} ms</li>
       <li class="measures">
-        <q-badge v-for="measure in sensor.measures"
-                 outline
-                 :style="{ color: measure == 'TEMPERATURE' ? 'red' : (measure == 'PRESSURE' ? 'orange' : 'teal') }">
+        <q-badge
+          v-for="measure in sensor.measures"
+          outline
+          :style="{
+            color:
+              measure == 'TEMPERATURE'
+                ? 'red'
+                : measure == 'PRESSURE'
+                  ? 'orange'
+                  : 'teal',
+          }"
+        >
           {{ measure }}
         </q-badge>
       </li>
       <li class="actions">
         <div>
-          <q-btn :name="sensor.isCapturing ? 'toggle_on' : 'toggle_off'"
-                 :icon="sensor.isCapturing ? 'toggle_on' : 'toggle_off'"
-                 @click="sensor.isCapturing = !sensor.isCapturing" />
+          <q-btn
+            :name="sensor.isCapturing ? 'toggle_on' : 'toggle_off'"
+            :icon="sensor.isCapturing ? 'toggle_on' : 'toggle_off'"
+            @click="sensor.isCapturing = !sensor.isCapturing"
+          />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>
         <div>
@@ -44,13 +54,16 @@ defineProps<{
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
-          <q-btn color="negative" icon="delete" @click="$emit('delete-sensor', sensor);" />
+          <q-btn
+            color="negative"
+            icon="delete"
+            @click="$emit('delete-sensor', sensor)"
+          />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>
       </li>
     </ul>
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -61,7 +74,8 @@ header {
   display: flex;
   align-items: center;
 
-  svg, i {
+  svg,
+  i {
     margin-right: 5px;
   }
 
@@ -117,9 +131,6 @@ ul {
         background-color: $positive;
       }
     }
-
   }
-
 }
-
 </style>

@@ -38,6 +38,6 @@ export const recognizingNodeController = {
     )
   },
   deleteRecognizingNode: async (req: Request): Promise<void> => {
-    await recognizingNodeManager.deleteRecognizingNode(req.body.id)
+    return await recognizingNodeManager.deleteRecognizingNode(req.body.id)
   }
 }

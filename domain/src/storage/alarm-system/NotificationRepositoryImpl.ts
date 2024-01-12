@@ -21,13 +21,11 @@ export class NotificationRepositoryImpl implements NotificationRepository {
 
   async insertNotification(notification: Notification): Promise<void> {
     let anomalyType: string = ''
-    switch (typeof notification.anomaly) {
-      case typeof ExceedingImpl:
-        anomalyType = 'EXCEEDING'
-        break
-      case typeof IntrusionImpl:
-        anomalyType = 'INTRUSION'
-        break
+    if (notification.anomaly instanceof ExceedingImpl) {
+      anomalyType = 'EXCEEDING'
+    }
+    if (notification.anomaly instanceof IntrusionImpl) {
+      anomalyType = 'INTRUSION'
     }
     await this.notificationModel
       .create({
@@ -43,13 +41,11 @@ export class NotificationRepositoryImpl implements NotificationRepository {
 
   async updateNotification(notification: Notification): Promise<void> {
     let anomalyType: string = ''
-    switch (typeof notification.anomaly) {
-      case typeof ExceedingImpl:
-        anomalyType = 'EXCEEDING'
-        break
-      case typeof IntrusionImpl:
-        anomalyType = 'INTRUSION'
-        break
+    if (notification.anomaly instanceof ExceedingImpl) {
+      anomalyType = 'EXCEEDING'
+    }
+    if (notification.anomaly instanceof IntrusionImpl) {
+      anomalyType = 'INTRUSION'
     }
     await this.notificationModel.findByIdAndUpdate(notification.notificationId, {
       anomalyType: anomalyType,
@@ -57,7 +53,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     })
   }
 
-  async deleteNotification(notificationId: string): Promise<void> {
-    await this.notificationModel.findByIdAndDelete(notificationId)
+  async deleteNotification(notificationId:string): Promise<void> {
+    await this.notificationModel.deleteOne({ _id: notificationId }).orFail()
   }
 }

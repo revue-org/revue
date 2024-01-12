@@ -47,6 +47,12 @@ recognizingNodeRouter.route('/').put((req, res) => {
     })
 })
 
-recognizingNodeRouter.route('/:id').delete((req, res) => {
+recognizingNodeRouter.route('/').delete((req, res) => {
   recognizingNodeController.deleteRecognizingNode(req)
+    .then((): void => {
+      res.send({ success: 'Recognizing node correctly deleted' })
+    })
+    .catch((): void => {
+      res.send({ error: 'Recognizing node not deleted' })
+    })
 })

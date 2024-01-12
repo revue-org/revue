@@ -51,6 +51,8 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
           measure: MeasureConverter.convertToString((anomaly as ExceedingImpl).measure)
         })
         .catch((err): void => {
+          console.log(err)
+
           throw err
         })
     }
@@ -65,7 +67,6 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
           intrusionObject: ObjectClassConverter.convertToString((anomaly as IntrusionImpl).intrusionObject)
         })
         .catch((err): void => {
-          console.log(err)
           throw err
         })
     }

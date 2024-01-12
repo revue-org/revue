@@ -32,6 +32,6 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
   }
 
   async deleteRecognizingNode(recognizingNodeId: string): Promise<void> {
-    await this.recognizingNodeModel.findByIdAndDelete(recognizingNodeId)
+    await this.recognizingNodeModel.deleteOne({ _id: recognizingNodeId }).orFail()
   }
 }

@@ -1,10 +1,10 @@
 import { notificationController } from '../controller/notification.js'
-import express, { Router } from 'express'
+import express, { Router, Request, Response } from 'express'
 import { Notification } from 'domain/dist/domain/alarm-system/core/Notification.js'
 
 export const notificationRouter: Router = express.Router()
 
-notificationRouter.route('/:id').get((req, res) => {
+notificationRouter.route('/:id').get((req: Request, res: Response): void => {
   notificationController
     .getNotificationById(req)
     .then((notification: Notification): void => {
@@ -15,7 +15,7 @@ notificationRouter.route('/:id').get((req, res) => {
     })
 })
 
-notificationRouter.route('/').get((req, res) => {
+notificationRouter.route('/').get((req: Request, res: Response): void => {
   notificationController
     .getNotifications()
     .then((notifications: Notification[]): void => {
@@ -25,7 +25,7 @@ notificationRouter.route('/').get((req, res) => {
       res.send({ error: 'No notifications found' })
     })
 })
-notificationRouter.route('/').post((req, res) => {
+notificationRouter.route('/').post((req: Request, res: Response): void => {
   notificationController
     .createNotification(req)
     .then((): void => {
@@ -35,7 +35,7 @@ notificationRouter.route('/').post((req, res) => {
       res.send({ error: 'Notification not created' })
     })
 })
-notificationRouter.route('/').put((req, res) => {
+notificationRouter.route('/').put((req: Request, res: Response): void => {
   notificationController
     .updateNotification(req)
     .then((): void => {
@@ -46,6 +46,12 @@ notificationRouter.route('/').put((req, res) => {
     })
 })
 
-notificationRouter.route('/:id').delete((req, res) => {
+notificationRouter.route('/').delete((req: Request, res: Response): void => {
   notificationController.deleteNotification(req)
+    .then((): void => {
+      res.send({ success: 'Notification correctly deleted' })
+    })
+    .catch((): void => {
+      res.send({ error: 'Notification not deleted' })
+    })
 })

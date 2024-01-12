@@ -37,6 +37,7 @@ export const anomalyController = {
     if (req.body.type === undefined) {
       throw new Error('No type present in request body')
     }
+    console.log(req.body)
     switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
       case AnomalyType.EXCEEDING:
         return await anomalyManager.insertAnomaly(

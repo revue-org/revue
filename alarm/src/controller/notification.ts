@@ -5,7 +5,7 @@ import { NotificationRepository } from '@domain/alarm-system/repositories/Notifi
 import { NotificationRepositoryImpl } from '@storage/alarm-system/NotificationRepositoryImpl.js'
 import { NotificationFactory } from '@domain/alarm-system/factories/NotificationFactory.js'
 import { NotificationFactoryImpl } from '@domain/alarm-system/factories/impl/NotificationFactoryImpl.js'
-import { exceedingSchema } from '@storage/anomaly/schemas/ExceedingSchema.js'
+import { notificationSchema } from '@storage/alarm-system/schemas/NotificationSchema.js'
 import { AnomalyTypeConverter } from 'domain/dist/utils/AnomalyTypeConverter.js'
 import { AnomalyType } from '@domain/anomaly/core/impl/enum/AnomalyType.js'
 import { AnomalyFactory } from '@domain/anomaly/factories/AnomalyFactory.js'
@@ -17,7 +17,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 
 const notificationModel: Model<Notification> = model<Notification>(
   'Notification',
-  exceedingSchema,
+  notificationSchema,
   'notification'
 )
 
@@ -37,18 +37,9 @@ export const notificationController = {
   createNotification: async (req: Request): Promise<void> => {
     switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
       case AnomalyType.EXCEEDING:
-        console.log("ciao")
-        console.log(notificationFactory.createExceedingNotification(
-          anomalyFactory.createExceeding(
-            req.body.anomalyId,
-            deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
-            new Date(),
-            req.body.value,
-            MeasureConverter.convertToMeasure(req.body.measure)
-          )
-        ))
         await notificationManager.insertNotification(
           notificationFactory.createExceedingNotification(
+            '',
             anomalyFactory.createExceeding(
               req.body.anomalyId,
               deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
@@ -62,6 +53,7 @@ export const notificationController = {
       case AnomalyType.INTRUSION:
         await notificationManager.insertNotification(
           notificationFactory.createIntrusionNotification(
+            '',
             anomalyFactory.createIntrusion(
               req.body.anomalyId,
               deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
@@ -76,9 +68,39 @@ export const notificationController = {
     }
   },
   updateNotification: async (req: Request): Promise<void> => {
-    //await notificationManager.updateNotification()
+    switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
+      case AnomalyType.EXCEEDING:
+        await notificationManager.updateNotification(
+          notificationFactory.createExceedingNotification(
+            req.body.id,
+            anomalyFactory.createExceeding(
+              req.body.anomalyId,
+              deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
+              new Date(),
+              req.body.value,
+              MeasureConverter.convertToMeasure(req.body.measure)
+            )
+          )
+        )
+        break
+      case AnomalyType.INTRUSION:
+        await notificationManager.updateNotification(
+          notificationFactory.createIntrusionNotification(
+            req.body.id,
+            anomalyFactory.createIntrusion(
+              req.body.anomalyId,
+              deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
+              new Date(),
+              ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
+            )
+          )
+        )
+        break
+      default:
+        throw new Error('Error while creating anomaly')
+    }
   },
   deleteNotification: async (req: Request): Promise<void> => {
-    await notificationManager.deleteNotification(req.body.notificationId)
+    return await notificationManager.deleteNotification(req.body.id)
   }
 }

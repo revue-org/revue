@@ -1,12 +1,22 @@
 import express, { Request, Response, Router } from 'express'
 import { deviceController } from '../controller/device.js'
-import { Camera } from '@domain/device/core/Camera'
-import { Sensor } from '@domain/device/core/Sensor'
-import { userController } from "../controller/user";
-import { User } from "@domain/monitoring/core/User";
-import { userRouter } from "./user";
+import { Camera } from '@domain/device/core/Camera.js'
+import { Sensor } from '@domain/device/core/Sensor.js'
+import { User } from "@domain/monitoring/core/User.js";
+import { Device } from "domain/dist/domain/device/core/Device";
 
 export const deviceRouter: Router = express.Router()
+
+deviceRouter.route('/:type&:code').get((req: Request, res: Response): void => {
+  deviceController
+    .getDeviceById(req)
+    .then((device: Device): void => {
+      res.send(device)
+    })
+    .catch((): void => {
+      res.send({ error: 'Device not found' })
+    })
+})
 
 deviceRouter.route('/cameras').get((req: Request, res: Response) => {
   deviceController
@@ -26,18 +36,6 @@ deviceRouter.route('/sensors').get((req: Request, res: Response) => {
     })
     .catch((): void => {
       res.send({ error: 'No sensors found' })
-    })
-})
-
-//TODO: metto un get con l'id tra i params, quindi nell'url ?
-userRouter.route('/:id').get((req: Request, res: Response): void => {
-  userController
-    .getUser(req)
-    .then((user: User): void => {
-      res.send(user)
-    })
-    .catch((): void => {
-      res.send({ error: 'User not found' })
     })
 })
 

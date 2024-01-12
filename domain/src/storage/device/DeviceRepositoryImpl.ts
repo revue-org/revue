@@ -17,11 +17,11 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async getCameras(): Promise<Camera[]> {
-    return this.cameraModel.find()
+    return this.cameraModel.find().orFail()
   }
 
   async getSensors(): Promise<Sensor[]> {
-    return this.sensorModel.find()
+    return this.sensorModel.find().orFail()
   }
 
   async getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor> {
@@ -100,20 +100,13 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     }
   }
 
-  async deleteDevice(deviceId: DeviceId, type: DeviceType): Promise<void> {
-    //TODO TO CHECK AND TRY
-    switch (type) {
+  async deleteDevice(deviceId: DeviceId): Promise<void> {
+    switch (deviceId.type) {
       case DeviceType.CAMERA:
-        await this.cameraModel.findByIdAndDelete({
-          type: DeviceTypeConverter.convertToString(deviceId.type),
-          code: deviceId.code
-        })
+        await this.cameraModel.deleteOne(deviceId).orFail()
         break
       case DeviceType.SENSOR:
-        await this.sensorModel.findByIdAndDelete({
-          type: DeviceTypeConverter.convertToString(deviceId.type),
-          code: deviceId.code
-        })
+        await this.sensorModel.deleteOne(deviceId).orFail()
         break
     }
   }

@@ -17,7 +17,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { ResolutionFactory } from '@domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
-import { Resolution } from "domain/dist/domain/device/core/Resolution";
+import { Resolution } from "domain/dist/domain/device/core/Resolution.js";
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
@@ -27,19 +27,19 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
 export const deviceController = {
+  getDeviceById: async (req: Request): Promise<Device> => {
+    return await deviceManager.getDeviceById(
+      deviceIdFactory.createId(
+        DeviceTypeConverter.convertToDeviceType(req.params.type),
+        req.params.code
+      )
+    )
+  },
   getCameras: async (): Promise<Camera[]> => {
     return await deviceManager.getCameras()
   },
   getSensors: async (): Promise<Sensor[]> => {
     return await deviceManager.getSensors()
-  },
-  getDevice: async (req: Request): Promise<Device> => {
-    return await deviceManager.getDeviceById(
-      deviceIdFactory.createId(
-        DeviceTypeConverter.convertToDeviceType(req.body.type),
-        req.body.code
-      )
-    )
   },
   createDevice: async (req: Request): Promise<void> => {
     let deviceId: DeviceId = deviceIdFactory.createId(
@@ -102,6 +102,6 @@ export const deviceController = {
     }
   },
   deleteDevice: async (req: Request): Promise<void> => {
-    return await deviceManager.deleteDevice(req.body.id, DeviceTypeConverter.convertToDeviceType(req.body.type))
+    return await deviceManager.deleteDevice(req.body.id)
   }
 }

@@ -15,5 +15,5 @@ export interface DeviceRepository {
 
   updateDevice(device: Device): Promise<void>
 
-  deleteDevice(deviceId: DeviceId, type: DeviceType): Promise<void>
+  deleteDevice(deviceId: DeviceId): Promise<void>
 }

@@ -10,7 +10,7 @@ import "@quasar/extras/material-icons/material-icons.css";
 // Import Quasar css
 import "quasar/src/css/index.sass";
 
-import "@/assets/main.css";
+import "@/assets/main.scss";
 import { useUserStore } from "@/stores/user";
 
 const app = createApp(App);

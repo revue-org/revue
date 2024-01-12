@@ -5,9 +5,9 @@ import { Intrusion } from '../../domain/anomaly/core/Intrusion.js'
 import { AnomalyRepository } from '../../domain/anomaly/repositories/AnomalyRepository.js'
 import { ExceedingImpl } from '../../domain/anomaly/core/impl/ExceedingImpl.js'
 import { IntrusionImpl } from '../../domain/anomaly/core/impl/IntrusionImpl.js'
-import { ObjectClassConverter } from "../../utils/ObjectClassConverter.js";
-import { MeasureConverter } from "../../utils/MeasureConverter.js";
-import { AnomalyType } from "../../domain/anomaly/core/impl/enum/AnomalyType.js";
+import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
+import { MeasureConverter } from '../../utils/MeasureConverter.js'
+import { AnomalyType } from '../../domain/anomaly/core/impl/enum/AnomalyType.js'
 
 export class AnomalyRepositoryImpl implements AnomalyRepository {
   exceedingModel: Model<Exceeding>
@@ -62,7 +62,9 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
             code: anomaly.deviceId.code
           },
           timestamp: anomaly.timestamp,
-          intrusionObject: ObjectClassConverter.convertToString((anomaly as IntrusionImpl).intrusionObject)
+          intrusionObject: ObjectClassConverter.convertToString(
+            (anomaly as IntrusionImpl).intrusionObject
+          )
         })
         .catch((err): void => {
           throw err
@@ -71,7 +73,7 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
   }
 
   async updateAnomaly(anomaly: Anomaly): Promise<void> {
-    if(anomaly instanceof ExceedingImpl) {
+    if (anomaly instanceof ExceedingImpl) {
       await this.exceedingModel.findByIdAndUpdate(anomaly.anomalyId, {
         deviceId: {
           type: anomaly.deviceId.type,
@@ -83,14 +85,16 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
       })
     }
     if (anomaly instanceof IntrusionImpl) {
-        await this.intrusionModel.findByIdAndUpdate(anomaly.anomalyId, {
-          deviceId: {
-            type: anomaly.deviceId.type,
-            code: anomaly.deviceId.code
-          },
-          timestamp: anomaly.timestamp,
-          intrusionObject: ObjectClassConverter.convertToString((anomaly as IntrusionImpl).intrusionObject)
-        })
+      await this.intrusionModel.findByIdAndUpdate(anomaly.anomalyId, {
+        deviceId: {
+          type: anomaly.deviceId.type,
+          code: anomaly.deviceId.code
+        },
+        timestamp: anomaly.timestamp,
+        intrusionObject: ObjectClassConverter.convertToString(
+          (anomaly as IntrusionImpl).intrusionObject
+        )
+      })
     }
   }
 
@@ -98,10 +102,10 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
     switch (type) {
       case AnomalyType.EXCEEDING:
         await this.exceedingModel.deleteOne({ _id: new mongoose.Types.ObjectId(anomalyId) })
-        break;
+        break
       case AnomalyType.INTRUSION:
         await this.intrusionModel.deleteOne({ _id: new mongoose.Types.ObjectId(anomalyId) })
-        break;
+        break
     }
   }
 }

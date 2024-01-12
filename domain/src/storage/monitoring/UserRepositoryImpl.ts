@@ -22,18 +22,20 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async insertUser(user: User): Promise<void> {
-    await this.userModel.create({
-      name: user.name,
-      surname: user.surname,
-      username: user.username,
-      password: user.password,
-      token: user.token,
-      refreshToken: user.refreshToken,
-      contact: user.contact,
-      deviceIds: user.deviceIds
-    }).catch((err) => {
-      throw err
-    })
+    await this.userModel
+      .create({
+        name: user.name,
+        surname: user.surname,
+        username: user.username,
+        password: user.password,
+        token: user.token,
+        refreshToken: user.refreshToken,
+        contact: user.contact,
+        deviceIds: user.deviceIds
+      })
+      .catch((err) => {
+        throw err
+      })
   }
 
   async updateUser(user: User): Promise<void> {

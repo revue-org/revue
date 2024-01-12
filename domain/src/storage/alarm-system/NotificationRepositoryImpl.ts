@@ -53,7 +53,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     })
   }
 
-  async deleteNotification(notificationId:string): Promise<void> {
+  async deleteNotification(notificationId: string): Promise<void> {
     await this.notificationModel.deleteOne({ _id: notificationId }).orFail()
   }
 }

@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import { Model, model } from 'mongoose'
 import { cameraSchema } from '@storage/device/schemas/CameraSchema.js'
 import { sensorSchema } from '@storage/device/schemas/SensorSchema.js'
-import { Device } from "@domain/device/core/Device";
+import { Device } from '@domain/device/core/Device'
 import { Camera } from '@domain/device/core/Camera.js'
 import { Sensor } from '@domain/device/core/Sensor.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
@@ -16,7 +16,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { ResolutionFactory } from '@domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
-import { Resolution } from "@domain/device/core/Resolution.js";
+import { Resolution } from '@domain/device/core/Resolution.js'
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
@@ -84,7 +84,7 @@ export const deviceController = {
         )
         return await deviceManager.updateDevice(
           deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
-        );
+        )
       case DeviceType.SENSOR:
         return await deviceManager.updateDevice(
           deviceFactory.createSensor(
@@ -99,6 +99,11 @@ export const deviceController = {
     }
   },
   deleteDevice: async (req: Request): Promise<void> => {
-    return await deviceManager.deleteDevice(deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(req.body.id.type), req.body.id.code))
+    return await deviceManager.deleteDevice(
+      deviceIdFactory.createId(
+        DeviceTypeConverter.convertToDeviceType(req.body.id.type),
+        req.body.id.code
+      )
+    )
   }
 }

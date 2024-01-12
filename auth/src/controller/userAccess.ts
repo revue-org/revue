@@ -1,12 +1,12 @@
 import type { Request, Response } from 'express'
-import { model, Model } from "mongoose";
+import { model, Model } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import { jwtManager } from '../utils/JWTManager.js'
 import { UserInfo } from '../utils/UserInfo.js'
 import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
 import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
-import { User } from "@domain/monitoring/core/User.js";
-import { userSchema } from "@storage/monitoring/schemas/UserSchema.js";
+import { User } from '@domain/monitoring/core/User.js'
+import { userSchema } from '@storage/monitoring/schemas/UserSchema.js'
 
 const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
@@ -25,7 +25,6 @@ export const userAccessController = {
 
       res.json(await userManager.updateUser(user))
     } catch (err) {
-      console.log(err)
       res.status(500).send(err)
     }
   },

@@ -1,10 +1,10 @@
 import { recognizingNodeController } from '../controller/recognizingNode.js'
-import express, { Router } from 'express'
+import express, { Request, Response, Router } from 'express'
 import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
 
 export const recognizingNodeRouter: Router = express.Router()
 
-recognizingNodeRouter.route('/:id').get((req, res) => {
+recognizingNodeRouter.route('/:id').get((req: Request, res: Response) => {
   recognizingNodeController
     .getRecognizingNodeById(req)
     .then((recognizingNode: RecognizingNode): void => {
@@ -15,7 +15,7 @@ recognizingNodeRouter.route('/:id').get((req, res) => {
     })
 })
 
-recognizingNodeRouter.route('/').get((req, res) => {
+recognizingNodeRouter.route('/').get((req: Request, res: Response) => {
   recognizingNodeController
     .getRecognizingNodes()
     .then((recognizingNodes: RecognizingNode[]): void => {
@@ -26,7 +26,7 @@ recognizingNodeRouter.route('/').get((req, res) => {
     })
 })
 
-recognizingNodeRouter.route('/').post((req, res) => {
+recognizingNodeRouter.route('/').post((req: Request, res: Response) => {
   recognizingNodeController
     .createRecognizingNode(req)
     .then((): void => {
@@ -36,7 +36,7 @@ recognizingNodeRouter.route('/').post((req, res) => {
       res.send({ error: 'Recognizing node not created' })
     })
 })
-recognizingNodeRouter.route('/').put((req, res) => {
+recognizingNodeRouter.route('/').put((req: Request, res: Response) => {
   recognizingNodeController
     .updateRecognizingNode(req)
     .then((): void => {
@@ -47,8 +47,9 @@ recognizingNodeRouter.route('/').put((req, res) => {
     })
 })
 
-recognizingNodeRouter.route('/').delete((req, res) => {
-  recognizingNodeController.deleteRecognizingNode(req)
+recognizingNodeRouter.route('/').delete((req: Request, res: Response) => {
+  recognizingNodeController
+    .deleteRecognizingNode(req)
     .then((): void => {
       res.send({ success: 'Recognizing node correctly deleted' })
     })

@@ -1,5 +1,5 @@
 import { notificationController } from '../controller/notification.js'
-import express, { Router, Request, Response } from 'express'
+import express, { Request, Response, Router } from 'express'
 import { Notification } from 'domain/dist/domain/alarm-system/core/Notification.js'
 
 export const notificationRouter: Router = express.Router()
@@ -47,7 +47,8 @@ notificationRouter.route('/').put((req: Request, res: Response): void => {
 })
 
 notificationRouter.route('/').delete((req: Request, res: Response): void => {
-  notificationController.deleteNotification(req)
+  notificationController
+    .deleteNotification(req)
     .then((): void => {
       res.send({ success: 'Notification correctly deleted' })
     })

@@ -91,6 +91,9 @@ export const anomalyController = {
     }
   },
   deleteAnomaly: async (req: Request): Promise<void> => {
-    await anomalyManager.deleteAnomaly(req.body.id, AnomalyTypeConverter.convertToAnomalyType(req.body.type))
+    await anomalyManager.deleteAnomaly(
+      req.body.id,
+      AnomalyTypeConverter.convertToAnomalyType(req.body.type)
+    )
   }
 }

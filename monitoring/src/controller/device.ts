@@ -59,13 +59,6 @@ export const deviceController = {
           deviceFactory.createCamera(deviceId, req.body.ipAddress, resolution)
         )
       case DeviceType.SENSOR:
-        console.log("ci passo")
-        console.log(deviceFactory.createSensor(
-          deviceId,
-          req.body.ipAddress,
-          req.body.intervalMillis,
-          req.body.measures
-        ))
         return await deviceManager.insertDevice(
           deviceFactory.createSensor(
             deviceId,
@@ -106,6 +99,6 @@ export const deviceController = {
     }
   },
   deleteDevice: async (req: Request): Promise<void> => {
-    return await deviceManager.deleteDevice(req.body.id)
+    return await deviceManager.deleteDevice(deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(req.body.id.type), req.body.id.code))
   }
 }

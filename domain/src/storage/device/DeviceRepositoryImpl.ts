@@ -25,11 +25,24 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor> {
+    console.log(deviceId)
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        return (await this.cameraModel.findOne(deviceId)) as unknown as Camera
+        return this.cameraModel.findOne({
+          _id: {
+            type: DeviceTypeConverter.convertToString(deviceId.type),
+            code: deviceId.code
+          }
+        }) as unknown as Camera
       case DeviceType.SENSOR:
-        return (await this.sensorModel.findById(deviceId)) as unknown as Sensor
+        return this.sensorModel.findOne({
+          _id: {
+            type: DeviceTypeConverter.convertToString(deviceId.type),
+            code: deviceId.code
+          }
+        }) as unknown as Sensor
+      default:
+        throw new Error('Error while getting device')
     }
   }
 
@@ -64,7 +77,6 @@ export class DeviceRepositoryImpl implements DeviceRepository {
             measures: (device as Sensor).measures
           })
           .catch((err): void => {
-            console.log(err)
             throw err
           })
         break
@@ -76,10 +88,12 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     switch (device.deviceId.type) {
       case DeviceType.CAMERA:
         await this.cameraModel
-          .findByIdAndUpdate(
+          .findOneAndUpdate(
             {
-              type: DeviceTypeConverter.convertToString(device.deviceId.type),
-              code: device.deviceId.code
+              _id: {
+                type: DeviceTypeConverter.convertToString(device.deviceId.type),
+                code: device.deviceId.code
+              }
             },
             {
               ipAddress: device.ipAddress,
@@ -93,10 +107,12 @@ export class DeviceRepositoryImpl implements DeviceRepository {
         break
       case DeviceType.SENSOR:
         await this.sensorModel
-          .findByIdAndUpdate(
+          .findOneAndUpdate(
             {
-              type: DeviceTypeConverter.convertToString(device.deviceId.type),
-              code: device.deviceId.code
+              _id: {
+                type: DeviceTypeConverter.convertToString(device.deviceId.type),
+                code: device.deviceId.code
+              }
             },
             {
               ipAddress: device.ipAddress,
@@ -110,11 +126,8 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
-    console.log('ci sono akmeno qua')
-    console.log(deviceId.type)
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        console.log('ci sono')
         await this.cameraModel
           .deleteOne({
             _id: {
@@ -125,7 +138,6 @@ export class DeviceRepositoryImpl implements DeviceRepository {
           .orFail()
         break
       case DeviceType.SENSOR:
-        console.log('ci sono sensor')
         await this.sensorModel
           .deleteOne({
             _id: {
@@ -135,7 +147,8 @@ export class DeviceRepositoryImpl implements DeviceRepository {
           })
           .orFail()
         break
+      default:
+        throw new Error('Error while deleting device')
     }
-    console.log('non fo nulla')
   }
 }

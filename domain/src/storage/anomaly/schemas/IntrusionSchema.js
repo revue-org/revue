@@ -16,23 +16,3 @@ export const intrusionSchema = new Schema({
     required: true
   }
 })
-
-/*
-*   createExceeding(
-    anomalyId: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    value: number,
-    measure: Measure
-  ): Exceeding {
-    return new ExceedingImpl(anomalyId, deviceId, timestamp, value, measure)
-  }
-
-  createIntrusion(
-    anomalyId: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    intrusionObject: ObjectClass
-  ): Intrusion {
-    return new IntrusionImpl(anomalyId, deviceId, timestamp, intrusionObject)
-  }*/

@@ -9,8 +9,8 @@ export interface AnomalyFactory {
     anomalyId: string,
     deviceId: DeviceId,
     timestamp: Date,
-    value: number,
-    measure: Measure
+    measure: Measure,
+    value: number
   ): Exceeding
 
   createIntrusion(

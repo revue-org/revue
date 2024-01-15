@@ -12,10 +12,10 @@ export class AnomalyFactoryImpl implements AnomalyFactory {
     anomalyId: string = '',
     deviceId: DeviceId,
     timestamp: Date,
-    value: number,
-    measure: Measure
+    measure: Measure,
+    value: number
   ): Exceeding {
-    return new ExceedingImpl(anomalyId, deviceId, timestamp, value, measure)
+    return new ExceedingImpl(anomalyId, deviceId, timestamp, measure, value)
   }
 
   createIntrusion(

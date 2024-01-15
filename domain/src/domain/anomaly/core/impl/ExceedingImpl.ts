@@ -13,14 +13,14 @@ export class ExceedingImpl implements Exceeding {
     anomalyId: string,
     deviceId: DeviceId,
     timestamp: Date,
-    value: number,
-    measure: Measure
+    measure: Measure,
+    value: number
   ) {
     this._anomalyId = anomalyId
     this._deviceId = deviceId
     this._timestamp = timestamp
-    this._value = value
     this._measure = measure
+    this._value = value
   }
 
   get anomalyId(): string {

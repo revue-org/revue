@@ -28,8 +28,8 @@ const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 export const notificationController = {
-  getNotificationById: async (req: Request): Promise<Notification> => {
-    return await notificationManager.getNotificationById(req.params.id)
+  getNotificationById: async (id: string): Promise<Notification> => {
+    return await notificationManager.getNotificationById(id)
   },
   getNotifications: async (): Promise<Notification[]> => {
     return await notificationManager.getNotifications()
@@ -100,7 +100,7 @@ export const notificationController = {
         throw new Error('Error while creating anomaly')
     }
   },
-  deleteNotification: async (req: Request): Promise<void> => {
-    return await notificationManager.deleteNotification(req.body.id)
+  deleteNotification: async (id: string): Promise<void> => {
+    return await notificationManager.deleteNotification(id)
   }
 }

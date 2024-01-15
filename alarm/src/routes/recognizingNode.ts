@@ -4,9 +4,9 @@ import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/Recognizin
 
 export const recognizingNodeRouter: Router = express.Router()
 
-recognizingNodeRouter.route('/:id').get((req: Request, res: Response) => {
+recognizingNodeRouter.route('/:id').get((req: Request, res: Response): void => {
   recognizingNodeController
-    .getRecognizingNodeById(req)
+    .getRecognizingNodeById(req.params.id)
     .then((recognizingNode: RecognizingNode): void => {
       res.send(recognizingNode)
     })
@@ -15,7 +15,7 @@ recognizingNodeRouter.route('/:id').get((req: Request, res: Response) => {
     })
 })
 
-recognizingNodeRouter.route('/').get((req: Request, res: Response) => {
+recognizingNodeRouter.route('/').get((req: Request, res: Response): void => {
   recognizingNodeController
     .getRecognizingNodes()
     .then((recognizingNodes: RecognizingNode[]): void => {
@@ -26,7 +26,7 @@ recognizingNodeRouter.route('/').get((req: Request, res: Response) => {
     })
 })
 
-recognizingNodeRouter.route('/').post((req: Request, res: Response) => {
+recognizingNodeRouter.route('/').post((req: Request, res: Response): void => {
   recognizingNodeController
     .createRecognizingNode(req)
     .then((): void => {
@@ -36,7 +36,7 @@ recognizingNodeRouter.route('/').post((req: Request, res: Response) => {
       res.send({ error: 'Recognizing node not created' })
     })
 })
-recognizingNodeRouter.route('/').put((req: Request, res: Response) => {
+recognizingNodeRouter.route('/').put((req: Request, res: Response): void => {
   recognizingNodeController
     .updateRecognizingNode(req)
     .then((): void => {
@@ -47,9 +47,9 @@ recognizingNodeRouter.route('/').put((req: Request, res: Response) => {
     })
 })
 
-recognizingNodeRouter.route('/').delete((req: Request, res: Response) => {
+recognizingNodeRouter.route('/').delete((req: Request, res: Response): void => {
   recognizingNodeController
-    .deleteRecognizingNode(req)
+    .deleteRecognizingNode(req.body.id)
     .then((): void => {
       res.send({ success: 'Recognizing node correctly deleted' })
     })

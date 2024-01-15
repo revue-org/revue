@@ -25,8 +25,8 @@ const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const anomalyController = {
-  getAnomalyById: async (req: Request): Promise<Anomaly> => {
-    return await anomalyManager.getAnomalyById(req.params.id)
+  getAnomalyById: async (id: string): Promise<Anomaly> => {
+    return await anomalyManager.getAnomalyById(id)
   },
   getExceedings: async (): Promise<Exceeding[]> => {
     return await anomalyManager.getExceedings()
@@ -38,7 +38,6 @@ export const anomalyController = {
     if (req.body.type === undefined) {
       throw new Error('No type present in request body')
     }
-    console.log(req.body)
     switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
       case AnomalyType.EXCEEDING:
         return await anomalyManager.insertAnomaly(
@@ -91,10 +90,10 @@ export const anomalyController = {
         throw new Error('Error while creating anomaly')
     }
   },
-  deleteAnomaly: async (req: Request): Promise<void> => {
+  deleteAnomaly: async (id: string, type: string): Promise<void> => {
     await anomalyManager.deleteAnomaly(
-      req.body.id,
-      AnomalyTypeConverter.convertToAnomalyType(req.body.type)
+      id,
+      AnomalyTypeConverter.convertToAnomalyType(type)
     )
   }
 }

@@ -17,8 +17,8 @@ const recognizingNodeManager: RecognizingNodeRepository = new RecognizingNodeRep
 )
 const recognizingNodeFactory: RecognizingNodeFactory = new RecognizingNodeFactoryImpl()
 export const recognizingNodeController = {
-  getRecognizingNodeById: async (req: Request): Promise<RecognizingNode> => {
-    return await recognizingNodeManager.getRecognizingNodeById(req.params.id)
+  getRecognizingNodeById: async (id: string): Promise<RecognizingNode> => {
+    return await recognizingNodeManager.getRecognizingNodeById(id)
   },
   getRecognizingNodes: async (): Promise<RecognizingNode[]> => {
     return await recognizingNodeManager.getRecognizingNodes()
@@ -37,7 +37,7 @@ export const recognizingNodeController = {
       )
     )
   },
-  deleteRecognizingNode: async (req: Request): Promise<void> => {
-    return await recognizingNodeManager.deleteRecognizingNode(req.body.id)
+  deleteRecognizingNode: async (id: string): Promise<void> => {
+    return await recognizingNodeManager.deleteRecognizingNode(id)
   }
 }

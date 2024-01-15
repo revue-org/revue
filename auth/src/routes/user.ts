@@ -17,7 +17,7 @@ userRouter.route('/').get((res: Response): void => {
 
 userRouter.route('/:id').get((req: Request, res: Response): void => {
   userController
-    .getUserById(req)
+    .getUserById(req.params.id)
     .then((user: User): void => {
       res.send(user)
     })
@@ -50,7 +50,7 @@ userRouter.route('/').put((req: Request, res: Response): void => {
 
 userRouter.route('/').delete((req: Request, res: Response): void => {
   userController
-    .deleteUser(req)
+    .deleteUser(req.body.id)
     .then((): void => {
       res.send({ success: 'User correctly deleted' })
     })

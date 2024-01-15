@@ -12,8 +12,8 @@ const userManager: UserRepository = new UserRepositoryImpl(userModel)
 const userFactory: UserFactory = new UserFactoryImpl()
 
 export const userController = {
-  getUserById: async (req: Request): Promise<User> => {
-    return await userManager.getUserById(req.params.id)
+  getUserById: async (id: string): Promise<User> => {
+    return await userManager.getUserById(id)
   },
   getUsers: async (): Promise<User[]> => {
     return await userManager.getUsers()
@@ -46,7 +46,7 @@ export const userController = {
     )
     return await userManager.updateUser(user)
   },
-  deleteUser: async (req: Request): Promise<void> => {
-    return await userManager.deleteUser(req.body.id)
+  deleteUser: async (id: string): Promise<void> => {
+    return await userManager.deleteUser(id)
   }
 }

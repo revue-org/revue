@@ -6,9 +6,9 @@ import { Anomaly } from 'domain/dist/domain/anomaly/core/Anomaly.js'
 
 export const anomalyRouter: Router = express.Router()
 
-anomalyRouter.route('/:id').get((req: Request, res: Response) => {
+anomalyRouter.route('/:id').get((req: Request, res: Response): void => {
   anomalyController
-    .getAnomalyById(req)
+    .getAnomalyById(req.params.id)
     .then((anomaly: Anomaly): void => {
       res.send(anomaly)
     })
@@ -17,7 +17,7 @@ anomalyRouter.route('/:id').get((req: Request, res: Response) => {
     })
 })
 
-anomalyRouter.route('/intrusion').get((req: Request, res: Response) => {
+anomalyRouter.route('/intrusion').get((req: Request, res: Response): void => {
   anomalyController
     .getIntrusions()
     .then((intrusions: Intrusion[]): void => {
@@ -27,7 +27,7 @@ anomalyRouter.route('/intrusion').get((req: Request, res: Response) => {
       res.send({ error: 'No intrusions found' })
     })
 })
-anomalyRouter.route('/exceeding').get((req: Request, res: Response) => {
+anomalyRouter.route('/exceeding').get((req: Request, res: Response): void => {
   anomalyController
     .getExceedings()
     .then((exceedings: Exceeding[]): void => {
@@ -37,7 +37,7 @@ anomalyRouter.route('/exceeding').get((req: Request, res: Response) => {
       res.send({ error: 'No exceedings found' })
     })
 })
-anomalyRouter.route('/').post((req: Request, res: Response) => {
+anomalyRouter.route('/').post((req: Request, res: Response): void => {
   anomalyController
     .createAnomaly(req)
     .then((): void => {
@@ -47,7 +47,7 @@ anomalyRouter.route('/').post((req: Request, res: Response) => {
       res.send({ error: 'Anomaly not created' })
     })
 })
-anomalyRouter.route('/').put((req: Request, res: Response) => {
+anomalyRouter.route('/').put((req: Request, res: Response): void => {
   anomalyController
     .updateAnomaly(req)
     .then((): void => {
@@ -58,9 +58,9 @@ anomalyRouter.route('/').put((req: Request, res: Response) => {
     })
 })
 
-anomalyRouter.route('/').delete((req: Request, res: Response) => {
+anomalyRouter.route('/').delete((req: Request, res: Response): void => {
   anomalyController
-    .deleteAnomaly(req)
+    .deleteAnomaly(req.body.id, req.body.type)
     .then((): void => {
       res.send({ success: 'Anomaly correctly deleted' })
     })

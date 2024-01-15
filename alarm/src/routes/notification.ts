@@ -6,7 +6,7 @@ export const notificationRouter: Router = express.Router()
 
 notificationRouter.route('/:id').get((req: Request, res: Response): void => {
   notificationController
-    .getNotificationById(req)
+    .getNotificationById(req.params.id)
     .then((notification: Notification): void => {
       res.send(notification)
     })
@@ -48,7 +48,7 @@ notificationRouter.route('/').put((req: Request, res: Response): void => {
 
 notificationRouter.route('/').delete((req: Request, res: Response): void => {
   notificationController
-    .deleteNotification(req)
+    .deleteNotification(req.body.id)
     .then((): void => {
       res.send({ success: 'Notification correctly deleted' })
     })

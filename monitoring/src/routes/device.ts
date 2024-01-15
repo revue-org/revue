@@ -8,7 +8,7 @@ export const deviceRouter: Router = express.Router()
 
 deviceRouter.route('/:type&:code').get((req: Request, res: Response): void => {
   deviceController
-    .getDeviceById(req)
+    .getDeviceById(req.params.type, req.params.code)
     .then((device: Device): void => {
       res.send(device)
     })
@@ -17,7 +17,7 @@ deviceRouter.route('/:type&:code').get((req: Request, res: Response): void => {
     })
 })
 
-deviceRouter.route('/cameras').get((req: Request, res: Response) => {
+deviceRouter.route('/cameras').get((req: Request, res: Response): void => {
   deviceController
     .getCameras()
     .then((cameras: Camera[]): void => {
@@ -27,7 +27,7 @@ deviceRouter.route('/cameras').get((req: Request, res: Response) => {
       res.send({ error: 'No cameras found' })
     })
 })
-deviceRouter.route('/sensors').get((req: Request, res: Response) => {
+deviceRouter.route('/sensors').get((req: Request, res: Response): void => {
   deviceController
     .getSensors()
     .then((sensors: Sensor[]): void => {
@@ -38,7 +38,7 @@ deviceRouter.route('/sensors').get((req: Request, res: Response) => {
     })
 })
 
-deviceRouter.route('/').post((req: Request, res: Response) => {
+deviceRouter.route('/').post((req: Request, res: Response): void => {
   deviceController
     .createDevice(req)
     .then((): void => {
@@ -49,7 +49,7 @@ deviceRouter.route('/').post((req: Request, res: Response) => {
     })
 })
 
-deviceRouter.route('/').put((req: Request, res: Response) => {
+deviceRouter.route('/').put((req: Request, res: Response): void => {
   deviceController
     .updateDevice(req)
     .then((): void => {
@@ -60,9 +60,9 @@ deviceRouter.route('/').put((req: Request, res: Response) => {
     })
 })
 
-deviceRouter.route('/').delete((req: Request, res: Response) => {
+deviceRouter.route('/').delete((req: Request, res: Response): void => {
   deviceController
-    .deleteDevice(req)
+    .deleteDevice(req.body.type, req.body.code)
     .then((): void => {
       res.send({ success: 'Device correctly deleted' })
     })

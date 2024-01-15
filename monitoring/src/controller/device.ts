@@ -26,12 +26,9 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
 export const deviceController = {
-  getDeviceById: async (req: Request): Promise<Device> => {
+  getDeviceById: async (type: string, code: string): Promise<Device> => {
     return await deviceManager.getDeviceById(
-      deviceIdFactory.createId(
-        DeviceTypeConverter.convertToDeviceType(req.params.type),
-        req.params.code
-      )
+      deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(type), code)
     )
   },
   getCameras: async (): Promise<Camera[]> => {
@@ -98,12 +95,9 @@ export const deviceController = {
         throw new Error('Error while updating device')
     }
   },
-  deleteDevice: async (req: Request): Promise<void> => {
+  deleteDevice: async (type: string, code: string): Promise<void> => {
     return await deviceManager.deleteDevice(
-      deviceIdFactory.createId(
-        DeviceTypeConverter.convertToDeviceType(req.body.id.type),
-        req.body.id.code
-      )
+      deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(type), code)
     )
   }
 }

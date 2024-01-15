@@ -43,7 +43,7 @@ export const userAccessController = {
       const accessToken = jwtManager.generateAccessToken(infos)
       user.token = accessToken
       await userManager.updateUser(user)
-      return accessToken;
+      return accessToken
     })
   }
 }

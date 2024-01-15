@@ -23,7 +23,7 @@ class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     return this.intrusionRuleModel.find().orFail()
   }
 
-  async getSecurityRuleById(securityRuleId: string): Promise<ExceedingRule | IntrusionRule> {
+  async getSecurityRuleById(securityRuleId: string): Promise<SecurityRule> {
     const exceedingRule = await this.exceedingRuleModel.findById(securityRuleId)
     if (exceedingRule) {
       return exceedingRule

@@ -8,7 +8,7 @@ import { AnomalyType } from 'domain/dist/domain/anomaly/core/impl/enum/AnomalyTy
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
 import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
-import { DeviceIdFactory } from "domain/dist/domain/device/factories/DeviceIdFactory";
+import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory'
 
 export const anomalyRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

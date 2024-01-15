@@ -10,7 +10,7 @@ export class ExceedingRuleImpl implements ExceedingRule {
   private _securityRuleId: string
   private _deviceId: DeviceId
   private _creatorId: string
-  private _contactsToNotify: Set<Contact>
+  private _contactsToNotify: Contact[]
   private _description: string
   private _from: Date
   private _to: Date
@@ -22,7 +22,7 @@ export class ExceedingRuleImpl implements ExceedingRule {
     securityRuleId: string,
     deviceId: DeviceId,
     creatorId: string,
-    contactsToNotify: Set<Contact>,
+    contactsToNotify: Contact[],
     description: string,
     from: Date,
     to: Date
@@ -87,11 +87,11 @@ export class ExceedingRuleImpl implements ExceedingRule {
     this._creatorId = creatorId
   }
 
-  get contactsToNotify(): Set<Contact> {
+  get contactsToNotify(): Contact[] {
     return this._contactsToNotify
   }
 
-  set contactsToNotify(contactsToNotify: Set<Contact>) {
+  set contactsToNotify(contactsToNotify: Contact[]) {
     this._contactsToNotify = contactsToNotify
   }
 

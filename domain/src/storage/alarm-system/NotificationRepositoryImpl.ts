@@ -1,8 +1,6 @@
 import { NotificationRepository } from '../../domain/alarm-system/repositories/NotificationRepository'
 import { Model, Promise } from 'mongoose'
 import { Notification } from '../../domain/alarm-system/core/Notification.js'
-import { ExceedingImpl } from '../../domain/anomaly/core/impl/ExceedingImpl.js'
-import { IntrusionImpl } from '../../domain/anomaly/core/impl/IntrusionImpl.js'
 
 export class NotificationRepositoryImpl implements NotificationRepository {
   notificationModel: Model<Notification>

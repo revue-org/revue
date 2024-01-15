@@ -28,7 +28,7 @@ export const userSchema = new Schema({
     type: String,
     default: ''
   },
-  contact: {
+  contacts: {
     type: [contactSchema],
     default: []
   },

@@ -30,7 +30,7 @@ export class UserRepositoryImpl implements UserRepository {
         password: user.password,
         token: user.token,
         refreshToken: user.refreshToken,
-        contact: user.contact,
+        contacts: user.contacts,
         deviceIds: user.deviceIds
       })
       .catch((err) => {

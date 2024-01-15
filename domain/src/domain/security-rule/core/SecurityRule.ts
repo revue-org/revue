@@ -12,11 +12,9 @@ export interface SecurityRule {
 
   get creatorId(): string
 
-  set creatorId(creatorId: string)
+  get contactsToNotify(): Contact[]
 
-  get contactsToNotify(): Set<Contact>
-
-  set contactsToNotify(contactsToNotify: Set<Contact>)
+  set contactsToNotify(contactsToNotify: Contact[])
 
   get description(): string
 

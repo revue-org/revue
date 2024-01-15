@@ -7,7 +7,7 @@ export interface SecurityRuleRepository {
 
   getIntrusionRules(): Promise<IntrusionRule[]>
 
-  getSecurityRuleById(securityRuleId: string): Promise<ExceedingRule | IntrusionRule>
+  getSecurityRuleById(securityRuleId: string): Promise<SecurityRule>
 
   insertSecurityRule(securityRule: SecurityRule): Promise<void>
 

@@ -16,10 +16,6 @@ export class ContactImpl implements Contact {
     return this._value
   }
 
-  set id(id: string) {
-    this._id = id
-  }
-
   get value(): string {
     return this._value
   }

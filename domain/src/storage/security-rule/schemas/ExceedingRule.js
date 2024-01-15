@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
 import { contactSchema } from '../../monitoring/schemas/ContactSchema.js'
+import { Measure } from '../../../domain/device/core/impl/enum/Measure.js'
 
 export const exceedingRuleSchema = new Schema({
   deviceId: {
@@ -25,7 +26,7 @@ export const exceedingRuleSchema = new Schema({
   },
   measure: {
     type: String,
-    enum: ['TEMPERATURE', 'HUMIDITY'], //saranno da mettere tutti i tipi di misura prendendoli dall'enum
+    enum: Object.values(Measure),
     required: true
   },
   contacts: {

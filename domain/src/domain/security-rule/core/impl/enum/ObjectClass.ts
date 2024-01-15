@@ -1,4 +1,5 @@
 export enum ObjectClass {
   PERSON,
-  ANIMAL
+  ANIMAL,
+  VEHICLE
 }

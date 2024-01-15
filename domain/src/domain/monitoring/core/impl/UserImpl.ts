@@ -10,7 +10,7 @@ export class UserImpl implements User {
   private _password: string
   private _token: string
   private _refreshToken: string
-  private _contact: Contact[]
+  private _contacts: Contact[]
   private _deviceIds: DeviceId[]
 
   constructor(
@@ -21,7 +21,7 @@ export class UserImpl implements User {
     password: string,
     token: string,
     refreshToken: string,
-    contact: Contact[],
+    contacts: Contact[],
     deviceIds: DeviceId[]
   ) {
     this._id = id
@@ -31,7 +31,7 @@ export class UserImpl implements User {
     this._password = password
     this._token = token
     this._refreshToken = refreshToken
-    this._contact = contact
+    this._contacts = contacts
     this._deviceIds = deviceIds
   }
 
@@ -91,12 +91,12 @@ export class UserImpl implements User {
     this._refreshToken = refreshToken
   }
 
-  get contact(): Contact[] {
-    return this._contact
+  get contacts(): Contact[] {
+    return this._contacts
   }
 
-  set contact(contact: Contact[]) {
-    this._contact = contact
+  set contacts(contacts: Contact[]) {
+    this._contacts = contacts
   }
 
   get deviceIds(): DeviceId[] {

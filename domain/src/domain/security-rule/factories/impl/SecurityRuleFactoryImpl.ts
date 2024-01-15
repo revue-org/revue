@@ -14,7 +14,7 @@ export class SecurityRuleFactoryImpl implements SecurityRuleFactory {
     securityRuleId: string,
     deviceId: DeviceId,
     creatorId: string,
-    contactsToNotify: Set<Contact>,
+    contactsToNotify: Contact[],
     description: string,
     from: Date,
     to: Date
@@ -38,7 +38,7 @@ export class SecurityRuleFactoryImpl implements SecurityRuleFactory {
     securityRuleId: string,
     deviceId: DeviceId,
     creatorId: string,
-    contactsToNotify: Set<Contact>,
+    contactsToNotify: Contact[],
     description: string,
     from: Date,
     to: Date

@@ -16,7 +16,7 @@ export interface User {
 
   get refreshToken(): string
 
-  get contact(): Contact[]
+  get contacts(): Contact[]
 
   get deviceIds(): DeviceId[]
 
@@ -34,7 +34,7 @@ export interface User {
 
   set refreshToken(refreshToken: string)
 
-  set contact(contacts: Contact[])
+  set contacts(contacts: Contact[])
 
   set deviceIds(deviceIds: DeviceId[])
 

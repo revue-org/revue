@@ -6,6 +6,7 @@
   "description": "Frontend microservice",
   "main": "src/main.ts",
   "scripts": {
+    "host": "vite --host",
     "build": "vite build",
     "start": "npm run build && vite",
     "watch": "vite build -w",

@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import ClusterTree from '@/components/ClusterTree.vue'
 import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
+import { RouterLink } from 'vue-router'
+import NavbarComponent from '@/components/NavbarComponent.vue'
 
 const rightDrawerOpen = ref(false);
 
@@ -13,17 +15,8 @@ const toggleRightDrawer = () => {
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header bordered class="bg-primary text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <q-icon :name="symSharpControlCamera" style="font-size: 1.5em"/>
-          </q-avatar>
-          Revue
-        </q-toolbar-title>
-
-        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
-      </q-toolbar>
+    <q-header class="bg-primary text-white">
+      <navbar-component @toggle-aside="toggleRightDrawer" />
     </q-header>
 
     <q-drawer

@@ -14,7 +14,9 @@ export interface AnomalyRepository {
 
   insertIntrusion(intrusion: Intrusion): Promise<void>
 
-  updateAnomaly(anomaly: Anomaly): Promise<void>
+  updateExceeding(anomaly: Exceeding): Promise<void>
+
+  updateIntrusion(anomaly: Intrusion): Promise<void>
 
   deleteAnomaly(anomalyId: string, type: AnomalyType): Promise<void>
 }

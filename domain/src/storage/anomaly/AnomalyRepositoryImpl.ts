@@ -3,7 +3,6 @@ import { Exceeding } from '../../domain/anomaly/core/Exceeding.js'
 import { Anomaly } from '../../domain/anomaly/core/Anomaly.js'
 import { Intrusion } from '../../domain/anomaly/core/Intrusion.js'
 import { AnomalyRepository } from '../../domain/anomaly/repositories/AnomalyRepository.js'
-import { ExceedingImpl } from '../../domain/anomaly/core/impl/ExceedingImpl.js'
 import { IntrusionImpl } from '../../domain/anomaly/core/impl/IntrusionImpl.js'
 import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
 import { MeasureConverter } from '../../utils/MeasureConverter.js'
@@ -72,35 +71,35 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
       })
   }
 
-  async updateAnomaly(anomaly: Anomaly): Promise<void> {
-    if (anomaly instanceof ExceedingImpl) {
-      await this.exceedingModel
-        .findByIdAndUpdate(anomaly.anomalyId, {
-          deviceId: {
-            type: DeviceTypeConverter.convertToString(anomaly.deviceId.type),
-            code: anomaly.deviceId.code
-          },
-          timestamp: anomaly.timestamp,
-          value: (anomaly as ExceedingImpl).value,
-          measure: MeasureConverter.convertToString((anomaly as ExceedingImpl).measure)
-        })
-        .catch((err): void => {
-          console.log(err)
-          //throw err
-        })
-    }
-    if (anomaly instanceof IntrusionImpl) {
-      await this.intrusionModel.findByIdAndUpdate(anomaly.anomalyId, {
+  async updateExceeding(exceeding: Exceeding): Promise<void> {
+    await this.exceedingModel
+      .findByIdAndUpdate(exceeding.anomalyId, {
         deviceId: {
-          type: DeviceTypeConverter.convertToString(anomaly.deviceId.type),
-          code: anomaly.deviceId.code
+          type: DeviceTypeConverter.convertToString(exceeding.deviceId.type),
+          code: exceeding.deviceId.code
         },
-        timestamp: anomaly.timestamp,
-        intrusionObject: ObjectClassConverter.convertToString(
-          (anomaly as IntrusionImpl).intrusionObject
-        )
+        timestamp: exceeding.timestamp,
+        value: exceeding.value,
+        measure: MeasureConverter.convertToString(exceeding.measure)
       })
-    }
+      .catch((err): void => {
+        throw err
+      })
+  }
+
+  async updateIntrusion(intrusion: Intrusion): Promise<void> {
+    await this.intrusionModel
+      .findByIdAndUpdate(intrusion.anomalyId, {
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(intrusion.deviceId.type),
+          code: intrusion.deviceId.code
+        },
+        timestamp: intrusion.timestamp,
+        intrusionObject: ObjectClassConverter.convertToString(intrusion.intrusionObject)
+      })
+      .catch((err): void => {
+        throw err
+      })
   }
 
   async deleteAnomaly(anomalyId: string, type: AnomalyType): Promise<void> {

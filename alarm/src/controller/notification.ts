@@ -1,4 +1,3 @@
-import type { Request } from 'express'
 import { Model, model } from 'mongoose'
 import { Notification } from '@domain/alarm-system/core/Notification.js'
 import { NotificationRepository } from '@domain/alarm-system/repositories/NotificationRepository.js'
@@ -6,14 +5,11 @@ import { NotificationRepositoryImpl } from '@storage/alarm-system/NotificationRe
 import { NotificationFactory } from '@domain/alarm-system/factories/NotificationFactory.js'
 import { NotificationFactoryImpl } from '@domain/alarm-system/factories/impl/NotificationFactoryImpl.js'
 import { notificationSchema } from '@storage/alarm-system/schemas/NotificationSchema.js'
-import { AnomalyTypeConverter } from 'domain/dist/utils/AnomalyTypeConverter.js'
-import { AnomalyType } from '@domain/anomaly/core/impl/enum/AnomalyType.js'
 import { AnomalyFactory } from '@domain/anomaly/factories/AnomalyFactory.js'
 import { AnomalyFactoryImpl } from '@domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
-import { MeasureConverter } from '@utils/MeasureConverter.js'
-import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
-import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
+import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
+import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
+import { ObjectClass } from 'domain/dist/domain/security-rule/core/impl/enum/ObjectClass.js'
 
 const notificationModel: Model<Notification> = model<Notification>(
   'Notification',
@@ -26,7 +22,6 @@ const notificationManager: NotificationRepository = new NotificationRepositoryIm
 )
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 export const notificationController = {
   getNotificationById: async (id: string): Promise<Notification> => {
     return await notificationManager.getNotificationById(id)
@@ -34,71 +29,59 @@ export const notificationController = {
   getNotifications: async (): Promise<Notification[]> => {
     return await notificationManager.getNotifications()
   },
-  createNotification: async (req: Request): Promise<void> => {
-    switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
-      case AnomalyType.EXCEEDING:
-        await notificationManager.insertNotification(
-          notificationFactory.createExceedingNotification(
-            '',
-            anomalyFactory.createExceeding(
-              req.body.anomalyId,
-              deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
-              new Date(),
-              req.body.value,
-              MeasureConverter.convertToMeasure(req.body.measure)
-            )
-          )
-        )
-        break
-      case AnomalyType.INTRUSION:
-        await notificationManager.insertNotification(
-          notificationFactory.createIntrusionNotification(
-            '',
-            anomalyFactory.createIntrusion(
-              req.body.anomalyId,
-              deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
-              new Date(),
-              ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
-            )
-          )
-        )
-        break
-      default:
-        throw new Error('Error while creating anomaly')
-    }
+  createExceedingNotification: async (
+    anomalyId: string,
+    deviceId: DeviceId,
+    measure: Measure,
+    value: number
+  ): Promise<void> => {
+    await notificationManager.insertExceedingNotification(
+      notificationFactory.createExceedingNotification(
+        '',
+        anomalyFactory.createExceeding(anomalyId, deviceId, new Date(), value, measure)
+      )
+    )
   },
-  updateNotification: async (req: Request): Promise<void> => {
-    switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
-      case AnomalyType.EXCEEDING:
-        await notificationManager.updateNotification(
-          notificationFactory.createExceedingNotification(
-            req.body.id,
-            anomalyFactory.createExceeding(
-              req.body.anomalyId,
-              deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
-              new Date(),
-              req.body.value,
-              MeasureConverter.convertToMeasure(req.body.measure)
-            )
-          )
-        )
-        break
-      case AnomalyType.INTRUSION:
-        await notificationManager.updateNotification(
-          notificationFactory.createIntrusionNotification(
-            req.body.id,
-            anomalyFactory.createIntrusion(
-              req.body.anomalyId,
-              deviceIdFactory.createId(req.body.deviceId.type, req.body.deviceId.code),
-              new Date(),
-              ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
-            )
-          )
-        )
-        break
-      default:
-        throw new Error('Error while creating anomaly')
-    }
+  createIntrusionNotification: async (
+    anomalyId: string,
+    deviceId: DeviceId,
+    intrusionObject: ObjectClass
+  ): Promise<void> => {
+    await notificationManager.insertIntrusionNotification(
+      notificationFactory.createIntrusionNotification(
+        '',
+        anomalyFactory.createIntrusion(anomalyId, deviceId, new Date(), intrusionObject)
+      )
+    )
+  },
+  updateExceedingNotification: async (
+    notificationId: string,
+    anomalyId: string,
+    deviceId: DeviceId,
+    timestamp: Date,
+    measure: Measure,
+    value: number
+  ): Promise<void> => {
+    await notificationManager.updateExceedingNotification(
+      notificationFactory.createExceedingNotification(
+        notificationId,
+        anomalyFactory.createExceeding(anomalyId, deviceId, timestamp, value, measure)
+      )
+    )
+  },
+  updateIntrusionNotification: async (
+    notificationId: string,
+    anomalyId: string,
+    deviceId: DeviceId,
+    timestamp: Date,
+    intrusionObject: ObjectClass
+  ): Promise<void> => {
+    await notificationManager.updateIntrusionNotification(
+      notificationFactory.createIntrusionNotification(
+        notificationId,
+        anomalyFactory.createIntrusion(anomalyId, deviceId, timestamp, intrusionObject)
+      )
+    )
   },
   deleteNotification: async (id: string): Promise<void> => {
     return await notificationManager.deleteNotification(id)

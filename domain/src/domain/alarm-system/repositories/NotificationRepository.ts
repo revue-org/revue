@@ -5,9 +5,13 @@ export interface NotificationRepository {
 
   getNotificationById(notificationId: string): Promise<Notification>
 
-  insertNotification(notification: Notification): Promise<void>
+  insertExceedingNotification(notification: Notification): Promise<void>
 
-  updateNotification(notification: Notification): Promise<void>
+  insertIntrusionNotification(notification: Notification): Promise<void>
+
+  updateExceedingNotification(notification: Notification): Promise<void>
+
+  updateIntrusionNotification(notification: Notification): Promise<void>
 
   deleteNotification(notificationId: string): Promise<void>
 }

@@ -19,14 +19,8 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     return this.notificationModel.findById(notificationId).orFail()
   }
 
-  async insertNotification(notification: Notification): Promise<void> {
-    let anomalyType: string = ''
-    if (notification.anomaly instanceof ExceedingImpl) {
-      anomalyType = 'EXCEEDING'
-    }
-    if (notification.anomaly instanceof IntrusionImpl) {
-      anomalyType = 'INTRUSION'
-    }
+  async insertExceedingNotification(notification: Notification): Promise<void> {
+    let anomalyType: string = 'EXCEEDING'
     await this.notificationModel
       .create({
         anomalyId: notification.anomaly.anomalyId,
@@ -34,19 +28,33 @@ export class NotificationRepositoryImpl implements NotificationRepository {
         timestamp: notification.timestamp
       })
       .catch((err): void => {
-        console.log(err)
         throw err
       })
   }
 
-  async updateNotification(notification: Notification): Promise<void> {
-    let anomalyType: string = ''
-    if (notification.anomaly instanceof ExceedingImpl) {
-      anomalyType = 'EXCEEDING'
-    }
-    if (notification.anomaly instanceof IntrusionImpl) {
-      anomalyType = 'INTRUSION'
-    }
+  async insertIntrusionNotification(notification: Notification): Promise<void> {
+    let anomalyType: string = 'INTRUSION'
+    await this.notificationModel
+      .create({
+        anomalyId: notification.anomaly.anomalyId,
+        anomalyType: anomalyType,
+        timestamp: notification.timestamp
+      })
+      .catch((err): void => {
+        throw err
+      })
+  }
+
+  async updateExceedingNotification(notification: Notification): Promise<void> {
+    let anomalyType: string = 'EXCEEDING'
+    await this.notificationModel.findByIdAndUpdate(notification.notificationId, {
+      anomalyType: anomalyType,
+      timestamp: new Date()
+    })
+  }
+
+  async updateIntrusionNotification(notification: Notification): Promise<void> {
+    let anomalyType: string = 'INTRUSION'
     await this.notificationModel.findByIdAndUpdate(notification.notificationId, {
       anomalyType: anomalyType,
       timestamp: new Date()

@@ -46,8 +46,7 @@ export const anomalyController = {
     measure: Measure,
     value: number
   ): Promise<void> {
-    console.log(anomalyFactory.createExceeding(id, deviceId, timestamp, measure, value))
-    return anomalyManager.updateAnomaly(
+    return anomalyManager.updateExceeding(
       anomalyFactory.createExceeding(id, deviceId, timestamp, measure, value)
     )
   },
@@ -57,7 +56,7 @@ export const anomalyController = {
     timestamp: Date,
     intrusionObject: ObjectClass
   ): Promise<void> {
-    return anomalyManager.updateAnomaly(
+    return anomalyManager.updateIntrusion(
       anomalyFactory.createIntrusion(id, deviceId, timestamp, intrusionObject)
     )
   },

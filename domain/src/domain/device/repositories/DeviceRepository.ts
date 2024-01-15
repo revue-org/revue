@@ -10,9 +10,13 @@ export interface DeviceRepository {
 
   getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor>
 
-  insertDevice(device: Device): Promise<void>
+  insertCamera(camera: Camera): Promise<void>
 
-  updateDevice(device: Device): Promise<void>
+  insertSensor(sensor: Sensor): Promise<void>
+
+  updateCamera(camera: Camera): Promise<void>
+
+  updateSensor(sensor: Sensor): Promise<void>
 
   deleteDevice(deviceId: DeviceId): Promise<void>
 }

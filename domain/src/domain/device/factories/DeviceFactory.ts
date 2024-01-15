@@ -11,6 +11,6 @@ export interface DeviceFactory {
     deviceId: DeviceId,
     ipAddress: string,
     intervalMillis: number,
-    measures: Set<Measure>
+    measures: Measure[]
   ): Sensor
 }

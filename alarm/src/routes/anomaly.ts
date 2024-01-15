@@ -2,13 +2,14 @@ import { anomalyController } from '../controller/anomaly.js'
 import express, { Request, Response, Router } from 'express'
 import { Intrusion } from 'domain/dist/domain/anomaly/core/Intrusion.js'
 import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding.js'
+import { Anomaly } from 'domain/dist/domain/anomaly/core/Anomaly.js'
 
 export const anomalyRouter: Router = express.Router()
 
 anomalyRouter.route('/:id').get((req: Request, res: Response) => {
   anomalyController
     .getAnomalyById(req)
-    .then((anomaly: Intrusion | Exceeding): void => {
+    .then((anomaly: Anomaly): void => {
       res.send(anomaly)
     })
     .catch((): void => {

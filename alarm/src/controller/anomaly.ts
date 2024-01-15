@@ -14,6 +14,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
+import { Anomaly } from 'domain/dist/domain/anomaly/core/Anomaly'
 
 const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
@@ -24,7 +25,7 @@ const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const anomalyController = {
-  getAnomalyById: async (req: Request): Promise<Exceeding | Intrusion> => {
+  getAnomalyById: async (req: Request): Promise<Anomaly> => {
     return await anomalyManager.getAnomalyById(req.params.id)
   },
   getExceedings: async (): Promise<Exceeding[]> => {

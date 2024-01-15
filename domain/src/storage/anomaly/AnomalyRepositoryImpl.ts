@@ -26,7 +26,7 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
     return this.intrusionModel.find().orFail()
   }
 
-  async getAnomalyById(anomalyId: string): Promise<Exceeding | Intrusion> {
+  async getAnomalyById(anomalyId: string): Promise<Anomaly> {
     const exceeding = await this.exceedingModel.findById(anomalyId)
     if (exceeding) {
       return exceeding

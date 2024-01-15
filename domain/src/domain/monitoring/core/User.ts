@@ -26,9 +26,9 @@ export interface User {
 
   set surname(surname: string)
 
-  set username(username:string)
+  set username(username: string)
 
-  set password(password:string)
+  set password(password: string)
 
   set token(token: string)
 

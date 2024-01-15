@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
-import { deviceIdSchema } from "../../device/schemas/DeviceIdSchema.js";
-import { contactSchema } from "../../monitoring/schemas/ContactSchema.js";
+import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
+import { contactSchema } from '../../monitoring/schemas/ContactSchema.js'
 
 export const intrusionRuleSchema = new Schema({
   deviceId: {

@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { deviceIdSchema } from "./DeviceIdSchema.js";
+import { deviceIdSchema } from './DeviceIdSchema.js'
 
 export const environmentDataSchema = new Schema({
   deviceId: {
@@ -16,7 +16,7 @@ export const environmentDataSchema = new Schema({
     required: true
   },
   timestamp: {
-    type: Date, 
+    type: Date,
     default: Date.now
   }
 })

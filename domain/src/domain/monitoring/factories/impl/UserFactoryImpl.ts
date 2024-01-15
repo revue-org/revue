@@ -6,7 +6,7 @@ import { DeviceId } from '../../../device/core/DeviceId.js'
 
 export class UserFactoryImpl implements UserFactory {
   createUser(
-    id: string = "",
+    id: string = '',
     name: string,
     surname: string,
     username: string,

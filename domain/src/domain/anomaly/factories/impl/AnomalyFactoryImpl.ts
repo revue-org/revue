@@ -9,7 +9,7 @@ import { IntrusionImpl } from '../../core/impl/IntrusionImpl.js'
 
 export class AnomalyFactoryImpl implements AnomalyFactory {
   createExceeding(
-    anomalyId: string = "",
+    anomalyId: string = '',
     deviceId: DeviceId,
     timestamp: Date,
     value: number,
@@ -19,7 +19,7 @@ export class AnomalyFactoryImpl implements AnomalyFactory {
   }
 
   createIntrusion(
-    anomalyId: string = "",
+    anomalyId: string = '',
     deviceId: DeviceId,
     timestamp: Date,
     intrusionObject: ObjectClass

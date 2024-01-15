@@ -1,12 +1,15 @@
-import { Schema } from "mongoose";
+import { Schema } from 'mongoose'
 
-export const resolutionSchema = new Schema({
-  height: {
-    type: Number,
-    required: true
+export const resolutionSchema = new Schema(
+  {
+    height: {
+      type: Number,
+      required: true
+    },
+    width: {
+      type: Number,
+      required: true
+    }
   },
-  width: {
-    type: Number,
-    required: true
-  }
-}, { _id: false })
+  { _id: false }
+)

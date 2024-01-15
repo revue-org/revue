@@ -1,7 +1,7 @@
 import { Anomaly } from '../core/Anomaly.js'
 import { Exceeding } from '../core/Exceeding.js'
 import { Intrusion } from '../core/Intrusion.js'
-import { AnomalyType } from "../core/impl/enum/AnomalyType";
+import { AnomalyType } from '../core/impl/enum/AnomalyType'
 
 export interface AnomalyRepository {
   getExceedings(): Promise<Exceeding[]>

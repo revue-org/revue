@@ -4,8 +4,7 @@ import { DeviceIdImpl } from '../../core/impl/DeviceIdImpl.js'
 import { DeviceType } from '../../core/impl/enum/DeviceType.js'
 
 export class DeviceIdFactoryImpl implements DeviceIdFactory {
-
-  createId(type:DeviceType, code: string): DeviceId {
+  createId(type: DeviceType, code: string): DeviceId {
     return new DeviceIdImpl(type, code)
   }
 

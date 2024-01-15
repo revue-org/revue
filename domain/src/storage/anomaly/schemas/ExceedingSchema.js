@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { deviceIdSchema } from "../../device/schemas/DeviceIdSchema.js";
+import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
 
 export const exceedingSchema = new Schema({
   deviceId: {

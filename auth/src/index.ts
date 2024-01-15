@@ -3,8 +3,8 @@ import express from 'express'
 
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
-import { userAccessRouter } from "./routes/userAccess.js";
-import { userRouter } from "./routes/user.js";
+import { userAccessRouter } from './routes/userAccess.js'
+import { userRouter } from './routes/user.js'
 
 const app: Express = express()
 app.use(express.json())

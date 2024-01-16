@@ -1,6 +1,7 @@
 import { SecurityRule } from '../core/SecurityRule.js'
 import { IntrusionRule } from '../core/IntrusionRule.js'
 import { ExceedingRule } from '../core/ExceedingRule.js'
+import { AnomalyType } from "../../anomaly/core/impl/enum/AnomalyType.js";
 
 export interface SecurityRuleRepository {
   getExceedingRules(): Promise<ExceedingRule[]>
@@ -17,5 +18,5 @@ export interface SecurityRuleRepository {
 
   updateIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void>
 
-  deleteSecurityRule(securityRuleId: string): Promise<void>
+  deleteSecurityRule(securityRuleId: string, type: AnomalyType): Promise<void>
 }

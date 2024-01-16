@@ -12,6 +12,7 @@ import { ExceedingRule } from '@domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from '@domain/security-rule/core/IntrusionRule.js'
 import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
 import { Contact } from '@domain/monitoring/core/Contact'
+import { AnomalyTypeConverter } from "domain/dist/utils/AnomalyTypeConverter";
 
 const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
   'ExceedingRule',
@@ -135,7 +136,7 @@ export const securityRuleController = {
       )
     )
   },
-  deleteSecurityRule: async (id: string): Promise<void> => {
-    return await securityRuleManager.deleteSecurityRule(id)
+  deleteSecurityRule: async (id: string, type: string): Promise<void> => {
+    return await securityRuleManager.deleteSecurityRule(id, AnomalyTypeConverter.convertToAnomalyType(type))
   }
 }

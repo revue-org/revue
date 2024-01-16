@@ -1,9 +1,10 @@
 import { SecurityRuleRepository } from '../../domain/security-rule/repositories/SecurityRuleRepository.js'
 import { SecurityRule } from '../../domain/security-rule/core/SecurityRule.js'
-import { Model } from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 import { ExceedingRule } from '../../domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter'
+import { AnomalyType } from '../../domain/anomaly/core/impl/enum/AnomalyType'
 
 export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   exceedingRuleModel: Model<ExceedingRule>
@@ -94,9 +95,14 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     })
   }
 
-  async deleteSecurityRule(securityRuleId: string): Promise<void> {
-    //TODO: to check anomaly: if the merged schema works well, it is not necessary to delete exceedings OR intrusions
-    //TODO: but we can use the merger schema to delete all the anomalies by only securityRuleId
-    throw new Error('Method not implemented.')
+  async deleteSecurityRule(securityRuleId: string, type: AnomalyType): Promise<void> {
+    switch (type) {
+      case AnomalyType.EXCEEDING:
+        await this.exceedingRuleModel.deleteOne({ _id: new mongoose.Types.ObjectId(securityRuleId) })
+        break
+      case AnomalyType.INTRUSION:
+        await this.intrusionRuleModel.deleteOne({ _id: new mongoose.Types.ObjectId(securityRuleId) })
+        break
+    }
   }
 }

@@ -4,15 +4,15 @@ import { SecurityRuleRepositoryImpl } from '@storage/security-rule/SecurityRuleR
 import { SecurityRuleFactory } from '@domain/security-rule/factories/SecurityRuleFactory.js'
 import { SecurityRuleFactoryImpl } from '@domain/security-rule/factories/impl/SecurityRuleFactoryImpl.js'
 import { exceedingRuleSchema } from '@storage/security-rule/schemas/ExceedingRule.js'
-import { intrusionSchema } from 'domain/dist/storage/anomaly/schemas/IntrusionSchema'
+import { intrusionRuleSchema } from '@storage/security-rule/schemas/IntrusionRule.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
 import { ExceedingRule } from '@domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from '@domain/security-rule/core/IntrusionRule.js'
 import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
-import { Contact } from '@domain/monitoring/core/Contact'
-import { AnomalyTypeConverter } from "domain/dist/utils/AnomalyTypeConverter";
+import { Contact } from '@domain/monitoring/core/Contact.js'
+import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
 
 const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
   'ExceedingRule',
@@ -21,7 +21,7 @@ const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
 )
 const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
   'IntrusionRule',
-  intrusionSchema,
+  intrusionRuleSchema,
   'securityRule'
 )
 
@@ -70,14 +70,26 @@ export const securityRuleController = {
     deviceId: DeviceId,
     creatorId: string,
     description: string,
-    intrusionObject: ObjectClass,
+    objectClass: ObjectClass,
     from: Date,
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
+    console.log(
+      securityRuleFactory.createIntrusionRule(
+        objectClass,
+        '',
+        deviceId,
+        creatorId,
+        contacts,
+        description,
+        from,
+        to
+      )
+    )
     await securityRuleManager.insertIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
-        intrusionObject,
+        objectClass,
         '',
         deviceId,
         creatorId,
@@ -118,14 +130,14 @@ export const securityRuleController = {
     intrusionRuleId: string,
     deviceId: DeviceId,
     description: string,
-    intrusionObject: ObjectClass,
+    objectClass: ObjectClass,
     from: Date,
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
     await securityRuleManager.updateIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
-        intrusionObject,
+        objectClass,
         intrusionRuleId,
         deviceId,
         '',
@@ -137,6 +149,9 @@ export const securityRuleController = {
     )
   },
   deleteSecurityRule: async (id: string, type: string): Promise<void> => {
-    return await securityRuleManager.deleteSecurityRule(id, AnomalyTypeConverter.convertToAnomalyType(type))
+    return await securityRuleManager.deleteSecurityRule(
+      id,
+      AnomalyTypeConverter.convertToAnomalyType(type)
+    )
   }
 }

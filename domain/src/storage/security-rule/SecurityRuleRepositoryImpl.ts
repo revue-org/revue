@@ -3,8 +3,10 @@ import { SecurityRule } from '../../domain/security-rule/core/SecurityRule.js'
 import mongoose, { Model } from 'mongoose'
 import { ExceedingRule } from '../../domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule.js'
-import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter'
-import { AnomalyType } from '../../domain/anomaly/core/impl/enum/AnomalyType'
+import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
+import { AnomalyType } from '../../domain/anomaly/core/impl/enum/AnomalyType.js'
+import { MeasureConverter } from '../../utils/MeasureConverter.js'
+import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
 
 export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   exceedingRuleModel: Model<ExceedingRule>
@@ -37,71 +39,83 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
 
   async insertExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void> {
     await this.exceedingRuleModel.create({
-      _id: exceedingRule.securityRuleId,
       deviceId: {
         type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
         code: exceedingRule.deviceId.code
       },
       creatorId: exceedingRule.creatorId,
-      contactsToNotify: exceedingRule.contactsToNotify,
+      contacts: exceedingRule.contactsToNotify,
       description: exceedingRule.description,
+      minValue: exceedingRule.min,
+      maxValue: exceedingRule.max,
       from: exceedingRule.from,
       to: exceedingRule.to,
-      measure: exceedingRule.measure
+      measure: MeasureConverter.convertToString(exceedingRule.measure)
     })
   }
 
   async insertIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void> {
     await this.intrusionRuleModel.create({
-      _id: intrusionRule.securityRuleId,
       deviceId: {
-        type: intrusionRule.deviceId.type,
+        type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
         code: intrusionRule.deviceId.code
       },
       creatorId: intrusionRule.creatorId,
-      contactsToNotify: intrusionRule.contactsToNotify,
+      contacts: intrusionRule.contactsToNotify,
       description: intrusionRule.description,
-      intrusionObject: intrusionRule.objectClass,
+      objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
       from: intrusionRule.from,
       to: intrusionRule.to
     })
   }
 
   async updateExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void> {
-    await this.exceedingRuleModel.findByIdAndUpdate(exceedingRule.securityRuleId, {
-      deviceId: {
-        type: exceedingRule.deviceId.type,
-        code: exceedingRule.deviceId.code
-      },
-      contactsToNotify: exceedingRule.contactsToNotify,
-      description: exceedingRule.description,
-      from: exceedingRule.from,
-      to: exceedingRule.to,
-      measure: exceedingRule.measure
-    })
+    await this.exceedingRuleModel.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(exceedingRule.securityRuleId),
+      {
+        deviceId: {
+          type: exceedingRule.deviceId.type,
+          code: exceedingRule.deviceId.code
+        },
+        contacts: exceedingRule.contactsToNotify,
+        description: exceedingRule.description,
+        minValue: exceedingRule.min,
+        maxValue: exceedingRule.max,
+        from: exceedingRule.from,
+        to: exceedingRule.to,
+        measure: MeasureConverter.convertToString(exceedingRule.measure)
+      }
+    )
   }
 
   async updateIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void> {
-    await this.intrusionRuleModel.findByIdAndUpdate(intrusionRule.securityRuleId, {
-      deviceId: {
-        type: intrusionRule.deviceId.type,
-        code: intrusionRule.deviceId.code
-      },
-      contactsToNotify: intrusionRule.contactsToNotify,
-      description: intrusionRule.description,
-      intrusionObject: intrusionRule.objectClass,
-      from: intrusionRule.from,
-      to: intrusionRule.to
-    })
+    await this.intrusionRuleModel.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(intrusionRule.securityRuleId),
+      {
+        deviceId: {
+          type: intrusionRule.deviceId.type,
+          code: intrusionRule.deviceId.code
+        },
+        contacts: intrusionRule.contactsToNotify,
+        description: intrusionRule.description,
+        objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
+        from: intrusionRule.from,
+        to: intrusionRule.to
+      }
+    )
   }
 
   async deleteSecurityRule(securityRuleId: string, type: AnomalyType): Promise<void> {
     switch (type) {
       case AnomalyType.EXCEEDING:
-        await this.exceedingRuleModel.deleteOne({ _id: new mongoose.Types.ObjectId(securityRuleId) })
+        await this.exceedingRuleModel.deleteOne({
+          _id: new mongoose.Types.ObjectId(securityRuleId)
+        })
         break
       case AnomalyType.INTRUSION:
-        await this.intrusionRuleModel.deleteOne({ _id: new mongoose.Types.ObjectId(securityRuleId) })
+        await this.intrusionRuleModel.deleteOne({
+          _id: new mongoose.Types.ObjectId(securityRuleId)
+        })
         break
     }
   }

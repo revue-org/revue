@@ -4,25 +4,14 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
-import { SecurityRule } from "@domain/security-rule/core/SecurityRule.js";
-import { IntrusionRule } from "@domain/security-rule/core/IntrusionRule.js";
-import { ExceedingRule } from "@domain/security-rule/core/ExceedingRule.js";
-import { AnomalyTypeConverter } from "@utils/AnomalyTypeConverter.js";
-import { AnomalyType } from "@domain/anomaly/core/impl/enum/AnomalyType.js";
+import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
+import { IntrusionRule } from '@domain/security-rule/core/IntrusionRule.js'
+import { ExceedingRule } from '@domain/security-rule/core/ExceedingRule.js'
+import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
+import { AnomalyType } from '@domain/anomaly/core/impl/enum/AnomalyType.js'
 
 export const securityRuleRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-
-securityRuleRouter.route('/:id').get((req: Request, res: Response): void => {
-  securityRuleController
-    .getSecurityRuleById(req.params.id)
-    .then((securityRule: SecurityRule): void => {
-      res.send(securityRule)
-    })
-    .catch((): void => {
-      res.send({ error: 'No security rule found' })
-    })
-})
 
 securityRuleRouter.route('/exceeding').get((req: Request, res: Response): void => {
   securityRuleController
@@ -46,6 +35,17 @@ securityRuleRouter.route('/intrusion').get((req: Request, res: Response): void =
     })
 })
 
+securityRuleRouter.route('/:id').get((req: Request, res: Response): void => {
+  securityRuleController
+    .getSecurityRuleById(req.params.id)
+    .then((securityRule: SecurityRule): void => {
+      res.send(securityRule)
+    })
+    .catch((): void => {
+      res.send({ error: 'No security rule found' })
+    })
+})
+
 securityRuleRouter.route('/').post((req: Request, res: Response): void => {
   switch (AnomalyTypeConverter.convertToAnomalyType(req.body.type)) {
     case AnomalyType.EXCEEDING:
@@ -59,7 +59,7 @@ securityRuleRouter.route('/').post((req: Request, res: Response): void => {
           req.body.maxValue,
           new Date(req.body.from),
           new Date(req.body.to),
-          req.body.contactsToNotify
+          req.body.contacts
         )
         .then((): void => {
           res.send({ success: 'Exceeding rule created' })
@@ -77,7 +77,7 @@ securityRuleRouter.route('/').post((req: Request, res: Response): void => {
           ObjectClassConverter.convertToObjectClass(req.body.objectClass),
           new Date(req.body.from),
           new Date(req.body.to),
-          req.body.contactsToNotify
+          req.body.contacts
         )
         .then((): void => {
           res.send({ success: 'Intrusion rule created' })
@@ -93,7 +93,7 @@ securityRuleRouter.route('/').put((req: Request, res: Response): void => {
     case AnomalyType.EXCEEDING:
       securityRuleController
         .updateExceedingRule(
-          req.body.securityRuleId,
+          req.body.id,
           deviceIdFactory.createSensorId(req.body.deviceId.code),
           req.body.description,
           MeasureConverter.convertToMeasure(req.body.measure),
@@ -101,7 +101,7 @@ securityRuleRouter.route('/').put((req: Request, res: Response): void => {
           req.body.maxValue,
           new Date(req.body.from),
           new Date(req.body.to),
-          req.body.contactsToNotify
+          req.body.contacts
         )
         .then((): void => {
           res.send({ success: 'Exceeding rule updated' })
@@ -113,13 +113,13 @@ securityRuleRouter.route('/').put((req: Request, res: Response): void => {
     case AnomalyType.INTRUSION:
       securityRuleController
         .updateIntrusionRule(
-          req.body.securityRuleId,
+          req.body.id,
           deviceIdFactory.createCameraId(req.body.deviceId.code),
           req.body.description,
           ObjectClassConverter.convertToObjectClass(req.body.objectClass),
           new Date(req.body.from),
           new Date(req.body.to),
-          req.body.contactsToNotify
+          req.body.contacts
         )
         .then((): void => {
           res.send({ success: 'Intrusion rule updated' })
@@ -133,7 +133,7 @@ securityRuleRouter.route('/').put((req: Request, res: Response): void => {
 
 securityRuleRouter.route('/').delete((req: Request, res: Response): void => {
   securityRuleController
-    .deleteSecurityRule(req.body.id)
+    .deleteSecurityRule(req.body.id, req.body.type)
     .then((): void => {
       res.send({ success: 'Security rule correctly deleted' })
     })

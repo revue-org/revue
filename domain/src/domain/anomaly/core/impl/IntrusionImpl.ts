@@ -5,7 +5,7 @@ import { Intrusion } from '../Intrusion.js'
 export class IntrusionImpl implements Intrusion {
   private _anomalyId: string
   private _deviceId: DeviceId
-  private _timestamp: Date
+  private readonly _timestamp: Date
   private _intrusionObject: ObjectClass
 
   constructor(
@@ -39,11 +39,6 @@ export class IntrusionImpl implements Intrusion {
   get timestamp(): Date {
     return this._timestamp
   }
-
-  set timestamp(timestamp: Date) {
-    this._timestamp = timestamp
-  }
-
   get intrusionObject(): ObjectClass {
     return this._intrusionObject
   }

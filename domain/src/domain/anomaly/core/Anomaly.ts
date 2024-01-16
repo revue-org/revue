@@ -11,5 +11,4 @@ export interface Anomaly {
 
   get timestamp(): Date
 
-  set timestamp(timestamp: Date)
 }

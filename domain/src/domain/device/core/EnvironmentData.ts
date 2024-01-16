@@ -1,5 +1,6 @@
 import { DeviceId } from './DeviceId.js'
 import { Measure } from './impl/enum/Measure.js'
+import { MeasureUnit } from './impl/enum/MeasureUnit'
 
 export interface EnvironmentData {
   get sourceDeviceId(): DeviceId
@@ -16,5 +17,7 @@ export interface EnvironmentData {
 
   get timestamp(): Date
 
-  set timestamp(timestamp: Date)
+  get unit(): MeasureUnit
+
+  set unit(unit: MeasureUnit)
 }

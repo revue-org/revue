@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
-import router from '@/router'
-import { computed } from 'vue'
+import { RouterLink } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { symSharpControlCamera } from "@quasar/extras/material-symbols-sharp";
+import router from "@/router";
+import { computed } from "vue";
 
-const routeName = computed(() => router.currentRoute.value.name)
-const userStorage = useUserStore()
+const routeName = computed(() => router.currentRoute.value.name);
+const userStorage = useUserStore();
 </script>
 
 <template>
@@ -15,13 +15,22 @@ const userStorage = useUserStore()
       <q-icon :name="symSharpControlCamera" style="font-size: 1.5em" />
       <h1>Revue</h1>
       <q-separator dark vertical />
-      <router-link to="/" :class="(routeName == 'Home') ? 'selected': ''">Home</router-link>
-      <router-link to="/monitoring" :class="(routeName == 'Monitoring') ? 'selected': ''">Monitoring</router-link>
-      <router-link to="/devices" :class="(routeName == 'Devices') ? 'selected': ''">Devices</router-link>
-      <router-link to="/login" name="logout" @click="userStorage.logout()"
-      >Logout
-      </router-link
+      <router-link to="/" :class="routeName == 'Home' ? 'selected' : ''"
+        >Home</router-link
       >
+      <router-link
+        to="/monitoring"
+        :class="routeName == 'Monitoring' ? 'selected' : ''"
+        >Monitoring</router-link
+      >
+      <router-link
+        to="/devices"
+        :class="routeName == 'Devices' ? 'selected' : ''"
+        >Devices</router-link
+      >
+      <router-link to="/login" name="logout" @click="userStorage.logout()"
+        >Logout
+      </router-link>
       <q-btn flat @click="$emit('toggle-aside')" round dense icon="menu" />
     </nav>
   </div>
@@ -53,7 +62,7 @@ div {
       padding: 0.75em;
 
       &::before {
-        content: '';
+        content: "";
         box-sizing: border-box;
         position: absolute;
         top: 0;
@@ -68,7 +77,8 @@ div {
         transform: scale3d(0, 1, 1);
       }
 
-      &:hover::before, &.selected::before {
+      &:hover::before,
+      &.selected::before {
         transform: scale3d(1, 1, 1);
         transition: transform 200ms;
       }

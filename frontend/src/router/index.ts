@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import EmptyLayout from '@/layouts/EmptyLayout.vue'
-import BasicLayout from '@/layouts/BasicLayout.vue'
-import MonitoringView from '@/views/MonitoringView.vue'
-import DevicesView from '@/views/DevicesView.vue'
-import HomeView from '@/views/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import EmptyLayout from "@/layouts/EmptyLayout.vue";
+import BasicLayout from "@/layouts/BasicLayout.vue";
+import MonitoringView from "@/views/MonitoringView.vue";
+import DevicesView from "@/views/DevicesView.vue";
+import HomeView from "@/views/HomeView.vue";
 
 const router = createRouter({
   // history: createWebHistory("/"),

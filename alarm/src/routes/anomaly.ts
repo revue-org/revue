@@ -13,17 +13,6 @@ import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory'
 export const anomalyRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
-anomalyRouter.route('/:id').get((req: Request, res: Response): void => {
-  anomalyController
-    .getAnomalyById(req.params.id)
-    .then((anomaly: Anomaly): void => {
-      res.send(anomaly)
-    })
-    .catch((): void => {
-      res.send({ error: 'No anomaly found' })
-    })
-})
-
 anomalyRouter.route('/intrusion').get((req: Request, res: Response): void => {
   anomalyController
     .getIntrusions()
@@ -42,6 +31,17 @@ anomalyRouter.route('/exceeding').get((req: Request, res: Response): void => {
     })
     .catch((): void => {
       res.send({ error: 'No exceedings found' })
+    })
+})
+
+anomalyRouter.route('/:id').get((req: Request, res: Response): void => {
+  anomalyController
+    .getAnomalyById(req.params.id)
+    .then((anomaly: Anomaly): void => {
+      res.send(anomaly)
+    })
+    .catch((): void => {
+      res.send({ error: 'No anomaly found' })
     })
 })
 anomalyRouter.route('/').post((req: Request, res: Response): void => {

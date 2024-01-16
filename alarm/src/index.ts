@@ -2,22 +2,19 @@ import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
-import path, { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { indexRouter } from './routes/index.js'
-import { notificationRouter } from './routes/notification.js'
 import { anomalyRouter } from './routes/anomaly.js'
+import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 
 config()
 
-export const __dirname: string = dirname(fileURLToPath(import.meta.url)) + '/../../'
-const app: Express = express()
+//export const __dirname: string = dirname(fileURLToPath(import.meta.url)) + '/../../'
+export const app: Express = express()
 
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'client')))
+//app.use(express.static(path.join(__dirname, 'client')))
 
 const PORT: number = Number(process.env.PORT) || 4000
 
@@ -33,7 +30,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use(indexRouter)
+//app.use(indexRouter)
 app.use('/notification', notificationRouter)
 app.use('/anomaly', anomalyRouter)
 app.use('/recognizingNode', recognizingNodeRouter)

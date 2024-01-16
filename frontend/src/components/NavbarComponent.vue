@@ -13,6 +13,7 @@ const userStorage = useUserStore()
       <h1>Revue</h1>
       <q-separator dark vertical />
       <router-link to="/">Home</router-link>
+      <router-link to="/monitoring">Monitoring</router-link>
       <router-link to="/login" name="logout" @click="userStorage.logout()">Logout</router-link>
       <q-btn flat @click="$emit('toggle-aside')" round dense icon="menu" />
     </nav>

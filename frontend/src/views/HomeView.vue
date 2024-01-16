@@ -1,93 +1,112 @@
 <script lang="ts">
-export class Sensor {
-  private _deviceId: string
-  private _ipAddress: string
-  private _isCapturing: boolean
-  private _intervalMillis: number
-  private _measures: Set<string>
 
-  constructor(
-    deviceId: string,
-    ipAddress: string,
-    intervalMillis: number,
-    measures: Set<string>
-  ) {
-    this._deviceId = deviceId
-    this._ipAddress = ipAddress
-    this._isCapturing = true
-    this._intervalMillis = intervalMillis
-    this._measures = measures
-  }
-
-  get deviceId(): string {
-    return this._deviceId
-  }
-
-  get ipAddress(): string {
-    return this._ipAddress
-  }
-
-  get isCapturing(): boolean {
-    return this._isCapturing
-  }
-
-  set isCapturing(bool: boolean) {
-    this._isCapturing = bool
-  }
-
-  get intervalMillis(): number {
-    return this._intervalMillis
-  }
-
-  get measures(): Set<string> {
-    return this._measures
-  }
-}
 </script>
 <script setup lang="ts">
-import SensorBadge from '@/components/SensorBadge.vue'
-
 import { ref } from 'vue'
 
+import SensorBadge from '@/components/devices/DeviceBadge.vue'
+
+import type { Device } from 'domain/dist/domain/device/core/Device'
+import { SensorImpl } from 'domain/dist/domain/device/core/impl/SensorImpl'
+import { DeviceIdImpl } from 'domain/dist/domain/device/core/impl/DeviceIdImpl'
+import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
+import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl'
+import type { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory'
+import type { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory'
+import type { ResolutionFactory } from 'domain/dist/domain/device/factories/ResolutionFactory'
+import type { Sensor } from 'domain/dist/domain/device/core/Sensor'
+import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
+import type { Camera } from 'domain/dist/domain/device/core/Camera'
+
+const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
+const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
+const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
+
 const sensors: ref<Sensor[]> = ref([
-  new Sensor(
-    'Device Id 1',
+  deviceFactory.createSensor(
+    deviceIdFactory.createSensorId('Sensor 1'),
     '192.168.1.10',
     5,
-    new Set(['HUMIDITY', 'TEMPERATURE', 'PRESSURE'])
+    new Set([Measure.HUMIDITY, Measure.TEMPERATURE, Measure.PRESSURE])
   ),
-  new Sensor(
-    'Device Id 2',
-    '192.168.1.12',
-    10,
-    new Set(['HUMIDITY', 'TEMPERATURE'])
+  deviceFactory.createSensor(
+    deviceIdFactory.createSensorId('Sensor 2'),
+    '192.168.1.11',
+    5,
+    new Set([Measure.TEMPERATURE, Measure.PRESSURE])
+  )
+])
+
+
+const cameras: ref<Camera[]> = ref([
+  deviceFactory.createCamera(
+    deviceIdFactory.createCameraId('Camera 1'),
+    '192.168.1.13',
+    resolutionFactory.createResolution(1920, 1080)
+  ),
+  deviceFactory.createCamera(
+    deviceIdFactory.createCameraId('Camera 2'),
+    '192.168.1.14',
+    resolutionFactory.createResolution(1920, 1080)
   )
 ])
 
 const deleteSensor = (sensor: Sensor) => {
-  const index = sensors.value.findIndex(
-    (s: Sensor) => s.deviceId === sensor.deviceId
-  )
+  const index = sensors.value.findIndex((s: Sensor) => s.deviceId === sensor.deviceId)
   if (index !== -1) {
     sensors.value.splice(index, 1)
+  }
+}
+const deleteCamera = (camera: Camera) => {
+  const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
+  if (index !== -1) {
+    cameras.value.splice(index, 1)
   }
 }
 </script>
 
 <template>
-  <!--  <header>-->
-  <!--    <NavbarComponent />-->
-  <!--  </header>-->
-  <!--  <main>-->
-      <sensor-badge
-        v-for="sensor in sensors"
-        :key="sensor.deviceId"
-        :sensor="sensor"
-        @delete-sensor="deleteSensor"
-      />
-  <!--  </main>-->
-  <!--  <aside>-->
-  <!--    <AsideComponent />-->
-  <!--  </aside>-->
+
+  <h2>Sensors</h2>
+  <div class="sensors-container">
+    <sensor-badge
+      v-for="sensor in sensors"
+      :key="sensor.deviceId"
+      :device="sensor"
+      @delete-sensor="deleteSensor"
+    />
+  </div>
+
+  <h2>Cameras</h2>
+  <div class="cameras-container">
+    <sensor-badge
+      v-for="camera in cameras"
+      :key="camera.deviceId"
+      :device="camera"
+      @delete-camera="deleteCamera"
+    />
+  </div>
+
 </template>
 
+<style scoped lang="scss">
+
+h2 {
+  margin: .5rem 1rem;
+}
+
+div.sensors-container {
+  margin: .5rem 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+div.cameras-container {
+  margin: .5rem 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+
+</style>

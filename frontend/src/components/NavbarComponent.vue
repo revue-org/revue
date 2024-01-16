@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
+import { RouterLink } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { symSharpControlCamera } from "@quasar/extras/material-symbols-sharp";
 
-const userStorage = useUserStore()
+const userStorage = useUserStore();
 </script>
 
 <template>
@@ -14,7 +14,9 @@ const userStorage = useUserStore()
       <q-separator dark vertical />
       <router-link to="/">Home</router-link>
       <router-link to="/monitoring">Monitoring</router-link>
-      <router-link to="/login" name="logout" @click="userStorage.logout()">Logout</router-link>
+      <router-link to="/login" name="logout" @click="userStorage.logout()"
+        >Logout</router-link
+      >
       <q-btn flat @click="$emit('toggle-aside')" round dense icon="menu" />
     </nav>
   </div>
@@ -43,7 +45,8 @@ div {
       font-size: 16px;
     }
 
-    a, h1 {
+    a,
+    h1 {
       color: white;
       text-decoration: none;
       padding: 0 5px;
@@ -57,8 +60,6 @@ div {
         border-radius: 5px;
       }
     }
-
-
   }
 }
 </style>

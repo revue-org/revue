@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { Device } from '@domain/device/core/Device'
-import type { Sensor } from '@domain/device/core/Sensor'
-import type { Camera } from '@domain/device/core/Camera'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType'
+import type { Device } from "@domain/device/core/Device";
+import type { Sensor } from "@domain/device/core/Sensor";
+import type { Camera } from "@domain/device/core/Camera";
+import { Measure } from "@domain/device/core/impl/enum/Measure";
+import { DeviceType } from "domain/dist/domain/device/core/impl/enum/DeviceType";
 
 defineProps<{
   device: Device;
-}>()
+}>();
 </script>
 
 <template>
@@ -25,7 +25,12 @@ defineProps<{
         <i>Acquisition Rate: </i>{{ (device as Sensor).intervalMillis }} ms
       </li>
       <li v-if="device.deviceId.type == DeviceType.CAMERA">
-        <i>Resolution: </i>{{ (device as Camera).resolution.width + 'x' + (device as Camera).resolution.height }}
+        <i>Resolution: </i
+        >{{
+          (device as Camera).resolution.width +
+          "x" +
+          (device as Camera).resolution.height
+        }}
       </li>
       <li v-if="device.deviceId.type == DeviceType.SENSOR" class="measures">
         <q-badge
@@ -60,9 +65,11 @@ defineProps<{
           <q-btn
             color="negative"
             icon="delete"
-            @click="(device.deviceId.type == DeviceType.SENSOR) ?
-            $emit('delete-sensor', device) :
-            $emit('delete-camera', device)"
+            @click="
+              device.deviceId.type == DeviceType.SENSOR
+                ? $emit('delete-sensor', device)
+                : $emit('delete-camera', device)
+            "
           />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>

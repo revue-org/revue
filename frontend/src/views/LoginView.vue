@@ -50,7 +50,6 @@ function login() {
 div {
   height: 100vh;
 
-
   /* Add your component-specific styles here */
   .login-container {
     max-width: 300px;
@@ -88,8 +87,5 @@ div {
     border-radius: 3px;
     cursor: pointer;
   }
-
 }
-
-
 </style>

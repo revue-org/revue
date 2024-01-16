@@ -1,0 +1,45 @@
+@import "base.css";
+
+$base-font-size: 14px;
+
+:root {
+  font-size: $base-font-size;
+}
+
+@mixin responsive-font-size($breakpoint, $size) {
+  @media (min-width: $breakpoint) {
+    :root {
+      font-size: $size;
+    }
+  }
+}
+
+@include responsive-font-size(768px, 16px);
+@include responsive-font-size(992px, 18px);
+@include responsive-font-size(1200px, 20px);
+
+#app {
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+label {
+  font-size: 1rem;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}

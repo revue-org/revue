@@ -6,6 +6,7 @@
   "description": "Frontend microservice",
   "main": "src/main.ts",
   "scripts": {
+    "host": "vite --host",
     "build": "vite build",
     "start": "npm run build && vite",
     "watch": "vite build -w",
@@ -30,7 +31,9 @@
     "@quasar/extras": "^1.16.9",
     "domain": "file:../domain",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "quasar": "^2.14.2",
+    "vite-tsconfig-paths": "^4.2.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },

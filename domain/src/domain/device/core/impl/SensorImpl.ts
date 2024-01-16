@@ -37,6 +37,10 @@ export class SensorImpl implements Sensor {
     return this._isCapturing
   }
 
+  set isCapturing(isActive: boolean) {
+    this._isCapturing = isActive
+  }
+
   get intervalMillis(): number {
     return this._intervalMillis
   }

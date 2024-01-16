@@ -35,6 +35,10 @@ export class CameraImpl implements Camera {
     return this._isCapturing
   }
 
+  set isCapturing(isActive: boolean) {
+    this._isCapturing = isActive
+  }
+
   get resolution(): Resolution {
     return this._resolution
   }

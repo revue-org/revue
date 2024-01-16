@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import EmptyLayout from "@/layouts/EmptyLayout.vue";
+import BasicLayout from "@/layouts/BasicLayout.vue";
+import MonitoringView from "@/views/MonitoringView.vue";
 
 const router = createRouter({
   // history: createWebHistory("/"),
@@ -7,16 +10,26 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "Home",
-      component: HomeView,
+      component: BasicLayout,
+      children: [
+        { path: "", redirect: "/home" },
+        { path: "home", name: "Home", component: HomeView },
+        { path: "monitoring", name: "Monitoring", component: MonitoringView },
+      ],
     },
     {
       path: "/login",
-      name: "Login",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/LoginView.vue"),
+      component: EmptyLayout,
+      children: [
+        {
+          path: "",
+          name: "Login",
+          // route level code-splitting
+          // this generates a separate chunk (About.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () => import("../views/LoginView.vue"),
+        },
+      ],
     },
   ],
 });

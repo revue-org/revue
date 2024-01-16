@@ -11,6 +11,8 @@ export interface Device {
 
   get isCapturing(): boolean
 
+  set isCapturing(isActive: boolean)
+
   startCapturing(): void
 
   stopCapturing(): void

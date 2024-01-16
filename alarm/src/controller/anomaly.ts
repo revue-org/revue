@@ -11,7 +11,7 @@ import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
 import { Anomaly } from '@domain/anomaly/core/Anomaly.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { ObjectClass } from 'domain/dist/domain/security-rule/core/impl/enum/ObjectClass.js'
+import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
 
 const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')

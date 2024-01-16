@@ -1,6 +1,6 @@
 import { recognizingNodeController } from '../controller/recognizingNode.js'
 import express, { Request, Response, Router } from 'express'
-import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
+import { RecognizingNode } from '@domain/alarm-system/core/RecognizingNode.js'
 
 export const recognizingNodeRouter: Router = express.Router()
 

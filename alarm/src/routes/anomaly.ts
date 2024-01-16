@@ -1,14 +1,14 @@
 import { anomalyController } from '../controller/anomaly.js'
 import express, { Request, Response, Router } from 'express'
-import { Intrusion } from 'domain/dist/domain/anomaly/core/Intrusion.js'
-import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding.js'
-import { Anomaly } from 'domain/dist/domain/anomaly/core/Anomaly.js'
-import { AnomalyTypeConverter } from 'domain/dist/utils/AnomalyTypeConverter.js'
-import { AnomalyType } from 'domain/dist/domain/anomaly/core/impl/enum/AnomalyType.js'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
-import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
-import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory'
+import { Intrusion } from '@domain/anomaly/core/Intrusion.js'
+import { Exceeding } from '@domain/anomaly/core/Exceeding.js'
+import { Anomaly } from '@domain/anomaly/core/Anomaly.js'
+import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
+import { AnomalyType } from '@domain/anomaly/core/impl/enum/AnomalyType.js'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
+import { MeasureConverter } from '@utils/MeasureConverter.js'
+import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
+import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory'
 
 export const anomalyRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

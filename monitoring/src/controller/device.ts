@@ -13,7 +13,7 @@ import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { Resolution } from '@domain/device/core/Resolution.js'
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
+import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 
 const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')

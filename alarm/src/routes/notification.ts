@@ -1,12 +1,12 @@
 import { notificationController } from '../controller/notification.js'
 import express, { Request, Response, Router } from 'express'
-import { Notification } from 'domain/dist/domain/alarm-system/core/Notification.js'
-import { AnomalyTypeConverter } from 'domain/dist/utils/AnomalyTypeConverter.js'
-import { AnomalyType } from 'domain/dist/domain/anomaly/core/impl/enum/AnomalyType.js'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
-import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
-import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
+import { Notification } from '@domain/alarm-system/core/Notification.js'
+import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
+import { AnomalyType } from '@domain/anomaly/core/impl/enum/AnomalyType.js'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
+import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
+import { MeasureConverter } from '@utils/MeasureConverter.js'
+import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 
 export const notificationRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

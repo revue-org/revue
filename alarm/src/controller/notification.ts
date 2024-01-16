@@ -7,9 +7,9 @@ import { NotificationFactoryImpl } from '@domain/alarm-system/factories/impl/Not
 import { notificationSchema } from '@storage/alarm-system/schemas/NotificationSchema.js'
 import { AnomalyFactory } from '@domain/anomaly/factories/AnomalyFactory.js'
 import { AnomalyFactoryImpl } from '@domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
-import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
-import { ObjectClass } from 'domain/dist/domain/security-rule/core/impl/enum/ObjectClass.js'
+import { Measure } from '@domain/device/core/impl/enum/Measure.js'
+import { DeviceId } from '@domain/device/core/DeviceId.js'
+import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
 
 const notificationModel: Model<Notification> = model<Notification>(
   'Notification',

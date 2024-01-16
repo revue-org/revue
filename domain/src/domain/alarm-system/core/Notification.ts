@@ -1,9 +1,9 @@
 import { Anomaly } from '../../anomaly/core/Anomaly.js'
 
 export interface Notification {
-  get notificationId(): number
+  get notificationId(): string
 
-  set notificationId(notificationId: number)
+  set notificationId(notificationId: string)
 
   get timestamp(): Date
 

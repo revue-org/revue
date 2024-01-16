@@ -6,9 +6,9 @@ export interface Sensor extends Device {
 
   set intervalMillis(intervalMillis: number)
 
-  get measures(): Set<Measure>
+  get measures(): Measure[]
 
-  set measures(measures: Set<Measure>)
+  set measures(measures: Measure[])
 
   addMeasure(measure: Measure): void
 

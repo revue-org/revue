@@ -1,8 +1,17 @@
 import { Schema } from 'mongoose'
 
 export const notificationSchema = new Schema({
-  _id: Number,
-  anomalyId: Number,
-  anomalyType: String,
-  timestamp: Date
+  anomalyId: {
+    type: Schema.ObjectId,
+    required: true
+  },
+  anomalyType: {
+    type: String,
+    enum: ['EXCEEDING', 'INTRUSION'],
+    required: true
+  },
+  timestamp: {
+    type: Date,
+    required: true
+  }
 })

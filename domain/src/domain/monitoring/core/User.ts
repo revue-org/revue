@@ -2,7 +2,7 @@ import { Contact } from './Contact.js'
 import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface User {
-  get id(): number
+  get id(): string
 
   get name(): string
 
@@ -16,9 +16,27 @@ export interface User {
 
   get refreshToken(): string
 
-  get contact(): Contact
+  get contacts(): Contact[]
 
-  get deviceIds(): Set<DeviceId>
+  get deviceIds(): DeviceId[]
+
+  set id(id: string)
+
+  set name(name: string)
+
+  set surname(surname: string)
+
+  set username(username: string)
+
+  set password(password: string)
+
+  set token(token: string)
+
+  set refreshToken(refreshToken: string)
+
+  set contacts(contacts: Contact[])
+
+  set deviceIds(deviceIds: DeviceId[])
 
   addDevice(deviceId: DeviceId): void
 }

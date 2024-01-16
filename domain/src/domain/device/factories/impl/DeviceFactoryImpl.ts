@@ -16,7 +16,7 @@ export class DeviceFactoryImpl implements DeviceFactory {
     deviceId: DeviceId,
     ipAddress: string,
     intervalMillis: number,
-    measures: Set<Measure>
+    measures: Measure[]
   ): Sensor {
     return new SensorImpl(deviceId, ipAddress, intervalMillis, measures)
   }

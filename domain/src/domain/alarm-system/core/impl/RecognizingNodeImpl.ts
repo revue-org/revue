@@ -3,21 +3,21 @@ import { DeviceId } from '../../../device/core/DeviceId.js'
 import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 
 export class RecognizingNodeImpl implements RecognizingNode {
-  private _recognizingNodeId: number
+  private _recognizingNodeId: string
   private _ipAddress: string
-  private _deviceIds: Set<DeviceId>
+  private _deviceIds: DeviceId[]
 
-  constructor(recognizingNodeId: number, ipAddress: string, deviceIds: Set<DeviceId>) {
+  constructor(recognizingNodeId: string, ipAddress: string, deviceIds: DeviceId[]) {
     this._recognizingNodeId = recognizingNodeId
     this._ipAddress = ipAddress
     this._deviceIds = deviceIds
   }
 
-  get recognizingNodeId(): number {
+  get recognizingNodeId(): string {
     return this._recognizingNodeId
   }
 
-  set recognizingNodeId(recognizingNodeId: number) {
+  set recognizingNodeId(recognizingNodeId: string) {
     this._recognizingNodeId = recognizingNodeId
   }
 
@@ -29,11 +29,11 @@ export class RecognizingNodeImpl implements RecognizingNode {
     this._ipAddress = ipAddress
   }
 
-  get deviceIds(): Set<DeviceId> {
+  get deviceIds(): DeviceId[] {
     return this._deviceIds
   }
 
-  set deviceIds(deviceIds: Set<DeviceId>) {
+  set deviceIds(deviceIds: DeviceId[]) {
     this._deviceIds = deviceIds
   }
 

@@ -1,9 +1,9 @@
 import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface Anomaly {
-  get anomalyId(): number
+  get anomalyId(): string
 
-  set anomalyId(anomalyId: number)
+  set anomalyId(anomalyId: string)
 
   get deviceId(): DeviceId
 

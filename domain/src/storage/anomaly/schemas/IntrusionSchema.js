@@ -1,11 +1,18 @@
 import { Schema } from 'mongoose'
+import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
 
 export const intrusionSchema = new Schema({
-  _id: Number,
   deviceId: {
-    type: String,
-    code: String
+    type: deviceIdSchema,
+    required: true
   },
-  timestamp: Date,
-  intrusionObject: String
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
+  intrusionObject: {
+    type: String,
+    enum: ['PERSON', 'ANIMAL', 'VEHICLE', 'OTHER'],
+    required: true
+  }
 })

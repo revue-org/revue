@@ -57,7 +57,7 @@ const getMeasureColor = (measure: Measure) => {
           <q-btn
             :name="device.isCapturing ? 'toggle_on' : 'toggle_off'"
             :icon="device.isCapturing ? 'toggle_on' : 'toggle_off'"
-            @click="device.isCapturing = !device.isCapturing"
+            @click="device.isCapturing ? device.stopCapturing(): device.startCapturing()"
           />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>

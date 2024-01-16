@@ -57,7 +57,11 @@ const getMeasureColor = (measure: Measure) => {
           <q-btn
             :name="device.isCapturing ? 'toggle_on' : 'toggle_off'"
             :icon="device.isCapturing ? 'toggle_on' : 'toggle_off'"
-            @click="device.isCapturing ? device.stopCapturing(): device.startCapturing()"
+            @click="
+              device.isCapturing
+                ? device.stopCapturing()
+                : device.startCapturing()
+            "
           />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>
@@ -117,14 +121,15 @@ button {
 }
 
 ul {
-  &.sensor {
-    height: 150px;
-  }
+  @media (min-width: 576px) {
+    &.sensor {
+      height: 150px;
+    }
 
-  &.camera {
-    height: 110px;
+    &.camera {
+      height: 110px;
+    }
   }
-
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

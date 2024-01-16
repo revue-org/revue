@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
-import { useUserStore } from "@/stores/user";
-import { symSharpControlCamera } from "@quasar/extras/material-symbols-sharp";
+import { RouterLink } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
+import router from '@/router'
+import { computed } from 'vue'
 
-const userStorage = useUserStore();
+const routeName = computed(() => router.currentRoute.value.name)
+const userStorage = useUserStore()
 </script>
 
 <template>
@@ -12,10 +15,12 @@ const userStorage = useUserStore();
       <q-icon :name="symSharpControlCamera" style="font-size: 1.5em" />
       <h1>Revue</h1>
       <q-separator dark vertical />
-      <router-link to="/">Home</router-link>
-      <router-link to="/monitoring">Monitoring</router-link>
+      <router-link to="/" :class="(routeName == 'Home') ? 'selected': ''">Home</router-link>
+      <router-link to="/monitoring" :class="(routeName == 'Monitoring') ? 'selected': ''">Monitoring</router-link>
+      <router-link to="/devices" :class="(routeName == 'Devices') ? 'selected': ''">Devices</router-link>
       <router-link to="/login" name="logout" @click="userStorage.logout()"
-        >Logout</router-link
+      >Logout
+      </router-link
       >
       <q-btn flat @click="$emit('toggle-aside')" round dense icon="menu" />
     </nav>
@@ -43,13 +48,38 @@ div {
 
     a {
       font-size: 16px;
+      box-sizing: border-box;
+      position: relative;
+      padding: 0.75em;
+
+      &::before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transform-origin: center;
+      }
+
+      &::before {
+        border-bottom: 1px solid white;
+        transform: scale3d(0, 1, 1);
+      }
+
+      &:hover::before, &.selected::before {
+        transform: scale3d(1, 1, 1);
+        transition: transform 200ms;
+      }
     }
 
     a,
     h1 {
       color: white;
       text-decoration: none;
-      padding: 0 5px;
+      padding: 0 2px;
+      margin: 0 5px;
 
       &[name="logout"] {
         margin-left: auto;

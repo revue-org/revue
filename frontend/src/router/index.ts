@@ -1,8 +1,9 @@
-import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import EmptyLayout from "@/layouts/EmptyLayout.vue";
-import BasicLayout from "@/layouts/BasicLayout.vue";
-import MonitoringView from "@/views/MonitoringView.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import EmptyLayout from '@/layouts/EmptyLayout.vue'
+import BasicLayout from '@/layouts/BasicLayout.vue'
+import MonitoringView from '@/views/MonitoringView.vue'
+import DevicesView from '@/views/DevicesView.vue'
+import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
   // history: createWebHistory("/"),
@@ -14,6 +15,7 @@ const router = createRouter({
       children: [
         { path: "", redirect: "/home" },
         { path: "home", name: "Home", component: HomeView },
+        { path: "devices", name: "Devices", component: DevicesView },
         { path: "monitoring", name: "Monitoring", component: MonitoringView },
       ],
     },

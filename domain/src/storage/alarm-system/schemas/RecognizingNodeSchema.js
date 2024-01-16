@@ -1,12 +1,13 @@
 import { Schema } from 'mongoose'
+import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
 
 export const recognizingNodeSchema = new Schema({
-  _id: Number,
-  ipAddress: String,
-  deviceIds: [
-    {
-      type: String,
-      code: String
-    }
-  ]
+  ipAddress: {
+    type: String,
+    required: true
+  },
+  deviceIds: {
+    type: [deviceIdSchema],
+    required: true
+  }
 })

@@ -2,7 +2,6 @@ import { DeviceRepository } from '../../domain/device/repositories/DeviceReposit
 import { Model } from 'mongoose'
 import { DeviceId } from '../../domain/device/core/DeviceId.js'
 import { DeviceType } from '../../domain/device/core/impl/enum/DeviceType.js'
-import { Device } from '../../domain/device/core/Device.js'
 import { Camera } from '../../domain/device/core/Camera.js'
 import { Sensor } from '../../domain/device/core/Sensor.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
@@ -16,104 +15,132 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     this.sensorModel = sensorModel
   }
 
-  async getCameras(): Promise<Array<Camera>> {
-    return this.cameraModel.find()
+  async getCameras(): Promise<Camera[]> {
+    return this.cameraModel.find().orFail()
   }
 
-  async getSensors(): Promise<Array<Sensor>> {
-    return this.sensorModel.find()
+  async getSensors(): Promise<Sensor[]> {
+    return this.sensorModel.find().orFail()
   }
 
-  async getDevice(deviceId: DeviceId): Promise<Camera | Sensor> {
+  async getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor> {
+    console.log(deviceId)
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        return (await this.cameraModel.findOne(deviceId)) as unknown as Camera
-      case DeviceType.SENSOR:
-        return (await this.sensorModel.findById(deviceId)) as unknown as Sensor
-    }
-  }
-
-  async insertDevice(device: Device): Promise<void> {
-    switch (device.deviceId.type) {
-      case DeviceType.CAMERA:
-        await this.cameraModel.create({
+        return this.cameraModel.findOne({
           _id: {
-            type: DeviceTypeConverter.convertToString(device.deviceId.type),
-            code: device.deviceId.code
-          },
-          ipAddress: device.ipAddress,
-          resolution: {
-            height: (device as Camera).resolution.height,
-            width: (device as Camera).resolution.width
+            type: DeviceTypeConverter.convertToString(deviceId.type),
+            code: deviceId.code
           }
-        })
-        break
+        }) as unknown as Camera
       case DeviceType.SENSOR:
-        await this.sensorModel.create({
+        return this.sensorModel.findOne({
           _id: {
-            type: DeviceTypeConverter.convertToString(device.deviceId.type),
-            code: device.deviceId.code
-          },
-          ipAddress: device.ipAddress,
-          intervalMillis: (device as Sensor).intervalMillis,
-          measures: (device as Sensor).measures
-        })
-        break
+            type: DeviceTypeConverter.convertToString(deviceId.type),
+            code: deviceId.code
+          }
+        }) as unknown as Sensor
+      default:
+        throw new Error('Error while getting device')
     }
   }
 
-  async updateDevice(device: Device): Promise<void> {
-    console.log(device)
-    switch (device.deviceId.type) {
-      case DeviceType.CAMERA:
-        await this.cameraModel
-          .findByIdAndUpdate(
-            {
-              type: DeviceTypeConverter.convertToString(device.deviceId.type),
-              code: device.deviceId.code
-            },
-            {
-              ipAddress: device.ipAddress,
-              resolution: {
-                height: (device as Camera).resolution.height,
-                width: (device as Camera).resolution.width
-              }
-            }
-          )
-          .orFail()
-        break
-      case DeviceType.SENSOR:
-        await this.sensorModel
-          .findByIdAndUpdate(
-            {
-              type: DeviceTypeConverter.convertToString(device.deviceId.type),
-              code: device.deviceId.code
-            },
-            {
-              ipAddress: device.ipAddress,
-              intervalMillis: (device as Sensor).intervalMillis,
-              measures: (device as Sensor).measures
-            }
-          )
-          .orFail()
-        break
-    }
+  async insertCamera(camera: Camera): Promise<void> {
+    await this.cameraModel
+      .create({
+        _id: {
+          type: DeviceTypeConverter.convertToString(camera.deviceId.type),
+          code: camera.deviceId.code
+        },
+        ipAddress: camera.ipAddress,
+        resolution: {
+          height: camera.resolution.height,
+          width: camera.resolution.width
+        }
+      })
+      .catch((err): void => {
+        throw err
+      })
+  }
+
+  async insertSensor(sensor: Sensor): Promise<void> {
+    await this.sensorModel
+      .create({
+        _id: {
+          type: DeviceTypeConverter.convertToString(sensor.deviceId.type),
+          code: sensor.deviceId.code
+        },
+        ipAddress: sensor.ipAddress,
+        intervalMillis: sensor.intervalMillis,
+        measures: sensor.measures
+      })
+      .catch((err): void => {
+        throw err
+      })
+  }
+
+  async updateCamera(camera: Camera): Promise<void> {
+    await this.cameraModel
+      .findOneAndUpdate(
+        {
+          _id: {
+            type: DeviceTypeConverter.convertToString(camera.deviceId.type),
+            code: camera.deviceId.code
+          }
+        },
+        {
+          ipAddress: camera.ipAddress,
+          resolution: {
+            height: camera.resolution.height,
+            width: camera.resolution.width
+          }
+        }
+      )
+      .orFail()
+  }
+
+  async updateSensor(sensor: Sensor): Promise<void> {
+    await this.sensorModel
+      .findOneAndUpdate(
+        {
+          _id: {
+            type: DeviceTypeConverter.convertToString(sensor.deviceId.type),
+            code: sensor.deviceId.code
+          }
+        },
+        {
+          ipAddress: sensor.ipAddress,
+          intervalMillis: sensor.intervalMillis,
+          measures: sensor.measures
+        }
+      )
+      .orFail()
   }
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
     switch (deviceId.type) {
       case DeviceType.CAMERA:
-        await this.cameraModel.findByIdAndDelete({
-          type: DeviceTypeConverter.convertToString(deviceId.type),
-          code: deviceId.code
-        })
+        await this.cameraModel
+          .deleteOne({
+            _id: {
+              type: DeviceTypeConverter.convertToString(deviceId.type),
+              code: deviceId.code
+            }
+          })
+          .orFail()
         break
       case DeviceType.SENSOR:
-        await this.sensorModel.findByIdAndDelete({
-          type: DeviceTypeConverter.convertToString(deviceId.type),
-          code: deviceId.code
-        })
+        await this.sensorModel
+          .deleteOne({
+            _id: {
+              type: DeviceTypeConverter.convertToString(deviceId.type),
+              code: deviceId.code
+            }
+          })
+          .orFail()
         break
+      default:
+        throw new Error('Error while deleting device')
     }
   }
 }

@@ -3,6 +3,7 @@ import express from 'express'
 
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
+import { userAccessRouter } from './routes/userAccess.js'
 import { userRouter } from './routes/user.js'
 
 const app: Express = express()
@@ -12,7 +13,8 @@ config()
 
 const PORT: number = Number(process.env.PORT) || 4000
 
-app.use('/', userRouter)
+app.use('/', userAccessRouter)
+app.use('/user', userRouter)
 
 app.use((_: Request, res: Response) => {
   res.status(404).send('<h1>404 Page Not Found!</h1>')

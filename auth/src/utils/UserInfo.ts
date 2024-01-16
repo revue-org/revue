@@ -1,13 +1,13 @@
 export class UserInfo {
-  private readonly _id: number
+  private readonly _id: string
   private readonly _username: string
 
-  constructor(id: number, username: string) {
+  constructor(id: string, username: string) {
     this._id = id
     this._username = username
   }
 
-  get id(): number {
+  get id(): string {
     return this._id
   }
 

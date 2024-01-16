@@ -2,8 +2,8 @@ import { config } from 'dotenv'
 import jsonwebtoken from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import { Connect } from 'vite'
-import NextFunction = Connect.NextFunction
 import { UserInfo } from './UserInfo.js'
+import NextFunction = Connect.NextFunction
 
 config()
 
@@ -11,6 +11,7 @@ class JWTManager {
   private jwt: any
   private readonly secret?: string
   private readonly refreshSecret?: string
+
   constructor() {
     this.jwt = jsonwebtoken
     this.secret = process.env.JWT_SECRET
@@ -67,4 +68,4 @@ class JWTManager {
   }
 }
 
-export const jwtManager = new JWTManager()
+export const jwtManager: JWTManager = new JWTManager()

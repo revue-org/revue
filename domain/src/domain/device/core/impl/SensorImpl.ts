@@ -7,14 +7,9 @@ export class SensorImpl implements Sensor {
   private _ipAddress: string
   private _isCapturing: boolean
   private _intervalMillis: number
-  private _measures: Set<Measure>
+  private _measures: Measure[]
 
-  constructor(
-    deviceId: DeviceId,
-    ipAddress: string,
-    intervalMillis: number,
-    measures: Set<Measure>
-  ) {
+  constructor(deviceId: DeviceId, ipAddress: string, intervalMillis: number, measures: Measure[]) {
     this._deviceId = deviceId
     this._ipAddress = ipAddress
     this._isCapturing = false
@@ -50,16 +45,16 @@ export class SensorImpl implements Sensor {
     this._intervalMillis = intervalMillis
   }
 
-  get measures(): Set<Measure> {
+  get measures(): Measure[] {
     return this._measures
   }
 
-  set measures(measures: Set<Measure>) {
+  set measures(measures: Measure[]) {
     this._measures = measures
   }
 
   addMeasure(measure: Measure) {
-    this.measures.add(measure)
+    this.measures.push(measure)
   }
 
   startCapturing(): void {

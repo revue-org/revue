@@ -3,31 +3,31 @@ import { DeviceId } from '../../../device/core/DeviceId.js'
 import { Measure } from '../../../device/core/impl/enum/Measure.js'
 
 export class ExceedingImpl implements Exceeding {
-  private _anomalyId: number
+  private _anomalyId: string
   private _deviceId: DeviceId
   private _timestamp: Date
   private _value: number
   private _measure: Measure
 
   constructor(
-    anomalyId: number,
+    anomalyId: string,
     deviceId: DeviceId,
     timestamp: Date,
-    value: number,
-    measure: Measure
+    measure: Measure,
+    value: number
   ) {
     this._anomalyId = anomalyId
     this._deviceId = deviceId
     this._timestamp = timestamp
-    this._value = value
     this._measure = measure
+    this._value = value
   }
 
-  get anomalyId(): number {
+  get anomalyId(): string {
     return this._anomalyId
   }
 
-  set anomalyId(anomalyId: number) {
+  set anomalyId(anomalyId: string) {
     this._anomalyId = anomalyId
   }
 

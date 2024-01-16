@@ -8,6 +8,7 @@ import { indexRouter } from './routes/index.js'
 import { notificationRouter } from './routes/notification.js'
 import { anomalyRouter } from './routes/anomaly.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
+import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 
 config()
@@ -36,6 +37,7 @@ app.use(indexRouter)
 app.use('/notification', notificationRouter)
 app.use('/anomaly', anomalyRouter)
 app.use('/recognizingNode', recognizingNodeRouter)
+app.use('/securityRule', securityRuleRouter)
 
 const mongoConnect = async () => {
   const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`

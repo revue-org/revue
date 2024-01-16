@@ -9,9 +9,13 @@ export interface SecurityRuleRepository {
 
   getSecurityRuleById(securityRuleId: string): Promise<SecurityRule>
 
-  insertSecurityRule(securityRule: SecurityRule): Promise<void>
+  insertExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void>
 
-  updateSecurityRule(securityRule: SecurityRule): Promise<void>
+  insertIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void>
+
+  updateExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void>
+
+  updateIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void>
 
   deleteSecurityRule(securityRuleId: string): Promise<void>
 }

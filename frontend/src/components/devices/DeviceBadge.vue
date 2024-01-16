@@ -3,11 +3,22 @@ import type { Device } from "@domain/device/core/Device";
 import type { Sensor } from "@domain/device/core/Sensor";
 import type { Camera } from "@domain/device/core/Camera";
 import { Measure } from "@domain/device/core/impl/enum/Measure";
-import { DeviceType } from "domain/dist/domain/device/core/impl/enum/DeviceType";
+import { DeviceType } from "@domain/device/core/impl/enum/DeviceType";
 
 defineProps<{
   device: Device;
 }>();
+
+const getMeasureColor = (measure: Measure) => {
+  switch (measure) {
+    case Measure.TEMPERATURE:
+      return "red";
+    case Measure.PRESSURE:
+      return "orange";
+    case Measure.HUMIDITY:
+      return "teal";
+  }
+};
 </script>
 
 <template>
@@ -36,14 +47,7 @@ defineProps<{
         <q-badge
           v-for="measure in (device as Sensor).measures.values()"
           outline
-          :style="{
-            color:
-              measure == Measure.TEMPERATURE
-                ? 'red'
-                : measure == Measure.PRESSURE
-                  ? 'orange'
-                  : 'teal',
-          }"
+          :style="{ color: getMeasureColor(measure) }"
         >
           {{ Measure[measure] }}
         </q-badge>
@@ -79,8 +83,8 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-@import "../../assets/variables";
-@import "../../assets/quasar-variables";
+@import "src/assets/variables";
+@import "src/assets/quasar-variables";
 
 header {
   height: auto;
@@ -116,9 +120,11 @@ ul {
   &.sensor {
     height: 150px;
   }
+
   &.camera {
     height: 110px;
   }
+
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

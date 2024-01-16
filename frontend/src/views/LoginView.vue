@@ -4,20 +4,13 @@ import { useUserStore } from "@/stores/user";
 
 const username = ref("");
 const password = ref("");
-
-function login() {
-  console.log("login");
-  console.log(username.value);
-  console.log(password.value);
-  // POST request to /api/login
-}
 </script>
 
 <template>
   <div>
     <div class="login-container">
       <h1>Login</h1>
-      <form @submit.prevent="login">
+      <form @submit.prevent="useUserStore().login()">
         <label for="username">Username:</label>
         <input
           type="text"
@@ -33,12 +26,6 @@ function login() {
           id="password"
           autocomplete="true"
           required
-        />
-        <input
-          type="button"
-          id=""
-          value="login fake"
-          @click="useUserStore().login()"
         />
         <q-btn color="secondary" type="submit">Login</q-btn>
       </form>

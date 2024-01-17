@@ -4,6 +4,7 @@ import BasicLayout from "@/layouts/BasicLayout.vue";
 import MonitoringView from "@/views/MonitoringView.vue";
 import DevicesView from "@/views/DevicesView.vue";
 import HomeView from "@/views/HomeView.vue";
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const router = createRouter({
   // history: createWebHistory("/"),
@@ -32,6 +33,11 @@ const router = createRouter({
           component: () => import("../views/LoginView.vue"),
         },
       ],
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'NotFound',
+      component: NotFoundView,
     },
   ],
 });

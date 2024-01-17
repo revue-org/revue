@@ -2,16 +2,13 @@
 import type { Sensor } from '@domain/device/core/Sensor'
 import { Measure } from '@domain/device/core/impl/enum/Measure'
 import { MeasureUnit } from '@domain/device/core/impl/enum/MeasureUnit'
-
-import { EnvironmentDataImpl } from '@domain/device/core/impl/EnvironmentDataImpl'
-
 import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl'
 import type { EnvironmentData } from '@domain/device/core/EnvironmentData'
 
 const { sensor } = defineProps<{
   sensor: Sensor;
-}>();
-const environmentDataFactory = new EnvironmentDataFactoryImpl();
+}>()
+const environmentDataFactory = new EnvironmentDataFactoryImpl()
 const data: EnvironmentData[] = [
   environmentDataFactory.createEnvironmentData(
     sensor.deviceId,
@@ -23,15 +20,8 @@ const data: EnvironmentData[] = [
     10,
     Measure.HUMIDITY,
     MeasureUnit.PERCENTAGE
-  ),
-  new EnvironmentDataImpl(
-    sensor.deviceId,
-    20,
-    Measure.PRESSURE,
-    MeasureUnit.PASCAL,
-    new Date()
-  ),
-];
+  )
+]
 
 </script>
 
@@ -40,7 +30,7 @@ const data: EnvironmentData[] = [
     <h3>{{ sensor.deviceId.code }}</h3>
     <div v-for="value in data">
       <span>{{ Measure[value.measure] }}: {{ value.value }} {{ MeasureUnit[value.measureUnit] }}</span>
-      <span>{{ value.timestamp  }}</span>
+      <span>{{ value.timestamp }}</span>
     </div>
   </li>
 </template>

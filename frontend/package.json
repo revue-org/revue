@@ -6,10 +6,10 @@
   "description": "Frontend microservice",
   "main": "src/main.ts",
   "scripts": {
-    "host": "vite --host",
     "build": "vite build",
-    "start": "vite",
-    "watch": "vite build -w",
+    "preview": "vite build && vite preview",
+    "dev": "vite",
+    "host": "vite --host",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:fix": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts",

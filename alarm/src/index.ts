@@ -7,7 +7,6 @@ import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
-import * as process from 'process'
 
 config()
 
@@ -21,7 +20,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
 
-  console.log(token)
   if (token === process.env.DEV_API_KEY) return next()
   if (token === undefined) return res.status(403).send({ error: 'No authentication token' })
   else {

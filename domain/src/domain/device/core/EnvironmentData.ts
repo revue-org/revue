@@ -15,9 +15,10 @@ export interface EnvironmentData {
 
   set measure(measure: Measure)
 
+  get measureUnit(): MeasureUnit
+
+  set measureUnit(unit: MeasureUnit)
+
   get timestamp(): Date
 
-  get unit(): MeasureUnit
-
-  set unit(unit: MeasureUnit)
 }

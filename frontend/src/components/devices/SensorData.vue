@@ -39,7 +39,7 @@ const data: EnvironmentData[] = [
   <li>
     <h3>{{ sensor.deviceId.code }}</h3>
     <div v-for="value in data">
-      <span>{{ Measure[value.measure] }}: {{ value.value }} MeasureUnit[value.unit] </span>
+      <span>{{ Measure[value.measure] }}: {{ value.value }} {{ MeasureUnit[value.measureUnit] }}</span>
       <span>{{ value.timestamp  }}</span>
     </div>
   </li>

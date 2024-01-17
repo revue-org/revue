@@ -7,7 +7,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
   private _sourceDeviceId: DeviceId
   private _value: number
   private _measure: Measure
-  private _unit: MeasureUnit
+  private _measureUnit: MeasureUnit
   private readonly _timestamp: Date
 
   constructor(
@@ -20,7 +20,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
     this._sourceDeviceId = sourceDeviceId
     this._value = value
     this._measure = measure
-    this._unit = unit
+    this._measureUnit = unit
     this._timestamp = timestamp
   }
 
@@ -48,14 +48,15 @@ export class EnvironmentDataImpl implements EnvironmentData {
     this._measure = measure
   }
 
+  get measureUnit(): MeasureUnit {
+    return this._measureUnit
+  }
+  set measureUnit(unit: MeasureUnit) {
+    this._measureUnit = unit
+  }
+
   get timestamp(): Date {
     return this._timestamp
   }
 
-  get unit(): MeasureUnit {
-    return this._unit
-  }
-  set unit(unit: MeasureUnit) {
-    this._unit = unit
-  }
 }

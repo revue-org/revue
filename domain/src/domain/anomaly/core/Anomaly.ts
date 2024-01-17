@@ -10,5 +10,4 @@ export interface Anomaly {
   set deviceId(deviceId: DeviceId)
 
   get timestamp(): Date
-
 }

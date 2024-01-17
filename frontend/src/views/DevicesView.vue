@@ -1,24 +1,23 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-import SensorBadge from '@/components/devices/DeviceBadge.vue'
-import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
-import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl'
-import type { DeviceFactory } from '@domain/device/factories/DeviceFactory'
-import type { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory'
-import type { ResolutionFactory } from '@domain/device/factories/ResolutionFactory'
-import type { Sensor } from '@domain/device/core/Sensor'
-import type { Camera } from '@domain/device/core/Camera'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl'
-import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData'
-import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit'
-import { EnvironmentDataImpl } from 'domain/dist/domain/device/core/impl/EnvironmentDataImpl'
+import SensorBadge from "@/components/devices/DeviceBadge.vue";
+import { DeviceFactoryImpl } from "@domain/device/factories/impl/DeviceFactoryImpl";
+import { DeviceIdFactoryImpl } from "@domain/device/factories/impl/DeviceIdFactoryImpl";
+import { ResolutionFactoryImpl } from "@domain/device/factories/impl/ResolutionFactoryImpl";
+import type { DeviceFactory } from "@domain/device/factories/DeviceFactory";
+import type { DeviceIdFactory } from "@domain/device/factories/DeviceIdFactory";
+import type { ResolutionFactory } from "@domain/device/factories/ResolutionFactory";
+import type { Sensor } from "@domain/device/core/Sensor";
+import type { Camera } from "@domain/device/core/Camera";
+import { Measure } from "@domain/device/core/impl/enum/Measure";
+import { EnvironmentDataFactoryImpl } from "@domain/device/factories/impl/EnvironmentDataFactoryImpl";
+import type { EnvironmentData } from "domain/dist/domain/device/core/EnvironmentData";
+import { MeasureUnit } from "domain/dist/domain/device/core/impl/enum/MeasureUnit";
+import { EnvironmentDataImpl } from "domain/dist/domain/device/core/impl/EnvironmentDataImpl";
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl();
-
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl();
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl();
@@ -39,13 +38,14 @@ const sensors: ref<Sensor[]> = ref([
   ),
 ]);
 
-const environmentData: EnvironmentData = environmentDataFactory.createEnvironmentData(
-  deviceIdFactory.createSensorId("Sensor 1"),
-  20,
-  Measure.PRESSURE,
-  MeasureUnit.PASCAL,
-  new Date()
-);
+const environmentData: EnvironmentData =
+  environmentDataFactory.createEnvironmentData(
+    deviceIdFactory.createSensorId("Sensor 1"),
+    20,
+    Measure.PRESSURE,
+    MeasureUnit.PASCAL,
+    new Date(),
+  );
 console.log(EnvironmentDataImpl.toString());
 
 console.log(environmentData);

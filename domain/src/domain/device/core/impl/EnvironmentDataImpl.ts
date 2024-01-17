@@ -58,5 +58,4 @@ export class EnvironmentDataImpl implements EnvironmentData {
   get timestamp(): Date {
     return this._timestamp
   }
-
 }

@@ -20,5 +20,4 @@ export interface EnvironmentData {
   set measureUnit(unit: MeasureUnit)
 
   get timestamp(): Date
-
 }

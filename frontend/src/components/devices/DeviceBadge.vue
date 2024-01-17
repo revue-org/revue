@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type { Device } from '@domain/device/core/Device'
-import type { Sensor } from '@domain/device/core/Sensor'
-import type { Camera } from '@domain/device/core/Camera'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import { DeviceType } from '@domain/device/core/impl/enum/DeviceType'
-import { getMeasureColor } from '@/utils/MeasureUtils'
+import type { Device } from "@domain/device/core/Device";
+import type { Sensor } from "@domain/device/core/Sensor";
+import type { Camera } from "@domain/device/core/Camera";
+import { Measure } from "@domain/device/core/impl/enum/Measure";
+import { DeviceType } from "@domain/device/core/impl/enum/DeviceType";
+import { getMeasureColor } from "@/utils/MeasureUtils";
 
 defineProps<{
   device: Device;
-}>()
-
+}>();
 </script>
 
 <template>
@@ -30,7 +29,7 @@ defineProps<{
         <i>Resolution: </i
         >{{
           (device as Camera).resolution.width +
-          'x' +
+          "x" +
           (device as Camera).resolution.height
         }}
       </li>

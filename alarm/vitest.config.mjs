@@ -5,6 +5,9 @@ export default  defineConfig({
   optimizeDeps: {
     entries: []
   },
+  extensions: ['js', 'ts'],
+  // Specify the test files pattern
+  testFiles: 'test/**/*.test.ts',
   resolve: {
     alias: {
       '@domain': path.resolve(__dirname, 'node_modules/domain/dist/domain/'),
@@ -14,6 +17,11 @@ export default  defineConfig({
     }
   },
   test: {
-    testTimeout: 30_000,
+    testTimeout: 10_000,
+    poolOptions: {
+      forks:{
+        singleFork: true
+      }
+    }
   }
 })

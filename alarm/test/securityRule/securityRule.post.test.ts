@@ -1,8 +1,8 @@
 import { alarmService, describe, expect, it, Response, TOKEN } from '../common'
 
-describe('POST /securityRules/exceedings', (): void => {
+describe('POST /security-rules/exceedings', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/securityRules/exceedings')
+    const creation: Response = await alarmService.post('/security-rules/exceedings')
     expect(creation.status).toBe(403)
   })
 
@@ -32,7 +32,7 @@ describe('POST /securityRules/exceedings', (): void => {
     }
 
     const creation: Response = await alarmService
-      .post('/securityRules/exceedings')
+      .post('/security-rules/exceedings')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newExceedingSecurityRule)
 
@@ -41,9 +41,9 @@ describe('POST /securityRules/exceedings', (): void => {
   })
 })
 
-describe('POST /securityRules/intrusions', (): void => {
+describe('POST /security-rules/intrusions', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/securityRules/intrusions')
+    const creation: Response = await alarmService.post('/security-rules/intrusions')
     expect(creation.status).toBe(403)
   })
 
@@ -71,7 +71,7 @@ describe('POST /securityRules/intrusions', (): void => {
     }
 
     const creation: Response = await alarmService
-      .post('/securityRules/intrusions')
+      .post('/security-rules/intrusions')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newIntrusionSecurityRule)
 

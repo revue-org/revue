@@ -1,9 +1,9 @@
 import { alarmService, Response, describe, expect, it, TOKEN } from '../common'
 
 
-describe('POST /recognizingNodes/', (): void => {
+describe('POST /recognizing-nodes/', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/recognizingNodes/')
+    const creation: Response = await alarmService.post('/recognizing-nodes/')
     expect(creation.status).toBe(403)
   })
 
@@ -23,7 +23,7 @@ describe('POST /recognizingNodes/', (): void => {
     }
 
     const creation: Response = await alarmService
-      .post('/recognizingNodes/')
+      .post('/recognizing-nodes/')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newRecognizingNode)
 

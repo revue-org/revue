@@ -75,18 +75,6 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    console.log(
-      securityRuleFactory.createIntrusionRule(
-        objectClass,
-        '',
-        deviceId,
-        creatorId,
-        contacts,
-        description,
-        from,
-        to
-      )
-    )
     await securityRuleManager.insertIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
         objectClass,

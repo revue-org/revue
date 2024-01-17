@@ -38,12 +38,6 @@ const mongoConnect = async () => {
   const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
     .connect(connectionString)
-    .then(async () => {
-      console.log(
-        `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
-      )
-    })
-    .catch((e) => console.log(e))
 }
 
 if (process.env.NODE_ENV === 'test') {
@@ -51,6 +45,11 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   app.listen(PORT, (): void => {
     console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)
-    mongoConnect()
+    mongoConnect().then(async () => {
+      console.log(
+        `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
+      )
+    })
+      .catch((e) => console.log(e))
   })
 }

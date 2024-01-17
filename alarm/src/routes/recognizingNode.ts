@@ -30,7 +30,7 @@ recognizingNodeRouter.route('/').post((req: Request, res: Response): void => {
   recognizingNodeController
     .createRecognizingNode(req)
     .then((): void => {
-      res.send({ success: 'Recognizing node created' })
+      res.status(201).send({ success: 'Recognizing node created' })
     })
     .catch(() => {
       res.send({ error: 'Recognizing node not created' })

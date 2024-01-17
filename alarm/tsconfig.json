@@ -5,11 +5,12 @@
     "./dist"
   ],
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "test/**/*"
   ],
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist",
-    "baseUrl": ".",
+    "baseUrl": "."
   }
 }

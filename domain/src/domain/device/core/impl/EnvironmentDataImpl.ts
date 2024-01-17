@@ -7,8 +7,8 @@ export class EnvironmentDataImpl implements EnvironmentData {
   private _sourceDeviceId: DeviceId
   private _value: number
   private _measure: Measure
-  private readonly _timestamp: Date
   private _unit: MeasureUnit
+  private readonly _timestamp: Date
 
   constructor(
     sourceDeviceId: DeviceId,

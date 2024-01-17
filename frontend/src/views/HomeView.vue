@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Sensor } from "@domain/device/core/Sensor";
 import { ref } from "vue";
-import { Measure } from "domain/dist/domain/device/core/impl/enum/Measure";
-import type { DeviceIdFactory } from "domain/dist/domain/device/factories/DeviceIdFactory";
-import { DeviceIdFactoryImpl } from "domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl";
-import type { DeviceFactory } from "domain/dist/domain/device/factories/DeviceFactory";
-import { DeviceFactoryImpl } from "domain/dist/domain/device/factories/impl/DeviceFactoryImpl";
+import { Measure } from "@domain/device/core/impl/enum/Measure";
+import type { DeviceIdFactory } from "@domain/device/factories/DeviceIdFactory";
+import { DeviceIdFactoryImpl } from "@domain/device/factories/impl/DeviceIdFactoryImpl";
+import type { DeviceFactory } from "@domain/device/factories/DeviceFactory";
+import { DeviceFactoryImpl } from "@domain/device/factories/impl/DeviceFactoryImpl";
 import SensorData from "@/components/devices/SensorData.vue";
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl();

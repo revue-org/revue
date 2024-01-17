@@ -39,6 +39,7 @@ export class IntrusionImpl implements Intrusion {
   get timestamp(): Date {
     return this._timestamp
   }
+
   get intrusionObject(): ObjectClass {
     return this._intrusionObject
   }

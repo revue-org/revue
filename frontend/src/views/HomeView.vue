@@ -31,7 +31,7 @@ const sensors: ref<Sensor[]> = ref([
   <div class="container">
     <h2>Environment data</h2>
     <div>
-      <sensor-data :sensor="sensors[0]" />
+      <sensor-data v-for="(sensor, index) in sensors" :key="index" :sensor="sensor" />
     </div>
   </div>
 </template>

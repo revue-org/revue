@@ -1,24 +1,15 @@
 <script setup lang="ts">
-import type { Device } from "@domain/device/core/Device";
-import type { Sensor } from "@domain/device/core/Sensor";
-import type { Camera } from "@domain/device/core/Camera";
-import { Measure } from "@domain/device/core/impl/enum/Measure";
-import { DeviceType } from "@domain/device/core/impl/enum/DeviceType";
+import type { Device } from '@domain/device/core/Device'
+import type { Sensor } from '@domain/device/core/Sensor'
+import type { Camera } from '@domain/device/core/Camera'
+import { Measure } from '@domain/device/core/impl/enum/Measure'
+import { DeviceType } from '@domain/device/core/impl/enum/DeviceType'
+import { getMeasureColor } from '@/utils/MeasureUtils'
 
 defineProps<{
   device: Device;
-}>();
+}>()
 
-const getMeasureColor = (measure: Measure) => {
-  switch (measure) {
-    case Measure.TEMPERATURE:
-      return "red";
-    case Measure.PRESSURE:
-      return "orange";
-    case Measure.HUMIDITY:
-      return "teal";
-  }
-};
 </script>
 
 <template>
@@ -39,7 +30,7 @@ const getMeasureColor = (measure: Measure) => {
         <i>Resolution: </i
         >{{
           (device as Camera).resolution.width +
-          "x" +
+          'x' +
           (device as Camera).resolution.height
         }}
       </li>

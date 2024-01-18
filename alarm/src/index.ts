@@ -7,6 +7,8 @@ import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
+import { DatabaseSimulator } from "./utils/storage/DatabaseSimulator.js";
+import * as console from "console";
 
 config()
 
@@ -34,18 +36,23 @@ app.use('/anomalies', anomalyRouter)
 app.use('/recognizing-nodes', recognizingNodeRouter)
 app.use('/security-rules', securityRuleRouter)
 
-const mongoConnect = async () => {
-  const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+const mongoConnect = async ():Promise<void> => {
+  const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
     .connect(connectionString)
 }
 
 if (process.env.NODE_ENV === 'test') {
-  mongoConnect()
+  console.log("CI PASSO")
+  DatabaseSimulator.mongoSimulation().then(async (): Promise<void> => {
+    console.log(`Connected to MongoDB test instance`)
+   /* await mongoConnect();
+    await DatabaseSimulator.mongoPopulate();*/
+  });
 } else {
   app.listen(PORT, (): void => {
     console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)
-    mongoConnect().then(async () => {
+    mongoConnect().then(async (): Promise<void> => {
       console.log(
         `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
       )

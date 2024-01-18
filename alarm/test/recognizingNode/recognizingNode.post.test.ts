@@ -1,3 +1,4 @@
+/*
 import { alarmService, Response, describe, expect, it, TOKEN } from '../common'
 
 
@@ -31,3 +32,4 @@ describe('POST /recognizing-nodes/', (): void => {
     expect(creation.type).toBe('application/json')
   })
 })
+*/

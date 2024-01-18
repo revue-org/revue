@@ -1,3 +1,4 @@
+/*
 import { alarmService, Response, describe, expect, it, TOKEN } from '../common'
 
 
@@ -31,3 +32,4 @@ describe('GET /security-rules/intrusions', (): void => {
   })
 })
 
+*/

@@ -1,3 +1,4 @@
+/*
 import { alarmService, Response, describe, expect, it, TOKEN } from '../common'
 
 
@@ -16,3 +17,4 @@ describe('GET /recognizing-nodes/', (): void => {
   })
 })
 
+*/

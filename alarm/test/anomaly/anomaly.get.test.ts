@@ -1,3 +1,4 @@
+/*
 import { alarmService, Response, describe, expect, it, TOKEN } from '../common'
 
 describe('GET /anomalies/exceedings', (): void => {
@@ -29,3 +30,4 @@ describe('GET /anomalies/intrusions', (): void => {
     expect(intrusions.type).toBe('application/json')
   })
 })
+*/

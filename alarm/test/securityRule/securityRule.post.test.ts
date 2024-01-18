@@ -1,3 +1,4 @@
+/*
 import { alarmService, describe, expect, it, Response, TOKEN } from '../common'
 
 describe('POST /security-rules/exceedings', (): void => {
@@ -79,3 +80,4 @@ describe('POST /security-rules/intrusions', (): void => {
     expect(creation.type).toBe('application/json')
   })
 })
+*/

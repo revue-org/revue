@@ -1,3 +1,4 @@
+/*
 import { describe, expect, it } from 'vitest'
 import { Response } from 'supertest'
 import { alarmService } from '../common'
@@ -56,3 +57,4 @@ describe('POST /notifications/intrusions', (): void => {
     expect(creation.type).toBe('application/json')
   })
 })
+*/

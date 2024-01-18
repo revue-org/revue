@@ -14,7 +14,7 @@ import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
 
 const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
-const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
+export const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
 
 const anomalyManager: AnomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()

@@ -1,9 +1,9 @@
 import { MongoDBContainer, StartedMongoDBContainer } from "@testcontainers/mongodb";
 import { Wait } from "testcontainers";
-import { intrusionSchema } from "domain/dist/storage/anomaly/schemas/IntrusionSchema";
-import { exceedingSchema } from "domain/dist/storage/anomaly/schemas/ExceedingSchema";
-import { Exceeding } from "domain/dist/domain/anomaly/core/Exceeding";
-import { Intrusion } from "domain/dist/domain/anomaly/core/Intrusion";
+import { intrusionSchema } from "domain/dist/storage/anomaly/schemas/IntrusionSchema.js";
+import { exceedingSchema } from "domain/dist/storage/anomaly/schemas/ExceedingSchema.js";
+import { Exceeding } from "domain/dist/domain/anomaly/core/Exceeding.js";
+import { Intrusion } from "domain/dist/domain/anomaly/core/Intrusion.js";
 import mongoose, { model, Model } from "mongoose";
 
 export class DatabaseSimulator {
@@ -14,7 +14,7 @@ export class DatabaseSimulator {
    console.log("Simulating MongoDB instance...")
     this.mongoContainer = await new MongoDBContainer()
       .withExposedPorts(27017)
-      .withWaitStrategy(Wait.forLogMessage('waiting for connections on port 27017', 1))
+      //.withWaitStrategy(Wait.forLogMessage('waiting for connections on port 27017', 1))
       .start()
   }
 

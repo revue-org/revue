@@ -1,15 +1,9 @@
-import { MongoDBContainer, StartedMongoDBContainer } from '@testcontainers/mongodb'
-import { Wait } from 'testcontainers'
 import { it } from 'vitest'
-import mongoose, { model, Model } from "mongoose";
-import { Exceeding } from "@domain/anomaly/core/Exceeding";
-import { Intrusion } from "@domain/anomaly/core/Intrusion";
-import { exceedingSchema } from "@storage/anomaly/schemas/ExceedingSchema.js";
-import { intrusionSchema } from "@storage/anomaly/schemas/IntrusionSchema.js";
-import { DatabaseSimulator } from "../../src/utils/storage/DatabaseSimulator.js";
-import supertest from "supertest";
-import { app } from "../../src/index";
-import * as console from "console";
+import mongoose from 'mongoose'
+import supertest from 'supertest'
+import { app } from '../../src/index'
+import * as console from 'console'
+import { MongoDBContainer, StartedMongoDBContainer } from "@testcontainers/mongodb";
 
 //${process.env.DB_NAME}?authSource=admin
 const connectionString: string = `mongodb://root:example@localhost:27017/?authSource=admin`
@@ -20,20 +14,31 @@ const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusion
 it('MongoDB connection test', async (): Promise<void> => {
   const alarmService = supertest(app)
 
-  try {
+  const container: StartedMongoDBContainer = await new MongoDBContainer()
+    .withExposedPorts(27017)
 
-    await mongoose.connect(connStri)
-    console.log('Connesso? ' + mongoose.connection.readyState)
-    console.log(mongoose.connection.collections)
-    console.log('Connected successfully to db')
+    //.withWaitStrategy(Wait.forLogMessage('waiting for connections on port 27017', 1))
+    .start()
 
-    await mongoose.disconnect();
-    //await DatabaseSimulator.mongoDestroy()
-  } catch (error) {
-    console.error('Error in test:', error)
-  }
+  container.h(Wait.forLogMessage('waiting for connections on port 27017', 1))
 
+  //container.
+/*  setTimeout(async () => {
+    console.log('ho aspettato 30 secondi')
+    //await alarmService.get('/anomalies').expect(200)
 
+    try {
+      await mongoose.connect(connStri)
+      console.log('Connesso? ' + mongoose.connection.readyState)
+      console.log(mongoose.connection.collections)
+      console.log('Connected successfully to db')
+
+      await mongoose.disconnect()
+      //await DatabaseSimulator.mongoDestroy()
+    } catch (error) {
+      console.error('Error in test:', error)
+    }
+  }, 30000)*/
   // da vedere se usare mongoose o meno, io direi di si perche' e' piu' semplice
 
   // Connect to the MongoDB container
@@ -47,5 +52,4 @@ it('MongoDB connection test', async (): Promise<void> => {
 
       // Clean up: Close the connection
       await client.close()*/
-
-}, 30000)
+}, 50000)

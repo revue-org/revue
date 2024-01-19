@@ -1,104 +1,141 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
-import { useUserStore } from "@/stores/user";
-import { symSharpControlCamera } from "@quasar/extras/material-symbols-sharp";
-import router from "@/router";
-import { computed } from "vue";
+import { RouterLink } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
+import router from '@/router'
+import { computed, ref } from 'vue'
 
-const routeName = computed(() => router.currentRoute.value.name);
-const userStorage = useUserStore();
+const routeName = computed(() => router.currentRoute.value.name)
+const userStorage = useUserStore()
+const navbarExpanded = ref(false)
 </script>
 
 <template>
-  <div>
-    <nav>
+  <nav :class="navbarExpanded ? 'expanded' : ''">
+    <div class="title">
       <q-icon :name="symSharpControlCamera" style="font-size: 1.5em" />
       <h1>Revue</h1>
-      <q-separator dark vertical />
-      <router-link to="/" :class="routeName == 'Home' ? 'selected' : ''"
-        >Home</router-link
-      >
-      <router-link
-        to="/monitoring"
-        :class="routeName == 'Monitoring' ? 'selected' : ''"
-        >Monitoring</router-link
-      >
-      <router-link
-        to="/devices"
-        :class="routeName == 'Devices' ? 'selected' : ''"
-        >Devices</router-link
-      >
-      <router-link to="/login" name="logout" @click="userStorage.logout()"
-        >Logout
-      </router-link>
-      <q-btn flat @click="$emit('toggle-aside')" round dense icon="menu" />
-    </nav>
-  </div>
+      <q-btn class="menu" flat @click="navbarExpanded = !navbarExpanded" round dense icon="menu" />
+    </div>
+    <router-link to="/" :class="routeName == 'Home' ? 'selected home' : 'home'">Home</router-link>
+    <router-link to="/monitoring" :class="routeName == 'Monitoring' ? 'selected' : ''"
+      >Monitoring</router-link
+    >
+    <router-link to="/devices" :class="routeName == 'Devices' ? 'selected' : ''"
+      >Devices</router-link
+    >
+    <router-link to="/alarms" :class="routeName == 'Alarms' ? 'selected' : ''">Alarms</router-link>
+    <router-link to="/notifications" :class="routeName == 'Notifications' ? 'selected' : ''"
+      >Notifications
+    </router-link>
+    <router-link to="/login" class="logout" @click="userStorage.logout()">Logout</router-link>
+  </nav>
 </template>
 
 <style scoped lang="scss">
-@import "src/assets/variables.scss";
+@import 'src/assets/variables.scss';
 
-h1 {
-  all: unset;
-  font-size: 18px;
-}
-
-div {
+nav {
+  z-index: 10;
+  position: fixed;
+  top: 0;
   width: 100%;
+  max-height: 50px;
+  overflow: hidden;
+  transition: max-height 200ms linear;
+
+  &.expanded {
+    max-height: 300px;
+  }
+
   background-color: $primary-color;
   padding: 10px;
 
-  nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.3rem;
+
+  div.title {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     gap: 0.3rem;
+    color: white;
 
-    a {
-      font-size: 16px;
-      box-sizing: border-box;
-      position: relative;
-      padding: 0.75em;
+    h1 {
+      all: unset;
+      margin-right: auto;
+      font-size: 18px;
+    }
+  }
 
-      &::before {
-        content: "";
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transform-origin: center;
-      }
+  button.menu {
+    display: none;
+    color: white;
+  }
 
-      &::before {
-        border-bottom: 1px solid white;
-        transform: scale3d(0, 1, 1);
-      }
+  .home,
+  .logout {
+    margin-left: auto !important;
+  }
 
-      &:hover::before,
-      &.selected::before {
-        transform: scale3d(1, 1, 1);
-        transition: transform 200ms;
-      }
+  a {
+    font-size: 16px;
+    box-sizing: border-box;
+    position: relative;
+    color: white;
+    text-decoration: none;
+    padding: 1px 5px;
+    margin: 0 5px;
+
+    &:hover {
+      background-color: transparent;
+      border-radius: 5px;
     }
 
-    a,
-    h1 {
-      color: white;
-      text-decoration: none;
-      padding: 0 2px;
-      margin: 0 5px;
+    &::before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      transform-origin: center;
+    }
 
-      &[name="logout"] {
-        margin-left: auto;
-      }
+    &::before {
+      border-bottom: 1px solid white;
+      transform: scale3d(0, 1, 1);
+    }
 
-      &:hover {
-        background-color: transparent;
-        border-radius: 5px;
-      }
+    &:hover::before,
+    &.selected::before {
+      transform: scale3d(1, 1, 1);
+      transition: transform 200ms;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  nav {
+    flex-direction: column;
+
+    div.title {
+      width: 100%;
+    }
+
+    .home,
+    .logout {
+      margin-left: unset !important;
+    }
+
+    button.menu {
+      display: inline-flex;
+    }
+
+    .selected {
+      display: block !important;
     }
   }
 }

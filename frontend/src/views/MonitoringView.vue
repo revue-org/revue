@@ -8,30 +8,35 @@ import type { DeviceIdFactory } from 'domain/dist/domain/device/factories/Device
 import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/ResolutionFactoryImpl'
 import type { ResolutionFactory } from 'domain/dist/domain/device/factories/ResolutionFactory'
 
-const deviceFactory: DeviceFactory = new DeviceFactoryImpl();
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl();
-const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl();
+const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
+const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
+const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 const cameras = ref<Camera[]>([
   deviceFactory.createCamera(
-    deviceIdFactory.createCameraId("Camera 1"), "192.168.1.20",
+    deviceIdFactory.createCameraId('Camera 1'),
+    '192.168.1.20',
     resolutionFactory.createResolution(1920, 1080)
   ),
   deviceFactory.createCamera(
-    deviceIdFactory.createCameraId("Camera 2"), "192.168.1.21",
+    deviceIdFactory.createCameraId('Camera 2'),
+    '192.168.1.21',
     resolutionFactory.createResolution(1920, 1080)
   ),
   deviceFactory.createCamera(
-    deviceIdFactory.createCameraId("Camera 3"), "192.168.1.22",
+    deviceIdFactory.createCameraId('Camera 3'),
+    '192.168.1.22',
     resolutionFactory.createResolution(1920, 1080)
-  ),
-]);
+  )
+])
 </script>
 
 <template>
   <div class="container">
     <div class="camera" v-for="(camera, index) in cameras" :key="index">
-      <h3>{{ camera.deviceId.code }}</h3>
-      <video autoplay >
+      <h3>
+        {{ camera.deviceId.code }}
+      </h3>
+      <video autoplay controls>
         <source src="../assets/video.mp4" type="video/mp4" />
       </video>
     </div>
@@ -49,7 +54,8 @@ div.container {
     line-height: 1.5;
   }
 
-  .camera, video {
+  .camera,
+  video {
     width: 100%;
   }
 }

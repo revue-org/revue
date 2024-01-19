@@ -21,12 +21,20 @@ export class DatabaseSimulator {
 
   static async simulate(): Promise<void> {
     console.log("Simulating MongoDB instance...");
-    this.mongoContainer = await new MongoDBContainer("mongo:6.0.1").withExposedPorts(27017).start();
+    this.mongoContainer = await new MongoDBContainer("mongo:6.0.1").withEnvironment(
+      { MONGO_INITDB_DATABASE: "alarm" }
+    ).withEnvironment(
+      { MONGO_INITDB_ROOT_USERNAME: "" }
+    ).withEnvironment(
+      { MONGO_INITDB_ROOT_PASSWORD: "" }
+    ).withEnvironment(
+      { MONGO_INITDB_ROOT_ROLE: "" }
+    ).withExposedPorts(27017).start();
   }
 
   static async createCollections(): Promise<void> {
     console.log("Populating MongoDB instance...");
-    const conn = await mongoose.connect("mongodb://127.0.0.1:27017/alarm", {
+    const conn = await mongoose.connect("mongodb://127.0.0.1:27017/alarm/", {
       directConnection: true
     });
     await exceedingRuleModel.createCollection().then(() => console.log("Collection securityRule created!"));
@@ -38,7 +46,7 @@ export class DatabaseSimulator {
 
   static async populate(): Promise<void> {
     console.log("Populating MongoDB instance...");
-    const conn = await mongoose.connect("mongodb://127.0.0.1:27017/alarm", {
+    const conn = await mongoose.connect("mongodb://127.0.0.1:27017/alarm/", {
       directConnection: true
     });
 

@@ -1,20 +1,21 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose'
 
 export const exceedingRuleSample = {
   deviceId: {
-    type: "CAMERA",
-    code: "cam-01"
+    type: 'CAMERA',
+    code: 'cam-01'
   },
-  creatorId: new Types.ObjectId("aaaaaaaaaaaaaaaaaaaaaaaa"), // 24 chars like an ObjectId
+  creatorId: new Types.ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'), // 24 chars like an ObjectId
   contacts: [
     {
-      type: "SMS",
-      value: "3333333333"
-    }],
-  description: "This is a sample exceeding rule description",
+      type: 'SMS',
+      value: '3333333333'
+    }
+  ],
+  description: 'This is a sample exceeding rule description',
   minValue: 0,
   maxValue: 89,
-  from: "2020-01-01T00:00:00.000Z",
-  to: "2020-01-02T00:00:00.000Z",
-  measure: "TEMPERATURE"
+  from: '2020-01-01T00:00:00.000Z',
+  to: '2020-01-02T00:00:00.000Z',
+  measure: 'TEMPERATURE'
 }

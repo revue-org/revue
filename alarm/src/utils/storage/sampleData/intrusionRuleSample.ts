@@ -1,11 +1,11 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose'
 
 export const intrusionRuleSample = {
   deviceId: {
     type: 'CAMERA',
     code: 'cam-01'
   },
-  creatorId: new Types.ObjectId("aaaaaaaaaaaaaaaaaaaaaaaa"), // 24 chars like an ObjectId
+  creatorId: new Types.ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'), // 24 chars like an ObjectId
   contacts: [
     {
       type: 'SMS',

@@ -3,21 +3,17 @@
 import { ref } from 'vue'
 
 import SensorBadge from '@/components/devices/DeviceBadge.vue'
-import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
-import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl'
-import type { DeviceFactory } from '@domain/device/factories/DeviceFactory'
-import type { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory'
-import type { ResolutionFactory } from '@domain/device/factories/ResolutionFactory'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
+import type { DeviceFactory, DeviceIdFactory, ResolutionFactory, EnvironmentDataFactory } from '@domain/device/factories'
+
 import type { Sensor } from '@domain/device/core/Sensor'
 import type { Camera } from '@domain/device/core/Camera'
 import { Measure } from '@domain/device/core/impl/enum/Measure'
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl'
 import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData'
 import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 
-const environmentDataFactory = new EnvironmentDataFactoryImpl()
+const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()

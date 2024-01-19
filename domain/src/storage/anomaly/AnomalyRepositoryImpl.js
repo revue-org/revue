@@ -1,5 +1,5 @@
-import { exceedingModel } from '../security-rule/schemas/ExceedingRule.js'
-import { intrusionModel } from '../security-rule/schemas/IntrusionRule.js'
+import { exceedingModel } from '../security-rule/schemas/ExceedingRuleSchema.js'
+import { intrusionModel } from '../security-rule/schemas/IntrusionRuleSchema.js'
 
 class AnomalyRepositoryImpl {
   getAnomalies() {

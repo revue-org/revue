@@ -14,12 +14,12 @@ import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
 import { Contact } from '@domain/monitoring/core/Contact.js'
 import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
 
-const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
+export const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
   'ExceedingRule',
   exceedingRuleSchema,
   'securityRule'
 )
-const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
+export const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
   'IntrusionRule',
   intrusionRuleSchema,
   'securityRule'

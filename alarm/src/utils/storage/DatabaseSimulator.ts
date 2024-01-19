@@ -1,39 +1,88 @@
 import { MongoDBContainer, StartedMongoDBContainer } from "@testcontainers/mongodb";
-import { Wait } from "testcontainers";
-import { intrusionSchema } from "domain/dist/storage/anomaly/schemas/IntrusionSchema.js";
-import { exceedingSchema } from "domain/dist/storage/anomaly/schemas/ExceedingSchema.js";
-import { Exceeding } from "domain/dist/domain/anomaly/core/Exceeding.js";
-import { Intrusion } from "domain/dist/domain/anomaly/core/Intrusion.js";
-import mongoose, { model, Model } from "mongoose";
+import { exceedingModel, intrusionModel } from "../../controller/anomaly.js";
+import { exceedingRuleModel, intrusionRuleModel } from "../../controller/securityRule.js";
+import { notificationModel } from "../../controller/notification.js";
+import { recognizingNodeModel } from "../../controller/recognizingNode.js";
+import { notificationSample } from "../../utils/storage/sampleData/notificationSample.js";
+import { recognizingNodeSample } from "../../utils/storage/sampleData/recognizingNodeSample.js";
+import * as console from "console";
+import { exceedingRuleSample } from "../../utils/storage/sampleData/exceedingRuleSample.js";
+import mongoose from "mongoose";
+import { intrusionRuleSample } from "../../utils/storage/sampleData/intrusionRuleSample";
+import { exceedingSample } from "../../utils/storage/sampleData/exceedingSample";
+import { intrusionSample } from "../../utils/storage/sampleData/intrusionSample";
 
 export class DatabaseSimulator {
-
   private static mongoContainer: StartedMongoDBContainer;
 
-  static async mongoSimulation(): Promise<void> {
-   console.log("Simulating MongoDB instance...")
-    this.mongoContainer = await new MongoDBContainer()
-      .withExposedPorts(27017)
-      //.withWaitStrategy(Wait.forLogMessage('waiting for connections on port 27017', 1))
-      .start()
+  static connectionString(): string {
+    return this.mongoContainer.getConnectionString();
   }
 
-  static async mongoPopulate(): Promise<void> {
-    console.log("Populating MongoDB instance...")
+  static async simulate(): Promise<void> {
+    console.log("Simulating MongoDB instance...");
+    this.mongoContainer = await new MongoDBContainer("mongo:6.0.1").withExposedPorts(27017).start();
+  }
 
-    const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
-    const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
-    exceedingModel.createCollection().then(function (collection): void {
-      console.log('Collection exceeding created!');
+  static async createCollections(): Promise<void> {
+    console.log("Populating MongoDB instance...");
+    const conn = await mongoose.connect("mongodb://127.0.0.1:27017/alarm", {
+      directConnection: true
     });
+    await exceedingRuleModel.createCollection().then(() => console.log("Collection securityRule created!"));
+    await notificationModel.createCollection();
+    await recognizingNodeModel.createCollection();
+    await exceedingRuleModel.createCollection()
+    await conn.disconnect();
   }
 
-  static async mongoClean(): Promise<void> {
-    console.log("Cleaning MongoDB instance...")
+  static async populate(): Promise<void> {
+    console.log("Populating MongoDB instance...");
+    const conn = await mongoose.connect("mongodb://127.0.0.1:27017/alarm", {
+      directConnection: true
+    });
+
+    await exceedingRuleModel.create(exceedingRuleSample);
+    await intrusionRuleModel.create(intrusionRuleSample);
+    await exceedingModel.create(exceedingSample);
+    await intrusionModel.create(intrusionSample);
+    await notificationModel.create(notificationSample);
+    await recognizingNodeModel.create(recognizingNodeSample);
+
+    console.log(await exceedingRuleModel.find().orFail());
+    console.log(await intrusionRuleModel.find().orFail());
+    console.log(await exceedingModel.find().orFail());
+    console.log(await intrusionModel.find().orFail());
+    console.log(await notificationModel.find().orFail());
+    console.log(await notificationModel.find().orFail());
+    console.log(await recognizingNodeModel.find().orFail());
+    await conn.disconnect();
+
+    /*intrusionModel.createCollection().then(async function (collection): Promise<void> {
+  console.log('Collection intrusion created!')
+  await intrusionModel
+    .create({
+      deviceId: {
+        type: 'CAMERA',
+        code: 'poro'
+      },
+      timestamp: new Date(),
+      intrusionObject: 'PERSON'
+    })
+    .catch((err): void => {
+      throw err
+    })
+
+  console.log(await intrusionModel.find().orFail())
+})*/
   }
 
-  static async mongoDestroy(): Promise<void> {
-    console.log("Destroying MongoDB instance...")
+  static async clean(): Promise<void> {
+    console.log("Cleaning MongoDB instance...");
+  }
+
+  static async destroy(): Promise<void> {
+    console.log("Destroying MongoDB instance...");
     //await mongoose.disconnect();
     await this.mongoContainer.stop();
   }

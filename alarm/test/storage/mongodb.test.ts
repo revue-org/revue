@@ -1,20 +1,11 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import mongoose from 'mongoose'
 import { DatabaseSimulator } from '../../src/utils/storage/DatabaseSimulator.js'
-
-/*const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
-const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')*/
-
-//qui da collegare il db fake, di la nei test invece nei before all mettere creazione database fake con populare e POI collegament oa supertest
-let alarmService
+import supertest, {Response, Request} from "supertest";
+import { TOKEN } from "../common";
 
 describe('MongoDB connection test', async (): Promise<void> => {
-  beforeAll(async (): Promise<void> => {
-    await DatabaseSimulator.simulate()
-    await DatabaseSimulator.createCollections()
-    await DatabaseSimulator.populate()
-    //alarmService = supertest(app)
-  }, 20000)
+
   it('MongoDB connection test', async (): Promise<void> => {
     await mongoose
       .connect(DatabaseSimulator.connectionString(), { directConnection: true })
@@ -23,8 +14,15 @@ describe('MongoDB connection test', async (): Promise<void> => {
       })
   }, 10000)
 
-  afterAll(async (): Promise<void> => {
-    await DatabaseSimulator.clean()
-    await DatabaseSimulator.destroy()
-  }, 20000)
+  it('responds with the notifications otherwise', async (): Promise<void> => {
+    // @ts-ignore
+    let alarmServiceTest = alarmService
+    const notifications: Response = await alarmServiceTest
+      .get('/notifications/')
+      .set('Authorization', `Bearer ${TOKEN}`)
+    expect(notifications.status).toBe(200)
+    expect(notifications.type).toBe('application/json')
+    expect(notifications.type).toBe(notifications.body)
+  })
+
 })

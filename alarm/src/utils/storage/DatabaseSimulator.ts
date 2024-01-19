@@ -15,6 +15,9 @@ import { intrusionSample } from '../../utils/storage/sampleData/intrusionSample'
 export class DatabaseSimulator {
   private static mongoContainer: StartedMongoDBContainer
 
+  static printCiao(tempo:string): void {
+    console.log('Ciao sono ' + tempo)
+  }
   static connectionString(): string {
     return this.mongoContainer.getConnectionString()
   }
@@ -57,13 +60,16 @@ export class DatabaseSimulator {
 
   static async clean(): Promise<void> {
     console.log('Cleaning MongoDB instance...')
+    const conn = await mongoose.connect(this.mongoContainer.getConnectionString(), {
+      directConnection: true
+    })
     await exceedingRuleModel.deleteMany({})
     await intrusionRuleModel.deleteMany({})
     await exceedingModel.deleteMany({})
     await intrusionModel.deleteMany({})
     await notificationModel.deleteMany({})
     await recognizingNodeModel.deleteMany({})
-    console.log('Cleaning MongoDB instance...')
+    await conn.disconnect()
   }
 
   static async destroy(): Promise<void> {

@@ -41,10 +41,9 @@ const mongoConnect = async (connectionString: string): Promise<void> => {
 
 if (process.env.NODE_ENV === 'test') {
   console.log('Test environment detected')
-  const connectionString: string = DatabaseSimulator.connectionString() //alarm?authSource=admin
-  mongoConnect(connectionString).then(async (): Promise<void> => {
-    console.log(`Connected to MongoDB database through ${DatabaseSimulator.connectionString()}`)
-  })
+/*  mongoConnect("mongodb://localhost:55062").then(async (): Promise<void> => {
+    console.log(`Connected to MongoDB database through mongodb://localhost:55062`)
+  })*/
 } else {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)

@@ -7,6 +7,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import type { DeviceFactory } from '@domain/device/factories/DeviceFactory'
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
 import SensorData from '@/components/devices/SensorData.vue'
+import LineChart from '@/components/charts/LineChart.vue'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -30,6 +31,7 @@ const sensors: ref<Sensor[]> = ref([
     Measure.PRESSURE
   ])
 ])
+
 </script>
 
 <template>

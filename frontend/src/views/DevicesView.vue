@@ -1,6 +1,6 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineModel } from 'vue'
 
 import SensorBadge from '@/components/devices/DeviceBadge.vue'
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
@@ -16,6 +16,8 @@ import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/Enviro
 import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData'
 import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit'
 import { EnvironmentDataImpl } from 'domain/dist/domain/device/core/impl/EnvironmentDataImpl'
+import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
+import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType'
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
@@ -68,10 +70,22 @@ const deleteCamera = (camera: Camera) => {
     cameras.value.splice(index, 1)
   }
 }
+const getDevices = () => {
+  console.log('getDevices')
+  return [...sensors.value, ...cameras.value]
+}
+
+const popupVisible = ref<boolean>(false)
+
 </script>
 
 <template>
+  <div class="new-device">
+    <q-btn label="Add a device" color="primary" @click="popupVisible = true" />
+  </div>
+
   <h2>Sensors</h2>
+
   <div class="sensors-container">
     <sensor-badge
       v-for="sensor in sensors"
@@ -90,9 +104,16 @@ const deleteCamera = (camera: Camera) => {
       @delete-camera="deleteCamera"
     />
   </div>
+
+  <new-device-popup v-model="popupVisible" @update-devices="getDevices"></new-device-popup>
 </template>
 
 <style scoped lang="scss">
+
+div.new-device {
+  text-align: center;
+  padding-top: 15px;
+}
 h2 {
   margin: 0.5rem 1rem;
 }

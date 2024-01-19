@@ -1,6 +1,6 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { ref, defineModel } from 'vue'
+import { ref } from 'vue'
 
 import SensorBadge from '@/components/devices/DeviceBadge.vue'
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
@@ -15,9 +15,7 @@ import { Measure } from '@domain/device/core/impl/enum/Measure'
 import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl'
 import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData'
 import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit'
-import { EnvironmentDataImpl } from 'domain/dist/domain/device/core/impl/EnvironmentDataImpl'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
-import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType'
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 

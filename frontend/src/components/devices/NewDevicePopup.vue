@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref, defineEmits } from 'vue'
+import { ref } from 'vue'
 import type { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl'
 import type { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory'

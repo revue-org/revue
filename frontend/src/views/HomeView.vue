@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import type { Sensor } from '@domain/device/core/Sensor'
 import { ref } from 'vue'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import type { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
-import type { DeviceFactory } from '@domain/device/factories/DeviceFactory'
-import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl'
+import { Measure, type Sensor } from '@domain/device/core'
+
+import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
-import LineChart from '@/components/charts/LineChart.vue'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -31,7 +28,6 @@ const sensors: ref<Sensor[]> = ref([
     Measure.PRESSURE
   ])
 ])
-
 </script>
 
 <template>

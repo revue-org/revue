@@ -1,12 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import ClusterTree from '@/components/ClusterTree.vue'
-import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
-import { RouterLink } from 'vue-router'
 import NavbarComponent from '@/components/NavbarComponent.vue'
 
 const rightDrawerOpen = ref(false)
-
 const toggleRightDrawer = () => {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }

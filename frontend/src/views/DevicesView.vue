@@ -3,14 +3,20 @@
 import { ref } from 'vue'
 
 import SensorBadge from '@/components/devices/DeviceBadge.vue'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
-import type { DeviceFactory, DeviceIdFactory, ResolutionFactory, EnvironmentDataFactory } from '@domain/device/factories'
-
-import type { Sensor } from '@domain/device/core/Sensor'
-import type { Camera } from '@domain/device/core/Camera'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData'
-import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit'
+import type {
+  DeviceFactory,
+  DeviceIdFactory,
+  EnvironmentDataFactory,
+  ResolutionFactory
+} from '@domain/device/factories'
+import {
+  DeviceFactoryImpl,
+  DeviceIdFactoryImpl,
+  EnvironmentDataFactoryImpl,
+  ResolutionFactoryImpl
+} from '@domain/device/factories'
+import type { Camera, EnvironmentData, Sensor } from '@domain/device/core'
+import { Measure, MeasureUnit } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
@@ -70,7 +76,6 @@ const getDevices = () => {
 }
 
 const popupVisible = ref<boolean>(false)
-
 </script>
 
 <template>
@@ -103,11 +108,11 @@ const popupVisible = ref<boolean>(false)
 </template>
 
 <style scoped lang="scss">
-
 div.new-device {
   text-align: center;
   padding-top: 15px;
 }
+
 h2 {
   margin: 0.5rem 1rem;
 }

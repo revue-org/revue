@@ -37,11 +37,12 @@ const chartOptions = {
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 
-const sensor = deviceFactory.createSensor(deviceIdFactory.createSensorId('Sensor 1'), '192.168.1.10', 5, [
-  Measure.HUMIDITY,
-  Measure.TEMPERATURE,
-  Measure.PRESSURE
-])
+const sensor = deviceFactory.createSensor(
+  deviceIdFactory.createSensorId('Sensor 1'),
+  '192.168.1.10',
+  5,
+  [Measure.HUMIDITY, Measure.TEMPERATURE, Measure.PRESSURE]
+)
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 const data: EnvironmentData[] = [
   environmentDataFactory.createEnvironmentData(
@@ -63,17 +64,10 @@ const data: EnvironmentData[] = [
     MeasureUnit.PASCAL
   )
 ]
-
 </script>
 
 <template>
-  <Line
-    id="my-chart-id"
-    :options="chartOptions"
-    :data="chartData"
-  />
+  <Line id="my-chart-id" :options="chartOptions" :data="chartData" />
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

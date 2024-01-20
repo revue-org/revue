@@ -1,4 +1,3 @@
-<!-- NotFound.vue -->
 <template>
   <div class="flex items-center justify-center">
     <div class="text-center">

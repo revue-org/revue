@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import type { Device } from '@domain/device/core/Device'
-import type { Sensor } from '@domain/device/core/Sensor'
-import type { Camera } from '@domain/device/core/Camera'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import { DeviceType } from '@domain/device/core/impl/enum/DeviceType'
+import type { Device, Sensor, Camera } from '@domain/device/core'
+import { Measure, DeviceType } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
 
 defineProps<{

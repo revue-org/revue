@@ -25,36 +25,38 @@ const height: ref<number> = ref()
 const intervalMillis: ref<number> = ref()
 const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
 const options = ref([
-    {
-      label: 'Temperature',
-      value: Measure.TEMPERATURE
-    },
-    {
-      label: 'Humidity',
-      value: Measure.HUMIDITY
-    },
-    {
-      label: 'Pressure',
-      value: Measure.PRESSURE
-    }
-  ]
-)
-
+  {
+    label: 'Temperature',
+    value: Measure.TEMPERATURE
+  },
+  {
+    label: 'Humidity',
+    value: Measure.HUMIDITY
+  },
+  {
+    label: 'Pressure',
+    value: Measure.PRESSURE
+  }
+])
 
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
-    console.log(deviceFactory.createSensor(
-      deviceIdFactory.createSensorId(code),
-      ipAddress,
-      intervalMillis,
-      measures.value
-    ))
+    console.log(
+      deviceFactory.createSensor(
+        deviceIdFactory.createSensorId(code),
+        ipAddress,
+        intervalMillis,
+        measures.value
+      )
+    )
   } else if (deviceType.value == DeviceType.CAMERA) {
-    console.log(deviceFactory.createCamera(
-      deviceIdFactory.createCameraId(code),
-      ipAddress,
-      resolutionFactory.createResolution(width, height)
-    ))
+    console.log(
+      deviceFactory.createCamera(
+        deviceIdFactory.createCameraId(code),
+        ipAddress,
+        resolutionFactory.createResolution(width, height)
+      )
+    )
   }
   emit('update-devices')
 }
@@ -62,7 +64,7 @@ const addNewDevice = () => {
 
 <template>
   <q-dialog>
-    <q-card style="width: 700px; max-width: 80vw;">
+    <q-card style="width: 700px; max-width: 80vw">
       <q-card-section>
         <h3 class="text-h5">Add a Device</h3>
       </q-card-section>
@@ -76,23 +78,28 @@ const addNewDevice = () => {
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>IP Address</label>
-        <q-input dense v-model="ipAddress" autofocus />
+        <q-input dense v-model="ipAddress" />
       </q-card-section>
       <div v-if="deviceType == DeviceType.CAMERA">
         <q-card-section class="q-pt-none resolution">
           <label>Resolution</label>
-          <q-input v-model="width" autofocus placeholder="Width" />
+          <q-input v-model="width" placeholder="Width" />
           <span>x</span>
-          <q-input v-model="height" autofocus placeholder="Height" />
+          <q-input v-model="height" placeholder="Height" />
         </q-card-section>
       </div>
 
       <div v-if="deviceType == DeviceType.SENSOR">
         <q-card-section class="q-pt-none">
           <label>Acquisition rate (ms)</label>
-          <q-input v-model="intervalMillis" autofocus />
+          <q-input v-model="intervalMillis" />
         </q-card-section>
-        <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
+        <q-option-group
+          style="display: flex"
+          v-model="measures"
+          :options="options"
+          type="checkbox"
+        />
       </div>
 
       <q-card-actions align="right">

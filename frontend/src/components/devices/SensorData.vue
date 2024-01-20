@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { Sensor } from '@domain/device/core/Sensor'
-import { Measure } from '@domain/device/core/impl/enum/Measure'
-import { MeasureUnit } from '@domain/device/core/impl/enum/MeasureUnit'
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl'
-import type { EnvironmentData } from '@domain/device/core/EnvironmentData'
+import { EnvironmentDataFactoryImpl } from '@domain/device/factories'
+import type { EnvironmentData, Sensor } from '@domain/device/core'
+import { Measure, MeasureUnit } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 
 const { sensor } = defineProps<{

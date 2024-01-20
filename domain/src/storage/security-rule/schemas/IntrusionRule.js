@@ -16,7 +16,7 @@ export const intrusionRuleSchema = new Schema({
     type: String,
     default: ''
   },
-  intrusionObject: {
+  objectClass: {
     type: String,
     enum: Object.values(ObjectClass),
     required: true

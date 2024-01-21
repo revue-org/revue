@@ -16,7 +16,7 @@ const app: Express = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'client')))
 
-const PORT: number = Number(process.env.PORT) || 4000
+const PORT: number = Number(process.env.PORT) || 3000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -43,6 +43,28 @@ const mongoConnect = async () => {
     .catch((e) => console.log(e))
 }
 
-app.listen(PORT, () => {
-  mongoConnect()
+import { type Consumer, Kafka } from 'kafkajs'
+
+app.listen(PORT, async (): Promise<void> => {
+  // mongoConnect()
+
+  const kafka = new Kafka({
+    clientId: 'my-app',
+    brokers: ['localhost:9092']
+  })
+
+  const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
+  await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
+  await consumer.connect()
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      // @ts-ignore
+      console.log({
+        partition,
+        offset: message.offset,
+        // @ts-ignore
+        value: message.value.toString()
+      })
+    }
+  }).catch((err) => console.error(err))
 })

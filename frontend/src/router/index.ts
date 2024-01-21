@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import EmptyLayout from "@/layouts/EmptyLayout.vue";
 import BasicLayout from "@/layouts/BasicLayout.vue";
 import MonitoringView from "@/views/MonitoringView.vue";
+import ConsumerView from '@/views/ConsumerView.vue'
 
 const router = createRouter({
   // history: createWebHistory("/"),
@@ -13,7 +14,7 @@ const router = createRouter({
       component: BasicLayout,
       children: [
         { path: "", redirect: "/home" },
-        { path: "home", name: "Home", component: HomeView },
+        { path: "home", name: "Home", component: ConsumerView },
         { path: "monitoring", name: "Monitoring", component: MonitoringView },
       ],
     },

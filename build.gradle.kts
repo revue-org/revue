@@ -41,4 +41,9 @@ subprojects {
         tasks.findByPath(":${project.name}:install")?.mustRunAfter(":domain:build")
     }
     tasks.findByPath(":${project.name}:build")?.mustRunAfter(":${project.name}:install")
+
+    tasks.register("clean", Delete::class) {
+        // Specify the directories to be deleted
+        delete("dist", "node_modules/domain", "tsconfig.tsbuildinfo")
+    }
 }

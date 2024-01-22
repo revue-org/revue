@@ -7,8 +7,6 @@ export interface Notification {
 
   get timestamp(): Date
 
-  set timestamp(timestamp: Date)
-
   get anomaly(): Anomaly
 
   set anomaly(anomaly: Anomaly)

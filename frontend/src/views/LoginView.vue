@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useUserStore } from "@/stores/user";
+import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 
-const username = ref("");
-const password = ref("");
+const username = ref('')
+const password = ref('')
 </script>
 
 <template>
@@ -12,21 +12,9 @@ const password = ref("");
       <h1>Login</h1>
       <form @submit.prevent="useUserStore().login()">
         <label for="username">Username:</label>
-        <input
-          type="text"
-          v-model="username"
-          id="username"
-          autocomplete="true"
-          required
-        />
+        <input type="text" v-model="username" id="username" autocomplete="true" required />
         <label for="password">Password:</label>
-        <input
-          type="password"
-          v-model="password"
-          id="password"
-          autocomplete="true"
-          required
-        />
+        <input type="password" v-model="password" id="password" autocomplete="true" required />
         <q-btn color="secondary" type="submit">Login</q-btn>
       </form>
     </div>

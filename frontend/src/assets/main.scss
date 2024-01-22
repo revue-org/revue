@@ -1,4 +1,4 @@
-@import "base.css";
+@import 'base.css';
 
 $base-font-size: 14px;
 
@@ -19,6 +19,7 @@ $base-font-size: 14px;
 @include responsive-font-size(1200px, 20px);
 
 #app {
+  box-sizing: border-box;
   font-weight: normal;
 }
 

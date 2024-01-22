@@ -6,10 +6,11 @@
   "description": "Frontend microservice",
   "main": "src/main.ts",
   "scripts": {
-    "host": "vite --host",
+    "serve": "serve -s dist",
     "build": "vite build",
-    "start": "npm run build && vite",
-    "watch": "vite build -w",
+    "preview": "vite build && vite preview",
+    "dev": "vite",
+    "host": "vite --host",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:fix": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .vue,.js,.cjs,.mjs,.ts,.cts",
@@ -29,12 +30,15 @@
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
     "@quasar/extras": "^1.16.9",
+    "chart.js": "^4.4.1",
     "domain": "file:../domain",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "quasar": "^2.14.2",
+    "serve": "^14.2.1",
     "vite-tsconfig-paths": "^4.2.3",
     "vue": "^3.3.4",
+    "vue-chartjs": "^5.3.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
@@ -52,7 +56,7 @@
     "sass": "^1.69.7",
     "tsc-alias": "^1.8.8",
     "typescript": "5.2.2",
-    "vite": "^4.4.11",
+    "vite": "^5.0.11",
     "vitest": "^0.34.6",
     "vue-tsc": "^1.8.22"
   }

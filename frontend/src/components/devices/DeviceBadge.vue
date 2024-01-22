@@ -1,24 +1,11 @@
 <script setup lang="ts">
-import type { Device } from "@domain/device/core/Device";
-import type { Sensor } from "@domain/device/core/Sensor";
-import type { Camera } from "@domain/device/core/Camera";
-import { Measure } from "@domain/device/core/impl/enum/Measure";
-import { DeviceType } from "@domain/device/core/impl/enum/DeviceType";
+import type { Device, Sensor, Camera } from '@domain/device/core'
+import { Measure, DeviceType } from '@domain/device/core'
+import { getMeasureColor } from '@/utils/MeasureUtils'
 
 defineProps<{
-  device: Device;
-}>();
-
-const getMeasureColor = (measure: Measure) => {
-  switch (measure) {
-    case Measure.TEMPERATURE:
-      return "red";
-    case Measure.PRESSURE:
-      return "orange";
-    case Measure.HUMIDITY:
-      return "teal";
-  }
-};
+  device: Device
+}>()
 </script>
 
 <template>
@@ -28,26 +15,27 @@ const getMeasureColor = (measure: Measure) => {
         <q-spinner-rings v-if="device.isCapturing" color="primary" size="2em" />
         <q-icon v-else name="circle" color="red" size="2em" />
       </div>
-      <h3>{{ device.deviceId.code }}</h3>
+      <h3>
+        {{ device.deviceId.code }}
+      </h3>
     </header>
     <ul :class="DeviceType[device.deviceId.type].toLowerCase()">
       <li><i>IP Address: </i>{{ device.ipAddress }}</li>
       <li v-if="device.deviceId.type == DeviceType.SENSOR">
-        <i>Acquisition Rate: </i>{{ (device as Sensor).intervalMillis }} ms
+        <i>Acquisition Rate: </i>{{ (device as Sensor).intervalMillis }}
+        ms
       </li>
       <li v-if="device.deviceId.type == DeviceType.CAMERA">
         <i>Resolution: </i
-        >{{
-          (device as Camera).resolution.width +
-          "x" +
-          (device as Camera).resolution.height
-        }}
+        >{{ (device as Camera).resolution.width + 'x' + (device as Camera).resolution.height }}
       </li>
       <li v-if="device.deviceId.type == DeviceType.SENSOR" class="measures">
         <q-badge
           v-for="measure in (device as Sensor).measures.values()"
           outline
-          :style="{ color: getMeasureColor(measure) }"
+          :style="{
+            color: getMeasureColor(measure)
+          }"
         >
           {{ Measure[measure] }}
         </q-badge>
@@ -57,7 +45,7 @@ const getMeasureColor = (measure: Measure) => {
           <q-btn
             :name="device.isCapturing ? 'toggle_on' : 'toggle_off'"
             :icon="device.isCapturing ? 'toggle_on' : 'toggle_off'"
-            @click="device.isCapturing = !device.isCapturing"
+            @click="device.isCapturing ? device.stopCapturing() : device.startCapturing()"
           />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>
@@ -83,8 +71,8 @@ const getMeasureColor = (measure: Measure) => {
 </template>
 
 <style scoped lang="scss">
-@import "src/assets/variables";
-@import "src/assets/quasar-variables";
+@import 'src/assets/variables';
+@import 'src/assets/quasar-variables';
 
 header {
   height: auto;
@@ -117,14 +105,15 @@ button {
 }
 
 ul {
-  &.sensor {
-    height: 150px;
-  }
+  @media (min-width: 576px) {
+    &.sensor {
+      height: 150px;
+    }
 
-  &.camera {
-    height: 110px;
+    &.camera {
+      height: 110px;
+    }
   }
-
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -154,11 +143,11 @@ ul {
         font-size: 2rem;
       }
 
-      button[name="toggle_off"] {
+      button[name='toggle_off'] {
         background-color: $disabled;
       }
 
-      button[name="toggle_on"] {
+      button[name='toggle_on'] {
         background-color: $positive;
       }
     }

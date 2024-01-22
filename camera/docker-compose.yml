@@ -2,22 +2,15 @@ version: "3.8"
 
 services:
 
-  monitoring:
-    image: monitoring
-    container_name: monitoring
+  revue-camera:
+    image: revue-camera
+    container_name: revue-camera
     build:
-      context: ../
-      dockerfile: ./monitoring/Dockerfile
+      context: .
+      dockerfile: ./camera/Dockerfile
     restart: on-failure
     ports:
-      - "3000:3000"
+      - "${CAMERA_PORT}:${CAMERA_PORT}"
 
-  db:
-    image: mongo
-    container_name: monitoring-db
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - "27017:27017"
+    depends_on:
+      - revue-kafka

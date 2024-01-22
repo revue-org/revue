@@ -14,7 +14,7 @@ export const app: Express = express()
 
 app.use(express.json())
 
-const PORT: number = Number(process.env.PORT) || 4001
+const PORT: number = Number(process.env.CAMERA_PORT) || 5001
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === 'test') {
 
     const kafka: Kafka = new Kafka({
       clientId: 'my-app',
-      brokers: ['localhost:9092']
+      brokers: ['revue-kafka:9092']
     })
 
     const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })

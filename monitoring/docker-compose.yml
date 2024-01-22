@@ -3,8 +3,8 @@ version: '3.8'
 services:
 
   monitoring:
-    image: monitoring
-    container_name: monitoring
+    image: revue-monitoring
+    container_name: revue-monitoring
     build:
       context: ../
       dockerfile: ./monitoring/Dockerfile
@@ -14,7 +14,7 @@ services:
 
   db:
     image: mongo
-    container_name: monitoring-db
+    container_name: revue-monitoring-db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root

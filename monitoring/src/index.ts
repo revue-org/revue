@@ -50,7 +50,7 @@ app.listen(PORT, async (): Promise<void> => {
 
   const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092']
+    brokers: ['revue-kafka:9092']
   })
 
   const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })

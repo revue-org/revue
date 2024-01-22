@@ -19,22 +19,22 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
-RUN gradle monitoring:build --no-daemon --info
+RUN gradle camera:build --no-daemon --info
 
-#CMD ls monitoring/node_modules/domain
-#CMD gradle monitoring:start --no-daemon --info
+#CMD ls camera/node_modules/domain
+#CMD gradle camera:start --no-daemon --info
 
 FROM node:20-alpine as production
 LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue
 
-COPY --from=build /home/revue/monitoring monitoring
+COPY --from=build /home/revue/camera camera
 COPY --from=build /home/revue/domain domain
 
 RUN apk add dumb-init && apk add --update npm
 
-WORKDIR /home/revue/monitoring
+WORKDIR /home/revue/camera
 
 EXPOSE 3000
 

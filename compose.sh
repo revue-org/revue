@@ -51,5 +51,5 @@ done
 if [ "$command" == "--down" ]; then
   docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -v
 else
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d
+  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d --build
 fi

@@ -30,6 +30,7 @@
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
     "@quasar/extras": "^1.16.9",
+    "axios": "^1.6.5",
     "chart.js": "^4.4.1",
     "domain": "file:../domain",
     "pinia": "^2.1.7",

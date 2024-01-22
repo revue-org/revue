@@ -5,12 +5,12 @@ import type {
   DeviceFactory,
   DeviceIdFactory,
   ResolutionFactory
-} from 'domain/dist/domain/device/factories'
+} from '@domain/device/factories'
 import {
   DeviceFactoryImpl,
   DeviceIdFactoryImpl,
   ResolutionFactoryImpl
-} from 'domain/dist/domain/device/factories'
+} from '@domain/device/factories'
 
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

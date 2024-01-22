@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
-import type { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl'
-import type { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory'
-import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl'
-import type { ResolutionFactory } from 'domain/dist/domain/device/factories/ResolutionFactory'
-import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/ResolutionFactoryImpl'
-import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType'
+import { DeviceType } from '@domain/device/core'
+import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void

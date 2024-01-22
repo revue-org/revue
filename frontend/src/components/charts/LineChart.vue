@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { Line } from 'vue-chartjs'
-import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl'
-import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData'
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit'
-import type { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl'
-import type { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory'
-import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl'
-import type { Device } from 'domain/dist/domain/device/core/Device'
+import type { Device, EnvironmentData } from '@domain/device/core'
+import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
+import { EnvironmentDataFactoryImpl, DeviceFactoryImpl,DeviceIdFactoryImpl } from '@domain/device/factories'
+import { Measure, MeasureUnit } from '@domain/device/core'
 import {
   CategoryScale,
   Chart as ChartJS,

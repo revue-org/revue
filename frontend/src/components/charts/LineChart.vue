@@ -2,7 +2,11 @@
 import { Line } from 'vue-chartjs'
 import type { Device, EnvironmentData } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
-import { EnvironmentDataFactoryImpl, DeviceFactoryImpl,DeviceIdFactoryImpl } from '@domain/device/factories'
+import {
+  EnvironmentDataFactoryImpl,
+  DeviceFactoryImpl,
+  DeviceIdFactoryImpl
+} from '@domain/device/factories'
 import { Measure, MeasureUnit } from '@domain/device/core'
 import {
   CategoryScale,

@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Camera } from '@domain/device/core/Camera'
-import type {
-  DeviceFactory,
-  DeviceIdFactory,
-  ResolutionFactory
-} from '@domain/device/factories'
+import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import {
   DeviceFactoryImpl,
   DeviceIdFactoryImpl,

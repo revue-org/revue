@@ -3,7 +3,11 @@ import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
 import { DeviceType } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
+import {
+  DeviceFactoryImpl,
+  DeviceIdFactoryImpl,
+  ResolutionFactoryImpl
+} from '@domain/device/factories'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void

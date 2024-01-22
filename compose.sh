@@ -2,16 +2,17 @@
 
 # Function to display usage information
 usage() {
-  echo "Usage: $0 (--up|--down) <service1> [<service2> ...]"
+  echo "Usage: $0 (--up [-v] | --down [-v]) <service1> [<service2> ...]"
   exit 1
 }
 
-# Check if at least one argument is provided
+# Check if at least two argument is provided
 if [ "$#" -lt 2 ]; then
   usage
 fi
 
 command=''
+#volume=''
 # Process options
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -19,7 +20,12 @@ while [[ $# -gt 0 ]]; do
       command="$1"
       shift
       ;;
+#    -v)
+#      volume="$1"
+#      shift
+#      ;;
     *)
+      echo $1
       services+=("$1")
       shift
       ;;
@@ -37,11 +43,13 @@ if [ ${#services[@]} -eq 0 ]; then
   usage
 fi
 
-# Build Docker Compose file paths
 compose_files=()
 for service in "${services[@]}"; do
-  compose_files+=("-f./$service/docker-compose.yml")
+  compose_files+=("-f$service/docker-compose.yml")
 done
 
-# Run docker compose up with specified services
-docker compose --project-name piperchat --project-directory . "${compose_files[@]}" "${command:2}"
+if [ "$command" == "--down" ]; then
+  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -v
+else
+  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d
+fi

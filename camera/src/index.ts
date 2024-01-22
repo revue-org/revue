@@ -4,6 +4,9 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 // import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
+import { Kafka, Partitioners, Producer } from 'kafkajs'
+import fs from 'fs'
+import path from 'path'
 
 config()
 
@@ -40,7 +43,6 @@ const mongoConnect = async () => {
     .catch((e) => console.log(e))
 }
 
-import { Kafka, Partitioners, Producer } from 'kafkajs'
 
 if (process.env.NODE_ENV === 'test') {
   // mongoConnect()
@@ -56,11 +58,33 @@ if (process.env.NODE_ENV === 'test') {
 
     const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
     await producer.connect()
-    await producer
-      .send({
+    produce(producer)
+  })
+}
+
+
+const produce = (producer: Producer) => {
+  fs.readFile(path.resolve('video.mp4'), async function(err, data: Buffer) {
+    if (err) {
+      throw err
+    }
+    let movieData: Buffer = data
+
+    let i, j, tmpArray, chunk = 1000000
+    let index = 0
+    for (i = 0, j = movieData.length; i < j; i += chunk) {
+      tmpArray = movieData.subarray(i, i + chunk)
+      producer.send({
         topic: 'test-topic',
-        messages: [{ value: 'Hello KafkaJS user!' }]
-      })
-      .catch((err) => console.error(err))
+        messages: [
+          {
+            value: tmpArray,
+            key: String(index)
+          }
+        ]
+      }).then(r => console.log('THEN' + r))
+      index++
+    }
+    await producer.disconnect()
   })
 }

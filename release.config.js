@@ -9,9 +9,8 @@ config.plugins.push(
   //     prepareCmd: './update-version.sh ${nextRelease.version}'
   //   }
   // ],
-  "@semantic-release/changelog",
   '@semantic-release/github',
-  '@semantic-release/git',
+  '@semantic-release/git'
 )
 
 module.exports = config

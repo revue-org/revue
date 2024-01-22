@@ -5,7 +5,7 @@ import { Measure } from '../../../device/core/impl/enum/Measure.js'
 export class ExceedingImpl implements Exceeding {
   private _anomalyId: string
   private _deviceId: DeviceId
-  private _timestamp: Date
+  private readonly _timestamp: Date
   private _value: number
   private _measure: Measure
 
@@ -41,10 +41,6 @@ export class ExceedingImpl implements Exceeding {
 
   get timestamp(): Date {
     return this._timestamp
-  }
-
-  set timestamp(timestamp: Date) {
-    this._timestamp = timestamp
   }
 
   get value(): number {

@@ -3,7 +3,7 @@ import { Anomaly } from '../../../anomaly/core/Anomaly.js'
 
 export class NotificationImpl implements Notification {
   private _notificationId: string
-  private _timestamp: Date
+  private readonly _timestamp: Date
   private _anomaly: Anomaly
 
   constructor(notificationId: string = '', timestamp: Date, anomaly: Anomaly) {
@@ -22,10 +22,6 @@ export class NotificationImpl implements Notification {
 
   get timestamp(): Date {
     return this._timestamp
-  }
-
-  set timestamp(timestamp: Date) {
-    this._timestamp = timestamp
   }
 
   get anomaly(): Anomaly {

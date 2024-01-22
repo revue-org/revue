@@ -1,15 +1,14 @@
 <script setup lang="ts">
+import axios from "axios";
 
-import axios from 'axios';
-
-axios.get('http://localhost:5000/api/v1/consumer')
+axios
+  .get("http://localhost:5000/api/v1/consumer")
   .then((response) => {
     console.log(response.data);
   })
   .catch((error) => {
     console.log(error);
   });
-
 </script>
 
 <template>
@@ -20,6 +19,4 @@ axios.get('http://localhost:5000/api/v1/consumer')
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

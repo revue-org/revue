@@ -3,7 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import EmptyLayout from "@/layouts/EmptyLayout.vue";
 import BasicLayout from "@/layouts/BasicLayout.vue";
 import MonitoringView from "@/views/MonitoringView.vue";
-import ConsumerView from '@/views/ConsumerView.vue'
+import ConsumerView from "@/views/ConsumerView.vue";
 
 const router = createRouter({
   // history: createWebHistory("/"),

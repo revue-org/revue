@@ -56,12 +56,11 @@ if (process.env.NODE_ENV === 'test') {
 
     const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
     await producer.connect()
-    await producer.send({
-      topic: 'test-topic',
-      messages: [
-        { value: 'Hello KafkaJS user!' }
-      ]
-    }).catch((err) => console.error(err))
-
+    await producer
+      .send({
+        topic: 'test-topic',
+        messages: [{ value: 'Hello KafkaJS user!' }]
+      })
+      .catch((err) => console.error(err))
   })
 }

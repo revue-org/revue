@@ -56,15 +56,17 @@ app.listen(PORT, async (): Promise<void> => {
   const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
   await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
   await consumer.connect()
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      // @ts-ignore
-      console.log({
-        partition,
-        offset: message.offset,
+  await consumer
+    .run({
+      eachMessage: async ({ topic, partition, message }) => {
         // @ts-ignore
-        value: message.value.toString()
-      })
-    }
-  }).catch((err) => console.error(err))
+        console.log({
+          partition,
+          offset: message.offset,
+          // @ts-ignore
+          value: message.value.toString()
+        })
+      }
+    })
+    .catch((err) => console.error(err))
 })

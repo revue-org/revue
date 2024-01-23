@@ -22,5 +22,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONITORING_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONITORING_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONITORING_DB_NAME}
     ports:
       - '${MONITORING_DB_PORT}:${MONITORING_DB_PORT}'
+    volumes:
+      - monitoring_data:/data/db
+      - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
+
+volumes:
+  monitoring_data:
+    driver: local

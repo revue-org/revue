@@ -21,11 +21,13 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://revue-kafka:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=revue-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-    volumes:
-      - kafka_data:/revue-kafka
+#    volumes:
+#      - kafka_data:/bitnami/kafka
+#      - ~/kafka/data/zookeeper_data:/var/lib/zookeeper/data
+#      - ~/kafka/data/zookeeper_log:/var/lib/zookeeper/log
     depends_on:
       - revue-zookeeper
 
-volumes:
-  kafka_data:
-    driver: local
+#volumes:
+#  kafka_data:
+#    driver: local

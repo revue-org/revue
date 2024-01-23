@@ -19,6 +19,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
+
 RUN gradle camera:build --no-daemon --info --parallel
 
 
@@ -27,6 +28,7 @@ LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue
 
+COPY --from=build /home/revue/.env camera/.env
 COPY --from=build /home/revue/camera camera
 COPY --from=build /home/revue/domain domain
 

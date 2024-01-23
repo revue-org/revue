@@ -1,12 +1,14 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
-import { config } from 'dotenv'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { indexRouter } from './routes/index.js'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
+import { config } from 'dotenv'
+import { type Consumer, Kafka } from 'kafkajs'
+import * as console from 'console'
 
 config()
 
@@ -48,31 +50,28 @@ const mongoConnect = async () => {
     .catch((e) => console.log(e))
 }
 
-import { type Consumer, Kafka } from 'kafkajs'
-import * as console from 'console'
-
 app.listen(PORT, async (): Promise<void> => {
-  // mongoConnect()
+  await mongoConnect()
+  //
+  // const kafka = new Kafka({
+  //   clientId: 'monitoring',
+  //   brokers: ['revue-kafka:9092']
+  // })
 
-  const kafka = new Kafka({
-    clientId: 'monitoring',
-    brokers: ['revue-kafka:9092']
-  })
-
-  const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
-  await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-  await consumer.connect()
-  await consumer
-    .run({
-      eachMessage: async ({ topic, partition, message }) => {
-        // @ts-ignore
-        console.log({
-          partition,
-          offset: message.offset,
-          // @ts-ignore
-          value: message.value.toString()
-        })
-      }
-    })
-    .catch((err) => console.error(err))
+  // const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
+  // await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
+  // await consumer.connect()
+  // await consumer
+  //   .run({
+  //     eachMessage: async ({ topic, partition, message }) => {
+  //       // @ts-ignore
+  //       console.log({
+  //         partition,
+  //         offset: message.offset,
+  //         // @ts-ignore
+  //         value: message.value.toString()
+  //       })
+  //     }
+  //   })
+  //   .catch((err) => console.error(err))
 })

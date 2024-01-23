@@ -32,7 +32,7 @@ recognizingNodeRouter.route('/').post((req: Request, res: Response): void => {
     .then((): void => {
       res.status(201).send({ success: 'Recognizing node created' })
     })
-    .catch(() => {
+    .catch((): void => {
       res.send({ error: 'Recognizing node not created' })
     })
 })

@@ -57,7 +57,7 @@ notificationRouter.route('/intrusions').post((req: Request, res: Response): void
     .then((): void => {
       res.status(201).send({ success: 'Notification created' })
     })
-    .catch(() => {
+    .catch((): void => {
       res.send({ error: 'Notification not created' })
     })
 })

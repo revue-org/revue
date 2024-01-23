@@ -3,21 +3,18 @@ import { exceedingModel, intrusionModel } from '../../controller/anomaly.js'
 import { exceedingRuleModel, intrusionRuleModel } from '../../controller/securityRule.js'
 import { notificationModel } from '../../controller/notification.js'
 import { recognizingNodeModel } from '../../controller/recognizingNode.js'
-import { notificationSample } from '../../utils/storage/sampleData/notificationSample.js'
-import { recognizingNodeSample } from '../../utils/storage/sampleData/recognizingNodeSample.js'
+import { notificationSample } from '../../../test/resources/notificationSample.js'
+import { recognizingNodeSample } from '../../../test/resources/recognizingNodeSample.js'
 import * as console from 'console'
-import { exceedingRuleSample } from '../../utils/storage/sampleData/exceedingRuleSample.js'
+import { exceedingRuleSample } from '../../../test/resources/exceedingRuleSample.js'
 import mongoose from 'mongoose'
-import { intrusionRuleSample } from '../../utils/storage/sampleData/intrusionRuleSample'
-import { exceedingSample } from '../../utils/storage/sampleData/exceedingSample'
-import { intrusionSample } from '../../utils/storage/sampleData/intrusionSample'
+import { intrusionRuleSample } from '../../../test/resources/intrusionRuleSample'
+import { exceedingSample } from '../../../test/resources/exceedingSample'
+import { intrusionSample } from '../../../test/resources/intrusionSample'
 
 export class DatabaseSimulator {
   private static mongoContainer: StartedMongoDBContainer
 
-  static printCiao(tempo:string): void {
-    console.log('Ciao sono ' + tempo)
-  }
   static connectionString(): string {
     return this.mongoContainer.getConnectionString()
   }
@@ -32,35 +29,29 @@ export class DatabaseSimulator {
 
   static async createCollections(): Promise<void> {
     console.log('Populating MongoDB instance...')
-    const conn = await mongoose.connect(this.mongoContainer.getConnectionString(), {
-      directConnection: true
-    })
-    await exceedingRuleModel
-      .createCollection()
-      .then(() => console.log('Collection securityRule created!'))
+    await exceedingRuleModel.createCollection()
     await notificationModel.createCollection()
     await recognizingNodeModel.createCollection()
     await exceedingRuleModel.createCollection()
-    await conn.disconnect()
   }
 
   static async populate(): Promise<void> {
     console.log('Populating MongoDB instance...')
-    const conn = await mongoose.connect(this.mongoContainer.getConnectionString(), {
-      directConnection: true
-    })
+    const conn = mongoose.createConnection(this.mongoContainer.getConnectionString(), {
+          directConnection: true
+        })
     await exceedingRuleModel.create(exceedingRuleSample)
     await intrusionRuleModel.create(intrusionRuleSample)
     await exceedingModel.create(exceedingSample)
     await intrusionModel.create(intrusionSample)
     await notificationModel.create(notificationSample)
     await recognizingNodeModel.create(recognizingNodeSample)
-    await conn.disconnect()
+
   }
 
   static async clean(): Promise<void> {
     console.log('Cleaning MongoDB instance...')
-    const conn = await mongoose.connect(this.mongoContainer.getConnectionString(), {
+    let conn = mongoose.createConnection(this.mongoContainer.getConnectionString(), {
       directConnection: true
     })
     await exceedingRuleModel.deleteMany({})
@@ -69,7 +60,6 @@ export class DatabaseSimulator {
     await intrusionModel.deleteMany({})
     await notificationModel.deleteMany({})
     await recognizingNodeModel.deleteMany({})
-    await conn.disconnect()
   }
 
   static async destroy(): Promise<void> {

@@ -7,7 +7,6 @@ import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
-import { DatabaseSimulator } from './utils/storage/DatabaseSimulator.js'
 
 config()
 
@@ -40,10 +39,10 @@ const mongoConnect = async (connectionString: string): Promise<void> => {
 }
 
 if (process.env.NODE_ENV === 'test') {
-  console.log('Test environment detected')
-/*  mongoConnect("mongodb://localhost:55062").then(async (): Promise<void> => {
-    console.log(`Connected to MongoDB database through mongodb://localhost:55062`)
-  })*/
+  app.post('/conn-string/', async (req: Request, res: Response): Promise<void> => {
+    await mongoConnect(req.body.connectionString)
+    res.status(200).send({ message: 'Connection string received' })
+  })
 } else {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)

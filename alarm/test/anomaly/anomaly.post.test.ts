@@ -1,11 +1,12 @@
-/*
-import { alarmService, describe, expect, it, Response, TOKEN } from '../common'
+import { describe, expect, it, Response, TOKEN } from '../common'
+import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
 
 describe('POST /anomalies/intrusions', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/anomalies/intrusions')
-    expect(creation.status).toBe(403)
-  })
+    // @ts-ignore
+    const creation: Response = await alarm.post('/anomalies/intrusions')
+    expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
+  }, 100000)
 
   it('should create a new intrusion', async (): Promise<void> => {
     const newIntrusion = {
@@ -16,21 +17,23 @@ describe('POST /anomalies/intrusions', (): void => {
       intrusionObject: 'ANIMAL'
     }
 
-    const creation: Response = await alarmService
+    // @ts-ignore
+    const creation: Response = await alarm
       .post('/anomalies/intrusions')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newIntrusion)
 
-    expect(creation.status).toBe(201)
+    expect(creation.status).toBe(HttpStatusCode.CREATED)
     expect(creation.type).toBe('application/json')
-  })
-})
+  }, 100000)
+}, 100000)
 
 describe('POST /anomalies/exceedings', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/anomalies/exceedings')
-    expect(creation.status).toBe(403)
-  })
+    // @ts-ignore
+    const creation: Response = await alarm.post('/anomalies/exceedings')
+    expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
+  }, 100000)
 
   it('should create a new exceeding', async (): Promise<void> => {
     const newExceeding = {
@@ -42,13 +45,13 @@ describe('POST /anomalies/exceedings', (): void => {
       value: 30
     }
 
-    const creation: Response = await alarmService
+    // @ts-ignore
+    const creation: Response = await alarm
       .post('/anomalies/exceedings')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newExceeding)
 
-    expect(creation.status).toBe(201)
+    expect(creation.status).toBe(HttpStatusCode.CREATED)
     expect(creation.type).toBe('application/json')
-  })
-})
-*/
+  }, 100000)
+}, 100000)

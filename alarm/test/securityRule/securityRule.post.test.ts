@@ -1,11 +1,12 @@
-/*
-import { alarmService, describe, expect, it, Response, TOKEN } from '../common'
+import { describe, expect, it, Response, TOKEN } from '../common'
+import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
 
 describe('POST /security-rules/exceedings', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/security-rules/exceedings')
-    expect(creation.status).toBe(403)
-  })
+    // @ts-ignore
+    const creation: Response = await alarm.post('/security-rules/exceedings')
+    expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
+  }, 100000)
 
   it('should create a new exceeding security rule', async (): Promise<void> => {
     const newExceedingSecurityRule = {
@@ -32,21 +33,23 @@ describe('POST /security-rules/exceedings', (): void => {
       ]
     }
 
-    const creation: Response = await alarmService
+    // @ts-ignore
+    const creation: Response = await alarm
       .post('/security-rules/exceedings')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newExceedingSecurityRule)
 
-    expect(creation.status).toBe(201)
+    expect(creation.status).toBe(HttpStatusCode.CREATED)
     expect(creation.type).toBe('application/json')
-  })
-})
+  }, 100000)
+}, 100000)
 
 describe('POST /security-rules/intrusions', (): void => {
   it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-    const creation: Response = await alarmService.post('/security-rules/intrusions')
-    expect(creation.status).toBe(403)
-  })
+    // @ts-ignore
+    const creation: Response = await alarm.post('/security-rules/intrusions')
+    expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
+  }, 100000)
 
   it('should create a new intrusion security rule', async (): Promise<void> => {
     const newIntrusionSecurityRule = {
@@ -70,14 +73,13 @@ describe('POST /security-rules/intrusions', (): void => {
         }
       ]
     }
-
-    const creation: Response = await alarmService
+    // @ts-ignore
+    const creation: Response = await alarm
       .post('/security-rules/intrusions')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newIntrusionSecurityRule)
 
-    expect(creation.status).toBe(201)
+    expect(creation.status).toBe(HttpStatusCode.CREATED)
     expect(creation.type).toBe('application/json')
-  })
-})
-*/
+  }, 100000)
+}, 100000)

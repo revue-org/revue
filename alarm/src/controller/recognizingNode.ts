@@ -7,7 +7,7 @@ import { RecognizingNodeRepository } from '@domain/alarm-system/repositories/Rec
 import { RecognizingNodeRepositoryImpl } from '@storage/alarm-system/RecognizingNodeRepositoryImpl.js'
 import { recognizingNodeSchema } from '@storage/alarm-system/schemas/RecognizingNodeSchema.js'
 
-const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNode>(
+export const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNode>(
   'RecognizingNode',
   recognizingNodeSchema,
   'recognizingNode'

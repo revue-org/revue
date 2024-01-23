@@ -25,11 +25,11 @@ class JWTManager {
   authenticate(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.status(401)
+    if (token == null) return res.status(403)
 
     console.log('Authentication token: ' + token)
     this.jwt.verify(token, this.secret, (err: any, user: any) => {
-      if (err) return res.sendStatus(403)
+      if (err) return res.sendStatus(401)
       console.log(user)
       next()
     })

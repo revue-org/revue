@@ -3,8 +3,8 @@ import { SecurityRuleRepository } from '@domain/security-rule/repositories/Secur
 import { SecurityRuleRepositoryImpl } from '@storage/security-rule/SecurityRuleRepositoryImpl.js'
 import { SecurityRuleFactory } from '@domain/security-rule/factories/SecurityRuleFactory.js'
 import { SecurityRuleFactoryImpl } from '@domain/security-rule/factories/impl/SecurityRuleFactoryImpl.js'
-import { exceedingRuleSchema } from '@storage/security-rule/schemas/ExceedingRule.js'
-import { intrusionRuleSchema } from '@storage/security-rule/schemas/IntrusionRule.js'
+import { exceedingRuleSchema } from '@storage/security-rule/schemas/ExceedingRuleSchema.js'
+import { intrusionRuleSchema } from '@storage/security-rule/schemas/IntrusionRuleSchema.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
@@ -14,12 +14,12 @@ import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
 import { Contact } from '@domain/monitoring/core/Contact.js'
 import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
 
-const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
+export const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
   'ExceedingRule',
   exceedingRuleSchema,
   'securityRule'
 )
-const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
+export const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
   'IntrusionRule',
   intrusionRuleSchema,
   'securityRule'
@@ -75,18 +75,6 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    console.log(
-      securityRuleFactory.createIntrusionRule(
-        objectClass,
-        '',
-        deviceId,
-        creatorId,
-        contacts,
-        description,
-        from,
-        to
-      )
-    )
     await securityRuleManager.insertIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
         objectClass,

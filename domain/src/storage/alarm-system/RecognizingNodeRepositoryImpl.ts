@@ -18,10 +18,15 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
   }
 
   async insertRecognizingNode(recognizingNode: RecognizingNode): Promise<void> {
-    await this.recognizingNodeModel.create({
-      ipAddress: recognizingNode.ipAddress,
-      deviceIds: recognizingNode.deviceIds
-    })
+    await this.recognizingNodeModel
+      .create({
+        ipAddress: recognizingNode.ipAddress,
+        deviceIds: recognizingNode.deviceIds
+      })
+      .catch((err): void => {
+        console.log(err)
+        throw err
+      })
   }
 
   async updateRecognizingNode(recognizingNode: RecognizingNode): Promise<void> {

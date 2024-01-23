@@ -43,7 +43,6 @@ const mongoConnect = async () => {
     .catch((e) => console.log(e))
 }
 
-
 if (process.env.NODE_ENV === 'test') {
   // mongoConnect()
 } else {
@@ -52,7 +51,7 @@ if (process.env.NODE_ENV === 'test') {
     // mongoConnect()
 
     const kafka: Kafka = new Kafka({
-      clientId: 'my-app',
+      clientId: 'camera', // TODO: Change this to Device ID
       brokers: ['revue-kafka:9092']
     })
 
@@ -62,27 +61,31 @@ if (process.env.NODE_ENV === 'test') {
   })
 }
 
-
 const produce = (producer: Producer) => {
-  fs.readFile(path.resolve('video.mp4'), async function(err, data: Buffer) {
+  fs.readFile(path.resolve('video.mp4'), async function (err, data: Buffer) {
     if (err) {
       throw err
     }
     let movieData: Buffer = data
 
-    let i, j, tmpArray, chunk = 1000000
+    let i,
+      j,
+      tmpArray,
+      chunk = 1000000
     let index = 0
     for (i = 0, j = movieData.length; i < j; i += chunk) {
       tmpArray = movieData.subarray(i, i + chunk)
-      producer.send({
-        topic: 'test-topic',
-        messages: [
-          {
-            value: tmpArray,
-            key: String(index)
-          }
-        ]
-      }).then(r => console.log('THEN' + r))
+      producer
+        .send({
+          topic: 'test-topic',
+          messages: [
+            {
+              value: tmpArray,
+              key: String(index)
+            }
+          ]
+        })
+        .then((r) => console.log('THEN' + r))
       index++
     }
     await producer.disconnect()

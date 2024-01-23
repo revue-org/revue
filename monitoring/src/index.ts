@@ -16,7 +16,7 @@ const app: Express = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'client')))
 
-const PORT: number = Number(process.env.PORT) || 3000
+const PORT: number = Number(process.env.MONITORING_PORT) || 3001
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -34,7 +34,12 @@ app.use(indexRouter)
 app.use('/device', deviceRouter)
 
 const mongoConnect = async () => {
-  const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+  const port: string = process.env.MONITORING_DB_PORT || '27017'
+  const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
+  const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
+  const host: string = process.env.MONITORING_DB_HOST || 'localhost'
+  const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
+  const connectionString: string = `mongodb://${username}:${password}@${host}:${port}/${dbName}?authSource=admin`
   await mongoose
     .connect(connectionString)
     .then(async () => {
@@ -44,12 +49,13 @@ const mongoConnect = async () => {
 }
 
 import { type Consumer, Kafka } from 'kafkajs'
+import * as console from 'console'
 
 app.listen(PORT, async (): Promise<void> => {
   // mongoConnect()
 
   const kafka = new Kafka({
-    clientId: 'my-app',
+    clientId: 'monitoring',
     brokers: ['revue-kafka:9092']
   })
 

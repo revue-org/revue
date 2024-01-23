@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   revue-zookeeper:
     image: bitnami/zookeeper:latest
     container_name: revue-zookeeper

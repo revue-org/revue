@@ -2,22 +2,25 @@ version: '3.8'
 
 services:
 
-  monitoring:
+  revue-monitoring:
     image: revue-monitoring
     container_name: revue-monitoring
     build:
-      context: ../
+      context: .
       dockerfile: ./monitoring/Dockerfile
     restart: on-failure
     ports:
-      - '3000:3000'
+      - '${MONITORING_PORT}:${MONITORING_PORT}'
+    depends_on:
+      - revue-monitoring-db
+      - revue-kafka
 
-  db:
+  revue-monitoring-db:
     image: mongo
-    container_name: revue-monitoring-db
+    container_name: ${MONITORING_DB_HOST}
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONITORING_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONITORING_DB_PASSWORD}
     ports:
-      - '27017:27017'
+      - '${MONITORING_DB_PORT}:${MONITORING_DB_PORT}'

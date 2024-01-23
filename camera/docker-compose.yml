@@ -11,6 +11,5 @@ services:
     restart: on-failure
     ports:
       - "${CAMERA_PORT}:${CAMERA_PORT}"
-
     depends_on:
       - revue-kafka

@@ -1,6 +1,6 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { connectToMock, disconnectFromMock, populateNotifications } from "../storage/MongoDBMock.js";
+import { connectToMock, disconnectFromMock, populateAnomalies } from "../storage/MongoDBMock.js";
 import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
@@ -8,7 +8,7 @@ const TOKEN = process.env.DEV_API_KEY
 describe('GET /notifications/', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
-    await populateNotifications()
+    await populateAnomalies()
   })
   describe('GET /anomalies/exceedings', (): void => {
     it('responds with a forbidden status if not authorized', async (): Promise<void> => {

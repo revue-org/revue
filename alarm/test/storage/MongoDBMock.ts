@@ -36,41 +36,23 @@ export const disconnectFromMock = async (): Promise<void> => {
 }
 
 export const populateNotifications = async (): Promise<void> => {
-  await notificationModel
-    .createCollection()
-    .then(() => console.log('Created notificationModel collection'))
-  await notificationModel
-    .create(notificationSample)
-    .then(() => console.log('Created notificationModel document'))
+  await notificationModel.createCollection()
+  await notificationModel.create(notificationSample)
 }
 
 export const populateAnomalies = async (): Promise<void> => {
-  await exceedingModel.createCollection().then(() => console.log('Created exceedings collection'))
-  await exceedingModel
-    .create(exceedingSample)
-    .then(() => console.log('Created exceedingModel document'))
-  await intrusionModel
-    .create(intrusionSample)
-    .then(() => console.log('Created intrusionModel document'))
+  await exceedingModel.createCollection()
+  await exceedingModel.create(exceedingSample)
+  await intrusionModel.create(intrusionSample)
 }
 
 export const populateRecognizingNodes = async (): Promise<void> => {
-  await recognizingNodeModel
-    .createCollection()
-    .then(() => console.log('Created recognizingNodeModel collection'))
-  await recognizingNodeModel
-    .create(recognizingNodeSample)
-    .then(() => console.log('Created recognizingNodeModel document'))
+  await recognizingNodeModel.createCollection()
+  await recognizingNodeModel.create(recognizingNodeSample)
 }
 
 export const populateSecurityRules = async (): Promise<void> => {
-  await exceedingRuleModel
-    .createCollection()
-    .then(() => console.log('Created security rules collection'))
-  await exceedingRuleModel
-    .create(exceedingRuleSample)
-    .then(() => console.log('Created exceedingRuleModel document'))
-  await intrusionRuleModel
-    .create(intrusionRuleSample)
-    .then(() => console.log('Created intrusionRuleModel document'))
+  await exceedingRuleModel.createCollection()
+  await exceedingRuleModel.create(exceedingRuleSample)
+  await intrusionRuleModel.create(intrusionRuleSample)
 }

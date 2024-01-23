@@ -11,6 +11,6 @@ const HttpStatusCode = {
   NOT_IMPLEMENTED: 501,
   BAD_GATEWAY: 502,
   SERVICE_UNAVAILABLE: 503
-};
+}
 
-export default HttpStatusCode;
+export default HttpStatusCode

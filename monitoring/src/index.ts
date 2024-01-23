@@ -45,7 +45,7 @@ const mongoConnect = async () => {
   await mongoose
     .connect(connectionString)
     .then(async () => {
-      console.log(`Monitoring server listening on http://${process.env.DB_HOST}:${PORT}`)
+      console.log(`Monitoring server listening on port ${PORT}`)
     })
     .catch((e) => console.log(e))
 }

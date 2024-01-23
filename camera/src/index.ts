@@ -63,16 +63,13 @@ if (process.env.NODE_ENV === 'test') {
 
 const produce = (producer: Producer) => {
   fs.readFile(path.resolve('video.mp4'), async function (err, data: Buffer) {
-    if (err) {
-      throw err
-    }
-    let movieData: Buffer = data
+    if (err) throw err
 
-    let i,
-      j,
-      tmpArray,
-      chunk = 1000000
-    let index = 0
+    let movieData: Buffer = data
+    let i, j
+    let tmpArray: Buffer,
+      chunk: number = 1000000
+    let index: number = 0
     for (i = 0, j = movieData.length; i < j; i += chunk) {
       tmpArray = movieData.subarray(i, i + chunk)
       producer

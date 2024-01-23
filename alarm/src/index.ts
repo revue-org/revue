@@ -38,11 +38,27 @@ const mongoConnect = async (connectionString: string): Promise<void> => {
   await mongoose.connect(connectionString, { directConnection: true })
 }
 
-if (process.env.NODE_ENV === 'test') {
-  app.post('/conn-string/', async (req: Request, res: Response): Promise<void> => {
+if (process.env.NODE_ENV !== 'test') {
+  //const server =
+  app.listen(PORT, async (): Promise<void> => {
+    console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)
+    /*if (process.env.NODE_ENV !== 'test') {
+      //mi devo collegare ad un database, presumo ne esista uno sull'host indicato nel process.env
+      //mongoConnect(...)
+    }*/
+  })
+}
+
+/*if (process.env.NODE_ENV === 'test') {
+  /!*app.post('/conn-string/', async (req: Request, res: Response): Promise<void> => {
     await mongoConnect(req.body.connectionString)
     res.status(200).send({ message: 'Connection string received' })
-  })
+  })*!/
+  console.log("Test environment detected")
+/!*  mongod = ;
+  dbUrl = await MongoMemoryServer.create()
+  mongod = await MongoMemoryServer.create();
+  dbUrl = mongod.getUri();*!/
 } else {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)
@@ -52,5 +68,4 @@ if (process.env.NODE_ENV === 'test') {
         `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
       )
     })
-  })
-}
+  })*/

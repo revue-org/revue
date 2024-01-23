@@ -11,7 +11,7 @@ describe('GET /notifications/', (): void => {
     await populateNotifications()
   })
   describe('POST /anomalies/intrusions', (): void => {
-    it('responds with a forbidden status if not authorized', async (): Promise<void> => {
+    it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const creation: Response = await alarmService.post('/anomalies/intrusions')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)

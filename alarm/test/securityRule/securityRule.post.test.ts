@@ -11,7 +11,7 @@ describe('POST /security-rules', (): void => {
     await populateSecurityRules()
   })
   describe('POST /security-rules/exceedings', (): void => {
-    it('responds with a forbidden status if not authorized', async (): Promise<void> => {
+    it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const creation: Response = await alarmService.post('/security-rules/exceedings')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
@@ -54,7 +54,7 @@ describe('POST /security-rules', (): void => {
   })
 
   describe('POST /security-rules/intrusions', (): void => {
-    it('responds with a forbidden status if not authorized', async (): Promise<void> => {
+    it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const creation: Response = await alarmService.post('/security-rules/intrusions')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)

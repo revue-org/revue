@@ -11,7 +11,7 @@ describe('GET /notifications/', (): void => {
     await populateNotifications()
   })
 
-  it('responds with a forbidden status if not authorized', async (): Promise<void> => {
+  it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
     const notifications: Response = await alarmService.get('/notifications/exceedings')
     expect(notifications.status).toBe(HttpStatusCode.FORBIDDEN)

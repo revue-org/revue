@@ -11,7 +11,7 @@ describe('GET /recognizing-nodes/', (): void => {
     await populateRecognizingNodes()
   })
 
-  it('responds with a forbidden status if not authorized', async (): Promise<void> => {
+  it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
     const recognizingNodes: Response = await alarmService.get('/recognizing-nodes/')
     expect(recognizingNodes.status).toBe(HttpStatusCode.FORBIDDEN)

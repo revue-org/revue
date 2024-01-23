@@ -10,7 +10,7 @@ describe('POST /recognizing-nodes/', (): void => {
     await connectToMock()
     await populateRecognizingNodes()
   })
-  it('responds with a forbidden status if not authorized', async (): Promise<void> => {
+  it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
     const creation: Response = await alarmService.post('/recognizing-nodes/')
     expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)

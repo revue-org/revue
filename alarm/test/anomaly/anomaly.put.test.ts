@@ -1,24 +1,31 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { connectToMock, disconnectFromMock, populateAnomalies } from "../storage/MongoDBMock.js";
+import { connectToMock, disconnectFromMock, populateAnomalies, populateNotifications } from "../storage/MongoDBMock.js";
 import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('POST /anomalies/', (): void => {
+describe('PUT /anomalies/', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateAnomalies()
   })
-  describe('POST /anomalies/intrusions', (): void => {
+  describe('PUT /anomalies/intrusions', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const creation: Response = await alarmService.post('/anomalies/intrusions')
+      const creation: Response = await alarmService.put('/anomalies/intrusions')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
-    it('should create a new intrusion', async (): Promise<void> => {
-      const newIntrusion = {
+    it('should update the intrusion', async (): Promise<void> => {
+
+      // @ts-ignore
+      const intrusionRetrieve: Response = await alarmService
+        .get('/anomalies/intrusions')
+        .set('Authorization', `Bearer ${TOKEN}`)
+
+      const updatedIntrusion = {
+        _id: "",
         deviceId: {
           type: 'CAMERA',
           code: 'cam-03'
@@ -26,18 +33,25 @@ describe('POST /anomalies/', (): void => {
         intrusionObject: 'ANIMAL'
       }
 
+      for (let i = 0; i < intrusionRetrieve.body.length; i++) {
+        if (intrusionRetrieve.body[i].deviceId.type === "CAMERA") {
+          updatedIntrusion._id = intrusionRetrieve.body[i]._id
+        }
+      }
       // @ts-ignore
-      const creation: Response = await alarmService
-        .post('/anomalies/intrusions')
+      const update: Response = await alarmService
+        .put('/anomalies/intrusions')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newIntrusion)
+        .send(updatedIntrusion)
 
-      expect(creation.status).toBe(HttpStatusCode.CREATED)
-      expect(creation.type).toBe('application/json')
+      expect(update.type).toBe(update.body)
+
+      expect(update.status).toBe(HttpStatusCode.OK)
+      expect(update.type).toBe('application/json')
     })
   })
 
-  describe('POST /anomalies/exceedings', (): void => {
+/*  describe('POST /anomalies/exceedings', (): void => {
     it('responds with a forbidden status if not authorized', async (): Promise<void> => {
       // @ts-ignore
       const creation: Response = await alarmService.post('/anomalies/exceedings')
@@ -63,7 +77,7 @@ describe('POST /anomalies/', (): void => {
       expect(creation.status).toBe(HttpStatusCode.CREATED)
       expect(creation.type).toBe('application/json')
     })
-  })
+  })*/
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()
   });

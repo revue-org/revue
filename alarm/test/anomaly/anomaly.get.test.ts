@@ -5,7 +5,7 @@ import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('GET /notifications/', (): void => {
+describe('GET /anomalies/', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateAnomalies()

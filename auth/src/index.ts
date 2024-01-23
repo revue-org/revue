@@ -14,7 +14,7 @@ config()
 const PORT: number = Number(process.env.PORT) || 4000
 
 app.use('/', userAccessRouter)
-app.use('/user', userRouter)
+app.use('/users', userRouter)
 
 app.use((_: Request, res: Response) => {
   res.status(404).send('<h1>404 Page Not Found!</h1>')

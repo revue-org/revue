@@ -1,4 +1,4 @@
-import { anomalyController } from '@/controller/anomaly'
+import { anomalyController } from '../controller/anomaly.js'
 import express, { Request, Response, Router } from 'express'
 import { Intrusion } from '@domain/anomaly/core/Intrusion.js'
 import { Exceeding } from '@domain/anomaly/core/Exceeding.js'

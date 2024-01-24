@@ -12,18 +12,18 @@ import { userModel } from "./user.js";
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
 
 export const userAccessController = {
-  login: async (username: string, password: string): Promise<void> => {
+  login: async (username: string, password: string): Promise<{ accessToken: string; refreshToken: string }> => {
     const user: User = await userManager.getUserByUsername(username)
     if (!user) throw new Error('User not found')
     const match: boolean = await bcrypt.compare(password, user.password)
     if (!match) throw new Error('Wrong password')
-    const infos: UserInfo = new UserInfo(user.id, user.username)
-    user.token = jwtManager.generateAccessToken(infos)
-    user.refreshToken = jwtManager.generateRefreshToken(infos)
-    return await userManager.updateUser(user)
+    user.token = jwtManager.generateAccessToken({ id: user.id, username: user.username })
+    user.refreshToken = jwtManager.generateRefreshToken({ id: user.id, username: user.username })
+    await userManager.updateUser(user)
+    return { accessToken: user.token, refreshToken: user.refreshToken }
   },
 
-  logout: async (username: string) => {
+  logout: async (username: string): Promise<void> => {
     const user: User = await userManager.getUserByUsername(username)
     if (!user) throw new Error('User not found')
 

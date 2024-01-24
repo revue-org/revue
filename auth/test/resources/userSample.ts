@@ -2,7 +2,7 @@ export const userSample = {
   name: 'Alberto',
   surname: 'Paga',
   username: 'paga16',
-  password: 'passwordprova',
+  password: '$2a$10$eHwL5cAfFPqBAbQyAqH/nOK94EyttraZx/xjEwQQiQP.hyB/XT64.',//hashed passwordkprova
   token: '',
   refreshToken: '',
   contact: [

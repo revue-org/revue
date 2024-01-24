@@ -20,7 +20,6 @@ const PORT: number = Number(process.env.PORT) || 4000
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
-  console.log('token: ' + token)
   if (token === process.env.DEV_API_KEY) return next()
   if (req.url === '/login' && req.method === 'POST') return next()
   if (token === undefined) return res.status(HttpStatusCode.FORBIDDEN).send({ error: 'No authentication token' })

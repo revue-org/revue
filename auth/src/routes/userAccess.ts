@@ -7,11 +7,13 @@ export const userAccessRouter = express.Router()
 userAccessRouter.route('/login').post((req: Request, res: Response): void => {
   userAccessController
     .login(req.body.username, req.body.password)
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send('User logged in')
+    .then((access: any): void => {
+      console.log(access)
+      res.status(HttpStatusCode.OK).send(access)
     })
     .catch((err): void => {
-      res.status(500).send(err)
+      console.log(err)
+      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
 

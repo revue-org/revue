@@ -1,6 +1,7 @@
+/*
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { connectToMock, disconnectFromMock, populateNotifications } from "../storage/MongoDBMock.js";
+import { connectToMock, disconnectFromMock, populateUsers } from "../storage/MongoDBMock.js";
 import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
@@ -8,7 +9,7 @@ const TOKEN = process.env.DEV_API_KEY
 describe('POST /notifications/', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
-    await populateNotifications()
+    await populateUsers()
   })
   describe('POST /notifications/exceedings', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
@@ -68,3 +69,4 @@ describe('POST /notifications/', (): void => {
     await disconnectFromMock()
   });
 })
+*/

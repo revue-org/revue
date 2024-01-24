@@ -24,6 +24,7 @@ describe('GET /users/', (): void => {
       .set('Authorization', `Bearer ${TOKEN}`)
     expect(users.status).toBe(HttpStatusCode.OK)
     expect(users.type).toBe('application/json')
+    expect(users.body.length).toBeGreaterThan(0)
   })
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()

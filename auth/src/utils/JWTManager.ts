@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import { Connect } from 'vite'
 import { UserInfo } from './UserInfo.js'
 import NextFunction = Connect.NextFunction
+import console from "console";
 
 config()
 
@@ -48,17 +49,12 @@ class JWTManager {
   authenticate(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
+    if (token == null) return res.status(403)
 
     console.log('Authentication token: ' + token)
-    this.jwt.verify(token, this.secret, (err: Error, userInfo: any) => {
-      if (err) return res.sendStatus(403)
-
-      //req.headers["user"] = userInfo
-      //TODO to set the user in the request
-      //req.headers. = userInfoS;
-      //TODO: da legare user info ricavate dal token al req in modo tale da verificare se un utente puo o meno fare una determinata cosa
-      //console.log(user)
+    this.jwt.verify(token, this.secret, (err: any, user: any) => {
+      if (err) return res.sendStatus(401)
+      console.log(user)
       next()
     })
   }

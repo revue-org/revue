@@ -6,8 +6,9 @@ import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
 import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { userSchema } from '@storage/monitoring/schemas/UserSchema.js'
+import { userModel } from "./user.js";
 
-const userModel: Model<User> = model<User>('User', userSchema, 'user')
+//const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
 
 export const userAccessController = {

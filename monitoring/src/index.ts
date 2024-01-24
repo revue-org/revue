@@ -8,6 +8,7 @@ import { type Consumer, Kafka } from 'kafkajs'
 
 config()
 export const app: Express = express()
+app.use(express.json())
 
 const PORT: number = Number(process.env.PORT) || 4000
 

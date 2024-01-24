@@ -2,7 +2,7 @@ import { config } from 'dotenv'
 import jsonwebtoken from 'jsonwebtoken'
 import { NextFunction, Request, Response } from 'express'
 import * as console from 'console'
-import HttpStatusCode from "@/utils/HttpStatusCode";
+import HttpStatusCode from '@/utils/HttpStatusCode'
 
 config()
 

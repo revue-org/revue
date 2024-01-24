@@ -28,12 +28,8 @@ export const disconnectFromMock = async (): Promise<void> => {
   }
 }
 
-export const populateSensors = async (): Promise<void> => {
-  await sensorModel.createCollection()
-  await sensorModel.create(sensorSample)
-}
-
-export const populateCameras = async (): Promise<void> => {
+export const populateDevices = async (): Promise<void> => {
   await cameraModel.createCollection()
   await cameraModel.create(cameraSample)
+  await sensorModel.create(sensorSample)
 }

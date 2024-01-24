@@ -9,17 +9,17 @@ import { type Consumer, Kafka } from 'kafkajs'
 config()
 export const app: Express = express()
 
-const PORT: number = Number(process.env.PORT) || 3000
+const PORT: number = Number(process.env.PORT) || 4000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
 
-  if (token !== process.env.DEV_API_KEY) {
+  if (token === process.env.DEV_API_KEY) return next()
+  if (token === undefined) return res.status(403).send({ error: 'No authentication token' })
+  else {
+    console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)
-  } else {
-    console.log('Develop authentication token: ' + token)
-    return next()
   }
 })
 
@@ -41,9 +41,10 @@ const mongoConnect = async (): Promise<void> => {
 if (process.env.NODE_ENV !== 'test') {
   //const server =
   app.listen(PORT, async (): Promise<void> => {
+    console.log(`Monintoring server listening on http://${process.env.DB_HOST}:${PORT}`)
     await mongoConnect()
 
-    const kafka = new Kafka({
+/*    const kafka = new Kafka({
       clientId: 'my-app',
       brokers: ['localhost:9092']
     })
@@ -63,6 +64,6 @@ if (process.env.NODE_ENV !== 'test') {
           })
         }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error(err))*/
   })
 }

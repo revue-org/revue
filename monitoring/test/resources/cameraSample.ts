@@ -1,8 +1,13 @@
 import { Types } from 'mongoose'
 
 export const cameraSample = {
-  code: "010",
+  _id: {
+    type: "CAMERA",
+    code: "cam-01"
+  },
   ipAddress: "192.168.1.1",
-  resolutionHeight: 2000,
-  resolutionWidth: 200
+  resolution: {
+    height: 200,
+    width: 200
+  }
 }

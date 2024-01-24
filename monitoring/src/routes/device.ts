@@ -16,16 +16,6 @@ export const deviceRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
-deviceRouter.route('/:type&:code').get((req: Request, res: Response): void => {
-  deviceController
-    .getDeviceById(req.params.type, req.params.code)
-    .then((device: Device): void => {
-      res.status(HttpStatusCode.OK).send(device)
-    })
-    .catch((): void => {
-      res.send({ error: 'Device not found' })
-    })
-})
 
 deviceRouter.route('/cameras').get((req: Request, res: Response): void => {
   deviceController
@@ -45,6 +35,18 @@ deviceRouter.route('/sensors').get((req: Request, res: Response): void => {
     })
     .catch((): void => {
       res.send({ error: 'No sensors found' })
+    })
+})
+
+
+deviceRouter.route('/:type&:code').get((req: Request, res: Response): void => {
+  deviceController
+    .getDeviceById(req.params.type, req.params.code)
+    .then((device: Device): void => {
+      res.status(HttpStatusCode.OK).send(device)
+    })
+    .catch((): void => {
+      res.send({ error: 'Device not found' })
     })
 })
 

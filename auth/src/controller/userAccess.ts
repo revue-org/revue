@@ -1,13 +1,11 @@
-import { model, Model } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import { jwtManager } from '../utils/JWTManager.js'
 import { UserInfo } from '../utils/UserInfo.js'
 import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
 import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
 import { User } from '@domain/monitoring/core/User.js'
-import { userSchema } from '@storage/monitoring/schemas/UserSchema.js'
-import { userModel } from "./user.js";
-import console from "console";
+import { userModel } from './user.js'
+import console from 'console' //const userModel: Model<User> = model<User>('User', userSchema, 'user')
 
 //const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
@@ -39,17 +37,19 @@ export const userAccessController = {
     return await userManager.updateUser(user)
   },
 
-  newToken: async (username: string, refreshToken: string): Promise<void> => {
+  newToken: async (username: string, refreshToken: string): Promise<{ accessToken: string }> => {
     if (refreshToken == null) throw new Error('Refresh token not valid')
     const user: User = await userManager.getUserByUsername(username)
     if (!user) throw new Error('User not found')
-    if (user.refreshToken != refreshToken) throw new Error('Refresh token not valid')
+    if (user.refreshToken !== refreshToken) throw new Error('Refresh token not valid')
+    let access: string = ''
     jwtManager.verify(refreshToken, async (err: Error, infos: UserInfo) => {
       if (err) throw new Error('Error verifying token')
-      const accessToken = jwtManager.generateAccessToken(infos)
-      user.token = accessToken
+      access = jwtManager.generateAccessToken(infos)
+      user.token = access
       await userManager.updateUser(user)
-      return accessToken
+      console.log('nuovo accessToken' + access)
     })
+    return { accessToken: access }
   }
 }

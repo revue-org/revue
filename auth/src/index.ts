@@ -21,7 +21,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
   if (token === process.env.DEV_API_KEY) return next()
-  if (req.url === '/login' && req.method === 'POST') return next()
+  if ((req.url === '/login' || req.url === '/newToken') && req.method === 'POST') return next()
   if (token === undefined) return res.status(HttpStatusCode.FORBIDDEN).send({ error: 'No authentication token' })
   else {
     console.log('Authentication token: ' + token)

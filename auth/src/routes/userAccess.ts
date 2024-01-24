@@ -1,9 +1,9 @@
 import { userAccessController } from '../controller/userAccess.js'
-import express, { Request, Response } from 'express'
+import express, { Request, Response, Router } from "express";
 import HttpStatusCode from "../utils/HttpStatusCode.js";
 import console from "console";
 
-export const userAccessRouter = express.Router()
+export const userAccessRouter: Router = express.Router()
 
 userAccessRouter.route('/login').post((req: Request, res: Response): void => {
   userAccessController
@@ -33,11 +33,11 @@ userAccessRouter.route('/logout').post((req: Request, res: Response): void => {
 userAccessRouter.route('/newToken').post((req: Request, res: Response): void => {
   userAccessController
     .newToken(req.body.username, req.body.refreshToken)
-    .then((token: void): void => {
-      //TODO to check al fly
+    .then((token: any): void => {
       res.status(HttpStatusCode.OK).send(token)
     })
     .catch((err): void => {
-      res.status(500).send(err)
+      console.log(err)
+      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })

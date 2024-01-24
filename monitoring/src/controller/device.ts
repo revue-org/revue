@@ -15,8 +15,8 @@ import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { Resolution } from '@domain/device/core/Resolution.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 
-const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
-const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
+export const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
+export const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
 const deviceManager: DeviceRepository = new DeviceRepositoryImpl(cameraModel, sensorModel)
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

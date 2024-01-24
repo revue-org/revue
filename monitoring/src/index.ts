@@ -2,19 +2,12 @@ import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
-import path, { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { indexRouter } from './routes/index.js'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
+import { type Consumer, Kafka } from 'kafkajs'
 
 config()
-
-export const __dirname: string = dirname(fileURLToPath(import.meta.url)) + '/../../'
-const app: Express = express()
-
-app.use(express.json())
-app.use(express.static(path.join(__dirname, 'client')))
+export const app: Express = express()
 
 const PORT: number = Number(process.env.PORT) || 3000
 
@@ -30,43 +23,46 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use(indexRouter)
-app.use('/device', deviceRouter)
+app.use('/devices', deviceRouter)
 
-const mongoConnect = async () => {
+const mongoConnect = async (): Promise<void> => {
   const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
     .connect(connectionString)
-    .then(async () => {
-      console.log(`Monitoring server listening on http://${process.env.DB_HOST}:${PORT}`)
+    .then(async (): Promise<void> => {
+      console.log(`Monitoring server connected to db ${process.env.DB_NAME}`)
     })
-    .catch((e) => console.log(e))
+    .catch((err): void => {
+      console.log(err)
+      throw err
+    })
 }
 
-import { type Consumer, Kafka } from 'kafkajs'
+if (process.env.NODE_ENV !== 'test') {
+  //const server =
+  app.listen(PORT, async (): Promise<void> => {
+    await mongoConnect()
 
-app.listen(PORT, async (): Promise<void> => {
-  // mongoConnect()
-
-  const kafka = new Kafka({
-    clientId: 'my-app',
-    brokers: ['localhost:9092']
-  })
-
-  const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
-  await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-  await consumer.connect()
-  await consumer
-    .run({
-      eachMessage: async ({ topic, partition, message }) => {
-        // @ts-ignore
-        console.log({
-          partition,
-          offset: message.offset,
-          // @ts-ignore
-          value: message.value.toString()
-        })
-      }
+    const kafka = new Kafka({
+      clientId: 'my-app',
+      brokers: ['localhost:9092']
     })
-    .catch((err) => console.error(err))
-})
+
+    const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
+    await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
+    await consumer.connect()
+    await consumer
+      .run({
+        eachMessage: async ({ topic, partition, message }) => {
+          // @ts-ignore
+          console.log({
+            partition,
+            offset: message.offset,
+            // @ts-ignore
+            value: message.value.toString()
+          })
+        }
+      })
+      .catch((err) => console.error(err))
+  })
+}

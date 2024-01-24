@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 import { Connect } from 'vite'
 import { UserInfo } from './UserInfo.js'
 import NextFunction = Connect.NextFunction
-import console from "console";
+import console from 'console'
 
 config()
 

@@ -8,7 +8,7 @@ import { userRouter } from './routes/user.js'
 import { Connect } from 'vite'
 import { jwtManager } from './utils/JWTManager.js'
 import NextFunction = Connect.NextFunction
-import HttpStatusCode from "./utils/HttpStatusCode.js";
+import HttpStatusCode from './utils/HttpStatusCode.js'
 
 export const app: Express = express()
 app.use(express.json())
@@ -22,7 +22,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const token = authHeader && authHeader.split(' ')[1]
   if (token === process.env.DEV_API_KEY) return next()
   if ((req.url === '/login' || req.url === '/newToken') && req.method === 'POST') return next()
-  if (token === undefined) return res.status(HttpStatusCode.FORBIDDEN).send({ error: 'No authentication token' })
+  if (token === undefined)
+    return res.status(HttpStatusCode.FORBIDDEN).send({ error: 'No authentication token' })
   else {
     console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)

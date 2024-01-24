@@ -40,12 +40,11 @@ const mongoConnect = async (): Promise<void> => {
 }
 
 if (process.env.NODE_ENV !== 'test') {
-  //const server =
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Monintoring server listening on http://${process.env.DB_HOST}:${PORT}`)
     await mongoConnect()
 
-/*    const kafka = new Kafka({
+    const kafka = new Kafka({
       clientId: 'my-app',
       brokers: ['localhost:9092']
     })
@@ -65,6 +64,6 @@ if (process.env.NODE_ENV !== 'test') {
           })
         }
       })
-      .catch((err) => console.error(err))*/
+      .catch((err) => console.error(err))
   })
 }

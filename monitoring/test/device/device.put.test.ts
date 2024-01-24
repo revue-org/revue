@@ -17,8 +17,21 @@ describe('PUT /devices/', (): void => {
     })
 
     it('should update the sensor', async (): Promise<void> => {
+      const newSensor = {
+        code: 'sen-100',
+        ipAddress: '192.168.1.1',
+        intervalMillis: 2000,
+        measures: ['TEMPERATURE', 'PRESSURE']
+      }
+
+      // @ts-ignore
+      await monitoringService
+        .post('/devices/sensors')
+        .set('Authorization', `Bearer ${TOKEN}`)
+        .send(newSensor)
+
       const updatedSensor = {
-        code: 'sen-01',
+        code: 'sen-100',
         ipAddress: '192.168.1.1',
         intervalMillis: 1000,
         measures: ['TEMPERATURE', 'PRESSURE']
@@ -44,7 +57,21 @@ describe('PUT /devices/', (): void => {
 
     it('should update the camera', async (): Promise<void> => {
       const newCamera = {
-        code: 'cam-01',
+        code: "cam-100",
+        ipAddress: "192.168.1.1",
+        resolution: {
+          width: 200,
+          height: 200
+        }
+      }
+      // @ts-ignore
+      await monitoringService
+        .post('/devices/cameras')
+        .set('Authorization', `Bearer ${TOKEN}`)
+        .send(newCamera)
+
+      const updatedCamera = {
+        code: 'cam-100',
         ipAddress: '192.168.1.1',
         resolution: {
           width: 300,
@@ -56,7 +83,7 @@ describe('PUT /devices/', (): void => {
       const update: Response = await monitoringService
         .put('/devices/cameras')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newCamera)
+        .send(updatedCamera)
 
       expect(update.status).toBe(HttpStatusCode.OK)
       expect(update.type).toBe('application/json')

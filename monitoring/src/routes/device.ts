@@ -9,6 +9,7 @@ import { ResolutionFactory } from '@domain/device/factories/ResolutionFactory.js
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import HttpStatusCode from '../utils/HttpStatusCode.js'
+import * as console from "console";
 
 export const deviceRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -42,7 +43,7 @@ deviceRouter.route('/:type&:code').get((req: Request, res: Response): void => {
       res.status(HttpStatusCode.OK).send(device)
     })
     .catch((): void => {
-      res.send({ error: 'Device not found' })
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not found' })
     })
 })
 
@@ -56,8 +57,8 @@ deviceRouter.route('/cameras').post((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Camera created' })
     })
-    .catch((err): void => {
-      res.send({ error: 'Camera not created' })
+    .catch((): void => {
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Camera not created' })
     })
 })
 
@@ -72,8 +73,8 @@ deviceRouter.route('/sensors').post((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Sensor created' })
     })
-    .catch((err): void => {
-      res.send({ error: 'Sensor not created' })
+    .catch((): void => {
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Sensor not created' })
     })
 })
 
@@ -87,8 +88,9 @@ deviceRouter.route('/cameras').put((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Camera correctly updated' })
     })
-    .catch((): void => {
-      res.send({ error: 'Camera not updated' })
+    .catch((err): void => {
+      console.log(err)
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Camera not updated' })
     })
 })
 
@@ -103,8 +105,9 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Sensor correctly updated' })
     })
-    .catch((): void => {
-      res.send({ error: 'Sensor not updated' })
+    .catch((err): void => {
+      console.log(err)
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Sensor not updated' })
     })
 })
 
@@ -115,6 +118,6 @@ deviceRouter.route('/').delete((req: Request, res: Response): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Device correctly deleted' })
     })
     .catch((): void => {
-      res.send({ error: 'Device not deleted' })
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not deleted' })
     })
 })

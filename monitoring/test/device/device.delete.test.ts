@@ -26,7 +26,7 @@ describe('DELETE /devices/', (): void => {
       }
 
       // @ts-ignore
-      const creation: Response = await monitoringService
+      await monitoringService
         .post('/devices/sensors')
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(newSensor)

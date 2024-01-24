@@ -7,12 +7,16 @@ import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { userSchema } from '@storage/monitoring/schemas/UserSchema.js'
 import { userModel } from "./user.js";
+import console from "console";
 
 //const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
 
 export const userAccessController = {
-  login: async (username: string, password: string): Promise<{ accessToken: string; refreshToken: string }> => {
+  login: async (
+    username: string,
+    password: string
+  ): Promise<{ accessToken: string; refreshToken: string }> => {
     const user: User = await userManager.getUserByUsername(username)
     if (!user) throw new Error('User not found')
     const match: boolean = await bcrypt.compare(password, user.password)
@@ -23,12 +27,13 @@ export const userAccessController = {
     return { accessToken: user.token, refreshToken: user.refreshToken }
   },
 
-  logout: async (username: string): Promise<void> => {
+  logout: async (token: string, username: string): Promise<void> => {
     const user: User = await userManager.getUserByUsername(username)
+    console.log(user)
     if (!user) throw new Error('User not found')
-
-    //TODO da aggiungere il controllo che guarda se l'utente che ha richiesto il logout è giusto o meno.
-    //TODO controllando dai dati in req e dal token
+    console.log(token)
+    console.log(user.token)
+    if (token !== user.token) throw new Error('Token not valid')
     user.token = ''
     user.refreshToken = ''
     return await userManager.updateUser(user)

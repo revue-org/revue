@@ -5,9 +5,7 @@ import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
 import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { userModel } from './user.js'
-import console from 'console' //const userModel: Model<User> = model<User>('User', userSchema, 'user')
 
-//const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
 
 export const userAccessController = {
@@ -48,7 +46,6 @@ export const userAccessController = {
       access = jwtManager.generateAccessToken(infos)
       user.token = access
       await userManager.updateUser(user)
-      console.log('nuovo accessToken' + access)
     })
     return { accessToken: access }
   }

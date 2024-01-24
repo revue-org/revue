@@ -62,40 +62,6 @@ notificationRouter.route('/intrusions').post((req: Request, res: Response): void
       res.send({ error: 'Notification not created' })
     })
 })
-notificationRouter.route('/exceedings').put((req: Request, res: Response): void => {
-  notificationController
-    .updateExceedingNotification(
-      req.body.id,
-      req.body.anomalyId,
-      deviceIdFactory.createSensorId(req.body.deviceId.code),
-      new Date(req.body.timestamp),
-      MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.value
-    )
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send({ success: 'Notification correctly updated' })
-    })
-    .catch((): void => {
-      res.send({ error: 'Notification not updated' })
-    })
-})
-
-notificationRouter.route('/intrusions').put((req: Request, res: Response): void => {
-  notificationController
-    .updateIntrusionNotification(
-      req.body.id,
-      req.body.anomalyId,
-      deviceIdFactory.createCameraId(req.body.deviceId.code),
-      new Date(req.body.timestamp),
-      ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
-    )
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send({ success: 'Notification correctly updated' })
-    })
-    .catch((): void => {
-      res.send({ error: 'Notification not updated' })
-    })
-})
 
 notificationRouter.route('/').delete((req: Request, res: Response): void => {
   notificationController

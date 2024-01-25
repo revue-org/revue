@@ -6,7 +6,7 @@ services:
     image: bitnami/zookeeper:latest
     container_name: revue-zookeeper
     ports:
-      - '2181:2181'
+      - '${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
@@ -14,13 +14,15 @@ services:
     image: bitnami/kafka:latest
     container_name: revue-kafka
     ports:
-      - '9092:9092'
+      - '${KAFKA_PORT}:${KAFKA_PORT}'
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://revue-kafka:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=revue-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=200000000
 #    volumes:
 #      - kafka_data:/bitnami/kafka
 #      - ~/kafka/data/zookeeper_data:/var/lib/zookeeper/data

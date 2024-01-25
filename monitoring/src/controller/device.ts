@@ -24,9 +24,7 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const deviceController = {
   getDeviceById: async (type: DeviceType, code: string): Promise<Device> => {
-    return await deviceManager.getDeviceById(
-      deviceIdFactory.createId(type, code)
-    )
+    return await deviceManager.getDeviceById(deviceIdFactory.createId(type, code))
   },
   getCameraByCode: async (code: string): Promise<Camera> => {
     return await deviceManager.getCameraByCode(code)

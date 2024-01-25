@@ -2,14 +2,44 @@ version: "3.8"
 
 services:
 
-  revue-camera:
+  revue-camera-1:
     image: revue-camera
-    container_name: revue-camera
+    container_name: revue-camera-1
     build:
       context: .
       dockerfile: ./camera/Dockerfile
     restart: on-failure
+    environment:
+      - CAMERA_CODE=cam-01
     ports:
-      - "${CAMERA_PORT}:${CAMERA_PORT}"
+      - "${CAMERA_PORT_1}:${CAMERA_PORT_1}"
+    depends_on:
+      - revue-kafka
+
+  revue-camera-2:
+    image: revue-camera
+    container_name: revue-camera-2
+    build:
+      context: .
+      dockerfile: ./camera/Dockerfile
+    restart: on-failure
+    environment:
+      - CAMERA_CODE=cam-02
+    ports:
+      - "${CAMERA_PORT_2}:${CAMERA_PORT_2}"
+    depends_on:
+      - revue-kafka
+
+  revue-camera-3:
+    image: revue-camera
+    container_name: revue-camera-3
+    build:
+      context: .
+      dockerfile: ./camera/Dockerfile
+    restart: on-failure
+    environment:
+      - CAMERA_CODE=cam-03
+    ports:
+      - "${CAMERA_PORT_3}:${CAMERA_PORT_3}"
     depends_on:
       - revue-kafka

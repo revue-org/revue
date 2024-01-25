@@ -7,13 +7,20 @@ import { indexRouter } from './routes/index.js'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
 import { config } from 'dotenv'
-import { type Consumer, Kafka } from 'kafkajs'
-import * as console from 'console'
+import { setupConsumers } from './consumer.js'
+import http, { Server as HttpServer } from 'http'
+import { Server as SocketIOServer } from 'socket.io'
 
+const app: Express = express()
+const server: HttpServer = http.createServer(app)
+export const io: SocketIOServer = new SocketIOServer(server, {
+  cors: {
+    origin: 'http://localhost:3000'
+  }
+})
 config()
 
 export const __dirname: string = dirname(fileURLToPath(import.meta.url)) + '/../../'
-const app: Express = express()
 
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'client')))
@@ -50,28 +57,7 @@ const mongoConnect = async () => {
     .catch((e) => console.log(e))
 }
 
-app.listen(PORT, async (): Promise<void> => {
+server.listen(PORT, async (): Promise<void> => {
   await mongoConnect()
-  //
-  // const kafka = new Kafka({
-  //   clientId: 'monitoring',
-  //   brokers: ['revue-kafka:9092']
-  // })
-
-  // const consumer: Consumer = kafka.consumer({ groupId: 'test-group' })
-  // await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-  // await consumer.connect()
-  // await consumer
-  //   .run({
-  //     eachMessage: async ({ topic, partition, message }) => {
-  //       // @ts-ignore
-  //       console.log({
-  //         partition,
-  //         offset: message.offset,
-  //         // @ts-ignore
-  //         value: message.value.toString()
-  //       })
-  //     }
-  //   })
-  //   .catch((err) => console.error(err))
+  setupConsumers()
 })

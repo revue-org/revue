@@ -1,33 +1,61 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Camera } from '@domain/device/core/Camera'
+import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue'
+import type { Camera } from '@domain/device/core'
+import { DeviceType } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import {
   DeviceFactoryImpl,
   DeviceIdFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
+import { socket, state } from '@/socket'
 
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 const cameras = ref<Camera[]>([
   deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('Camera 1'),
+    deviceIdFactory.createCameraId('cam-01'),
     '192.168.1.20',
     resolutionFactory.createResolution(1920, 1080)
   ),
   deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('Camera 2'),
+    deviceIdFactory.createCameraId('cam-02'),
     '192.168.1.21',
     resolutionFactory.createResolution(1920, 1080)
   ),
   deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('Camera 3'),
+    deviceIdFactory.createCameraId('cam-03'),
     '192.168.1.22',
     resolutionFactory.createResolution(1920, 1080)
   )
 ])
+
+let imgSrc: ref<string> = ref('')
+console.log(state)
+
+const topics = computed(() => {
+  return cameras.value.map(
+    (camera) => DeviceType[camera.deviceId.type] + '_' + camera.deviceId.code
+  )
+})
+
+console.log(topics.value)
+socket.emit('subscribe', topics.value)
+
+onBeforeUnmount(() => {
+  console.log('unmount', topics.value)
+  socket.emit('pause', topics.value)
+})
+
+onBeforeMount(() => {
+  console.log('mount', topics.value)
+  socket.emit('resume', topics.value)
+})
+
+socket.on('stream', (newFrame) => {
+  imgSrc.value = `data:image/jpeg;base64,${newFrame[0]}`
+})
 </script>
 
 <template>
@@ -36,9 +64,10 @@ const cameras = ref<Camera[]>([
       <h3>
         {{ camera.deviceId.code }}
       </h3>
-      <video autoplay controls>
-        <source src="../assets/video.mp4" type="video/mp4" />
-      </video>
+      <!--          <video autoplay controls>-->
+      <!--            <source src="../assets/video.mp4" type="video/mp4" />-->
+      <!--          </video>-->
+      <img :src="imgSrc" />
     </div>
   </div>
 </template>
@@ -55,7 +84,7 @@ div.container {
   }
 
   .camera,
-  video {
+  img {
     width: 100%;
   }
 }

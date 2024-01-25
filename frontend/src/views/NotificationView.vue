@@ -4,7 +4,7 @@ import { Measure, type Sensor } from '@domain/device/core'
 
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
-import NotificationBadge from '@/components/devices/NotificationBadge.vue'
+import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 import { type NotificationFactory, NotificationFactoryImpl } from "domain/dist/domain/alarm-system/factories";
 import { type AnomalyFactory, AnomalyFactoryImpl } from "domain/dist/domain/anomaly/factories";
 import type { Notification } from "domain/dist/domain/alarm-system/core";

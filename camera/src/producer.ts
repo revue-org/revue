@@ -42,13 +42,6 @@ export const produce = async (): Promise<void> => {
           }
         ]
       })
-      // await producer.send({
-      //   topic: 'cam-02', messages: [{
-      //     value: data,
-      //     key: String(key)
-      //   }]
-      // })
-      // })
       index++
       key++
     }, 34)

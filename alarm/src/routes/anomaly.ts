@@ -1,4 +1,4 @@
-import { anomalyController } from '@/controller/anomaly'
+import { anomalyController } from '../controller/anomaly.js'
 import express, { Request, Response, Router } from 'express'
 import { Intrusion } from '@domain/anomaly/core/Intrusion.js'
 import { Exceeding } from '@domain/anomaly/core/Exceeding.js'
@@ -69,38 +69,6 @@ anomalyRouter.route('/intrusions').post((req: Request, res: Response): void => {
     })
     .catch((): void => {
       res.send({ error: 'Intrusion not created' })
-    })
-})
-anomalyRouter.route('/exceedings').put((req: Request, res: Response): void => {
-  anomalyController
-    .updateExceeding(
-      req.body.id,
-      deviceIdFactory.createSensorId(req.body.deviceId.code),
-      new Date(req.body.timestamp),
-      MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.value
-    )
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send({ success: 'Exceeding updated' })
-    })
-    .catch(() => {
-      res.send({ error: 'Exceeding not updated' })
-    })
-})
-
-anomalyRouter.route('/intrusions').put((req: Request, res: Response): void => {
-  anomalyController
-    .updateIntrusion(
-      req.body.id,
-      deviceIdFactory.createCameraId(req.body.deviceId.code),
-      new Date(req.body.timestamp),
-      ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
-    )
-    .then((): void => {
-      res.send({ success: 'Intrusion updated' })
-    })
-    .catch(() => {
-      res.send({ error: 'Intrusion not updated' })
     })
 })
 

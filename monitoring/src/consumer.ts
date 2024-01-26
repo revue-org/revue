@@ -55,7 +55,7 @@ export const setupConsumers = async (): Promise<void> => {
         consumers.push({ id: socket.id, consumer })
         consumer
           .run({
-            eachMessage: async ({ message }): Promise<void> => {
+            eachMessage: async ({ topic, message }): Promise<void> => {
               if (message.key === null || message.value === null) return
               const messageKey: Buffer = message.key
               const messageValue: Buffer = message.value
@@ -63,7 +63,7 @@ export const setupConsumers = async (): Promise<void> => {
                 value: messageValue,
                 key: JSON.parse(messageKey.toString())
               })
-              socket.emit('stream', [messageValue.toString(), messageKey.toString()])
+              socket.emit('stream', { topic: topic, frame: messageValue.toString() })
             }
           })
           .then(() => console.log('Consumer running'))

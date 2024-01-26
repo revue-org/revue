@@ -1,44 +1,16 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue'
-import type { Camera } from '@domain/device/core'
-import { DeviceType } from '@domain/device/core'
-import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import {
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl,
-  ResolutionFactoryImpl
-} from '@domain/device/factories'
 import { socket, state } from '@/socket'
 
-const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
-const cameras = ref<Camera[]>([
-  deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('cam-01'),
-    '192.168.1.20',
-    resolutionFactory.createResolution(1920, 1080)
-  ),
-  deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('cam-02'),
-    '192.168.1.21',
-    resolutionFactory.createResolution(1920, 1080)
-  ),
-  deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('cam-03'),
-    '192.168.1.22',
-    resolutionFactory.createResolution(1920, 1080)
-  )
+const cameras = ref<{ code: string; src: string }[]>([
+  { code: 'cam-01', src: '' },
+  { code: 'cam-02', src: '' },
+  { code: 'cam-03', src: '' }
 ])
 
-let imgSrc: ref<string> = ref('')
 console.log(state)
 
-const topics = computed(() => {
-  return cameras.value.map(
-    (camera) => DeviceType[camera.deviceId.type] + '_' + camera.deviceId.code
-  )
-})
+const topics = computed(() => cameras.value.map((camera) => 'CAMERA_' + camera.code))
 
 console.log(topics.value)
 socket.emit('subscribe', topics.value)
@@ -53,8 +25,9 @@ onBeforeMount(() => {
   socket.emit('resume', topics.value)
 })
 
-socket.on('stream', (newFrame) => {
-  imgSrc.value = `data:image/jpeg;base64,${newFrame[0]}`
+socket.on('stream', (newFrame: { topic: string; frame: string }) => {
+  cameras.value.find((camera) => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
+    `data:image/jpeg;base64,${newFrame.frame}`
 })
 </script>
 
@@ -62,12 +35,9 @@ socket.on('stream', (newFrame) => {
   <div class="container">
     <div class="camera" v-for="(camera, index) in cameras" :key="index">
       <h3>
-        {{ camera.deviceId.code }}
+        {{ camera.code }}
       </h3>
-      <!--          <video autoplay controls>-->
-      <!--            <source src="../assets/video.mp4" type="video/mp4" />-->
-      <!--          </video>-->
-      <img :src="imgSrc" />
+      <img :src="camera.src" alt="" />
     </div>
   </div>
 </template>

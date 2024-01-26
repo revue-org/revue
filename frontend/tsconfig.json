@@ -14,5 +14,9 @@
     "rootDir": ".",
     "outDir": "./dist",
     "baseUrl": ".",
+    "lib": [
+      "es6",
+      "DOM"
+    ]
   }
 }

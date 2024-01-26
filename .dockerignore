@@ -12,3 +12,4 @@ docs
 .github
 .git
 .gradle
+.DS_Store

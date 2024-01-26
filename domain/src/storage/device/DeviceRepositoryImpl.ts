@@ -44,6 +44,24 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     }
   }
 
+  async getCameraByCode(code: string): Promise<Camera> {
+    return this.cameraModel.findOne({
+      _id: {
+        type: DeviceTypeConverter.convertToString(DeviceType.CAMERA),
+        code: code
+      }
+    }) as unknown as Camera
+  }
+
+  async getSensorByCode(code: string): Promise<Sensor> {
+    return this.sensorModel.findOne({
+      _id: {
+        type: DeviceTypeConverter.convertToString(DeviceType.SENSOR),
+        code: code
+      }
+    }) as unknown as Sensor
+  }
+
   async insertCamera(camera: Camera): Promise<void> {
     await this.cameraModel
       .create({

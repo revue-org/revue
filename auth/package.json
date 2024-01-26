@@ -6,7 +6,8 @@
   "description": "Authentication microservice",
   "main": "dist/src/index.js",
   "scripts": {
-    "start": "npm run build && node --experimental-specifier-resolution=node .",
+    "serve": "node .",
+    "dev": "npm run build && node NODE_ENV=develop --env-file=../.env .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon --experimental-specifier-resolution=node .",
     "test": "vitest --run",

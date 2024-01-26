@@ -2,22 +2,33 @@ version: '3.8'
 
 services:
 
-  monitoring:
-    image: monitoring
-    container_name: monitoring
+  revue-monitoring:
+    image: revue-monitoring
+    container_name: revue-monitoring
     build:
-      context: ../
+      context: .
       dockerfile: ./monitoring/Dockerfile
     restart: on-failure
     ports:
-      - '3000:3000'
+      - ${MONITORING_PORT}:${MONITORING_PORT}
+    depends_on:
+      - revue-monitoring-db
+      - ${KAFKA_CONTAINER}
 
-  db:
+  revue-monitoring-db:
     image: mongo
-    container_name: monitoring-db
+    container_name: ${MONITORING_DB_HOST}
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONITORING_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONITORING_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONITORING_DB_NAME}
     ports:
-      - '27017:27017'
+      - ${MONITORING_DB_PORT}:27017
+    volumes:
+      - monitoring_data:/data/db
+      - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
+
+volumes:
+  monitoring_data:
+    driver: local

@@ -2,6 +2,7 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,6 +10,12 @@ export default defineConfig({
   plugins: [
     // the resolving is in tsconfig.shared.json using this plugin
     tsconfigPaths(),
+    nodePolyfills({
+      exclude: [
+        'domain', // Excludes the polyfill for `http` and `node:http`.
+      ],
+    }),
+
     vue({
       template: { transformAssetUrls }
     }),

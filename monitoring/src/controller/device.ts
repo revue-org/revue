@@ -14,6 +14,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { Resolution } from '@domain/device/core/Resolution.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
+import { DeviceType } from 'domain/dist/domain/device/core'
 
 export const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 export const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
@@ -22,10 +23,14 @@ const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const deviceController = {
-  getDeviceById: async (type: string, code: string): Promise<Device> => {
-    return await deviceManager.getDeviceById(
-      deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(type), code)
-    )
+  getDeviceById: async (type: DeviceType, code: string): Promise<Device> => {
+    return await deviceManager.getDeviceById(deviceIdFactory.createId(type, code))
+  },
+  getCameraByCode: async (code: string): Promise<Camera> => {
+    return await deviceManager.getCameraByCode(code)
+  },
+  getSensorByCode: async (code: string): Promise<Sensor> => {
+    return await deviceManager.getSensorByCode(code)
   },
   getCameras: async (): Promise<Camera[]> => {
     return await deviceManager.getCameras()

@@ -2,8 +2,8 @@ import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
-// import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
+import { produce } from './producer.js'
 
 config()
 
@@ -11,7 +11,12 @@ export const app: Express = express()
 
 app.use(express.json())
 
-const PORT: number = Number(process.env.PORT) || 4001
+if (process.env.CAMERA_CODE === undefined) {
+  console.log('No camera code provided')
+  process.exit(1)
+}
+export const CAMERA_CODE: string = process.env.CAMERA_CODE
+const PORT: number = Number(process.env.CAMERA_PORT) || 5001
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -40,27 +45,12 @@ const mongoConnect = async () => {
     .catch((e) => console.log(e))
 }
 
-import { Kafka, Partitioners, Producer } from 'kafkajs'
-
 if (process.env.NODE_ENV === 'test') {
   // mongoConnect()
 } else {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Camera server listening on ${PORT}`)
     // mongoConnect()
-
-    const kafka: Kafka = new Kafka({
-      clientId: 'my-app',
-      brokers: ['localhost:9092']
-    })
-
-    const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
-    await producer.connect()
-    await producer
-      .send({
-        topic: 'test-topic',
-        messages: [{ value: 'Hello KafkaJS user!' }]
-      })
-      .catch((err) => console.error(err))
+    await produce()
   })
 }

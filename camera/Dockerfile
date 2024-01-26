@@ -19,31 +19,24 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
-RUN gradle monitoring:build --no-daemon --info
 
-#CMD ls monitoring/node_modules/domain
-#CMD gradle monitoring:start --no-daemon --info
+RUN gradle camera:build --no-daemon --info --parallel
+
 
 FROM node:20-alpine as production
 LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue
 
-COPY --from=build /home/revue/monitoring monitoring
+COPY --from=build /home/revue/.env camera/.env
+COPY --from=build /home/revue/camera camera
 COPY --from=build /home/revue/domain domain
 
 RUN apk add dumb-init && apk add --update npm
 
-WORKDIR /home/revue/monitoring
+WORKDIR /home/revue/camera
 
-EXPOSE 3000
-
-#RUN cd node_modules
-#RUN cd domain
-# Start the application with privileges of user "node" for security reasons
-#USER node
+EXPOSE $CAMERA_PORT
 
 # Run dumb-init as first process, which will have PID 1, then run node command to start the application
-CMD ["npm", "run", "serve" ]
-#CMD ls
-
+CMD ["dumb-init", "npm", "run", "serve" ]

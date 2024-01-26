@@ -29,6 +29,7 @@ defineProps<{
         <q-icon v-else name="circle" color="red" size="2em" />
       </div>
       <span v-if="securityRule.deviceId.type == DeviceType.SENSOR">
+        <i>{{ securityRule.deviceId.code }} -</i>
         <i
           :style="{
             color: getMeasureColor((securityRule as ExceedingRule).measure)
@@ -37,10 +38,10 @@ defineProps<{
         >
       </span>
       <span v-else>
+        <i>{{ securityRule.deviceId.code }} -</i>
         {{ ObjectClass[(securityRule as IntrusionRule).objectClass] }}
       </span>
     </header>
-    <span> Active on device: {{ securityRule.deviceId.code }} </span>
     <ul :class="DeviceType[securityRule.deviceId.type].toLowerCase()">
       <li v-if="securityRule.deviceId.type == DeviceType.SENSOR">
         <i>min val: </i>{{ (securityRule as ExceedingRule).min }} <i>min val: </i
@@ -113,7 +114,7 @@ button {
 ul {
   @media (min-width: 576px) {
     &.sensor {
-      height: 100px;
+      height: 130px;
     }
 
     &.camera {
@@ -123,6 +124,7 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  margin-top: 25px;
   margin-left: 7px;
   list-style-type: none;
   padding: 0;

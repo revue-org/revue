@@ -10,10 +10,10 @@ services:
       dockerfile: ./monitoring/Dockerfile
     restart: on-failure
     ports:
-      - '${MONITORING_PORT}:${MONITORING_PORT}'
+      - ${MONITORING_PORT}:${MONITORING_PORT}
     depends_on:
       - revue-monitoring-db
-      - revue-kafka
+      - ${KAFKA_CONTAINER}
 
   revue-monitoring-db:
     image: mongo
@@ -24,7 +24,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONITORING_DB_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONITORING_DB_NAME}
     ports:
-      - '${MONITORING_DB_PORT}:${MONITORING_DB_PORT}'
+      - ${MONITORING_DB_PORT}:${MONITORING_DB_PORT}
     volumes:
       - monitoring_data:/data/db
       - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js

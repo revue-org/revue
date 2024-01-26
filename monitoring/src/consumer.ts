@@ -1,9 +1,10 @@
 import { Socket } from 'socket.io'
-// @ts-ignore
-import ss from 'socket.io-stream'
 import { Consumer, Kafka } from 'kafkajs'
 import { io } from './index.js'
 import * as console from 'console'
+
+const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const consumers: { id: string; consumer: Consumer }[] = []
 
@@ -16,7 +17,7 @@ export const setupConsumers = async (): Promise<void> => {
 
   const kafka: Kafka = new Kafka({
     clientId: 'monitoring',
-    brokers: ['revue-kafka:9092']
+    brokers: [`${kafkaContainer}:${kafkaPort}`]
   })
 
   io.on('connection', async (socket: Socket): Promise<void> => {

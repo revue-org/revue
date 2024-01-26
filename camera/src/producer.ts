@@ -1,14 +1,14 @@
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import path from 'path'
 import * as fs from 'fs'
-import { config } from 'dotenv'
 import { CAMERA_CODE } from './index.js'
 
-config()
+const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const kafka: Kafka = new Kafka({
   clientId: 'camera', // TODO: Change this to Device ID
-  brokers: ['revue-kafka:9092']
+  brokers: [`${kafkaContainer}:${kafkaPort}`]
 })
 
 export const produce = async (): Promise<void> => {

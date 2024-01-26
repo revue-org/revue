@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
 
@@ -12,9 +12,9 @@ services:
     environment:
       - CAMERA_CODE=cam-01
     ports:
-      - "${CAMERA_PORT_1}:${CAMERA_PORT_1}"
+      - ${CAMERA_PORT_1}:${CAMERA_PORT_1}
     depends_on:
-      - revue-kafka
+      - ${KAFKA_CONTAINER}
 
   revue-camera-2:
     image: revue-camera
@@ -26,9 +26,9 @@ services:
     environment:
       - CAMERA_CODE=cam-02
     ports:
-      - "${CAMERA_PORT_2}:${CAMERA_PORT_2}"
+      - ${CAMERA_PORT_2}:${CAMERA_PORT_2}
     depends_on:
-      - revue-kafka
+      - ${KAFKA_CONTAINER}
 
   revue-camera-3:
     image: revue-camera
@@ -40,6 +40,6 @@ services:
     environment:
       - CAMERA_CODE=cam-03
     ports:
-      - "${CAMERA_PORT_3}:${CAMERA_PORT_3}"
+      - ${CAMERA_PORT_3}:${CAMERA_PORT_3}
     depends_on:
-      - revue-kafka
+      - ${KAFKA_CONTAINER}

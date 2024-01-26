@@ -6,15 +6,15 @@ services:
     image: bitnami/zookeeper:latest
     container_name: revue-zookeeper
     ports:
-      - '${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}'
+      - ${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   revue-kafka:
     image: bitnami/kafka:latest
-    container_name: revue-kafka
+    container_name: ${KAFKA_CONTAINER}
     ports:
-      - '${KAFKA_PORT}:${KAFKA_PORT}'
+      - ${KAFKA_PORT}:${KAFKA_PORT}
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092

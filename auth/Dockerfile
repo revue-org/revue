@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
-RUN gradle alarm:build --no-daemon --info --parallel
+RUN gradle auth:build --no-daemon --info --parallel
 
 
 FROM node:20-alpine as production
@@ -27,13 +27,13 @@ LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue
 
-COPY --from=build /home/revue/.env alarm/.env
-COPY --from=build /home/revue/alarm alarm
+COPY --from=build /home/revue/.env auth/.env
+COPY --from=build /home/revue/auth auth
 COPY --from=build /home/revue/domain domain
 
 RUN apk add dumb-init && apk add --update npm
 
-WORKDIR /home/revue/alarm
+WORKDIR /home/revue/auth
 
 EXPOSE $MONITORING_PORT
 

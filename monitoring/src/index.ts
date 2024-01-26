@@ -7,6 +7,7 @@ import { setupConsumers } from './consumer.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
 import { config } from 'dotenv'
+
 config()
 
 const app: Express = express()
@@ -35,13 +36,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/devices', deviceRouter)
 
-const mongoConnect = async () => {
-  const port: string = process.env.MONITORING_DB_PORT || '27017'
+const mongoConnect = async (): Promise<void> => {
+  const port: string = process.env.MONITORING_DB_PORT || '27018'
   const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
   const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
-  const host: string = process.env.MONITORING_DB_HOST || 'localhost'
+  const host: string = (process.env.NODE_ENV === 'develop') ? 'localhost' : process.env.MONITORING_DB_HOST || 'localhost'
   const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
   const connectionString: string = `mongodb://${username}:${password}@${host}:${port}/${dbName}?authSource=admin`
+  console.log(connectionString)
   await mongoose
     .connect(connectionString)
     .then(async (): Promise<void> => {
@@ -62,6 +64,8 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   server.listen(PORT, async (): Promise<void> => {
     await mongoConnect()
-    await setupConsumers()
+    if (process.env.NODE_ENV !== 'develop') {
+      await setupConsumers()
+    }
   })
 }

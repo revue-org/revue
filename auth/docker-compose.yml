@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+
+  revue-auth:
+    image: revue-auth
+    container_name: revue-auth
+    build:
+      context: .
+      dockerfile: ./auth/Dockerfile
+    restart: on-failure
+    ports:
+      - ${AUTH_PORT}:${AUTH_PORT}
+    depends_on:
+      - revue-auth-db
+      - ${KAFKA_CONTAINER}
+
+  revue-auth-db:
+    image: mongo
+    container_name: ${AUTH_DB_HOST}
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${AUTH_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${AUTH_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${AUTH_DB_NAME}
+    ports:
+      - ${AUTH_DB_PORT}:27017
+    volumes:
+      - auth_data:/data/db
+#      - ./auth/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
+
+volumes:
+  auth_data:
+    driver: local

@@ -7,7 +7,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",
-    "start": "npm run build && node .",
+    "dev": "npm run build && NODE_ENV=develop node --env-file=../.env .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
     "test": "vitest --run",

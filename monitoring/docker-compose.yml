@@ -24,7 +24,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONITORING_DB_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONITORING_DB_NAME}
     ports:
-      - ${MONITORING_DB_PORT}:${MONITORING_DB_PORT}
+      - ${MONITORING_DB_PORT}:27017
     volumes:
       - monitoring_data:/data/db
       - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js

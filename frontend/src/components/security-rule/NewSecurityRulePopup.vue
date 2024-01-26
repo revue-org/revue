@@ -79,12 +79,12 @@ const optionsCameraCodes = ref([
 
 const optionsSensorCodes = ref([
   {
-    label: 'Camera 1',
-    value: 'Camera 1'
+    label: 'Sensor 1',
+    value: 'Sensor 1'
   },
   {
-    label: 'Camera 2',
-    value: 'Camera 2'
+    label: 'Sensor 2',
+    value: 'Sensor 2'
   }
 ])
 
@@ -149,7 +149,7 @@ const addNewSecurityRule = () => {
           <q-select v-model="code" :options="optionsSensorCodes" label="Sensor code" />
         </q-card-section>
         <q-option-group
-          style="display: flex"
+          style="display: flex; flex-direction: column"
           v-model="measure"
           :options="optionsMeasure"
           type="radio"

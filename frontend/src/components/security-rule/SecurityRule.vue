@@ -114,11 +114,11 @@ button {
 ul {
   @media (min-width: 576px) {
     &.sensor {
-      height: 130px;
+      height: 150px;
     }
 
     &.camera {
-      height: 100px;
+      height: 130px;
     }
   }
   display: flex;

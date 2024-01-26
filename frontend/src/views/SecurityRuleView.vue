@@ -15,6 +15,7 @@ import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/De
 import { ContactType } from 'domain/dist/domain/monitoring/core'
 import { Measure } from 'domain/dist/domain/device/core'
 import SecurityRule from '@/components/security-rule/SecurityRule.vue'
+import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -47,30 +48,24 @@ const intrusionSecurityRules: ref<IntrusionRule[]> = ref([
   )
 ])
 
-/*
-const deleteSensor = (sensor: Sensor) => {
-  const index = sensors.value.findIndex((s: Sensor) => s.deviceId === sensor.deviceId)
-  if (index !== -1) {
-    sensors.value.splice(index, 1)
-  }
-}
-const deleteCamera = (camera: Camera) => {
-  const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
-  if (index !== -1) {
-    cameras.value.splice(index, 1)
-  }
-}
-const getDevices = () => {
-  console.log('getDevices')
-  return [...sensors.value, ...cameras.value]
-}
-*/
-const deleteSecurityRule = (securityRyle: SecurityRule) => {
+const deleteIntrusionRule = (intrusionRule: IntrusionRule) => {
   /*const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
   if (index !== -1) {
     cameras.value.splice(index, 1)
   }*/
-  console.log("Elimina security rule")
+  console.log('Elimina intrusion rule')
+}
+
+const deleteExceedingRule = (exceedingRule: ExceedingRule) => {
+  /*const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
+  if (index !== -1) {
+    cameras.value.splice(index, 1)
+  }*/
+  console.log('Elimina exceeding rule')
+}
+
+const getSecurityRules = () => {
+  console.log('get security rules')
 }
 
 const popupVisible = ref<boolean>(false)
@@ -81,26 +76,28 @@ const popupVisible = ref<boolean>(false)
     <q-btn label="Add a security rule" color="primary" @click="popupVisible = true" />
   </div>
 
-  <h2>Exceedings security rules:</h2>
-
+  <h2>Sensor alarms:</h2>
   <div class="exceeding-rules-container">
     <security-rule
       v-for="exceedingRule in exceedingsSecurityRules"
       :security-rule="exceedingRule"
+      @delete-security-rule="deleteExceedingRule(exceedingRule)"
     />
   </div>
 
-  <h2>Intrusions security rules:</h2>
+  <h2>Camera alarms:</h2>
   <div class="intrusion-rules-container">
-    <security-rule v-for="intrusionRule in intrusionSecurityRules" :security-rule="intrusionRule"
-                   @delete-security-rule="deleteSecurityRule()"/>
+    <security-rule
+      v-for="intrusionRule in intrusionSecurityRules"
+      :security-rule="intrusionRule"
+      @delete-security-rule="deleteIntrusionRule(intrusionRule)"
+    />
   </div>
-  <!--      :key="camera.deviceId"
-        :device="camera"
-        @delete-camera="deleteCamera"-->
-  <!--
-    <new-security-rule-popup v-model="popupVisible" @update-devices="getDevices"></new-security-rule-popup>
-  -->
+
+  <new-security-rule-popup
+    v-model="popupVisible"
+    @update-security-rules="getSecurityRules"
+  ></new-security-rule-popup>
 </template>
 
 <style scoped lang="scss">

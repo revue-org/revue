@@ -24,7 +24,6 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor> {
-    console.log(deviceId)
     switch (deviceId.type) {
       case DeviceType.CAMERA:
         return this.cameraModel.findOne({

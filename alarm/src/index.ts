@@ -28,29 +28,24 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-//app.use(indexRouter)
 app.use('/notifications', notificationRouter)
 app.use('/anomalies', anomalyRouter)
 app.use('/recognizing-nodes', recognizingNodeRouter)
 app.use('/security-rules', securityRuleRouter)
 
-const mongoConnect = async () => {
-  const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+const mongoConnect = async (): Promise<void> => {
+  const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
     .connect(connectionString)
-    .then(async () => {
-      console.log(
-        `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
-      )
+    .then(async (): Promise<void> => {
+      console.log(`Authentication server connected to db ${process.env.DB_NAME}`)
     })
     .catch((e) => console.log(e))
 }
 
-if (process.env.NODE_ENV === 'test') {
-  mongoConnect()
-} else {
-  app.listen(PORT, (): void => {
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)
-    mongoConnect()
+    await mongoConnect()
   })
 }

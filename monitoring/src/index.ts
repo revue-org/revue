@@ -1,15 +1,13 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
-import path, { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { indexRouter } from './routes/index.js'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
-import { config } from 'dotenv'
 import { setupConsumers } from './consumer.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
+import { config } from 'dotenv'
+config()
 
 const app: Express = express()
 const server: HttpServer = http.createServer(app)
@@ -18,29 +16,24 @@ export const io: SocketIOServer = new SocketIOServer(server, {
     origin: 'http://localhost:3000'
   }
 })
-config()
-
-export const __dirname: string = dirname(fileURLToPath(import.meta.url)) + '/../../'
 
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'client')))
 
-const PORT: number = Number(process.env.MONITORING_PORT) || 3001
+const PORT: number = Number(process.env.MONITORING_PORT) || 4000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
 
-  if (token !== process.env.DEV_API_KEY) {
+  if (token === process.env.DEV_API_KEY) return next()
+  if (token === undefined) return res.status(403).send({ error: 'No authentication token' })
+  else {
+    console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)
-  } else {
-    console.log('Develop authentication token: ' + token)
-    return next()
   }
 })
 
-app.use(indexRouter)
-app.use('/device', deviceRouter)
+app.use('/devices', deviceRouter)
 
 const mongoConnect = async () => {
   const port: string = process.env.MONITORING_DB_PORT || '27017'
@@ -51,13 +44,24 @@ const mongoConnect = async () => {
   const connectionString: string = `mongodb://${username}:${password}@${host}:${port}/${dbName}?authSource=admin`
   await mongoose
     .connect(connectionString)
-    .then(async () => {
-      console.log(`Monitoring server listening on port ${PORT}`)
+    .then(async (): Promise<void> => {
+      console.log(`Connected to Mongo DB ${dbName} at ${host}`)
     })
-    .catch((e) => console.log(e))
+    .catch((err): void => {
+      console.log(err)
+      throw err
+    })
 }
 
-server.listen(PORT, async (): Promise<void> => {
-  await mongoConnect()
-  setupConsumers()
-})
+if (process.env.NODE_ENV !== 'test') {
+  server.listen(PORT, async (): Promise<void> => {
+    console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
+    await mongoConnect()
+    await setupConsumers()
+  })
+} else {
+  server.listen(PORT, async (): Promise<void> => {
+    await mongoConnect()
+    await setupConsumers()
+  })
+}

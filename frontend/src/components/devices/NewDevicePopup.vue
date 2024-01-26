@@ -83,16 +83,16 @@ const addNewDevice = () => {
       <div v-if="deviceType == DeviceType.CAMERA">
         <q-card-section class="q-pt-none resolution">
           <label>Resolution</label>
-          <q-input v-model="width" placeholder="Width" />
+          <q-input type="number" v-model="width" placeholder="Width" />
           <span>x</span>
-          <q-input v-model="height" placeholder="Height" />
+          <q-input type="number" v-model="height" placeholder="Height" />
         </q-card-section>
       </div>
 
       <div v-if="deviceType == DeviceType.SENSOR">
         <q-card-section class="q-pt-none">
           <label>Acquisition rate (ms)</label>
-          <q-input v-model="intervalMillis" />
+          <q-input type="number" v-model="intervalMillis" />
         </q-card-section>
         <q-option-group
           style="display: flex"

@@ -16,8 +16,8 @@ import { Resolution } from '@domain/device/core/Resolution.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceType } from 'domain/dist/domain/device/core'
 
-const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
-const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
+export const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
+export const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
 const deviceManager: DeviceRepository = new DeviceRepositoryImpl(cameraModel, sensorModel)
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -44,7 +44,7 @@ export const deviceController = {
     resolution: Resolution
   ): Promise<void> => {
     if ((await deviceManager.getDeviceById(deviceId)) !== null) {
-      throw new Error('Camera already present')
+      throw new Error('Camera already present' + deviceId.code + ' ' + deviceId.type.toString())
     }
     return await deviceManager.insertCamera(
       deviceFactory.createCamera(deviceId, ipAddress, resolution)

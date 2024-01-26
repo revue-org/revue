@@ -7,7 +7,7 @@ import { User } from '@domain/monitoring/core/User.js'
 import { UserFactory } from '@domain/monitoring/factories/UserFactory.js'
 import { UserFactoryImpl } from '@domain/monitoring/factories/impl/UserFactoryImpl.js'
 
-const userModel: Model<User> = model<User>('User', userSchema, 'user')
+export const userModel: Model<User> = model<User>('User', userSchema, 'user')
 const userManager: UserRepository = new UserRepositoryImpl(userModel)
 const userFactory: UserFactory = new UserFactoryImpl()
 
@@ -27,7 +27,7 @@ export const userController = {
       req.body.password,
       req.body.token,
       req.body.refreshToken,
-      req.body.contact,
+      req.body.contacts,
       req.body.deviceIds
     )
     return await userManager.insertUser(user)
@@ -41,7 +41,7 @@ export const userController = {
       req.body.password,
       req.body.token,
       req.body.refreshToken,
-      req.body.contact,
+      req.body.contacts,
       req.body.deviceIds
     )
     return await userManager.updateUser(user)

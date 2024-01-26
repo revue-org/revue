@@ -5,6 +5,8 @@ import MonitoringView from '@/views/MonitoringView.vue'
 import DevicesView from '@/views/DevicesView.vue'
 import HomeView from '@/views/HomeView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import NotificationView from '@/views/NotificationView.vue'
+import SecurityRuleView from '@/views/SecurityRuleView.vue'
 
 const router = createRouter({
   history: createWebHistory('/'),
@@ -32,6 +34,16 @@ const router = createRouter({
           path: 'monitoring',
           name: 'Monitoring',
           component: MonitoringView
+        },
+        {
+          path: 'alarms',
+          name: 'Alarms',
+          component: SecurityRuleView
+        },
+        {
+          path: 'notifications',
+          name: 'Notifications',
+          component: NotificationView
         }
       ]
     },

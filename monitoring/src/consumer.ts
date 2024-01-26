@@ -1,7 +1,6 @@
 import { Socket } from 'socket.io'
 import { Consumer, Kafka } from 'kafkajs'
 import { io } from './index.js'
-import * as console from 'console'
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'

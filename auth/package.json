@@ -7,7 +7,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",
-    "dev": "npm run build && node NODE_ENV=develop --env-file=../.env .",
+    "dev": "npm run build && NODE_ENV=develop node --env-file=../.env .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon --experimental-specifier-resolution=node .",
     "test": "vitest --run",

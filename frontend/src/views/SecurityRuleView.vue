@@ -4,11 +4,11 @@ import { onMounted, ref } from 'vue'
 import type { SecurityRuleFactory } from '@domain/security-rule/factories/SecurityRuleFactory'
 import { SecurityRuleFactoryImpl } from '@domain/security-rule/factories/impl/SecurityRuleFactoryImpl'
 import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/security-rule/core'
-import type { DeviceIdFactory } from 'domain/dist/domain/device/factories'
-import type { ContactFactory } from 'domain/dist/domain/monitoring/factories'
-import { ContactFactoryImpl } from 'domain/dist/domain/monitoring/factories/impl/ContactFactoryImpl'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl'
-import { type Contact } from 'domain/dist/domain/monitoring/core'
+import type { DeviceIdFactory } from '@domain/device/factories'
+import type { ContactFactory } from '@domain/monitoring/factories'
+import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
+import { type Contact } from '@domain/monitoring/core'
 import SecurityRule from '@/components/security-rule/SecurityRule.vue'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
 import { RequestHelper } from '@/utils/RequestHelper'
@@ -127,7 +127,7 @@ const popupVisible = ref<boolean>(false)
     />
   </div>
 
-  <!-- da correggere que get in update, ma prima da fare creazione.-->
+  <!-- da correggere quel get in update, ma prima da fare creazione.-->
   <new-security-rule-popup
     v-model="popupVisible"
     @update-security-rules="getExceedingSecurityRules"

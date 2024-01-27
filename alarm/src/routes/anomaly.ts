@@ -43,6 +43,7 @@ anomalyRouter.route('/:id').get((req: Request, res: Response): void => {
       res.send({ error: 'No anomaly found' })
     })
 })
+
 anomalyRouter.route('/exceedings').post((req: Request, res: Response): void => {
   anomalyController
     .createExceeding(

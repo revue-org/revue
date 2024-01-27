@@ -12,9 +12,11 @@ config()
 
 const app: Express = express()
 const server: HttpServer = http.createServer(app)
+
+const frontendPort: string = process.env.FRONTEND_PORT || '8080'
 export const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: 'http://localhost:8080'
+    origin: `http://localhost:${frontendPort}`
   }
 })
 

@@ -20,7 +20,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     *)
-      echo $1
+      echo "$1"
       services+=("$1")
       shift
       ;;

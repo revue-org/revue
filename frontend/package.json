@@ -6,7 +6,7 @@
   "description": "Frontend microservice",
   "main": "src/main.ts",
   "scripts": {
-    "serve": "serve -s dist",
+    "serve": "serve -s dist -l 8080",
     "build": "vite build",
     "preview": "vite build && vite preview",
     "dev": "vite",

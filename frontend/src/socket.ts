@@ -10,11 +10,11 @@ const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 console.log(`connect to ${monitoringUrl}`)
 export const socket: Socket = io(`${monitoringUrl}`)
 
-socket.on('connect', () => {
+socket.on('connect', (): void => {
   state.connected = true
   console.log('connected')
 })
 
-socket.on('disconnect', () => {
+socket.on('disconnect', (): void => {
   state.connected = false
 })

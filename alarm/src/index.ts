@@ -14,7 +14,7 @@ config()
 export const app: Express = express()
 
 app.use(express.json())
-app.use(cors());
+app.use(cors())
 
 const PORT: number = Number(process.env.PORT) || 4000
 
@@ -40,8 +40,11 @@ const mongoConnect = async (): Promise<void> => {
   const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
   const host: string =
     process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
+  const dbPort: string =
+    process.env.NODE_ENV === 'develop'
+      ? process.env.ALARM_DB_PORT || '27017'
+      : process.env.DEFAULT_DB_PORT || '27017'
   const dbName: string = process.env.ALARM_DB_NAME || 'monitoring'
-  const dbPort: string = process.env.NODE_ENV === 'develop' ? process.env.ALARM_DB_PORT || '27017' : process.env.DEFAULT_DB_PORT || '27017'
   const connectionString: string = `mongodb://${username}:${password}@${host}:${dbPort}/${dbName}?authSource=admin`
   console.log(connectionString)
   await mongoose

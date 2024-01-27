@@ -43,8 +43,12 @@ const mongoConnect = async (): Promise<void> => {
   const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
   const host: string =
     process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.MONITORING_DB_HOST || 'localhost'
+  const dbPort: string =
+    process.env.NODE_ENV === 'develop'
+      ? process.env.MONITORING_DB_PORT || '27017'
+      : process.env.DEFAULT_DB_PORT || '27017'
   const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
-  const connectionString: string = `mongodb://${username}:${password}@${host}:27017/${dbName}?authSource=admin`
+  const connectionString: string = `mongodb://${username}:${password}@${host}:${dbPort}/${dbName}?authSource=admin`
   console.log(connectionString)
   await mongoose
     .connect(connectionString)

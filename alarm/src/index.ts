@@ -34,11 +34,17 @@ app.use('/recognizing-nodes', recognizingNodeRouter)
 app.use('/security-rules', securityRuleRouter)
 
 const mongoConnect = async (): Promise<void> => {
-  const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+  const username: string = process.env.ALARM_DB_USERNAME || 'admin'
+  const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
+  const host: string =
+    process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
+  const dbName: string = process.env.ALARM_DB_NAME || 'monitoring'
+  const connectionString: string = `mongodb://${username}:${password}@${host}:27017/${dbName}?authSource=admin`
+  console.log(connectionString)
   await mongoose
     .connect(connectionString)
     .then(async (): Promise<void> => {
-      console.log(`Authentication server connected to db ${process.env.DB_NAME}`)
+      console.log(`Connected to Mongo DB ${dbName} at ${host}`)
     })
     .catch((e) => console.log(e))
 }

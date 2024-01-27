@@ -12,9 +12,11 @@ config()
 
 const app: Express = express()
 const server: HttpServer = http.createServer(app)
+
+const frontendPort: string = process.env.FRONTEND_PORT || '8080'
 export const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: 'http://localhost:3000'
+    origin: `http://localhost:${frontendPort}`
   }
 })
 
@@ -37,13 +39,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/devices', deviceRouter)
 
 const mongoConnect = async (): Promise<void> => {
-  const port: string = process.env.MONITORING_DB_PORT || '27018'
   const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
   const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
   const host: string =
     process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.MONITORING_DB_HOST || 'localhost'
   const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
-  const connectionString: string = `mongodb://${username}:${password}@${host}:${port}/${dbName}?authSource=admin`
+  const connectionString: string = `mongodb://${username}:${password}@${host}:27017/${dbName}?authSource=admin`
   console.log(connectionString)
   await mongoose
     .connect(connectionString)

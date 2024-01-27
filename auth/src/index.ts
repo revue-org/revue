@@ -1,13 +1,11 @@
-import type { Express, Request, Response } from 'express'
+import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
 import { userAccessRouter } from './routes/userAccess.js'
 import { userRouter } from './routes/user.js'
-import { Connect } from 'vite'
 import { jwtManager } from './utils/JWTManager.js'
-import NextFunction = Connect.NextFunction
 import HttpStatusCode from './utils/HttpStatusCode.js'
 
 export const app: Express = express()
@@ -34,11 +32,17 @@ app.use('/', userAccessRouter)
 app.use('/users', userRouter)
 
 const mongoConnect = async (): Promise<void> => {
-  const connectionString: string = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+  const username: string = process.env.AUTH_DB_USERNAME || 'admin'
+  const password: string = process.env.AUTH_DB_PASSWORD || 'admin'
+  const host: string =
+    process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.AUTH_DB_HOST || 'localhost'
+  const dbName: string = process.env.AUTH_DB_NAME || 'monitoring'
+  const connectionString: string = `mongodb://${username}:${password}@${host}:27017/${dbName}?authSource=admin`
+  console.log(connectionString)
   await mongoose
     .connect(connectionString)
     .then(async () => {
-      console.log(`Authentication server connected to db ${process.env.DB_NAME}`)
+      console.log(`Connected to Mongo DB ${dbName} at ${host}`)
     })
     .catch((e) => console.log(e))
 }
@@ -46,7 +50,7 @@ const mongoConnect = async (): Promise<void> => {
 if (process.env.NODE_ENV !== 'test') {
   //const server =
   app.listen(PORT, async (): Promise<void> => {
-    console.log(`Alarm server listening on http://${process.env.DB_HOST}:${PORT}`)
+    console.log(`Auth server listening on http://${process.env.DB_HOST}:${PORT}`)
     await mongoConnect()
   })
 }

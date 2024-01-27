@@ -7,9 +7,14 @@ import { userAccessRouter } from './routes/userAccess.js'
 import { userRouter } from './routes/user.js'
 import { jwtManager } from './utils/JWTManager.js'
 import HttpStatusCode from './utils/HttpStatusCode.js'
+import cors from 'cors'
+
+config()
 
 export const app: Express = express()
+
 app.use(express.json())
+app.use(cors())
 
 config()
 

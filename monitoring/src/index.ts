@@ -7,10 +7,12 @@ import { setupConsumers } from './consumer.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
 import { config } from 'dotenv'
+import cors from 'cors'
 
 config()
 
 const app: Express = express()
+app.use(cors())
 const server: HttpServer = http.createServer(app)
 
 const frontendPort: string = process.env.FRONTEND_PORT || '8080'

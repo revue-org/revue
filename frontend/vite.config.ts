@@ -12,8 +12,8 @@ export default defineConfig({
     tsconfigPaths(),
     nodePolyfills({
       exclude: [
-        'domain', // Excludes the polyfill for `http` and `node:http`.
-      ],
+        'domain' // Excludes the polyfill for `http` and `node:http`.
+      ]
     }),
 
     vue({
@@ -26,9 +26,10 @@ export default defineConfig({
     })
   ],
   server: {
-    port: 3000
+    port: 8080
   },
   preview: {
-    port: 3000,
-  }
+    port: 8080
+  },
+  envDir: (process.env.NODE_ENV === 'development') ? '../' : './'
 })

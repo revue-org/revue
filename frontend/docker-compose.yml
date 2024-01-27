@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+
+  revue-frontend:
+    image: revue-frontend
+    container_name: revue-frontend
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    restart: on-failure
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}

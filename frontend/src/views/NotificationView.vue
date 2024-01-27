@@ -15,7 +15,7 @@ import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import type { Exceeding, Intrusion } from 'domain/dist/domain/anomaly/core'
-import { DeviceType } from "domain/dist/domain/device/core";
+import { DeviceType } from 'domain/dist/domain/device/core'
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()

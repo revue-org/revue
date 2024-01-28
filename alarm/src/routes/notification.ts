@@ -16,8 +16,7 @@ notificationRouter.route('/').get((req: Request, res: Response): void => {
     .then((notifications: Notification[]): void => {
       res.status(HttpStatusCode.OK).send(notifications)
     })
-    .catch((err): void => {
-      console.log(err)
+    .catch((): void => {
       res.send({ error: 'No notifications found' })
     })
 })

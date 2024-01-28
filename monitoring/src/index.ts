@@ -10,7 +10,7 @@ import { config } from 'dotenv'
 
 config()
 
-const app: Express = express()
+export const app: Express = express()
 const server: HttpServer = http.createServer(app)
 
 const frontendPort: string = process.env.FRONTEND_PORT || '8080'

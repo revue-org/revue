@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express'
-import { deviceController } from '@/controller/device.js'
+import { deviceController } from '../controller/device.js'
 import { Camera } from '@domain/device/core/Camera.js'
 import { Sensor } from '@domain/device/core/Sensor.js'
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'

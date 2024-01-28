@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-class RequestHelper {
+export class RequestHelper {
   static headers(): { headers: any } {
     return {
       headers: { Authorization: `Bearer apikey-dev` } //TOKEN TO RETRIEVE FROM WHERE IS STORED

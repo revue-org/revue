@@ -38,8 +38,8 @@ defineProps<{
         >
       </span>
       <span v-else>
-        <i>{{ securityRule.deviceId.code }} -</i>
-        {{ ObjectClass[(securityRule as IntrusionRule).objectClass] }}
+        <i>{{ securityRule.deviceId.code }} -</i
+        >{{ ObjectClass[(securityRule as IntrusionRule).objectClass] }}
       </span>
     </header>
     <ul :class="DeviceType[securityRule.deviceId.type].toLowerCase()">
@@ -52,10 +52,6 @@ defineProps<{
         <i>Active from: </i>{{ securityRule.from.toLocaleString().split(' ')[1] }} <i>to: </i
         >{{ securityRule.to.toLocaleString().split(' ')[1] }}
       </li>
-      <!--      <li v-if="securityRule.deviceId.type == DeviceType.CAMERA">
-              <i>Resolution: </i
-              >{{ (device as Camera).resolution.width + 'x' + (device as Camera).resolution.height }}
-            </li>-->
       <li>{{ securityRule.description }}</li>
 
       <li class="actions">

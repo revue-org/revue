@@ -61,7 +61,8 @@ securityRuleRouter.route('/exceedings').post((req: Request, res: Response): void
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Exceeding rule created' })
     })
-    .catch((): void => {
+    .catch((err): void => {
+      console.log(err)
       res.send({ error: 'Exceeding rule not created' })
     })
 })

@@ -7,6 +7,8 @@ export class ObjectClassConverter {
         return ObjectClass.ANIMAL
       case 'PERSON':
         return ObjectClass.PERSON
+      case 'VEHICLE':
+        return ObjectClass.VEHICLE
       default:
         throw new Error('Object class not found')
     }
@@ -18,6 +20,8 @@ export class ObjectClassConverter {
         return 'ANIMAL'
       case ObjectClass.PERSON:
         return 'PERSON'
+      case ObjectClass.VEHICLE:
+        return 'VEHICLE'
       default:
         throw new Error('Object class not found')
     }

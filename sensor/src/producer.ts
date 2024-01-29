@@ -19,7 +19,7 @@ const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const kafka: Kafka = new Kafka({
-  clientId: `SENSOR-${SENSOR_CODE}`,
+  clientId: `SENSOR_${SENSOR_CODE}`,
   brokers: [`${kafkaContainer}:${kafkaPort}`]
 })
 
@@ -58,8 +58,6 @@ export const produce = async (): Promise<void> => {
       index++
     }
   }, sourceDevice.intervalMillis)
-  console.log('Sending image ' + index)
-  console.log(`SENSOR_${SENSOR_CODE}`)
 }
 
 const getMeasureUnit = (measure: Measure): MeasureUnit => {

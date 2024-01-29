@@ -8,14 +8,8 @@ import { produce } from './producer.js'
 config()
 
 export const app: Express = express()
-
 app.use(express.json())
 
-if (process.env.CAMERA_CODE === undefined) {
-  console.log('No camera code provided')
-  process.exit(1)
-}
-export const CAMERA_CODE: string = process.env.CAMERA_CODE
 const PORT: number = Number(process.env.CAMERA_PORT) || 5001
 
 app.use((req: Request, res: Response, next: NextFunction) => {

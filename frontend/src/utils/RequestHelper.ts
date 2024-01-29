@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse } from 'axios'
+import axios, { type AxiosResponse, HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
@@ -10,43 +10,47 @@ const userStore = () => {
 
 type Headers = {
   headers: {
-    Authorization: string;
-  };
-};
+    Authorization: string
+  }
+}
 
 const authHost: string = import.meta.env.VITE_AUTH_HOST || 'localhost'
 const authPort: string = import.meta.env.VITE_AUTH_PORT || '4000'
 
 class RequestHelper {
-
   getHeaders(): Headers {
-    return { headers: { Authorization: userStore().accessToken } }
+    return { headers: { Authorization: `Bearer ${userStore().accessToken}` } }
   }
 
   async login(username: string, password: string): Promise<void> {
+    console.log("faccio login")
     this.post(`http://${authHost}:${authPort}/login`, {
       username: username,
       password: password
     }).then((res): void => {
-      console.log(res.status)
-      userStore().username = username
-      userStore().accessToken = res.data.accessToken
-      userStore().refreshToken = res.data.refreshToken
-      userStore().isLoggedIn = true
-      router.push('/')
+      if (res.status == AxiosHttpStatusCode.Ok) {
+        userStore().username = username
+        userStore().accessToken = res.data.accessToken
+        userStore().refreshToken = res.data.refreshToken
+        userStore().isLoggedIn = true
+        router.push('/')
+      } else {
+        console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
+      }
     })
+      .catch((err): void => console.log(err))
   }
 
   async logout(): Promise<void> {
     this.post(`http://${authHost}:${authPort}/logout`, {
       username: userStore().username
     }).then((res): void => {
-      console.log(res.status)
-      userStore().username = ''
-      userStore().accessToken = ''
-      userStore().refreshToken = ''
-      userStore().isLoggedIn = false
-      router.push('/login')
+      if (res.status == AxiosHttpStatusCode.Ok) {
+        useUserStore().clearFields()
+        router.push('/login')
+      } else {
+        console.log(`Logout failed with status code ${res.status} and message ${res.data.message}`)
+      }
     })
   }
 

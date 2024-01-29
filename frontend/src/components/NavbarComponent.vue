@@ -18,16 +18,14 @@ const navbarExpanded = ref(false)
     </div>
     <router-link to="/" :class="routeName == 'Home' ? 'selected home' : 'home'">Home</router-link>
     <router-link to="/monitoring" :class="routeName == 'Monitoring' ? 'selected' : ''"
-    >Monitoring
-    </router-link
-    >
+      >Monitoring
+    </router-link>
     <router-link to="/devices" :class="routeName == 'Devices' ? 'selected' : ''"
-    >Devices
-    </router-link
-    >
+      >Devices
+    </router-link>
     <router-link to="/alarms" :class="routeName == 'Alarms' ? 'selected' : ''">Alarms</router-link>
     <router-link to="/notifications" :class="routeName == 'Notifications' ? 'selected' : ''"
-    >Notifications
+      >Notifications
     </router-link>
     <router-link to="/login" class="logout" @click="requestHelper.logout()">Logout</router-link>
   </nav>

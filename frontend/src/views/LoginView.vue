@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-// import { useUserStore } from '@/stores/user'
 import requestHelper from '@/utils/RequestHelper'
 
 const username = ref('')
 const password = ref('')
-
 </script>
 
 <template>

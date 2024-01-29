@@ -13,7 +13,6 @@ import 'quasar/src/css/index.sass'
 import '@/assets/main.scss'
 import { useUserStore } from '@/stores/user'
 
-
 const app = createApp(App)
 const pinia: Pinia = createPinia()
 pinia.use(piniaPluginPersistedstate) // here you are applying a package to the second instance that is not the one which is connected to the vue app.
@@ -21,6 +20,7 @@ app.use(pinia)
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
+  console.log(`isLoggedIn: ${userStore.isLoggedIn}`)
   if (to.name != 'Login' && !userStore.isLoggedIn) next('/login')
   else if (to.name == 'Login' && userStore.isLoggedIn) next('/')
   else next()

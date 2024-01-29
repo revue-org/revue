@@ -15,7 +15,7 @@ type Headers = {
 export const authHost: string = import.meta.env.VITE_AUTH_HOST || 'localhost'
 export const authPort: string = import.meta.env.VITE_AUTH_PORT || '4000'
 
-class RequestHelper {
+export default class RequestHelper {
   static getHeaders(): Headers {
     return { headers: { Authorization: `Bearer ${userStore().accessToken}` } }
   }
@@ -37,6 +37,3 @@ class RequestHelper {
     return await axios.delete(url, body)
   }
 }
-
-// const requestHelper: RequestHelper = new RequestHelper()
-export default RequestHelper

@@ -6,10 +6,10 @@ import { Exceeding } from '../../../anomaly/core/Exceeding.js'
 
 export class NotificationFactoryImpl implements NotificationFactory {
   createExceedingNotification(id: string = '', exceeding: Exceeding): Notification {
-    return new NotificationImpl(id, new Date(), exceeding)
+    return new NotificationImpl(id, exceeding.timestamp, exceeding)
   }
 
   createIntrusionNotification(id: string = '', intrusion: Intrusion): Notification {
-    return new NotificationImpl(id, new Date(), intrusion)
+    return new NotificationImpl(id, intrusion.timestamp, intrusion)
   }
 }

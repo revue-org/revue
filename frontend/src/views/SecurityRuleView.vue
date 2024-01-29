@@ -1,72 +1,105 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { SecurityRuleFactory } from '@domain/security-rule/factories/SecurityRuleFactory'
 import { SecurityRuleFactoryImpl } from '@domain/security-rule/factories/impl/SecurityRuleFactoryImpl'
-import {
-  type ExceedingRule,
-  type IntrusionRule,
-  ObjectClass
-} from 'domain/dist/domain/security-rule/core'
-import type { DeviceIdFactory } from 'domain/dist/domain/device/factories'
-import type { ContactFactory } from 'domain/dist/domain/monitoring/factories'
-import { ContactFactoryImpl } from 'domain/dist/domain/monitoring/factories/impl/ContactFactoryImpl'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl'
-import { ContactType } from 'domain/dist/domain/monitoring/core'
-import { Measure } from 'domain/dist/domain/device/core'
+import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/security-rule/core'
+import type { DeviceIdFactory } from '@domain/device/factories'
+import type { ContactFactory } from '@domain/monitoring/factories'
+import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
+import { type Contact } from '@domain/monitoring/core'
 import SecurityRule from '@/components/security-rule/SecurityRule.vue'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
+import RequestHelper from '@/utils/RequestHelper'
+import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const contactFactory: ContactFactory = new ContactFactoryImpl()
 
-const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([
-  securityRuleFactory.createExceedingRule(
-    0,
-    100,
-    Measure.TEMPERATURE,
-    'securityRuleId',
-    deviceIdFactory.createSensorId('Sensor 1'),
-    'creatorId',
-    [contactFactory.createContact('creatorId', 'mail@gmail.com', ContactType.EMAIL)],
-    'descrizione regola di sicurezza exceeding',
-    new Date(),
-    new Date()
+const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([])
+
+const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
+
+const getExceedingSecurityRules = async () => {
+  await RequestHelper.get('http://localhost:4000/security-rules/exceedings')
+    .then((res: any) => {
+      for (let i = 0; i < res.data.length; i++) {
+        if (res.data[i].deviceId.type == 'SENSOR')
+          // to remove
+          exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const getIntrusionSecurityRules = async () => {
+  await RequestHelper.get('http://localhost:4000/security-rules/intrusions')
+    .then((res: any) => {
+      for (let i = 0; i < res.data.length; i++) {
+        if (res.data[i].deviceId.type == 'CAMERA')
+          // to remove
+          intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+function composeExceedingSecurityRule(exceedingRule: any): ExceedingRule {
+  return securityRuleFactory.createExceedingRule(
+    exceedingRule.minValue,
+    exceedingRule.maxValue,
+    MeasureConverter.convertToMeasure(exceedingRule.measure),
+    exceedingRule._id,
+    deviceIdFactory.createSensorId(exceedingRule.deviceId.code),
+    exceedingRule.creatorId,
+    composeContacts(exceedingRule.contacts),
+    exceedingRule.description,
+    new Date(exceedingRule.from),
+    new Date(exceedingRule.to)
   )
-])
-const intrusionSecurityRules: ref<IntrusionRule[]> = ref([
-  securityRuleFactory.createIntrusionRule(
-    ObjectClass.PERSON,
-    'securityRuleId',
-    deviceIdFactory.createCameraId('Camera 1'),
-    'creatorId',
-    [contactFactory.createContact('creatorId', '3333333333', ContactType.SMS)],
-    'descrizione regola di sicurezza intrusion',
-    new Date(),
-    new Date()
+}
+
+function composeIntrusionSecurityRule(intrusionRule: any): IntrusionRule {
+  return securityRuleFactory.createIntrusionRule(
+    ObjectClassConverter.convertToObjectClass(intrusionRule.objectClass),
+    intrusionRule._id,
+    deviceIdFactory.createCameraId(intrusionRule.deviceId.code),
+    intrusionRule.creatorId,
+    composeContacts(intrusionRule.contacts),
+    intrusionRule.description,
+    new Date(intrusionRule.from),
+    new Date(intrusionRule.to)
   )
-])
+}
+
+function composeContacts(contacts: any): Contact[] {
+  return contacts.map((contact: any) => {
+    return contactFactory.createContact(
+      contact._id,
+      contact.value,
+      ContactTypeConverter.convertToContactType(contact.type)
+    )
+  })
+}
 
 const deleteIntrusionRule = (intrusionRule: IntrusionRule) => {
-  /*const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
-  if (index !== -1) {
-    cameras.value.splice(index, 1)
-  }*/
   console.log('Elimina intrusion rule')
 }
 
 const deleteExceedingRule = (exceedingRule: ExceedingRule) => {
-  /*const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
-  if (index !== -1) {
-    cameras.value.splice(index, 1)
-  }*/
   console.log('Elimina exceeding rule')
 }
 
-const getSecurityRules = () => {
-  console.log('get security rules')
-}
+onMounted(async () => {
+  await getExceedingSecurityRules()
+  await getIntrusionSecurityRules()
+})
 
 const popupVisible = ref<boolean>(false)
 </script>
@@ -88,15 +121,16 @@ const popupVisible = ref<boolean>(false)
   <h2>Camera alarms:</h2>
   <div class="intrusion-rules-container">
     <security-rule
-      v-for="intrusionRule in intrusionSecurityRules"
+      v-for="intrusionRule in intrusionsSecurityRules"
       :security-rule="intrusionRule"
       @delete-security-rule="deleteIntrusionRule(intrusionRule)"
     />
   </div>
 
+  <!-- da correggere quel get in update, ma prima da fare creazione.-->
   <new-security-rule-popup
     v-model="popupVisible"
-    @update-security-rules="getSecurityRules"
+    @update-security-rules="getExceedingSecurityRules"
   ></new-security-rule-popup>
 </template>
 

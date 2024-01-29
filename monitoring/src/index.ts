@@ -1,16 +1,19 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
+import { config } from 'dotenv'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
 import { setupConsumers } from './consumer.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
-import { config } from 'dotenv'
 
 config()
 
 export const app: Express = express()
+app.use(cors())
+
 const server: HttpServer = http.createServer(app)
 
 const frontendPort: string = process.env.FRONTEND_PORT || '8080'
@@ -43,8 +46,12 @@ const mongoConnect = async (): Promise<void> => {
   const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
   const host: string =
     process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.MONITORING_DB_HOST || 'localhost'
+  const dbPort: string =
+    process.env.NODE_ENV === 'develop'
+      ? process.env.MONITORING_DB_PORT || '27017'
+      : process.env.DEFAULT_DB_PORT || '27017'
   const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
-  const connectionString: string = `mongodb://${username}:${password}@${host}:27017/${dbName}?authSource=admin`
+  const connectionString: string = `mongodb://${username}:${password}@${host}:${dbPort}/${dbName}?authSource=admin`
   console.log(connectionString)
   await mongoose
     .connect(connectionString)

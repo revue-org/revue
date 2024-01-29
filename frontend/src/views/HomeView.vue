@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Measure, type Sensor } from '@domain/device/core'
-
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
-import { useUserStore } from '@/stores/user'
-
-// useUserStore().clearFields()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()

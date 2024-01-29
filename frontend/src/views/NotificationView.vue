@@ -1,43 +1,88 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Measure, type Sensor } from '@domain/device/core'
+import { onMounted, ref } from 'vue'
 
-import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
+import type { Exceeding, Intrusion } from '@domain/anomaly/core'
+import type { Notification } from '@domain/alarm-system/core'
+import { DeviceType } from '@domain/device/core'
+
+import { type AnomalyFactory, AnomalyFactoryImpl } from '@domain/anomaly/factories'
+import { type DeviceIdFactory, DeviceIdFactoryImpl } from '@domain/device/factories'
+import { type NotificationFactory, NotificationFactoryImpl } from '@domain/alarm-system/factories'
+
+import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
+import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
+import { MeasureConverter } from '@utils/MeasureConverter.js'
+import RequestHelper from '@/utils/RequestHelper'
+
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
-import {
-  type NotificationFactory,
-  NotificationFactoryImpl
-} from 'domain/dist/domain/alarm-system/factories'
-import { type AnomalyFactory, AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories'
-import type { Notification } from 'domain/dist/domain/alarm-system/core'
-import { ObjectClass } from 'domain/dist/domain/security-rule/core'
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
-const notifications: ref<Notification[]> = [
-  notificationFactory.createExceedingNotification(
-    '',
-    anomalyFactory.createExceeding(
-      '',
-      deviceIdFactory.createSensorId('Codice Sensore'),
-      new Date(),
-      Measure.PRESSURE,
-      100
-    )
-  ),
-  notificationFactory.createIntrusionNotification(
-    '',
-    anomalyFactory.createIntrusion(
-      '',
-      deviceIdFactory.createCameraId('Codice Camera'),
-      new Date(),
-      ObjectClass.PERSON
-    )
+let notifications: ref<Notification[]> = ref<Notification[]>([])
+
+async function getNotifications() {
+  await RequestHelper.get('http://localhost:4000/notifications')
+    .then((res: any) => {
+      for (let i = 0; i < res.data.length; i++) {
+        composeNotification(res.data[i])
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+async function composeNotification(notification: any) {
+  await RequestHelper.get('http://localhost:4000/anomalies/' + notification.anomalyId)
+    .then((anomaly: any) => {
+      switch (DeviceTypeConverter.convertToDeviceType(anomaly.data.deviceId.type)) {
+        case DeviceType.CAMERA:
+          notifications.value.push(
+            notificationFactory.createIntrusionNotification(
+              notification._id,
+              composeIntrusion(anomaly.data)
+            )
+          )
+          break
+        case DeviceType.SENSOR:
+          notifications.value.push(
+            notificationFactory.createExceedingNotification(
+              notification._id,
+              composeExceeding(anomaly.data)
+            )
+          )
+          break
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+function composeIntrusion(intrusion: any): Intrusion {
+  return anomalyFactory.createIntrusion(
+    intrusion._id,
+    deviceIdFactory.createCameraId(intrusion.deviceId.code),
+    new Date(intrusion.timestamp),
+    ObjectClassConverter.convertToObjectClass(intrusion.intrusionObject)
   )
-]
+}
+
+function composeExceeding(exceeding: any): Exceeding {
+  return anomalyFactory.createExceeding(
+    exceeding._id,
+    deviceIdFactory.createSensorId(exceeding.deviceId.code),
+    new Date(exceeding.timestamp),
+    MeasureConverter.convertToMeasure(exceeding.measure),
+    exceeding.value
+  )
+}
+
+onMounted(async () => {
+  await getNotifications()
+})
 </script>
 
 <template>

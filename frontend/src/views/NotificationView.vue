@@ -4,16 +4,13 @@ import { onMounted, ref } from 'vue'
 import type { Exceeding, Intrusion } from '@domain/anomaly/core'
 import type { Notification } from '@domain/alarm-system/core'
 import { DeviceType } from '@domain/device/core'
-
 import { type AnomalyFactory, AnomalyFactoryImpl } from '@domain/anomaly/factories'
 import { type DeviceIdFactory, DeviceIdFactoryImpl } from '@domain/device/factories'
 import { type NotificationFactory, NotificationFactoryImpl } from '@domain/alarm-system/factories'
-
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
-import RequestHelper from '@/utils/RequestHelper'
-
+import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
@@ -23,7 +20,7 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 let notifications: ref<Notification[]> = ref<Notification[]>([])
 
 async function getNotifications() {
-  await RequestHelper.get('http://localhost:4000/notifications')
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/notifications`)
     .then((res: any) => {
       for (let i = 0; i < res.data.length; i++) {
         composeNotification(res.data[i])
@@ -35,7 +32,7 @@ async function getNotifications() {
 }
 
 async function composeNotification(notification: any) {
-  await RequestHelper.get('http://localhost:4000/anomalies/' + notification.anomalyId)
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/anomalies/` + notification.anomalyId)
     .then((anomaly: any) => {
       switch (DeviceTypeConverter.convertToDeviceType(anomaly.data.deviceId.type)) {
         case DeviceType.CAMERA:

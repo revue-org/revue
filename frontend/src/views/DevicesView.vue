@@ -22,6 +22,7 @@ import RequestHelper from "@/utils/RequestHelper";
 import type { Contact } from "domain/dist/domain/monitoring/core";
 import { ContactTypeConverter, MeasureConverter } from "domain/dist/utils";
 import type { ExceedingRule } from "domain/dist/domain/security-rule/core";
+import { monitoringHost, monitoringPort } from "@/utils/RequestHelper";
 
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
@@ -30,12 +31,11 @@ const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
 const sensors: ref<Sensor[]> = ref([])
-
 const cameras: ref<Camera[]> = ref([])
 
 const getSensors = async () => {
   console.log('getSensors')
-  await RequestHelper.get('http://localhost:4001/devices/sensors')
+  await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
     .then((res: any) => {
       sensors.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -49,7 +49,7 @@ const getSensors = async () => {
 }
 const getCameras = async () => {
   console.log('getCameras')
-  await RequestHelper.get('http://localhost:4001/devices/cameras')
+  await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
     .then((res: any) => {
       cameras.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -88,7 +88,7 @@ function composeMeasure(measures: any): Measure[] {
 const deleteSensor = async (sensor: Sensor) => {
   console.log(sensor.deviceId.type, sensor.deviceId.code)
   await RequestHelper.delete(
-    'http://localhost:4001/devices/sensors/' + sensor.deviceId.code
+    `http://${monitoringHost}:${monitoringPort}/devices/sensors/` + sensor.deviceId.code
   )
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
@@ -100,7 +100,7 @@ const deleteSensor = async (sensor: Sensor) => {
 }
 const deleteCamera = async (camera: Camera) => {
   await RequestHelper.delete(
-    'http://localhost:4001/devices/cameras/' + camera.deviceId.code
+    `http://${monitoringHost}:${monitoringPort}/devices/cameras/` + camera.deviceId.code
   )
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP

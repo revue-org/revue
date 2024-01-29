@@ -47,8 +47,7 @@ export class UserRepositoryImpl implements UserRepository {
           }
         })
       })
-      .catch((err) => {
-        console.log(err)
+      .catch((err): void => {
         throw err
       })
   }

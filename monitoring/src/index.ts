@@ -59,7 +59,6 @@ const mongoConnect = async (): Promise<void> => {
       console.log(`Connected to Mongo DB ${dbName} at ${host}`)
     })
     .catch((err): void => {
-      console.log(err)
       throw err
     })
 }

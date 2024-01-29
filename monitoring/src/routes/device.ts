@@ -98,8 +98,7 @@ deviceRouter.route('/cameras').put((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Camera correctly updated' })
     })
-    .catch((err): void => {
-      console.log(err)
+    .catch((): void => {
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Camera not updated' })
     })
 })
@@ -115,8 +114,7 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Sensor correctly updated' })
     })
-    .catch((err): void => {
-      console.log(err)
+    .catch((): void => {
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Sensor not updated' })
     })
 })

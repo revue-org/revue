@@ -21,7 +21,6 @@ export const setupConsumers = async (): Promise<void> => {
 
   io.on('connection', async (socket: Socket): Promise<void> => {
     console.log('A client connected', socket.id)
-    console.log('Consumers', consumers)
 
     socket.on('disconnect', () => {
       getConsumerById(socket.id).disconnect()
@@ -48,6 +47,8 @@ export const setupConsumers = async (): Promise<void> => {
     })
 
     socket.on('subscribe', async (topics: string[]): Promise<void> => {
+      console.log('Subscribing to topics', topics)
+      console.log('Consumers:', consumers)
       if (!consumers.find((c): boolean => c.id === socket.id)) {
         const consumer: Consumer = kafka.consumer({ groupId: socket.id })
         await consumer.connect()
@@ -63,18 +64,16 @@ export const setupConsumers = async (): Promise<void> => {
                 value: messageValue,
                 key: JSON.parse(messageKey.toString())
               })
-              socket.emit('stream', { topic: topic, frame: messageValue.toString() })
+              console.log(messageValue)
+              if (topic.startsWith('CAMERA')) {
+                socket.emit('stream', { topic: topic, frame: messageValue.toString() })
+              } else if (topic.startsWith('SENSOR')) {
+                socket.emit('env-data', { topic: topic, data: messageValue.toString() })
+              }
             }
           })
           .then(() => console.log('Consumer running'))
       }
-    })
-
-    socket.on('get-stream', async (): Promise<void> => {
-      console.log('ciao')
-      // const kafkaStream = ss.createStream()
-
-      // await consumer.disconnect()
     })
   })
 }

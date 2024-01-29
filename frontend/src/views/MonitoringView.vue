@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue'
 import { socket, state } from '@/socket'
+import { useTopicsStore } from '@/stores/topics'
 
+const topicsStore = useTopicsStore()
 const cameras = ref<{ code: string; src: string }[]>([
   { code: 'cam-01', src: '' },
   { code: 'cam-02', src: '' },
@@ -13,16 +15,25 @@ console.log(state)
 const topics = computed(() => cameras.value.map((camera) => 'CAMERA_' + camera.code))
 
 console.log(topics.value)
-socket.emit('subscribe', topics.value)
-
-onBeforeUnmount(() => {
-  console.log('unmount', topics.value)
-  socket.emit('pause', topics.value)
-})
 
 onBeforeMount(() => {
-  console.log('mount', topics.value)
-  socket.emit('resume', topics.value)
+  for (const topic of topics.value) {
+    if (!topicsStore.subscribedTopics.includes(topic)) {
+      socket.emit('subscribe', topics)
+    } else {
+      console.log('Resume to', topics)
+    }
+    topicsStore.addTopic(topic)
+  }
+})
+
+onBeforeUnmount(() => {
+  for (const topic of topics.value) {
+    if (topicsStore.subscribedTopics.includes(topic)) {
+      socket.emit('pause', topics)
+    }
+    topicsStore.removeTopic(topic)
+  }
 })
 
 socket.on('stream', (newFrame: { topic: string; frame: string }) => {

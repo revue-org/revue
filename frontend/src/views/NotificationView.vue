@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-import type { DeviceIdFactory } from '@domain/device/factories'
-import { DeviceIdFactoryImpl } from '@domain/device/factories'
-import NotificationBadge from '@/components/notification/NotificationBadge.vue'
-import {
-  type NotificationFactory,
-  NotificationFactoryImpl
-} from 'domain/dist/domain/alarm-system/factories'
-import { type AnomalyFactory, AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories'
-import type { Notification } from 'domain/dist/domain/alarm-system/core'
-import { RequestHelper } from '@/utils/RequestHelper.js'
+import type { Exceeding, Intrusion } from '@domain/anomaly/core'
+import type { Notification } from '@domain/alarm-system/core'
+import { DeviceType } from '@domain/device/core'
+
+import { type AnomalyFactory, AnomalyFactoryImpl } from '@domain/anomaly/factories'
+import { type DeviceIdFactory, DeviceIdFactoryImpl } from '@domain/device/factories'
+import { type NotificationFactory, NotificationFactoryImpl } from '@domain/alarm-system/factories'
+
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
-import type { Exceeding, Intrusion } from 'domain/dist/domain/anomaly/core'
-import { DeviceType } from 'domain/dist/domain/device/core'
+import RequestHelper from '@/utils/RequestHelper'
+
+import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()

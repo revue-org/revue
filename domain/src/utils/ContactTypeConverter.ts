@@ -1,4 +1,4 @@
-import { ContactType } from '../domain/monitoring/core/impl/ContactType.js'
+import { ContactType } from '../domain/monitoring/core/impl/enum/ContactType.js'
 
 export class ContactTypeConverter {
   static convertToContactType(type: String): ContactType {

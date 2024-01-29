@@ -13,7 +13,6 @@ services:
       - ${AUTH_PORT}:${AUTH_PORT}
     depends_on:
       - revue-auth-db
-      - ${KAFKA_CONTAINER}
 
   revue-auth-db:
     image: mongo

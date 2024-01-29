@@ -1,18 +1,19 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
+import { config } from 'dotenv'
 import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
 import { setupConsumers } from './consumer.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
-import { config } from 'dotenv'
-import cors from 'cors'
 
 config()
 
-const app: Express = express()
+export const app: Express = express()
 app.use(cors())
+
 const server: HttpServer = http.createServer(app)
 
 const frontendPort: string = process.env.FRONTEND_PORT || '8080'
@@ -58,7 +59,6 @@ const mongoConnect = async (): Promise<void> => {
       console.log(`Connected to Mongo DB ${dbName} at ${host}`)
     })
     .catch((err): void => {
-      console.log(err)
       throw err
     })
 }

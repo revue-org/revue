@@ -1,16 +1,40 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import { HttpStatusCode as AxiosHttpStatusCode } from 'axios'
+import router from '@/router'
 import { useUserStore } from '@/stores/user'
 
 const username = ref('')
 const password = ref('')
+
+const userStore = useUserStore()
+
+const login = () => {
+  RequestHelper.post(`http://${authHost}:${authPort}/login`, {
+    username: username.value,
+    password: password.value
+  })
+    .then((res): void => {
+      if (res.status == AxiosHttpStatusCode.Ok) {
+        userStore.username = username.value
+        userStore.accessToken = res.data.accessToken
+        userStore.refreshToken = res.data.refreshToken
+        userStore.isLoggedIn = true
+        router.push('/home')
+      } else {
+        console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
+      }
+    })
+    .catch((err): void => console.log(err))
+}
 </script>
 
 <template>
   <div>
     <div class="login-container">
       <h1>Login</h1>
-      <form @submit.prevent="useUserStore().login()">
+      <form @submit.prevent="login()">
         <label for="username">Username:</label>
         <input type="text" v-model="username" id="username" autocomplete="true" required />
         <label for="password">Password:</label>
@@ -26,6 +50,7 @@ div {
   height: 100vh;
 
   /* Add your component-specific styles here */
+
   .login-container {
     max-width: 300px;
     display: flex;

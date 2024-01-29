@@ -17,15 +17,19 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   }
 
   async getExceedingRules(): Promise<ExceedingRule[]> {
-    return this.exceedingRuleModel.find({
-      'deviceId.type': 'SENSOR'
-    }).orFail()
+    return this.exceedingRuleModel
+      .find({
+        'deviceId.type': 'SENSOR'
+      })
+      .orFail()
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.intrusionRuleModel.find({
-      'deviceId.type': 'CAMERA'
-    }).orFail()
+    return this.intrusionRuleModel
+      .find({
+        'deviceId.type': 'CAMERA'
+      })
+      .orFail()
   }
 
   async getSecurityRuleById(securityRuleId: string): Promise<SecurityRule> {

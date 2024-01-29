@@ -19,15 +19,19 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
   }
 
   async getExceedings(): Promise<Exceeding[]> {
-    return this.exceedingModel.find({
-      'deviceId.type': 'SENSOR'
-    }).orFail()
+    return this.exceedingModel
+      .find({
+        'deviceId.type': 'SENSOR'
+      })
+      .orFail()
   }
 
   async getIntrusions(): Promise<Intrusion[]> {
-    return this.intrusionModel.find({
-      'deviceId.type': 'CAMERA'
-    }).orFail()
+    return this.intrusionModel
+      .find({
+        'deviceId.type': 'CAMERA'
+      })
+      .orFail()
   }
 
   async getAnomalyById(anomalyId: string): Promise<Anomaly> {

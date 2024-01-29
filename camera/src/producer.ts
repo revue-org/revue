@@ -7,7 +7,7 @@ const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const kafka: Kafka = new Kafka({
-  clientId: 'camera', // TODO: Change this to Device ID
+  clientId: `CAMERA-${CAMERA_CODE}`,
   brokers: [`${kafkaContainer}:${kafkaPort}`]
 })
 

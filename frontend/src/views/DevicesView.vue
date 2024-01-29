@@ -1,6 +1,6 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from "vue";
 
 import SensorBadge from '@/components/devices/DeviceBadge.vue'
 import type {
@@ -18,6 +18,10 @@ import {
 import type { Camera, EnvironmentData, Sensor } from '@domain/device/core'
 import { Measure, MeasureUnit } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
+import RequestHelper from "@/utils/RequestHelper";
+import type { Contact } from "domain/dist/domain/monitoring/core";
+import { ContactTypeConverter, MeasureConverter } from "domain/dist/utils";
+import type { ExceedingRule } from "domain/dist/domain/security-rule/core";
 
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
@@ -25,55 +29,92 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
-const sensors: ref<Sensor[]> = ref([
-  deviceFactory.createSensor(deviceIdFactory.createSensorId('Sensor 1'), '192.168.1.10', 5, [
-    Measure.HUMIDITY,
-    Measure.TEMPERATURE,
-    Measure.PRESSURE
-  ]),
-  deviceFactory.createSensor(deviceIdFactory.createSensorId('Sensor 2'), '192.168.1.11', 5, [
-    Measure.TEMPERATURE,
-    Measure.PRESSURE
-  ])
-])
+const sensors: ref<Sensor[]> = ref([])
 
-const environmentData: EnvironmentData = environmentDataFactory.createEnvironmentData(
-  deviceIdFactory.createSensorId('Sensor 1'),
-  20,
-  Measure.PRESSURE,
-  MeasureUnit.PASCAL,
-  new Date()
-)
+const cameras: ref<Camera[]> = ref([])
 
-const cameras: ref<Camera[]> = ref([
-  deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('Camera 1'),
-    '192.168.1.13',
-    resolutionFactory.createResolution(1920, 1080)
-  ),
-  deviceFactory.createCamera(
-    deviceIdFactory.createCameraId('Camera 2'),
-    '192.168.1.14',
-    resolutionFactory.createResolution(1920, 1080)
+const getSensors = async () => {
+  console.log('getSensors')
+  await RequestHelper.get('http://localhost:4001/devices/sensors')
+    .then((res: any) => {
+      sensors.value = []
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data[i])
+        sensors.value.push(composeSensor(res.data[i]))
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+const getCameras = async () => {
+  console.log('getCameras')
+  await RequestHelper.get('http://localhost:4001/devices/cameras')
+    .then((res: any) => {
+      cameras.value = []
+      for (let i = 0; i < res.data.length; i++) {
+        cameras.value.push(composeCamera(res.data[i]))
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const composeSensor = (sensor: any): Sensor => {
+  console.log(composeMeasure(sensor.measures))
+  return deviceFactory.createSensor(
+    deviceIdFactory.createSensorId(sensor._id.code),
+    sensor.ipAddress,
+    sensor.intervalMillis,
+    composeMeasure(sensor.measures)
   )
-])
+}
 
-const deleteSensor = (sensor: Sensor) => {
-  const index = sensors.value.findIndex((s: Sensor) => s.deviceId === sensor.deviceId)
-  if (index !== -1) {
-    sensors.value.splice(index, 1)
-  }
+const composeCamera = (camera: any): Camera => {
+  return deviceFactory.createCamera(
+    deviceIdFactory.createCameraId(camera._id.code),
+    camera.ipAddress,
+    resolutionFactory.createResolution(camera.resolution.width, camera.resolution.height)
+  )
 }
-const deleteCamera = (camera: Camera) => {
-  const index = cameras.value.findIndex((s: Camera) => s.deviceId === camera.deviceId)
-  if (index !== -1) {
-    cameras.value.splice(index, 1)
-  }
+
+function composeMeasure(measures: any): Measure[] {
+  return measures.map((measure: any) => {
+    return MeasureConverter.convertToMeasure(measure)
+  })
 }
-const getDevices = () => {
-  console.log('getDevices')
-  return [...sensors.value, ...cameras.value]
+
+const deleteSensor = async (sensor: Sensor) => {
+  console.log(sensor.deviceId.type, sensor.deviceId.code)
+  await RequestHelper.delete(
+    'http://localhost:4001/devices/sensors/' + sensor.deviceId.code
+  )
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getSensors()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
+const deleteCamera = async (camera: Camera) => {
+  await RequestHelper.delete(
+    'http://localhost:4001/devices/cameras/' + camera.deviceId.code
+  )
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getCameras()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+onMounted(async () => {
+  await getSensors()
+  await getCameras()
+})
 
 const popupVisible = ref<boolean>(false)
 </script>
@@ -104,7 +145,8 @@ const popupVisible = ref<boolean>(false)
     />
   </div>
 
-  <new-device-popup v-model="popupVisible" @update-devices="getDevices"></new-device-popup>
+<!--  to check!!-->
+  <new-device-popup v-model="popupVisible" @update-devices="getSensors"></new-device-popup>
 </template>
 
 <style scoped lang="scss">

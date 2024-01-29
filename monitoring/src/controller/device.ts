@@ -11,7 +11,6 @@ import { DeviceFactory } from '@domain/device/factories/DeviceFactory.js'
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { Resolution } from '@domain/device/core/Resolution.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceType } from 'domain/dist/domain/device/core'
@@ -82,9 +81,10 @@ export const deviceController = {
       deviceFactory.createSensor(deviceId, ipAddress, intervalMillis, measures)
     )
   },
-  deleteDevice: async (type: string, code: string): Promise<void> => {
-    return await deviceManager.deleteDevice(
-      deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(type), code)
-    )
+  deleteCamera: async (code: string): Promise<void> => {
+    return await deviceManager.deleteCamera(code)
+  },
+  deleteSensor: async (code: string): Promise<void> => {
+    return await deviceManager.deleteSensor(code)
   }
 }

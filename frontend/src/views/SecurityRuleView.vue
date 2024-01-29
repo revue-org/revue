@@ -92,7 +92,6 @@ const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
   )
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
-      await getExceedingSecurityRules()
       await getIntrusionSecurityRules()
     })
     .catch((error) => {
@@ -107,7 +106,6 @@ const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
       await getExceedingSecurityRules()
-      await getIntrusionSecurityRules()
     })
     .catch((error) => {
       console.log(error)

@@ -119,13 +119,24 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
     })
 })
 
-deviceRouter.route('/').delete((req: Request, res: Response): void => {
+deviceRouter.route('/cameras/:code').delete((req: Request, res: Response): void => {
   deviceController
-    .deleteDevice(req.body.type, req.body.code)
+    .deleteCamera(req.params.code)
     .then((): void => {
-      res.status(HttpStatusCode.OK).send({ success: 'Device correctly deleted' })
+      res.status(HttpStatusCode.OK).send({ success: 'Sensor correctly deleted' })
     })
     .catch((): void => {
-      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not deleted' })
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Sensor not deleted' })
+    })
+})
+
+deviceRouter.route('/sensors/:code').delete((req: Request, res: Response): void => {
+  deviceController
+    .deleteSensor(req.params.code)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send({ success: 'Camera correctly deleted' })
+    })
+    .catch((): void => {
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Camera not deleted' })
     })
 })

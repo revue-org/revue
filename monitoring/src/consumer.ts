@@ -7,9 +7,9 @@ const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const consumers: { id: string; consumer: Consumer }[] = []
 
-const getConsumerById = (id: string): Consumer => {
+/*const getConsumerById = (id: string): Consumer => {
   return consumers.find((c): boolean => c.id === id)!.consumer
-}
+}*/
 
 export const setupConsumers = async (): Promise<void> => {
   console.log('Setting up consumers')
@@ -24,27 +24,27 @@ export const setupConsumers = async (): Promise<void> => {
     console.log('Consumers', consumers)
 
     socket.on('disconnect', () => {
-      getConsumerById(socket.id).disconnect()
+/*      getConsumerById(socket.id).disconnect()
       consumers.splice(
         consumers.findIndex((c): boolean => c.id === socket.id),
         1
-      )
+      )*/
       console.log('A client disconnected', socket.id)
       console.log('Consumers', consumers)
     })
 
     socket.on('pause', async (topics: string[]): Promise<void> => {
       console.log('Pausing topics', topics)
-      getConsumerById(socket.id).pause(
+/*      getConsumerById(socket.id).pause(
         topics.map((topic: string): { topic: string } => ({ topic }))
-      )
+      )*/
     })
 
     socket.on('resume', async (topics: string[]): Promise<void> => {
       console.log('Resuming topics', topics)
-      getConsumerById(socket.id).resume(
+/*      getConsumerById(socket.id).resume(
         topics.map((topic: string): { topic: string } => ({ topic }))
-      )
+      )*/
     })
 
     socket.on('subscribe', async (topics: string[]): Promise<void> => {

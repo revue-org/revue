@@ -27,9 +27,7 @@ const getExceedingSecurityRules = async () => {
     .then((res: any) => {
       exceedingsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].deviceId.type == 'SENSOR')
-          // to remove
-          exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
+        exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
       }
     })
     .catch((error) => {
@@ -42,9 +40,7 @@ const getIntrusionSecurityRules = async () => {
     .then((res: any) => {
       intrusionsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].deviceId.type == 'CAMERA')
-          // to remove
-          intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
+        intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
       }
     })
     .catch((error) => {

@@ -24,7 +24,7 @@ const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([])
 const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
 
 const getExceedingSecurityRules = async () => {
-  await RequestHelper.get(`http://localhost:4000/security-rules/exceedings`)
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`)
     .then((res: any) => {
       exceedingsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {

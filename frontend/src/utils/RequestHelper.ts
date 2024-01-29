@@ -19,7 +19,7 @@ export class RequestHelper {
     return await axios.put(url, body, RequestHelper.headers())
   }
 
-  static async delete(url: string, body?: any) {
-    return await axios.delete(url, body)
+  static async delete(url: string) {
+    return await axios.delete(url, RequestHelper.headers())
   }
 }

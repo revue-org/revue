@@ -9,7 +9,6 @@ import type { ContactFactory } from '@domain/monitoring/factories'
 import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
 import { type Contact } from '@domain/monitoring/core'
-import type { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
 import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
 
@@ -92,12 +91,32 @@ function composeContacts(contacts: any): Contact[] {
   })
 }
 
-const deleteIntrusionRule = (intrusionRule: IntrusionRule) => {
-  console.log('Elimina intrusion rule')
+const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
+  await RequestHelper.delete(
+    'http://localhost:4000/security-rules/intrusions/' + intrusionRule.securityRuleId
+  )
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
-const deleteExceedingRule = (exceedingRule: ExceedingRule) => {
-  console.log('Elimina exceeding rule')
+const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
+  await RequestHelper.delete(
+    'http://localhost:4000/security-rules/exceedings/' + exceedingRule.securityRuleId
+  )
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
@@ -114,9 +133,10 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     to: exceedingRule.to.toISOString(),
     contacts: exceedingRule.contactsToNotify
   })
-    .then((res: any) => {
-      console.log(res.data)
-      alert(res.data)
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
     })
     .catch((error) => {
       console.log(error)
@@ -163,7 +183,7 @@ const popupVisible = ref<boolean>(false)
     <security-rule-badge
       v-for="exceedingRule in exceedingsSecurityRules"
       :security-rule="exceedingRule"
-      @delete-security-rule="deleteExceedingRule(exceedingRule)"
+      @delete-exceeding-rule="deleteExceedingRule(exceedingRule)"
     />
   </div>
 
@@ -172,7 +192,7 @@ const popupVisible = ref<boolean>(false)
     <security-rule-badge
       v-for="intrusionRule in intrusionsSecurityRules"
       :security-rule="intrusionRule"
-      @delete-security-rule="deleteIntrusionRule(intrusionRule)"
+      @delete-intrusion-rule="deleteIntrusionRule(intrusionRule)"
     />
   </div>
 

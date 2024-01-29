@@ -4,7 +4,6 @@ import mongoose, { Model } from 'mongoose'
 import { ExceedingRule } from '../../domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
-import { AnomalyType } from '../../domain/anomaly/core/impl/enum/AnomalyType.js'
 import { MeasureConverter } from '../../utils/MeasureConverter.js'
 import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
 
@@ -18,11 +17,15 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   }
 
   async getExceedingRules(): Promise<ExceedingRule[]> {
-    return this.exceedingRuleModel.find().orFail()
+    return this.exceedingRuleModel.find({
+      'deviceId.type': 'SENSOR'
+    }).orFail()
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.intrusionRuleModel.find().orFail()
+    return this.intrusionRuleModel.find({
+      'deviceId.type': 'CAMERA'
+    }).orFail()
   }
 
   async getSecurityRuleById(securityRuleId: string): Promise<SecurityRule> {
@@ -105,18 +108,15 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     )
   }
 
-  async deleteSecurityRule(securityRuleId: string, type: AnomalyType): Promise<void> {
-    switch (type) {
-      case AnomalyType.EXCEEDING:
-        await this.exceedingRuleModel.deleteOne({
-          _id: new mongoose.Types.ObjectId(securityRuleId)
-        })
-        break
-      case AnomalyType.INTRUSION:
-        await this.intrusionRuleModel.deleteOne({
-          _id: new mongoose.Types.ObjectId(securityRuleId)
-        })
-        break
-    }
+  async deleteExceedingRule(exceedingRuleId: string): Promise<void> {
+    await this.exceedingRuleModel.deleteOne({
+      _id: new mongoose.Types.ObjectId(exceedingRuleId)
+    })
+  }
+
+  async deleteIntrusionRule(intrusionRuleId: string): Promise<void> {
+    await this.intrusionRuleModel.deleteOne({
+      _id: new mongoose.Types.ObjectId(intrusionRuleId)
+    })
   }
 }

@@ -63,7 +63,11 @@ defineProps<{
           <q-btn
             color="negative"
             icon="delete"
-            @click="$emit('delete-security-rule', securityRule)"
+            @click="
+              securityRule.deviceId.type == DeviceType.SENSOR
+                ? $emit('delete-exceeding-rule', securityRule)
+                : $emit('delete-intrusion-rule', securityRule)
+            "
           />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>

@@ -18,6 +18,7 @@ import {
   type IntrusionRule,
   ObjectClass
 } from 'domain/dist/domain/security-rule/core'
+import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
   (e: 'insert-exceeding-rule', exceedingRule: ExceedingRule): void
@@ -41,35 +42,27 @@ const to: ref<Date> = ref()
 const measure: ref<Measure> = ref(Measure.TEMPERATURE)
 const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
 
-const optionsMeasure = ref([
-  {
-    label: 'Temperature',
-    value: Measure.TEMPERATURE
-  },
-  {
-    label: 'Humidity',
-    value: Measure.HUMIDITY
-  },
-  {
-    label: 'Pressure',
-    value: Measure.PRESSURE
-  }
-])
+const optionsObjectClass = ref(
+  Object.keys(ObjectClass)
+    .filter((key) => isNaN(Number(key)))
+    .map((value) => {
+      return {
+        label: value,
+        value: ObjectClassConverter.convertToObjectClass(value)
+      }
+    })
+)
 
-const optionsObjectClass = ref([
-  {
-    label: 'Person',
-    value: ObjectClass.PERSON
-  },
-  {
-    label: 'Animal',
-    value: ObjectClass.ANIMAL
-  },
-  {
-    label: 'Vehicle',
-    value: ObjectClass.VEHICLE
-  }
-])
+const optionsMeasure = ref(
+  Object.keys(Measure)
+    .filter((key) => isNaN(Number(key)))
+    .map((value) => {
+      return {
+        label: value,
+        value: MeasureConverter.convertToMeasure(value)
+      }
+    })
+)
 
 const optionsCameraCodes = ref([
   {
@@ -109,7 +102,7 @@ const addNewSecurityRule = () => {
       min.value,
       max.value,
       measure.value,
-      'aaaaaaaaaaaaaaaaaaaaaaab',
+      '',
       deviceIdFactory.createSensorId(toRaw(code.value).value),
       'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
       toRaw(contacts.value).map((c: Contact) => {
@@ -126,9 +119,9 @@ const addNewSecurityRule = () => {
   } else if (anomalyType.value == AnomalyType.INTRUSION) {
     const newIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
       objectClass.value,
-      'aaaaaaaaaaaaaaaaaaaaaaab',
+      '',
       deviceIdFactory.createCameraId(toRaw(code.value).value),
-      'aaaaaaaaaaaaaaaaaaaaaaaa',
+      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
       toRaw(contacts.value).map((c: Contact) => {
         return {
           type: toRaw(c).label,

@@ -27,6 +27,7 @@ const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
 const getExceedingSecurityRules = async () => {
   await RequestHelper.get('http://localhost:4000/security-rules/exceedings')
     .then((res: any) => {
+      exceedingsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].deviceId.type == 'SENSOR')
           // to remove
@@ -41,6 +42,7 @@ const getExceedingSecurityRules = async () => {
 const getIntrusionSecurityRules = async () => {
   await RequestHelper.get('http://localhost:4000/security-rules/intrusions')
     .then((res: any) => {
+      intrusionsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].deviceId.type == 'CAMERA')
           // to remove
@@ -133,9 +135,10 @@ const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
     to: intrusionRule.to.toISOString(),
     contacts: intrusionRule.contactsToNotify
   })
-    .then((res: any) => {
-      console.log(res.data)
-      alert(res.data)
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
     })
     .catch((error) => {
       console.log(error)

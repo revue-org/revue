@@ -44,7 +44,7 @@ defineProps<{
     </header>
     <ul :class="DeviceType[securityRule.deviceId.type].toLowerCase()">
       <li v-if="securityRule.deviceId.type == DeviceType.SENSOR">
-        <i>min val: </i>{{ (securityRule as ExceedingRule).min }} <i>min val: </i
+        <i>min val: </i>{{ (securityRule as ExceedingRule).min }} <i>max val: </i
         >{{ (securityRule as ExceedingRule).max }}
       </li>
 
@@ -63,7 +63,11 @@ defineProps<{
           <q-btn
             color="negative"
             icon="delete"
-            @click="$emit('delete-security-rule', securityRule)"
+            @click="
+              securityRule.deviceId.type == DeviceType.SENSOR
+                ? $emit('delete-exceeding-rule', securityRule)
+                : $emit('delete-intrusion-rule', securityRule)
+            "
           />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>

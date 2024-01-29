@@ -18,5 +18,7 @@ export interface SecurityRuleRepository {
 
   updateIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void>
 
-  deleteSecurityRule(securityRuleId: string, type: AnomalyType): Promise<void>
+  deleteExceedingRule(exceedingRuleId: string): Promise<void>
+
+  deleteIntrusionRule(intrusionRuleId: string): Promise<void>
 }

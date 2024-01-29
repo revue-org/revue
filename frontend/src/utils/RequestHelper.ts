@@ -33,7 +33,7 @@ export default class RequestHelper {
     return await axios.put(url, body, this.getHeaders())
   }
 
-  static async delete(url: string, body?: any): Promise<AxiosResponse> {
-    return await axios.delete(url, body)
+  static async delete(url: string): Promise<AxiosResponse> {
+    return await axios.delete(url, this.getHeaders())
   }
 }

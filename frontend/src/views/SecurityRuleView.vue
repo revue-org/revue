@@ -9,8 +9,8 @@ import type { ContactFactory } from '@domain/monitoring/factories'
 import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
 import { type Contact } from '@domain/monitoring/core'
-import SecurityRule from '@/components/security-rule/SecurityRule.vue'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
+import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
 import RequestHelper from '@/utils/RequestHelper'
 import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 
@@ -25,10 +25,9 @@ const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
 const getExceedingSecurityRules = async () => {
   await RequestHelper.get('http://localhost:4000/security-rules/exceedings')
     .then((res: any) => {
+      exceedingsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].deviceId.type == 'SENSOR')
-          // to remove
-          exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
+        exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
       }
     })
     .catch((error) => {
@@ -39,10 +38,9 @@ const getExceedingSecurityRules = async () => {
 const getIntrusionSecurityRules = async () => {
   await RequestHelper.get('http://localhost:4000/security-rules/intrusions')
     .then((res: any) => {
+      intrusionsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].deviceId.type == 'CAMERA')
-          // to remove
-          intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
+        intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
       }
     })
     .catch((error) => {
@@ -88,12 +86,78 @@ function composeContacts(contacts: any): Contact[] {
   })
 }
 
-const deleteIntrusionRule = (intrusionRule: IntrusionRule) => {
-  console.log('Elimina intrusion rule')
+const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
+  await RequestHelper.delete(
+    'http://localhost:4000/security-rules/intrusions/' + intrusionRule.securityRuleId
+  )
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
-const deleteExceedingRule = (exceedingRule: ExceedingRule) => {
-  console.log('Elimina exceeding rule')
+const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
+  await RequestHelper.delete(
+    'http://localhost:4000/security-rules/exceedings/' + exceedingRule.securityRuleId
+  )
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
+  await RequestHelper.post('http://localhost:4000/security-rules/exceedings', {
+    deviceId: {
+      code: exceedingRule.deviceId.code
+    },
+    creatorId: exceedingRule.creatorId,
+    description: exceedingRule.description,
+    measure: MeasureConverter.convertToString(exceedingRule.measure),
+    minValue: exceedingRule.min,
+    maxValue: exceedingRule.max,
+    from: exceedingRule.from.toISOString(),
+    to: exceedingRule.to.toISOString(),
+    contacts: exceedingRule.contactsToNotify
+  })
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
+  await RequestHelper.post('http://localhost:4000/security-rules/intrusions', {
+    deviceId: {
+      code: intrusionRule.deviceId.code
+    },
+    creatorId: intrusionRule.creatorId,
+    description: intrusionRule.description,
+    objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
+    from: intrusionRule.from.toISOString(),
+    to: intrusionRule.to.toISOString(),
+    contacts: intrusionRule.contactsToNotify
+  })
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getExceedingSecurityRules()
+      await getIntrusionSecurityRules()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 onMounted(async () => {
@@ -111,26 +175,26 @@ const popupVisible = ref<boolean>(false)
 
   <h2>Sensor alarms:</h2>
   <div class="exceeding-rules-container">
-    <security-rule
+    <security-rule-badge
       v-for="exceedingRule in exceedingsSecurityRules"
       :security-rule="exceedingRule"
-      @delete-security-rule="deleteExceedingRule(exceedingRule)"
+      @delete-exceeding-rule="deleteExceedingRule(exceedingRule)"
     />
   </div>
 
   <h2>Camera alarms:</h2>
   <div class="intrusion-rules-container">
-    <security-rule
+    <security-rule-badge
       v-for="intrusionRule in intrusionsSecurityRules"
       :security-rule="intrusionRule"
-      @delete-security-rule="deleteIntrusionRule(intrusionRule)"
+      @delete-intrusion-rule="deleteIntrusionRule(intrusionRule)"
     />
   </div>
 
-  <!-- da correggere quel get in update, ma prima da fare creazione.-->
   <new-security-rule-popup
     v-model="popupVisible"
-    @update-security-rules="getExceedingSecurityRules"
+    @insert-exceeding-rule="insertExceedingRule"
+    @insert-intrusion-rule="insertIntrusionRule"
   ></new-security-rule-popup>
 </template>
 

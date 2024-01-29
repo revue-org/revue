@@ -61,7 +61,8 @@ securityRuleRouter.route('/exceedings').post((req: Request, res: Response): void
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Exceeding rule created' })
     })
-    .catch((): void => {
+    .catch((err): void => {
+      console.log(err)
       res.send({ error: 'Exceeding rule not created' })
     })
 })
@@ -125,13 +126,24 @@ securityRuleRouter.route('/intrusions').put((req: Request, res: Response): void 
     })
 })
 
-securityRuleRouter.route('/').delete((req: Request, res: Response): void => {
+securityRuleRouter.route('/exceedings/:id').delete((req: Request, res: Response): void => {
   securityRuleController
-    .deleteSecurityRule(req.body.id, req.body.type)
+    .deleteExceedingRule(req.params.id)
     .then((): void => {
-      res.status(HttpStatusCode.OK).send({ success: 'Security rule correctly deleted' })
+      res.status(HttpStatusCode.OK).send({ success: 'Exceeding rule correctly deleted' })
     })
     .catch((): void => {
-      res.send({ error: 'Security rule not deleted' })
+      res.send({ error: 'Exceeding rule not deleted' })
+    })
+})
+
+securityRuleRouter.route('/intrusions/:id').delete((req: Request, res: Response): void => {
+  securityRuleController
+    .deleteIntrusionRule(req.params.id)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send({ success: 'Intrusion rule correctly deleted' })
+    })
+    .catch((): void => {
+      res.send({ error: 'Intrusion rule not deleted' })
     })
 })

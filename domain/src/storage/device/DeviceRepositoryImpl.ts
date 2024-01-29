@@ -146,7 +146,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     await this.cameraModel
       .deleteOne({
         _id: {
-          type: "CAMERA",
+          type: 'CAMERA',
           code: code
         }
       })
@@ -157,7 +157,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     await this.sensorModel
       .deleteOne({
         _id: {
-          type: "SENSOR",
+          type: 'SENSOR',
           code: code
         }
       })

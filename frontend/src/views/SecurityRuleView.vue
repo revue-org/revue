@@ -13,7 +13,7 @@ import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopu
 import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
 import RequestHelper from '@/utils/RequestHelper'
 import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
-import { alarmHost, alarmPort } from "@/utils/RequestHelper";
+import { alarmHost, alarmPort } from '@/utils/RequestHelper'
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -130,7 +130,6 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
       await getExceedingSecurityRules()
-      await getIntrusionSecurityRules()
     })
     .catch((error) => {
       console.log(error)
@@ -151,7 +150,6 @@ const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
   })
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
-      await getExceedingSecurityRules()
       await getIntrusionSecurityRules()
     })
     .catch((error) => {

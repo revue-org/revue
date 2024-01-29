@@ -19,7 +19,6 @@ export const monitoringPort: string = import.meta.env.VITE_MONITORING_PORT || '4
 export const alarmHost: string = import.meta.env.VITE_ALARM_HOST || 'localhost'
 export const alarmPort: string = import.meta.env.VITE_ALARM_PORT || '4002'
 
-
 export default class RequestHelper {
   static getHeaders(): Headers {
     return { headers: { Authorization: `Bearer apikey-dev` } } //${userStore().accessToken}

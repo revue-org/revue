@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref } from 'vue'
-import { DeviceType } from '@domain/device/core'
+import { ref, toRaw } from 'vue'
+import { type Camera, DeviceType, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import {
   DeviceFactoryImpl,
   DeviceIdFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
+import { AnomalyType } from 'domain/dist/domain/anomaly/core'
+import type { ExceedingRule, IntrusionRule } from 'domain/dist/domain/security-rule/core'
+import type { Contact } from 'domain/dist/domain/monitoring/core'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void
+  (e: 'insert-camera', camera: Camera): void
+  (e: 'insert-sensor', sensor: Sensor): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -41,24 +46,59 @@ const options = ref([
 
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
-    console.log(
-      deviceFactory.createSensor(
-        deviceIdFactory.createSensorId(code),
-        ipAddress,
-        intervalMillis,
-        measures.value
-      )
+    const newSensor: Sensor = deviceFactory.createSensor(
+      deviceIdFactory.createSensorId(code.value),
+      ipAddress.value,
+      intervalMillis.value,
+      measures.value
     )
+    emit('insert-sensor', newSensor)
   } else if (deviceType.value == DeviceType.CAMERA) {
-    console.log(
-      deviceFactory.createCamera(
-        deviceIdFactory.createCameraId(code),
-        ipAddress,
-        resolutionFactory.createResolution(width, height)
-      )
+    const newCamera: Camera = deviceFactory.createCamera(
+      deviceIdFactory.createCameraId(code.value),
+      ipAddress.value,
+      resolutionFactory.createResolution(width.value, height.value)
     )
+    emit('insert-camera', newCamera)
   }
-  emit('update-devices')
+
+  /*if (anomalyType.value == AnomalyType.EXCEEDING) {
+    const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
+      min.value,
+      max.value,
+      measure.value,
+      '',
+      deviceIdFactory.createSensorId(toRaw(code.value).value),
+      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
+      toRaw(contacts.value).map((c: Contact) => {
+        return {
+          type: toRaw(c).label,
+          value: toRaw(c).value
+        }
+      }),
+      description.value,
+      new Date('1970-01-01T' + from.value + ':00.000Z'),
+      new Date('2030-01-01T' + to.value + ':00.000Z')
+    )
+    emit('insert-exceeding-rule', newExceedingRule)
+  } else if (anomalyType.value == AnomalyType.INTRUSION) {
+    const newIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
+      objectClass.value,
+      '',
+      deviceIdFactory.createCameraId(toRaw(code.value).value),
+      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
+      toRaw(contacts.value).map((c: Contact) => {
+        return {
+          type: toRaw(c).label,
+          value: toRaw(c).value
+        }
+      }),
+      description.value,
+      new Date('1970-01-01T' + from.value + ':00.000Z'),
+      new Date('2040-01-01T' + to.value + ':00.000Z')
+    )
+    emit('insert-intrusion-rule', newIntrusionRule)
+  }*/
 }
 </script>
 

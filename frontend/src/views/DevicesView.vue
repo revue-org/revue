@@ -1,6 +1,6 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue'
 
 import SensorBadge from '@/components/devices/DeviceBadge.vue'
 import type {
@@ -15,14 +15,11 @@ import {
   EnvironmentDataFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
-import type { Camera, EnvironmentData, Sensor } from '@domain/device/core'
-import { Measure, MeasureUnit } from '@domain/device/core'
+import type { Camera, Sensor } from '@domain/device/core'
+import { Measure } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
-import RequestHelper from "@/utils/RequestHelper";
-import type { Contact } from "domain/dist/domain/monitoring/core";
-import { ContactTypeConverter, MeasureConverter } from "domain/dist/utils";
-import type { ExceedingRule } from "domain/dist/domain/security-rule/core";
-import { monitoringHost, monitoringPort } from "@/utils/RequestHelper";
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { MeasureConverter } from 'domain/dist/utils'
 
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
@@ -85,6 +82,60 @@ function composeMeasure(measures: any): Measure[] {
   })
 }
 
+const insertSensor = async (sensor: Sensor) => {
+  console.log('CO SONOOOO')
+  console.log({
+    code: sensor.deviceId.code,
+    ipAddress: sensor.ipAddress,
+    intervalMillis: sensor.intervalMillis,
+    measures: sensor.measures.map((m: Measure) => {
+      return MeasureConverter.convertToString(m)
+    })
+  })
+  await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
+    code: sensor.deviceId.code,
+    ipAddress: sensor.ipAddress,
+    intervalMillis: sensor.intervalMillis,
+    measures: sensor.measures.map((m: Measure) => {
+      return MeasureConverter.convertToString(m)
+    })
+  })
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getSensors()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const insertCamera = async (camera: Camera) => {
+  console.log('CO SONOOOO')
+  console.log({
+    code: camera.deviceId.code,
+    ipAddress: camera.ipAddress,
+    resolution: {
+      width: camera.resolution.width,
+      height: camera.resolution.height
+    }
+  })
+  await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
+    code: camera.deviceId.code,
+    ipAddress: camera.ipAddress,
+    resolution: {
+      width: camera.resolution.width,
+      height: camera.resolution.height
+    }
+  })
+    .then(async (res: any) => {
+      //TODO A CONFIRM POPUP
+      await getCameras()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
 const deleteSensor = async (sensor: Sensor) => {
   console.log(sensor.deviceId.type, sensor.deviceId.code)
   await RequestHelper.delete(
@@ -145,8 +196,13 @@ const popupVisible = ref<boolean>(false)
     />
   </div>
 
-<!--  to check!!-->
-  <new-device-popup v-model="popupVisible" @update-devices="getSensors"></new-device-popup>
+  <!--  to check!!-->
+  <new-device-popup
+    v-model="popupVisible"
+    @update-devices="getSensors"
+    @insert-sensor="insertSensor"
+    @insert-camera="insertCamera"
+  ></new-device-popup>
 </template>
 
 <style scoped lang="scss">

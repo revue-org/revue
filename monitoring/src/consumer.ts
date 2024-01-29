@@ -24,7 +24,7 @@ export const setupConsumers = async (): Promise<void> => {
     console.log('Consumers', consumers)
 
     socket.on('disconnect', () => {
-/*      getConsumerById(socket.id).disconnect()
+      /*      getConsumerById(socket.id).disconnect()
       consumers.splice(
         consumers.findIndex((c): boolean => c.id === socket.id),
         1
@@ -35,14 +35,14 @@ export const setupConsumers = async (): Promise<void> => {
 
     socket.on('pause', async (topics: string[]): Promise<void> => {
       console.log('Pausing topics', topics)
-/*      getConsumerById(socket.id).pause(
+      /*      getConsumerById(socket.id).pause(
         topics.map((topic: string): { topic: string } => ({ topic }))
       )*/
     })
 
     socket.on('resume', async (topics: string[]): Promise<void> => {
       console.log('Resuming topics', topics)
-/*      getConsumerById(socket.id).resume(
+      /*      getConsumerById(socket.id).resume(
         topics.map((topic: string): { topic: string } => ({ topic }))
       )*/
     })

@@ -14,21 +14,20 @@ const login = () => {
   RequestHelper.post(`http://${authHost}:${authPort}/login`, {
     username: username.value,
     password: password.value
-  }).then((res): void => {
-    if (res.status == AxiosHttpStatusCode.Ok) {
-      userStore.username = username.value
-      userStore.accessToken = res.data.accessToken
-      userStore.refreshToken = res.data.refreshToken
-      userStore.isLoggedIn = true
-      router.push('/home')
-    } else {
-      console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
-    }
   })
+    .then((res): void => {
+      if (res.status == AxiosHttpStatusCode.Ok) {
+        userStore.username = username.value
+        userStore.accessToken = res.data.accessToken
+        userStore.refreshToken = res.data.refreshToken
+        userStore.isLoggedIn = true
+        router.push('/home')
+      } else {
+        console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
+      }
+    })
     .catch((err): void => console.log(err))
-
 }
-
 </script>
 
 <template>

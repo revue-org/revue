@@ -8,7 +8,7 @@ export const userAccessRouter: Router = express.Router()
 userAccessRouter.route('/login').post((req: Request, res: Response): void => {
   userAccessController
     .login(req.body.username, req.body.password)
-    .then((access: any): void => {
+    .then((access: { accessToken: string, refreshToken: string }): void => {
       res.status(HttpStatusCode.OK).send(access)
     })
     .catch((err): void => {

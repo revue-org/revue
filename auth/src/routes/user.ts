@@ -36,7 +36,8 @@ userRouter.route('/').post(async (req: Request, res: Response): Promise<void> =>
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'User created' })
     })
-    .catch((): void => {
+    .catch((e): void => {
+      console.log(e)
       res.send({ error: 'User not created' })
     })
 })

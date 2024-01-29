@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/user'
+// import { useUserStore } from '@/stores/user'
+import requestHelper from '@/utils/RequestHelper'
 
 const username = ref('')
 const password = ref('')
+
 </script>
 
 <template>
   <div>
     <div class="login-container">
       <h1>Login</h1>
-      <form @submit.prevent="useUserStore().login()">
+      <form @submit.prevent="requestHelper.login(username, password)">
         <label for="username">Username:</label>
         <input type="text" v-model="username" id="username" autocomplete="true" required />
         <label for="password">Password:</label>

@@ -13,7 +13,6 @@ services:
       - ${AUTH_PORT}:${AUTH_PORT}
     depends_on:
       - revue-auth-db
-      - ${KAFKA_CONTAINER}
 
   revue-auth-db:
     image: mongo
@@ -27,7 +26,7 @@ services:
       - ${AUTH_DB_PORT}:27017
     volumes:
       - auth_data:/data/db
-#      - ./auth/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
+      - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
 
 volumes:
   auth_data:

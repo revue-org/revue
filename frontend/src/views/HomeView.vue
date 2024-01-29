@@ -5,6 +5,7 @@ import { Measure, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
+// import requestHelper from '@/utils/RequestHelper'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -28,6 +29,7 @@ const sensors: ref<Sensor[]> = ref([
     Measure.PRESSURE
   ])
 ])
+
 </script>
 
 <template>

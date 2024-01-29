@@ -1,10 +1,6 @@
-import { ContactType } from './impl/ContactType.js'
+import { ContactType } from './impl/enum/ContactType.js'
 
 export interface Contact {
-  get id(): string
-
-  set id(id: string)
-
   get value(): string
 
   set value(v: string)

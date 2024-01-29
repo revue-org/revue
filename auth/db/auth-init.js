@@ -2,11 +2,21 @@ db = new Mongo().getDB('auth')
 
 db.createCollection('user')
 //TODO to test
-db.user.insert([
+db.user.insertMany([
   {
-    _id: {
-      $oid: '6582b78ee645d6402a3be6e2'
-    },
+    name: 'Mattia',
+    surname: 'Matteini',
+    username: 'mattia',
+    password: '$2a$10$QmASVIA1cy65TArhkhINte52vrNuJMlSpdO2FVLqI/OM32LmK6jHS',
+    token: '',
+    refreshToken: '',
+    contacts: [{ type: 'SMS', value: '33344455678' }],
+    deviceIds: [
+      { type: 'CAMERA', code: 'cam-02' },
+      { type: 'SENSOR', code: 'sen-02' }
+    ]
+  },
+  {
     name: 'Mario',
     surname: 'Rossi',
     username: 'paga16',

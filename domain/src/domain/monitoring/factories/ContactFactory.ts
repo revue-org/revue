@@ -1,6 +1,6 @@
 import { Contact } from '../core/Contact.js'
-import { ContactType } from '../core/impl/ContactType.js'
+import { ContactType } from '../core/impl/enum/ContactType.js'
 
 export interface ContactFactory {
-  createContact(id: string, value: string, type: ContactType): Contact
+  createContact(value: string, type: ContactType): Contact
 }

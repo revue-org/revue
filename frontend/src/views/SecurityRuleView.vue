@@ -11,7 +11,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { type Contact } from '@domain/monitoring/core'
 import SecurityRule from '@/components/security-rule/SecurityRule.vue'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
-import { RequestHelper } from '@/utils/RequestHelper'
+import RequestHelper from '@/utils/RequestHelper'
 import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()

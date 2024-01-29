@@ -12,8 +12,7 @@ userRouter.route('/').get((req: Request, res: Response): void => {
     .then((users: User[]): void => {
       res.status(HttpStatusCode.OK).send(users)
     })
-    .catch((err): void => {
-      console.log(err)
+    .catch((): void => {
       res.send({ error: 'No user found' })
     })
 })

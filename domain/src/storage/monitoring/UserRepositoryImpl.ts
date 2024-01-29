@@ -1,6 +1,10 @@
 import mongoose, { Model } from 'mongoose'
 import { User } from '../../domain/monitoring/core/User.js'
 import { UserRepository } from '../../domain/monitoring/repository/UserRepository.js'
+import { ContactTypeConverter } from '../../utils/ContactTypeConverter.js'
+import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
+import { Contact } from '../../domain/monitoring/core/Contact.js'
+import { DeviceId } from '../../domain/device/core/DeviceId.js'
 
 export class UserRepositoryImpl implements UserRepository {
   userModel: Model<User>
@@ -30,10 +34,20 @@ export class UserRepositoryImpl implements UserRepository {
         password: user.password,
         token: user.token,
         refreshToken: user.refreshToken,
-        contacts: user.contacts,
-        deviceIds: user.deviceIds
+        contacts: user.contacts.map((contact: Contact) => {
+          return {
+            type: ContactTypeConverter.convertToString(contact.contactType),
+            value: contact.value.toString()
+          }
+        }),
+        deviceIds: user.deviceIds.map((deviceId: DeviceId) => {
+          return {
+            type: DeviceTypeConverter.convertToString(deviceId.type),
+            code: deviceId.code
+          }
+        })
       })
-      .catch((err) => {
+      .catch((err): void => {
         throw err
       })
   }

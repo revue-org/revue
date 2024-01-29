@@ -12,4 +12,4 @@ plugins {
 
 rootProject.name = "revue"
 
-include("domain", "monitoring", "frontend", "auth", "alarm", "camera")
+include("domain", "monitoring", "frontend", "auth", "alarm", "kafka", "camera")

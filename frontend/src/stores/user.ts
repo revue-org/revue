@@ -1,25 +1,27 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import router from '@/router'
 
 export const useUserStore = defineStore(
   'user',
   () => {
     const isLoggedIn = ref(false)
+    let username = ref('')
+    let accessToken = ref('')
+    let refreshToken = ref('')
 
-    function login() {
-      isLoggedIn.value = true
-      router.push('/')
-    }
-
-    function logout() {
+    function clearFields(): void {
       isLoggedIn.value = false
+      username.value = ''
+      accessToken.value = ''
+      refreshToken.value = ''
     }
 
     return {
       isLoggedIn,
-      login,
-      logout
+      username,
+      accessToken,
+      refreshToken,
+      clearFields
     }
   },
   {

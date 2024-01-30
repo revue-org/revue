@@ -95,7 +95,7 @@ const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
       //TODO A CONFIRM POPUP
       await getIntrusionSecurityRules()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -108,7 +108,7 @@ const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
       //TODO A CONFIRM POPUP
       await getExceedingSecurityRules()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -131,7 +131,7 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
       //TODO A CONFIRM POPUP
       await getExceedingSecurityRules()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -152,7 +152,7 @@ const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
       //TODO A CONFIRM POPUP
       await getIntrusionSecurityRules()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }

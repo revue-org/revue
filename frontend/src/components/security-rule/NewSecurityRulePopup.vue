@@ -6,11 +6,7 @@ import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
-import {
-  type ExceedingRule,
-  type IntrusionRule,
-  ObjectClass
-} from 'domain/dist/domain/security-rule/core'
+import { type ExceedingRule, type IntrusionRule, ObjectClass } from 'domain/dist/domain/security-rule/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
@@ -37,8 +33,8 @@ const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
 
 const optionsObjectClass = ref(
   Object.keys(ObjectClass)
-    .filter((key) => isNaN(Number(key)))
-    .map((value) => {
+    .filter(key => isNaN(Number(key)))
+    .map(value => {
       return {
         label: value,
         value: ObjectClassConverter.convertToObjectClass(value)
@@ -48,8 +44,8 @@ const optionsObjectClass = ref(
 
 const optionsMeasure = ref(
   Object.keys(Measure)
-    .filter((key) => isNaN(Number(key)))
-    .map((value) => {
+    .filter(key => isNaN(Number(key)))
+    .map(value => {
       return {
         label: value,
         value: MeasureConverter.convertToMeasure(value)

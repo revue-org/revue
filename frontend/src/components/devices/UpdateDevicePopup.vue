@@ -51,7 +51,10 @@ const updateDevice = () => {
     const updatedCamera: Camera = deviceFactory.createCamera(
       deviceIdFactory.createCameraId(device.deviceId.code),
       device.ipAddress,
-      resolutionFactory.createResolution((device as Camera).resolution.width, (device as Camera).resolution.height)
+      resolutionFactory.createResolution(
+        (device as Camera).resolution.width,
+        (device as Camera).resolution.height
+      )
     )
     emit('update-camera', updatedCamera)
   }

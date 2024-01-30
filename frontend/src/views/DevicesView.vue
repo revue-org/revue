@@ -15,14 +15,11 @@ import {
   EnvironmentDataFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
-import type { Camera, Device, Sensor } from "@domain/device/core";
+import type { Camera, Device, Sensor } from '@domain/device/core'
 import { Measure } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { MeasureConverter } from 'domain/dist/utils'
-import UpdateDevicePopup from "@/components/devices/UpdateDevicePopup.vue";
-
-const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -149,7 +146,6 @@ onMounted(async () => {
 })
 
 const newPopupVisible = ref<boolean>(false)
-
 </script>
 
 <template>
@@ -183,7 +179,6 @@ const newPopupVisible = ref<boolean>(false)
     @insert-sensor="insertSensor"
     @insert-camera="insertCamera"
   ></new-device-popup>
-
 </template>
 
 <style scoped lang="scss">

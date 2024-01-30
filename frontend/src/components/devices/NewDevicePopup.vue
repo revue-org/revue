@@ -61,44 +61,6 @@ const addNewDevice = () => {
     )
     emit('insert-camera', newCamera)
   }
-
-  /*if (anomalyType.value == AnomalyType.EXCEEDING) {
-    const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
-      min.value,
-      max.value,
-      measure.value,
-      '',
-      deviceIdFactory.createSensorId(toRaw(code.value).value),
-      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
-      toRaw(contacts.value).map((c: Contact) => {
-        return {
-          type: toRaw(c).label,
-          value: toRaw(c).value
-        }
-      }),
-      description.value,
-      new Date('1970-01-01T' + from.value + ':00.000Z'),
-      new Date('2030-01-01T' + to.value + ':00.000Z')
-    )
-    emit('insert-exceeding-rule', newExceedingRule)
-  } else if (anomalyType.value == AnomalyType.INTRUSION) {
-    const newIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
-      objectClass.value,
-      '',
-      deviceIdFactory.createCameraId(toRaw(code.value).value),
-      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
-      toRaw(contacts.value).map((c: Contact) => {
-        return {
-          type: toRaw(c).label,
-          value: toRaw(c).value
-        }
-      }),
-      description.value,
-      new Date('1970-01-01T' + from.value + ':00.000Z'),
-      new Date('2040-01-01T' + to.value + ':00.000Z')
-    )
-    emit('insert-intrusion-rule', newIntrusionRule)
-  }*/
 }
 </script>
 

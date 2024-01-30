@@ -31,7 +31,6 @@ const sensors: ref<Sensor[]> = ref([])
 const cameras: ref<Camera[]> = ref([])
 
 const getSensors = async () => {
-  console.log('getSensors')
   await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
     .then((res: any) => {
       sensors.value = []
@@ -45,7 +44,6 @@ const getSensors = async () => {
     })
 }
 const getCameras = async () => {
-  console.log('getCameras')
   await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
     .then((res: any) => {
       cameras.value = []
@@ -83,15 +81,6 @@ function composeMeasure(measures: any): Measure[] {
 }
 
 const insertSensor = async (sensor: Sensor) => {
-  console.log('CO SONOOOO')
-  console.log({
-    code: sensor.deviceId.code,
-    ipAddress: sensor.ipAddress,
-    intervalMillis: sensor.intervalMillis,
-    measures: sensor.measures.map((m: Measure) => {
-      return MeasureConverter.convertToString(m)
-    })
-  })
   await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
     code: sensor.deviceId.code,
     ipAddress: sensor.ipAddress,
@@ -110,15 +99,6 @@ const insertSensor = async (sensor: Sensor) => {
 }
 
 const insertCamera = async (camera: Camera) => {
-  console.log('CO SONOOOO')
-  console.log({
-    code: camera.deviceId.code,
-    ipAddress: camera.ipAddress,
-    resolution: {
-      width: camera.resolution.width,
-      height: camera.resolution.height
-    }
-  })
   await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
     code: camera.deviceId.code,
     ipAddress: camera.ipAddress,

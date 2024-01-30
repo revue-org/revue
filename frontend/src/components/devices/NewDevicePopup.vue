@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref } from 'vue'
-import { DeviceType } from '@domain/device/core'
+import { ref, toRaw } from 'vue'
+import { type Camera, DeviceType, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import {
   DeviceFactoryImpl,
   DeviceIdFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
+import { AnomalyType } from 'domain/dist/domain/anomaly/core'
+import type { ExceedingRule, IntrusionRule } from 'domain/dist/domain/security-rule/core'
+import type { Contact } from 'domain/dist/domain/monitoring/core'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void
+  (e: 'insert-camera', camera: Camera): void
+  (e: 'insert-sensor', sensor: Sensor): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -41,24 +46,21 @@ const options = ref([
 
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
-    console.log(
-      deviceFactory.createSensor(
-        deviceIdFactory.createSensorId(code),
-        ipAddress,
-        intervalMillis,
-        measures.value
-      )
+    const newSensor: Sensor = deviceFactory.createSensor(
+      deviceIdFactory.createSensorId(code.value),
+      ipAddress.value,
+      intervalMillis.value,
+      measures.value
     )
+    emit('insert-sensor', newSensor)
   } else if (deviceType.value == DeviceType.CAMERA) {
-    console.log(
-      deviceFactory.createCamera(
-        deviceIdFactory.createCameraId(code),
-        ipAddress,
-        resolutionFactory.createResolution(width, height)
-      )
+    const newCamera: Camera = deviceFactory.createCamera(
+      deviceIdFactory.createCameraId(code.value),
+      ipAddress.value,
+      resolutionFactory.createResolution(width.value, height.value)
     )
+    emit('insert-camera', newCamera)
   }
-  emit('update-devices')
 }
 </script>
 

@@ -22,5 +22,7 @@ export interface DeviceRepository {
 
   updateSensor(sensor: Sensor): Promise<void>
 
-  deleteDevice(deviceId: DeviceId): Promise<void>
+  deleteCamera(code: string): Promise<void>
+
+  deleteSensor(code: string): Promise<void>
 }

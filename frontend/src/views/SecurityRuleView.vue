@@ -13,6 +13,7 @@ import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopu
 import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
 import RequestHelper from '@/utils/RequestHelper'
 import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
+import { alarmHost, alarmPort } from '@/utils/RequestHelper'
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -23,7 +24,7 @@ const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([])
 const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
 
 const getExceedingSecurityRules = async () => {
-  await RequestHelper.get('http://localhost:4000/security-rules/exceedings')
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`)
     .then((res: any) => {
       exceedingsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -36,7 +37,7 @@ const getExceedingSecurityRules = async () => {
 }
 
 const getIntrusionSecurityRules = async () => {
-  await RequestHelper.get('http://localhost:4000/security-rules/intrusions')
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`)
     .then((res: any) => {
       intrusionsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -88,11 +89,10 @@ function composeContacts(contacts: any): Contact[] {
 
 const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
   await RequestHelper.delete(
-    'http://localhost:4000/security-rules/intrusions/' + intrusionRule.securityRuleId
+    `http://${alarmHost}:${alarmPort}/security-rules/intrusions/` + intrusionRule.securityRuleId
   )
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
-      await getExceedingSecurityRules()
       await getIntrusionSecurityRules()
     })
     .catch((error) => {
@@ -102,12 +102,11 @@ const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
 
 const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
   await RequestHelper.delete(
-    'http://localhost:4000/security-rules/exceedings/' + exceedingRule.securityRuleId
+    `http://${alarmHost}:${alarmPort}/security-rules/exceedings/` + exceedingRule.securityRuleId
   )
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
       await getExceedingSecurityRules()
-      await getIntrusionSecurityRules()
     })
     .catch((error) => {
       console.log(error)
@@ -115,7 +114,7 @@ const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
 }
 
 const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
-  await RequestHelper.post('http://localhost:4000/security-rules/exceedings', {
+  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     deviceId: {
       code: exceedingRule.deviceId.code
     },
@@ -131,7 +130,6 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
       await getExceedingSecurityRules()
-      await getIntrusionSecurityRules()
     })
     .catch((error) => {
       console.log(error)
@@ -139,7 +137,7 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
 }
 
 const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  await RequestHelper.post('http://localhost:4000/security-rules/intrusions', {
+  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
     deviceId: {
       code: intrusionRule.deviceId.code
     },
@@ -152,7 +150,6 @@ const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
   })
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
-      await getExceedingSecurityRules()
       await getIntrusionSecurityRules()
     })
     .catch((error) => {

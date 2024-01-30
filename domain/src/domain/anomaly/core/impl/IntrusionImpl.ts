@@ -8,12 +8,7 @@ export class IntrusionImpl implements Intrusion {
   private readonly _timestamp: Date
   private _intrusionObject: ObjectClass
 
-  constructor(
-    anomalyId: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    intrusionObject: ObjectClass
-  ) {
+  constructor(anomalyId: string, deviceId: DeviceId, timestamp: Date, intrusionObject: ObjectClass) {
     this._anomalyId = anomalyId
     this._deviceId = deviceId
     this._timestamp = timestamp

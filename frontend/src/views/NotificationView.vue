@@ -26,7 +26,7 @@ async function getNotifications() {
         composeNotification(res.data[i])
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -37,23 +37,17 @@ async function composeNotification(notification: any) {
       switch (DeviceTypeConverter.convertToDeviceType(anomaly.data.deviceId.type)) {
         case DeviceType.CAMERA:
           notifications.value.push(
-            notificationFactory.createIntrusionNotification(
-              notification._id,
-              composeIntrusion(anomaly.data)
-            )
+            notificationFactory.createIntrusionNotification(notification._id, composeIntrusion(anomaly.data))
           )
           break
         case DeviceType.SENSOR:
           notifications.value.push(
-            notificationFactory.createExceedingNotification(
-              notification._id,
-              composeExceeding(anomaly.data)
-            )
+            notificationFactory.createExceedingNotification(notification._id, composeExceeding(anomaly.data))
           )
           break
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }

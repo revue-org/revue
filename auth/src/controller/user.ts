@@ -29,19 +29,14 @@ export const userController = {
     return await userManager.getUsers()
   },
   createUser: async (req: Request): Promise<void> => {
-    const contacts: Contact[] = req.body.contacts.map(
-      (contactObj: { value: string; type: string }) =>
-        contactFactory.createContact(
-          contactObj.value,
-          ContactTypeConverter.convertToContactType(contactObj.type)
-        )
+    const contacts: Contact[] = req.body.contacts.map((contactObj: { value: string; type: string }) =>
+      contactFactory.createContact(
+        contactObj.value,
+        ContactTypeConverter.convertToContactType(contactObj.type)
+      )
     )
-    const deviceIds: DeviceId[] = req.body.deviceIds.map(
-      (deviceIdObj: { type: string; code: string }) =>
-        deviceIdFactory.createId(
-          DeviceTypeConverter.convertToDeviceType(deviceIdObj.type),
-          deviceIdObj.code
-        )
+    const deviceIds: DeviceId[] = req.body.deviceIds.map((deviceIdObj: { type: string; code: string }) =>
+      deviceIdFactory.createId(DeviceTypeConverter.convertToDeviceType(deviceIdObj.type), deviceIdObj.code)
     )
     const user: User = userFactory.createUser(
       req.body.id,

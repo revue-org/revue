@@ -39,7 +39,7 @@ const getSensors = async () => {
         sensors.value.push(composeSensor(res.data[i]))
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -51,7 +51,7 @@ const getCameras = async () => {
         cameras.value.push(composeCamera(res.data[i]))
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -93,7 +93,7 @@ const insertSensor = async (sensor: Sensor) => {
       //TODO A CONFIRM POPUP
       await getSensors()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -111,7 +111,7 @@ const insertCamera = async (camera: Camera) => {
       //TODO A CONFIRM POPUP
       await getCameras()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -125,7 +125,7 @@ const deleteSensor = async (sensor: Sensor) => {
       //TODO A CONFIRM POPUP
       await getSensors()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -137,7 +137,7 @@ const deleteCamera = async (camera: Camera) => {
       //TODO A CONFIRM POPUP
       await getCameras()
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }

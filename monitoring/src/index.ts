@@ -72,8 +72,8 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   server.listen(PORT, async (): Promise<void> => {
     await mongoConnect()
-    if (process.env.NODE_ENV !== 'develop') {
-      await setupConsumers()
-    }
+    // if (process.env.NODE_ENV !== 'develop') {
+    await setupConsumers()
+    // }
   })
 }

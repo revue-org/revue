@@ -16,16 +16,6 @@ export class UserFactoryImpl implements UserFactory {
     contact: Contact[],
     deviceIds: DeviceId[]
   ): User {
-    return new UserImpl(
-      id,
-      name,
-      surname,
-      username,
-      password,
-      token,
-      refreshToken,
-      contact,
-      deviceIds
-    )
+    return new UserImpl(id, name, surname, username, password, token, refreshToken, contact, deviceIds)
   }
 }

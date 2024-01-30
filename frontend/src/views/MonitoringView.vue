@@ -2,13 +2,19 @@
 import { computed, onBeforeMount, onBeforeUnmount, ref, type Ref } from 'vue'
 import { socket, state } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { type AxiosResponse, HttpStatusCode } from 'axios'
 
 const topicsStore = useTopicsStore()
-const cameras = ref<{ code: string; src: string }[]>([
-  { code: 'cam-01', src: '' },
-  { code: 'cam-02', src: '' },
-  { code: 'cam-03', src: '' }
-])
+const cameras = ref<{ code: string; src: string }[]>([])
+
+RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).then((res: AxiosResponse) => {
+  if (res.status == HttpStatusCode.Ok) {
+    for (let i = 0; i < res.data.length; i++) {
+      cameras.value.push({ code: res.data[i]._id.code, src: '' })
+    }
+  }
+})
 
 console.log(state)
 
@@ -17,19 +23,13 @@ const topics: Ref<string[]> = computed(() => cameras.value.map(camera => 'CAMERA
 console.log(topics.value)
 
 onBeforeMount(() => {
-  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
-  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
-  if (topicsToSubscribe.length > 0) {
-    socket.emit('subscribe', topicsToSubscribe)
-    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
-  }
-  if (topicsToResume.length > 0) {
-    socket.emit('resume', topicsToResume)
-  }
+  console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
+  socket.emit('resume', topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
 })
 
 onBeforeUnmount(() => {
-  socket.emit('pause', topics.value)
+  console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
+  socket.emit('pause', topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
 })
 
 socket.on('stream', (newFrame: { topic: string; frame: string }) => {

@@ -1,7 +1,6 @@
 import { reactive } from 'vue'
 import { io, Socket } from 'socket.io-client'
-import { useTopicsStore } from '@/stores/topics'
-import RequestHelper from '@/utils/RequestHelper'
+import { subscribeToAllTopics } from '@/topics'
 
 export const state = reactive({
   connected: false
@@ -12,22 +11,13 @@ const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 console.log(`connect to ${monitoringUrl}`)
 export const socket: Socket = io(`${monitoringUrl}`)
 
-socket.on('connect', (): void => {
-  state.connected = true
-  subscribeToAllTopics()
+socket.on('connect', async (): Promise<void> => {
   console.log('connected')
+  state.connected = true
+  await subscribeToAllTopics()
 })
 
 socket.on('disconnect', (): void => {
   state.connected = false
 })
 
-
-const subscribeToAllTopics = (): void => {
-  RequestHelper.get('/topics').then((topics: string[]): void => {
-
-  })
-  console.log('subscribe to all topics')
-  console.log(useTopicsStore().subscribedTopics)
-  socket.emit('subscribe', useTopicsStore().subscribedTopics)
-}

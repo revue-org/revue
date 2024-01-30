@@ -48,20 +48,13 @@ const topics: Ref<string[]> = computed(() =>
 )
 
 onBeforeMount(() => {
-
-  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
-  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
-  if (topicsToSubscribe.length > 0) {
-    socket.emit('subscribe', topicsToSubscribe)
-    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
-  }
-  if (topicsToResume.length > 0) {
-    socket.emit('resume', topicsToResume)
-  }
+  console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
+  socket.emit('resume', topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
 })
 
 onBeforeUnmount(() => {
-  socket.emit('pause', topicsStore.subscribedTopics.value)
+  console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
+  socket.emit('pause', topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
 })
 
 socket.on('env-data', (data: { topic: string; data: string }) => {

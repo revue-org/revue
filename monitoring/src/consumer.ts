@@ -51,7 +51,7 @@ export const setupConsumers = async (): Promise<void> => {
     socket.on('subscribe', async (topics: string[]): Promise<void> => {
       console.log('Subscribing to topics', topics)
       console.log('Consumers:', consumers)
-      let consumer = getConsumerById(socket.id)
+      let consumer: Consumer | undefined = getConsumerById(socket.id)
       if (consumer === undefined) {
         console.log('Creating new consumer')
         consumer = kafka.consumer({ groupId: socket.id })
@@ -59,6 +59,7 @@ export const setupConsumers = async (): Promise<void> => {
       }
       await consumer.connect()
       await consumer.subscribe({ topics: topics, fromBeginning: false })
+      // + '_' + topics[0].split('_')[0]
       consumers.push({ id: socket.id, consumer })
       consumer
         .run({

@@ -48,6 +48,7 @@ const topics: Ref<string[]> = computed(() =>
 )
 
 onBeforeMount(() => {
+
   const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
   const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
   if (topicsToSubscribe.length > 0) {
@@ -60,7 +61,7 @@ onBeforeMount(() => {
 })
 
 onBeforeUnmount(() => {
-  socket.emit('pause', topics.value)
+  socket.emit('pause', topicsStore.subscribedTopics.value)
 })
 
 socket.on('env-data', (data: { topic: string; data: string }) => {

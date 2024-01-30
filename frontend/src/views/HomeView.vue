@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { Measure, type Sensor } from "@domain/device/core";
-import type { DeviceFactory, DeviceIdFactory } from "@domain/device/factories";
-import { DeviceFactoryImpl, DeviceIdFactoryImpl } from "@domain/device/factories";
-import SensorData from "@/components/devices/SensorData.vue";
-import RequestHelper, { alarmHost, alarmPort } from "@/utils/RequestHelper";
-import { alarmSocket } from "@/socket";
-import { useQuasar } from "quasar";
-import router from "@/router";
-import { AnomalyTypeConverter } from "domain/dist/utils";
-import { AnomalyType } from "domain/dist/domain/anomaly/core";
+import { ref } from 'vue'
+import { Measure, type Sensor } from '@domain/device/core'
+import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
+import SensorData from '@/components/devices/SensorData.vue'
+import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
+import { alarmSocket } from '@/socket'
+import { useQuasar } from 'quasar'
+import router from '@/router'
+import { AnomalyTypeConverter } from 'domain/dist/utils'
+import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -72,7 +72,7 @@ const simulateIntrusion = async () => {
 }
 
 alarmSocket.on('notification', (anomaly: string) => {
-  const anomalyType : AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
+  const anomalyType: AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
   switch (anomalyType) {
     case AnomalyType.EXCEEDING:
       showNotification('Exceeding notification', anomalyType)
@@ -89,7 +89,10 @@ const showNotification = (message: string, type: AnomalyType) => {
   $q.notify({
     message: message,
     color: 'primary',
-    avatar: type == AnomalyType.INTRUSION ? '../assets/notificationIcons/intrusion.png' : '../assets/notificationIcons/exceeding.png',
+    avatar:
+      type == AnomalyType.INTRUSION
+        ? '../assets/notificationIcons/intrusion.png'
+        : '../assets/notificationIcons/exceeding.png',
     actions: [
       {
         label: 'Dismiss',

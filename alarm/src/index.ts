@@ -11,7 +11,7 @@ import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
-import { setupNotificationSimulation } from "./simulation.js";
+import { setupNotificationSimulation } from './simulation.js'
 
 config()
 

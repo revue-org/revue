@@ -8,7 +8,7 @@ import {
   DeviceIdFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
-import { MeasureConverter } from "domain/dist/utils";
+import { MeasureConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void

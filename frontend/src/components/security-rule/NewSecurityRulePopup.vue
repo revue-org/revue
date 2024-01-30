@@ -4,16 +4,9 @@ import { onMounted, ref, toRaw } from 'vue'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl } from '@domain/device/factories'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
-import {
-  type SecurityRuleFactory,
-  SecurityRuleFactoryImpl
-} from 'domain/dist/domain/security-rule/factories'
+import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
-import {
-  type ExceedingRule,
-  type IntrusionRule,
-  ObjectClass
-} from 'domain/dist/domain/security-rule/core'
+import { type ExceedingRule, type IntrusionRule, ObjectClass } from 'domain/dist/domain/security-rule/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, {
   authHost,
@@ -44,8 +37,8 @@ const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
 
 const optionsObjectClass = ref(
   Object.keys(ObjectClass)
-    .filter((key) => isNaN(Number(key)))
-    .map((value) => {
+    .filter(key => isNaN(Number(key)))
+    .map(value => {
       return {
         label: value,
         value: ObjectClassConverter.convertToObjectClass(value)
@@ -55,8 +48,8 @@ const optionsObjectClass = ref(
 
 const optionsMeasure = ref(
   Object.keys(Measure)
-    .filter((key) => isNaN(Number(key)))
-    .map((value) => {
+    .filter(key => isNaN(Number(key)))
+    .map(value => {
       return {
         label: value,
         value: MeasureConverter.convertToMeasure(value)
@@ -230,13 +223,7 @@ onMounted(async () => {
 
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
-        <q-btn
-          flat
-          label="OK"
-          v-close-popup
-          class="bg-white text-teal"
-          @click="addNewSecurityRule"
-        />
+        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="addNewSecurityRule" />
       </q-card-actions>
     </q-card>
   </q-dialog>

@@ -1,32 +1,35 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue'
-import { monitoringSocket, monitoringSocketState } from '@/socket'
+import { computed, onBeforeMount, onBeforeUnmount, ref, type Ref } from 'vue'
+import { monitoringSocket } from '@/socket'
+import { useTopicsStore } from '@/stores/topics'
 
+const topicsStore = useTopicsStore()
 const cameras = ref<{ code: string; src: string }[]>([
   { code: 'cam-01', src: '' },
   { code: 'cam-02', src: '' },
   { code: 'cam-03', src: '' }
 ])
 
-console.log(monitoringSocketState)
+const topics: Ref<string[]> = computed(() => cameras.value.map(camera => 'CAMERA_' + camera.code))
 
-const topics = computed(() => cameras.value.map((camera) => 'CAMERA_' + camera.code))
-
-console.log(topics.value)
-monitoringSocket.emit('subscribe', topics.value)
+onBeforeMount(() => {
+  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
+  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
+  if (topicsToSubscribe.length > 0) {
+    monitoringSocket.emit('subscribe', topicsToSubscribe)
+    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
+  }
+  if (topicsToResume.length > 0) {
+    monitoringSocket.emit('resume', topicsToResume)
+  }
+})
 
 onBeforeUnmount(() => {
-  console.log('unmount', topics.value)
   monitoringSocket.emit('pause', topics.value)
 })
 
-onBeforeMount(() => {
-  console.log('mount', topics.value)
-  monitoringSocket.emit('resume', topics.value)
-})
-
 monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
-  cameras.value.find((camera) => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
+  cameras.value.find(camera => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })
 </script>

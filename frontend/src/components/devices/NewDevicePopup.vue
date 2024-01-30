@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref, toRaw } from 'vue'
+import { ref } from 'vue'
 import { type Camera, DeviceType, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import {
@@ -91,12 +91,16 @@ const addNewDevice = () => {
           <label>Acquisition rate (ms)</label>
           <q-input type="number" v-model="intervalMillis" />
         </q-card-section>
+<<<<<<< HEAD
         <q-option-group
           style="display: flex"
           v-model="measures"
           :options="optionMeasures"
           type="checkbox"
         />
+=======
+        <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
+>>>>>>> main
       </div>
 
       <q-card-actions align="right">

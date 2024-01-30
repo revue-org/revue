@@ -10,13 +10,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
   private _measureUnit: MeasureUnit
   private readonly _timestamp: Date
 
-  constructor(
-    sourceDeviceId: DeviceId,
-    value: number,
-    measure: Measure,
-    unit: MeasureUnit,
-    timestamp: Date
-  ) {
+  constructor(sourceDeviceId: DeviceId, value: number, measure: Measure, unit: MeasureUnit, timestamp: Date) {
     this._sourceDeviceId = sourceDeviceId
     this._value = value
     this._measure = measure

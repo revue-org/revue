@@ -52,7 +52,7 @@ const mongoConnect = async (): Promise<void> => {
     .then(async () => {
       console.log(`Connected to Mongo DB ${dbName} at ${host}`)
     })
-    .catch((e) => console.log(e))
+    .catch(e => console.log(e))
 }
 
 if (process.env.NODE_ENV !== 'test') {

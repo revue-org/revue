@@ -30,11 +30,7 @@ export const recognizingNodeController = {
   },
   updateRecognizingNode: async (req: Request): Promise<void> => {
     await recognizingNodeManager.updateRecognizingNode(
-      recognizingNodeFactory.createRecognizingNode(
-        req.body.id,
-        req.body.ipAddress,
-        req.body.deviceIds
-      )
+      recognizingNodeFactory.createRecognizingNode(req.body.id, req.body.ipAddress, req.body.deviceIds)
     )
   },
   deleteRecognizingNode: async (id: string): Promise<void> => {

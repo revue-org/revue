@@ -9,13 +9,7 @@ export class ExceedingImpl implements Exceeding {
   private _value: number
   private _measure: Measure
 
-  constructor(
-    anomalyId: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    measure: Measure,
-    value: number
-  ) {
+  constructor(anomalyId: string, deviceId: DeviceId, timestamp: Date, measure: Measure, value: number) {
     this._anomalyId = anomalyId
     this._deviceId = deviceId
     this._timestamp = timestamp

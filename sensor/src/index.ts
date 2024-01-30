@@ -8,9 +8,10 @@ import { produce } from './producer.js'
 config()
 
 export const app: Express = express()
+
 app.use(express.json())
 
-const PORT: number = Number(process.env.CAMERA_PORT) || 5001
+const PORT: number = Number(process.env.SENSOR_PORT) || 6001
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -43,7 +44,7 @@ if (process.env.NODE_ENV === 'test') {
   // mongoConnect()
 } else {
   app.listen(PORT, async (): Promise<void> => {
-    console.log(`Camera server listening on ${PORT}`)
+    console.log(`Sensor server listening on ${PORT}`)
     // mongoConnect()
     await produce()
   })

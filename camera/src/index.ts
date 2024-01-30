@@ -36,7 +36,7 @@ const mongoConnect = async () => {
         `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
       )
     })
-    .catch((e) => console.log(e))
+    .catch(e => console.log(e))
 }
 
 if (process.env.NODE_ENV === 'test') {

@@ -42,7 +42,7 @@ for service in "${services[@]}"; do
   compose_files+=("-f$service/docker-compose.yml")
 done
 
-dbs=()
+dbs=("revue-kafka" "revue-zookeeper")
 for service in "${services[@]}"; do
   dbs+=("revue-$service-db")
 done

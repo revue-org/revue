@@ -1,42 +1,20 @@
 <script setup lang="ts">
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import type { EnvironmentData, Sensor } from '@domain/device/core'
-import { Measure, MeasureUnit } from '@domain/device/core'
+import { Measure } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 
-const { sensor } = defineProps<{
-  sensor: Sensor
+defineProps<{
+  sensorData: { sensor: Sensor; values: EnvironmentData[] }
 }>()
-const environmentDataFactory = new EnvironmentDataFactoryImpl()
-const data: EnvironmentData[] = [
-  environmentDataFactory.createEnvironmentData(
-    sensor.deviceId,
-    20,
-    Measure.PRESSURE,
-    MeasureUnit.PASCAL
-  ),
-  environmentDataFactory.createEnvironmentData(
-    sensor.deviceId,
-    10,
-    Measure.HUMIDITY,
-    MeasureUnit.PERCENTAGE
-  ),
-  environmentDataFactory.createEnvironmentData(
-    sensor.deviceId,
-    30,
-    Measure.TEMPERATURE,
-    MeasureUnit.FARENHEIT
-  )
-]
 </script>
 
 <template>
   <li>
     <h3>
-      {{ sensor.deviceId.code }}
+      {{ sensorData.sensor.deviceId.code }}
     </h3>
     <div class="measures">
-      <div v-for="value in data">
+      <div v-for="value in sensorData.values">
         <span
           ><i
             :style="{

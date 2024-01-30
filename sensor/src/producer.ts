@@ -35,28 +35,31 @@ export const produce = async (): Promise<void> => {
   const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
   await producer.connect()
   let index: number = 0
-
+  let values: EnvironmentData[] = []
   setInterval(async (): Promise<void> => {
+    values = []
     for (const measure of sourceDevice.measures) {
-      const data: EnvironmentData = environmentDataFactory.createEnvironmentData(
-        sourceDevice.deviceId,
-        generateRandomValue(measure),
-        measure,
-        getMeasureUnit(measure),
-        new Date()
+      values.push(
+        environmentDataFactory.createEnvironmentData(
+          sourceDevice.deviceId,
+          generateRandomValue(measure),
+          measure,
+          getMeasureUnit(measure),
+          new Date()
+        )
       )
-      console.log(`Sending ${data.measure} ${data.value} ${data.measureUnit}`)
-      await producer.send({
-        topic: `SENSOR_${sourceDevice.deviceId.code}`,
-        messages: [
-          {
-            value: JSON.stringify(data),
-            key: String(index)
-          }
-        ]
-      })
-      index++
     }
+    await producer.send({
+      topic: `SENSOR_${sourceDevice.deviceId.code}`,
+      messages: [
+        {
+          value: JSON.stringify(values),
+          key: String(index)
+        }
+      ]
+    })
+    console.log(`Message ${index} sent`)
+    index++
   }, sourceDevice.intervalMillis)
 }
 

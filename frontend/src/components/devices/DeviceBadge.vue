@@ -2,10 +2,30 @@
 import type { Device, Sensor, Camera } from '@domain/device/core'
 import { Measure, DeviceType } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
+import { ref } from "vue";
+import UpdateDevicePopup from "@/components/devices/UpdateDevicePopup.vue";
 
 defineProps<{
   device: Device
 }>()
+
+const updatePopupVisible = ref<boolean>(false)
+
+const openPopup = (device: Device) => {
+  updatePopupVisible.value = true
+  console.log(device)
+}
+const updateSensor = () => {
+  /*
+    updatePopupVisible.value = true
+  */
+}
+
+const updateCamera = () => {
+  /*
+    updatePopupVisible.value = true
+  */
+}
 </script>
 
 <template>
@@ -50,7 +70,7 @@ defineProps<{
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>
         <div>
-          <q-btn color="secondary" icon="edit" />
+          <q-btn color="secondary" icon="edit" @click="updatePopupVisible = true"/>
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
@@ -68,6 +88,12 @@ defineProps<{
       </li>
     </ul>
   </div>
+  <update-device-popup
+    v-model="updatePopupVisible"
+    :device="device"
+    @update-sensor="updateSensor"
+    @update-camera="updateCamera"
+  ></update-device-popup>
 </template>
 
 <style scoped lang="scss">

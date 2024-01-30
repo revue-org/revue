@@ -87,11 +87,7 @@ const addNewDevice = () => {
           <label>Acquisition rate (ms)</label>
           <q-input type="number" v-model="intervalMillis" />
         </q-card-section>
-        <<<<<<< HEAD
         <q-option-group style="display: flex" v-model="measures" :options="optionMeasures" type="checkbox" />
-        =======
-        <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
-        >>>>>>> main
       </div>
 
       <q-card-actions align="right">

@@ -18,11 +18,9 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
-const ipAddress: ref<String> = ref(device.ipAddress)
-const width: ref<number> = ref()
-const height: ref<number> = ref()
-const intervalMillis: ref<number> = ref((device as Sensor).intervalMillis)
-const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
+const measures: ref<Measure[]> = ref([])
+
+console.log((device as Camera).resolution)
 
 const options = ref([
   {
@@ -39,20 +37,21 @@ const options = ref([
   }
 ])
 
-const updateDevice = (device: Device) => {
+const updateDevice = () => {
+  console.log(device)
   if (device.deviceId.type == DeviceType.SENSOR) {
     const updatedSensor: Sensor = deviceFactory.createSensor(
       deviceIdFactory.createSensorId(device.deviceId.code),
-      ipAddress.value,
-      intervalMillis.value,
+      device.ipAddress,
+      (device as Sensor).intervalMillis,
       measures.value
     )
     emit('update-sensor', updatedSensor)
   } else if (device.deviceId.type == DeviceType.CAMERA) {
     const updatedCamera: Camera = deviceFactory.createCamera(
       deviceIdFactory.createCameraId(device.deviceId.code),
-      ipAddress.value,
-      resolutionFactory.createResolution(width.value, height.value)
+      device.ipAddress,
+      resolutionFactory.createResolution((device as Camera).resolution.width, (device as Camera).resolution.height)
     )
     emit('update-camera', updatedCamera)
   }
@@ -71,28 +70,28 @@ const updateDevice = (device: Device) => {
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>IP Address</label>
-        <q-input dense v-model="ipAddress" />
+        <q-input dense v-model="device.ipAddress" />
       </q-card-section>
       <div v-if="device.deviceId.type == DeviceType.CAMERA">
         <q-card-section class="q-pt-none resolution">
           <label>Resolution</label>
-          <q-input type="number" v-model="width" placeholder="Width" />
+          <q-input type="number" v-model="(device as Camera).resolution.width" placeholder="Width" />
           <span>x</span>
-          <q-input type="number" v-model="height" placeholder="Height" />
+          <q-input type="number" v-model="(device as Camera).resolution.height" placeholder="Height" />
         </q-card-section>
       </div>
 
       <div v-if="device.deviceId.type == DeviceType.SENSOR">
         <q-card-section class="q-pt-none">
           <label>Acquisition rate (ms)</label>
-          <q-input type="number" v-model="intervalMillis" value="2" />
+          <q-input type="number" v-model="(device as Sensor).intervalMillis" value="2" />
         </q-card-section>
         <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
       </div>
 
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
-        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updateDevice(device)" />
+        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updateDevice()" />
       </q-card-actions>
     </q-card>
   </q-dialog>

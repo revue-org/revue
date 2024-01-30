@@ -37,6 +37,7 @@ const updateSensor = async (sensor: Sensor) => {
       })
     })
       .then(async (res: any) => {
+        alert("devo aggiornare i devices")
         //TODO A CONFIRM POPUP
        // await getSensors()
       })
@@ -46,18 +47,18 @@ const updateSensor = async (sensor: Sensor) => {
 }
 
 const updateCamera = async (camera: Camera) => {
-  console.log(camera)
-    await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
+    await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
       code: camera.deviceId.code,
       ipAddress: camera.ipAddress,
       resolution: {
-        width: camera.resolution.width,
-        height: camera.resolution.height
+        width: parseInt(camera.resolution.width.toString()),
+        height: parseInt(camera.resolution.height.toString())
       }
     })
       .then(async (res: any) => {
+        alert("devo aggiornare i devices")
         //TODO A CONFIRM POPUP
-        await getCameras()
+        //await getCameras()
       })
       .catch(error => {
         console.log(error)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue'
-import { socket, state } from '@/socket'
+import { monitoringSocket, monitoringSocketState } from '@/socket'
 
 const cameras = ref<{ code: string; src: string }[]>([
   { code: 'cam-01', src: '' },
@@ -8,24 +8,24 @@ const cameras = ref<{ code: string; src: string }[]>([
   { code: 'cam-03', src: '' }
 ])
 
-console.log(state)
+console.log(monitoringSocketState)
 
 const topics = computed(() => cameras.value.map((camera) => 'CAMERA_' + camera.code))
 
 console.log(topics.value)
-socket.emit('subscribe', topics.value)
+monitoringSocket.emit('subscribe', topics.value)
 
 onBeforeUnmount(() => {
   console.log('unmount', topics.value)
-  socket.emit('pause', topics.value)
+  monitoringSocket.emit('pause', topics.value)
 })
 
 onBeforeMount(() => {
   console.log('mount', topics.value)
-  socket.emit('resume', topics.value)
+  monitoringSocket.emit('resume', topics.value)
 })
 
-socket.on('stream', (newFrame: { topic: string; frame: string }) => {
+monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
   cameras.value.find((camera) => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })

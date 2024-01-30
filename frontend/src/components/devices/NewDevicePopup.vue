@@ -8,9 +8,7 @@ import {
   DeviceIdFactoryImpl,
   ResolutionFactoryImpl
 } from '@domain/device/factories'
-import { AnomalyType } from 'domain/dist/domain/anomaly/core'
-import type { ExceedingRule, IntrusionRule } from 'domain/dist/domain/security-rule/core'
-import type { Contact } from 'domain/dist/domain/monitoring/core'
+import { MeasureConverter } from "domain/dist/utils";
 
 const emit = defineEmits<{
   (e: 'update-devices'): void
@@ -29,20 +27,17 @@ const width: ref<number> = ref()
 const height: ref<number> = ref()
 const intervalMillis: ref<number> = ref()
 const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
-const options = ref([
-  {
-    label: 'Temperature',
-    value: Measure.TEMPERATURE
-  },
-  {
-    label: 'Humidity',
-    value: Measure.HUMIDITY
-  },
-  {
-    label: 'Pressure',
-    value: Measure.PRESSURE
-  }
-])
+
+const optionMeasures = ref(
+  Object.keys(Measure)
+    .filter((key) => isNaN(Number(key)))
+    .map((value) => {
+      return {
+        label: value,
+        value: MeasureConverter.convertToMeasure(value)
+      }
+    })
+)
 
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
@@ -99,7 +94,7 @@ const addNewDevice = () => {
         <q-option-group
           style="display: flex"
           v-model="measures"
-          :options="options"
+          :options="optionMeasures"
           type="checkbox"
         />
       </div>

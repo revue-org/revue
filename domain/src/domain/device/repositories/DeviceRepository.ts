@@ -4,7 +4,6 @@ import { Camera } from '../core/Camera.js'
 import { Device } from '../core'
 
 export interface DeviceRepository {
-
   getDevices(): Promise<Device[]>
 
   getCameras(): Promise<Camera[]>

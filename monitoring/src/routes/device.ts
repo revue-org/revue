@@ -14,7 +14,6 @@ export const deviceRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
-
 deviceRouter.route('/').get((_req: Request, res: Response): void => {
   deviceController
     .getDevices()

@@ -24,12 +24,18 @@ console.log(topics.value)
 
 onBeforeMount(() => {
   console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
-  socket.emit('resume', topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
+  socket.emit(
+    'resume',
+    topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_'))
+  )
 })
 
 onBeforeUnmount(() => {
   console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
-  socket.emit('pause', topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
+  socket.emit(
+    'pause',
+    topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_'))
+  )
 })
 
 socket.on('stream', (newFrame: { topic: string; frame: string }) => {

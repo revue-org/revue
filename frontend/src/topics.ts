@@ -16,9 +16,15 @@ export const subscribeToAllTopics = async (): Promise<void> => {
     socket.on('subscribed', (): void => {
       console.log('subscribed')
       if (router.currentRoute.value.name === 'Home') {
-        socket.emit('resume', useTopicsStore().subscribedTopics.filter((topic: string): boolean => topic.startsWith('SENSOR')))
+        socket.emit(
+          'resume',
+          useTopicsStore().subscribedTopics.filter((topic: string): boolean => topic.startsWith('SENSOR'))
+        )
       } else if (router.currentRoute.value.name === 'Monitoring') {
-        socket.emit('resume', useTopicsStore().subscribedTopics.filter((topic: string): boolean => topic.startsWith('CAMERA')))
+        socket.emit(
+          'resume',
+          useTopicsStore().subscribedTopics.filter((topic: string): boolean => topic.startsWith('CAMERA'))
+        )
       }
     })
     socket.emit('subscribe', useTopicsStore().subscribedTopics)
@@ -26,5 +32,3 @@ export const subscribeToAllTopics = async (): Promise<void> => {
     console.log('Error while fetching devices')
   }
 }
-
-

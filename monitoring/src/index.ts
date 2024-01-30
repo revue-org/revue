@@ -74,6 +74,6 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   // server.listen(PORT, async (): Promise<void> => {
   //   await connectToMock()
-    // await setupConsumers()
+  // await setupConsumers()
   // })
 }

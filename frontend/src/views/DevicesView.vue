@@ -21,8 +21,6 @@ import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { MeasureConverter } from 'domain/dist/utils'
 
-const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
-
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()

@@ -20,4 +20,3 @@ socket.on('connect', async (): Promise<void> => {
 socket.on('disconnect', (): void => {
   state.connected = false
 })
-

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
-import { type Camera, type Device, DeviceType, type Sensor } from "@domain/device/core";
+import { type Camera, type Device, DeviceType, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 
-defineProps<{
+const { device } = defineProps<{
   device: Device
 }>()
 
@@ -18,13 +18,12 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
-const deviceType: ref<DeviceType> = ref(DeviceType.SENSOR)
-const code: ref<String> = ref('')
-const ipAddress: ref<String> = ref('')
+const ipAddress: ref<String> = ref(device.ipAddress)
 const width: ref<number> = ref()
 const height: ref<number> = ref()
-const intervalMillis: ref<number> = ref()
+const intervalMillis: ref<number> = ref((device as Sensor).intervalMillis)
 const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
+
 const options = ref([
   {
     label: 'Temperature',
@@ -40,18 +39,18 @@ const options = ref([
   }
 ])
 
-const updateDevice = () => {
-  if (deviceType.value == DeviceType.SENSOR) {
+const updateDevice = (device: Device) => {
+  if (device.deviceId.type == DeviceType.SENSOR) {
     const updatedSensor: Sensor = deviceFactory.createSensor(
-      deviceIdFactory.createSensorId(code.value),
+      deviceIdFactory.createSensorId(device.deviceId.code),
       ipAddress.value,
       intervalMillis.value,
       measures.value
     )
     emit('update-sensor', updatedSensor)
-  } else if (deviceType.value == DeviceType.CAMERA) {
+  } else if (device.deviceId.type == DeviceType.CAMERA) {
     const updatedCamera: Camera = deviceFactory.createCamera(
-      deviceIdFactory.createCameraId(code.value),
+      deviceIdFactory.createCameraId(device.deviceId.code),
       ipAddress.value,
       resolutionFactory.createResolution(width.value, height.value)
     )
@@ -66,19 +65,15 @@ const updateDevice = () => {
       <q-card-section>
         <h3 class="text-h5">Update Device:</h3>
       </q-card-section>
-      <q-card-section class="q-gutter-md">
-        <q-radio dense v-model="deviceType" :val="DeviceType.SENSOR" disabled label="Sensor" />
-        <q-radio dense v-model="deviceType" :val="DeviceType.CAMERA" disabled label="Camera" />
-      </q-card-section>
       <q-card-section class="q-pt-none">
         <label>Code</label>
         <q-input dense v-model="device.deviceId.code" disable autofocus />
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>IP Address</label>
-        <q-input dense v-model="device.ipAddress" />
+        <q-input dense v-model="ipAddress" />
       </q-card-section>
-      <div v-if="deviceType == DeviceType.CAMERA">
+      <div v-if="device.deviceId.type == DeviceType.CAMERA">
         <q-card-section class="q-pt-none resolution">
           <label>Resolution</label>
           <q-input type="number" v-model="width" placeholder="Width" />
@@ -87,17 +82,17 @@ const updateDevice = () => {
         </q-card-section>
       </div>
 
-      <div v-if="deviceType == DeviceType.SENSOR">
+      <div v-if="device.deviceId.type == DeviceType.SENSOR">
         <q-card-section class="q-pt-none">
           <label>Acquisition rate (ms)</label>
-          <q-input type="number" v-model="(device as Sensor).intervalMillis" />
+          <q-input type="number" v-model="intervalMillis" value="2" />
         </q-card-section>
         <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
       </div>
 
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
-        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updateDevice" />
+        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updateDevice(device)" />
       </q-card-actions>
     </q-card>
   </q-dialog>

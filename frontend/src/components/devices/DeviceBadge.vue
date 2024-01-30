@@ -4,6 +4,8 @@ import { Measure, DeviceType } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
 import { ref } from "vue";
 import UpdateDevicePopup from "@/components/devices/UpdateDevicePopup.vue";
+import RequestHelper, { monitoringHost, monitoringPort } from "@/utils/RequestHelper";
+import { MeasureConverter } from "domain/dist/utils";
 
 defineProps<{
   device: Device
@@ -15,16 +17,51 @@ const openPopup = (device: Device) => {
   updatePopupVisible.value = true
   console.log(device)
 }
-const updateSensor = () => {
-  /*
-    updatePopupVisible.value = true
-  */
+
+const updateSensor = async (sensor: Sensor) => {
+  console.log("sensor")
+  console.log(sensor)
+  console.log({
+    code: sensor.deviceId.code,
+    ipAddress: sensor.ipAddress,
+    intervalMillis: sensor.intervalMillis,
+    measures: sensor.measures.map((m: Measure) => {
+      return MeasureConverter.convertToString(m)
+    })})
+    await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
+      code: sensor.deviceId.code,
+      ipAddress: sensor.ipAddress,
+      intervalMillis: sensor.intervalMillis,
+      measures: sensor.measures.map((m: Measure) => {
+        return MeasureConverter.convertToString(m)
+      })
+    })
+      .then(async (res: any) => {
+        //TODO A CONFIRM POPUP
+       // await getSensors()
+      })
+      .catch(error => {
+        console.log(error)
+      })
 }
 
-const updateCamera = () => {
-  /*
-    updatePopupVisible.value = true
-  */
+const updateCamera = async (camera: Camera) => {
+  console.log(camera)
+    await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
+      code: camera.deviceId.code,
+      ipAddress: camera.ipAddress,
+      resolution: {
+        width: camera.resolution.width,
+        height: camera.resolution.height
+      }
+    })
+      .then(async (res: any) => {
+        //TODO A CONFIRM POPUP
+        await getCameras()
+      })
+      .catch(error => {
+        console.log(error)
+      })
 }
 </script>
 

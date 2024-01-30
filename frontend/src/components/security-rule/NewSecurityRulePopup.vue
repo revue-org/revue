@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref, toRaw } from 'vue'
-import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
+import { onMounted, ref, toRaw } from 'vue'
+import type { DeviceIdFactory } from '@domain/device/factories'
+import { DeviceIdFactoryImpl } from '@domain/device/factories'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { type ExceedingRule, type IntrusionRule, ObjectClass } from 'domain/dist/domain/security-rule/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
+import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 
 const emit = defineEmits<{
   (e: 'insert-exceeding-rule', exceedingRule: ExceedingRule): void
@@ -15,8 +16,6 @@ const emit = defineEmits<{
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
-const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 
@@ -53,38 +52,58 @@ const optionsMeasure = ref(
     })
 )
 
-const optionsCameraCodes = ref([
-  {
-    label: 'Camera 1',
-    value: 'Camera 1'
-  },
-  {
-    label: 'Camera 2',
-    value: 'Camera 2'
-  }
-])
+const optionsCameraCodes: ref<{ label: string; value: string }> = ref([])
+const getCameraCodes = async () => {
+  await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
+    .then((res: any) => {
+      optionsCameraCodes.value = []
+      for (let i = 0; i < res.data.length; i++) {
+        optionsCameraCodes.value.push({
+          label: res.data[i]._id.code,
+          value: res.data[i]._id.code
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 
-const optionsSensorCodes = ref([
-  {
-    label: 'Sensor 1',
-    value: 'Sensor 1'
-  },
-  {
-    label: 'Sensor 2',
-    value: 'Sensor 2'
-  }
-])
+const optionsSensorCodes: ref<{ label: string; value: string }> = ref([])
+const getSensorCodes = async () => {
+  await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
+    .then((res: any) => {
+      optionsSensorCodes.value = []
+      for (let i = 0; i < res.data.length; i++) {
+        optionsSensorCodes.value.push({
+          label: res.data[i]._id.code,
+          value: res.data[i]._id.code
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 
-const optionsContacts = ref([
-  {
-    label: 'EMAIL',
-    value: 'mail@gmail.com'
-  },
-  {
-    label: 'SMS',
-    value: '3333333333'
-  }
-])
+const optionsContacts: ref<{ label: string; value: string }> = ref([])
+
+const getContacts = async () => {
+  await RequestHelper.get(`http://${authHost}:${authPort}/users/aaaaaaaaaaaaaaaaaaaaaaaa`) //to put the id of the user taken from the pinia storage
+    .then((res: any) => {
+      optionsContacts.value = []
+      for (let i = 0; i < res.data.contacts.length; i++) {
+        optionsContacts.value.push({
+          label: res.data.contacts[i].type + ': ' + res.data.contacts[i].value,
+          value: res.data.contacts[i].value
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
 const addNewSecurityRule = () => {
   if (anomalyType.value == AnomalyType.EXCEEDING) {
     const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
@@ -96,7 +115,7 @@ const addNewSecurityRule = () => {
       'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
       toRaw(contacts.value).map((c: Contact) => {
         return {
-          type: toRaw(c).label,
+          type: toRaw(c).label.split(':')[0],
           value: toRaw(c).value
         }
       }),
@@ -124,6 +143,12 @@ const addNewSecurityRule = () => {
     emit('insert-intrusion-rule', newIntrusionRule)
   }
 }
+
+onMounted(async () => {
+  await getCameraCodes()
+  await getSensorCodes()
+  await getContacts()
+})
 </script>
 
 <template>

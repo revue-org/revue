@@ -9,9 +9,7 @@ db.anomaly.insert([
       type: 'SENSOR',
       code: 'sen-01'
     },
-    timestamp: {
-      $date: '2024-01-27T14:33:04.604Z'
-    },
+    timestamp: new Date("2024-01-27T15:32:15.925Z"),
     value: 30,
     measure: 'PRESSURE',
     __v: 0
@@ -22,9 +20,7 @@ db.anomaly.insert([
       type: 'CAMERA',
       code: 'cam-03'
     },
-    timestamp: {
-      $date: '2024-01-27T14:33:08.295Z'
-    },
+    timestamp: new Date("2024-01-27T16:32:15.925Z"),
     intrusionObject: 'ANIMAL',
     __v: 0
   }
@@ -37,18 +33,14 @@ db.notification.insert([
     _id: ObjectId('65b5113633b1c7e038248937'),
     anomalyId: ObjectId('65b514200718dbb3580fb9e6'),
     anomalyType: 'EXCEEDING',
-    timestamp: {
-      $date: '2024-01-27T14:20:38.950Z'
-    },
+    timestamp: new Date("2024-01-27T14:32:15.925Z"),
     __v: 0
   },
   {
     _id: ObjectId('65b513ef0718dbb3580fb9e3'),
     anomalyId: ObjectId('65b514240718dbb3580fb9e8'),
     anomalyType: 'INTRUSION',
-    timestamp: {
-      $date: '2024-01-27T14:32:15.925Z'
-    },
+    timestamp: new Date("2024-01-27T14:32:15.925Z"),
     __v: 0
   }
 ])
@@ -76,12 +68,8 @@ db.securityRule.insert([
         value: 'email@gmail.com'
       }
     ],
-    from: {
-      $date: '2018-01-01T01:00:00.000Z'
-    },
-    to: {
-      $date: '2020-01-01T01:00:00.000Z'
-    },
+    from: new Date("2020-01-01T03:00:00.000Z"),
+    to: new Date("2030-01-01T01:00:00.000Z"),
     __v: 0
   },
   {
@@ -103,12 +91,8 @@ db.securityRule.insert([
         value: 'email@gmail.com'
       }
     ],
-    from: {
-      $date: '2018-01-01T01:00:00.000Z'
-    },
-    to: {
-      $date: '2020-01-01T01:00:00.000Z'
-    },
+    from: new Date("2020-01-01T01:00:00.000Z"),
+    to: new Date("2030-01-01T01:00:00.000Z"),
     __v: 0
   }
 ])

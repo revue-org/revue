@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, onBeforeUnmount, ref, type Ref } from 'vue'
-import { socket, state } from '@/socket'
+import { monitoringSocket } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
 
 const topicsStore = useTopicsStore()
@@ -10,29 +10,25 @@ const cameras = ref<{ code: string; src: string }[]>([
   { code: 'cam-03', src: '' }
 ])
 
-console.log(state)
-
 const topics: Ref<string[]> = computed(() => cameras.value.map(camera => 'CAMERA_' + camera.code))
-
-console.log(topics.value)
 
 onBeforeMount(() => {
   const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
   const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
   if (topicsToSubscribe.length > 0) {
-    socket.emit('subscribe', topicsToSubscribe)
+    monitoringSocket.emit('subscribe', topicsToSubscribe)
     topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
   }
   if (topicsToResume.length > 0) {
-    socket.emit('resume', topicsToResume)
+    monitoringSocket.emit('resume', topicsToResume)
   }
 })
 
 onBeforeUnmount(() => {
-  socket.emit('pause', topics.value)
+  monitoringSocket.emit('pause', topics.value)
 })
 
-socket.on('stream', (newFrame: { topic: string; frame: string }) => {
+monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
   cameras.value.find(camera => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })

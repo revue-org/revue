@@ -2,11 +2,7 @@
 import { computed, onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
 import { type EnvironmentData, Measure, MeasureUnit, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
-import {
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl,
-  EnvironmentDataFactoryImpl
-} from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
 
 import { socket } from '@/socket'
@@ -52,15 +48,11 @@ const topics: Ref<string[]> = computed(() =>
 )
 
 onBeforeMount(() => {
-  const topicsToSubscribe = topics.value.filter(
-    (topic) => !topicsStore.subscribedTopics.includes(topic)
-  )
-  const topicsToResume = topics.value.filter((topic) =>
-    topicsStore.subscribedTopics.includes(topic)
-  )
+  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
+  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
   if (topicsToSubscribe.length > 0) {
     socket.emit('subscribe', topicsToSubscribe)
-    topicsToSubscribe.forEach((topic) => topicsStore.addTopic(topic))
+    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
   }
   if (topicsToResume.length > 0) {
     socket.emit('resume', topicsToResume)

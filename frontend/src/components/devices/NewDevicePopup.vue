@@ -3,11 +3,7 @@ import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
 import { DeviceType } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import {
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl,
-  ResolutionFactoryImpl
-} from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void
@@ -94,12 +90,7 @@ const addNewDevice = () => {
           <label>Acquisition rate (ms)</label>
           <q-input type="number" v-model="intervalMillis" />
         </q-card-section>
-        <q-option-group
-          style="display: flex"
-          v-model="measures"
-          :options="options"
-          type="checkbox"
-        />
+        <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
       </div>
 
       <q-card-actions align="right">

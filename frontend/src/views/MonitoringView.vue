@@ -12,20 +12,16 @@ const cameras = ref<{ code: string; src: string }[]>([
 
 console.log(state)
 
-const topics: Ref<string[]> = computed(() => cameras.value.map((camera) => 'CAMERA_' + camera.code))
+const topics: Ref<string[]> = computed(() => cameras.value.map(camera => 'CAMERA_' + camera.code))
 
 console.log(topics.value)
 
 onBeforeMount(() => {
-  const topicsToSubscribe = topics.value.filter(
-    (topic) => !topicsStore.subscribedTopics.includes(topic)
-  )
-  const topicsToResume = topics.value.filter((topic) =>
-    topicsStore.subscribedTopics.includes(topic)
-  )
+  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
+  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
   if (topicsToSubscribe.length > 0) {
     socket.emit('subscribe', topicsToSubscribe)
-    topicsToSubscribe.forEach((topic) => topicsStore.addTopic(topic))
+    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
   }
   if (topicsToResume.length > 0) {
     socket.emit('resume', topicsToResume)
@@ -37,7 +33,7 @@ onBeforeUnmount(() => {
 })
 
 socket.on('stream', (newFrame: { topic: string; frame: string }) => {
-  cameras.value.find((camera) => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
+  cameras.value.find(camera => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })
 </script>

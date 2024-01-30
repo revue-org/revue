@@ -31,7 +31,7 @@ const getExceedingSecurityRules = async () => {
           exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -45,7 +45,7 @@ const getIntrusionSecurityRules = async () => {
           intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }

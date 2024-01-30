@@ -38,17 +38,11 @@ export const deviceController = {
   getSensors: async (): Promise<Sensor[]> => {
     return await deviceManager.getSensors()
   },
-  createCamera: async (
-    deviceId: DeviceId,
-    ipAddress: string,
-    resolution: Resolution
-  ): Promise<void> => {
+  createCamera: async (deviceId: DeviceId, ipAddress: string, resolution: Resolution): Promise<void> => {
     if ((await deviceManager.getDeviceById(deviceId)) !== null) {
       throw new Error('Camera already present' + deviceId.code + ' ' + deviceId.type.toString())
     }
-    return await deviceManager.insertCamera(
-      deviceFactory.createCamera(deviceId, ipAddress, resolution)
-    )
+    return await deviceManager.insertCamera(deviceFactory.createCamera(deviceId, ipAddress, resolution))
   },
   createSensor: async (
     deviceId: DeviceId,
@@ -63,14 +57,8 @@ export const deviceController = {
       deviceFactory.createSensor(deviceId, ipAddress, intervalMillis, measures)
     )
   },
-  updateCamera: async (
-    deviceId: DeviceId,
-    ipAddress: string,
-    resolution: Resolution
-  ): Promise<void> => {
-    return await deviceManager.updateCamera(
-      deviceFactory.createCamera(deviceId, ipAddress, resolution)
-    )
+  updateCamera: async (deviceId: DeviceId, ipAddress: string, resolution: Resolution): Promise<void> => {
+    return await deviceManager.updateCamera(deviceFactory.createCamera(deviceId, ipAddress, resolution))
   },
   updateSensor: async (
     deviceId: DeviceId,

@@ -62,9 +62,7 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
           code: intrusion.deviceId.code
         },
         timestamp: intrusion.timestamp,
-        intrusionObject: ObjectClassConverter.convertToString(
-          (intrusion as IntrusionImpl).intrusionObject
-        )
+        intrusionObject: ObjectClassConverter.convertToString((intrusion as IntrusionImpl).intrusionObject)
       })
       .catch((err): void => {
         throw err

@@ -17,9 +17,7 @@ export const notificationModel: Model<Notification> = model<Notification>(
   'notification'
 )
 
-const notificationManager: NotificationRepository = new NotificationRepositoryImpl(
-  notificationModel
-)
+const notificationManager: NotificationRepository = new NotificationRepositoryImpl(notificationModel)
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 export const notificationController = {

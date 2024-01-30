@@ -137,9 +137,6 @@ export const securityRuleController = {
     )
   },
   deleteSecurityRule: async (id: string, type: string): Promise<void> => {
-    return await securityRuleManager.deleteSecurityRule(
-      id,
-      AnomalyTypeConverter.convertToAnomalyType(type)
-    )
+    return await securityRuleManager.deleteSecurityRule(id, AnomalyTypeConverter.convertToAnomalyType(type))
   }
 }

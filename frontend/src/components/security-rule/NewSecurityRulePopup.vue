@@ -2,16 +2,9 @@
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import {
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl,
-  ResolutionFactoryImpl
-} from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
-import {
-  type SecurityRuleFactory,
-  SecurityRuleFactoryImpl
-} from 'domain/dist/domain/security-rule/factories'
+import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { ObjectClass } from 'domain/dist/domain/security-rule/core'
 
@@ -196,13 +189,7 @@ const addNewSecurityRule = () => {
 
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
-        <q-btn
-          flat
-          label="OK"
-          v-close-popup
-          class="bg-white text-teal"
-          @click="addNewSecurityRule"
-        />
+        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="addNewSecurityRule" />
       </q-card-actions>
     </q-card>
   </q-dialog>

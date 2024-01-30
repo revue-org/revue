@@ -60,11 +60,7 @@ defineProps<{
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
-          <q-btn
-            color="negative"
-            icon="delete"
-            @click="$emit('delete-security-rule', securityRule)"
-          />
+          <q-btn color="negative" icon="delete" @click="$emit('delete-security-rule', securityRule)" />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>
       </li>

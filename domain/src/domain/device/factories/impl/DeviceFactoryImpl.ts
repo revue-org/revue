@@ -12,12 +12,7 @@ export class DeviceFactoryImpl implements DeviceFactory {
     return new CameraImpl(deviceId, ipAddress, resolution)
   }
 
-  createSensor(
-    deviceId: DeviceId,
-    ipAddress: string,
-    intervalMillis: number,
-    measures: Measure[]
-  ): Sensor {
+  createSensor(deviceId: DeviceId, ipAddress: string, intervalMillis: number, measures: Measure[]): Sensor {
     return new SensorImpl(deviceId, ipAddress, intervalMillis, measures)
   }
 }

@@ -2,11 +2,7 @@
 import { Line } from 'vue-chartjs'
 import type { Device, EnvironmentData } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
-import {
-  EnvironmentDataFactoryImpl,
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl
-} from '@domain/device/factories'
+import { EnvironmentDataFactoryImpl, DeviceFactoryImpl, DeviceIdFactoryImpl } from '@domain/device/factories'
 import { Measure, MeasureUnit } from '@domain/device/core'
 import {
   CategoryScale,
@@ -36,32 +32,16 @@ const chartOptions = {
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 
-const sensor = deviceFactory.createSensor(
-  deviceIdFactory.createSensorId('Sensor 1'),
-  '192.168.1.10',
-  5,
-  [Measure.HUMIDITY, Measure.TEMPERATURE, Measure.PRESSURE]
-)
+const sensor = deviceFactory.createSensor(deviceIdFactory.createSensorId('Sensor 1'), '192.168.1.10', 5, [
+  Measure.HUMIDITY,
+  Measure.TEMPERATURE,
+  Measure.PRESSURE
+])
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 const data: EnvironmentData[] = [
-  environmentDataFactory.createEnvironmentData(
-    sensor.deviceId,
-    20,
-    Measure.PRESSURE,
-    MeasureUnit.PASCAL
-  ),
-  environmentDataFactory.createEnvironmentData(
-    sensor.deviceId,
-    20,
-    Measure.PRESSURE,
-    MeasureUnit.PASCAL
-  ),
-  environmentDataFactory.createEnvironmentData(
-    sensor.deviceId,
-    20,
-    Measure.PRESSURE,
-    MeasureUnit.PASCAL
-  )
+  environmentDataFactory.createEnvironmentData(sensor.deviceId, 20, Measure.PRESSURE, MeasureUnit.PASCAL),
+  environmentDataFactory.createEnvironmentData(sensor.deviceId, 20, Measure.PRESSURE, MeasureUnit.PASCAL),
+  environmentDataFactory.createEnvironmentData(sensor.deviceId, 20, Measure.PRESSURE, MeasureUnit.PASCAL)
 ]
 </script>
 

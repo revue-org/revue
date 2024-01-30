@@ -24,14 +24,7 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
       const sensor = composeSensor(res.data[i])
       values.value.push({
         sensor: sensor,
-        values: [
-          environmentDataFactory.createEnvironmentData(
-            sensor.deviceId,
-            20,
-            Measure.TEMPERATURE,
-            MeasureUnit.CELSIUS
-          )
-        ]
+        values: []
       })
     }
   }

@@ -49,6 +49,10 @@ li {
     align-items: flex-start;
     gap: 2rem;
 
+    div {
+      width: 180px;
+    }
+
     @media screen and (max-width: 576px) {
       flex-direction: column;
       gap: 5px;

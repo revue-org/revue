@@ -26,4 +26,27 @@ db.device.insert([{
     'width': 200
   },
   '__v': 0
+}, {
+  '_id': {
+    'type': 'SENSOR',
+    'code': 'sen-02'
+  },
+  'ipAddress': '192.168.1.30',
+  'intervalMillis': 1000,
+  'measures': [
+    'PRESSURE',
+    'TEMPERATURE'
+  ],
+  '__v': 0
+}, {
+  '_id': {
+    'type': 'CAMERA',
+    'code': 'cam-02'
+  },
+  'ipAddress': '192.168.1.40',
+  'resolution': {
+    'height': 200,
+    'width': 200
+  },
+  '__v': 0
 }])

@@ -16,11 +16,19 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   async getCameras(): Promise<Camera[]> {
-    return this.cameraModel.find().orFail()
+    return this.cameraModel
+      .find({
+        '_id.type': 'CAMERA'
+      })
+      .orFail()
   }
 
   async getSensors(): Promise<Sensor[]> {
-    return this.sensorModel.find().orFail()
+    return this.sensorModel
+      .find({
+        '_id.type': 'SENSOR'
+      })
+      .orFail()
   }
 
   async getDeviceById(deviceId: DeviceId): Promise<Camera | Sensor> {
@@ -134,30 +142,25 @@ export class DeviceRepositoryImpl implements DeviceRepository {
       .orFail()
   }
 
-  async deleteDevice(deviceId: DeviceId): Promise<void> {
-    switch (deviceId.type) {
-      case DeviceType.CAMERA:
-        await this.cameraModel
-          .deleteOne({
-            _id: {
-              type: DeviceTypeConverter.convertToString(deviceId.type),
-              code: deviceId.code
-            }
-          })
-          .orFail()
-        break
-      case DeviceType.SENSOR:
-        await this.sensorModel
-          .deleteOne({
-            _id: {
-              type: DeviceTypeConverter.convertToString(deviceId.type),
-              code: deviceId.code
-            }
-          })
-          .orFail()
-        break
-      default:
-        throw new Error('Error while deleting device')
-    }
+  async deleteCamera(code: string): Promise<void> {
+    await this.cameraModel
+      .deleteOne({
+        _id: {
+          type: 'CAMERA',
+          code: code
+        }
+      })
+      .orFail()
+  }
+
+  async deleteSensor(code: string): Promise<void> {
+    await this.sensorModel
+      .deleteOne({
+        _id: {
+          type: 'SENSOR',
+          code: code
+        }
+      })
+      .orFail()
   }
 }

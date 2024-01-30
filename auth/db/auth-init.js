@@ -4,6 +4,7 @@ db.createCollection('user')
 //TODO to test
 db.user.insertMany([
   {
+    _id: ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'),
     name: 'Mattia',
     surname: 'Matteini',
     username: 'mattia',
@@ -17,6 +18,7 @@ db.user.insertMany([
     ]
   },
   {
+    _id: ObjectId('aaaaaaaaaaaaaaaaaaaaaaab'),
     name: 'Mario',
     surname: 'Rossi',
     username: 'paga16',

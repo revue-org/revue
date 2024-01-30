@@ -14,10 +14,14 @@ type Headers = {
 
 export const authHost: string = import.meta.env.VITE_AUTH_HOST || 'localhost'
 export const authPort: string = import.meta.env.VITE_AUTH_PORT || '4000'
+export const monitoringHost: string = import.meta.env.VITE_MONITORING_HOST || 'localhost'
+export const monitoringPort: string = import.meta.env.VITE_MONITORING_PORT || '4001'
+export const alarmHost: string = import.meta.env.VITE_ALARM_HOST || 'localhost'
+export const alarmPort: string = import.meta.env.VITE_ALARM_PORT || '4002'
 
 export default class RequestHelper {
   static getHeaders(): Headers {
-    return { headers: { Authorization: `Bearer ${userStore().accessToken}` } }
+    return { headers: { Authorization: `Bearer apikey-dev` } } //${userStore().accessToken}
   }
 
   static async get(url: string, params?: any): Promise<AxiosResponse> {
@@ -33,7 +37,7 @@ export default class RequestHelper {
     return await axios.put(url, body, this.getHeaders())
   }
 
-  static async delete(url: string, body?: any): Promise<AxiosResponse> {
-    return await axios.delete(url, body)
+  static async delete(url: string): Promise<AxiosResponse> {
+    return await axios.delete(url, this.getHeaders())
   }
 }

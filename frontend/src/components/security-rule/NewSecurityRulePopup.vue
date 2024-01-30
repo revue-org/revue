@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
-import { ObjectClass } from 'domain/dist/domain/security-rule/core'
+import {
+  type ExceedingRule,
+  type IntrusionRule,
+  ObjectClass
+} from 'domain/dist/domain/security-rule/core'
+import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
-  (e: 'update-security-rules'): void
+  (e: 'insert-exceeding-rule', exceedingRule: ExceedingRule): void
+  (e: 'insert-intrusion-rule', intrusionRule: IntrusionRule): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -29,35 +35,27 @@ const to: ref<Date> = ref()
 const measure: ref<Measure> = ref(Measure.TEMPERATURE)
 const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
 
-const optionsMeasure = ref([
-  {
-    label: 'Temperature',
-    value: Measure.TEMPERATURE
-  },
-  {
-    label: 'Humidity',
-    value: Measure.HUMIDITY
-  },
-  {
-    label: 'Pressure',
-    value: Measure.PRESSURE
-  }
-])
+const optionsObjectClass = ref(
+  Object.keys(ObjectClass)
+    .filter((key) => isNaN(Number(key)))
+    .map((value) => {
+      return {
+        label: value,
+        value: ObjectClassConverter.convertToObjectClass(value)
+      }
+    })
+)
 
-const optionsObjectClass = ref([
-  {
-    label: 'Person',
-    value: ObjectClass.PERSON
-  },
-  {
-    label: 'Animal',
-    value: ObjectClass.ANIMAL
-  },
-  {
-    label: 'Vehicle',
-    value: ObjectClass.VEHICLE
-  }
-])
+const optionsMeasure = ref(
+  Object.keys(Measure)
+    .filter((key) => isNaN(Number(key)))
+    .map((value) => {
+      return {
+        label: value,
+        value: MeasureConverter.convertToMeasure(value)
+      }
+    })
+)
 
 const optionsCameraCodes = ref([
   {
@@ -83,46 +81,52 @@ const optionsSensorCodes = ref([
 
 const optionsContacts = ref([
   {
-    label: 'EMAIL - mail@gmail.com',
+    label: 'EMAIL',
     value: 'mail@gmail.com'
   },
   {
-    label: 'SMS - 3333333333',
+    label: 'SMS',
     value: '3333333333'
   }
 ])
 const addNewSecurityRule = () => {
-  console.log('ho cliccato per creare una nuova regola di sicurezza')
   if (anomalyType.value == AnomalyType.EXCEEDING) {
-    console.log(
-      securityRuleFactory.createExceedingRule(
-        min,
-        max,
-        measure,
-        '',
-        deviceIdFactory.createSensorId(code),
-        '',
-        contacts,
-        description,
-        from,
-        to
-      )
+    const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
+      min.value,
+      max.value,
+      measure.value,
+      '',
+      deviceIdFactory.createSensorId(toRaw(code.value).value),
+      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
+      toRaw(contacts.value).map((c: Contact) => {
+        return {
+          type: toRaw(c).label,
+          value: toRaw(c).value
+        }
+      }),
+      description.value,
+      new Date('1970-01-01T' + from.value + ':00.000Z'),
+      new Date('2030-01-01T' + to.value + ':00.000Z')
     )
+    emit('insert-exceeding-rule', newExceedingRule)
   } else if (anomalyType.value == AnomalyType.INTRUSION) {
-    console.log(
-      securityRuleFactory.createIntrusionRule(
-        objectClass,
-        '',
-        deviceIdFactory.createCameraId(code),
-        '',
-        contacts,
-        description,
-        from,
-        to
-      )
+    const newIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
+      objectClass.value,
+      '',
+      deviceIdFactory.createCameraId(toRaw(code.value).value),
+      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
+      toRaw(contacts.value).map((c: Contact) => {
+        return {
+          type: toRaw(c).label,
+          value: toRaw(c).value
+        }
+      }),
+      description.value,
+      new Date('1970-01-01T' + from.value + ':00.000Z'),
+      new Date('2040-01-01T' + to.value + ':00.000Z')
     )
+    emit('insert-intrusion-rule', newIntrusionRule)
   }
-  emit('update-security-rules')
 }
 </script>
 
@@ -166,6 +170,10 @@ const addNewSecurityRule = () => {
           type="radio"
         />
       </div>
+      <q-card-section>
+        <label>Description</label>
+        <q-input v-model="description" label="Rule description" />
+      </q-card-section>
       <q-card-section>
         <label>Contacts</label>
         <q-select

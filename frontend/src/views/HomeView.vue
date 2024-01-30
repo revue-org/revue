@@ -89,7 +89,7 @@ socket.on('env-data', (data: { topic: string; data: string }) => {
 <template>
   <h2>Environment data</h2>
   <div>
-    <sensor-data v-for="(sensor, index) in values" :key="index" :sensor-data="sensor" />
+    <sensor-data v-for="(value, index) in values" :key="index" :sensor-data="value" />
   </div>
 </template>
 

@@ -2,6 +2,7 @@ import { DeviceId, Measure } from 'domain/dist/domain/device/core'
 import { notificationController } from '../controller/notification.js'
 import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
 import { io } from '../index.js'
+import { AnomalyType } from "domain/dist/domain/anomaly/core";
 
 export const simulationController = {
   simulateExceeding: async (
@@ -12,7 +13,7 @@ export const simulationController = {
   ): Promise<void> => {
     await notificationController.createExceedingNotification(anomalyId, deviceId, measure, value)
 
-    io.emit('exceeding', { newExceeding: true })
+    io.emit('notification', { type: "EXCEEDING" })
   },
   simulateIntrusion: async (
     anomalyId: string,
@@ -21,6 +22,6 @@ export const simulationController = {
   ): Promise<void> => {
     await notificationController.createIntrusionNotification(anomalyId, deviceId, objectClass)
 
-    io.emit('intrusion', { newIntrusion: true })
+    io.emit('notification', { type: 'INTRUSION' })
   }
 }

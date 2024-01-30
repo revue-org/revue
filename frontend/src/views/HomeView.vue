@@ -105,7 +105,7 @@ const simulateExceeding = async () => {
     .then((res: any) => {
       console.log(res)
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -122,7 +122,7 @@ const simulateIntrusion = async () => {
     .then((res: any) => {
       console.log(res)
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }

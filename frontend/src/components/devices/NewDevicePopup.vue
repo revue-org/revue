@@ -3,11 +3,7 @@ import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
 import { type Camera, DeviceType, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import {
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl,
-  ResolutionFactoryImpl
-} from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 import { MeasureConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
@@ -30,8 +26,8 @@ const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
 
 const optionMeasures = ref(
   Object.keys(Measure)
-    .filter((key) => isNaN(Number(key)))
-    .map((value) => {
+    .filter(key => isNaN(Number(key)))
+    .map(value => {
       return {
         label: value,
         value: MeasureConverter.convertToMeasure(value)
@@ -91,16 +87,11 @@ const addNewDevice = () => {
           <label>Acquisition rate (ms)</label>
           <q-input type="number" v-model="intervalMillis" />
         </q-card-section>
-<<<<<<< HEAD
-        <q-option-group
-          style="display: flex"
-          v-model="measures"
-          :options="optionMeasures"
-          type="checkbox"
-        />
-=======
+        <<<<<<< HEAD
+        <q-option-group style="display: flex" v-model="measures" :options="optionMeasures" type="checkbox" />
+        =======
         <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
->>>>>>> main
+        >>>>>>> main
       </div>
 
       <q-card-actions align="right">

@@ -8,12 +8,7 @@ import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/d
 import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { type ExceedingRule, type IntrusionRule, ObjectClass } from 'domain/dist/domain/security-rule/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
-import RequestHelper, {
-  authHost,
-  authPort,
-  monitoringHost,
-  monitoringPort
-} from '@/utils/RequestHelper'
+import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 
 const emit = defineEmits<{
   (e: 'insert-exceeding-rule', exceedingRule: ExceedingRule): void
@@ -69,7 +64,7 @@ const getCameraCodes = async () => {
         })
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -86,7 +81,7 @@ const getSensorCodes = async () => {
         })
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }
@@ -104,7 +99,7 @@ const getContacts = async () => {
         })
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
     })
 }

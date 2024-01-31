@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, onBeforeUnmount, ref, type Ref } from 'vue'
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue'
 import { monitoringSocket } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
+import { DeviceTypeConverter } from 'domain/dist/utils'
+import { DeviceType } from 'domain/dist/domain/device/core'
 
 const topicsStore = useTopicsStore()
 const cameras = ref<{ code: string; src: string }[]>([])
@@ -17,23 +19,37 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).
 })
 
 onBeforeMount(() => {
-  console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
+  console.log(
+    'resume' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+      )
+  )
   monitoringSocket.emit(
     'resume',
-    topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_'))
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+    )
   )
 })
 
 onBeforeUnmount(() => {
-  console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
+  console.log(
+    'pause' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+      )
+  )
   monitoringSocket.emit(
     'pause',
-    topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_'))
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+    )
   )
 })
 
 monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
-  cameras.value.find(camera => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
+  cameras.value.find(camera => camera.code === newFrame.topic.split('_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })
 </script>

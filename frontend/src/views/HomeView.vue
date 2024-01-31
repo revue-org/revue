@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
+import { DeviceType, type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
@@ -8,7 +8,7 @@ import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } f
 import { alarmSocket, monitoringSocket } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
-import { AnomalyTypeConverter, MeasureConverter } from 'domain/dist/utils'
+import { AnomalyTypeConverter, DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { useTopicsStore } from '@/stores/topics'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
@@ -53,18 +53,32 @@ function composeMeasure(measures: any): Measure[] {
 }
 
 onBeforeMount(() => {
-  console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
+  console.log(
+    'resume' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+      )
+  )
   monitoringSocket.emit(
     'resume',
-    topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_'))
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+    )
   )
 })
 
 onBeforeUnmount(() => {
-  console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
+  console.log(
+    'pause' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+      )
+  )
   monitoringSocket.emit(
     'pause',
-    topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_'))
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+    )
   )
 })
 
@@ -125,7 +139,7 @@ const simulateIntrusion = async () => {
     })
 }
 
-alarmSocket.on('notification', (anomaly: string) => {
+alarmSocket.on('notification', (anomaly: { type: string }) => {
   const anomalyType: AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
   switch (anomalyType) {
     case AnomalyType.EXCEEDING:

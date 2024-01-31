@@ -3,6 +3,8 @@ import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHe
 import { type AxiosResponse, HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import { monitoringSocket } from '@/socket'
 import router from '@/router'
+import { DeviceType } from '@domain/device/core'
+import { DeviceTypeConverter } from '@utils/DeviceTypeConverter'
 
 export const subscribeToAllTopics = async (): Promise<void> => {
   console.log('subscribe to all topics')
@@ -16,15 +18,20 @@ export const subscribeToAllTopics = async (): Promise<void> => {
     console.log('ARR', useTopicsStore().subscribedTopics)
     monitoringSocket.on('subscribed', (): void => {
       console.log('subscribed')
+
       if (router.currentRoute.value.name === 'Home') {
         monitoringSocket.emit(
           'resume',
-          useTopicsStore().subscribedTopics.filter((topic: string): boolean => topic.startsWith('SENSOR'))
+          useTopicsStore().subscribedTopics.filter((topic: string): boolean =>
+            topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+          )
         )
       } else if (router.currentRoute.value.name === 'Monitoring') {
         monitoringSocket.emit(
           'resume',
-          useTopicsStore().subscribedTopics.filter((topic: string): boolean => topic.startsWith('CAMERA'))
+          useTopicsStore().subscribedTopics.filter((topic: string): boolean =>
+            topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+          )
         )
       }
     })

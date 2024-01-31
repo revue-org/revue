@@ -5,13 +5,15 @@ import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 import { composeNotification } from '@/scripts/presentation/notification/ComposeNotification'
 
-let notifications: ref<Notification[]> = ref<Notification[]>([])
+let notifications: ref<Notification[]> = ref([])
 
 async function getNotifications() {
   await RequestHelper.get(`http://${alarmHost}:${alarmPort}/notifications`)
     .then((res: any) => {
-      notifications.value = []
+      //notifications.value = []
       for (let i = 0; i < res.data.length; i++) {
+        console.log("AAAA")
+        console.log(composeNotification(res.data[i]))
         notifications.value.push(composeNotification(res.data[i]))
       }
     })

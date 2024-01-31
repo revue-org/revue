@@ -8,24 +8,20 @@ import type { AnomalyFactory } from "domain/dist/domain/anomaly/factories";
 import { AnomalyFactoryImpl } from "domain/dist/domain/anomaly/factories";
 import type { DeviceIdFactory } from "domain/dist/domain/device/factories";
 import { DeviceIdFactoryImpl } from "domain/dist/domain/device/factories";
+import type { Notification } from "domain/dist/domain/alarm-system/core";
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
-export async function composeNotification(notification: any) {
-  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/anomalies/` + notification.anomalyId)
-    .then((anomaly: any) => {
-      switch (DeviceTypeConverter.convertToDeviceType(anomaly.data.deviceId.type)) {
-        case DeviceType.CAMERA:
-          return notificationFactory.createIntrusionNotification(notification._id, composeIntrusion(anomaly.data))
-        case DeviceType.SENSOR:
-          return notificationFactory.createExceedingNotification(notification._id, composeExceeding(anomaly.data))
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
+export const composeNotification = async (notification: any): Promise<Notification> => {
+  const resAnomaly = await RequestHelper.get(`http://${alarmHost}:${alarmPort}/anomalies/` + notification.anomalyId)
+  switch (DeviceTypeConverter.convertToDeviceType(resAnomaly.data.deviceId.type)) {
+    case DeviceType.CAMERA:
+      return notificationFactory.createIntrusionNotification(notification._id, composeIntrusion(resAnomaly.data))
+    case DeviceType.SENSOR:
+      return notificationFactory.createExceedingNotification(notification._id, composeExceeding(resAnomaly.data))
+  }
 }
 
 function composeIntrusion(intrusion: any): Intrusion {

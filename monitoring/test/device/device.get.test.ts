@@ -11,10 +11,6 @@ describe('GET /devices/', (): void => {
     await populateDevices()
   })
 
-  describe('GET /devices', (): void => {
-    // TODO: add test
-  })
-
   describe('GET /devices/sensors', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore

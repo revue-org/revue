@@ -15,7 +15,6 @@ export const subscribeToAllTopics = async (): Promise<void> => {
     for (let i = 0; i < res.data.length; i++) {
       useTopicsStore().addTopic(res.data[i]._id.type + '_' + res.data[i]._id.code)
     }
-    console.log('ARR', useTopicsStore().subscribedTopics)
     monitoringSocket.on('subscribed', (): void => {
       console.log('subscribed')
 

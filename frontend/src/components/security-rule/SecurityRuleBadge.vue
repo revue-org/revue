@@ -9,6 +9,8 @@ import {
 } from '@domain/security-rule/core'
 import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
 import { ref } from 'vue'
+import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from "domain/dist/utils";
+import RequestHelper, { alarmHost, alarmPort } from "@/utils/RequestHelper";
 
 defineProps<{
   securityRule: SecurityRule
@@ -21,41 +23,72 @@ defineEmits<{
 const updatePopupVisible = ref<boolean>(false)
 
 const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
-  /*await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
-    code: sensor.deviceId.code,
-    ipAddress: sensor.ipAddress,
-    intervalMillis: sensor.intervalMillis,
-    measures: sensor.measures.map((m: Measure) => {
-      return MeasureConverter.convertToString(m)
-    })
+  /*
+  * {
+    "id": "65b527590fa38e9a5422537c",
+    "deviceId": {
+        "type": "SENSOR",
+        "code": "sen-01"
+    },
+    "description": "ciao",
+    "minValue": 0,
+    "maxValue": 50,
+    "measure": "TEMPERATURE",
+    "from": "2018-01-01T01:00:00.000Z",
+    "to": "2020-01-01T01:00:00.000Z",
+    "contacts": [
+        {
+            "value": "3667161457",
+            "type": "SMS"
+        },
+        {
+            "value": "email@gmail.com",
+            "type": "EMAIL"
+        }
+    ]
+}
+* */
+  await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
+    deviceId: {
+      type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
+      code: exceedingRule.deviceId.code
+    },
+    description: exceedingRule.description,
+    minValue: exceedingRule.min,
+    maxValue: exceedingRule.max,
+    measure: MeasureConverter.convertToString(exceedingRule.measure),
+    from: exceedingRule.from.toISOString(),
+    to: exceedingRule.to.toISOString(),
+    contacts: exceedingRule.contactsToNotify
   })
     .then(async (res: any) => {
-      alert('devo aggiornare i devices')
+      alert('devo aggiornare le exceeding rules')
       //TODO A CONFIRM POPUP
     })
     .catch(error => {
       console.log(error)
-    })*/
-  console.log(exceedingRule)
+    })
 }
 
 const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  /*  await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
-      code: camera.deviceId.code,
-      ipAddress: camera.ipAddress,
-      resolution: {
-        width: parseInt(camera.resolution.width.toString()),
-        height: parseInt(camera.resolution.height.toString())
-      }
+  await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
+    deviceId: {
+      type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
+      code: intrusionRule.deviceId.code
+    },
+    description: intrusionRule.description,
+    objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
+    from: intrusionRule.from.toISOString(),
+    to: intrusionRule.to.toISOString(),
+    contacts: intrusionRule.contactsToNotify
+  })
+    .then(async (res: any) => {
+      alert('devo aggiornare le intrusion rules')
+      //TODO A CONFIRM POPUP
     })
-      .then(async (res: any) => {
-        alert('devo aggiornare i devices')
-        //TODO A CONFIRM POPUP
-      })
-      .catch(error => {
-        console.log(error)
-      })*/
-  console.log(intrusionRule)
+    .catch(error => {
+      console.log(error)
+    })
 }
 </script>
 

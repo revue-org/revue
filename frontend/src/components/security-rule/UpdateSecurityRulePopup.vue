@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { ref, toRaw } from 'vue'
+import { onMounted, ref, toRaw } from "vue";
 import { DeviceType } from '@domain/device/core'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl } from '@domain/device/factories'
@@ -112,6 +112,10 @@ const updateSecurityRule = () => {
     emit('update-intrusion-rule', updatedIntrusionRule)
   }
 }
+
+onMounted(async () => {
+  await getContacts()
+})
 </script>
 
 <template>

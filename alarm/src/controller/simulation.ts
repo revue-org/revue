@@ -12,8 +12,8 @@ export const simulationController = {
     value: number
   ): Promise<void> => {
     await notificationController.createExceedingNotification(anomalyId, deviceId, measure, value)
-
     io.emit('notification', { type: 'EXCEEDING' })
+    return Promise.resolve()
   },
   simulateIntrusion: async (
     anomalyId: string,
@@ -21,7 +21,7 @@ export const simulationController = {
     objectClass: ObjectClass
   ): Promise<void> => {
     await notificationController.createIntrusionNotification(anomalyId, deviceId, objectClass)
-
     io.emit('notification', { type: 'INTRUSION' })
+    return Promise.resolve()
   }
 }

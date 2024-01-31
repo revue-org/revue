@@ -2,24 +2,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-import SensorBadge from '@/components/devices/DeviceBadge.vue'
-import type {
-  DeviceFactory,
-  DeviceIdFactory,
-  EnvironmentDataFactory,
-  ResolutionFactory
-} from '@domain/device/factories'
-import {
-  DeviceFactoryImpl,
-  DeviceIdFactoryImpl,
-  EnvironmentDataFactoryImpl,
-  ResolutionFactoryImpl
-} from '@domain/device/factories'
-import type { Camera, Sensor } from '@domain/device/core'
+import DeviceBadge from '@/components/devices/DeviceBadge.vue'
+import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
+import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
+import type { Camera, Device, Sensor } from '@domain/device/core'
 import { Measure } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { MeasureConverter } from 'domain/dist/utils'
+import { DeviceTypeConverter, MeasureConverter } from '@utils/index'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -33,7 +23,6 @@ const getSensors = async () => {
     .then((res: any) => {
       sensors.value = []
       for (let i = 0; i < res.data.length; i++) {
-        console.log(res.data[i])
         sensors.value.push(composeSensor(res.data[i]))
       }
     })
@@ -55,7 +44,6 @@ const getCameras = async () => {
 }
 
 const composeSensor = (sensor: any): Sensor => {
-  console.log(composeMeasure(sensor.measures))
   return deviceFactory.createSensor(
     deviceIdFactory.createSensorId(sensor._id.code),
     sensor.ipAddress,
@@ -114,26 +102,14 @@ const insertCamera = async (camera: Camera) => {
     })
 }
 
-const deleteSensor = async (sensor: Sensor) => {
-  console.log(sensor.deviceId.type, sensor.deviceId.code)
+const deleteDevice = async (device: Device) => {
   await RequestHelper.delete(
-    `http://${monitoringHost}:${monitoringPort}/devices/sensors/` + sensor.deviceId.code
+    `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s/` +
+      device.deviceId.code
   )
     .then(async (res: any) => {
       //TODO A CONFIRM POPUP
       await getSensors()
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-const deleteCamera = async (camera: Camera) => {
-  await RequestHelper.delete(
-    `http://${monitoringHost}:${monitoringPort}/devices/cameras/` + camera.deviceId.code
-  )
-    .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
-      await getCameras()
     })
     .catch(error => {
       console.log(error)
@@ -145,39 +121,37 @@ onMounted(async () => {
   await getCameras()
 })
 
-const popupVisible = ref<boolean>(false)
+const newPopupVisible = ref<boolean>(false)
 </script>
 
 <template>
   <div class="new-device">
-    <q-btn label="Add a device" color="primary" @click="popupVisible = true" />
+    <q-btn label="Add a device" color="primary" @click="newPopupVisible = true" />
   </div>
 
   <h2>Sensors</h2>
 
   <div class="sensors-container">
-    <sensor-badge
+    <device-badge
       v-for="sensor in sensors"
       :key="sensor.deviceId"
       :device="sensor"
-      @delete-sensor="deleteSensor"
+      @delete-device="deleteDevice(sensor)"
     />
   </div>
 
   <h2>Cameras</h2>
   <div class="cameras-container">
-    <sensor-badge
+    <device-badge
       v-for="camera in cameras"
       :key="camera.deviceId"
       :device="camera"
-      @delete-camera="deleteCamera"
+      @delete-device="deleteDevice(camera)"
     />
   </div>
 
-  <!--  to check!!-->
   <new-device-popup
-    v-model="popupVisible"
-    @update-devices="getSensors"
+    v-model="newPopupVisible"
     @insert-sensor="insertSensor"
     @insert-camera="insertCamera"
   ></new-device-popup>

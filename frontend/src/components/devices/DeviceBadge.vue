@@ -2,10 +2,56 @@
 import type { Device, Sensor, Camera } from '@domain/device/core'
 import { Measure, DeviceType } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
+import { ref } from 'vue'
+import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { MeasureConverter } from 'domain/dist/utils'
 
 defineProps<{
   device: Device
 }>()
+
+defineEmits<{
+  (e: 'delete-device'): void
+}>()
+
+const updatePopupVisible = ref<boolean>(false)
+
+const updateSensor = async (sensor: Sensor) => {
+  await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
+    code: sensor.deviceId.code,
+    ipAddress: sensor.ipAddress,
+    intervalMillis: sensor.intervalMillis,
+    measures: sensor.measures.map((m: Measure) => {
+      return MeasureConverter.convertToString(m)
+    })
+  })
+    .then(async (res: any) => {
+      alert('devo aggiornare i devices')
+      //TODO A CONFIRM POPUP
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
+const updateCamera = async (camera: Camera) => {
+  await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
+    code: camera.deviceId.code,
+    ipAddress: camera.ipAddress,
+    resolution: {
+      width: parseInt(camera.resolution.width.toString()),
+      height: parseInt(camera.resolution.height.toString())
+    }
+  })
+    .then(async (res: any) => {
+      alert('devo aggiornare i devices')
+      //TODO A CONFIRM POPUP
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 </script>
 
 <template>
@@ -50,7 +96,7 @@ defineProps<{
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>
         <div>
-          <q-btn color="secondary" icon="edit" />
+          <q-btn color="secondary" icon="edit" @click="updatePopupVisible = true" />
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
@@ -58,9 +104,7 @@ defineProps<{
             color="negative"
             icon="delete"
             @click="
-              device.deviceId.type == DeviceType.SENSOR
-                ? $emit('delete-sensor', device)
-                : $emit('delete-camera', device)
+              device.deviceId.type == DeviceType.SENSOR ? $emit('delete-device') : $emit('delete-device')
             "
           />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
@@ -68,6 +112,12 @@ defineProps<{
       </li>
     </ul>
   </div>
+  <update-device-popup
+    v-model="updatePopupVisible"
+    :device="device"
+    @update-sensor="updateSensor"
+    @update-camera="updateCamera"
+  ></update-device-popup>
 </template>
 
 <style scoped lang="scss">

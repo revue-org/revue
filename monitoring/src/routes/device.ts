@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from 'express'
 import { deviceController } from '../controller/device.js'
+import { Device } from '@domain/device/core/Device.js'
 import { Camera } from '@domain/device/core/Camera.js'
 import { Sensor } from '@domain/device/core/Sensor.js'
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
@@ -12,6 +13,17 @@ import HttpStatusCode from '../utils/HttpStatusCode.js'
 export const deviceRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
+
+deviceRouter.route('/').get((_req: Request, res: Response): void => {
+  deviceController
+    .getDevices()
+    .then((devices: Device[]): void => {
+      res.status(HttpStatusCode.OK).send(devices)
+    })
+    .catch((): void => {
+      res.send({ error: 'No devices found' })
+    })
+})
 
 deviceRouter.route('/cameras').get((_req: Request, res: Response): void => {
   deviceController

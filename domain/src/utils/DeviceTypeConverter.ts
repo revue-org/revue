@@ -1,7 +1,7 @@
 import { DeviceType } from '../domain/device/core/impl/enum/DeviceType.js'
 
 export class DeviceTypeConverter {
-  static convertToDeviceType(type: String): DeviceType {
+  static convertToDeviceType(type: string): DeviceType {
     switch (type.toUpperCase()) {
       case 'CAMERA':
         return DeviceType.CAMERA
@@ -12,7 +12,7 @@ export class DeviceTypeConverter {
     }
   }
 
-  static convertToString(type: DeviceType): String {
+  static convertToString(type: DeviceType): string {
     switch (type) {
       case DeviceType.CAMERA:
         return 'CAMERA'

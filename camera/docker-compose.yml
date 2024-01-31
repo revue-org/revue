@@ -16,19 +16,19 @@ services:
     depends_on:
       - ${KAFKA_CONTAINER}
 
-  revue-camera-2:
-    image: revue-camera
-    container_name: revue-camera-2
-    build:
-      context: .
-      dockerfile: ./camera/Dockerfile
-    restart: on-failure
-    environment:
-      - CAMERA_CODE=cam-02
-    ports:
-      - ${CAMERA_PORT_2}:${CAMERA_PORT_2}
-    depends_on:
-      - ${KAFKA_CONTAINER}
+#  revue-camera-2:
+#    image: revue-camera
+#    container_name: revue-camera-2
+#    build:
+#      context: .
+#      dockerfile: ./camera/Dockerfile
+#    restart: on-failure
+#    environment:
+#      - CAMERA_CODE=cam-02
+#    ports:
+#      - ${CAMERA_PORT_2}:${CAMERA_PORT_2}
+#    depends_on:
+#      - ${KAFKA_CONTAINER}
 
 #  revue-camera-3:
 #    image: revue-camera

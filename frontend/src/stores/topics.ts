@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useTopicsStore = defineStore(
   'topics',
   () => {
-    const subscribedTopics: ref<string[]> = ref([])
+    const subscribedTopics = ref<string[]>([])
 
     function addTopic(topic: string): void {
       subscribedTopics.value.push(topic)

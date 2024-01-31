@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { io, Socket } from 'socket.io-client'
+import { subscribeToAllTopics } from '@/topics'
 
 export const monitoringSocketState = reactive({
   connected: false
@@ -26,9 +27,10 @@ alarmSocket.on('disconnect from alarm socket', (): void => {
   alarmSocketState.connected = false
 })
 
-monitoringSocket.on('connect', (): void => {
-  monitoringSocketState.connected = true
+monitoringSocket.on('connect', async (): Promise<void> => {
   console.log('connected to monitoring socket')
+  monitoringSocketState.connected = true
+  await subscribeToAllTopics()
 })
 
 monitoringSocket.on('disconnect from monitoring socket', (): void => {

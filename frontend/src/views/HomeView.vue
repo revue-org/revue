@@ -1,73 +1,85 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { type EnvironmentData, Measure, MeasureUnit, type Sensor } from '@domain/device/core'
+import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
+import { DeviceType, type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
-import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
-import { alarmSocket } from '@/socket'
+import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { alarmSocket, monitoringSocket } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
-import { AnomalyTypeConverter } from 'domain/dist/utils'
+import { AnomalyTypeConverter, DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
-import { monitoringSocket } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
+import { type AxiosResponse, HttpStatusCode } from 'axios'
 
 const topicsStore = useTopicsStore()
+
+const $q = useQuasar()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 
-const $q = useQuasar()
+let values: Ref<{ sensor: Sensor; values: EnvironmentData[] }[]> = ref([])
 
-const sensors: ref<Sensor[]> = ref([
-  deviceFactory.createSensor(deviceIdFactory.createSensorId('sen-01'), '192.168.1.10', 5, [
-    Measure.HUMIDITY,
-    Measure.TEMPERATURE,
-    Measure.PRESSURE
-  ]),
-  deviceFactory.createSensor(deviceIdFactory.createSensorId('sen-02'), '192.168.1.11', 5, [
-    Measure.TEMPERATURE,
-    Measure.PRESSURE
-  ])
-])
-
-const environmentDataFactory = new EnvironmentDataFactoryImpl()
-
-let values = ref(
-  sensors.value.map((sensor: Sensor) => {
-    return {
-      sensor: sensor,
-      values: [
-        environmentDataFactory.createEnvironmentData(
-          sensor.deviceId,
-          20,
-          Measure.TEMPERATURE,
-          MeasureUnit.CELSIUS
-        )
-      ]
+RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then((res: AxiosResponse) => {
+  if (res.status == HttpStatusCode.Ok) {
+    for (let i = 0; i < res.data.length; i++) {
+      const sensor = composeSensor(res.data[i])
+      values.value.push({
+        sensor: sensor,
+        values: []
+      })
     }
-  })
-)
-
-const topics: Ref<string[]> = computed(() =>
-  sensors.value.map((sensor: Sensor) => 'SENSOR_' + sensor.deviceId.code)
-)
-
-onBeforeMount(() => {
-  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
-  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
-  if (topicsToSubscribe.length > 0) {
-    monitoringSocket.emit('subscribe', topicsToSubscribe)
-    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
-  }
-  if (topicsToResume.length > 0) {
-    monitoringSocket.emit('resume', topicsToResume)
   }
 })
 
+const environmentDataFactory = new EnvironmentDataFactoryImpl()
+
+const composeSensor = (sensor: any): Sensor => {
+  console.log(composeMeasure(sensor.measures))
+  return deviceFactory.createSensor(
+    deviceIdFactory.createSensorId(sensor._id.code),
+    sensor.ipAddress,
+    sensor.intervalMillis,
+    composeMeasure(sensor.measures)
+  )
+}
+
+function composeMeasure(measures: any): Measure[] {
+  return measures.map((measure: any) => {
+    return MeasureConverter.convertToMeasure(measure)
+  })
+}
+
+onBeforeMount(() => {
+  console.log(
+    'resume' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+      )
+  )
+  monitoringSocket.emit(
+    'resume',
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+    )
+  )
+})
+
 onBeforeUnmount(() => {
-  monitoringSocket.emit('pause', topics.value)
+  console.log(
+    'pause' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+      )
+  )
+  monitoringSocket.emit(
+    'pause',
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+    )
+  )
 })
 
 monitoringSocket.on('env-data', (data: { topic: string; data: string }) => {
@@ -127,7 +139,7 @@ const simulateIntrusion = async () => {
     })
 }
 
-alarmSocket.on('notification', (anomaly: string) => {
+alarmSocket.on('notification', (anomaly: { type: string }) => {
   const anomalyType: AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
   switch (anomalyType) {
     case AnomalyType.EXCEEDING:

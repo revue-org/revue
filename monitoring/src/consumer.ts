@@ -23,7 +23,7 @@ export const setupConsumers = async (): Promise<void> => {
     console.log('A client connected', socket.id)
 
     socket.on('disconnect', () => {
-      const consumer = getConsumerById(socket.id)
+      const consumer: Consumer | undefined = getConsumerById(socket.id)
       if (consumer === undefined) return
       consumer.disconnect()
       consumers.splice(
@@ -36,22 +36,48 @@ export const setupConsumers = async (): Promise<void> => {
 
     socket.on('pause', async (topics: string[]): Promise<void> => {
       console.log('Pausing topics', topics)
-      const consumer = getConsumerById(socket.id)
+      const consumer: Consumer | undefined = getConsumerById(socket.id)
       if (consumer === undefined) return
       consumer.pause(topics.map((topic: string): { topic: string } => ({ topic })))
     })
 
     socket.on('resume', async (topics: string[]): Promise<void> => {
       console.log('Resuming topics', topics)
-      const consumer = getConsumerById(socket.id)
+      const consumer: Consumer | undefined = getConsumerById(socket.id)
+      console.log('Consumer', consumer)
       if (consumer === undefined) return
-      consumer.resume(topics.map((topic: string): { topic: string } => ({ topic })))
+      try {
+        consumer.resume(topics.map((topic: string): { topic: string } => ({ topic })))
+        console.log('Consumer resuming')
+      } catch (err) {
+        console.log('EROREEE', err)
+        consumer
+          .run({
+            eachMessage: async ({ topic, message }): Promise<void> => {
+              if (message.key === null || message.value === null) return
+              const messageKey: Buffer = message.key
+              const messageValue: Buffer = message.value
+              console.log({
+                value: messageValue,
+                key: JSON.parse(messageKey.toString())
+              })
+              console.log(messageValue)
+              if (topic.startsWith('CAMERA')) {
+                socket.emit('stream', { topic: topic, frame: messageValue.toString() })
+              } else if (topic.startsWith('SENSOR')) {
+                socket.emit('env-data', { topic: topic, data: messageValue.toString() })
+              }
+            }
+          })
+          .then(() => console.log('Consumer running'))
+        console.log('Consumer start running')
+      }
     })
 
     socket.on('subscribe', async (topics: string[]): Promise<void> => {
       console.log('Subscribing to topics', topics)
       console.log('Consumers:', consumers)
-      let consumer = getConsumerById(socket.id)
+      let consumer: Consumer | undefined = getConsumerById(socket.id)
       if (consumer === undefined) {
         console.log('Creating new consumer')
         consumer = kafka.consumer({ groupId: socket.id })
@@ -59,26 +85,11 @@ export const setupConsumers = async (): Promise<void> => {
       }
       await consumer.connect()
       await consumer.subscribe({ topics: topics, fromBeginning: false })
+      // + '_' + topics[0].split('_')[0]
+      console.log('PUSHO il consumer')
       consumers.push({ id: socket.id, consumer })
-      consumer
-        .run({
-          eachMessage: async ({ topic, message }): Promise<void> => {
-            if (message.key === null || message.value === null) return
-            const messageKey: Buffer = message.key
-            const messageValue: Buffer = message.value
-            console.log({
-              value: messageValue,
-              key: JSON.parse(messageKey.toString())
-            })
-            console.log(messageValue)
-            if (topic.startsWith('CAMERA')) {
-              socket.emit('stream', { topic: topic, frame: messageValue.toString() })
-            } else if (topic.startsWith('SENSOR')) {
-              socket.emit('env-data', { topic: topic, data: messageValue.toString() })
-            }
-          }
-        })
-        .then(() => console.log('Consumer running'))
+      console.log('Consumers', consumers)
+      socket.emit('subscribed')
     })
   })
 }

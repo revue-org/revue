@@ -49,4 +49,16 @@ db.device.insert([{
     'width': 200
   },
   '__v': 0
-}])
+},{
+  '_id': {
+    'type': 'SENSOR',
+    'code': 'sen-03'
+  },
+  'ipAddress': '192.168.1.50',
+  'intervalMillis': 500,
+  'measures': [
+    'HUMIDITY',
+    'TEMPERATURE'
+  ],
+  '__v': 0
+}, ])

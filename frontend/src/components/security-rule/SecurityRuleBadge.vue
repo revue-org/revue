@@ -9,8 +9,8 @@ import {
 } from '@domain/security-rule/core'
 import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
 import { ref } from 'vue'
-import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from "domain/dist/utils";
-import RequestHelper, { alarmHost, alarmPort } from "@/utils/RequestHelper";
+import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
+import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 
 defineProps<{
   securityRule: SecurityRule
@@ -23,32 +23,24 @@ defineEmits<{
 const updatePopupVisible = ref<boolean>(false)
 
 const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
-  /*
-  * {
-    "id": "65b527590fa38e9a5422537c",
-    "deviceId": {
-        "type": "SENSOR",
-        "code": "sen-01"
+  console.log(DeviceTypeConverter.convertToString(exceedingRule.deviceId.type))
+  console.log(exceedingRule.deviceId.type)
+  console.log({
+    id: exceedingRule.securityRuleId,
+    deviceId: {
+      type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
+      code: exceedingRule.deviceId.code
     },
-    "description": "ciao",
-    "minValue": 0,
-    "maxValue": 50,
-    "measure": "TEMPERATURE",
-    "from": "2018-01-01T01:00:00.000Z",
-    "to": "2020-01-01T01:00:00.000Z",
-    "contacts": [
-        {
-            "value": "3667161457",
-            "type": "SMS"
-        },
-        {
-            "value": "email@gmail.com",
-            "type": "EMAIL"
-        }
-    ]
-}
-* */
+    description: exceedingRule.description,
+    minValue: exceedingRule.min,
+    maxValue: exceedingRule.max,
+    measure: MeasureConverter.convertToString(exceedingRule.measure),
+    from: exceedingRule.from.toISOString(),
+    to: exceedingRule.to.toISOString(),
+    contacts: exceedingRule.contactsToNotify
+  })
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
+    id: exceedingRule.securityRuleId,
     deviceId: {
       type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
       code: exceedingRule.deviceId.code
@@ -72,6 +64,7 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
 
 const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
+    id: intrusionRule.securityRuleId,
     deviceId: {
       type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
       code: intrusionRule.deviceId.code

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { onMounted, ref, toRaw } from "vue";
+import { onMounted, ref, toRaw } from 'vue'
 import { DeviceType } from '@domain/device/core'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl } from '@domain/device/factories'
@@ -74,6 +74,7 @@ const measure: ref<Measure> = ref(Measure.TEMPERATURE)
 const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
 
 const updateSecurityRule = () => {
+  console.log(securityRule)
   if (securityRule.deviceId.type == DeviceType.SENSOR) {
     const updatedExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
       (securityRule as ExceedingRule).min,

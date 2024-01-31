@@ -37,8 +37,8 @@ export const produce = async (): Promise<void> => {
     let index: number = 0
     let key: number = 0
     files.sort((a, b) => {
-      const numA = parseInt(a.split('frame')[1])
-      const numB = parseInt(b.split('frame')[1])
+      const numA: number = parseInt(a.split('frame')[1])
+      const numB: number = parseInt(b.split('frame')[1])
       return numA - numB
     })
     console.log(files)
@@ -60,6 +60,6 @@ export const produce = async (): Promise<void> => {
       })
       index++
       key++
-    }, 34)
+    }, 1000) //34
   })
 }

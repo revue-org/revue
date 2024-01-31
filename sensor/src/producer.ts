@@ -1,19 +1,43 @@
-import { Kafka, Partitioners, Producer } from 'kafkajs'
-
-import type { EnvironmentDataFactory } from '@domain/device/factories/EnvironmentDataFactory.js'
-import type { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { MeasureUnit } from '@domain/device/core/impl/enum/MeasureUnit.js'
-import { Sensor } from '@domain/device/core/Sensor.js'
+import type { Sensor } from '@domain/device/core/Sensor.js'
+import type { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
+import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
+import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
+import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
+import { MeasureConverter } from '@utils/MeasureConverter.js'
+import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
+import { Kafka, Partitioners, Producer } from 'kafkajs'
 
 if (process.env.SENSOR_CODE === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No sensor code provided')
   process.exit(1)
 }
 const SENSOR_CODE: string = process.env.SENSOR_CODE || 'sen-01'
+
+let sourceDevice: Sensor
+
+export const getSensorInfo = async (): Promise<void> => {
+  // const monitoringHost: string = 'localhost' //process.env.MONITORING_HOST || 'localhost'
+  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+
+  RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
+    .then(res => {
+      console.log('Response:', res.data)
+      sourceDevice = new DeviceFactoryImpl().createSensor(
+        new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
+        res.data.ipAddress,
+        res.data.intervalMillis,
+        res.data.measures.map((measure: any) => {
+          return MeasureConverter.convertToMeasure(measure)
+        })
+      )
+      console.log(sourceDevice)
+    })
+    .catch(error => {
+      console.error('Error:', error.message)
+    })
+}
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
@@ -23,13 +47,7 @@ const kafka: Kafka = new Kafka({
   brokers: [`${kafkaContainer}:${kafkaPort}`]
 })
 
-const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
-const sourceDevice: Sensor = new DeviceFactoryImpl().createSensor(
-  new DeviceIdFactoryImpl().createSensorId(SENSOR_CODE),
-  '192.168.1.90',
-  1000,
-  [Measure.TEMPERATURE, Measure.HUMIDITY]
-)
+const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
 export const produce = async (): Promise<void> => {
   const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })

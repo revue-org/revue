@@ -3,7 +3,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
-import { produce } from './producer.js'
+import { getSensorInfo, produce } from './producer.js'
 
 config()
 
@@ -45,6 +45,7 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Sensor server listening on ${PORT}`)
+    await getSensorInfo()
     // mongoConnect()
     await produce()
   })

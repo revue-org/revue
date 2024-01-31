@@ -30,16 +30,16 @@ services:
     depends_on:
       - ${KAFKA_CONTAINER}
 
-#  revue-sensor-3:
-#    image: revue-sensor
-#    container_name: revue-sensor-3
-#    build:
-#      context: .
-#      dockerfile: ./sensor/Dockerfile
-#    restart: on-failure
-#    environment:
-#      - SENSOR_CODE=sen-03
-#    ports:
-#      - ${SENSOR_PORT_3}:${SENSOR_PORT_3}
-#    depends_on:
-#      - ${KAFKA_CONTAINER}
+  revue-sensor-3:
+    image: revue-sensor
+    container_name: revue-sensor-3
+    build:
+      context: .
+      dockerfile: ./sensor/Dockerfile
+    restart: on-failure
+    environment:
+      - SENSOR_CODE=sen-03
+    ports:
+      - ${SENSOR_PORT_3}:${SENSOR_PORT_3}
+    depends_on:
+      - ${KAFKA_CONTAINER}

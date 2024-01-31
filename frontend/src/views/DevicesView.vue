@@ -9,7 +9,7 @@ import type { Camera, Device, Sensor } from '@domain/device/core'
 import { Measure } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
+import { DeviceTypeConverter, MeasureConverter } from '@utils/index'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()

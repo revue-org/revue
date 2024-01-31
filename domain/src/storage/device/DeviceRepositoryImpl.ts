@@ -5,6 +5,7 @@ import { DeviceType } from '../../domain/device/core/impl/enum/DeviceType.js'
 import { Camera } from '../../domain/device/core/Camera.js'
 import { Sensor } from '../../domain/device/core/Sensor.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
+import { Device } from '../../domain/device/core'
 
 export class DeviceRepositoryImpl implements DeviceRepository {
   cameraModel: Model<Camera>
@@ -13,6 +14,12 @@ export class DeviceRepositoryImpl implements DeviceRepository {
   constructor(cameraModel: Model<Camera>, sensorModel: Model<Sensor>) {
     this.cameraModel = cameraModel
     this.sensorModel = sensorModel
+  }
+
+  async getDevices(): Promise<Device[]> {
+    const cameras: Camera[] = await this.getCameras()
+    const sensors: Sensor[] = await this.getSensors()
+    return [...cameras, ...sensors]
   }
 
   async getCameras(): Promise<Camera[]> {

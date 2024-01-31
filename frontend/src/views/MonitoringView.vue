@@ -1,35 +1,55 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, onBeforeUnmount, ref, type Ref } from 'vue'
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue'
 import { monitoringSocket } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { type AxiosResponse, HttpStatusCode } from 'axios'
+import { DeviceTypeConverter } from 'domain/dist/utils'
+import { DeviceType } from 'domain/dist/domain/device/core'
 
 const topicsStore = useTopicsStore()
-const cameras = ref<{ code: string; src: string }[]>([
-  { code: 'cam-01', src: '' },
-  { code: 'cam-02', src: '' },
-  { code: 'cam-03', src: '' }
-])
+const cameras = ref<{ code: string; src: string }[]>([])
 
-const topics: Ref<string[]> = computed(() => cameras.value.map(camera => 'CAMERA_' + camera.code))
+RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).then((res: AxiosResponse) => {
+  if (res.status == HttpStatusCode.Ok) {
+    for (let i = 0; i < res.data.length; i++) {
+      cameras.value.push({ code: res.data[i]._id.code, src: '' })
+    }
+  }
+})
 
 onBeforeMount(() => {
-  const topicsToSubscribe = topics.value.filter(topic => !topicsStore.subscribedTopics.includes(topic))
-  const topicsToResume = topics.value.filter(topic => topicsStore.subscribedTopics.includes(topic))
-  if (topicsToSubscribe.length > 0) {
-    monitoringSocket.emit('subscribe', topicsToSubscribe)
-    topicsToSubscribe.forEach(topic => topicsStore.addTopic(topic))
-  }
-  if (topicsToResume.length > 0) {
-    monitoringSocket.emit('resume', topicsToResume)
-  }
+  console.log(
+    'resume' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+      )
+  )
+  monitoringSocket.emit(
+    'resume',
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+    )
+  )
 })
 
 onBeforeUnmount(() => {
-  monitoringSocket.emit('pause', topics.value)
+  console.log(
+    'pause' +
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+      )
+  )
+  monitoringSocket.emit(
+    'pause',
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
+    )
+  )
 })
 
 monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
-  cameras.value.find(camera => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
+  cameras.value.find(camera => camera.code === newFrame.topic.split('_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })
 </script>

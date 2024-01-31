@@ -1,27 +1,20 @@
-<script lang="ts"></script>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type { SecurityRuleFactory } from '@domain/security-rule/factories/SecurityRuleFactory'
-import { SecurityRuleFactoryImpl } from '@domain/security-rule/factories/impl/SecurityRuleFactoryImpl'
 import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/security-rule/core'
-import type { DeviceIdFactory } from '@domain/device/factories'
-import type { ContactFactory } from '@domain/monitoring/factories'
-import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl'
-import { type Contact } from '@domain/monitoring/core'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
 import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
-import RequestHelper from '@/utils/RequestHelper'
-import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
-import { alarmHost, alarmPort } from '@/utils/RequestHelper'
-
-const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const contactFactory: ContactFactory = new ContactFactoryImpl()
+import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
+import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
+import {
+  composeExceedingSecurityRule,
+  composeIntrusionSecurityRule
+} from '@/scripts/presentation/security-rule/ComposeSecurityRule'
+import { popNegative, popPositive } from '@/scripts/Popups.js'
+import { useQuasar } from "quasar";
 
 const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([])
-
 const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
+const $q = useQuasar()
 
 const getExceedingSecurityRules = async () => {
   await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`)
@@ -49,70 +42,6 @@ const getIntrusionSecurityRules = async () => {
     })
 }
 
-function composeExceedingSecurityRule(exceedingRule: any): ExceedingRule {
-  return securityRuleFactory.createExceedingRule(
-    exceedingRule.minValue,
-    exceedingRule.maxValue,
-    MeasureConverter.convertToMeasure(exceedingRule.measure),
-    exceedingRule._id,
-    deviceIdFactory.createSensorId(exceedingRule.deviceId.code),
-    exceedingRule.creatorId,
-    composeContacts(exceedingRule.contacts),
-    exceedingRule.description,
-    new Date(exceedingRule.from),
-    new Date(exceedingRule.to)
-  )
-}
-
-function composeIntrusionSecurityRule(intrusionRule: any): IntrusionRule {
-  return securityRuleFactory.createIntrusionRule(
-    ObjectClassConverter.convertToObjectClass(intrusionRule.objectClass),
-    intrusionRule._id,
-    deviceIdFactory.createCameraId(intrusionRule.deviceId.code),
-    intrusionRule.creatorId,
-    composeContacts(intrusionRule.contacts),
-    intrusionRule.description,
-    new Date(intrusionRule.from),
-    new Date(intrusionRule.to)
-  )
-}
-
-function composeContacts(contacts: any): Contact[] {
-  return contacts.map((contact: any) => {
-    return contactFactory.createContact(
-      contact._id,
-      contact.value,
-      ContactTypeConverter.convertToContactType(contact.type)
-    )
-  })
-}
-
-const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  await RequestHelper.delete(
-    `http://${alarmHost}:${alarmPort}/security-rules/intrusions/` + intrusionRule.securityRuleId
-  )
-    .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
-      await getIntrusionSecurityRules()
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-
-const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
-  await RequestHelper.delete(
-    `http://${alarmHost}:${alarmPort}/security-rules/exceedings/` + exceedingRule.securityRuleId
-  )
-    .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
-      await getExceedingSecurityRules()
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-
 const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
   await RequestHelper.post(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     deviceId: {
@@ -128,10 +57,11 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     contacts: exceedingRule.contactsToNotify
   })
     .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Exceeding rule added successfully')
       await getExceedingSecurityRules()
     })
     .catch(error => {
+      popNegative($q, 'Error while adding exceeding rule')
       console.log(error)
     })
 }
@@ -149,10 +79,39 @@ const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
     contacts: intrusionRule.contactsToNotify
   })
     .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Intrusion rule added successfully')
       await getIntrusionSecurityRules()
     })
     .catch(error => {
+      popNegative($q, 'Error while adding intrusion rule')
+      console.log(error)
+    })
+}
+
+const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
+  await RequestHelper.delete(
+    `http://${alarmHost}:${alarmPort}/security-rules/intrusions/` + intrusionRule.securityRuleId
+  )
+    .then(async (res: any) => {
+      popPositive($q, 'Intrusion rule deleted successfully')
+      await getIntrusionSecurityRules()
+    })
+    .catch(error => {
+      popNegative($q, 'Error while deleting intrusion rule')
+      console.log(error)
+    })
+}
+
+const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
+  await RequestHelper.delete(
+    `http://${alarmHost}:${alarmPort}/security-rules/exceedings/` + exceedingRule.securityRuleId
+  )
+    .then(async (res: any) => {
+      popNegative($q, 'Exceeding rule deleted successfully')
+      await getExceedingSecurityRules()
+    })
+    .catch(error => {
+      popNegative($q, 'Error while deleting exceeding rule')
       console.log(error)
     })
 }

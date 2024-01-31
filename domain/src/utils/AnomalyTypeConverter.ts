@@ -1,7 +1,7 @@
 import { AnomalyType } from '../domain/anomaly/core/impl/enum/AnomalyType.js'
 
 export class AnomalyTypeConverter {
-  static convertToAnomalyType(type: String): AnomalyType {
+  static convertToAnomalyType(type: string): AnomalyType {
     switch (type.toUpperCase()) {
       case 'EXCEEDING':
         return AnomalyType.EXCEEDING
@@ -12,7 +12,7 @@ export class AnomalyTypeConverter {
     }
   }
 
-  static convertToString(type: AnomalyType): String {
+  static convertToString(type: AnomalyType): string {
     switch (type) {
       case AnomalyType.EXCEEDING:
         return 'EXCEEDING'

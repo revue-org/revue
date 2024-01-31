@@ -91,7 +91,6 @@ monitoringSocket.on('env-data', (data: { topic: string; data: string }) => {
 
 const simulateExceeding = async () => {
   await RequestHelper.post(`http://${alarmHost}:${alarmPort}/simulations/exceedings`, {
-    anomalyId: '65b514200718dbb3580fb9e6',
     deviceId: {
       type: 'SENSOR',
       code: 'sen-01'
@@ -109,7 +108,6 @@ const simulateExceeding = async () => {
 
 const simulateIntrusion = async () => {
   await RequestHelper.post(`http://${alarmHost}:${alarmPort}/simulations/intrusions`, {
-    anomalyId: '65b514200718dbb3580fb9e6', //to create a new anomaly
     deviceId: {
       type: 'CAMERA',
       code: 'cam-01'

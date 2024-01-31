@@ -1,9 +1,9 @@
-import type { ExceedingRule, IntrusionRule } from "domain/dist/domain/security-rule/core";
-import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from "domain/dist/utils";
-import type { Contact } from "domain/dist/domain/monitoring/core";
-import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from "domain/dist/domain/security-rule/factories";
-import { type DeviceIdFactory, DeviceIdFactoryImpl } from "domain/dist/domain/device/factories";
-import { type ContactFactory, ContactFactoryImpl } from "domain/dist/domain/monitoring/factories";
+import type { ExceedingRule, IntrusionRule } from 'domain/dist/domain/security-rule/core'
+import { ContactTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
+import type { Contact } from 'domain/dist/domain/monitoring/core'
+import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
+import { type DeviceIdFactory, DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories'
+import { type ContactFactory, ContactFactoryImpl } from 'domain/dist/domain/monitoring/factories'
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

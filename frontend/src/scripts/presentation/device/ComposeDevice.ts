@@ -1,11 +1,13 @@
-import { type Camera, Measure, type Sensor } from "domain/dist/domain/device/core";
-import { MeasureConverter } from "domain/dist/utils";
+import { type Camera, Measure, type Sensor } from 'domain/dist/domain/device/core'
+import { MeasureConverter } from 'domain/dist/utils'
 import {
   type DeviceFactory,
   DeviceFactoryImpl,
   type DeviceIdFactory,
-  DeviceIdFactoryImpl, type ResolutionFactory, ResolutionFactoryImpl
-} from "domain/dist/domain/device/factories";
+  DeviceIdFactoryImpl,
+  type ResolutionFactory,
+  ResolutionFactoryImpl
+} from 'domain/dist/domain/device/factories'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()

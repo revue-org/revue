@@ -6,6 +6,8 @@ import { ref } from 'vue'
 import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { MeasureConverter } from 'domain/dist/utils'
+import { popNegative, popPositive } from '@/scripts/Popups'
+import { useQuasar } from 'quasar'
 
 defineProps<{
   device: Device
@@ -16,6 +18,7 @@ defineEmits<{
 }>()
 
 const updatePopupVisible = ref<boolean>(false)
+const $q = useQuasar()
 
 const updateSensor = async (sensor: Sensor) => {
   await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
@@ -27,10 +30,10 @@ const updateSensor = async (sensor: Sensor) => {
     })
   })
     .then(async (res: any) => {
-      alert('devo aggiornare i devices')
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Sensor updated successfully')
     })
     .catch(error => {
+      popNegative($q, 'Error while updating sensor')
       console.log(error)
     })
 }
@@ -45,10 +48,10 @@ const updateCamera = async (camera: Camera) => {
     }
   })
     .then(async (res: any) => {
-      alert('devo aggiornare i devices')
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Camera updated successfully')
     })
     .catch(error => {
+      popNegative($q, 'Error while updating camera')
       console.log(error)
     })
 }

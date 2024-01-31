@@ -12,7 +12,7 @@ import { AnomalyTypeConverter, DeviceTypeConverter, MeasureConverter } from 'dom
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { useTopicsStore } from '@/stores/topics'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
-import { composeSensor } from "@/scripts/presentation/device/ComposeDevice";
+import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
 
 const topicsStore = useTopicsStore()
 

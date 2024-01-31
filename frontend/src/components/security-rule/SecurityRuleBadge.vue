@@ -11,6 +11,8 @@ import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
 import { ref } from 'vue'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
+import { popPositive, popNegative } from '@/scripts/Popups'
+import { useQuasar } from 'quasar'
 
 defineProps<{
   securityRule: SecurityRule
@@ -21,24 +23,9 @@ defineEmits<{
 }>()
 
 const updatePopupVisible = ref<boolean>(false)
+const $q = useQuasar()
 
 const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
-  console.log(DeviceTypeConverter.convertToString(exceedingRule.deviceId.type))
-  console.log(exceedingRule.deviceId.type)
-  console.log({
-    id: exceedingRule.securityRuleId,
-    deviceId: {
-      type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
-      code: exceedingRule.deviceId.code
-    },
-    description: exceedingRule.description,
-    minValue: exceedingRule.min,
-    maxValue: exceedingRule.max,
-    measure: MeasureConverter.convertToString(exceedingRule.measure),
-    from: exceedingRule.from.toISOString(),
-    to: exceedingRule.to.toISOString(),
-    contacts: exceedingRule.contactsToNotify
-  })
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     id: exceedingRule.securityRuleId,
     deviceId: {
@@ -54,10 +41,10 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
     contacts: exceedingRule.contactsToNotify
   })
     .then(async (res: any) => {
-      alert('devo aggiornare le exceeding rules')
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Exceeding rule updated successfully')
     })
     .catch(error => {
+      popNegative($q, 'Error while updating exceeding rule')
       console.log(error)
     })
 }
@@ -76,10 +63,10 @@ const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
     contacts: intrusionRule.contactsToNotify
   })
     .then(async (res: any) => {
-      alert('devo aggiornare le intrusion rules')
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Intrusion rule updated successfully')
     })
     .catch(error => {
+      popNegative($q, 'Error while updating intrusion rule')
       console.log(error)
     })
 }

@@ -36,7 +36,6 @@ const options = ref([
 ])
 
 const updateDevice = () => {
-  console.log(device)
   if (device.deviceId.type == DeviceType.SENSOR) {
     const updatedSensor: Sensor = deviceFactory.createSensor(
       deviceIdFactory.createSensorId(device.deviceId.code),

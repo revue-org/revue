@@ -10,7 +10,7 @@ import {
   composeIntrusionSecurityRule
 } from '@/scripts/presentation/security-rule/ComposeSecurityRule'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
-import { useQuasar } from "quasar";
+import { useQuasar } from 'quasar'
 
 const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([])
 const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
@@ -107,7 +107,7 @@ const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
     `http://${alarmHost}:${alarmPort}/security-rules/exceedings/` + exceedingRule.securityRuleId
   )
     .then(async (res: any) => {
-      popNegative($q, 'Exceeding rule deleted successfully')
+      popPositive($q, 'Exceeding rule deleted successfully')
       await getExceedingSecurityRules()
     })
     .catch(error => {

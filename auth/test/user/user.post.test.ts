@@ -24,7 +24,7 @@ describe('POST /users/', (): void => {
       password: "passwordprova",
       token: "",
       refreshToken: "",
-      contact: [
+      contacts: [
         {
           _id: "65841da0306d94b61b329571",
           value: "3333333333",

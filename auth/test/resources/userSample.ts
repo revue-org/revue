@@ -5,7 +5,7 @@ export const userSample = {
   password: '$2a$10$eHwL5cAfFPqBAbQyAqH/nOK94EyttraZx/xjEwQQiQP.hyB/XT64.',//hashed passwordkprova
   token: '',
   refreshToken: '',
-  contact: [
+  contacts: [
     {
       _id: '65841da0306d94b61b329571',
       value: '3333333333',

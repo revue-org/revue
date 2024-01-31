@@ -33,9 +33,8 @@ describe('DELETE /devices/', (): void => {
 
       // @ts-ignore
       const deletion: Response = await monitoringService
-        .delete('/devices')
+        .delete('/devices/sensors/sen-10')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send({ type: 'SENSOR', code: 'sen-10' })
       expect(deletion.status).toBe(HttpStatusCode.OK)
       expect(deletion.type).toBe('application/json')
     })
@@ -57,9 +56,8 @@ describe('DELETE /devices/', (): void => {
         .send(newCamera)
       // @ts-ignore
       const deletion: Response = await monitoringService
-        .delete('/devices')
+        .delete('/devices/cameras/cam-10')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send({ type: 'CAMERA', code: 'cam-10' })
       expect(deletion.status).toBe(HttpStatusCode.OK)
       expect(deletion.type).toBe('application/json')
     })

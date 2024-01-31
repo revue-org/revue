@@ -10,7 +10,7 @@
     "dev": "npm run build && NODE_ENV=develop node --env-file=../.env .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
-    "test": "vitest --run",
+    "test": "cp ../.env .; vitest --run; rm .env;",
     "coverage": "vitest --run --coverage",
     "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",

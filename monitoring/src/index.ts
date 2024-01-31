@@ -67,6 +67,4 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
     await mongoConnect()
   })
-} else {
-  //await mongoConnect()
 }

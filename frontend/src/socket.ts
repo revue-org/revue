@@ -27,7 +27,7 @@ alarmSocket.on('disconnect from alarm socket', (): void => {
   alarmSocketState.connected = false
 })
 
-monitoringSocket.on('connect', (): void => {
+monitoringSocket.on('connect', async (): Promise<void> => {
   console.log('connected to monitoring socket')
   monitoringSocketState.connected = true
   await subscribeToAllTopics()

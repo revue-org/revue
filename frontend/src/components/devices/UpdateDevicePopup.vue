@@ -20,8 +20,6 @@ const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
 const measures: ref<Measure[]> = ref([])
 
-console.log((device as Camera).resolution)
-
 const options = ref([
   {
     label: 'Temperature',

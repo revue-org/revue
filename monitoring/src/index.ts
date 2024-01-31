@@ -72,6 +72,6 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   server.listen(PORT, async (): Promise<void> => {
     await mongoConnect()
-    await setupConsumers()
+    //await setupConsumers()
   })
 }

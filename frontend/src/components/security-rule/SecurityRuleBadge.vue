@@ -7,6 +7,8 @@ import {
   ObjectClass,
   type SecurityRule
 } from '@domain/security-rule/core'
+import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
+import { ref } from 'vue'
 
 defineProps<{
   securityRule: SecurityRule
@@ -15,6 +17,46 @@ defineProps<{
 defineEmits<{
   (e: 'delete-security-rule'): void
 }>()
+
+const updatePopupVisible = ref<boolean>(false)
+
+const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
+  /*await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
+    code: sensor.deviceId.code,
+    ipAddress: sensor.ipAddress,
+    intervalMillis: sensor.intervalMillis,
+    measures: sensor.measures.map((m: Measure) => {
+      return MeasureConverter.convertToString(m)
+    })
+  })
+    .then(async (res: any) => {
+      alert('devo aggiornare i devices')
+      //TODO A CONFIRM POPUP
+    })
+    .catch(error => {
+      console.log(error)
+    })*/
+  console.log(exceedingRule)
+}
+
+const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
+  /*  await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
+      code: camera.deviceId.code,
+      ipAddress: camera.ipAddress,
+      resolution: {
+        width: parseInt(camera.resolution.width.toString()),
+        height: parseInt(camera.resolution.height.toString())
+      }
+    })
+      .then(async (res: any) => {
+        alert('devo aggiornare i devices')
+        //TODO A CONFIRM POPUP
+      })
+      .catch(error => {
+        console.log(error)
+      })*/
+  console.log(intrusionRule)
+}
 </script>
 
 <template>
@@ -60,7 +102,7 @@ defineEmits<{
 
       <li class="actions">
         <div>
-          <q-btn color="secondary" icon="edit" />
+          <q-btn color="secondary" icon="edit" @click="updatePopupVisible = true" />
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
@@ -70,6 +112,12 @@ defineEmits<{
       </li>
     </ul>
   </div>
+  <update-security-rule-popup
+    v-model="updatePopupVisible"
+    :security-rule="securityRule"
+    @update-exceeding-rule="updateExceedingRule"
+    @update-intrusion-rule="updateIntrusionRule"
+  ></update-security-rule-popup>
 </template>
 
 <style scoped lang="scss">

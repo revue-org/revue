@@ -6,6 +6,7 @@ import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
 import { MeasureConverter } from '../../utils/MeasureConverter.js'
 import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
+import { ContactTypeConverter } from '../../utils'
 
 export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   exceedingRuleModel: Model<ExceedingRule>
@@ -81,7 +82,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
       new mongoose.Types.ObjectId(exceedingRule.securityRuleId),
       {
         deviceId: {
-          type: exceedingRule.deviceId.type,
+          type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
           code: exceedingRule.deviceId.code
         },
         contacts: exceedingRule.contactsToNotify,
@@ -100,7 +101,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
       new mongoose.Types.ObjectId(intrusionRule.securityRuleId),
       {
         deviceId: {
-          type: intrusionRule.deviceId.type,
+          type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
           code: intrusionRule.deviceId.code
         },
         contacts: intrusionRule.contactsToNotify,

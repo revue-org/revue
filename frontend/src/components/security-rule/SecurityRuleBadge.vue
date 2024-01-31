@@ -11,6 +11,10 @@ import {
 defineProps<{
   securityRule: SecurityRule
 }>()
+
+defineEmits<{
+  (e: 'delete-security-rule'): void
+}>()
 </script>
 
 <template>
@@ -60,15 +64,7 @@ defineProps<{
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
-          <q-btn
-            color="negative"
-            icon="delete"
-            @click="
-              securityRule.deviceId.type == DeviceType.SENSOR
-                ? $emit('delete-exceeding-rule', securityRule)
-                : $emit('delete-intrusion-rule', securityRule)
-            "
-          />
+          <q-btn color="negative" icon="delete" @click="$emit('delete-security-rule')" />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>
       </li>

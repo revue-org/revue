@@ -11,6 +11,10 @@ defineProps<{
   device: Device
 }>()
 
+defineEmits<{
+  (e: 'delete-device'): void
+}>()
+
 const updatePopupVisible = ref<boolean>(false)
 
 const updateSensor = async (sensor: Sensor) => {
@@ -100,9 +104,7 @@ const updateCamera = async (camera: Camera) => {
             color="negative"
             icon="delete"
             @click="
-              device.deviceId.type == DeviceType.SENSOR
-                ? $emit('delete-sensor', device)
-                : $emit('delete-camera', device)
+              device.deviceId.type == DeviceType.SENSOR ? $emit('delete-device') : $emit('delete-device')
             "
           />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>

@@ -1,7 +1,7 @@
 import { ContactType } from '../domain/monitoring/core/impl/enum/ContactType.js'
 
 export class ContactTypeConverter {
-  static convertToContactType(type: String): ContactType {
+  static convertToContactType(type: string): ContactType {
     switch (type.toUpperCase()) {
       case 'SMS':
         return ContactType.SMS
@@ -12,7 +12,7 @@ export class ContactTypeConverter {
     }
   }
 
-  static convertToString(type: ContactType): String {
+  static convertToString(type: ContactType): string {
     switch (type) {
       case ContactType.SMS:
         return 'SMS'

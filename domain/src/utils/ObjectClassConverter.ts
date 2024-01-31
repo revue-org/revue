@@ -1,7 +1,7 @@
 import { ObjectClass } from '../domain/security-rule/core/impl/enum/ObjectClass.js'
 
 export class ObjectClassConverter {
-  static convertToObjectClass(type: String): ObjectClass {
+  static convertToObjectClass(type: string): ObjectClass {
     switch (type.toUpperCase()) {
       case 'ANIMAL':
         return ObjectClass.ANIMAL
@@ -14,7 +14,7 @@ export class ObjectClassConverter {
     }
   }
 
-  static convertToString(type: ObjectClass): String {
+  static convertToString(type: ObjectClass): string {
     switch (type) {
       case ObjectClass.ANIMAL:
         return 'ANIMAL'

@@ -12,6 +12,7 @@ import { AnomalyTypeConverter, DeviceTypeConverter, MeasureConverter } from 'dom
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { useTopicsStore } from '@/stores/topics'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
+import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
 
 const topicsStore = useTopicsStore()
 
@@ -35,22 +36,6 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
 })
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
-
-const composeSensor = (sensor: any): Sensor => {
-  console.log(composeMeasure(sensor.measures))
-  return deviceFactory.createSensor(
-    deviceIdFactory.createSensorId(sensor._id.code),
-    sensor.ipAddress,
-    sensor.intervalMillis,
-    composeMeasure(sensor.measures)
-  )
-}
-
-function composeMeasure(measures: any): Measure[] {
-  return measures.map((measure: any) => {
-    return MeasureConverter.convertToMeasure(measure)
-  })
-}
 
 onBeforeMount(() => {
   console.log(

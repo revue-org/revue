@@ -74,7 +74,6 @@ const measure: ref<Measure> = ref(Measure.TEMPERATURE)
 const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
 
 const updateSecurityRule = () => {
-  console.log(securityRule)
   if (securityRule.deviceId.type == DeviceType.SENSOR) {
     const updatedExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
       (securityRule as ExceedingRule).min,

@@ -1,22 +1,19 @@
 <script lang="ts"></script>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-
 import DeviceBadge from '@/components/devices/DeviceBadge.vue'
-import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 import type { Camera, Device, Sensor } from '@domain/device/core'
 import { Measure } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
+import { popNegative, popPositive } from '@/scripts/Popups.js'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { DeviceTypeConverter, MeasureConverter } from '@utils/index'
-
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
-const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
+import { useQuasar } from 'quasar'
+import { composeCamera, composeSensor } from '@/scripts/presentation/device/ComposeDevice'
 
 const sensors: ref<Sensor[]> = ref([])
 const cameras: ref<Camera[]> = ref([])
+const $q = useQuasar()
 
 const getSensors = async () => {
   await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
@@ -43,29 +40,6 @@ const getCameras = async () => {
     })
 }
 
-const composeSensor = (sensor: any): Sensor => {
-  return deviceFactory.createSensor(
-    deviceIdFactory.createSensorId(sensor._id.code),
-    sensor.ipAddress,
-    sensor.intervalMillis,
-    composeMeasure(sensor.measures)
-  )
-}
-
-const composeCamera = (camera: any): Camera => {
-  return deviceFactory.createCamera(
-    deviceIdFactory.createCameraId(camera._id.code),
-    camera.ipAddress,
-    resolutionFactory.createResolution(camera.resolution.width, camera.resolution.height)
-  )
-}
-
-function composeMeasure(measures: any): Measure[] {
-  return measures.map((measure: any) => {
-    return MeasureConverter.convertToMeasure(measure)
-  })
-}
-
 const insertSensor = async (sensor: Sensor) => {
   await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
     code: sensor.deviceId.code,
@@ -76,10 +50,11 @@ const insertSensor = async (sensor: Sensor) => {
     })
   })
     .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
+      popPositive($q, 'Sensor added successfully')
       await getSensors()
     })
     .catch(error => {
+      popNegative($q, 'Error while deleting sensor')
       console.log(error)
     })
 }
@@ -94,10 +69,12 @@ const insertCamera = async (camera: Camera) => {
     }
   })
     .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
+      await getSensors()
       await getCameras()
+      popPositive($q, 'Camera added successfully')
     })
     .catch(error => {
+      popNegative($q, 'Error while deleting camera')
       console.log(error)
     })
 }
@@ -108,10 +85,12 @@ const deleteDevice = async (device: Device) => {
       device.deviceId.code
   )
     .then(async (res: any) => {
-      //TODO A CONFIRM POPUP
       await getSensors()
+      await getCameras()
+      popPositive($q, 'Device deleted successfully')
     })
     .catch(error => {
+      popNegative($q, 'Error while deleting device')
       console.log(error)
     })
 }

@@ -22,8 +22,8 @@ let humidityBuffer: number[] = []
 let pressureBuffer: number[] = []
 let timestampsBuffer: string[] = []
 
-watch(sensorData, (newSensorData) => {
-  newSensorData.values.forEach((value) => {
+watch(sensorData, newSensorData => {
+  newSensorData.values.forEach(value => {
     switch (value.measure) {
       case Measure.TEMPERATURE:
         removeIfFull(temperatureBuffer)
@@ -90,11 +90,6 @@ const chartData = ref({
 const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      // display: false
-    }
-  },
   scales: {
     x: {
       display: false,
@@ -109,7 +104,6 @@ const chartOptions = ref({
     }
   }
 })
-
 </script>
 
 <template>
@@ -120,12 +114,12 @@ const chartOptions = ref({
     <div class="measures">
       <div v-for="value in sensorData.values">
         <span
-        ><i
-          :style="{
+          ><i
+            :style="{
               color: getMeasureColor(value.measure)
             }"
-        >{{ Measure[value.measure] }}</i
-        >
+            >{{ Measure[value.measure] }}</i
+          >
           :
           {{ value.value }}{{ getMeasureAcronym(value.measureUnit) }}</span
         >
@@ -136,7 +130,6 @@ const chartOptions = ref({
       <line-chart :chart-data="chartData" :chart-options="chartOptions" />
     </div>
   </li>
-
 </template>
 
 <style scoped lang="scss">

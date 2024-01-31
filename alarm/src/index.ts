@@ -6,8 +6,12 @@ import { anomalyRouter } from './routes/anomaly.js'
 import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
+import { simulationRouter } from './routes/simulation.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
+import { Server as SocketIOServer } from 'socket.io'
+import http, { Server as HttpServer } from 'http'
+import { setupNotificationSimulation } from './simulation.js'
 
 config()
 
@@ -17,6 +21,15 @@ app.use(express.json())
 app.use(cors())
 
 const PORT: number = Number(process.env.ALARM_PORT) || 4002
+
+const server: HttpServer = http.createServer(app)
+
+const frontendPort: string = process.env.FRONTEND_PORT || '8080'
+export const io: SocketIOServer = new SocketIOServer(server, {
+  cors: {
+    origin: `http://localhost:${frontendPort}`
+  }
+})
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -29,7 +42,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     jwtManager.authenticate(req, res, next)
   }
 })
-
+app.use('/simulations', simulationRouter)
 app.use('/notifications', notificationRouter)
 app.use('/anomalies', anomalyRouter)
 app.use('/recognizing-nodes', recognizingNodeRouter)
@@ -56,8 +69,9 @@ const mongoConnect = async (): Promise<void> => {
 }
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, async (): Promise<void> => {
+  server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
     await mongoConnect()
+    await setupNotificationSimulation()
   })
 }

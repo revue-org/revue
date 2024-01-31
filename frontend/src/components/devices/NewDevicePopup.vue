@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { type Camera, DeviceType, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
+import { MeasureConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
   (e: 'update-devices'): void
@@ -22,20 +23,17 @@ const width: ref<number> = ref()
 const height: ref<number> = ref()
 const intervalMillis: ref<number> = ref()
 const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
-const options = ref([
-  {
-    label: 'Temperature',
-    value: Measure.TEMPERATURE
-  },
-  {
-    label: 'Humidity',
-    value: Measure.HUMIDITY
-  },
-  {
-    label: 'Pressure',
-    value: Measure.PRESSURE
-  }
-])
+
+const optionMeasures = ref(
+  Object.keys(Measure)
+    .filter(key => isNaN(Number(key)))
+    .map(value => {
+      return {
+        label: value,
+        value: MeasureConverter.convertToMeasure(value)
+      }
+    })
+)
 
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
@@ -89,7 +87,7 @@ const addNewDevice = () => {
           <label>Acquisition rate (ms)</label>
           <q-input type="number" v-model="intervalMillis" />
         </q-card-section>
-        <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
+        <q-option-group style="display: flex" v-model="measures" :options="optionMeasures" type="checkbox" />
       </div>
 
       <q-card-actions align="right">

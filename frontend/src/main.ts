@@ -3,7 +3,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import { createApp } from 'vue'
 import router from './router'
-import { Quasar } from 'quasar'
+import { Notify, Quasar } from 'quasar'
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
 
@@ -28,6 +28,6 @@ router.beforeEach((to, from, next) => {
 
 app.use(router)
 app.use(Quasar, {
-  plugins: {} // import Quasar plugins and add here
+  plugins: { Notify } // import Quasar plugins and add here
 })
 app.mount('#app')

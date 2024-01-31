@@ -67,13 +67,11 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
     await mongoConnect()
-    if (process.env.NODE_ENV !== 'develop') {
-      await setupConsumers()
-    }
+    //await setupConsumers()
   })
 } else {
-  // server.listen(PORT, async (): Promise<void> => {
-  //   await connectToMock()
-  // await setupConsumers()
-  // })
+  server.listen(PORT, async (): Promise<void> => {
+    await mongoConnect()
+    await setupConsumers()
+  })
 }

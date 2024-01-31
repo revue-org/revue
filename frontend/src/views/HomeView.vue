@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { type EnvironmentData, Measure, MeasureUnit, type Sensor } from '@domain/device/core'
+import { type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
-
-import { socket } from '@/socket'
+import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { alarmSocket, monitoringSocket } from '@/socket'
+import { useQuasar } from 'quasar'
+import router from '@/router'
+import { AnomalyTypeConverter, MeasureConverter } from 'domain/dist/utils'
+import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { useTopicsStore } from '@/stores/topics'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
-import { MeasureConverter } from 'domain/dist/utils'
 
 const topicsStore = useTopicsStore()
+
+const $q = useQuasar()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
@@ -50,7 +54,7 @@ function composeMeasure(measures: any): Measure[] {
 
 onBeforeMount(() => {
   console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
-  socket.emit(
+  monitoringSocket.emit(
     'resume',
     topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_'))
   )
@@ -58,13 +62,13 @@ onBeforeMount(() => {
 
 onBeforeUnmount(() => {
   console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_')))
-  socket.emit(
+  monitoringSocket.emit(
     'pause',
     topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('SENSOR_'))
   )
 })
 
-socket.on('env-data', (data: { topic: string; data: string }) => {
+monitoringSocket.on('env-data', (data: { topic: string; data: string }) => {
   const rawValues = JSON.parse(data.data)
   const newValues: EnvironmentData[] = []
   for (const rawValue of rawValues) {
@@ -85,9 +89,85 @@ socket.on('env-data', (data: { topic: string; data: string }) => {
     values.value[index].values = newValues
   }
 })
-</script>
 
+const simulateExceeding = async () => {
+  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/simulations/exceedings`, {
+    anomalyId: '65b514200718dbb3580fb9e6',
+    deviceId: {
+      type: 'SENSOR',
+      code: 'sen-01'
+    },
+    measure: 'TEMPERATURE',
+    value: 100
+  })
+    .then((res: any) => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
+const simulateIntrusion = async () => {
+  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/simulations/intrusions`, {
+    anomalyId: '65b514200718dbb3580fb9e6', //to create a new anomaly
+    deviceId: {
+      type: 'CAMERA',
+      code: 'cam-01'
+    },
+    intrusionObject: 'PERSON'
+  })
+    .then((res: any) => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
+alarmSocket.on('notification', (anomaly: string) => {
+  const anomalyType: AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
+  switch (anomalyType) {
+    case AnomalyType.EXCEEDING:
+      showNotification('Exceeding notification', anomalyType)
+      break
+    case AnomalyType.INTRUSION:
+      showNotification('Intrusion notification', anomalyType)
+      break
+    default:
+      break
+  }
+})
+
+const showNotification = (message: string, type: AnomalyType) => {
+  $q.notify({
+    message: message,
+    color: 'primary',
+    avatar:
+      type == AnomalyType.INTRUSION
+        ? '../assets/notificationIcons/intrusion.png'
+        : '../assets/notificationIcons/exceeding.png',
+    actions: [
+      {
+        label: 'Dismiss',
+        color: 'white',
+        handler: () => {}
+      },
+      {
+        label: 'Read',
+        color: 'green',
+        handler: () => {
+          router.push('/notifications')
+        }
+      }
+    ]
+  })
+}
+</script>
 <template>
+  <button class="btn btn-primary" @click="simulateExceeding">Simulate Exceeding</button>
+  <button class="btn btn-primary" @click="simulateIntrusion">Simulate Intrusion</button>
+
   <h2>Environment data</h2>
   <div>
     <sensor-data v-for="(value, index) in values" :key="index" :sensor-data="value" />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, onBeforeUnmount, ref, type Ref } from 'vue'
-import { socket, state } from '@/socket'
+import { monitoringSocket } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
@@ -16,15 +16,9 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).
   }
 })
 
-console.log(state)
-
-const topics: Ref<string[]> = computed(() => cameras.value.map(camera => 'CAMERA_' + camera.code))
-
-console.log(topics.value)
-
 onBeforeMount(() => {
   console.log('resume' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
-  socket.emit(
+  monitoringSocket.emit(
     'resume',
     topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_'))
   )
@@ -32,13 +26,13 @@ onBeforeMount(() => {
 
 onBeforeUnmount(() => {
   console.log('pause' + topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_')))
-  socket.emit(
+  monitoringSocket.emit(
     'pause',
     topicsStore.subscribedTopics.filter((topic: string) => topic.startsWith('CAMERA_'))
   )
 })
 
-socket.on('stream', (newFrame: { topic: string; frame: string }) => {
+monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
   cameras.value.find(camera => camera.code === newFrame.topic.split('CAMERA_')[1])!.src =
     `data:image/jpeg;base64,${newFrame.frame}`
 })

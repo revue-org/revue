@@ -11,14 +11,14 @@ import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
 import { ref } from 'vue'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
-import { popPositive, popNegative } from '@/scripts/Popups'
+import { popPositive, popNegative, popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 
 defineProps<{
   securityRule: SecurityRule
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'delete-security-rule'): void
 }>()
 
@@ -70,6 +70,10 @@ const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
       console.log(error)
     })
 }
+
+const deleteSecurityRule = () => {
+  popDelete($q, 'Are you sure you want to delete this security rule?', () => emit('delete-security-rule'))
+}
 </script>
 
 <template>
@@ -119,7 +123,7 @@ const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
-          <q-btn color="negative" icon="delete" @click="$emit('delete-security-rule')" />
+          <q-btn color="negative" icon="delete" @click="deleteSecurityRule" />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>
       </li>

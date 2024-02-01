@@ -20,7 +20,7 @@ const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
 const measures: ref<Measure[]> = ref([])
 
-if(device.deviceId.type == DeviceType.SENSOR) {
+if (device.deviceId.type == DeviceType.SENSOR) {
   measures.value = (device as Sensor).measures
 }
 

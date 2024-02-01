@@ -17,7 +17,7 @@ const { notification } = defineProps<{
     <span>
       {{ notification.anomaly.deviceId.code }}
     </span>
-    <span> Notified at: {{ notification.timestamp.toLocaleString().split(' ')[1] }} </span>
+    <span> {{ notification.timestamp.toLocaleString().split(' ')[0] }} </span>
     <span v-if="notification.anomaly.deviceId.type == DeviceType.SENSOR">
       <i>For the </i>
       <i

@@ -18,7 +18,7 @@ db.anomaly.insert([
     _id: ObjectId('65b514240718dbb3580fb9e8'),
     deviceId: {
       type: 'CAMERA',
-      code: 'cam-03'
+      code: 'cam-01'
     },
     timestamp: new Date("2024-01-27T16:32:15.925Z"),
     intrusionObject: 'ANIMAL',

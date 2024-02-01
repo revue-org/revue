@@ -19,7 +19,6 @@ const SENSOR_CODE: string = process.env.SENSOR_CODE || 'sen-01'
 let sourceDevice: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
-  // const monitoringHost: string = 'localhost' //process.env.MONITORING_HOST || 'localhost'
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 
   const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
@@ -27,6 +26,7 @@ export const getSensorInfo = async (): Promise<void> => {
   if (res.status !== HttpStatusCode.Ok) throw new Error('Error while getting sensor info')
   sourceDevice = new DeviceFactoryImpl().createSensor(
     new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
+    false,
     res.data.ipAddress,
     res.data.intervalMillis,
     res.data.measures.map((measure: any) => {

@@ -12,20 +12,16 @@ const { notification } = defineProps<{
 
 <template>
   <li>
-    <img
-      v-if="notification.anomaly.deviceId.type == DeviceType.SENSOR"
-      src="../../assets/notificationIcons/exceeding.png"
-      alt="notification image relative to the type exceeding occurred"
-    />
-    <img
+    <q-icon
       v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA"
-      src="../../assets/notificationIcons/intrusion.png"
-      alt="notification image relative to the type intrusion occurred"
+      size="28px"
+      name="sensor_occupied"
     />
+    <q-icon v-else size="28px" name="timeline" />
     <span>
       {{ notification.anomaly.deviceId.code }}
     </span>
-    <span> Notified at: {{ notification.timestamp.toLocaleString().split(' ')[1] }} </span>
+    <span> {{ notification.timestamp.toLocaleString().split(' ')[0] }} </span>
     <span v-if="notification.anomaly.deviceId.type == DeviceType.SENSOR">
       <i>For the </i>
       <i
@@ -56,13 +52,6 @@ const { notification } = defineProps<{
 .timestamp {
   font-size: 0.7rem;
   margin-left: auto;
-}
-
-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #eeeeee;
 }
 
 li {

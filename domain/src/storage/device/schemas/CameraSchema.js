@@ -7,6 +7,10 @@ export const cameraSchema = new Schema({
     type: deviceIdSchema,
     required: true
   },
+  isCapturing: {
+    type: Boolean,
+    required: true
+  },
   ipAddress: {
     type: String,
     required: true

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { DeviceType, type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
+import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
@@ -8,7 +8,7 @@ import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } f
 import { alarmSocket, monitoringSocket } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
-import { AnomalyTypeConverter, DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
+import { AnomalyTypeConverter, DeviceTypeConverter } from 'domain/dist/utils'
 import { AnomalyType } from 'domain/dist/domain/anomaly/core'
 import { useTopicsStore } from '@/stores/topics'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
@@ -123,27 +123,23 @@ const simulateIntrusion = async () => {
 }
 
 alarmSocket.on('notification', (anomaly: { type: string }) => {
-  const anomalyType: AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
-  switch (anomalyType) {
+  switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
     case AnomalyType.EXCEEDING:
-      showNotification('Exceeding notification', anomalyType)
+      showNotification('Exceeding notification')
       break
     case AnomalyType.INTRUSION:
-      showNotification('Intrusion notification', anomalyType)
+      showNotification('Intrusion notification')
       break
     default:
       break
   }
 })
 
-const showNotification = (message: string, type: AnomalyType) => {
+const showNotification = (message: string) => {
   $q.notify({
     message: message,
     color: 'primary',
-    avatar:
-      type == AnomalyType.INTRUSION
-        ? '../assets/notificationIcons/intrusion.png'
-        : '../assets/notificationIcons/exceeding.png',
+    icon: 'mark_unread_chat_alt',
     actions: [
       {
         label: 'Dismiss',

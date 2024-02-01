@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { Device, Sensor, Camera } from '@domain/device/core'
-import { Measure, DeviceType } from '@domain/device/core'
+import type { Camera, Device, Sensor } from '@domain/device/core'
+import { DeviceType, Measure } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
 import { ref } from 'vue'
 import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { MeasureConverter } from 'domain/dist/utils'
+import { DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 
-defineProps<{
+const { device } = defineProps<{
   device: Device
 }>()
 
@@ -55,6 +55,42 @@ const updateCamera = async (camera: Camera) => {
       console.log(error)
     })
 }
+
+const enableDevice = async () => {
+  console.log("CI PASSO")
+  const bodyRequest =
+    device.deviceId.type == DeviceType.SENSOR
+      ? {
+          code: device.deviceId.code,
+          ipAddress: device.ipAddress,
+          isCapturing: !device.isCapturing,
+          intervalMillis: (device as Sensor).intervalMillis,
+          measures: (device as Sensor).measures.map((m: Measure) => {
+            return MeasureConverter.convertToString(m)
+          })
+        }
+      : {
+          code: device.deviceId.code,
+          ipAddress: device.ipAddress,
+          isCapturing: !device.isCapturing,
+          resolution: {
+            width: parseInt((device as Camera).resolution.width.toString()),
+            height: parseInt((device as Camera).resolution.height.toString())
+          }
+        }
+        console.log(bodyRequest)
+  await RequestHelper.put(
+    `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s`,
+    bodyRequest
+  )
+    .then(async (res: any) => {
+      popPositive($q, 'Device enabled successfully')
+    })
+    .catch(error => {
+      popNegative($q, 'Error while enabling device')
+      console.log(error)
+    })
+}
 </script>
 
 <template>
@@ -94,7 +130,7 @@ const updateCamera = async (camera: Camera) => {
           <q-btn
             :name="device.isCapturing ? 'toggle_on' : 'toggle_off'"
             :icon="device.isCapturing ? 'toggle_on' : 'toggle_off'"
-            @click="device.isCapturing ? device.stopCapturing() : device.startCapturing()"
+            @click="enableDevice"
           />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>

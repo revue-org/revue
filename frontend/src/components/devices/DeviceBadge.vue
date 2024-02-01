@@ -13,15 +13,17 @@ const { device } = defineProps<{
   device: Device
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'delete-device'): void
+  (e: 'get-sensors'): void
+  (e: 'get-cameras'): void
 }>()
 
 const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
-const updateSensor = async (sensor: Sensor) => {
-  await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
+const updateSensor = (sensor: Sensor) => {
+  RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
     code: sensor.deviceId.code,
     ipAddress: sensor.ipAddress,
     intervalMillis: sensor.intervalMillis,
@@ -31,6 +33,7 @@ const updateSensor = async (sensor: Sensor) => {
   })
     .then(async (res: any) => {
       popPositive($q, 'Sensor updated successfully')
+      emit('get-sensors')
     })
     .catch(error => {
       popNegative($q, 'Error while updating sensor')
@@ -38,8 +41,8 @@ const updateSensor = async (sensor: Sensor) => {
     })
 }
 
-const updateCamera = async (camera: Camera) => {
-  await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
+const updateCamera = (camera: Camera) => {
+  RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
     code: camera.deviceId.code,
     ipAddress: camera.ipAddress,
     resolution: {
@@ -49,6 +52,7 @@ const updateCamera = async (camera: Camera) => {
   })
     .then(async (res: any) => {
       popPositive($q, 'Camera updated successfully')
+      emit('get-cameras')
     })
     .catch(error => {
       popNegative($q, 'Error while updating camera')

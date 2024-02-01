@@ -15,12 +15,10 @@ if (process.env.CAMERA_CODE === undefined && process.env.NODE_ENV !== 'develop')
 }
 const CAMERA_CODE: string = process.env.CAMERA_CODE || 'cam-01'
 
-
 let sourceCamera: Camera
 
 export const getCameraInfo = async (): Promise<void> => {
-  // const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
-  const monitoringUrl: string = `http://localhost:${monitoringPort}`
+  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/cameras/${CAMERA_CODE}`)
     console.log('Response:', res.data)

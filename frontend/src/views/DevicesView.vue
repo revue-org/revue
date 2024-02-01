@@ -15,8 +15,8 @@ const sensors: ref<Sensor[]> = ref([])
 const cameras: ref<Camera[]> = ref([])
 const $q = useQuasar()
 
-const getSensors = async () => {
-  await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
+const getSensors = () => {
+  RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
     .then((res: any) => {
       sensors.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -27,8 +27,8 @@ const getSensors = async () => {
       console.log(error)
     })
 }
-const getCameras = async () => {
-  await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
+const getCameras = () => {
+  RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
     .then((res: any) => {
       cameras.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -49,9 +49,9 @@ const insertSensor = async (sensor: Sensor) => {
       return MeasureConverter.convertToString(m)
     })
   })
-    .then(async (res: any) => {
+    .then((res: any) => {
       popPositive($q, 'Sensor added successfully')
-      await getSensors()
+      getSensors()
     })
     .catch(error => {
       popNegative($q, 'Error while deleting sensor')
@@ -68,9 +68,8 @@ const insertCamera = async (camera: Camera) => {
       height: camera.resolution.height
     }
   })
-    .then(async (res: any) => {
-      await getSensors()
-      await getCameras()
+    .then((res: any) => {
+      getCameras()
       popPositive($q, 'Camera added successfully')
     })
     .catch(error => {
@@ -84,9 +83,9 @@ const deleteDevice = async (device: Device) => {
     `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s/` +
       device.deviceId.code
   )
-    .then(async (res: any) => {
-      await getSensors()
-      await getCameras()
+    .then((res: any) => {
+      getSensors()
+      getCameras()
       popPositive($q, 'Device deleted successfully')
     })
     .catch(error => {
@@ -96,8 +95,8 @@ const deleteDevice = async (device: Device) => {
 }
 
 onMounted(async () => {
-  await getSensors()
-  await getCameras()
+  getSensors()
+  getCameras()
 })
 
 const newPopupVisible = ref<boolean>(false)
@@ -116,6 +115,7 @@ const newPopupVisible = ref<boolean>(false)
       :key="sensor.deviceId"
       :device="sensor"
       @delete-device="deleteDevice(sensor)"
+      @get-sensors="getSensors"
     />
   </div>
 
@@ -126,6 +126,7 @@ const newPopupVisible = ref<boolean>(false)
       :key="camera.deviceId"
       :device="camera"
       @delete-device="deleteDevice(camera)"
+      @get-cameras="getCameras"
     />
   </div>
 

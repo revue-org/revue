@@ -2,7 +2,7 @@
 
 # Function to display usage information
 usage() {
-  echo "Usage: $0 (--up | --down)"
+  echo "Usage: $0 (--up [--build] [-d] | --down [-v])"
   exit 1
 }
 
@@ -12,6 +12,9 @@ if [ "$#" -lt 1 ]; then
 fi
 
 command=''
+volume=''
+detached=''
+build=''
 # Process options
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -19,11 +22,21 @@ while [[ $# -gt 0 ]]; do
       command="$1"
       shift
       ;;
-#    *)
-#      echo "$1"
-#      services+=("$1")
-#      shift
-#      ;;
+    -v)
+      volume="$1"
+      shift
+      ;;
+    -d)
+      detached="$1"
+      shift
+      ;;
+    --build)
+      build="$1"
+      shift
+      ;;
+    *)
+      usage
+      ;;
   esac
 done
 
@@ -37,7 +50,7 @@ compose_files=("-fauth/docker-compose.yml"  "-fkafka/docker-compose.yml" "-fmoni
 
 
 if [ "$command" == "--down" ]; then
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -v
+  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
 else
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d --build
+  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${detached}" "${build}"
 fi

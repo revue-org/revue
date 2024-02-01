@@ -8,7 +8,7 @@ import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/Enviro
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
-import { AxiosResponse, HttpStatusCode } from 'axios'
+import { AxiosResponse } from 'axios'
 
 if (process.env.SENSOR_CODE === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No sensor code provided')
@@ -16,24 +16,26 @@ if (process.env.SENSOR_CODE === undefined && process.env.NODE_ENV !== 'develop')
 }
 const SENSOR_CODE: string = process.env.SENSOR_CODE || 'sen-01'
 
-let sourceDevice: Sensor
+let sourceSensor: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
-
-  const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
-  console.log('Response:', res.data)
-  if (res.status !== HttpStatusCode.Ok) throw new Error('Error while getting sensor info')
-  sourceDevice = new DeviceFactoryImpl().createSensor(
-    new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
-    false,
-    res.data.ipAddress,
-    res.data.intervalMillis,
-    res.data.measures.map((measure: any) => {
-      return MeasureConverter.convertToMeasure(measure)
-    })
-  )
-  console.log(sourceDevice)
+  try {
+    const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
+    console.log('Response:', res.data)
+    sourceSensor = new DeviceFactoryImpl().createSensor(
+      new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
+      false,
+      res.data.ipAddress,
+      res.data.intervalMillis,
+      res.data.measures.map((measure: any) => {
+        return MeasureConverter.convertToMeasure(measure)
+      })
+    )
+    console.log(sourceSensor)
+  } catch (e) {
+    throw new Error('Error while getting sensor info')
+  }
 }
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
@@ -53,10 +55,10 @@ export const produce = async (): Promise<void> => {
   let values: EnvironmentData[] = []
   setInterval(async (): Promise<void> => {
     values = []
-    for (const measure of sourceDevice.measures) {
+    for (const measure of sourceSensor.measures) {
       values.push(
         environmentDataFactory.createEnvironmentData(
-          sourceDevice.deviceId,
+          sourceSensor.deviceId,
           generateRandomValue(measure),
           measure,
           getMeasureUnit(measure),
@@ -65,7 +67,7 @@ export const produce = async (): Promise<void> => {
       )
     }
     await producer.send({
-      topic: `SENSOR_${sourceDevice.deviceId.code}`,
+      topic: `SENSOR_${sourceSensor.deviceId.code}`,
       messages: [
         {
           value: JSON.stringify(values),
@@ -75,7 +77,7 @@ export const produce = async (): Promise<void> => {
     })
     console.log(`Message ${index} sent`)
     index++
-  }, sourceDevice.intervalMillis)
+  }, sourceSensor.intervalMillis)
 }
 
 const getMeasureUnit = (measure: Measure): MeasureUnit => {

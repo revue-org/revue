@@ -25,9 +25,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-//app.use(indexRouter)
-// app.use('/security-rules', securityRuleRouter)
-
 const mongoConnect = async () => {
   const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
   await mongoose
@@ -40,13 +37,11 @@ const mongoConnect = async () => {
     .catch(e => console.log(e))
 }
 
-if (process.env.NODE_ENV === 'test') {
-  // mongoConnect()
-} else {
+if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Sensor server listening on ${PORT}`)
+    await mongoConnect()
     await getSensorInfo()
-    // mongoConnect()
     await produce()
   })
 }

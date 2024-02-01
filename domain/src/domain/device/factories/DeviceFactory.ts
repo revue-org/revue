@@ -7,5 +7,11 @@ import { Measure } from '../core/impl/enum/Measure.js'
 export interface DeviceFactory {
   createCamera(deviceId: DeviceId, isCapturing: boolean, ipAddress: string, resolution: Resolution): Camera
 
-  createSensor(deviceId: DeviceId, isCapturing: boolean, ipAddress: string, intervalMillis: number, measures: Measure[]): Sensor
+  createSensor(
+    deviceId: DeviceId,
+    isCapturing: boolean,
+    ipAddress: string,
+    intervalMillis: number,
+    measures: Measure[]
+  ): Sensor
 }

@@ -12,8 +12,12 @@ const { notification } = defineProps<{
 
 <template>
   <li>
-    <q-icon v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA" size="28px" name="sensor_occupied"/>
-    <q-icon v-else size="28px" name="timeline"/>
+    <q-icon
+      v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA"
+      size="28px"
+      name="sensor_occupied"
+    />
+    <q-icon v-else size="28px" name="timeline" />
     <span>
       {{ notification.anomaly.deviceId.code }}
     </span>

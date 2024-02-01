@@ -4,7 +4,6 @@ import { defineStore } from 'pinia'
 export const useBuffersStore = defineStore(
   'buffers',
   () => {
-
     const bufferLength = ref<number>(200)
     const temperatureBuffer = ref<number[]>([])
     const humidityBuffer = ref<number[]>([])
@@ -16,7 +15,7 @@ export const useBuffersStore = defineStore(
       temperatureBuffer,
       humidityBuffer,
       pressureBuffer,
-      timestampBuffer,
+      timestampBuffer
     }
   },
   {

@@ -40,7 +40,6 @@ const removeIfFull = (buffer: any[]): void => {
   }
 }
 
-
 watch(sensorData, newSensorData => {
   newSensorData.values.forEach(value => {
     switch (value.measure) {
@@ -140,12 +139,12 @@ const chartOptions = ref({
     <div class="measures">
       <div v-for="value in sensorData.values">
         <span
-        ><i
-          :style="{
+          ><i
+            :style="{
               color: getMeasureColor(value.measure)
             }"
-        >{{ Measure[value.measure] }}</i
-        >
+            >{{ Measure[value.measure] }}</i
+          >
           :
           {{ value.value }}{{ getMeasureAcronym(value.measureUnit) }}</span
         >

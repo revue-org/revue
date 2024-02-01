@@ -9,10 +9,10 @@ export class SensorImpl implements Sensor {
   private _intervalMillis: number
   private _measures: Measure[]
 
-  constructor(deviceId: DeviceId, ipAddress: string, intervalMillis: number, measures: Measure[]) {
+  constructor(deviceId: DeviceId, isCapturing: boolean, ipAddress: string, intervalMillis: number, measures: Measure[]) {
     this._deviceId = deviceId
     this._ipAddress = ipAddress
-    this._isCapturing = false
+    this._isCapturing = isCapturing
     this._intervalMillis = intervalMillis
     this._measures = measures
   }

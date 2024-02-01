@@ -84,6 +84,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
           type: DeviceTypeConverter.convertToString(camera.deviceId.type),
           code: camera.deviceId.code
         },
+        isCapturing: camera.isCapturing,
         ipAddress: camera.ipAddress,
         resolution: {
           height: camera.resolution.height,
@@ -102,6 +103,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
           type: DeviceTypeConverter.convertToString(sensor.deviceId.type),
           code: sensor.deviceId.code
         },
+        isCapturing: sensor.isCapturing,
         ipAddress: sensor.ipAddress,
         intervalMillis: sensor.intervalMillis,
         measures: sensor.measures
@@ -121,6 +123,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
           }
         },
         {
+          isCapturing: camera.isCapturing,
           ipAddress: camera.ipAddress,
           resolution: {
             height: camera.resolution.height,
@@ -141,6 +144,7 @@ export class DeviceRepositoryImpl implements DeviceRepository {
           }
         },
         {
+          isCapturing: sensor.isCapturing,
           ipAddress: sensor.ipAddress,
           intervalMillis: sensor.intervalMillis,
           measures: sensor.measures

@@ -16,6 +16,7 @@ const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 export const composeSensor = (sensor: any): Sensor => {
   return deviceFactory.createSensor(
     deviceIdFactory.createSensorId(sensor._id.code),
+    sensor.isCapturing,
     sensor.ipAddress,
     sensor.intervalMillis,
     composeMeasure(sensor.measures)
@@ -25,6 +26,7 @@ export const composeSensor = (sensor: any): Sensor => {
 export const composeCamera = (camera: any): Camera => {
   return deviceFactory.createCamera(
     deviceIdFactory.createCameraId(camera._id.code),
+    camera.isCapturing,
     camera.ipAddress,
     resolutionFactory.createResolution(camera.resolution.width, camera.resolution.height)
   )

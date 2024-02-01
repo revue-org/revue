@@ -123,20 +123,19 @@ const simulateIntrusion = async () => {
 }
 
 alarmSocket.on('notification', (anomaly: { type: string }) => {
-  const anomalyType: AnomalyType = AnomalyTypeConverter.convertToAnomalyType(anomaly.type)
-  switch (anomalyType) {
+  switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
     case AnomalyType.EXCEEDING:
-      showNotification('Exceeding notification', anomalyType)
+      showNotification('Exceeding notification')
       break
     case AnomalyType.INTRUSION:
-      showNotification('Intrusion notification', anomalyType)
+      showNotification('Intrusion notification')
       break
     default:
       break
   }
 })
 
-const showNotification = (message: string, type: AnomalyType) => {
+const showNotification = (message: string) => {
   $q.notify({
     message: message,
     color: 'primary',

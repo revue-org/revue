@@ -8,10 +8,10 @@ export class CameraImpl implements Camera {
   private _isCapturing: boolean
   private _resolution: Resolution
 
-  constructor(deviceId: DeviceId, ipAddress: string, resolution: Resolution) {
+  constructor(deviceId: DeviceId, isCapturing: boolean, ipAddress: string, resolution: Resolution) {
     this._deviceId = deviceId
     this._ipAddress = ipAddress
-    this._isCapturing = false
+    this._isCapturing = isCapturing
     this._resolution = resolution
   }
 
@@ -33,6 +33,9 @@ export class CameraImpl implements Camera {
 
   get isCapturing(): boolean {
     return this._isCapturing
+  }
+  set isCapturing(isCapturing: boolean) {
+    this._isCapturing = isCapturing
   }
 
   get resolution(): Resolution {

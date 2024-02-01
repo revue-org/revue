@@ -26,6 +26,7 @@ export const getSensorInfo = async (): Promise<void> => {
       console.log('Response:', res.data)
       sourceDevice = new DeviceFactoryImpl().createSensor(
         new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
+        false,
         res.data.ipAddress,
         res.data.intervalMillis,
         res.data.measures.map((measure: any) => {

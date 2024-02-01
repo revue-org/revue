@@ -7,6 +7,7 @@ db.device.insert([{
     'type': 'SENSOR',
     'code': 'sen-01'
   },
+  'isCapturing': false,
   'ipAddress': '192.168.1.10',
   'intervalMillis': 1000,
   'measures': [
@@ -20,6 +21,7 @@ db.device.insert([{
     'type': 'CAMERA',
     'code': 'cam-01'
   },
+  'isCapturing': false,
   'ipAddress': '192.168.1.20',
   'resolution': {
     'height': 200,
@@ -31,6 +33,7 @@ db.device.insert([{
     'type': 'SENSOR',
     'code': 'sen-02'
   },
+  'isCapturing': false,
   'ipAddress': '192.168.1.30',
   'intervalMillis': 1000,
   'measures': [
@@ -43,6 +46,7 @@ db.device.insert([{
     'type': 'CAMERA',
     'code': 'cam-02'
   },
+  'isCapturing': false,
   'ipAddress': '192.168.1.40',
   'resolution': {
     'height': 200,
@@ -54,6 +58,7 @@ db.device.insert([{
     'type': 'SENSOR',
     'code': 'sen-03'
   },
+  'isCapturing': false,
   'ipAddress': '192.168.1.50',
   'intervalMillis': 500,
   'measures': [

@@ -9,6 +9,7 @@ import { ResolutionFactory } from '@domain/device/factories/ResolutionFactory.js
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import HttpStatusCode from '../utils/HttpStatusCode.js'
+import * as console from 'console'
 
 export const deviceRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -104,6 +105,7 @@ deviceRouter.route('/cameras').put((req: Request, res: Response): void => {
   deviceController
     .updateCamera(
       deviceIdFactory.createCameraId(req.body.code),
+      req.body.isCapturing,
       req.body.ipAddress,
       resolutionFactory.createResolution(req.body.resolution.width, req.body.resolution.height)
     )
@@ -120,6 +122,7 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
     .updateSensor(
       deviceIdFactory.createSensorId(req.body.code),
       req.body.ipAddress,
+      req.body.isCapturing,
       req.body.intervalMillis,
       req.body.measures as Measure[]
     )

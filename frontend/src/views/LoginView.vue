@@ -1,30 +1,35 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
-import { type AxiosResponse, HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
+import { useQuasar } from 'quasar'
+import { popNegative } from '@/scripts/Popups'
 
 const username = ref('')
 const password = ref('')
 
 const userStore = useUserStore()
+const $q = useQuasar()
 
-const login = async () => {
-  const res: AxiosResponse = await RequestHelper.post(`http://${authHost}:${authPort}/login`, {
+const login = () => {
+  RequestHelper.post(`http://${authHost}:${authPort}/login`, {
     username: username.value,
     password: password.value
   })
-  if (res.status !== AxiosHttpStatusCode.Ok) {
-    console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
-    return
-  }
-  userStore.username = username.value
-  userStore.userId = res.data.userId
-  userStore.accessToken = res.data.accessToken
-  userStore.refreshToken = res.data.refreshToken
-  userStore.isLoggedIn = true
-  router.push('/home')
+    .then((res: any) => {
+      userStore.username = username.value
+      userStore.userId = res.data.userId
+      userStore.accessToken = res.data.accessToken
+      userStore.refreshToken = res.data.refreshToken
+      userStore.isLoggedIn = true
+      router.push('/home')
+    })
+    .catch(() => {
+      popNegative($q, 'Login failed')
+      username.value = ''
+      password.value = ''
+    })
 }
 </script>
 

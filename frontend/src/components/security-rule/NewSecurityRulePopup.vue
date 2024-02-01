@@ -90,7 +90,9 @@ const getSensorCodes = async () => {
 const optionsContacts: ref<{ label: string; value: string }> = ref([])
 
 const getContacts = async () => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/users/aaaaaaaaaaaaaaaaaaaaaaaa`) //to put the id of the user taken from the pinia storage
+  console.log('TOKEN')
+  console.log(useUserStore().userId)
+  await RequestHelper.get(`http://${authHost}:${authPort}/users/${useUserStore().userId}`)
     .then((res: any) => {
       optionsContacts.value = []
       for (let i = 0; i < res.data.contacts.length; i++) {
@@ -133,7 +135,7 @@ const addNewSecurityRule = () => {
       useUserStore().userId,
       toRaw(contacts.value).map((c: { label: string; value: string }) => {
         return {
-          type: toRaw(c).label,
+          type: toRaw(c).label.split(':')[0],
           value: toRaw(c).value
         }
       }),

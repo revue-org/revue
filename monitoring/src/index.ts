@@ -7,6 +7,7 @@ import { deviceRouter } from './routes/device.js'
 import { jwtManager } from './utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
+import { setupConsumers } from './consumer.js'
 
 config()
 
@@ -66,5 +67,6 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
     await mongoConnect()
+    await setupConsumers()
   })
 }

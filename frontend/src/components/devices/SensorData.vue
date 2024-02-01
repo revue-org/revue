@@ -3,61 +3,78 @@ import type { EnvironmentData, Sensor } from '@domain/device/core'
 import { Measure } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 import LineChart from '@/components/charts/LineChart.vue'
-import { ref, watch } from 'vue'
+import { onMounted, ref, toRaw, watch } from 'vue'
+import { useBuffersStore } from '@/stores/buffers'
 
 const { sensorData } = defineProps<{
   sensorData: { sensor: Sensor; values: EnvironmentData[] }
 }>()
 
-const bufferLength: number = 20
-const removeIfFull = (buffer: any[]): any[] => {
-  if (buffer.length > bufferLength) {
-    return buffer.shift()
+const bufferStore = useBuffersStore()
+
+const handleResize = () => {
+  if (window.innerWidth < 576) {
+    bufferStore.bufferLength = 80
+  } else if (window.innerWidth < 768) {
+    bufferStore.bufferLength = 120
+  } else if (window.innerWidth < 992) {
+    bufferStore.bufferLength = 150
+  } else if (window.innerWidth < 1200) {
+    bufferStore.bufferLength = 170
   } else {
-    return buffer
+    bufferStore.bufferLength = 200
+  }
+  removeIfFull(bufferStore.temperatureBuffer)
+  removeIfFull(bufferStore.humidityBuffer)
+  removeIfFull(bufferStore.pressureBuffer)
+  console.log(bufferStore.bufferLength)
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+const removeIfFull = (buffer: any[]): void => {
+  while (buffer.length > bufferStore.bufferLength) {
+    buffer.shift()
   }
 }
-let temperatureBuffer: number[] = []
-let humidityBuffer: number[] = []
-let pressureBuffer: number[] = []
-let timestampsBuffer: string[] = []
 
 watch(sensorData, newSensorData => {
   newSensorData.values.forEach(value => {
     switch (value.measure) {
       case Measure.TEMPERATURE:
-        removeIfFull(temperatureBuffer)
-        temperatureBuffer.push(value.value)
+        removeIfFull(bufferStore.temperatureBuffer)
+        bufferStore.temperatureBuffer.push(value.value)
         break
       case Measure.HUMIDITY:
-        removeIfFull(humidityBuffer)
-        humidityBuffer.push(value.value)
+        removeIfFull(bufferStore.humidityBuffer)
+        bufferStore.humidityBuffer.push(value.value)
         break
       case Measure.PRESSURE:
-        removeIfFull(pressureBuffer)
-        pressureBuffer.push(value.value)
+        removeIfFull(bufferStore.pressureBuffer)
+        bufferStore.pressureBuffer.push(value.value)
         break
     }
-    removeIfFull(timestampsBuffer)
-    timestampsBuffer.push(value.timestamp.toLocaleString().split(' ')[1])
-
+    removeIfFull(bufferStore.timestampBuffer)
+    bufferStore.timestampBuffer.push(value.timestamp.toLocaleString().split(' ')[1])
     chartData.value = {
-      labels: timestampsBuffer as never[],
+      labels: toRaw(bufferStore.timestampBuffer) as never[],
       datasets: [
         {
           label: 'Temperature',
           borderColor: 'red',
-          data: temperatureBuffer as never[]
+          data: toRaw(bufferStore.temperatureBuffer) as never[]
         },
         {
           label: 'Humidity',
           borderColor: 'orange',
-          data: humidityBuffer as never[]
+          data: toRaw(bufferStore.humidityBuffer) as never[]
         },
         {
           label: 'Pressure',
           borderColor: 'teal',
-          data: pressureBuffer as never[]
+          data: toRaw(bufferStore.pressureBuffer) as never[]
         }
       ]
     }
@@ -90,6 +107,14 @@ const chartData = ref({
 const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
+  elements: {
+    line: {
+      borderWidth: 1.5
+    },
+    point: {
+      radius: 0
+    }
+  },
   scales: {
     x: {
       display: false,

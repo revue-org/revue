@@ -4,13 +4,15 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore(
   'user',
   () => {
-    const isLoggedIn = ref(false)
-    let username = ref('')
-    let accessToken = ref('')
-    let refreshToken = ref('')
+    const isLoggedIn = ref<boolean>(false)
+    const userId = ref<string>('')
+    const username = ref<string>('')
+    const accessToken = ref<string>('')
+    const refreshToken = ref<string>('')
 
     function clearFields(): void {
       isLoggedIn.value = false
+      userId.value = ''
       username.value = ''
       accessToken.value = ''
       refreshToken.value = ''
@@ -18,6 +20,7 @@ export const useUserStore = defineStore(
 
     return {
       isLoggedIn,
+      userId,
       username,
       accessToken,
       refreshToken,
@@ -25,6 +28,6 @@ export const useUserStore = defineStore(
     }
   },
   {
-    persist: true
+    persist: false
   }
 )

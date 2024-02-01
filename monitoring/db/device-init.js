@@ -9,7 +9,7 @@ db.device.insert([{
   },
   'isCapturing': false,
   'ipAddress': '192.168.1.10',
-  'intervalMillis': 1000,
+  'intervalMillis': 400,
   'measures': [
     'PRESSURE',
     'TEMPERATURE',
@@ -35,7 +35,7 @@ db.device.insert([{
   },
   'isCapturing': false,
   'ipAddress': '192.168.1.30',
-  'intervalMillis': 1000,
+  'intervalMillis': 300,
   'measures': [
     'PRESSURE',
     'TEMPERATURE'

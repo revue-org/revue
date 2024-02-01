@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
-import { HttpStatusCode as AxiosHttpStatusCode } from 'axios'
+import { type AxiosResponse, HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 
@@ -10,23 +10,21 @@ const password = ref('')
 
 const userStore = useUserStore()
 
-const login = () => {
-  RequestHelper.post(`http://${authHost}:${authPort}/login`, {
+const login = async () => {
+  const res: AxiosResponse = await RequestHelper.post(`http://${authHost}:${authPort}/login`, {
     username: username.value,
     password: password.value
   })
-    .then((res): void => {
-      if (res.status == AxiosHttpStatusCode.Ok) {
-        userStore.username = username.value
-        userStore.accessToken = res.data.accessToken
-        userStore.refreshToken = res.data.refreshToken
-        userStore.isLoggedIn = true
-        router.push('/home')
-      } else {
-        console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
-      }
-    })
-    .catch((err): void => console.log(err))
+  if (res.status !== AxiosHttpStatusCode.Ok) {
+    console.log(`Login failed with status code ${res.status} and message ${res.data.message}`)
+    return
+  }
+  userStore.username = username.value
+  userStore.userId = res.data.userId
+  userStore.accessToken = res.data.accessToken
+  userStore.refreshToken = res.data.refreshToken
+  userStore.isLoggedIn = true
+  router.push('/home')
 }
 </script>
 

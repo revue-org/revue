@@ -12,7 +12,7 @@ export const userAccessController = {
   login: async (
     username: string,
     password: string
-  ): Promise<{ accessToken: string; refreshToken: string }> => {
+  ): Promise<{ userId: string; accessToken: string; refreshToken: string }> => {
     const user: User = await userManager.getUserByUsername(username)
     if (!user) throw new Error('User not found')
     const match: boolean = await bcrypt.compare(password, user.password)
@@ -20,7 +20,7 @@ export const userAccessController = {
     user.token = jwtManager.generateAccessToken({ id: user.id, username: user.username })
     user.refreshToken = jwtManager.generateRefreshToken({ id: user.id, username: user.username })
     await userManager.updateUser(user)
-    return { accessToken: user.token, refreshToken: user.refreshToken }
+    return { userId: user.id, accessToken: user.token, refreshToken: user.refreshToken }
   },
 
   logout: async (token: string, username: string): Promise<void> => {

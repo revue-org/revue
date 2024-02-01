@@ -23,6 +23,7 @@ const kafka: Kafka = new Kafka({
 
 const sourceDevice: Camera = new DeviceFactoryImpl().createCamera(
   new DeviceIdFactoryImpl().createCameraId(CAMERA_CODE),
+  false,
   '192.168.1.90',
   new ResolutionFactoryImpl().createResolution(1920, 1080)
 )

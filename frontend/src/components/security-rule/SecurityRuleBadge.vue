@@ -20,6 +20,8 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'delete-security-rule'): void
+  (e: 'get-exceeding-rules'): void
+  (e: 'get-intrusion-rules'): void
 }>()
 
 const updatePopupVisible = ref<boolean>(false)
@@ -42,6 +44,7 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
   })
     .then(async (res: any) => {
       popPositive($q, 'Exceeding rule updated successfully')
+      emit('get-exceeding-rules')
     })
     .catch(error => {
       popNegative($q, 'Error while updating exceeding rule')
@@ -64,6 +67,7 @@ const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
   })
     .then(async (res: any) => {
       popPositive($q, 'Intrusion rule updated successfully')
+      emit('get-intrusion-rules')
     })
     .catch(error => {
       popNegative($q, 'Error while updating intrusion rule')

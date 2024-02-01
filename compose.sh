@@ -44,7 +44,7 @@ for service in "${services[@]}"; do
 done
 
 if [ "$command" == "--down" ]; then
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -v
+  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -v
 else
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d --build
+  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d --build
 fi

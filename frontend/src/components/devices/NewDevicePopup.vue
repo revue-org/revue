@@ -38,6 +38,7 @@ const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
     const newSensor: Sensor = deviceFactory.createSensor(
       deviceIdFactory.createSensorId(code.value),
+      false,
       ipAddress.value,
       intervalMillis.value,
       measures.value
@@ -46,6 +47,7 @@ const addNewDevice = () => {
   } else if (deviceType.value == DeviceType.CAMERA) {
     const newCamera: Camera = deviceFactory.createCamera(
       deviceIdFactory.createCameraId(code.value),
+      false,
       ipAddress.value,
       resolutionFactory.createResolution(width.value, height.value)
     )

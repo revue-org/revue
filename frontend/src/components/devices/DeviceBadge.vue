@@ -83,14 +83,15 @@ const enableDevice = async () => {
             height: parseInt((device as Camera).resolution.height.toString())
           }
         }
-  console.log(bodyRequest)
   await RequestHelper.put(
     `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s`,
     bodyRequest
   )
     .then(async (res: any) => {
       popPositive($q, device.isCapturing ? 'Device disabled successfully' : 'Device enabled successfully')
-      device.isCapturing = !device.isCapturing
+      device.isCapturing ? device.stopCapturing() : device.stopCapturing()
+      emit('get-cameras')
+      emit('get-sensors')
     })
     .catch(error => {
       popNegative($q, 'Error while enabling device')

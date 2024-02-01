@@ -14,6 +14,7 @@ import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/d
 import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import { useUserStore } from '@/stores/user'
 
 const { securityRule } = defineProps<{
   securityRule: SecurityRule
@@ -52,7 +53,7 @@ const optionsMeasure = ref(
 const optionsContacts: ref<{ label: string; value: string }> = ref([])
 
 const getContacts = async () => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/users/aaaaaaaaaaaaaaaaaaaaaaaa`) //to put the id of the user taken from the pinia storage
+  await RequestHelper.get(`http://${authHost}:${authPort}/users/${useUserStore().userId}`)
     .then((res: any) => {
       optionsContacts.value = []
       for (let i = 0; i < res.data.contacts.length; i++) {

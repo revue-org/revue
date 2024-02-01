@@ -90,8 +90,6 @@ const getSensorCodes = async () => {
 const optionsContacts: ref<{ label: string; value: string }> = ref([])
 
 const getContacts = async () => {
-  console.log('TOKEN')
-  console.log(useUserStore().userId)
   await RequestHelper.get(`http://${authHost}:${authPort}/users/${useUserStore().userId}`)
     .then((res: any) => {
       optionsContacts.value = []

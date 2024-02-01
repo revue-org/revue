@@ -25,7 +25,7 @@ db.user.insertMany([
     password: '$2a$10$eHwL5cAfFPqBAbQyAqH/nOK94EyttraZx/xjEwQQiQP.hyB/XT64.', //passwordprova hashed
     token: 'apikey-dev',
     refreshToken: '',
-    contact: [
+    contacts: [
       {
         value: '3333333333',
         type: 'SMS'
@@ -40,7 +40,6 @@ db.user.insertMany([
         type: 'SENSOR',
         code: 'sen-01'
       }
-    ],
-    contacts: []
+    ]
   }
 ])

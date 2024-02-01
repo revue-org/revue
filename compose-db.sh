@@ -48,7 +48,7 @@ for service in "${services[@]}"; do
 done
 
 if [ "$command" == "--down" ]; then
-  docker compose --project-name revue --project-directory . -f kafka/docker-compose.yml "${compose_files[@]}" "${command:2}" -v
+  eval docker compose --project-name revue --project-directory . -f kafka/docker-compose.yml "${compose_files[@]}" "${command:2}" -v
 else
-  docker compose --project-name revue --project-directory . -f kafka/docker-compose.yml "${compose_files[@]}" "${command:2}" "${dbs[@]}" -d --build
+  eval docker compose --project-name revue --project-directory . -f kafka/docker-compose.yml "${compose_files[@]}" "${command:2}" "${dbs[@]}" -d --build
 fi

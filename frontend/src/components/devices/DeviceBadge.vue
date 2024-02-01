@@ -6,14 +6,14 @@ import { ref } from 'vue'
 import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
-import { popNegative, popPositive } from '@/scripts/Popups'
+import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 
 const { device } = defineProps<{
   device: Device
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'delete-device'): void
 }>()
 
@@ -77,6 +77,7 @@ const enableDevice = async () => {
             height: parseInt((device as Camera).resolution.height.toString())
           }
         }
+  console.log(bodyRequest)
   await RequestHelper.put(
     `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s`,
     bodyRequest
@@ -89,6 +90,10 @@ const enableDevice = async () => {
       popNegative($q, 'Error while enabling device')
       console.log(error)
     })
+}
+
+const deleteDevice = () => {
+  popDelete($q, 'Are you sure you want to delete this device?', () => emit('delete-device'))
 }
 </script>
 
@@ -138,13 +143,7 @@ const enableDevice = async () => {
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
-          <q-btn
-            color="negative"
-            icon="delete"
-            @click="
-              device.deviceId.type == DeviceType.SENSOR ? $emit('delete-device') : $emit('delete-device')
-            "
-          />
+          <q-btn color="negative" icon="delete" @click="deleteDevice" />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>
       </li>

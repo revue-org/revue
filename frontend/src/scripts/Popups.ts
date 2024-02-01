@@ -12,3 +12,21 @@ export const popNegative = (q: QVueGlobals, message: string): void => {
     message: message
   })
 }
+
+export const popDelete = (q: QVueGlobals, message: string, confirmHandler: () => void): void => {
+  q.notify({
+    message: message,
+    position: 'center',
+    actions: [
+      { label: 'No', color: 'primary', handler: (): void => {} },
+      {
+        label: 'Yes',
+        color: 'red',
+        handler: (): void => {
+          confirmHandler()
+        }
+      }
+    ],
+    timeout: 0
+  })
+}

@@ -121,15 +121,16 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
   deviceController
     .updateSensor(
       deviceIdFactory.createSensorId(req.body.code),
-      req.body.ipAddress,
       req.body.isCapturing,
+      req.body.ipAddress,
       req.body.intervalMillis,
       req.body.measures as Measure[]
     )
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Sensor correctly updated' })
     })
-    .catch((): void => {
+    .catch((err): void => {
+      console.log(err)
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Sensor not updated' })
     })
 })

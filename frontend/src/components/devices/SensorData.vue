@@ -3,18 +3,32 @@ import type { EnvironmentData, Sensor } from '@domain/device/core'
 import { Measure } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 import LineChart from '@/components/charts/LineChart.vue'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const { sensorData } = defineProps<{
   sensorData: { sensor: Sensor; values: EnvironmentData[] }
 }>()
 
-const bufferLength: number = 20
-const removeIfFull = (buffer: any[]): any[] => {
-  if (buffer.length > bufferLength) {
-    return buffer.shift()
+let bufferLength: number = 50
+
+const handleResize = () => {
+  if (window.innerWidth < 756) {
+    bufferLength = 30
   } else {
-    return buffer
+    bufferLength = 50
+  }
+  removeIfFull(temperatureBuffer)
+  removeIfFull(humidityBuffer)
+  removeIfFull(pressureBuffer)
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+const removeIfFull = (buffer: any[]): void => {
+  while (buffer.length > bufferLength) {
+    buffer.shift()
   }
 }
 let temperatureBuffer: number[] = []
@@ -91,7 +105,7 @@ const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
   elements: {
-    point:{
+    point: {
       radius: 0
     }
   },
@@ -119,12 +133,12 @@ const chartOptions = ref({
     <div class="measures">
       <div v-for="value in sensorData.values">
         <span
-          ><i
-            :style="{
+        ><i
+          :style="{
               color: getMeasureColor(value.measure)
             }"
-            >{{ Measure[value.measure] }}</i
-          >
+        >{{ Measure[value.measure] }}</i
+        >
           :
           {{ value.value }}{{ getMeasureAcronym(value.measureUnit) }}</span
         >

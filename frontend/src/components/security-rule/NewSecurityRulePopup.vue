@@ -9,6 +9,7 @@ import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { type ExceedingRule, type IntrusionRule, ObjectClass } from 'domain/dist/domain/security-rule/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { useUserStore } from '@/stores/user'
 
 const emit = defineEmits<{
   (e: 'insert-exceeding-rule', exceedingRule: ExceedingRule): void
@@ -112,7 +113,7 @@ const addNewSecurityRule = () => {
       measure.value,
       '',
       deviceIdFactory.createSensorId(toRaw(code.value).value),
-      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
+      useUserStore().userId,
       toRaw(contacts.value).map((c: Contact) => {
         return {
           type: toRaw(c).label.split(':')[0],
@@ -129,8 +130,8 @@ const addNewSecurityRule = () => {
       objectClass.value,
       '',
       deviceIdFactory.createCameraId(toRaw(code.value).value),
-      'aaaaaaaaaaaaaaaaaaaaaaaa', // to put the id of the user taken from the pinia storage
-      toRaw(contacts.value).map((c: Contact) => {
+      useUserStore().userId,
+      toRaw(contacts.value).map((c: { label: string; value: string }) => {
         return {
           type: toRaw(c).label,
           value: toRaw(c).value

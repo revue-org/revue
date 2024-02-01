@@ -3,7 +3,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
-import { produce } from './producer.js'
+import { getCameraInfo, produce } from './producer.js'
 
 config()
 
@@ -44,6 +44,7 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Camera server listening on ${PORT}`)
+    await getCameraInfo()
     // mongoConnect()
     await produce()
   })

@@ -40,9 +40,7 @@ const mongoConnect = async () => {
     .catch(e => console.log(e))
 }
 
-if (process.env.NODE_ENV === 'test') {
-  // mongoConnect()
-} else {
+if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Sensor server listening on ${PORT}`)
     await getSensorInfo()

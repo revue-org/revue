@@ -5,13 +5,36 @@ import * as fs from 'fs'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
-import { Camera } from '@domain/device/core/Camera.js'
+import type { Camera } from '@domain/device/core/Camera.js'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
+import { AxiosResponse } from 'axios'
 
 if (process.env.CAMERA_CODE === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No camera code provided')
   process.exit(1)
 }
 const CAMERA_CODE: string = process.env.CAMERA_CODE || 'cam-01'
+
+
+let sourceCamera: Camera
+
+export const getCameraInfo = async (): Promise<void> => {
+  // const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  const monitoringUrl: string = `http://localhost:${monitoringPort}`
+  try {
+    const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/cameras/${CAMERA_CODE}`)
+    console.log('Response:', res.data)
+    sourceCamera = new DeviceFactoryImpl().createCamera(
+      new DeviceIdFactoryImpl().createCameraId(res.data._id.code),
+      false,
+      res.data.ipAddress,
+      new ResolutionFactoryImpl().createResolution(res.data.resolution.width, res.data.resolution.height)
+    )
+    console.log(sourceCamera)
+  } catch (e) {
+    throw new Error('Error while getting camera info')
+  }
+}
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
@@ -21,15 +44,7 @@ const kafka: Kafka = new Kafka({
   brokers: [`${kafkaContainer}:${kafkaPort}`]
 })
 
-const sourceDevice: Camera = new DeviceFactoryImpl().createCamera(
-  new DeviceIdFactoryImpl().createCameraId(CAMERA_CODE),
-  false,
-  '192.168.1.90',
-  new ResolutionFactoryImpl().createResolution(1920, 1080)
-)
-
 export const produce = async (): Promise<void> => {
-  // const videoPath: string = path.resolve('video.mp4')
   const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
   await producer.connect()
   console.log('Leggo images')
@@ -49,9 +64,9 @@ export const produce = async (): Promise<void> => {
     setInterval(async (): Promise<void> => {
       if (index == files.length - 1) index = 0
       console.log('Sending image ' + index)
-      console.log(`CAMERA_${sourceDevice.deviceId.code}`)
+      console.log(`CAMERA_${sourceCamera.deviceId.code}`)
       await producer.send({
-        topic: `CAMERA_${sourceDevice.deviceId.code}`,
+        topic: `CAMERA_${sourceCamera.deviceId.code}`,
         messages: [
           {
             value: frames[index],

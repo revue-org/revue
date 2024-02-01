@@ -23,6 +23,7 @@ const $q = useQuasar()
 const updateSensor = async (sensor: Sensor) => {
   await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
     code: sensor.deviceId.code,
+    isCapturing: sensor.isCapturing,
     ipAddress: sensor.ipAddress,
     intervalMillis: sensor.intervalMillis,
     measures: sensor.measures.map((m: Measure) => {
@@ -41,6 +42,7 @@ const updateSensor = async (sensor: Sensor) => {
 const updateCamera = async (camera: Camera) => {
   await RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
     code: camera.deviceId.code,
+    isCapturing: camera.isCapturing,
     ipAddress: camera.ipAddress,
     resolution: {
       width: parseInt(camera.resolution.width.toString()),

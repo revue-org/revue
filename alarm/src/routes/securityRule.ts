@@ -61,8 +61,7 @@ securityRuleRouter.route('/exceedings').post((req: Request, res: Response): void
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Exceeding rule created' })
     })
-    .catch((err): void => {
-      console.log(err)
+    .catch((): void => {
       res.send({ error: 'Exceeding rule not created' })
     })
 })
@@ -81,7 +80,8 @@ securityRuleRouter.route('/intrusions').post((req: Request, res: Response): void
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Intrusion rule created' })
     })
-    .catch((): void => {
+    .catch((err): void => {
+      console.log(err)
       res.send({ error: 'Intrusion rule not created' })
     })
 })

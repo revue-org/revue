@@ -39,6 +39,7 @@ const updateDevice = () => {
   if (device.deviceId.type == DeviceType.SENSOR) {
     const updatedSensor: Sensor = deviceFactory.createSensor(
       deviceIdFactory.createSensorId(device.deviceId.code),
+      device.isCapturing,
       device.ipAddress,
       (device as Sensor).intervalMillis,
       measures.value
@@ -47,6 +48,7 @@ const updateDevice = () => {
   } else if (device.deviceId.type == DeviceType.CAMERA) {
     const updatedCamera: Camera = deviceFactory.createCamera(
       deviceIdFactory.createCameraId(device.deviceId.code),
+      device.isCapturing,
       device.ipAddress,
       resolutionFactory.createResolution(
         (device as Camera).resolution.width,

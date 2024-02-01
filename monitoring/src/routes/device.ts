@@ -121,8 +121,8 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
   deviceController
     .updateSensor(
       deviceIdFactory.createSensorId(req.body.code),
-      req.body.ipAddress,
       req.body.isCapturing,
+      req.body.ipAddress,
       req.body.intervalMillis,
       req.body.measures as Measure[]
     )

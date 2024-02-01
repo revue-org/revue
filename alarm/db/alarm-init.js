@@ -68,8 +68,8 @@ db.securityRule.insert([
         value: 'email@gmail.com'
       }
     ],
-    from: new Date("2020-01-01T03:00:00.000Z"),
-    to: new Date("2030-01-01T01:00:00.000Z"),
+    from: new Date("2020-01-01T01:00:00.000Z"),
+    to: new Date("2030-01-01T05:00:00.000Z"),
     __v: 0
   },
   {
@@ -92,7 +92,7 @@ db.securityRule.insert([
       }
     ],
     from: new Date("2020-01-01T01:00:00.000Z"),
-    to: new Date("2030-01-01T01:00:00.000Z"),
+    to: new Date("2030-01-01T05:00:00.000Z"),
     __v: 0
   }
 ])

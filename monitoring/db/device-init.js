@@ -8,7 +8,7 @@ db.device.insert([{
     'code': 'sen-01'
   },
   'ipAddress': '192.168.1.10',
-  'intervalMillis': 1000,
+  'intervalMillis': 400,
   'measures': [
     'PRESSURE',
     'TEMPERATURE',
@@ -32,7 +32,7 @@ db.device.insert([{
     'code': 'sen-02'
   },
   'ipAddress': '192.168.1.30',
-  'intervalMillis': 1000,
+  'intervalMillis': 300,
   'measures': [
     'PRESSURE',
     'TEMPERATURE'

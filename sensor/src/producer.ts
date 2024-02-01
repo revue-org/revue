@@ -8,6 +8,7 @@ import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/Enviro
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
+import { AxiosResponse, HttpStatusCode } from 'axios'
 
 if (process.env.SENSOR_CODE === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No sensor code provided')
@@ -21,22 +22,18 @@ export const getSensorInfo = async (): Promise<void> => {
   // const monitoringHost: string = 'localhost' //process.env.MONITORING_HOST || 'localhost'
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 
-  RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
-    .then(res => {
-      console.log('Response:', res.data)
-      sourceDevice = new DeviceFactoryImpl().createSensor(
-        new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
-        res.data.ipAddress,
-        res.data.intervalMillis,
-        res.data.measures.map((measure: any) => {
-          return MeasureConverter.convertToMeasure(measure)
-        })
-      )
-      console.log(sourceDevice)
+  const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
+  console.log('Response:', res.data)
+  if (res.status !== HttpStatusCode.Ok) throw new Error('Error while getting sensor info')
+  sourceDevice = new DeviceFactoryImpl().createSensor(
+    new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
+    res.data.ipAddress,
+    res.data.intervalMillis,
+    res.data.measures.map((measure: any) => {
+      return MeasureConverter.convertToMeasure(measure)
     })
-    .catch(error => {
-      console.error('Error:', error.message)
-    })
+  )
+  console.log(sourceDevice)
 }
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'

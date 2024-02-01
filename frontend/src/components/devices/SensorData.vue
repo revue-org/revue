@@ -90,6 +90,11 @@ const chartData = ref({
 const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
+  elements: {
+    point:{
+      radius: 0
+    }
+  },
   scales: {
     x: {
       display: false,

@@ -27,7 +27,7 @@ LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue
 
-COPY --from=build /home/revue/.env auth/.env
+COPY --from=build /home/revue/.env .env
 COPY --from=build /home/revue/auth auth
 COPY --from=build /home/revue/domain domain
 

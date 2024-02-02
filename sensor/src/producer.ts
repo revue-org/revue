@@ -96,11 +96,11 @@ const getMeasureUnit = (measure: Measure): MeasureUnit => {
 const generateRandomValue = (measure: Measure): number => {
   switch (measure) {
     case Measure.TEMPERATURE:
-      return parseFloat((Math.random() * (25 - 20) + 20).toFixed(2))
+      return parseFloat((Math.random() * (24.5 - 24) + 24).toFixed(2))
     case Measure.HUMIDITY:
-      return parseFloat((Math.random() * (60 - 40) + 40).toFixed(2))
+      return parseFloat((Math.random() * (56 - 55) + 55).toFixed(2))
     case Measure.PRESSURE:
-      return parseFloat((Math.random() * (1000 - 900) + 900).toFixed(2))
+      return parseFloat((Math.random() * (1000 - 980) + 980).toFixed(2))
     default:
       throw new Error('Measure unit not found')
   }

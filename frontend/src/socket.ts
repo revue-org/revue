@@ -15,24 +15,34 @@ const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 const alarmHost: string = import.meta.env.VITE_ALARM_HOST || 'localhost'
 const alarmPort: string = import.meta.env.VITE_ALARM_PORT || '4002'
 const alarmUrl: string = `http://${alarmHost}:${alarmPort}`
-export const monitoringSocket: Socket = io(`${monitoringUrl}`)
-export const alarmSocket: Socket = io(`${alarmUrl}`)
+export let monitoringSocket: Socket
+export let alarmSocket: Socket
 
-alarmSocket.on('connect', (): void => {
-  alarmSocketState.connected = true
-  console.log('connected to alarm socket')
-})
+export const setupSocketServers = (): void => {
+  monitoringSocket = io(`${monitoringUrl}`)
+  alarmSocket = io(`${alarmUrl}`)
 
-alarmSocket.on('disconnect from alarm socket', (): void => {
-  alarmSocketState.connected = false
-})
+  alarmSocket.on('connect', (): void => {
+    alarmSocketState.connected = true
+    console.log('connected to alarm socket')
+  })
 
-monitoringSocket.on('connect', async (): Promise<void> => {
-  console.log('connected to monitoring socket')
-  monitoringSocketState.connected = true
-  await subscribeToAllTopics()
-})
+  alarmSocket.on('disconnect from alarm socket', (): void => {
+    alarmSocketState.connected = false
+  })
 
-monitoringSocket.on('disconnect from monitoring socket', (): void => {
-  monitoringSocketState.connected = false
-})
+  monitoringSocket.on('connect', async (): Promise<void> => {
+    console.log('connected to monitoring socket')
+    monitoringSocketState.connected = true
+    await subscribeToAllTopics()
+  })
+
+  monitoringSocket.on('disconnect from monitoring socket', (): void => {
+    monitoringSocketState.connected = false
+  })
+}
+
+export const closeSocketServers = (): void => {
+  monitoringSocket.close()
+  alarmSocket.close()
+}

@@ -53,6 +53,7 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
 }
 
 const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
+  console.log(intrusionRule)
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
     id: intrusionRule.securityRuleId,
     deviceId: {

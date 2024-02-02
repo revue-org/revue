@@ -69,10 +69,10 @@ const getContacts = async () => {
 }
 
 const contacts: ref<Contact[]> = ref([])
-const from: ref<Date> = ref()
-const to: ref<Date> = ref()
-const measure: ref<Measure> = ref(Measure.TEMPERATURE)
-const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
+const from: ref<Date> = ref(securityRule.from.toLocaleString().split(' ')[1])
+const to: ref<Date> = ref(securityRule.to.toLocaleString().split(' ')[1])
+const measure: ref<Measure> = ref((securityRule as ExceedingRule).measure)
+const objectClass: ref<ObjectClass> = ref((securityRule as IntrusionRule).objectClass)
 
 const updateSecurityRule = () => {
   if (securityRule.deviceId.type == DeviceType.SENSOR) {
@@ -90,11 +90,13 @@ const updateSecurityRule = () => {
         }
       }),
       securityRule.description,
-      new Date('1970-01-01T' + from.value + ':00.000Z'),
-      new Date('2030-01-01T' + to.value + ':00.000Z')
+      new Date('1970-01-01T' + from.value + '.000Z'),
+      new Date('2030-01-01T' + to.value + '.000Z')
     )
     emit('update-exceeding-rule', updatedExceedingRule)
   } else if (securityRule.deviceId.type == DeviceType.CAMERA) {
+    console.log(from.value)
+    console.log(to.value)
     const updatedIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
       objectClass.value,
       securityRule.securityRuleId,
@@ -107,8 +109,8 @@ const updateSecurityRule = () => {
         }
       }),
       securityRule.description,
-      new Date('1970-01-01T' + from.value + ':00.000Z'),
-      new Date('2030-01-01T' + to.value + ':00.000Z')
+      new Date('1970-01-01T' + from.value + '.000Z'),
+      new Date('2030-01-01T' + to.value + '.000Z')
     )
     emit('update-intrusion-rule', updatedIntrusionRule)
   }
@@ -127,7 +129,7 @@ onMounted(async () => {
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>Code</label>
-        <q-input v-model="securityRule.deviceId.code" label="Device code" disabled="" />
+        <q-input v-model="securityRule.deviceId.code" label="Device code" disable />
       </q-card-section>
       <div v-if="securityRule.deviceId.type == DeviceType.SENSOR">
         <q-option-group

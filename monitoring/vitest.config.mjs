@@ -2,11 +2,7 @@ import { defineConfig } from 'vitest/config'
 import path from "node:path";
 
 export default  defineConfig({
-  optimizeDeps: {
-    entries: []
-  },
   extensions: ['js', 'ts'],
-  // Specify the test files pattern
   testFiles: 'test/**/*.test.ts',
   resolve: {
     alias: {

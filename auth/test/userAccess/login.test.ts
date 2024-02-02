@@ -16,6 +16,7 @@ describe('POST /login/', (): void => {
     const login: Response = await authService
       .post('/login')
       .send({username: 'paga16', password: 'passwordprova'})
+    expect(login.body).toBe(HttpStatusCode.OK)
     expect(login.status).toBe(HttpStatusCode.OK)
     expect(login.type).toBe('application/json')
     expect(login.body).toHaveProperty("accessToken")

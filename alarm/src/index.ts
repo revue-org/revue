@@ -13,7 +13,7 @@ import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 import { setupNotificationSimulation } from './simulation.js'
 
-config()
+config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 

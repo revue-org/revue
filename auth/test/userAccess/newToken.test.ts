@@ -16,10 +16,13 @@ describe('POST /newToken/', (): void => {
     const login: Response = await authService
       .post('/login')
       .send({ username: 'paga16', password: 'passwordprova' })
+
+
     // @ts-ignore
     const newToken: Response = await authService
       .post('/newToken')
       .send({ username: 'paga16', refreshToken: login.body.refreshToken })
+    expect(login.body).toBe(HttpStatusCode.OK)
     expect(newToken.status).toBe(HttpStatusCode.OK)
     expect(newToken.type).toBe('application/json')
     expect(newToken.body).toHaveProperty('accessToken')

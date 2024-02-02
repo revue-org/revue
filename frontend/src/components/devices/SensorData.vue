@@ -68,12 +68,12 @@ watch(sensorData, newSensorData => {
         },
         {
           label: 'Humidity',
-          borderColor: 'orange',
+          borderColor: 'teal',
           data: toRaw(bufferStore.humidityBuffer) as never[]
         },
         {
           label: 'Pressure',
-          borderColor: 'teal',
+          borderColor: 'orange',
           data: toRaw(bufferStore.pressureBuffer) as never[]
         }
       ]
@@ -91,13 +91,13 @@ const chartData = ref({
     },
     {
       label: 'Humidity',
-      borderColor: 'orange',
+      borderColor: 'teal',
       data: [],
       hidden: true
     },
     {
       label: 'Pressure',
-      borderColor: 'teal',
+      borderColor: 'orange',
       data: [],
       hidden: true
     }

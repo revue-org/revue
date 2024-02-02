@@ -25,11 +25,17 @@ export default class RequestHelper {
   }
 
   static async get(url: string, params?: any): Promise<AxiosResponse> {
+    console.log(this.getHeaders())
     return await axios.get(url, this.getHeaders())
   }
 
   static async post(url: string, body?: any): Promise<AxiosResponse> {
     console.log(this.getHeaders())
+    console.log(url)
+    if (url.includes('login')) {
+      console.log('dentro')
+      return await axios.post(url, body)
+    }
     return await axios.post(url, body, this.getHeaders())
   }
 

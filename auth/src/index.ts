@@ -8,7 +8,7 @@ import { userRouter } from './routes/user.js'
 import { jwtManager } from './utils/JWTManager.js'
 import HttpStatusCode from './utils/HttpStatusCode.js'
 
-export const c = config({ path: process.cwd() + '/../.env' })
+config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 

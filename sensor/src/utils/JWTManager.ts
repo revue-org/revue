@@ -3,7 +3,7 @@ import jsonwebtoken from 'jsonwebtoken'
 import { NextFunction, Request, Response } from 'express'
 import * as console from 'console'
 
-config()
+config({ path: process.cwd() + '/../.env' })
 
 class JWTManager {
   private jwt: any

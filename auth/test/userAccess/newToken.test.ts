@@ -16,6 +16,7 @@ describe('POST /newToken/', (): void => {
     const login: Response = await authService
       .post('/login')
       .send({ username: 'paga16', password: 'passwordprova' })
+
     // @ts-ignore
     const newToken: Response = await authService
       .post('/newToken')

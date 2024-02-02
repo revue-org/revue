@@ -46,11 +46,11 @@ if [ -z "$command" ]; then
 fi
 
 compose_files=("-fauth/docker-compose.yml"  "-fkafka/docker-compose.yml" "-fmonitoring/docker-compose.yml" "-falarm/docker-compose.yml"
-"-ffrontend/docker-compose.yml" "-fcamera/docker-compose.yml")
+"-ffrontend/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml")
 
 
 if [ "$command" == "--down" ]; then
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
+  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
 else
-  docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${detached}" "${build}"
+  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${detached}" "${build}"
 fi

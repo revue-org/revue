@@ -15,7 +15,7 @@ export const alarmPort: string = process.env.ALARM_PORT || '4002'
 
 export default class RequestHelper {
   static getHeaders(): Headers {
-    return { headers: { Authorization: `Bearer apikey-dev` } } //${userStore().accessToken}
+    return { headers: { Authorization: `Bearer apikey-dev` } }
   }
 
   static async get(url: string, params?: any): Promise<AxiosResponse> {

@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express'
 import * as console from 'console'
 import HttpStatusCode from './HttpStatusCode.js'
 
-config()
+config({ path: process.cwd() + '/../.env' })
 
 class JWTManager {
   private jwt: any

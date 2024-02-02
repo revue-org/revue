@@ -8,7 +8,8 @@ import { userRouter } from './routes/user.js'
 import { jwtManager } from './utils/JWTManager.js'
 import HttpStatusCode from './utils/HttpStatusCode.js'
 
-config()
+config({ path: process.cwd() + '/../.env' })
+
 export const app: Express = express()
 
 app.use(express.json())
@@ -56,7 +57,6 @@ const mongoConnect = async (): Promise<void> => {
 }
 
 if (process.env.NODE_ENV !== 'test') {
-  //const server =
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Auth server listening on port ${PORT}`)
     await mongoConnect()

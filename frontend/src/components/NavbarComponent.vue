@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
 import { HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import { useUserStore } from '@/stores/user'
+import { closeSocketServers } from '@/socket'
 
 const routeName = computed(() => router.currentRoute.value.name)
 const navbarExpanded = ref(false)
@@ -17,6 +18,7 @@ const logout = () => {
   }).then((res): void => {
     if (res.status == AxiosHttpStatusCode.Ok) {
       useUserStore().clearFields()
+      closeSocketServers()
       router.push('/login')
     } else {
       console.log(`Logout failed with status code ${res.status} and message ${res.data.message}`)

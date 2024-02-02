@@ -5,7 +5,7 @@ import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
 import { getCameraInfo, produce } from './producer.js'
 
-config()
+config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 app.use(express.json())

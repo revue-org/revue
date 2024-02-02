@@ -9,7 +9,7 @@ import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
 import { setupConsumers } from './consumer.js'
 
-config()
+config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 app.use(cors())

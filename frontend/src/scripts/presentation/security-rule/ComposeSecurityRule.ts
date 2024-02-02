@@ -10,6 +10,10 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const contactFactory: ContactFactory = new ContactFactoryImpl()
 
 export function composeExceedingSecurityRule(exceedingRule: any): ExceedingRule {
+  const fromDate: Date = new Date(exceedingRule.from)
+  fromDate.setHours(fromDate.getHours() - 1)
+  const toDate: Date = new Date(exceedingRule.to)
+  toDate.setHours(toDate.getHours() - 1)
   return securityRuleFactory.createExceedingRule(
     exceedingRule.minValue,
     exceedingRule.maxValue,
@@ -19,12 +23,16 @@ export function composeExceedingSecurityRule(exceedingRule: any): ExceedingRule 
     exceedingRule.creatorId,
     composeContacts(exceedingRule.contacts),
     exceedingRule.description,
-    new Date(exceedingRule.from),
-    new Date(exceedingRule.to)
+    fromDate,
+    toDate
   )
 }
 
 export function composeIntrusionSecurityRule(intrusionRule: any): IntrusionRule {
+  const fromDate: Date = new Date(intrusionRule.from)
+  fromDate.setHours(fromDate.getHours() - 1)
+  const toDate: Date = new Date(intrusionRule.to)
+  toDate.setHours(toDate.getHours() - 1)
   return securityRuleFactory.createIntrusionRule(
     ObjectClassConverter.convertToObjectClass(intrusionRule.objectClass),
     intrusionRule._id,
@@ -32,8 +40,8 @@ export function composeIntrusionSecurityRule(intrusionRule: any): IntrusionRule 
     intrusionRule.creatorId,
     composeContacts(intrusionRule.contacts),
     intrusionRule.description,
-    new Date(intrusionRule.from),
-    new Date(intrusionRule.to)
+    fromDate,
+    toDate
   )
 }
 

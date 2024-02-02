@@ -74,6 +74,6 @@ export const produce = async (): Promise<void> => {
       })
       index++
       key++
-    }, 1000) //34
+    }, 400) //34
   })
 }

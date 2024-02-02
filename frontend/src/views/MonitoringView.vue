@@ -8,12 +8,12 @@ import { DeviceTypeConverter } from 'domain/dist/utils'
 import { DeviceType } from 'domain/dist/domain/device/core'
 
 const topicsStore = useTopicsStore()
-const cameras = ref<{ code: string; src: string }[]>([])
+const cameras = ref<{ isCapturing: boolean; code: string; src: string }[]>([])
 
 RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).then((res: AxiosResponse) => {
   if (res.status == HttpStatusCode.Ok) {
     for (let i = 0; i < res.data.length; i++) {
-      cameras.value.push({ code: res.data[i]._id.code, src: '' })
+      cameras.value.push({ isCapturing: res.data[i].isCapturing, code: res.data[i]._id.code, src: '' })
     }
   }
 })
@@ -57,10 +57,12 @@ monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
 <template>
   <div class="container">
     <div class="camera" v-for="(camera, index) in cameras" :key="index">
-      <h3>
-        {{ camera.code }}
-      </h3>
-      <img :src="camera.src" alt="" />
+      <div v-if="camera.isCapturing">
+        <h3>
+          {{ camera.code }}
+        </h3>
+        <img :src="camera.src" alt="" />
+      </div>
     </div>
   </div>
 </template>

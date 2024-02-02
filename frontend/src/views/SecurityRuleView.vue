@@ -135,6 +135,7 @@ const popupVisible = ref<boolean>(false)
       v-for="exceedingRule in exceedingsSecurityRules"
       :security-rule="exceedingRule"
       @delete-security-rule="deleteExceedingRule(exceedingRule)"
+      @get-exceeding-rules="getExceedingSecurityRules"
     />
   </div>
 
@@ -144,6 +145,7 @@ const popupVisible = ref<boolean>(false)
       v-for="intrusionRule in intrusionsSecurityRules"
       :security-rule="intrusionRule"
       @delete-security-rule="deleteIntrusionRule(intrusionRule)"
+      @get-intrusion-rules="getIntrusionSecurityRules"
     />
   </div>
 

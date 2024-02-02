@@ -5,6 +5,7 @@ export const cameraSample = {
     type: "CAMERA",
     code: "cam-01"
   },
+  isCapturing: false,
   ipAddress: "192.168.1.1",
   resolution: {
     height: 200,

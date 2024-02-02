@@ -5,6 +5,7 @@ import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { useQuasar } from 'quasar'
 import { popNegative } from '@/scripts/Popups'
+import { setupSocketServers } from '@/socket'
 
 const username = ref('')
 const password = ref('')
@@ -23,6 +24,7 @@ const login = () => {
       userStore.accessToken = res.data.accessToken
       userStore.refreshToken = res.data.refreshToken
       userStore.isLoggedIn = true
+      setupSocketServers()
       router.push('/home')
     })
     .catch(() => {

@@ -28,7 +28,7 @@ LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue
 
-COPY --from=build /home/revue/.env sensor/.env
+COPY --from=build /home/revue/.env .env
 COPY --from=build /home/revue/sensor sensor
 COPY --from=build /home/revue/domain domain
 

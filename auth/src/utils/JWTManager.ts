@@ -1,12 +1,11 @@
-import { config } from 'dotenv'
 import jsonwebtoken from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import { Connect } from 'vite'
 import { UserInfo } from './UserInfo.js'
 import NextFunction = Connect.NextFunction
-import console from 'console'
+import { config } from 'dotenv'
 
-config()
+config({ path: process.cwd() + '/../.env' })
 
 class JWTManager {
   private jwt: any

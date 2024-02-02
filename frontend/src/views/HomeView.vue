@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
 import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/core'
-import type { DeviceFactory, DeviceIdFactory } from '@domain/device/factories'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
+import type { DeviceIdFactory } from '@domain/device/factories'
+import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
 import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { alarmSocket, monitoringSocket } from '@/socket'
+import { alarmSocket, monitoringSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
 import { AnomalyTypeConverter, DeviceTypeConverter } from 'domain/dist/utils'
@@ -19,9 +19,12 @@ const topicsStore = useTopicsStore()
 const $q = useQuasar()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 
 let values: Ref<{ sensor: Sensor; values: EnvironmentData[] }[]> = ref([])
+
+if (monitoringSocket == undefined || alarmSocket == undefined) {
+  setupSocketServers()
+}
 
 RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then((res: AxiosResponse) => {
   if (res.status == HttpStatusCode.Ok) {
@@ -40,11 +43,11 @@ const environmentDataFactory = new EnvironmentDataFactoryImpl()
 onBeforeMount(() => {
   console.log(
     'resume' +
-      topicsStore.subscribedTopics.filter((topic: string) =>
-        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-      )
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+    )
   )
-  monitoringSocket.emit(
+  monitoringSocket?.emit(
     'resume',
     topicsStore.subscribedTopics.filter((topic: string) =>
       topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
@@ -55,11 +58,11 @@ onBeforeMount(() => {
 onBeforeUnmount(() => {
   console.log(
     'pause' +
-      topicsStore.subscribedTopics.filter((topic: string) =>
-        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-      )
+    topicsStore.subscribedTopics.filter((topic: string) =>
+      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+    )
   )
-  monitoringSocket.emit(
+  monitoringSocket?.emit(
     'pause',
     topicsStore.subscribedTopics.filter((topic: string) =>
       topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
@@ -67,7 +70,7 @@ onBeforeUnmount(() => {
   )
 })
 
-monitoringSocket.on('env-data', (data: { topic: string; data: string }) => {
+monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
   const rawValues = JSON.parse(data.data)
   const newValues: EnvironmentData[] = []
   for (const rawValue of rawValues) {
@@ -122,7 +125,7 @@ const simulateIntrusion = async () => {
     })
 }
 
-alarmSocket.on('notification', (anomaly: { type: string }) => {
+alarmSocket?.on('notification', (anomaly: { type: string }) => {
   switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
     case AnomalyType.EXCEEDING:
       showNotification('Exceeding notification')
@@ -144,11 +147,12 @@ const showNotification = (message: string) => {
       {
         label: 'Dismiss',
         color: 'white',
-        handler: () => {}
+        handler: () => {
+        }
       },
       {
         label: 'Read',
-        color: 'green',
+        color: 'white',
         handler: () => {
           router.push('/notifications')
         }

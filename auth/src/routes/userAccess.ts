@@ -17,7 +17,6 @@ userAccessRouter.route('/login').post((req: Request, res: Response): void => {
 })
 
 userAccessRouter.route('/logout').post((req: Request, res: Response): void => {
-  console.log(req.headers['authorization'] + 'sono in logout')
   if (req.headers['authorization'] === undefined)
     res.status(HttpStatusCode.UNAUTHORIZED).send('No authentication token')
   let token: string =
@@ -39,7 +38,6 @@ userAccessRouter.route('/newToken').post((req: Request, res: Response): void => 
       res.status(HttpStatusCode.OK).send(token)
     })
     .catch((err): void => {
-      console.log(err)
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })

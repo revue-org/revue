@@ -38,7 +38,6 @@ const updateSensor = (sensor: Sensor) => {
     })
     .catch(error => {
       popNegative($q, 'Error while updating sensor')
-      console.log(error)
     })
 }
 
@@ -58,7 +57,6 @@ const updateCamera = (camera: Camera) => {
     })
     .catch(error => {
       popNegative($q, 'Error while updating camera')
-      console.log(error)
     })
 }
 
@@ -95,7 +93,6 @@ const enableDevice = async () => {
     })
     .catch(error => {
       popNegative($q, 'Error while enabling device')
-      console.log(error)
     })
 }
 

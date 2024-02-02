@@ -24,7 +24,6 @@ export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository 
         deviceIds: recognizingNode.deviceIds
       })
       .catch((err): void => {
-        console.log(err)
         throw err
       })
   }

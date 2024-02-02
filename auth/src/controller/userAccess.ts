@@ -25,10 +25,7 @@ export const userAccessController = {
 
   logout: async (token: string, username: string): Promise<void> => {
     const user: User = await userManager.getUserByUsername(username)
-    console.log(user)
     if (!user) throw new Error('User not found')
-    console.log(token)
-    console.log(user.token)
     if (token !== user.token) throw new Error('Token not valid')
     user.token = ''
     user.refreshToken = ''

@@ -31,7 +31,6 @@ class JWTManager {
     console.log('Authentication token: ' + token)
     this.jwt.verify(token, this.secret, (err: any, user: any) => {
       if (err) return res.sendStatus(HttpStatusCode.UNAUTHORIZED)
-      console.log(user)
       next()
     })
   }

@@ -43,9 +43,9 @@ const environmentDataFactory = new EnvironmentDataFactoryImpl()
 onBeforeMount(() => {
   console.log(
     'resume' +
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-    )
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+      )
   )
   monitoringSocket?.emit(
     'resume',
@@ -58,9 +58,9 @@ onBeforeMount(() => {
 onBeforeUnmount(() => {
   console.log(
     'pause' +
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-    )
+      topicsStore.subscribedTopics.filter((topic: string) =>
+        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
+      )
   )
   monitoringSocket?.emit(
     'pause',
@@ -147,8 +147,7 @@ const showNotification = (message: string) => {
       {
         label: 'Dismiss',
         color: 'white',
-        handler: () => {
-        }
+        handler: () => {}
       },
       {
         label: 'Read',

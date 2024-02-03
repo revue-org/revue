@@ -78,7 +78,7 @@ db.securityRule.insert([
       type: 'CAMERA',
       code: 'cam-01'
     },
-    creatorId: ObjectId('aaaaaaaaaaaaaaaaaaaaaaab'),
+    creatorId: ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'),
     description: 'Intrusion rule description',
     objectClass: 'PERSON',
     contacts: [

@@ -22,6 +22,11 @@ To stop the system you can run
 ./undeploy.sh
 ```
 
+Once the system is up and running, you can access the web interface at `http://localhost:8080`.
+
+The default credentials for the login are `user` and `user` (editable in [auth/db/auth-init.js](auth/db/auth-init.js)
+file).
+
 ## Authors
 
 - Mattia Matteini ([Mala1180](https://github.com/Mala1180))

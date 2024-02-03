@@ -17,19 +17,31 @@ const emit = defineEmits<{
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 
-const anomalyType: ref<AnomalyType> = ref(AnomalyType.EXCEEDING)
-const min: ref<number> = ref()
-const max: ref<number> = ref()
-const code: ref<String> = ref('')
+const resetFields = () => {
+  anomalyType.value = AnomalyType.EXCEEDING
+  min.value = undefined
+  max.value = undefined
+  code.value = undefined
+  contacts.value = []
+  description.value = undefined
+  from.value = undefined
+  to.value = undefined
+  measure.value = Measure.TEMPERATURE
+  objectClass.value = ObjectClass.PERSON
+}
+
+const anomalyType = ref<AnomalyType>(AnomalyType.EXCEEDING)
+const min = ref<number>()
+const max = ref<number>()
+const code = ref<string>()
 const contacts: ref<Contact[]> = ref([])
-const description: ref<String> = ref('')
-const from: ref<Date> = ref()
-const to: ref<Date> = ref()
-const measure: ref<Measure> = ref(Measure.TEMPERATURE)
-const objectClass: ref<ObjectClass> = ref(ObjectClass.PERSON)
+const description = ref<string>()
+const from = ref<string>()
+const to = ref<string>()
+const measure = ref<Measure>(Measure.TEMPERATURE)
+const objectClass = ref<ObjectClass>(ObjectClass.PERSON)
 
 const optionsObjectClass = ref(
   Object.keys(ObjectClass)
@@ -87,7 +99,7 @@ const getSensorCodes = async () => {
     })
 }
 
-const optionsContacts: ref<{ label: string; value: string }> = ref([])
+const optionsContacts = ref<{ label: string; value: string }[]>([])
 
 const getContacts = async () => {
   await RequestHelper.get(`http://${authHost}:${authPort}/users/${useUserStore().userId}`)
@@ -106,13 +118,15 @@ const getContacts = async () => {
 }
 
 const addNewSecurityRule = () => {
+  console.log(from.value)
+  console.log(to.value)
   if (anomalyType.value == AnomalyType.EXCEEDING) {
     const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
-      min.value,
-      max.value,
+      min.value!,
+      max.value!,
       measure.value,
       '',
-      deviceIdFactory.createSensorId(toRaw(code.value).value),
+      deviceIdFactory.createSensorId(toRaw(code.value!).value),
       useUserStore().userId,
       toRaw(contacts.value).map((c: Contact) => {
         return {
@@ -120,16 +134,16 @@ const addNewSecurityRule = () => {
           value: toRaw(c).value
         }
       }),
-      description.value,
-      new Date('1970-01-01T' + from.value + ':00.000Z'),
-      new Date('2030-01-01T' + to.value + ':00.000Z')
+      description.value!,
+      new Date('1970-01-01T' +  from.value!.slice(0, 5) + ':00.000Z'),//from.value.includes(' ') ? from.value.split(' ')[0] :
+      new Date('2030-01-01T' +  to.value!.slice(0, 5) + ':00.000Z')//to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('insert-exceeding-rule', newExceedingRule)
   } else if (anomalyType.value == AnomalyType.INTRUSION) {
     const newIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
       objectClass.value,
       '',
-      deviceIdFactory.createCameraId(toRaw(code.value).value),
+      deviceIdFactory.createCameraId(toRaw(code.value!).value),
       useUserStore().userId,
       toRaw(contacts.value).map((c: { label: string; value: string }) => {
         return {
@@ -137,12 +151,13 @@ const addNewSecurityRule = () => {
           value: toRaw(c).value
         }
       }),
-      description.value,
-      new Date('1970-01-01T' + from.value + ':00.000Z'),
-      new Date('2040-01-01T' + to.value + ':00.000Z')
+      description.value!,
+      new Date('1970-01-01T' + from.value!.slice(0, 5) + ':00.000Z'),// from.value.includes(' ') ? from.value.split(' ')[0] : ?????? .splice(0, 5)
+      new Date('2030-01-01T' + to.value!.slice(0, 5) + ':00.000Z')//to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('insert-intrusion-rule', newIntrusionRule)
   }
+  resetFields()
 }
 
 onMounted(async () => {

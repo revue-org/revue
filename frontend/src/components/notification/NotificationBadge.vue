@@ -38,7 +38,7 @@ const { notification } = defineProps<{
 
     <span v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA">
       <i
-        >A {{ ObjectClass[(notification.anomaly as Intrusion).intrusionObject] }} class intrusion was
+        >A {{ ObjectClass[(notification.anomaly as Intrusion).intrusionObject] }} intrusion was
         detected.</i
       >
     </span>

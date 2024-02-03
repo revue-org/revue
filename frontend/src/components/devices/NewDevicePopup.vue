@@ -15,13 +15,23 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 
-const deviceType: ref<DeviceType> = ref(DeviceType.SENSOR)
-const code: ref<String> = ref('')
-const ipAddress: ref<String> = ref('')
-const width: ref<number> = ref()
-const height: ref<number> = ref()
-const intervalMillis: ref<number> = ref()
-const measures: ref<Measure[]> = ref([Measure.TEMPERATURE])
+const resetFields = () => {
+  deviceType.value = DeviceType.SENSOR
+  code.value = undefined
+  ipAddress.value = undefined
+  width.value = undefined
+  height.value = undefined
+  intervalMillis.value = undefined
+  measures.value = [Measure.TEMPERATURE]
+}
+
+const deviceType = ref<DeviceType>(DeviceType.SENSOR)
+const code = ref<string>()
+const ipAddress = ref<string>()
+const width = ref<number>()
+const height = ref<number>()
+const intervalMillis = ref<number>()
+const measures = ref([Measure.TEMPERATURE])
 
 const optionMeasures = ref(
   Object.keys(Measure)
@@ -37,22 +47,23 @@ const optionMeasures = ref(
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
     const newSensor: Sensor = deviceFactory.createSensor(
-      deviceIdFactory.createSensorId(code.value),
+      deviceIdFactory.createSensorId(code.value!),
       false,
-      ipAddress.value,
-      intervalMillis.value,
+      ipAddress.value!,
+      intervalMillis.value!,
       measures.value
     )
     emit('insert-sensor', newSensor)
   } else if (deviceType.value == DeviceType.CAMERA) {
     const newCamera: Camera = deviceFactory.createCamera(
-      deviceIdFactory.createCameraId(code.value),
+      deviceIdFactory.createCameraId(code.value!),
       false,
-      ipAddress.value,
-      resolutionFactory.createResolution(width.value, height.value)
+      ipAddress.value!,
+      resolutionFactory.createResolution(width.value!, height.value!)
     )
     emit('insert-camera', newCamera)
   }
+  resetFields()
 }
 </script>
 

@@ -15,8 +15,8 @@ const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 const alarmHost: string = import.meta.env.VITE_ALARM_HOST || 'localhost'
 const alarmPort: string = import.meta.env.VITE_ALARM_PORT || '4002'
 const alarmUrl: string = `http://${alarmHost}:${alarmPort}`
-export let monitoringSocket: Socket
-export let alarmSocket: Socket
+export let monitoringSocket: Socket | undefined
+export let alarmSocket: Socket | undefined
 
 export const setupSocketServers = (): void => {
   monitoringSocket = io(`${monitoringUrl}`)
@@ -43,6 +43,6 @@ export const setupSocketServers = (): void => {
 }
 
 export const closeSocketServers = (): void => {
-  monitoringSocket.close()
-  alarmSocket.close()
+  monitoringSocket?.close()
+  alarmSocket?.close()
 }

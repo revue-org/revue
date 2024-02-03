@@ -19,10 +19,11 @@ const $q = useQuasar()
 const getExceedingSecurityRules = async () => {
   await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`)
     .then((res: any) => {
-      exceedingsSecurityRules.value = []
+      const tmpExceedings = []
       for (let i = 0; i < res.data.length; i++) {
-        exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
+        tmpExceedings.push(composeExceedingSecurityRule(res.data[i]))
       }
+      exceedingsSecurityRules.value = tmpExceedings
     })
     .catch(error => {
       console.log(error)

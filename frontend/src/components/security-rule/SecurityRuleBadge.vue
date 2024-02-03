@@ -8,13 +8,13 @@ import {
   type SecurityRule
 } from '@domain/security-rule/core'
 import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
-import { popPositive, popNegative, popDelete } from '@/scripts/Popups'
+import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 
-defineProps<{
+const { securityRule } = defineProps<{
   securityRule: SecurityRule
 }>()
 
@@ -28,6 +28,7 @@ const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
 const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
+  console.log(exceedingRule)
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     id: exceedingRule.securityRuleId,
     deviceId: {
@@ -87,8 +88,18 @@ const deleteSecurityRule = () => {
       <div>
         <q-icon
           v-if="
-            securityRule.from.getHours() <= new Date().getHours() &&
-            securityRule.to.getHours() >= new Date().getHours()
+            new Date(
+              `1970-01-01T${securityRule.from.getHours() < 10 ? '0' + securityRule.from.getHours() : securityRule.from.getHours()}:${securityRule.from.getMinutes() < 10 ? '0' + securityRule.from.getMinutes() : securityRule.from.getMinutes()}:00.000`
+            ).getTime() <=
+              new Date(
+                `1970-01-01T${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:00.000`
+              ).getTime() &&
+            new Date(
+              `1970-01-01T${securityRule.to.getHours() < 10 ? '0' + securityRule.to.getHours() : securityRule.to.getHours()}:${securityRule.to.getMinutes() < 10 ? '0' + securityRule.to.getMinutes() : securityRule.to.getMinutes()}:00.000`
+            ).getTime() >=
+              new Date(
+                `1970-01-01T${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:00.000`
+              ).getTime()
           "
           name="circle"
           color="green"

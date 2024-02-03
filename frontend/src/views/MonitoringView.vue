@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue'
-import { monitoringSocket } from '@/socket'
+import { monitoringSocket, setupSocketServers } from '@/socket'
 import { useTopicsStore } from '@/stores/topics'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
@@ -18,6 +18,10 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).
   }
 })
 
+if (monitoringSocket == undefined) {
+  setupSocketServers()
+}
+
 onBeforeMount(() => {
   console.log(
     'resume' +
@@ -25,7 +29,7 @@ onBeforeMount(() => {
         topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
       )
   )
-  monitoringSocket.emit(
+  monitoringSocket?.emit(
     'resume',
     topicsStore.subscribedTopics.filter((topic: string) =>
       topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
@@ -40,7 +44,7 @@ onBeforeUnmount(() => {
         topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
       )
   )
-  monitoringSocket.emit(
+  monitoringSocket?.emit(
     'pause',
     topicsStore.subscribedTopics.filter((topic: string) =>
       topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
@@ -48,21 +52,21 @@ onBeforeUnmount(() => {
   )
 })
 
-monitoringSocket.on('stream', (newFrame: { topic: string; frame: string }) => {
-  cameras.value.find(camera => camera.code === newFrame.topic.split('_')[1])!.src =
-    `data:image/jpeg;base64,${newFrame.frame}`
+monitoringSocket?.on('stream', (newFrame: { topic: string; frame: string }) => {
+  try {
+    cameras.value.find(camera => camera.code === newFrame.topic.split('_')[1])!.src =
+      `data:image/jpeg;base64,${newFrame.frame}`
+  } catch (e) {}
 })
 </script>
 
 <template>
   <div class="container">
-    <div class="camera" v-for="(camera, index) in cameras" :key="index">
-      <div v-if="camera.isCapturing">
-        <h3>
-          {{ camera.code }}
-        </h3>
-        <img :src="camera.src" alt="" />
-      </div>
+    <div class="camera" v-for="(camera, index) in cameras.filter(camera => camera.isCapturing)" :key="index">
+      <h3>
+        {{ camera.code }}
+      </h3>
+      <img :src="camera.src" alt="" />
     </div>
   </div>
 </template>

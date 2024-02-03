@@ -130,7 +130,6 @@ deviceRouter.route('/sensors').put((req: Request, res: Response): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Sensor correctly updated' })
     })
     .catch((err): void => {
-      console.log(err)
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Sensor not updated' })
     })
 })

@@ -53,7 +53,6 @@ const addNewDevice = () => {
       intervalMillis.value!,
       measures.value
     )
-    console.log(newSensor)
     emit('insert-sensor', newSensor)
   } else if (deviceType.value == DeviceType.CAMERA) {
     const newCamera: Camera = deviceFactory.createCamera(
@@ -64,6 +63,7 @@ const addNewDevice = () => {
     )
     emit('insert-camera', newCamera)
   }
+  resetFields()
 }
 </script>
 

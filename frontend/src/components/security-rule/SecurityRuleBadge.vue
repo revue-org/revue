@@ -80,7 +80,6 @@ const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
 const deleteSecurityRule = () => {
   popDelete($q, 'Are you sure you want to delete this security rule?', () => emit('delete-security-rule'))
 }
-
 </script>
 
 <template>

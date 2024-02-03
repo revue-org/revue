@@ -135,8 +135,8 @@ const addNewSecurityRule = () => {
         }
       }),
       description.value!,
-      new Date('1970-01-01T' +  from.value!.slice(0, 5) + ':00.000Z'),//from.value.includes(' ') ? from.value.split(' ')[0] :
-      new Date('2030-01-01T' +  to.value!.slice(0, 5) + ':00.000Z')//to.value.includes(' ') ? to.value.split(' ')[0] :
+      new Date('1970-01-01T' + from.value!.slice(0, 5) + ':00.000Z'), //from.value.includes(' ') ? from.value.split(' ')[0] :
+      new Date('2030-01-01T' + to.value!.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('insert-exceeding-rule', newExceedingRule)
   } else if (anomalyType.value == AnomalyType.INTRUSION) {
@@ -152,8 +152,8 @@ const addNewSecurityRule = () => {
         }
       }),
       description.value!,
-      new Date('1970-01-01T' + from.value!.slice(0, 5) + ':00.000Z'),// from.value.includes(' ') ? from.value.split(' ')[0] : ?????? .splice(0, 5)
-      new Date('2030-01-01T' + to.value!.slice(0, 5) + ':00.000Z')//to.value.includes(' ') ? to.value.split(' ')[0] :
+      new Date('1970-01-01T' + from.value!.slice(0, 5) + ':00.000Z'), // from.value.includes(' ') ? from.value.split(' ')[0] : ?????? .splice(0, 5)
+      new Date('2030-01-01T' + to.value!.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('insert-intrusion-rule', newIntrusionRule)
   }

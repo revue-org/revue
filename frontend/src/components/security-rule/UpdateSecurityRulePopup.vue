@@ -71,7 +71,7 @@ const getContacts = async () => {
 const contacts: ref<Contact[]> = ref([])
 const from = ref<string>(securityRule.from.toLocaleString().split(' ')[1].slice(0, 5))
 const to = ref<string>(securityRule.to.toLocaleString().split(' ')[1].slice(0, 5))
-console.log("from: " + from.value)
+console.log('from: ' + from.value)
 const measure = ref<Measure>((securityRule as ExceedingRule).measure)
 const objectClass = ref<ObjectClass>((securityRule as IntrusionRule).objectClass)
 
@@ -93,8 +93,8 @@ const updateSecurityRule = () => {
         }
       }),
       securityRule.description,
-      new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'),//from.value.includes(' ') ? from.value.split(' ')[0] :
-      new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z')//to.value.includes(' ') ? to.value.split(' ')[0] :
+      new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'), //from.value.includes(' ') ? from.value.split(' ')[0] :
+      new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('update-exceeding-rule', updatedExceedingRule)
   } else if (securityRule.deviceId.type == DeviceType.CAMERA) {
@@ -112,8 +112,8 @@ const updateSecurityRule = () => {
         }
       }),
       securityRule.description,
-      new Date('1970-01-01T' +  from.value.slice(0, 5) + ':00.000Z'),//from.value.includes(' ') ? from.value.split(' ')[0] :
-      new Date('2030-01-01T' +  to.value.slice(0, 5) + ':00.000Z')//to.value.includes(' ') ? to.value.split(' ')[0] :
+      new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'), //from.value.includes(' ') ? from.value.split(' ')[0] :
+      new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('update-intrusion-rule', updatedIntrusionRule)
   }

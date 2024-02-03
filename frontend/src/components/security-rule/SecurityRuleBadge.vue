@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { DeviceType, Measure } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
-import { type ExceedingRule, type IntrusionRule, ObjectClass, type SecurityRule } from '@domain/security-rule/core'
+import {
+  type ExceedingRule,
+  type IntrusionRule,
+  ObjectClass,
+  type SecurityRule
+} from '@domain/security-rule/core'
 import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
@@ -76,11 +81,6 @@ const deleteSecurityRule = () => {
   popDelete($q, 'Are you sure you want to delete this security rule?', () => emit('delete-security-rule'))
 }
 
-const isInRange = computed(() => {
-  console.log(securityRule)
-  return securityRule.from.getHours() < new Date().getHours() && securityRule.to.getHours() > new Date().getHours()
-})
-
 </script>
 
 <template>
@@ -88,7 +88,20 @@ const isInRange = computed(() => {
     <header>
       <div>
         <q-icon
-          v-if="isInRange"
+          v-if="
+            new Date(
+              `1970-01-01T${securityRule.from.getHours() < 10 ? '0' + securityRule.from.getHours() : securityRule.from.getHours()}:${securityRule.from.getMinutes() < 10 ? '0' + securityRule.from.getMinutes() : securityRule.from.getMinutes()}:00.000`
+            ).getTime() <=
+              new Date(
+                `1970-01-01T${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:00.000`
+              ).getTime() &&
+            new Date(
+              `1970-01-01T${securityRule.to.getHours() < 10 ? '0' + securityRule.to.getHours() : securityRule.to.getHours()}:${securityRule.to.getMinutes() < 10 ? '0' + securityRule.to.getMinutes() : securityRule.to.getMinutes()}:00.000`
+            ).getTime() >=
+              new Date(
+                `1970-01-01T${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:00.000`
+              ).getTime()
+          "
           name="circle"
           color="green"
           size="2em"
@@ -101,7 +114,7 @@ const isInRange = computed(() => {
           :style="{
             color: getMeasureColor((securityRule as ExceedingRule).measure)
           }"
-        >{{ Measure[(securityRule as ExceedingRule).measure] }}</i
+          >{{ Measure[(securityRule as ExceedingRule).measure] }}</i
         >
       </span>
       <span v-else>
@@ -112,12 +125,12 @@ const isInRange = computed(() => {
     <ul :class="DeviceType[securityRule.deviceId.type].toLowerCase()">
       <li v-if="securityRule.deviceId.type == DeviceType.SENSOR">
         <i>min val: </i>{{ (securityRule as ExceedingRule).min }} <i>max val: </i
-      >{{ (securityRule as ExceedingRule).max }}
+        >{{ (securityRule as ExceedingRule).max }}
       </li>
 
       <li>
         <i>Active from: </i>{{ securityRule.from.toLocaleString().split(' ')[1] }} <i>to: </i
-      >{{ securityRule.to.toLocaleString().split(' ')[1] }}
+        >{{ securityRule.to.toLocaleString().split(' ')[1] }}
       </li>
       <li>{{ securityRule.description }}</li>
 

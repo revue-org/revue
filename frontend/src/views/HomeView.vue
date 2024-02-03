@@ -125,18 +125,20 @@ const simulateIntrusion = async () => {
     })
 }
 
-alarmSocket?.on('notification', (anomaly: { type: string }) => {
-  switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
-    case AnomalyType.EXCEEDING:
-      showNotification('Exceeding notification')
-      break
-    case AnomalyType.INTRUSION:
-      showNotification('Intrusion notification')
-      break
-    default:
-      break
-  }
-})
+if (alarmSocket?.listeners('notification').length === 0) {
+  alarmSocket?.on('notification', (anomaly: { type: string }) => {
+    switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
+      case AnomalyType.EXCEEDING:
+        showNotification('Exceeding notification')
+        break
+      case AnomalyType.INTRUSION:
+        showNotification('Intrusion notification')
+        break
+      default:
+        break
+    }
+  })
+}
 
 const showNotification = (message: string) => {
   $q.notify({
@@ -166,7 +168,11 @@ const showNotification = (message: string) => {
 
   <h2>Environment data</h2>
   <div>
-    <sensor-data v-for="(value, index) in values" :key="index" :sensor-data="value" />
+    <sensor-data
+      v-for="(value, index) in values.filter(value_ => value_.sensor.isCapturing)"
+      :key="index"
+      :sensor-data="value"
+    />
   </div>
 </template>
 

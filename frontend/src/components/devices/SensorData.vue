@@ -132,7 +132,7 @@ const chartOptions = ref({
 </script>
 
 <template>
-  <li v-if="sensorData.sensor.isCapturing">
+  <li>
     <h3>
       {{ sensorData.sensor.deviceId.code }}
     </h3>

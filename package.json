@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "release": {
+    "preset": "conventionalcommits",
     "branches": [
       "main"
     ]

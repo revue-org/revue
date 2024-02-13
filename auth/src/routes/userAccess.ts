@@ -1,7 +1,6 @@
 import { userAccessController } from '../controller/userAccess.js'
 import express, { Request, Response, Router } from 'express'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
-import console from 'console'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const userAccessRouter: Router = express.Router()
 

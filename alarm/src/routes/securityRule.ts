@@ -7,7 +7,7 @@ import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
 import { IntrusionRule } from '@domain/security-rule/core/IntrusionRule.js'
 import { ExceedingRule } from '@domain/security-rule/core/ExceedingRule.js'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const securityRuleRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

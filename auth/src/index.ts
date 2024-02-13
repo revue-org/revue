@@ -7,7 +7,7 @@ import { mongoConnect } from '@utils/connection.js'
 import { userAccessRouter } from './routes/userAccess.js'
 import { userRouter } from './routes/user.js'
 import { jwtManager } from './utils/JWTManager.js'
-import HttpStatusCode from './utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 config({ path: process.cwd() + '/../.env' })
 

@@ -5,7 +5,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const notificationRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

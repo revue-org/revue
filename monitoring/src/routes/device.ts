@@ -8,8 +8,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { ResolutionFactory } from '@domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
-import * as console from 'console'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const deviceRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

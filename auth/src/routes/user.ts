@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express'
 import { User } from '@domain/monitoring/core/User.js'
 import { userController } from '../controller/user.js'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 import bcrypt from 'bcryptjs'
 
 export const userRouter: Router = express.Router()

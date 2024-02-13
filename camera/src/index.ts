@@ -6,7 +6,9 @@ import cors from 'cors'
 import process from 'process'
 import http, { Server as HttpServer } from 'http'
 
-;-config({ path: process.cwd() + '/../.env' })
+import { getCameraInfo, produce } from './producer.js'
+
+config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 
@@ -35,7 +37,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Camera server listening on ${PORT}`)
-    // await getCameraInfo()
-    // await produce()
+    await getCameraInfo()
+    await produce()
   })
 }

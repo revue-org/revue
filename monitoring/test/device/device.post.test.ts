@@ -1,9 +1,9 @@
 import { Response } from 'supertest'
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { connectToMock, disconnectFromMock, populateDevices } from "../storage/MongoDBMock.js";
-import HttpStatusCode from '../../src/utils/HttpStatusCode.js'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { connectToMock, disconnectFromMock } from '../storage/MongoDBMock.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
-const TOKEN = process.env.DEV_API_KEY
+const TOKEN: string = process.env.DEV_API_KEY
 
 describe('POST /devices/', (): void => {
   beforeAll(async (): Promise<void> => {

@@ -12,11 +12,26 @@ if [ "$#" -lt 2 ]; then
 fi
 
 command=''
+volume=''
+detached=''
+build=''
 # Process options
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --up|--down)
       command="$1"
+      shift
+      ;;
+    -v)
+      volume="$1"
+      shift
+      ;;
+    -d)
+      detached="$1"
+      shift
+      ;;
+    --build)
+      build="$1"
       shift
       ;;
     *)
@@ -44,7 +59,7 @@ for service in "${services[@]}"; do
 done
 
 if [ "$command" == "--down" ]; then
-  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -v
+  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
 else
-  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" -d --build
+  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${detached}" "${build}"
 fi

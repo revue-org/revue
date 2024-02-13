@@ -4,7 +4,6 @@ import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import process from 'process'
-import http, { Server as HttpServer } from 'http'
 
 import { getCameraInfo, produce } from './producer.js'
 
@@ -12,13 +11,10 @@ config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 
-app.use('/stream', express.static('stream'))
 app.use(express.json())
 app.use(cors())
 
 const PORT: number = Number(process.env.CAMERA_PORT) || 5001
-
-const server: HttpServer = http.createServer(app)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -32,10 +28,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-// app.use('/stream', streamRouter)
-
 if (process.env.NODE_ENV !== 'test') {
-  server.listen(PORT, async (): Promise<void> => {
+  app.listen(PORT, async (): Promise<void> => {
     console.log(`Camera server listening on ${PORT}`)
     await getCameraInfo()
     await produce()

@@ -3,10 +3,11 @@ import express from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
+import { mongoConnect } from '@utils/connection.js'
 import { userAccessRouter } from './routes/userAccess.js'
 import { userRouter } from './routes/user.js'
 import { jwtManager } from './utils/JWTManager.js'
-import HttpStatusCode from './utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -36,29 +37,19 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/', userAccessRouter)
 app.use('/users', userRouter)
 
-const mongoConnect = async (): Promise<void> => {
-  const username: string = process.env.AUTH_DB_USERNAME || 'admin'
-  const password: string = process.env.AUTH_DB_PASSWORD || 'admin'
-  const host: string =
-    process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.AUTH_DB_HOST || 'localhost'
-  const dbPort: string =
-    process.env.NODE_ENV === 'develop'
-      ? process.env.AUTH_DB_PORT || '27017'
-      : process.env.DEFAULT_DB_PORT || '27017'
-  const dbName: string = process.env.AUTH_DB_NAME || 'monitoring'
-  const connectionString: string = `mongodb://${username}:${password}@${host}:${dbPort}/${dbName}?authSource=admin`
-  console.log(connectionString)
-  await mongoose
-    .connect(connectionString)
-    .then(async () => {
-      console.log(`Connected to Mongo DB ${dbName} at ${host}`)
-    })
-    .catch(e => console.log(e))
-}
+const username: string = process.env.AUTH_DB_USERNAME || 'admin'
+const password: string = process.env.AUTH_DB_PASSWORD || 'admin'
+const host: string =
+  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.AUTH_DB_HOST || 'localhost'
+const dbPort: string =
+  process.env.NODE_ENV === 'develop'
+    ? process.env.AUTH_DB_PORT || '27017'
+    : process.env.DEFAULT_DB_PORT || '27017'
+const dbName: string = process.env.AUTH_DB_NAME || 'auth'
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Auth server listening on port ${PORT}`)
-    await mongoConnect()
+    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
   })
 }

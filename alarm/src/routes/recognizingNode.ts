@@ -1,7 +1,7 @@
 import { recognizingNodeController } from '../controller/recognizingNode.js'
 import express, { Request, Response, Router } from 'express'
 import { RecognizingNode } from '@domain/alarm-system/core/RecognizingNode.js'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const recognizingNodeRouter: Router = express.Router()
 

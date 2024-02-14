@@ -5,7 +5,7 @@ import { useTopicsStore } from '@/stores/topics'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
 import { DeviceTypeConverter } from 'domain/dist/utils'
-import { DeviceType } from 'domain/dist/domain/device/core'
+import { DeviceType } from '@domain/device/core'
 
 const topicsStore = useTopicsStore()
 const cameras = ref<{ isCapturing: boolean; code: string; src: string }[]>([])

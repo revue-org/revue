@@ -1,14 +1,18 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
-import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
+import cors from 'cors'
+import process from 'process'
+
 import { getCameraInfo, produce } from './producer.js'
 
 config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
+
 app.use(express.json())
+app.use(cors())
 
 const PORT: number = Number(process.env.CAMERA_PORT) || 5001
 
@@ -24,25 +28,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-//app.use(indexRouter)
-// app.use('/security-rules', securityRuleRouter)
-
-const mongoConnect = async () => {
-  const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
-  await mongoose
-    .connect(connectionString)
-    .then(async () => {
-      console.log(
-        `Connected to MongoDB database ${process.env.DB_NAME} at ${process.env.DB_HOST}:${process.env.DB_PORT}`
-      )
-    })
-    .catch(e => console.log(e))
-}
-
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Camera server listening on ${PORT}`)
-    await mongoConnect()
     await getCameraInfo()
     await produce()
   })

@@ -2,6 +2,7 @@ import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
+import { mongoConnect } from '@utils/connection.js'
 import { anomalyRouter } from './routes/anomaly.js'
 import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
@@ -11,6 +12,7 @@ import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
+
 import { setupNotificationSimulation } from './simulation.js'
 
 config({ path: process.cwd() + '/../.env' })
@@ -48,30 +50,20 @@ app.use('/anomalies', anomalyRouter)
 app.use('/recognizing-nodes', recognizingNodeRouter)
 app.use('/security-rules', securityRuleRouter)
 
-const mongoConnect = async (): Promise<void> => {
-  const username: string = process.env.ALARM_DB_USERNAME || 'admin'
-  const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
-  const host: string =
-    process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
-  const dbPort: string =
-    process.env.NODE_ENV === 'develop'
-      ? process.env.ALARM_DB_PORT || '27017'
-      : process.env.DEFAULT_DB_PORT || '27017'
-  const dbName: string = process.env.ALARM_DB_NAME || 'monitoring'
-  const connectionString: string = `mongodb://${username}:${password}@${host}:${dbPort}/${dbName}?authSource=admin`
-  console.log(connectionString)
-  await mongoose
-    .connect(connectionString)
-    .then(async (): Promise<void> => {
-      console.log(`Connected to Mongo DB ${dbName} at ${host}`)
-    })
-    .catch(e => console.log(e))
-}
+const username: string = process.env.ALARM_DB_USERNAME || 'admin'
+const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
+const host: string =
+  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
+const dbPort: string =
+  process.env.NODE_ENV === 'develop'
+    ? process.env.ALARM_DB_PORT || '27017'
+    : process.env.DEFAULT_DB_PORT || '27017'
+const dbName: string = process.env.ALARM_DB_NAME || 'monitoring'
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
-    await mongoConnect()
+    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     await setupNotificationSimulation()
   })
 }

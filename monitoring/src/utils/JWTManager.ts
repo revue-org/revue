@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import jsonwebtoken from 'jsonwebtoken'
 import { NextFunction, Request, Response } from 'express'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 config({ path: process.cwd() + '/../.env' })
 

@@ -1,6 +1,6 @@
 import { simulationController } from '../controller/simulation.js'
 import express, { Request, Response, Router } from 'express'
-import HttpStatusCode from '../utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'

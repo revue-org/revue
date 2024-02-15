@@ -2,8 +2,8 @@ import { Consumer, Kafka } from 'kafkajs'
 import { environmentDataController } from '@/controller/environmentData.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
-import { MeasureUnitConverter } from 'domain/dist/utils/MeasureUnitConverter.js'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
+import { AxiosResponse } from 'axios'
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
@@ -12,24 +12,36 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 const consumers: { id: string; consumer: Consumer }[] = []
 
-// a quali mi devo sottoscrivere? a tutti quelli attivi in questo momento
-//gli attivi in questo momento posso ottenerli attraverso monitoring che ha l'elenco dei devices.
-
 const getConsumerById = (id: string): Consumer | undefined => {
   return consumers.find((c): boolean => c.id === id)?.consumer
 }
 
-export const setupConsumers = async (): Promise<void> => {
-  console.log('Setting up consumers')
+/*export const getTopics = async (): Promise<string[]> => {
+  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  const topics: string[] = []
+  try {
+    const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/`)
+    for (const device of res.data) {
+      if (device._type === 'SENSOR' && device._active === true) {
+        topics.push(`SENSOR_${device._id._code}`)
+      }
+    }
+    return topics
+  } catch (e) {
+    throw new Error('Error while getting devices infos')
+  }
+}*/
 
+console.log(process.env.NODE_ENV == "develop" ? [`localhost:9092`] : [`${kafkaContainer}:${kafkaPort}`])
+export const setupConsumers = async (): Promise<void> => {
   const kafka: Kafka = new Kafka({
     clientId: 'log',
-    brokers: [`${kafkaContainer}:${kafkaPort}`]
+    brokers: ['revue-kafka:9092']//process.env.NODE_ENV == "develop" ? [`localhost:9092`] : [`${kafkaContainer}:${kafkaPort}`]
   })
 
-  let topics: string[] = ['SENSOR_sen-01'] // da riempire tramite monitoring
+  let topics: string[] = ["SENSOR_sen-01"]//await getTopics()
+  console.log(topics)
   console.log('Subscribing to topics', topics)
-  console.log('Consumers:', consumers)
 
   let consumer: Consumer | undefined = getConsumerById('idconsumer') // TODO TO CHANGE
   if (consumer === undefined) {
@@ -54,7 +66,6 @@ export const setupConsumers = async (): Promise<void> => {
           console.log('Devo salvare su detection')
           //TODO SALVATAGGIO SU TABELLA DETECTION, SEMPRE CON KAFKA E CI ARRIVANO ATTRAVERSO IL RECOGNIZING NODE
         } else if (topic.startsWith('SENSOR')) {
-          console.log('Sto salvando su environmentData')
           for (const rawValue of rawValues) {
             environmentDataController.createEnvironmentData(
               deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),

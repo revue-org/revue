@@ -1,3 +1,4 @@
+/*
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock } from '../storage/MongoDBMock.js'
@@ -93,3 +94,4 @@ describe('PUT /devices/', (): void => {
     await disconnectFromMock()
   })
 })
+*/

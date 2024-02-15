@@ -7,13 +7,15 @@ import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/Enviro
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { DeviceId, DeviceType, MeasureUnit } from 'domain/dist/domain/device/core'
+import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
+import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit.js'
+import { DeviceType} from "domain/dist/domain/device/core/impl/enum/DeviceType.js";
 import { environmentDataSchema } from '@storage/device/schemas/EnvironmentDataSchema.js'
 
 export const environmentDataModel: Model<EnvironmentData> = model<EnvironmentData>(
   'EnvironmentData',
   environmentDataSchema,
-  'measurements'
+  'environmentData'
 )
 const environmentDataManager: EnvironmentDataRepository = new EnvironmentDataRepositoryImpl(
   environmentDataModel

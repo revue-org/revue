@@ -1,11 +1,19 @@
-import { Socket } from 'socket.io'
 import { Consumer, Kafka } from 'kafkajs'
-//import { io } from './index.js'
+import { environmentDataController } from '@/controller/environmentData.js'
+import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
+import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
+import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
+import { MeasureUnitConverter } from 'domain/dist/utils/MeasureUnitConverter.js'
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
+const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
+
 const consumers: { id: string; consumer: Consumer }[] = []
+
+// a quali mi devo sottoscrivere? a tutti quelli attivi in questo momento
+//gli attivi in questo momento posso ottenerli attraverso monitoring che ha l'elenco dei devices.
 
 const getConsumerById = (id: string): Consumer | undefined => {
   return consumers.find((c): boolean => c.id === id)?.consumer
@@ -15,26 +23,22 @@ export const setupConsumers = async (): Promise<void> => {
   console.log('Setting up consumers')
 
   const kafka: Kafka = new Kafka({
-    clientId: 'monitoring',
+    clientId: 'log',
     brokers: [`${kafkaContainer}:${kafkaPort}`]
   })
 
-  let topics: string[] = []
+  let topics: string[] = ['SENSOR_sen-01'] // da riempire tramite monitoring
   console.log('Subscribing to topics', topics)
   console.log('Consumers:', consumers)
-  let consumer: Consumer | undefined = getConsumerById("idconsumer")// TODO TO CHANGE
+
+  let consumer: Consumer | undefined = getConsumerById('idconsumer') // TODO TO CHANGE
   if (consumer === undefined) {
-    console.log('Creating new consumer')
-    consumer = kafka.consumer({ groupId: "idconsumer" }) // TODO TO CHANGE
+    consumer = kafka.consumer({ groupId: 'idconsumer' }) // TODO TO CHANGE
     console.log('New consumer created')
   }
   await consumer.connect()
   await consumer.subscribe({ topics: topics, fromBeginning: false })
-  // + '_' + topics[0].split('_')[0]
-  console.log('PUSHO il consumer')
-  consumers.push({ id: "idconsumer", consumer }) // TODO TO CHANGE
-  console.log('Consumers', consumers)
- // socket.emit('subscribed')
+  consumers.push({ id: 'idconsumer', consumer }) // TODO TO CHANGE AND TO UNDERSTAND
 
   consumer
     .run({
@@ -42,94 +46,26 @@ export const setupConsumers = async (): Promise<void> => {
         if (message.key === null || message.value === null) return
         const messageKey: Buffer = message.key
         const messageValue: Buffer = message.value
-        console.log({
-          value: messageValue,
-          key: JSON.parse(messageKey.toString())
-        })
-        console.log(messageValue)
+
+        console.log('Arrivo messaggio num: ' + JSON.parse(messageKey.toString()))
+        const rawValues = JSON.parse(messageValue.toString())
 
         if (topic.startsWith('CAMERA')) {
-          console.log("Devo salvare su camera");
-          //socket.emit('stream', { topic: topic, frame: messageValue.toString() })
+          console.log('Devo salvare su detection')
+          //TODO SALVATAGGIO SU TABELLA DETECTION, SEMPRE CON KAFKA E CI ARRIVANO ATTRAVERSO IL RECOGNIZING NODE
         } else if (topic.startsWith('SENSOR')) {
-          console.log("Devo salvare su sensor");
-          //socket.emit('env-data', { topic: topic, data: messageValue.toString() })
+          console.log('Sto salvando su environmentData')
+          for (const rawValue of rawValues) {
+            environmentDataController.createEnvironmentData(
+              deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
+              rawValue._value,
+              rawValue._measure,
+              rawValue._measureUnit,
+              new Date(rawValue._timestamp)
+            )
+          }
         }
       }
     })
     .then(() => console.log('Consumer running'))
-
-/*  io.on('connection', async (socket: Socket): Promise<void> => {
-    console.log('A client connected', socket.id)
-
-    socket.on('disconnect', () => {
-      const consumer: Consumer | undefined = getConsumerById(socket.id)
-      if (consumer === undefined) return
-      consumer.disconnect()
-      consumers.splice(
-        consumers.findIndex((c): boolean => c.id === socket.id),
-        1
-      )
-      console.log('A client disconnected', socket.id)
-      console.log('Consumers', consumers)
-    })
-
-    socket.on('pause', async (topics: string[]): Promise<void> => {
-      console.log('Pausing topics', topics)
-      const consumer: Consumer | undefined = getConsumerById(socket.id)
-      if (consumer === undefined) return
-      consumer.pause(topics.map((topic: string): { topic: string } => ({ topic })))
-    })
-
-    socket.on('resume', async (topics: string[]): Promise<void> => {
-      console.log('Resuming topics', topics)
-      const consumer: Consumer | undefined = getConsumerById(socket.id)
-      console.log('Consumer', consumer)
-      if (consumer === undefined) return
-      try {
-        consumer.resume(topics.map((topic: string): { topic: string } => ({ topic })))
-        console.log('Consumer resuming')
-      } catch (err) {
-        console.log('EROREEE', err)
-        consumer
-          .run({
-            eachMessage: async ({ topic, message }): Promise<void> => {
-              if (message.key === null || message.value === null) return
-              const messageKey: Buffer = message.key
-              const messageValue: Buffer = message.value
-              console.log({
-                value: messageValue,
-                key: JSON.parse(messageKey.toString())
-              })
-              console.log(messageValue)
-              if (topic.startsWith('CAMERA')) {
-                socket.emit('stream', { topic: topic, frame: messageValue.toString() })
-              } else if (topic.startsWith('SENSOR')) {
-                socket.emit('env-data', { topic: topic, data: messageValue.toString() })
-              }
-            }
-          })
-          .then(() => console.log('Consumer running'))
-        console.log('Consumer start running')
-      }
-    })
-
-    socket.on('subscribe', async (topics: string[]): Promise<void> => {
-      console.log('Subscribing to topics', topics)
-      console.log('Consumers:', consumers)
-      let consumer: Consumer | undefined = getConsumerById(socket.id)
-      if (consumer === undefined) {
-        console.log('Creating new consumer')
-        consumer = kafka.consumer({ groupId: socket.id })
-        console.log('New consumer created')
-      }
-      await consumer.connect()
-      await consumer.subscribe({ topics: topics, fromBeginning: false })
-      // + '_' + topics[0].split('_')[0]
-      console.log('PUSHO il consumer')
-      consumers.push({ id: socket.id, consumer })
-      console.log('Consumers', consumers)
-      socket.emit('subscribed')
-    })
-  })*/
 }

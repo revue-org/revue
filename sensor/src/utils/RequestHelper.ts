@@ -23,7 +23,6 @@ export default class RequestHelper {
   }
 
   static async post(url: string, body?: any): Promise<AxiosResponse> {
-    console.log(this.getHeaders())
     return await axios.post(url, body, this.getHeaders())
   }
 

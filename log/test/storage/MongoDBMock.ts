@@ -1,7 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { environmentDataModel } from '../../src/controller/measurement.js'
-import { environmentDataSample } from "../resources/environmentDataSample.js";
+import { environmentDataModel } from '../../src/controller/environmentData.js'
+import { environmentDataSample } from '../resources/environmentDataSample.js'
 
 let mongoMock: any = null
 

@@ -2,7 +2,7 @@ export enum MeasureUnit {
   PASCAL,
   BAR,
   CELSIUS,
-  FARENHEIT,
+  FAHRENHEIT,
   KELVIN,
   PERCENTAGE
 }

@@ -3,7 +3,7 @@ import express from 'express'
 import { mongoConnect } from '@utils/connection.js'
 import cors from 'cors'
 import { config } from 'dotenv'
-import { measurementRouter } from './routes/measurement.js'
+import { environmentDataRouter } from './routes/environmentData.js'
 import { jwtManager } from './utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { setupConsumers } from './consumer.js'
@@ -32,7 +32,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use('/measurements', measurementRouter)
+app.use('/environment-data', environmentDataRouter)
 
 const username: string = process.env.LOG_DB_USERNAME || 'admin'
 const password: string = process.env.LOG_DB_PASSWORD || 'admin'

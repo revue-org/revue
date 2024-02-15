@@ -22,7 +22,6 @@ export const getSensorInfo = async (): Promise<void> => {
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
-    console.log('Response:', res.data)
     sourceSensor = new DeviceFactoryImpl().createSensor(
       new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
       false,
@@ -37,6 +36,7 @@ export const getSensorInfo = async (): Promise<void> => {
     throw new Error('Error while getting sensor info')
   }
 }
+
 
 const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'

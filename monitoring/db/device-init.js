@@ -10,7 +10,7 @@ db.device.insert([
     },
     isCapturing: true,
     ipAddress: '192.168.1.10',
-    intervalMillis: 400,
+    intervalMillis: 5000,
     measures: ['PRESSURE', 'TEMPERATURE', 'HUMIDITY'],
     __v: 0
   },
@@ -19,7 +19,7 @@ db.device.insert([
       type: 'CAMERA',
       code: 'cam-01'
     },
-    isCapturing: true,
+    isCapturing: false,
     ipAddress: '192.168.1.20',
     resolution: {
       height: 200,
@@ -34,7 +34,7 @@ db.device.insert([
     },
     isCapturing: true,
     ipAddress: '192.168.1.30',
-    intervalMillis: 300,
+    intervalMillis: 5000,
     measures: ['HUMIDITY', 'TEMPERATURE'],
     __v: 0
   },
@@ -43,7 +43,7 @@ db.device.insert([
       type: 'CAMERA',
       code: 'cam-02'
     },
-    isCapturing: true,
+    isCapturing: false,
     ipAddress: '192.168.1.40',
     resolution: {
       height: 200,

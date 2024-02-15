@@ -22,7 +22,7 @@ db.environmentData.insert([
     },
     value: 100,
     measure: 'TEMPERATURE',
-    timestamp: new Date('2024-01-27T15:32:15.925Z'),
+    timestamp: new Date('2024-01-27T16:32:15.925Z'),
     __v: 0
   },
   {
@@ -33,7 +33,7 @@ db.environmentData.insert([
     },
     value: 20,
     measure: 'PRESSURE',
-    timestamp: new Date('2024-01-27T15:32:15.925Z'),
+    timestamp: new Date('2024-01-27T17:32:15.925Z'),
     __v: 0
   },
   {
@@ -44,7 +44,7 @@ db.environmentData.insert([
     },
     value: 50,
     measure: 'HUMIDITY',
-    timestamp: new Date('2024-01-27T15:32:15.925Z'),
+    timestamp: new Date('2024-01-27T18:32:15.925Z'),
     __v: 0
   }
 ])

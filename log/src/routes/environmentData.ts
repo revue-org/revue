@@ -4,8 +4,7 @@ import { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
-import { MeasureUnit } from 'domain/dist/domain/device/core'
+import { DeviceTypeConverter, MeasureConverter, MeasureUnitConverter } from "domain/dist/utils";
 
 export const environmentDataRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -37,7 +36,7 @@ environmentDataRouter.route('/').post((req: Request, res: Response): void => {
       deviceIdFactory.createSensorId(req.body.code),
       req.body.value,
       MeasureConverter.convertToMeasure(req.body.measure),
-      MeasureUnit.CELSIUS, //TODO TO CHECK AND TO ADD THE CONVERTER!!!
+      MeasureUnitConverter.convertToMeasureUnit(req.body.measureUnit),
       new Date(req.body.timestamp)
     )
     .then((): void => {
@@ -53,7 +52,7 @@ environmentDataRouter.route('/').put((req: Request, res: Response): void => {
       deviceIdFactory.createSensorId(req.body.code),
       req.body.value,
       MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.unit, // TO ADD THE CONVERTER!!!
+      MeasureUnitConverter.convertToMeasureUnit(req.body.unit),
       new Date(req.body.timestamp)
     )
     .then((): void => {

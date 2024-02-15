@@ -35,7 +35,6 @@ export const environmentDataController = {
     measureUnit: MeasureUnit,
     timestamp: Date
   ): Promise<void> => {
-    //TODO to check the measure unit and convert the value if necessary
     return await environmentDataManager.insertEnvironmentData(
       environmentDataFactory.createEnvironmentData(deviceId, value, measure, measureUnit, timestamp)
     )

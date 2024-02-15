@@ -27,7 +27,7 @@ services:
       - ${LOG_DB_PORT}:27017
     volumes:
       - log_data:/data/db
-      - ./log/db/measurement-init.js:/docker-entrypoint-initdb.d/measurement-init.js
+      - ./log/db/environment-data-init.js:/docker-entrypoint-initdb.d/environment-data-init.js
 
 volumes:
   log_data:

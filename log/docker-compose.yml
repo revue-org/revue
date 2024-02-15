@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+
+  revue-log:
+    image: revue-log
+    container_name: revue-log
+    build:
+      context: .
+      dockerfile: ./log/Dockerfile
+    restart: on-failure
+    ports:
+      - ${LOG_PORT}:${LOG_PORT}
+    depends_on:
+      - revue-log-db
+      - ${KAFKA_CONTAINER}
+
+  revue-log-db:
+    image: mongo
+    container_name: ${LOG_DB_HOST}
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${LOG_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${LOG_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${LOG_DB_NAME}
+    ports:
+      - ${LOG_DB_PORT}:27017
+    volumes:
+      - log_data:/data/db
+      - ./log/db/measurement-init.js:/docker-entrypoint-initdb.d/measurement-init.js
+
+volumes:
+  log_data:
+    driver: local

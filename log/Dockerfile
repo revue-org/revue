@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
-RUN gradle monitoring:build --no-daemon --info --parallel
+RUN gradle log:build --no-daemon --info --parallel
 
 
 FROM node:20-alpine as production
@@ -28,14 +28,14 @@ LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 WORKDIR /home/revue
 
 COPY --from=build /home/revue/.env .env
-COPY --from=build /home/revue/monitoring monitoring
+COPY --from=build /home/revue/log log
 COPY --from=build /home/revue/domain domain
 
 RUN apk add dumb-init && apk add --update npm
 
-WORKDIR /home/revue/monitoring
+WORKDIR /home/revue/log
 
-EXPOSE $MONITORING_PORT
+EXPOSE $LOG_PORT
 
 # Run dumb-init as first process, which will have PID 1, then run node command to start the application
 CMD ["dumb-init", "npm", "run", "serve" ]

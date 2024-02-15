@@ -1,10 +1,11 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock } from '../storage/MongoDBMock.js'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
+import HttpStatusCode from 'domain/dist/utils/HttpStatusCode.js'
 
 const TOKEN: string = process.env.DEV_API_KEY
 
+//TODO TO CHANGE ALL MONITORING SERVICE TO LOG SERVICE
 describe('DELETE /devices/', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()

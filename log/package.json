@@ -1,9 +1,9 @@
 {
   "type": "module",
-  "name": "monitoring",
+  "name": "log",
   "version": "0.1.0",
   "private": true,
-  "description": "Monitoring microservice",
+  "description": "Log microservice",
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",

@@ -1,9 +1,9 @@
 import { Model } from 'mongoose'
 import { DeviceId } from '../../domain/device/core/DeviceId.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
-import { EnvironmentData } from '../../domain/device/core'
-import { EnvironmentDataRepository } from '../../domain/device/repositories/EnvironmentDataRepository'
-import { MeasureConverter } from '../../utils'
+import { EnvironmentData } from '../../domain/device/core/EnvironmentData.js'
+import { EnvironmentDataRepository } from '../../domain/device/repositories/EnvironmentDataRepository.js'
+import { MeasureConverter } from '../../utils/MeasureConverter.js'
 
 export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository {
   environmentDataModel: Model<EnvironmentData>

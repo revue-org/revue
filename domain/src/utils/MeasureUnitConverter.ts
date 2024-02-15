@@ -1,4 +1,4 @@
-import { MeasureUnit } from '../domain/device/core'
+import { MeasureUnit } from '../domain/device/core/impl/enum/MeasureUnit.js'
 
 export class MeasureUnitConverter {
   static convertToMeasureUnit(measureUnit: string): MeasureUnit {

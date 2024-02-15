@@ -46,7 +46,7 @@ if [ -z "$command" ]; then
 fi
 
 compose_files=("-fauth/docker-compose.yml"  "-fkafka/docker-compose.yml" "-fmonitoring/docker-compose.yml" "-falarm/docker-compose.yml"
-"-ffrontend/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml")
+"-ffrontend/docker-compose.yml" "-flog/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml")
 
 
 if [ "$command" == "--down" ]; then

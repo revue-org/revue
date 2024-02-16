@@ -47,7 +47,7 @@ const dbName: string = process.env.LOG_DB_NAME || 'log'
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Monitoring server listening on ${process.env.LOG_PORT}`)
-    //await mongoConnect(mongoose, username, password, host, dbPort, dbName)
+    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     await setupConsumers()
   })
 }

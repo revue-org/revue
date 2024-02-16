@@ -4,42 +4,48 @@ import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFac
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
-
-const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-const kafkaPort: string = process.env.KAFKA_PORT || '9092'
+import process from "process";
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-
 const consumers: { id: string; consumer: Consumer }[] = []
 
 const getConsumerById = (id: string): Consumer | undefined => {
   return consumers.find((c): boolean => c.id === id)?.consumer
 }
 
-/*export const getTopics = async (): Promise<string[]> => {
+export const getTopics = async (): Promise<string[]> => {
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   const topics: string[] = []
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/`)
+    console.log(res.data)
     for (const device of res.data) {
-      if (device._type === 'SENSOR' && device._active === true) {
-        topics.push(`SENSOR_${device._id._code}`)
+      if (device._id.type === 'SENSOR' && device.isCapturing === true) {
+        topics.push(`SENSOR_${device._id.code}`)
       }
     }
     return topics
   } catch (e) {
     throw new Error('Error while getting devices infos')
   }
-}*/
+}
 
-console.log(process.env.NODE_ENV == "develop" ? [`localhost:9092`] : [`${kafkaContainer}:${kafkaPort}`])
+let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+let kafkaPort: string = process.env.KAFKA_PORT || '9092'
+
+if( process.env.NODE_ENV == "develop" ) {
+  console.log("INFO: SETTING UP KAFKA FOR DEVELOPMENT")
+  kafkaContainer = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
+  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
+}
+
 export const setupConsumers = async (): Promise<void> => {
   const kafka: Kafka = new Kafka({
     clientId: 'log',
-    brokers: ['revue-kafka:9092']//process.env.NODE_ENV == "develop" ? [`localhost:9092`] : [`${kafkaContainer}:${kafkaPort}`]
+    brokers: [`${kafkaContainer}:${kafkaPort}`]
   })
 
-  let topics: string[] = ["SENSOR_sen-01"]//await getTopics()
+  let topics: string[] = await getTopics()
   console.log(topics)
   console.log('Subscribing to topics', topics)
 

@@ -9,6 +9,7 @@ import { MeasureConverter } from '@utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
+import * as process from "process";
 
 if (process.env.SENSOR_CODE_1 === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No sensor code provided')
@@ -19,7 +20,8 @@ const SENSOR_CODE: string = process.env.SENSOR_CODE_1 || 'sen-01'
 let sourceSensor: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
-  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  //TODO: TO SET THE CORRECT URL FOR DEVELOPMENT OR NOT, MAYBE IT IS BETTER IN THE HELPER
+  const monitoringUrl: string = `http://localhost:4001`//`http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
     sourceSensor = new DeviceFactoryImpl().createSensor(
@@ -31,22 +33,26 @@ export const getSensorInfo = async (): Promise<void> => {
         return MeasureConverter.convertToMeasure(measure)
       })
     )
-    console.log(sourceSensor)
+    console.log("INFO: SENSOR INFO RETRIEVED")
   } catch (e) {
     throw new Error('Error while getting sensor info')
   }
 }
 
+let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+let kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
-const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-const kafkaPort: string = process.env.KAFKA_PORT || '9092'
+if( process.env.NODE_ENV == "develop" ) {
+  console.log("INFO: SETTING UP KAFKA FOR DEVELOPMENT")
+  kafkaContainer = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
+  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
+}
 
 const kafka: Kafka = new Kafka({
   clientId: `SENSOR_${SENSOR_CODE}`,
   brokers: [`${kafkaContainer}:${kafkaPort}`]
 })
 
-console.log(kafka.logger())
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
 export const produce = async (): Promise<void> => {

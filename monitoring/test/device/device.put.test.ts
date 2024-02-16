@@ -1,7 +1,7 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock } from '../storage/MongoDBMock.js'
-import HttpStatusCode from 'domain/utils/HttpStatusCode.js'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN: string = process.env.DEV_API_KEY
 
@@ -25,10 +25,7 @@ describe('PUT /devices/', (): void => {
       }
 
       // @ts-ignore
-      await monitoringService
-        .post('/devices/sensors')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newSensor)
+      await monitoringService.post('/devices/sensors').set('Authorization', `Bearer ${TOKEN}`).send(newSensor)
 
       const updatedSensor = {
         code: 'sen-100',
@@ -57,22 +54,21 @@ describe('PUT /devices/', (): void => {
 
     it('should update the camera', async (): Promise<void> => {
       const newCamera = {
-        code: "cam-100",
-        ipAddress: "192.168.1.1",
+        code: 'cam-100',
+        ipAddress: '192.168.1.1',
+        isCapturing: true,
         resolution: {
           width: 200,
           height: 200
         }
       }
       // @ts-ignore
-      await monitoringService
-        .post('/devices/cameras')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newCamera)
+      await monitoringService.post('/devices/cameras').set('Authorization', `Bearer ${TOKEN}`).send(newCamera)
 
       const updatedCamera = {
         code: 'cam-100',
         ipAddress: '192.168.1.1',
+        isCapturing: true,
         resolution: {
           width: 300,
           height: 300

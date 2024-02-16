@@ -18,7 +18,6 @@ export const getTopics = async (): Promise<string[]> => {
   const topics: string[] = []
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/`)
-    console.log(res.data)
     for (const device of res.data) {
       if (device._id.type === 'SENSOR' && device.isCapturing === true) {
         topics.push(`SENSOR_${device._id.code}`)
@@ -46,7 +45,6 @@ export const setupConsumers = async (): Promise<void> => {
   })
 
   let topics: string[] = await getTopics()
-  console.log(topics)
   console.log('Subscribing to topics', topics)
 
   let consumer: Consumer | undefined = getConsumerById('idconsumer') // TODO TO CHANGE

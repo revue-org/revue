@@ -24,7 +24,7 @@ export const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
   'securityRule'
 )
 
-const securityRuleManager: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
+export const securityRuleManager: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
   exceedingRuleModel,
   intrusionRuleModel
 )

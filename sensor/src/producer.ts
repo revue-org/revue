@@ -9,19 +9,19 @@ import { MeasureConverter } from '@utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
-import * as process from "process";
+import * as process from 'process'
 
 if (process.env.SENSOR_CODE_1 === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No sensor code provided')
   process.exit(1)
 }
-const SENSOR_CODE: string = process.env.SENSOR_CODE_1 || 'sen-01'
+const SENSOR_CODE: string = process.env.SENSOR_CODE || 'sen-01'
 
 let sourceSensor: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
   //TODO: TO SET THE CORRECT URL FOR DEVELOPMENT OR NOT, MAYBE IT IS BETTER IN THE HELPER
-  const monitoringUrl: string = `http://localhost:4001`//`http://${monitoringHost}:${monitoringPort}`
+  const monitoringUrl: string = `http://localhost:4001` //`http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
     sourceSensor = new DeviceFactoryImpl().createSensor(
@@ -33,7 +33,7 @@ export const getSensorInfo = async (): Promise<void> => {
         return MeasureConverter.convertToMeasure(measure)
       })
     )
-    console.log("INFO: SENSOR INFO RETRIEVED")
+    console.log('INFO: SENSOR INFO RETRIEVED')
   } catch (e) {
     throw new Error('Error while getting sensor info')
   }
@@ -42,8 +42,8 @@ export const getSensorInfo = async (): Promise<void> => {
 let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 let kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
-if( process.env.NODE_ENV == "develop" ) {
-  console.log("INFO: SETTING UP KAFKA FOR DEVELOPMENT")
+if (process.env.NODE_ENV == 'develop') {
+  console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
   kafkaContainer = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
   kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
 }

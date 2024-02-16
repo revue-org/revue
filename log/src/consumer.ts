@@ -4,7 +4,7 @@ import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFac
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
-import process from "process";
+import process from 'process'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const consumers: { id: string; consumer: Consumer }[] = []
@@ -33,8 +33,8 @@ export const getTopics = async (): Promise<string[]> => {
 let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
 let kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
-if( process.env.NODE_ENV == "develop" ) {
-  console.log("INFO: SETTING UP KAFKA FOR DEVELOPMENT")
+if (process.env.NODE_ENV == 'develop') {
+  console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
   kafkaContainer = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
   kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
 }
@@ -73,7 +73,7 @@ export const setupConsumers = async (): Promise<void> => {
           //TODO SALVATAGGIO SU TABELLA DETECTION, SEMPRE CON KAFKA E CI ARRIVANO ATTRAVERSO IL RECOGNIZING NODE
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {
-            environmentDataController.createEnvironmentData(
+            await environmentDataController.createEnvironmentData(
               deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
               rawValue._value,
               rawValue._measure,

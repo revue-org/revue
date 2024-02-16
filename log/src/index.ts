@@ -36,8 +36,7 @@ app.use('/environment-data', environmentDataRouter)
 
 const username: string = process.env.LOG_DB_USERNAME || 'admin'
 const password: string = process.env.LOG_DB_PASSWORD || 'admin'
-const host: string =
-  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.LOG_DB_HOST || 'localhost'
+const host: string = process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.LOG_DB_HOST || 'localhost'
 const dbPort: string =
   process.env.NODE_ENV === 'develop'
     ? process.env.LOG_DB_PORT || '27017'

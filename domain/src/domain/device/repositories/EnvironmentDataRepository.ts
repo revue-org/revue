@@ -1,4 +1,4 @@
-import { DeviceId, EnvironmentData } from "../core";
+import { DeviceId, EnvironmentData } from '../core'
 
 export interface EnvironmentDataRepository {
   getEnvironmentData(): Promise<EnvironmentData[]>

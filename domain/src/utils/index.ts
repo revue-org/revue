@@ -4,4 +4,3 @@ export * from './MeasureConverter'
 export * from './MeasureUnitConverter'
 export * from './ObjectClassConverter'
 export * from './ContactTypeConverter'
-

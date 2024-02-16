@@ -9,7 +9,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
 import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit.js'
-import { DeviceType} from "domain/dist/domain/device/core/impl/enum/DeviceType.js";
+import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
 import { environmentDataSchema } from '@storage/device/schemas/EnvironmentDataSchema.js'
 
 export const environmentDataModel: Model<EnvironmentData> = model<EnvironmentData>(

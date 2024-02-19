@@ -25,6 +25,9 @@ export const deviceController = {
   getDevices: async (): Promise<Device[]> => {
     return await deviceManager.getDevices()
   },
+  getCapturingDevices: async (): Promise<Device[]> => {
+    return await deviceManager.getCapturingDevices()
+  },
   getDeviceById: async (type: DeviceType, code: string): Promise<Device> => {
     return await deviceManager.getDeviceById(deviceIdFactory.createId(type, code))
   },

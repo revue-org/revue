@@ -9,13 +9,11 @@ import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
 import { ExceedingRule } from 'domain/dist/domain/security-rule/core/ExceedingRule.js'
-import { IntrusionRule  } from 'domain/dist/domain/security-rule/core/IntrusionRule.js'
-import { Camera} from "domain/dist/domain/device/core/Camera.js";
-import { Device } from "domain/dist/domain/device/core/Device.js";
-import { DeviceId } from "domain/dist/domain/device/core/DeviceId.js";
-import { DeviceType } from "domain/dist/domain/device/core/impl/enum/DeviceType.js";
-import {  Sensor } from "domain/dist/domain/device/core/Sensor.js";
-import { DeviceTypeConverter } from "domain/dist/utils/DeviceTypeConverter.js"; //in questo caso devo solo controllare i topic per i quali sono interessato ovvero i devices che sono attivi in questo momento e che
+import { IntrusionRule } from 'domain/dist/domain/security-rule/core/IntrusionRule.js'
+import { Device } from 'domain/dist/domain/device/core/Device.js'
+import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
+import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
+import * as console from "console";
 
 //in questo caso devo solo controllare i topic per i quali sono interessato ovvero i devices che sono attivi in questo momento e che
 //hanno delle regole attive. Quindi devo creare dei controllori che per ogni dato che arriva ccontrolla la regola.
@@ -30,97 +28,17 @@ const getConsumerById = (id: string): Consumer | undefined => {
 }
 
 export const getTopics = async (): Promise<string[]> => {
-  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   const topics: string[] = []
-/*  const getCapturingSensors = async (): Promise<Sensor[]> => {
-    const capturingSensors: Sensor[] = []
-    try {
-      const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors`)
-      for (const sensor of res.data) {
-        if (sensor.isCapturing) {
-
-        }
-      }
-      return capturingSensors
-    } catch (e) {
-      throw new Error('Error while getting devices infos')
-    }
-  }
-
-  const getCapturingCameras = async (): Promise<Camera[]> => {
-    const capturingCameras: Camera[] = []
-    try {
-      const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/cameras`)
-      for (const camera of res.data) {
-        if (camera.isCapturing) {
-          capturingCameras.push(
-            deviceFactory.createCamera(
-              deviceIdFactory.createCameraId(camera._id.code),
-              camera.isCapturing,
-              camera.ipAddress,
-              resolutionFactory.createResolution(camera.resolution.width, camera.resolution.height)
-            )
-          )
-        }
-      }
-      return capturingCameras
-    } catch (e) {
-      throw new Error('Error while getting cameras infos')
-    }
-  }*/
-
-  const getCapturingDevices = async (): Promise<Device[]> => {
-    const capturingDevices: Device[] = []
-    try {
-      const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/capturing`)
-      for (const device of res.data) {
-        switch (DeviceTypeConverter.convertToDeviceType(device._id.type)) {
-          case DeviceType.SENSOR:
-            capturingDevices.push(
-              deviceFactory.createSensor(
-                deviceIdFactory.createSensorId(device._id.code),
-                device.isCapturing,
-                device.ipAddress,
-                device.intervalMillis,
-                device.measures
-              )
-            )
-            break;
-          case DeviceType.CAMERA:
-            capturingDevices.push(
-              deviceFactory.createCamera(
-                deviceIdFactory.createCameraId(device._id.code),
-                device.isCapturing,
-                device.ipAddress,
-                resolutionFactory.createResolution(device.resolution.width, device.resolution.height)
-              )
-            )
-            break;
-        }
-      }
-      return capturingDevices
-    } catch (e) {
-      throw new Error('Error while getting devices infos')
-    }
-  }
 
   const capturingDevices: Device[] = await getCapturingDevices()
-
-  const getSensorRules = async (): Promise<ExceedingRule[]> => {
-    return securityRuleManager.getExceedingRules()
-  }
   const sensorRules: ExceedingRule[] = await getSensorRules()
-
-  const getCameraRules = async (): Promise<IntrusionRule[]> => {
-    return securityRuleManager.getIntrusionRules()
-  }
-
   const cameraRules: IntrusionRule[] = await getCameraRules()
 
   capturingDevices.forEach((device: Device): void => {
     switch (device.deviceId.type) {
       case DeviceType.SENSOR:
         sensorRules.forEach((rule: ExceedingRule): void => {
+          console.log(rule)
           if (rule.deviceId.code === device.deviceId.code) {
             topics.push(`SENSOR_${device.deviceId.code}`)
           }
@@ -134,11 +52,53 @@ export const getTopics = async (): Promise<string[]> => {
         })
         break
     }
-
   })
 
   return topics
+}
 
+const getCapturingDevices = async (): Promise<Device[]> => {
+  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  const capturingDevices: Device[] = []
+  try {
+    const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/capturing`)
+    for (const device of res.data) {
+      switch (DeviceTypeConverter.convertToDeviceType(device._id.type)) {
+        case DeviceType.SENSOR:
+          capturingDevices.push(
+            deviceFactory.createSensor(
+              deviceIdFactory.createSensorId(device._id.code),
+              device.isCapturing,
+              device.ipAddress,
+              device.intervalMillis,
+              device.measures
+            )
+          )
+          break
+        case DeviceType.CAMERA:
+          capturingDevices.push(
+            deviceFactory.createCamera(
+              deviceIdFactory.createCameraId(device._id.code),
+              device.isCapturing,
+              device.ipAddress,
+              resolutionFactory.createResolution(device.resolution.width, device.resolution.height)
+            )
+          )
+          break
+      }
+    }
+    return capturingDevices
+  } catch (e) {
+    throw new Error('Error while getting devices infos')
+  }
+}
+
+const getSensorRules = async (): Promise<ExceedingRule[]> => {
+  return securityRuleManager.getExceedingRules()
+}
+
+const getCameraRules = async (): Promise<IntrusionRule[]> => {
+  return securityRuleManager.getIntrusionRules()
 }
 
 let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
@@ -168,6 +128,9 @@ export const setupConsumers = async (): Promise<void> => {
   await consumer.subscribe({ topics: topics, fromBeginning: false })
   consumers.push({ id: 'idconsumer', consumer }) // TODO TO CHANGE AND TO UNDERSTAND
 
+  const sensorRules = await getSensorRules()
+
+
   consumer
     .run({
       eachMessage: async ({ topic, message }): Promise<void> => {
@@ -179,18 +142,37 @@ export const setupConsumers = async (): Promise<void> => {
         const rawValues = JSON.parse(messageValue.toString())
 
         if (topic.startsWith('CAMERA')) {
-          console.log('Devo salvare su detection')
-          //TODO SALVATAGGIO SU TABELLA DETECTION, SEMPRE CON KAFKA E CI ARRIVANO ATTRAVERSO IL RECOGNIZING NODE
+          //TODO to check the intrusion object and to create the anomaly in case of intrusion
+          console.log('Devo controllare sulle intrusioni')
         } else if (topic.startsWith('SENSOR')) {
-          /*          for (const rawValue of rawValues) {
-                      await environmentDataController.createEnvironmentData(
-                        deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
-                        rawValue._value,
-                        rawValue._measure,
-                        rawValue._measureUnit,
-                        new Date(rawValue._timestamp)
-                      )
-                    }*/
+          //TODO to check the measure and the value and to create the anomaly in case of exceeding
+          console.log('Devo controllare sulle eccezioni')
+          const sensorCode: string = topic.split('_')[1]
+          console.log(topic)
+          console.log(sensorCode)
+          for (const rawValue of rawValues) {
+            sensorRules.forEach((rule: ExceedingRule): void => {
+
+              if(rule.deviceId.code === sensorCode){
+                console.log('VALORE ARRIVATO:')
+                console.log(rawValue._value)
+                console.log(rawValue._measure)
+                console.log(rawValue._timestamp)
+
+                console.log('REGOLA DA CONTROLLARE:')
+                console.log(rule.min)
+                console.log(rule.max)
+                console.log(rule.contactsToNotify)
+                console.log(rule.measure)
+                console.log(rule.from)
+                console.log(rule.to)
+
+                console.log('\n\n')
+              }
+
+            })
+
+          }
         }
       }
     })

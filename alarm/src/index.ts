@@ -13,6 +13,7 @@ import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
+import { setupConsumers } from './consumer.js'
 import { getTopics } from "./consumer.js";
 
 config({ path: process.cwd() + '/../.env' })
@@ -66,7 +67,8 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     //await setupNotificationSimulation()
-    //await setupConsumers()
     console.log(await getTopics())
+    await setupConsumers()
+
   })
 }

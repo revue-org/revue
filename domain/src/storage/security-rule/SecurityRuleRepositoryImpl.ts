@@ -52,10 +52,10 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
         code: exceedingRule.deviceId.code
       },
       creatorId: exceedingRule.creatorId,
-      contacts: exceedingRule.contactsToNotify,
+      contactsToNotify: exceedingRule.contactsToNotify,
       description: exceedingRule.description,
-      minValue: exceedingRule.min,
-      maxValue: exceedingRule.max,
+      min: exceedingRule.min,
+      max: exceedingRule.max,
       from: exceedingRule.from,
       to: exceedingRule.to,
       measure: MeasureConverter.convertToString(exceedingRule.measure)
@@ -69,7 +69,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
         code: intrusionRule.deviceId.code
       },
       creatorId: intrusionRule.creatorId,
-      contacts: intrusionRule.contactsToNotify,
+      contactsToNotify: intrusionRule.contactsToNotify,
       description: intrusionRule.description,
       objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
       from: intrusionRule.from,
@@ -85,10 +85,10 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
           type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
           code: exceedingRule.deviceId.code
         },
-        contacts: exceedingRule.contactsToNotify,
+        contactsToNotify: exceedingRule.contactsToNotify,
         description: exceedingRule.description,
-        minValue: exceedingRule.min,
-        maxValue: exceedingRule.max,
+        min: exceedingRule.min,
+        max: exceedingRule.max,
         from: exceedingRule.from,
         to: exceedingRule.to,
         measure: MeasureConverter.convertToString(exceedingRule.measure)
@@ -104,7 +104,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
           type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
           code: intrusionRule.deviceId.code
         },
-        contacts: intrusionRule.contactsToNotify,
+        contactsToNotify: intrusionRule.contactsToNotify,
         description: intrusionRule.description,
         objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
         from: intrusionRule.from,

@@ -55,10 +55,10 @@ db.securityRule.insert([
     },
     creatorId: ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'),
     description: 'Exceeding rule description',
-    minValue: 0,
-    maxValue: 25,
+    min: 0,
+    max: 25,
     measure: 'TEMPERATURE',
-    contacts: [
+    contactsToNotify: [
       {
         type: 'SMS',
         value: '3333333333'

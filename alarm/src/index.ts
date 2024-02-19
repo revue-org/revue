@@ -15,7 +15,6 @@ import http, { Server as HttpServer } from 'http'
 
 import { setupNotificationSimulation } from './simulation.js'
 import { getTopics, setupConsumers } from "./consumer.js";
-import * as console from "console";
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -69,6 +68,6 @@ if (process.env.NODE_ENV !== 'test') {
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     //await setupNotificationSimulation()
     //await setupConsumers()
-    await getTopics()
+    console.log(await getTopics())
   })
 }

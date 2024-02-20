@@ -1,0 +1,2 @@
+
+console.log("ESEGUO SCRIPT DI SETUP PER DOMAIN TEST")

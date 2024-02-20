@@ -62,12 +62,13 @@ monitoringSocket?.on('stream', (newFrame: { topic: string; frame: string }) => {
 
 <template>
   <div class="container">
-    <div class="camera" v-for="(camera, index) in cameras.filter(camera => camera.isCapturing)" :key="index">
-      <h3>
-        {{ camera.code }}
-      </h3>
-      <img :src="camera.src" alt="" />
-    </div>
+    <iframe src="http://localhost:8889/mystream/"></iframe>
+<!--    <div class="camera" v-for="(camera, index) in cameras.filter(camera => camera.isCapturing)" :key="index">-->
+<!--      <h3>-->
+<!--        {{ camera.code }}-->
+<!--      </h3>-->
+<!--      <img :src="camera.src" alt="" />-->
+<!--    </div>-->
   </div>
 </template>
 

@@ -1,5 +1,8 @@
 version: '3.8'
 
+# Publish using this command
+# ffmpeg -re -stream_loop -1 -i input.mp4 -c:v libx264 -bf 0 -f rtsp -rtsp_transport tcp rtsp://localhost:8554/mystream
+
 services:
 
   media-server:
@@ -11,6 +14,8 @@ services:
       - "8888:8888"
       - "8889:8889"
       - "8890:8890/udp"
+      - "8189:8189/udp"
     environment:
       - MTX_PROTOCOLS=tcp
-    restart: always  # Restart policy for the container
+      - MTX_WEBRTCADDITIONALHOSTS=localhost
+    restart: always

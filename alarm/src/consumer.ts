@@ -11,9 +11,13 @@ import { AxiosResponse } from 'axios'
 import { ExceedingRule } from 'domain/dist/domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from 'domain/dist/domain/security-rule/core/IntrusionRule.js'
 import { Device } from 'domain/dist/domain/device/core/Device.js'
+import { SecurityRuleService } from 'domain/dist/application/security-rule/SecurityRuleService.js'
+import { SecurityRuleServiceImpl } from 'domain/dist/application/security-rule/impl/SecurityRuleServiceImpl.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
-import * as console from "console";
+import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
+import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
+import { MeasureUnitConverter } from 'domain/dist/utils/MeasureUnitConverter.js' //in questo caso devo solo controllare i topic per i quali sono interessato ovvero i devices che sono attivi in questo momento e che
 
 //in questo caso devo solo controllare i topic per i quali sono interessato ovvero i devices che sono attivi in questo momento e che
 //hanno delle regole attive. Quindi devo creare dei controllori che per ogni dato che arriva ccontrolla la regola.
@@ -22,6 +26,8 @@ const consumers: { id: string; consumer: Consumer }[] = []
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
+const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl()
+const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
 const getConsumerById = (id: string): Consumer | undefined => {
   return consumers.find((c): boolean => c.id === id)?.consumer
@@ -128,8 +134,14 @@ export const setupConsumers = async (): Promise<void> => {
   await consumer.subscribe({ topics: topics, fromBeginning: false })
   consumers.push({ id: 'idconsumer', consumer }) // TODO TO CHANGE AND TO UNDERSTAND
 
-  const sensorRules = await getSensorRules()
-
+  //TODO to add an 'addAll' on the service for the rules
+  await getSensorRules().then((rules: ExceedingRule[]): void => {
+    rules.forEach((rule: ExceedingRule): void => {
+      securityRuleService.addSecurityRule(rule)
+      console.log("RULE")
+      console.log(rule)
+    })
+  });
 
   consumer
     .run({
@@ -148,30 +160,31 @@ export const setupConsumers = async (): Promise<void> => {
           //TODO to check the measure and the value and to create the anomaly in case of exceeding
           console.log('Devo controllare sulle eccezioni')
           const sensorCode: string = topic.split('_')[1]
-          console.log(topic)
-          console.log(sensorCode)
+         // console.log(topic)
+          ///console.log(sensorCode)
           for (const rawValue of rawValues) {
-            sensorRules.forEach((rule: ExceedingRule): void => {
-
-              if(rule.deviceId.code === sensorCode){
-                console.log('VALORE ARRIVATO:')
-                console.log(rawValue._value)
-                console.log(rawValue._measure)
-                console.log(rawValue._timestamp)
-
-                console.log('REGOLA DA CONTROLLARE:')
-                console.log(rule.min)
-                console.log(rule.max)
-                console.log(rule.contactsToNotify)
-                console.log(rule.measure)
-                console.log(rule.from)
-                console.log(rule.to)
-
-                console.log('\n\n')
-              }
-
-            })
-
+           // console.log(rawValue)
+            if(
+            securityRuleService.checkExceedingDetection(
+              environmentDataFactory.createEnvironmentData(
+                deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
+                rawValue._value,
+                rawValue._measure,
+                rawValue._measureUnit,
+                new Date(rawValue._timestamp)
+              )
+            )) {
+              console.log("E' stata rilevata un'eccezione")
+            } else {
+              console.log(environmentDataFactory.createEnvironmentData(
+                deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
+                rawValue._value,
+                rawValue._measure,
+                rawValue._measureUnit,
+                new Date(rawValue._timestamp)
+              ))
+              console.log("Non è stata rilevata nessuna eccezione")
+            }
           }
         }
       }

@@ -1,6 +1,9 @@
 import { SecurityRuleService } from '../SecurityRuleService'
-import { ExceedingRule, IntrusionRule, SecurityRule } from '../../../domain/security-rule/core'
-import { DeviceType, EnvironmentData } from '../../../domain/device/core'
+import { ExceedingRule } from '../../../domain/security-rule/core/ExceedingRule.js'
+import { IntrusionRule } from '../../../domain/security-rule/core/IntrusionRule.js'
+import { SecurityRule } from '../../../domain/security-rule/core/SecurityRule.js'
+import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
+import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private securityRules: SecurityRule[] = []

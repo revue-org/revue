@@ -25,27 +25,29 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   getActiveRules(): SecurityRule[] {
-    return this.securityRules.filter((rule: SecurityRule) => rule.from < new Date() && rule.to > new Date())
+    return this.securityRules.filter((rule: SecurityRule) =>
+      this.hoursComparator(new Date(), rule.from, rule.to)
+    )
   }
 
   getActiveExceedingRules(): ExceedingRule[] {
-    return this.securityRules.filter(
-      (rule: SecurityRule) =>
-        rule.from < new Date() && rule.to > new Date() && rule.deviceId.type === DeviceType.SENSOR
+    return this.getActiveRules().filter(
+      (rule: SecurityRule) => rule.deviceId.type === DeviceType.SENSOR
     ) as ExceedingRule[]
   }
 
   getActiveIntrusionRules(): IntrusionRule[] {
-    return this.securityRules.filter(
-      (rule: SecurityRule) =>
-        rule.from < new Date() && rule.to > new Date() && rule.deviceId.type === DeviceType.CAMERA
+    return this.getActiveRules().filter(
+      (rule: SecurityRule) => rule.deviceId.type === DeviceType.CAMERA
     ) as IntrusionRule[]
   }
 
   checkExceedingDetection(environmentData: EnvironmentData): boolean {
+    console.log(this.getActiveExceedingRules())
     return (
       this.getActiveExceedingRules().filter(
         (rule: ExceedingRule) =>
+          this.hoursComparator(environmentData.timestamp, rule.from, rule.to) &&
           rule.deviceId.code === environmentData.sourceDeviceId.code &&
           rule.measure === environmentData.measure &&
           (environmentData.value < rule.min || environmentData.value > rule.max)
@@ -56,5 +58,15 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   checkIntrusionDetection(detection: any): boolean {
     //TODO TO IMPLEMENT
     return false
+  }
+
+  //return true if the  date is between the from and the to date. Comparison based on hours and minutes
+  hoursComparator = (date: Date, from: Date, to: Date): boolean => {
+    return (
+      (date.getHours() > from.getHours() ||
+        (date.getHours() === from.getHours() && date.getMinutes() >= from.getMinutes())) &&
+      (date.getHours() < to.getHours() ||
+        (date.getHours() === to.getHours() && date.getMinutes() <= to.getMinutes()))
+    )
   }
 }

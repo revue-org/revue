@@ -18,7 +18,7 @@ import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
 import kafkaManager from './utils/KafkaManager.js'
-import { afterEach } from "vitest";
+import { afterEach } from 'vitest'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

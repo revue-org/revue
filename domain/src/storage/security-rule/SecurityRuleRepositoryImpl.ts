@@ -50,7 +50,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
           // @ts-ignore
           rule.deviceId.type = DeviceTypeConverter.convertToDeviceType(rule.deviceId.type)
           // @ts-ignore
-          rule.measure = MeasureConverter.convertToMeasure(rule.measure)
+          rule.objectClass = ObjectClassConverter.convertToObjectClass(rule.objectClass)
           rule.contactsToNotify.map(contact => {
             // @ts-ignore
             contact.type = ContactTypeConverter.convertToContactType(contact.type)

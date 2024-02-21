@@ -14,23 +14,11 @@ import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
 import { setupConsumer } from './consumer.js'
-import { KafkaManager } from "@/utils/KafkaManager";
+import  kafkaManager  from "./utils/KafkaManager.js";
 
 config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
-
-let kafkaHost: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-let kafkaPort: string = process.env.KAFKA_PORT || '9092'
-
-if (process.env.NODE_ENV == 'develop') {
-  console.log('INFO: KAFKA DEVELOPMENT MODE')
-  kafkaHost = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
-  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
-}
-
-export let kafkaManager: KafkaManager
-
 app.use(express.json())
 app.use(cors())
 
@@ -78,7 +66,6 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     //await setupNotificationSimulation() TODO: to check!!
-    kafkaManager = new KafkaManager(kafkaHost, kafkaPort)
     await setupConsumer()
   })
 }

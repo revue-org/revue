@@ -1,4 +1,5 @@
 import { Consumer } from 'kafkajs'
+import { AxiosResponse } from 'axios'
 import { securityRuleManager } from '@/controller/securityRule.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
@@ -7,7 +8,6 @@ import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/Devi
 import { ResolutionFactory } from 'domain/dist/domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/ResolutionFactoryImpl.js'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
-import { AxiosResponse } from 'axios'
 import { ExceedingRule } from 'domain/dist/domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from 'domain/dist/domain/security-rule/core/IntrusionRule.js'
 import { Device } from 'domain/dist/domain/device/core/Device.js'
@@ -17,7 +17,7 @@ import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
-import { kafkaManager } from './index.js'
+import kafkaManager from './utils/KafkaManager.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -30,7 +30,8 @@ export const setupConsumer = async (): Promise<void> => {
   await consumer.connect()
   await consumer.subscribe({ topics: await getTopics(), fromBeginning: false })
 
-  securityRuleService.addSecurityRules(await getSensorRules()) // TODO: andranno aggiunte anche le regole inerenti alle camere
+  // TODO: andranno aggiunte anche le regole inerenti alle camere
+  securityRuleService.addSecurityRules(await getSensorRules())
 
   consumer
     .run({
@@ -91,7 +92,6 @@ export const getTopics = async (): Promise<string[]> => {
     switch (device.deviceId.type) {
       case DeviceType.SENSOR:
         sensorRules.forEach((rule: ExceedingRule): void => {
-          console.log(rule)
           if (rule.deviceId.code === device.deviceId.code) {
             topics.push(`SENSOR_${device.deviceId.code}`)
           }

@@ -50,7 +50,6 @@ export const setupConsumers = async (): Promise<void> => {
         consumer.resume(topics.map((topic: string): { topic: string } => ({ topic })))
         console.log('Consumer resuming')
       } catch (err) {
-        console.log('EROREEE', err)
         consumer
           .run({
             eachMessage: async ({ topic, message }): Promise<void> => {

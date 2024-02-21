@@ -26,6 +26,7 @@ subprojects {
             Task("build", listOf("run", "build")),
             Task("start", listOf("start")),
             Task("test", listOf("run", "test")),
+            Task("testArchitecture", listOf("run", "test:architecture")),
             Task("format", listOf("run", "format")),
             Task("format-fix", listOf("run", "format:fix")),
             Task("lint", listOf("run", "lint"))

@@ -69,6 +69,17 @@ deviceRouter.route('/sensors/:code').get((req: Request, res: Response): void => 
     })
 })
 
+deviceRouter.route('/capturing').get((_req: Request, res: Response): void => {
+  deviceController
+    .getCapturingDevices()
+    .then((devices: Device[]): void => {
+      res.status(HttpStatusCode.OK).send(devices)
+    })
+    .catch((): void => {
+      res.send({ error: 'No capturing devices found' })
+    })
+})
+
 deviceRouter.route('/cameras').post((req: Request, res: Response): void => {
   deviceController
     .createCamera(

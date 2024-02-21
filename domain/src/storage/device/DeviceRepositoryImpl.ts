@@ -22,6 +22,11 @@ export class DeviceRepositoryImpl implements DeviceRepository {
     return [...cameras, ...sensors]
   }
 
+  async getCapturingDevices(): Promise<Device[]> {
+    const devices: Device[] = await this.getDevices()
+    return devices.filter((device: Device) => device.isCapturing)
+  }
+
   async getCameras(): Promise<Camera[]> {
     return this.cameraModel
       .find({

@@ -4,7 +4,6 @@ import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFac
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
-import process from 'process'
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const consumers: { id: string; consumer: Consumer }[] = []

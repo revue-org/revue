@@ -6,6 +6,8 @@ import { Device } from '../core'
 export interface DeviceRepository {
   getDevices(): Promise<Device[]>
 
+  getCapturingDevices(): Promise<Device[]>
+
   getCameras(): Promise<Camera[]>
 
   getSensors(): Promise<Sensor[]>

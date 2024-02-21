@@ -20,6 +20,7 @@ describe('PUT /devices/', (): void => {
       const newSensor = {
         code: 'sen-100',
         ipAddress: '192.168.1.1',
+        isCapturing: true,
         intervalMillis: 2000,
         measures: ['TEMPERATURE', 'PRESSURE']
       }
@@ -30,6 +31,7 @@ describe('PUT /devices/', (): void => {
       const updatedSensor = {
         code: 'sen-100',
         ipAddress: '192.168.1.1',
+        isCapturing: true,
         intervalMillis: 1000,
         measures: ['TEMPERATURE', 'PRESSURE']
       }

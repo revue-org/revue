@@ -21,7 +21,7 @@ export const intrusionRuleSchema = new Schema({
     enum: Object.values(ObjectClass),
     required: true
   },
-  contacts: {
+  contactsToNotify: {
     type: [contactSchema],
     required: true
   },

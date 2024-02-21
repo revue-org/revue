@@ -6,7 +6,7 @@ export const intrusionRuleSample = {
     code: 'cam-01'
   },
   creatorId: new Types.ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'), // 24 chars like an ObjectId
-  contacts: [
+  contactsToNotify: [
     {
       type: 'SMS',
       value: '3333333333'

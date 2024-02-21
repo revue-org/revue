@@ -1,13 +1,13 @@
 import { Consumer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
-import { securityRuleManager } from '@/controller/securityRule.js'
+import { securityRuleManager } from './controller/securityRule.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory.js'
 import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl.js'
 import { ResolutionFactory } from 'domain/dist/domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/ResolutionFactoryImpl.js'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
+import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { ExceedingRule } from 'domain/dist/domain/security-rule/core/ExceedingRule.js'
 import { IntrusionRule } from 'domain/dist/domain/security-rule/core/IntrusionRule.js'
 import { Device } from 'domain/dist/domain/device/core/Device.js'
@@ -18,7 +18,6 @@ import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
 import kafkaManager from './utils/KafkaManager.js'
-import { afterEach } from 'vitest'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

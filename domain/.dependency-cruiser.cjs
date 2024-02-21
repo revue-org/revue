@@ -20,7 +20,7 @@ module.exports = {
         path: '^(src/application)'
       },
       to: {
-        pathNot: '^(src/domain)|^(src/application)'
+        pathNot: '^(src/domain)|^(src/application)|^(src/utils)'
       }
     },
     {

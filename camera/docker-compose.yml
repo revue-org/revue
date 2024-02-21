@@ -14,7 +14,8 @@ services:
     ports:
       - ${CAMERA_PORT_1}:${CAMERA_PORT_1}
     depends_on:
-      - ${KAFKA_CONTAINER}
+      - ${KAFKA_HOST}
+      - ${MONITORING_HOST}
 
   revue-camera-2:
     image: revue-camera
@@ -28,7 +29,8 @@ services:
     ports:
       - ${CAMERA_PORT_2}:${CAMERA_PORT_2}
     depends_on:
-      - ${KAFKA_CONTAINER}
+      - ${KAFKA_HOST}
+      - ${MONITORING_HOST}
 
 #  revue-camera-3:
 #    image: revue-camera
@@ -42,4 +44,4 @@ services:
 #    ports:
 #      - ${CAMERA_PORT_3}:${CAMERA_PORT_3}
 #    depends_on:
-#      - ${KAFKA_CONTAINER}
+#      - ${KAFKA_HOST}

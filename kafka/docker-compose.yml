@@ -12,7 +12,7 @@ services:
 
   revue-kafka:
     image: bitnami/kafka:latest
-    container_name: ${KAFKA_CONTAINER}
+    container_name: ${KAFKA_HOST}
     ports:
       - ${KAFKA_PORT}:${KAFKA_PORT}
     environment:

@@ -38,7 +38,7 @@ export const getSensorInfo = async (): Promise<void> => {
   }
 }
 
-const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+const kafkaContainer: string = process.env.KAFKA_HOST || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const kafka: Kafka = new Kafka({

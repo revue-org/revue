@@ -13,7 +13,7 @@ services:
       - ${ALARM_PORT}:${ALARM_PORT}
     depends_on:
       - revue-alarm-db
-      - ${KAFKA_CONTAINER}
+      - ${KAFKA_HOST}
 
   revue-alarm-db:
     image: mongo

@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount, ref } from 'vue'
-import { monitoringSocket, setupSocketServers } from '@/socket'
-import { useTopicsStore } from '@/stores/topics'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { ref } from 'vue'
+import RequestHelper, { mediaServerHost, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
-import { DeviceTypeConverter } from 'domain/dist/utils'
-import { DeviceType } from '@domain/device/core'
 
-const topicsStore = useTopicsStore()
 const cameras = ref<{ isCapturing: boolean; code: string; src: string }[]>([])
 
 RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).then((res: AxiosResponse) => {
@@ -18,57 +13,20 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).
   }
 })
 
-if (monitoringSocket == undefined) {
-  setupSocketServers()
-}
-
-onBeforeMount(() => {
-  console.log(
-    'resume' +
-      topicsStore.subscribedTopics.filter((topic: string) =>
-        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
-      )
-  )
-  monitoringSocket?.emit(
-    'resume',
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
-    )
-  )
-})
-
-onBeforeUnmount(() => {
-  console.log(
-    'pause' +
-      topicsStore.subscribedTopics.filter((topic: string) =>
-        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
-      )
-  )
-  monitoringSocket?.emit(
-    'pause',
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
-    )
-  )
-})
-
-monitoringSocket?.on('stream', (newFrame: { topic: string; frame: string }) => {
-  try {
-    cameras.value.find(camera => camera.code === newFrame.topic.split('_')[1])!.src =
-      `data:image/jpeg;base64,${newFrame.frame}`
-  } catch (e) {}
-})
 </script>
 
 <template>
   <div class="container">
-    <iframe src="http://localhost:8889/mystream/"></iframe>
-<!--    <div class="camera" v-for="(camera, index) in cameras.filter(camera => camera.isCapturing)" :key="index">-->
-<!--      <h3>-->
-<!--        {{ camera.code }}-->
-<!--      </h3>-->
-<!--      <img :src="camera.src" alt="" />-->
-<!--    </div>-->
+    <div
+      class="camera"
+      v-for="(camera, index) in cameras.filter(_camera => _camera.isCapturing)"
+      :key="index"
+    >
+      <h3>
+        {{ camera.code }}
+      </h3>
+      <iframe :src="`http://${mediaServerHost}:8889/${camera.code}/stream/`" allowfullscreen></iframe>
+    </div>
   </div>
 </template>
 
@@ -84,8 +42,10 @@ div.container {
   }
 
   .camera,
-  img {
+  iframe {
+    border: none;
     width: 100%;
+    height: 300px;
   }
 }
 

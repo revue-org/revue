@@ -1,5 +1,5 @@
 import { SecurityRule } from '../../domain/security-rule/core/SecurityRule.js'
-import { EnvironmentData } from "../../domain/device/core";
+import { EnvironmentData } from '../../domain/device/core'
 
 export interface SecurityRuleService {
   addSecurityRule(securityRule: SecurityRule): void

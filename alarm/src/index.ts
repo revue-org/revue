@@ -14,7 +14,7 @@ import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
 import { setupConsumer } from './consumer.js'
-import  kafkaManager  from "./utils/KafkaManager.js";
+import kafkaManager from './utils/KafkaManager.js'
 
 config({ path: process.cwd() + '/../.env' })
 

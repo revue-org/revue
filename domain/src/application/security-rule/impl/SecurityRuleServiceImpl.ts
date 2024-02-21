@@ -4,6 +4,8 @@ import { IntrusionRule } from '../../../domain/security-rule/core/IntrusionRule.
 import { SecurityRule } from '../../../domain/security-rule/core/SecurityRule.js'
 import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
+import { DeviceTypeConverter } from '../../../utils/DeviceTypeConverter.js'
+import { MeasureConverter } from '../../../utils/MeasureConverter.js'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private securityRules: SecurityRule[] = []
@@ -39,18 +41,19 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
 
   getActiveExceedingRules(): ExceedingRule[] {
     return this.getActiveRules().filter(
+      // @ts-ignore
       (rule: SecurityRule) => rule.deviceId.type === DeviceType.SENSOR
     ) as ExceedingRule[]
   }
 
   getActiveIntrusionRules(): IntrusionRule[] {
     return this.getActiveRules().filter(
+      // @ts-ignore
       (rule: SecurityRule) => rule.deviceId.type === DeviceType.CAMERA
     ) as IntrusionRule[]
   }
 
   checkExceedingDetection(environmentData: EnvironmentData): boolean {
-    console.log(this.getActiveExceedingRules())
     return (
       this.getActiveExceedingRules().filter(
         (rule: ExceedingRule) =>

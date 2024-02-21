@@ -6,7 +6,7 @@ import { IntrusionRule } from '../../domain/security-rule/core/IntrusionRule.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
 import { MeasureConverter } from '../../utils/MeasureConverter.js'
 import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
-import { ContactTypeConverter } from '../../utils'
+import { ContactTypeConverter } from '../../utils/ContactTypeConverter.js'
 
 export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   exceedingRuleModel: Model<ExceedingRule>
@@ -22,7 +22,21 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
       .find({
         'deviceId.type': 'SENSOR'
       })
-      .orFail()
+      .lean()
+      .then(rules => {
+        return rules.map(rule => {
+          // @ts-ignore
+          rule.deviceId.type = DeviceTypeConverter.convertToDeviceType(rule.deviceId.type)
+          // @ts-ignore
+          rule.measure = MeasureConverter.convertToMeasure(rule.measure)
+          rule.contactsToNotify.map(contact => {
+            // @ts-ignore
+            contact.type = ContactTypeConverter.convertToContactType(contact.type)
+            return contact
+          })
+          return rule
+        })
+      })
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
@@ -30,7 +44,21 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
       .find({
         'deviceId.type': 'CAMERA'
       })
-      .orFail()
+      .lean()
+      .then(rules => {
+        return rules.map(rule => {
+          // @ts-ignore
+          rule.deviceId.type = DeviceTypeConverter.convertToDeviceType(rule.deviceId.type)
+          // @ts-ignore
+          rule.measure = MeasureConverter.convertToMeasure(rule.measure)
+          rule.contactsToNotify.map(contact => {
+            // @ts-ignore
+            contact.type = ContactTypeConverter.convertToContactType(contact.type)
+            return contact
+          })
+          return rule
+        })
+      })
   }
 
   async getSecurityRuleById(securityRuleId: string): Promise<SecurityRule> {

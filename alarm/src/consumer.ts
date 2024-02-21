@@ -18,6 +18,7 @@ import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
 import kafkaManager from './utils/KafkaManager.js'
+import { afterEach } from "vitest";
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -31,6 +32,7 @@ export const setupConsumer = async (): Promise<void> => {
   await consumer.subscribe({ topics: await getTopics(), fromBeginning: false })
 
   // TODO: andranno aggiunte anche le regole inerenti alle camere
+  console.log(await getSensorRules())
   securityRuleService.addSecurityRules(await getSensorRules())
 
   consumer
@@ -62,16 +64,6 @@ export const setupConsumer = async (): Promise<void> => {
             ) {
               console.log("E' stata rilevata un'eccezione")
             } else {
-              //TODO: to check if working
-              console.log(
-                environmentDataFactory.createEnvironmentData(
-                  deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
-                  rawValue._value,
-                  rawValue._measure,
-                  rawValue._measureUnit,
-                  new Date(rawValue._timestamp)
-                )
-              )
               console.log('Non è stata rilevata nessuna eccezione')
             }
           }

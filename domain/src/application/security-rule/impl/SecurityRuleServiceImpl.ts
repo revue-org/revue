@@ -12,6 +12,10 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     this.securityRules.push(securityRule)
   }
 
+  addSecurityRules(securityRules: SecurityRule[]): void {
+    this.securityRules.push(...securityRules)
+  }
+
   removeSecurityRule(securityRuleId: string): void {
     this.securityRules = this.securityRules.filter(
       (rule: SecurityRule) => rule.securityRuleId !== securityRuleId
@@ -63,7 +67,6 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return false
   }
 
-  //return true if the  date is between the from and the to date. Comparison based on hours and minutes
   hoursComparator = (date: Date, from: Date, to: Date): boolean => {
     return (
       (date.getHours() > from.getHours() ||

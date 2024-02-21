@@ -4,6 +4,8 @@ import { EnvironmentData } from "../../domain/device/core";
 export interface SecurityRuleService {
   addSecurityRule(securityRule: SecurityRule): void
 
+  addSecurityRules(securityRules: SecurityRule[]): void
+
   removeSecurityRule(securityRuleId: string): void
 
   updateSecurityRule(securityRule: SecurityRule): void

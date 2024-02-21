@@ -1,4 +1,4 @@
-import { Consumer, Kafka } from 'kafkajs'
+import { Consumer } from 'kafkajs'
 import { securityRuleManager } from '@/controller/securityRule.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
@@ -17,20 +17,67 @@ import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
-import { MeasureUnitConverter } from 'domain/dist/utils/MeasureUnitConverter.js' //in questo caso devo solo controllare i topic per i quali sono interessato ovvero i devices che sono attivi in questo momento e che
+import { kafkaManager } from './index.js'
 
-//in questo caso devo solo controllare i topic per i quali sono interessato ovvero i devices che sono attivi in questo momento e che
-//hanno delle regole attive. Quindi devo creare dei controllori che per ogni dato che arriva ccontrolla la regola.
-
-const consumers: { id: string; consumer: Consumer }[] = []
+const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl()
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
-const getConsumerById = (id: string): Consumer | undefined => {
-  return consumers.find((c): boolean => c.id === id)?.consumer
+export const setupConsumer = async (): Promise<void> => {
+  await consumer.connect()
+  await consumer.subscribe({ topics: await getTopics(), fromBeginning: false })
+
+  securityRuleService.addSecurityRules(await getSensorRules()) // TODO: andranno aggiunte anche le regole inerenti alle camere
+
+  consumer
+    .run({
+      eachMessage: async ({ topic, message }): Promise<void> => {
+        if (message.key === null || message.value === null) return
+        const messageKey: Buffer = message.key
+        const messageValue: Buffer = message.value
+
+        console.log('Arrivo messaggio num: ' + JSON.parse(messageKey.toString()))
+        const rawValues = JSON.parse(messageValue.toString())
+
+        if (topic.startsWith('CAMERA')) {
+          //TODO to check the intrusion object and to create the anomaly in case of intrusion
+          console.log('Devo controllare sulle intrusioni')
+        } else if (topic.startsWith('SENSOR')) {
+          //TODO to check the measure and the value and to create the anomaly in case of exceeding
+          for (const rawValue of rawValues) {
+            if (
+              securityRuleService.checkExceedingDetection(
+                environmentDataFactory.createEnvironmentData(
+                  deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
+                  rawValue._value,
+                  rawValue._measure,
+                  rawValue._measureUnit,
+                  new Date(rawValue._timestamp)
+                )
+              )
+            ) {
+              console.log("E' stata rilevata un'eccezione")
+            } else {
+              //TODO: to check if working
+              console.log(
+                environmentDataFactory.createEnvironmentData(
+                  deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
+                  rawValue._value,
+                  rawValue._measure,
+                  rawValue._measureUnit,
+                  new Date(rawValue._timestamp)
+                )
+              )
+              console.log('Non è stata rilevata nessuna eccezione')
+            }
+          }
+        }
+      }
+    })
+    .then(() => console.log('Consumer running'))
 }
 
 export const getTopics = async (): Promise<string[]> => {
@@ -105,89 +152,4 @@ const getSensorRules = async (): Promise<ExceedingRule[]> => {
 
 const getCameraRules = async (): Promise<IntrusionRule[]> => {
   return securityRuleManager.getIntrusionRules()
-}
-
-let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-let kafkaPort: string = process.env.KAFKA_PORT || '9092'
-
-if (process.env.NODE_ENV == 'develop') {
-  console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
-  kafkaContainer = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
-  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
-}
-
-export const setupConsumers = async (): Promise<void> => {
-  const kafka: Kafka = new Kafka({
-    clientId: 'alarm',
-    brokers: [`${kafkaContainer}:${kafkaPort}`]
-  })
-
-  let topics: string[] = await getTopics()
-  console.log('Subscribing to topics', topics)
-
-  let consumer: Consumer | undefined = getConsumerById('idconsumer') // TODO TO CHANGE
-  if (consumer === undefined) {
-    consumer = kafka.consumer({ groupId: 'idconsumer' }) // TODO TO CHANGE
-    console.log('New consumer created')
-  }
-  await consumer.connect()
-  await consumer.subscribe({ topics: topics, fromBeginning: false })
-  consumers.push({ id: 'idconsumer', consumer }) // TODO TO CHANGE AND TO UNDERSTAND
-
-  //TODO to add an 'addAll' on the service for the rules
-  await getSensorRules().then((rules: ExceedingRule[]): void => {
-    rules.forEach((rule: ExceedingRule): void => {
-      securityRuleService.addSecurityRule(rule)
-      console.log("RULE")
-      console.log(rule)
-    })
-  });
-
-  consumer
-    .run({
-      eachMessage: async ({ topic, message }): Promise<void> => {
-        if (message.key === null || message.value === null) return
-        const messageKey: Buffer = message.key
-        const messageValue: Buffer = message.value
-
-        console.log('Arrivo messaggio num: ' + JSON.parse(messageKey.toString()))
-        const rawValues = JSON.parse(messageValue.toString())
-
-        if (topic.startsWith('CAMERA')) {
-          //TODO to check the intrusion object and to create the anomaly in case of intrusion
-          console.log('Devo controllare sulle intrusioni')
-        } else if (topic.startsWith('SENSOR')) {
-          //TODO to check the measure and the value and to create the anomaly in case of exceeding
-          console.log('Devo controllare sulle eccezioni')
-          const sensorCode: string = topic.split('_')[1]
-         // console.log(topic)
-          ///console.log(sensorCode)
-          for (const rawValue of rawValues) {
-           // console.log(rawValue)
-            if(
-            securityRuleService.checkExceedingDetection(
-              environmentDataFactory.createEnvironmentData(
-                deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
-                rawValue._value,
-                rawValue._measure,
-                rawValue._measureUnit,
-                new Date(rawValue._timestamp)
-              )
-            )) {
-              console.log("E' stata rilevata un'eccezione")
-            } else {
-              console.log(environmentDataFactory.createEnvironmentData(
-                deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
-                rawValue._value,
-                rawValue._measure,
-                rawValue._measureUnit,
-                new Date(rawValue._timestamp)
-              ))
-              console.log("Non è stata rilevata nessuna eccezione")
-            }
-          }
-        }
-      }
-    })
-    .then(() => console.log('Consumer running'))
 }

@@ -31,7 +31,7 @@ jobs:
       - name: Run build
         run: ./gradlew build --info
       - name: Run tests
-        run: ./gradlew domain:test auth:test monitoring:test alarm:test --info
+        run: ./gradlew domain:test:architecture auth:test monitoring:test alarm:test --info
 
   format:
     runs-on: ubuntu-latest

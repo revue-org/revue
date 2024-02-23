@@ -16,6 +16,9 @@ export const monitoringPort: string =
 export const alarmHost: string =
   process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.ALARM_HOST || 'localhost'
 export const alarmPort: string = process.env.NODE_ENV == 'develop' ? '4002' : process.env.ALARM_PORT || '4002'
+export const logHost: string =
+  process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.LOG_HOST || 'localhost'
+export const logPort: string = process.env.NODE_ENV == 'develop' ? '4003' : process.env.LOG_PORT || '4003'
 
 export default class RequestHelper {
   static getHeaders(): Headers {

@@ -21,7 +21,7 @@ export const anomalySchema = new Schema({
   },
   measure: {
     type: String,
-    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'], //to add all from enum
+    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'],
     required: true
   }
 })

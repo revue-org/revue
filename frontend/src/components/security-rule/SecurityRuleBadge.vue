@@ -28,7 +28,6 @@ const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
 const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
-  console.log(exceedingRule)
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     id: exceedingRule.securityRuleId,
     deviceId: {
@@ -54,7 +53,6 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
 }
 
 const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  console.log(intrusionRule)
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
     id: intrusionRule.securityRuleId,
     deviceId: {

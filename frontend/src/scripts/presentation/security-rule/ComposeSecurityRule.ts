@@ -15,13 +15,13 @@ export function composeExceedingSecurityRule(exceedingRule: any): ExceedingRule 
   const toDate: Date = new Date(exceedingRule.to)
   toDate.setHours(toDate.getHours() - 1)
   return securityRuleFactory.createExceedingRule(
-    exceedingRule.minValue,
-    exceedingRule.maxValue,
-    MeasureConverter.convertToMeasure(exceedingRule.measure),
+    exceedingRule.min,
+    exceedingRule.max,
+    exceedingRule.measure,
     exceedingRule._id,
     deviceIdFactory.createSensorId(exceedingRule.deviceId.code),
     exceedingRule.creatorId,
-    composeContacts(exceedingRule.contacts),
+    composeContacts(exceedingRule.contactsToNotify),
     exceedingRule.description,
     fromDate,
     toDate
@@ -34,11 +34,11 @@ export function composeIntrusionSecurityRule(intrusionRule: any): IntrusionRule 
   const toDate: Date = new Date(intrusionRule.to)
   toDate.setHours(toDate.getHours() - 1)
   return securityRuleFactory.createIntrusionRule(
-    ObjectClassConverter.convertToObjectClass(intrusionRule.objectClass),
+    intrusionRule.objectClass,
     intrusionRule._id,
     deviceIdFactory.createCameraId(intrusionRule.deviceId.code),
     intrusionRule.creatorId,
-    composeContacts(intrusionRule.contacts),
+    composeContacts(intrusionRule.contactsToNotify),
     intrusionRule.description,
     fromDate,
     toDate
@@ -49,7 +49,7 @@ function composeContacts(contacts: any): Contact[] {
   return contacts.map((contact: any) => {
     return contactFactory.createContact(
       contact.value,
-      ContactTypeConverter.convertToContactType(contact.type)
+      contact.type
     )
   })
 }

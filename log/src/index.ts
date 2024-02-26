@@ -33,7 +33,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 app.use('/environment-data', environmentDataRouter)
-app.use('/detections', detectionsRouter)
 
 const username: string = process.env.LOG_DB_USERNAME || 'admin'
 const password: string = process.env.LOG_DB_PASSWORD || 'admin'

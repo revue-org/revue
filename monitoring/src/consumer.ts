@@ -2,7 +2,7 @@ import { Socket } from 'socket.io'
 import { Consumer, Kafka } from 'kafkajs'
 import { io } from './index.js'
 
-const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+const kafkaContainer: string = process.env.KAFKA_HOST || 'revue-kafka'
 const kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 const consumers: { id: string; consumer: Consumer }[] = []

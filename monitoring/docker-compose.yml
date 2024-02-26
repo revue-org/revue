@@ -13,7 +13,7 @@ services:
       - ${MONITORING_PORT}:${MONITORING_PORT}
     depends_on:
       - revue-monitoring-db
-      - ${KAFKA_CONTAINER}
+      - ${KAFKA_HOST}
 
   revue-monitoring-db:
     image: mongo

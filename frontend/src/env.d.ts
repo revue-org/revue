@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_AUTH_PORT: string
   readonly VITE_ALARM_HOST: string
   readonly VITE_ALARM_PORT: string
+  readonly MEDIA_SERVER_HOST: string
 }
 
 interface ImportMeta {

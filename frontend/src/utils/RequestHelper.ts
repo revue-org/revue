@@ -18,6 +18,7 @@ export const monitoringHost: string = import.meta.env.VITE_MONITORING_HOST || 'l
 export const monitoringPort: string = import.meta.env.VITE_MONITORING_PORT || '4001'
 export const alarmHost: string = import.meta.env.VITE_ALARM_HOST || 'localhost'
 export const alarmPort: string = import.meta.env.VITE_ALARM_PORT || '4002'
+export const mediaServerHost: string = import.meta.env.MEDIA_SERVER_HOST || 'localhost'
 
 export default class RequestHelper {
   static getHeaders(): Headers {

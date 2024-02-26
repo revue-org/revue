@@ -1,13 +1,19 @@
-import { Kafka, Partitioners, Producer } from 'kafkajs'
-import path from 'path'
-import * as fs from 'fs'
-
+import ffmpeg from 'fluent-ffmpeg'
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import type { Camera } from '@domain/device/core/Camera.js'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
+import RequestHelper, {
+  mediaServerHost,
+  mediaServerRtspPort,
+  monitoringHost,
+  monitoringPort
+} from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
+import path from 'path'
+
+ffmpeg.setFfmpegPath(ffmpegInstaller.path)
 
 if (process.env.CAMERA_CODE === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No camera code provided')
@@ -19,6 +25,7 @@ let sourceCamera: Camera
 
 export const getCameraInfo = async (): Promise<void> => {
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  console.log('Monitoring URL:', monitoringUrl)
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/cameras/${CAMERA_CODE}`)
     console.log('Response:', res.data)
@@ -34,46 +41,30 @@ export const getCameraInfo = async (): Promise<void> => {
   }
 }
 
-const kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-const kafkaPort: string = process.env.KAFKA_PORT || '9092'
-
-const kafka: Kafka = new Kafka({
-  clientId: `CAMERA_${CAMERA_CODE}`,
-  brokers: [`${kafkaContainer}:${kafkaPort}`]
-})
+const inputFilePath: string = 'video.mp4'
+const rtspStreamUrl: string = `rtsp://${mediaServerHost}:${mediaServerRtspPort}/${CAMERA_CODE}/stream`
 
 export const produce = async (): Promise<void> => {
-  const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
-  await producer.connect()
-  console.log('Leggo images')
-  const frames: string[] = []
-  fs.readdir(path.resolve('images'), (_err, files) => {
-    let index: number = 0
-    let key: number = 0
-    files.sort((a, b) => {
-      const numA: number = parseInt(a.split('frame')[1])
-      const numB: number = parseInt(b.split('frame')[1])
-      return numA - numB
+  ffmpeg(path.resolve(`video/${inputFilePath}`))
+    .inputOptions([
+      '-re', // Read input at native frame rate
+      '-stream_loop -1' // Loop input indefinitely
+    ])
+    .videoCodec('libx264')
+    .addOption('-bf', '0') // Set maximum number of consecutive B-frames to 0
+    .outputOptions([
+      '-f rtsp', // Output format
+      '-rtsp_transport tcp' // Use TCP transport for RTSP
+    ])
+    .output(rtspStreamUrl)
+    .on('start', commandLine => {
+      console.log('FFmpeg command:', commandLine)
     })
-    console.log(files)
-    for (let i: number = 0; i < files.length; i++) {
-      frames.push(fs.readFileSync(path.resolve('images', files[i]), { encoding: 'base64' }))
-    }
-    setInterval(async (): Promise<void> => {
-      if (index == files.length - 1) index = 0
-      console.log('Sending image ' + index)
-      console.log(`CAMERA_${sourceCamera.deviceId.code}`)
-      await producer.send({
-        topic: `CAMERA_${sourceCamera.deviceId.code}`,
-        messages: [
-          {
-            value: frames[index],
-            key: String(key)
-          }
-        ]
-      })
-      index++
-      key++
-    }, 400) //34
-  })
+    .on('error', err => {
+      console.error('An error occurred:', err.message)
+    })
+    .on('end', () => {
+      console.log('FFmpeg command execution finished')
+    })
+    .run()
 }

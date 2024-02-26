@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+
+  media-server:
+    image: bluenviron/mediamtx:latest
+    container_name: revue-media-server
+    ports:
+      - "8554:8554"
+      - "1935:1935"
+      - "8888:8888"
+      - "8889:8889"
+      - "8890:8890/udp"
+      - "8189:8189/udp"
+    environment:
+      - MTX_PROTOCOLS=tcp
+    restart: always

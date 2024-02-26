@@ -40,7 +40,7 @@ export const getSensorInfo = async (): Promise<void> => {
   }
 }
 
-let kafkaContainer: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
+let kafkaContainer: string = process.env.KAFKA_HOST || 'revue-kafka'
 let kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 if (process.env.NODE_ENV == 'develop') {

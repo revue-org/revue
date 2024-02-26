@@ -7,6 +7,7 @@ docker compose \
     -f alarm/docker-compose.yml \
     -f media-server/docker-compose.yml \
     -f frontend/docker-compose.yml \
+    -f log/docker-compose.yml \
     -f camera/docker-compose.yml \
     -f sensor/docker-compose.yml \
     "$@"

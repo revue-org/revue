@@ -13,12 +13,12 @@ import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
-import { setupNotificationSimulation } from './simulation.js'
+import { setupConsumer } from './consumer.js'
+import kafkaManager from './utils/KafkaManager.js'
 
 config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
-
 app.use(express.json())
 app.use(cors())
 
@@ -58,12 +58,14 @@ const dbPort: string =
   process.env.NODE_ENV === 'develop'
     ? process.env.ALARM_DB_PORT || '27017'
     : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.ALARM_DB_NAME || 'monitoring'
+const dbName: string = process.env.ALARM_DB_NAME || 'alarm'
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
+    console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    await setupNotificationSimulation()
+    //await setupNotificationSimulation() TODO: to check!!
+    await setupConsumer()
   })
 }

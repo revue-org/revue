@@ -20,19 +20,18 @@ describe('PUT /devices/', (): void => {
       const newSensor = {
         code: 'sen-100',
         ipAddress: '192.168.1.1',
+        isCapturing: true,
         intervalMillis: 2000,
         measures: ['TEMPERATURE', 'PRESSURE']
       }
 
       // @ts-ignore
-      await monitoringService
-        .post('/devices/sensors')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newSensor)
+      await monitoringService.post('/devices/sensors').set('Authorization', `Bearer ${TOKEN}`).send(newSensor)
 
       const updatedSensor = {
         code: 'sen-100',
         ipAddress: '192.168.1.1',
+        isCapturing: true,
         intervalMillis: 1000,
         measures: ['TEMPERATURE', 'PRESSURE']
       }
@@ -57,22 +56,21 @@ describe('PUT /devices/', (): void => {
 
     it('should update the camera', async (): Promise<void> => {
       const newCamera = {
-        code: "cam-100",
-        ipAddress: "192.168.1.1",
+        code: 'cam-100',
+        ipAddress: '192.168.1.1',
+        isCapturing: true,
         resolution: {
           width: 200,
           height: 200
         }
       }
       // @ts-ignore
-      await monitoringService
-        .post('/devices/cameras')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newCamera)
+      await monitoringService.post('/devices/cameras').set('Authorization', `Bearer ${TOKEN}`).send(newCamera)
 
       const updatedCamera = {
         code: 'cam-100',
         ipAddress: '192.168.1.1',
+        isCapturing: true,
         resolution: {
           width: 300,
           height: 300

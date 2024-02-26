@@ -32,6 +32,20 @@ services:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
 
+#  revue-sensor-2:
+#    image: revue-sensor
+#    container_name: revue-sensor-2
+#    build:
+#      context: .
+#      dockerfile: ./sensor/Dockerfile
+#    restart: on-failure
+#    environment:
+#      - SENSOR_CODE=sen-02
+#    ports:
+#      - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
+#    depends_on:
+#      - ${KAFKA_CONTAINER}
+
 #  revue-sensor-3:
 #    image: revue-sensor
 #    container_name: revue-sensor-3

@@ -4,18 +4,35 @@ import { Measure } from './enum/Measure.js'
 import { MeasureUnit } from './enum/MeasureUnit.js'
 
 export class EnvironmentDataImpl implements EnvironmentData {
+  private _id: string
   private _sourceDeviceId: DeviceId
   private _value: number
   private _measure: Measure
   private _measureUnit: MeasureUnit
   private readonly _timestamp: Date
 
-  constructor(sourceDeviceId: DeviceId, value: number, measure: Measure, unit: MeasureUnit, timestamp: Date) {
+  constructor(
+    sourceDeviceId: DeviceId,
+    value: number,
+    measure: Measure,
+    unit: MeasureUnit,
+    timestamp: Date,
+    id: string = ''
+  ) {
+    this._id = id
     this._sourceDeviceId = sourceDeviceId
     this._value = value
     this._measure = measure
     this._measureUnit = unit
     this._timestamp = timestamp
+  }
+
+  get id(): string {
+    return this._id
+  }
+
+  set id(id: string) {
+    this._id = id
   }
 
   get sourceDeviceId(): DeviceId {
@@ -45,6 +62,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
   get measureUnit(): MeasureUnit {
     return this._measureUnit
   }
+
   set measureUnit(unit: MeasureUnit) {
     this._measureUnit = unit
   }

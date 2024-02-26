@@ -9,20 +9,21 @@ import { MeasureConverter } from '@utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
+import * as process from 'process'
 
-if (process.env.SENSOR_CODE === undefined && process.env.NODE_ENV !== 'develop') {
+if (process.env.SENSOR_CODE_1 === undefined && process.env.NODE_ENV !== 'develop') {
   console.log('No sensor code provided')
   process.exit(1)
 }
-const SENSOR_CODE: string = process.env.SENSOR_CODE || 'sen-01'
+const SENSOR_CODE: string = process.env.SENSOR_CODE_1 || 'sen-01' // TODO TO GENERALIZE!!
 
 let sourceSensor: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
-  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  //TODO: TO SET THE CORRECT URL FOR DEVELOPMENT OR NOT, MAYBE IT IS BETTER IN THE HELPER
+  const monitoringUrl: string = `http://localhost:4001` //`http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
-    console.log('Response:', res.data)
     sourceSensor = new DeviceFactoryImpl().createSensor(
       new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
       false,
@@ -32,14 +33,21 @@ export const getSensorInfo = async (): Promise<void> => {
         return MeasureConverter.convertToMeasure(measure)
       })
     )
-    console.log(sourceSensor)
+    console.log('INFO: SENSOR INFO RETRIEVED')
   } catch (e) {
+    console.log(e)
     throw new Error('Error while getting sensor info')
   }
 }
 
-const kafkaContainer: string = process.env.KAFKA_HOST || 'revue-kafka'
-const kafkaPort: string = process.env.KAFKA_PORT || '9092'
+let kafkaContainer: string = process.env.KAFKA_HOST || 'revue-kafka'
+let kafkaPort: string = process.env.KAFKA_PORT || '9092'
+
+if (process.env.NODE_ENV == 'develop') {
+  console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
+  kafkaContainer = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
+  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
+}
 
 const kafka: Kafka = new Kafka({
   clientId: `SENSOR_${SENSOR_CODE}`,

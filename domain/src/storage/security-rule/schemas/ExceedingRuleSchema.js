@@ -16,11 +16,11 @@ export const exceedingRuleSchema = new Schema({
     type: String,
     default: ''
   },
-  minValue: {
+  min: {
     type: Number,
     required: true
   },
-  maxValue: {
+  max: {
     type: Number,
     required: true
   },
@@ -29,7 +29,7 @@ export const exceedingRuleSchema = new Schema({
     enum: Object.values(Measure),
     required: true
   },
-  contacts: {
+  contactsToNotify: {
     type: [contactSchema],
     required: true
   },

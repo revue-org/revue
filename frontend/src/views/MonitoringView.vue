@@ -12,7 +12,6 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).
     }
   }
 })
-
 </script>
 
 <template>

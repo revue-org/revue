@@ -14,5 +14,4 @@ services:
       - "8189:8189/udp"
     environment:
       - MTX_PROTOCOLS=tcp
-      - MTX_WEBRTCADDITIONALHOSTS=localhost
     restart: always

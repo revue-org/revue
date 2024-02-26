@@ -12,28 +12,28 @@ export const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNod
   recognizingNodeSchema,
   'recognizingNode'
 )
-const recognizingNodeManager: RecognizingNodeRepository = new RecognizingNodeRepositoryImpl(
+const recognizingNodeRepository: RecognizingNodeRepository = new RecognizingNodeRepositoryImpl(
   recognizingNodeModel
 )
 const recognizingNodeFactory: RecognizingNodeFactory = new RecognizingNodeFactoryImpl()
 export const recognizingNodeController = {
   getRecognizingNodeById: async (id: string): Promise<RecognizingNode> => {
-    return await recognizingNodeManager.getRecognizingNodeById(id)
+    return await recognizingNodeRepository.getRecognizingNodeById(id)
   },
   getRecognizingNodes: async (): Promise<RecognizingNode[]> => {
-    return await recognizingNodeManager.getRecognizingNodes()
+    return await recognizingNodeRepository.getRecognizingNodes()
   },
   createRecognizingNode: async (req: Request): Promise<void> => {
-    await recognizingNodeManager.insertRecognizingNode(
+    await recognizingNodeRepository.insertRecognizingNode(
       recognizingNodeFactory.createRecognizingNode('', req.body.ipAddress, req.body.deviceIds)
     )
   },
   updateRecognizingNode: async (req: Request): Promise<void> => {
-    await recognizingNodeManager.updateRecognizingNode(
+    await recognizingNodeRepository.updateRecognizingNode(
       recognizingNodeFactory.createRecognizingNode(req.body.id, req.body.ipAddress, req.body.deviceIds)
     )
   },
   deleteRecognizingNode: async (id: string): Promise<void> => {
-    return await recognizingNodeManager.deleteRecognizingNode(id)
+    return await recognizingNodeRepository.deleteRecognizingNode(id)
   }
 }

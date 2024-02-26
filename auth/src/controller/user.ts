@@ -16,17 +16,17 @@ import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFac
 import { ContactTypeConverter } from '@utils/ContactTypeConverter.js'
 
 export const userModel: Model<User> = model<User>('User', userSchema, 'user')
-const userManager: UserRepository = new UserRepositoryImpl(userModel)
+const userRepository: UserRepository = new UserRepositoryImpl(userModel)
 const userFactory: UserFactory = new UserFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const contactFactory: ContactFactory = new ContactFactoryImpl()
 
 export const userController = {
   getUserById: async (id: string): Promise<User> => {
-    return await userManager.getUserById(id)
+    return await userRepository.getUserById(id)
   },
   getUsers: async (): Promise<User[]> => {
-    return await userManager.getUsers()
+    return await userRepository.getUsers()
   },
   createUser: async (req: Request): Promise<void> => {
     const contacts: Contact[] = req.body.contacts.map((contactObj: { value: string; type: string }) =>
@@ -49,7 +49,7 @@ export const userController = {
       contacts,
       deviceIds
     )
-    return await userManager.insertUser(user)
+    return await userRepository.insertUser(user)
   },
   updateUser: async (req: Request): Promise<void> => {
     const user: User = userFactory.createUser(
@@ -63,9 +63,9 @@ export const userController = {
       req.body.contacts,
       req.body.deviceIds
     )
-    return await userManager.updateUser(user)
+    return await userRepository.updateUser(user)
   },
   deleteUser: async (id: string): Promise<void> => {
-    return await userManager.deleteUser(id)
+    return await userRepository.deleteUser(id)
   }
 }

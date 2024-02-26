@@ -1,6 +1,6 @@
 import { Consumer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
-import { securityRuleManager } from './controller/securityRule.js'
+import { securityRuleRepository } from './controller/securityRule.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory.js'
@@ -138,9 +138,9 @@ const getCapturingDevices = async (): Promise<Device[]> => {
 }
 
 const getSensorRules = async (): Promise<ExceedingRule[]> => {
-  return securityRuleManager.getExceedingRules()
+  return securityRuleRepository.getExceedingRules()
 }
 
 const getCameraRules = async (): Promise<IntrusionRule[]> => {
-  return securityRuleManager.getIntrusionRules()
+  return securityRuleRepository.getIntrusionRules()
 }

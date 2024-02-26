@@ -16,26 +16,26 @@ import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js
 export const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 export const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
 
-const anomalyManager: AnomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
+const anomalyRepository: AnomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 
 export const anomalyController = {
   getAnomalyById: async (id: string): Promise<Anomaly> => {
-    return await anomalyManager.getAnomalyById(id)
+    return await anomalyRepository.getAnomalyById(id)
   },
   getExceedings: async (): Promise<Exceeding[]> => {
-    return await anomalyManager.getExceedings()
+    return await anomalyRepository.getExceedings()
   },
   getIntrusions: async (): Promise<Intrusion[]> => {
-    return await anomalyManager.getIntrusions()
+    return await anomalyRepository.getIntrusions()
   },
   createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<void> => {
-    return await anomalyManager.insertExceeding(
+    return await anomalyRepository.insertExceeding(
       anomalyFactory.createExceeding('', deviceId, new Date(), measure, value)
     )
   },
   createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<void> => {
-    return await anomalyManager.insertIntrusion(
+    return await anomalyRepository.insertIntrusion(
       anomalyFactory.createIntrusion('', deviceId, new Date(), intrusionObject)
     )
   },
@@ -46,7 +46,7 @@ export const anomalyController = {
     measure: Measure,
     value: number
   ): Promise<void> {
-    return anomalyManager.updateExceeding(
+    return anomalyRepository.updateExceeding(
       anomalyFactory.createExceeding(id, deviceId, timestamp, measure, value)
     )
   },
@@ -56,11 +56,11 @@ export const anomalyController = {
     timestamp: Date,
     intrusionObject: ObjectClass
   ): Promise<void> {
-    return anomalyManager.updateIntrusion(
+    return anomalyRepository.updateIntrusion(
       anomalyFactory.createIntrusion(id, deviceId, timestamp, intrusionObject)
     )
   },
   deleteAnomaly: async (id: string, type: string): Promise<void> => {
-    await anomalyManager.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
+    await anomalyRepository.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
   }
 }

@@ -24,20 +24,20 @@ export const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
   'securityRule'
 )
 
-export const securityRuleManager: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
+export const securityRuleRepository: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
   exceedingRuleModel,
   intrusionRuleModel
 )
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
-    return await securityRuleManager.getSecurityRuleById(id)
+    return await securityRuleRepository.getSecurityRuleById(id)
   },
   getExceedingRules: async (): Promise<ExceedingRule[]> => {
-    return await securityRuleManager.getExceedingRules()
+    return await securityRuleRepository.getExceedingRules()
   },
   getIntrusionRules: async (): Promise<IntrusionRule[]> => {
-    return await securityRuleManager.getIntrusionRules()
+    return await securityRuleRepository.getIntrusionRules()
   },
   createExceedingRule: async (
     deviceId: DeviceId,
@@ -50,7 +50,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleManager.insertExceedingSecurityRule(
+    await securityRuleRepository.insertExceedingSecurityRule(
       securityRuleFactory.createExceedingRule(
         minValue,
         maxValue,
@@ -74,7 +74,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleManager.insertIntrusionSecurityRule(
+    await securityRuleRepository.insertIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
         objectClass,
         '',
@@ -98,7 +98,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleManager.updateExceedingSecurityRule(
+    await securityRuleRepository.updateExceedingSecurityRule(
       securityRuleFactory.createExceedingRule(
         minValue,
         maxValue,
@@ -122,7 +122,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleManager.updateIntrusionSecurityRule(
+    await securityRuleRepository.updateIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
         objectClass,
         intrusionRuleId,
@@ -136,9 +136,9 @@ export const securityRuleController = {
     )
   },
   deleteExceedingRule: async (id: string): Promise<void> => {
-    return await securityRuleManager.deleteExceedingRule(id)
+    return await securityRuleRepository.deleteExceedingRule(id)
   },
   deleteIntrusionRule: async (id: string): Promise<void> => {
-    return await securityRuleManager.deleteIntrusionRule(id)
+    return await securityRuleRepository.deleteIntrusionRule(id)
   }
 }

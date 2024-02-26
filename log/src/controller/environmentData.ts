@@ -40,7 +40,7 @@ export const environmentDataController = {
     return await environmentDataManager.insertEnvironmentData(
       environmentDataFactory.createEnvironmentData(deviceId, value, measure, measureUnit, timestamp)
     )
-  }/*,
+  } /*,
   updateEnvironmentData: async (
     deviceId: DeviceId,
     value: number,

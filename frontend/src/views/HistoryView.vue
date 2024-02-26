@@ -3,8 +3,8 @@ import { onMounted, ref } from 'vue'
 import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
 import EnvironmentDataBadge from '@/components/history/EnvironmentDataBadge.vue'
 import { useQuasar } from 'quasar'
-import type { EnvironmentData } from "domain/dist/domain/device/core";
-import { composeEnvironmentData } from "@/scripts/presentation/device/ComposeEnvironmentData";
+import type { EnvironmentData } from 'domain/dist/domain/device/core'
+import { composeEnvironmentData } from '@/scripts/presentation/device/ComposeEnvironmentData'
 
 const sensorData: ref<EnvironmentData[]> = ref([])
 
@@ -21,7 +21,6 @@ async function getEnvironmentData() {
     })
 }
 
-
 onMounted(async () => {
   await getEnvironmentData()
 })
@@ -36,7 +35,7 @@ onMounted(async () => {
       :environmentData="environmentData"
     />
   </div>
-<!--  <div>
+  <!--  <div>
     <intrusion-badge
       v-for="(intrusion, index) in cameraIntrusions"
       :key="index"

@@ -42,7 +42,6 @@ export const setupConsumers = async (): Promise<void> => {
     .then(() => console.log('Consumer running'))
 }
 
-
 export const getTopics = async (): Promise<string[]> => {
   const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   const topics: string[] = []

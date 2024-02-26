@@ -47,9 +47,6 @@ export function composeIntrusionSecurityRule(intrusionRule: any): IntrusionRule 
 
 function composeContacts(contacts: any): Contact[] {
   return contacts.map((contact: any) => {
-    return contactFactory.createContact(
-      contact.value,
-      contact.type
-    )
+    return contactFactory.createContact(contact.value, contact.type)
   })
 }

@@ -4,7 +4,7 @@ import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
 import { EnvironmentData } from '../../domain/device/core/EnvironmentData.js'
 import { EnvironmentDataRepository } from '../../domain/device/repositories/EnvironmentDataRepository.js'
 import { MeasureConverter } from '../../utils/MeasureConverter.js'
-import { MeasureUnitConverter } from "../../utils";
+import { MeasureUnitConverter } from '../../utils/MeasureUnitConverter.js'
 
 export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository {
   environmentDataModel: Model<EnvironmentData>

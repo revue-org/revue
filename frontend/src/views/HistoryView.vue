@@ -2,32 +2,18 @@
 import { onMounted, ref } from 'vue'
 import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
 import EnvironmentDataBadge from '@/components/history/EnvironmentDataBadge.vue'
-import IntrusionBadge from '@/components/history/IntrusionBadge.vue'
 import { useQuasar } from 'quasar'
 import type { EnvironmentData } from "domain/dist/domain/device/core";
-import type { Intrusion } from "domain/dist/domain/anomaly/core";
+import { composeEnvironmentData } from "@/scripts/presentation/device/ComposeEnvironmentData";
 
 const sensorData: ref<EnvironmentData[]> = ref([])
-const cameraIntrusions: ref<Intrusion[]> = ref([])
 
-async function getDetections() {
+async function getEnvironmentData() {
   await RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
     .then(async (res: any) => {
       sensorData.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
-        sensorData.value.push(await composeEnvironmentData(res.data[i]))
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-async function getRecognitions() {
-  await RequestHelper.get(`http://${logHost}:${logPort}/intrusions`)
-    .then(async (res: any) => {
-      cameraIntrusions.value = []
-      for (let i = res.data.length - 1; i >= 0; i--) {
-        cameraIntrusions.value.push(await composeIntrusion(res.data[i]))
+        sensorData.value.push(composeEnvironmentData(res.data[i]))
       }
     })
     .catch(error => {
@@ -37,8 +23,7 @@ async function getRecognitions() {
 
 
 onMounted(async () => {
-  await getDetections()
-  await getRecognitions()
+  await getEnvironmentData()
 })
 </script>
 
@@ -51,13 +36,13 @@ onMounted(async () => {
       :environmentData="environmentData"
     />
   </div>
-  <div>
+<!--  <div>
     <intrusion-badge
       v-for="(intrusion, index) in cameraIntrusions"
       :key="index"
       :intrusion="intrusion"
     />
-  </div>
+  </div>-->
 </template>
 
 <style scoped lang="scss">

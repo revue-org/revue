@@ -43,6 +43,7 @@ const logout = () => {
     <router-link to="/notifications" :class="routeName == 'Notifications' ? 'selected' : ''"
       >Notifications
     </router-link>
+    <router-link to="/history" :class="routeName == 'History' ? 'selected' : ''">History</router-link>
     <router-link to="/login" class="logout" @click="logout()">Logout</router-link>
   </nav>
 </template>

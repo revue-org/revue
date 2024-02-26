@@ -12,7 +12,12 @@ export const environmentDataSchema = new Schema({
   },
   measure: {
     type: String,
-    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'], //to add all from enum
+    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'],
+    required: true
+  },
+  measureUnit: {
+    type: String,
+    enum: ['PASCAL', 'BAR', 'CELSIUS', 'FAHRENHEIT', 'KELVIN', 'PERCENTAGE'],
     required: true
   },
   timestamp: {

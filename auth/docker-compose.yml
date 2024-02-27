@@ -11,6 +11,9 @@ services:
     restart: on-failure
     ports:
       - ${AUTH_PORT}:${AUTH_PORT}
+    networks:
+      - auth-network
+      - auth-db-network
     depends_on:
       - revue-auth-db
 
@@ -24,6 +27,8 @@ services:
       MONGO_INITDB_DATABASE: ${AUTH_DB_NAME}
     ports:
       - ${AUTH_DB_PORT}:27017
+    networks:
+      - auth-db-network
     volumes:
       - auth_data:/data/db
       - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
@@ -31,3 +36,10 @@ services:
 volumes:
   auth_data:
     driver: local
+
+networks:
+  auth-network:
+    driver: bridge
+
+  auth-db-network:
+    driver: bridge

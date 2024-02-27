@@ -11,6 +11,9 @@ services:
     restart: on-failure
     ports:
       - ${MONITORING_PORT}:${MONITORING_PORT}
+    networks:
+      - monitoring-network
+      - monitoring-db-network
     depends_on:
       - revue-monitoring-db
       - ${KAFKA_HOST}
@@ -25,6 +28,8 @@ services:
       MONGO_INITDB_DATABASE: ${MONITORING_DB_NAME}
     ports:
       - ${MONITORING_DB_PORT}:27017
+    networks:
+      - monitoring-db-network
     volumes:
       - monitoring_data:/data/db
       - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
@@ -32,3 +37,10 @@ services:
 volumes:
   monitoring_data:
     driver: local
+
+networks:
+  monitoring-network:
+    driver: bridge
+
+  monitoring-db-network:
+      driver: bridge

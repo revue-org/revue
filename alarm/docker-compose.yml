@@ -11,6 +11,9 @@ services:
     restart: on-failure
     ports:
       - ${ALARM_PORT}:${ALARM_PORT}
+    networks:
+      - alarm-network
+      - alarm-db-network
     depends_on:
       - revue-alarm-db
       - ${KAFKA_HOST}
@@ -25,6 +28,8 @@ services:
       MONGO_INITDB_DATABASE: ${ALARM_DB_NAME}
     ports:
       - ${ALARM_DB_PORT}:27017
+    networks:
+      - alarm-db-network
     volumes:
       - alarm_data:/data/db
       - ./alarm/db/alarm-init.js:/docker-entrypoint-initdb.d/alarm-init.js
@@ -32,3 +37,10 @@ services:
 volumes:
   alarm_data:
     driver: local
+
+networks:
+  alarm-network:
+    driver: bridge
+
+  alarm-db-network:
+    driver: bridge

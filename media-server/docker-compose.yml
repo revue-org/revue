@@ -15,3 +15,10 @@ services:
     environment:
       - MTX_PROTOCOLS=tcp
     restart: always
+
+    networks:
+      - media-server-network
+
+networks:
+  media-server-network:
+    driver: bridge

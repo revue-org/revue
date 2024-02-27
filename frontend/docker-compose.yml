@@ -11,3 +11,20 @@ services:
     restart: on-failure
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    networks:
+      - monitoring-network
+      - auth-network
+      - alarm-network
+
+networks:
+  auth-network:
+    external: true
+    name: revue_auth-network
+
+  monitoring-network:
+    external: true
+    name: revue_monitoring-network
+
+  alarm-network:
+    external: true
+    name: revue_alarm-network

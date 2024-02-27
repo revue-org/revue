@@ -13,6 +13,8 @@ services:
       - SENSOR_CODE=sen-01
     ports:
       - ${SENSOR_PORT_1}:${SENSOR_PORT_1}
+    networks:
+      - monitoring-network
     depends_on:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
@@ -28,23 +30,11 @@ services:
       - SENSOR_CODE=sen-02
     ports:
       - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
+    networks:
+      - monitoring-network
     depends_on:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
-
-#  revue-sensor-2:
-#    image: revue-sensor
-#    container_name: revue-sensor-2
-#    build:
-#      context: .
-#      dockerfile: ./sensor/Dockerfile
-#    restart: on-failure
-#    environment:
-#      - SENSOR_CODE=sen-02
-#    ports:
-#      - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
-#    depends_on:
-#      - ${KAFKA_CONTAINER}
 
 #  revue-sensor-3:
 #    image: revue-sensor
@@ -57,6 +47,13 @@ services:
 #      - SENSOR_CODE=sen-03
 #    ports:
 #      - ${SENSOR_PORT_3}:${SENSOR_PORT_3}
+#    networks:
+#      - monitoring-network
 #    depends_on:
 #      - ${KAFKA_HOST}
 #      - ${MONITORING_HOST}
+
+networks:
+  monitoring-network:
+    external: true
+    name: revue_monitoring-network

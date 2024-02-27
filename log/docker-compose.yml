@@ -11,9 +11,12 @@ services:
     restart: on-failure
     ports:
       - ${LOG_PORT}:${LOG_PORT}
+    networks:
+      - log-db-network
+      - monitoring-network
     depends_on:
       - revue-log-db
-      - ${KAFKA_CONTAINER}
+      - ${KAFKA_HOST}
 
   revue-log-db:
     image: mongo
@@ -25,6 +28,8 @@ services:
       MONGO_INITDB_DATABASE: ${LOG_DB_NAME}
     ports:
       - ${LOG_DB_PORT}:27017
+    networks:
+      - log-db-network
     volumes:
       - log_data:/data/db
       - ./log/db/environment-data-init.js:/docker-entrypoint-initdb.d/environment-data-init.js
@@ -32,3 +37,11 @@ services:
 volumes:
   log_data:
     driver: local
+
+networks:
+  log-db-network:
+    driver: bridge
+
+  monitoring-network:
+    external: true
+    name: revue_monitoring-network

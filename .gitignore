@@ -135,6 +135,9 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+# Python
+venv
+
 
 ### LaTeX ###
 ## Core latex/pdflatex auxiliary files:

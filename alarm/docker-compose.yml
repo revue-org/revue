@@ -4,7 +4,7 @@ services:
 
   revue-alarm:
     image: revue-alarm
-    container_name: revue-alarm
+    container_name: ${ALARM_HOST}
     build:
       context: .
       dockerfile: ./alarm/Dockerfile

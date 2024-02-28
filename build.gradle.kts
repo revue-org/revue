@@ -13,7 +13,7 @@ plugins {
 
 subprojects {
 
-    if (project.name != "kafka") {
+    if (project.file("package.json").exists()) {
         apply(plugin = "com.github.node-gradle.node")
 
         node {

@@ -4,12 +4,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import type { Camera } from '@domain/device/core/Camera.js'
-import RequestHelper, {
-  mediaServerHost,
-  mediaServerRtspPort,
-  monitoringHost,
-  monitoringPort
-} from '@/utils/RequestHelper.js'
+import RequestHelper, { mediaServerRtspPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
 import path from 'path'
 
@@ -42,29 +37,29 @@ export const getCameraInfo = async (): Promise<void> => {
 }
 
 const inputFilePath: string = 'video.mp4'
-const rtspStreamUrl: string = `rtsp://${mediaServerHost}:${mediaServerRtspPort}/${CAMERA_CODE}/stream`
+const rtspStreamUrl: string = `rtsp://192.168.32.2:${mediaServerRtspPort}/${CAMERA_CODE}/stream`
+// const rtspStreamUrl: string = `rtsp://${mediaServerHost}:${mediaServerRtspPort}/${CAMERA_CODE}/stream`
 
 export const produce = async (): Promise<void> => {
-  ffmpeg(path.resolve(`video/${inputFilePath}`))
-    .inputOptions([
-      '-re', // Read input at native frame rate
-      '-stream_loop -1' // Loop input indefinitely
-    ])
+  // ffmpeg -re -stream_loop -1 -i input.mp4 -c:v libx264 -bf 0 -f rtsp -rtsp_transport tcp rtsp://localhost:8554/mystream
+  ffmpeg()
+    .input(path.resolve(`video/${inputFilePath}`))
+    .inputFormat('mp4')
+    .inputOptions(['-re', '-stream_loop', '-1'])
     .videoCodec('libx264')
-    .addOption('-bf', '0') // Set maximum number of consecutive B-frames to 0
-    .outputOptions([
-      '-f rtsp', // Output format
-      '-rtsp_transport tcp' // Use TCP transport for RTSP
-    ])
+    .addOption('-bf', '0')
+    .outputFormat('rtsp')
+    .outputOptions(['-rtsp_transport tcp'])
     .output(rtspStreamUrl)
-    .on('start', commandLine => {
-      console.log('FFmpeg command:', commandLine)
-    })
-    .on('error', err => {
-      console.error('An error occurred:', err.message)
-    })
     .on('end', () => {
-      console.log('FFmpeg command execution finished')
+      console.log('Conversion finished')
+    })
+    .on('error', (err, stdout, stderr) => {
+      if (err) {
+        console.log(err.message)
+        console.log('stdout:\n' + stdout)
+        console.log('stderr:\n' + stderr)
+      }
     })
     .run()
 }

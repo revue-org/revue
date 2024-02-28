@@ -1,20 +1,14 @@
 import { Anomaly } from '../../../domain/anomaly/core/Anomaly.js'
-import { AnomalyService } from '../../anomaly/AnomalyService.js'
+import { AlarmService } from "../AlarmService.js";
 
-export class AlarmServiceImpl implements AnomalyService {
+export class AlarmServiceImpl implements AlarmService {
   constructor() {
-    throw new Error('TO BE implemented.')
+    console.log("AlarmServiceImpl")
   }
 
-  addAnomaly(anomaly: Anomaly): void {
-    throw new Error('TO BE implemented.')
-  }
-
-  notifyAlarmService(anomaly: Anomaly): void {
-    throw new Error('TO BE implemented.')
-  }
-
-  removeAnomaly(anomalyId: string): void {
-    throw new Error('TO BE implemented.')
+  sendNotification(anomaly: Anomaly): void {
+    //i have to contact the user through the socket and by the requested method.
+    console.log("DEVO MANDARE UNA MAIL")
+    console.log(anomaly)
   }
 }

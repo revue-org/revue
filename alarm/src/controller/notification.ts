@@ -17,15 +17,15 @@ export const notificationModel: Model<Notification> = model<Notification>(
   'notification'
 )
 
-const notificationManager: NotificationRepository = new NotificationRepositoryImpl(notificationModel)
+const notificationRepository: NotificationRepository = new NotificationRepositoryImpl(notificationModel)
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 export const notificationController = {
   getNotificationById: async (id: string): Promise<Notification> => {
-    return await notificationManager.getNotificationById(id)
+    return await notificationRepository.getNotificationById(id)
   },
   getNotifications: async (): Promise<Notification[]> => {
-    return await notificationManager.getNotifications()
+    return await notificationRepository.getNotifications()
   },
   createExceedingNotification: async (
     anomalyId: string,
@@ -33,7 +33,7 @@ export const notificationController = {
     measure: Measure,
     value: number
   ): Promise<void> => {
-    await notificationManager.insertExceedingNotification(
+    await notificationRepository.insertExceedingNotification(
       notificationFactory.createExceedingNotification(
         '',
         anomalyFactory.createExceeding(anomalyId, deviceId, new Date(), value, measure)
@@ -45,7 +45,7 @@ export const notificationController = {
     deviceId: DeviceId,
     intrusionObject: ObjectClass
   ): Promise<void> => {
-    await notificationManager.insertIntrusionNotification(
+    await notificationRepository.insertIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         '',
         anomalyFactory.createIntrusion(anomalyId, deviceId, new Date(), intrusionObject)
@@ -60,7 +60,7 @@ export const notificationController = {
     measure: Measure,
     value: number
   ): Promise<void> => {
-    await notificationManager.updateExceedingNotification(
+    await notificationRepository.updateExceedingNotification(
       notificationFactory.createExceedingNotification(
         notificationId,
         anomalyFactory.createExceeding(anomalyId, deviceId, timestamp, value, measure)
@@ -74,7 +74,7 @@ export const notificationController = {
     timestamp: Date,
     intrusionObject: ObjectClass
   ): Promise<void> => {
-    await notificationManager.updateIntrusionNotification(
+    await notificationRepository.updateIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         notificationId,
         anomalyFactory.createIntrusion(anomalyId, deviceId, timestamp, intrusionObject)
@@ -82,6 +82,6 @@ export const notificationController = {
     )
   },
   deleteNotification: async (id: string): Promise<void> => {
-    return await notificationManager.deleteNotification(id)
+    return await notificationRepository.deleteNotification(id)
   }
 }

@@ -17,7 +17,7 @@ export const environmentDataModel: Model<EnvironmentData> = model<EnvironmentDat
   environmentDataSchema,
   'environmentData'
 )
-const environmentDataManager: EnvironmentDataRepository = new EnvironmentDataRepositoryImpl(
+const environmentDataRepository: EnvironmentDataRepository = new EnvironmentDataRepositoryImpl(
   environmentDataModel
 )
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
@@ -25,10 +25,10 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const environmentDataController = {
   getEnvironmentData: async (): Promise<EnvironmentData[]> => {
-    return await environmentDataManager.getEnvironmentData()
+    return await environmentDataRepository.getEnvironmentData()
   },
   getDataByDeviceId: async (type: DeviceType, code: string): Promise<EnvironmentData[]> => {
-    return await environmentDataManager.getDataByDeviceId(deviceIdFactory.createId(type, code))
+    return await environmentDataRepository.getDataByDeviceId(deviceIdFactory.createId(type, code))
   },
   createEnvironmentData: async (
     deviceId: DeviceId,
@@ -37,22 +37,8 @@ export const environmentDataController = {
     measureUnit: MeasureUnit,
     timestamp: Date
   ): Promise<void> => {
-    return await environmentDataManager.insertEnvironmentData(
+    return await environmentDataRepository.insertEnvironmentData(
       environmentDataFactory.createEnvironmentData(deviceId, value, measure, measureUnit, timestamp)
     )
-  },
-  updateEnvironmentData: async (
-    deviceId: DeviceId,
-    value: number,
-    measure: Measure,
-    unit: MeasureUnit,
-    timestamp: Date
-  ): Promise<void> => {
-    return await environmentDataManager.updateEnvironmentData(
-      environmentDataFactory.createEnvironmentData(deviceId, value, measure, unit, timestamp)
-    )
-  },
-  deleteEnvironmentData: async (id: string): Promise<void> => {
-    return await environmentDataManager.deleteEnvironmentData(id)
   }
 }

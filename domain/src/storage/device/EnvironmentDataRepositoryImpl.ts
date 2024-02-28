@@ -4,6 +4,7 @@ import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
 import { EnvironmentData } from '../../domain/device/core/EnvironmentData.js'
 import { EnvironmentDataRepository } from '../../domain/device/repositories/EnvironmentDataRepository.js'
 import { MeasureConverter } from '../../utils/MeasureConverter.js'
+import { MeasureUnitConverter } from '../../utils/MeasureUnitConverter.js'
 
 export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository {
   environmentDataModel: Model<EnvironmentData>
@@ -34,6 +35,7 @@ export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository 
         },
         value: environmentData.value,
         measure: MeasureConverter.convertToString(environmentData.measure),
+        measureUnit: MeasureUnitConverter.convertToString(environmentData.measureUnit),
         timestamp: environmentData.timestamp
       })
       .catch((err): void => {
@@ -47,6 +49,7 @@ export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository 
         deviceId: { type: environmentData.sourceDeviceId.type, code: environmentData.sourceDeviceId.code },
         value: environmentData.value,
         measure: MeasureConverter.convertToString(environmentData.measure),
+        measureUnit: MeasureUnitConverter.convertToString(environmentData.measureUnit),
         timestamp: environmentData.timestamp
       })
       .orFail()

@@ -4,10 +4,22 @@ import { getMeasureColor } from '@/utils/MeasureUtils'
 import { DeviceType, Measure } from 'domain/dist/domain/device/core'
 import type { Exceeding, Intrusion } from 'domain/dist/domain/anomaly/core'
 import { ObjectClass } from 'domain/dist/domain/security-rule/core'
+import { popDelete } from '@/scripts/Popups'
+import { useQuasar } from 'quasar'
 
 const { notification } = defineProps<{
   notification: Notification
 }>()
+
+const emit = defineEmits<{
+  (e: 'delete-notification'): void
+}>()
+
+const $q = useQuasar()
+
+const deleteNotification = () => {
+  popDelete($q, 'Are you sure you want to delete this notification?', () => emit('delete-notification'))
+}
 </script>
 
 <template>
@@ -42,6 +54,7 @@ const { notification } = defineProps<{
     <span class="timestamp"
       >Detection hour: {{ notification.anomaly.timestamp.toLocaleString().split(' ')[1] }}</span
     >
+    <q-icon size="20px" name="delete" @click="deleteNotification" />
   </li>
 </template>
 

@@ -1,9 +1,7 @@
 import { Socket } from 'socket.io'
 import { Consumer, Kafka } from 'kafkajs'
 import { io } from './index.js'
-
-const kafkaContainer: string = process.env.KAFKA_HOST || 'revue-kafka'
-const kafkaPort: string = process.env.KAFKA_PORT || '9092'
+import kafkaManager from './utils/KafkaManager.js'
 
 const consumers: { id: string; consumer: Consumer }[] = []
 
@@ -13,11 +11,6 @@ const getConsumerById = (id: string): Consumer | undefined => {
 
 export const setupConsumers = async (): Promise<void> => {
   console.log('Setting up consumers')
-
-  const kafka: Kafka = new Kafka({
-    clientId: 'monitoring',
-    brokers: [`${kafkaContainer}:${kafkaPort}`]
-  })
 
   io.on('connection', async (socket: Socket): Promise<void> => {
     console.log('A client connected', socket.id)
@@ -44,7 +37,6 @@ export const setupConsumers = async (): Promise<void> => {
     socket.on('resume', async (topics: string[]): Promise<void> => {
       console.log('Resuming topics', topics)
       const consumer: Consumer | undefined = getConsumerById(socket.id)
-      console.log('Consumer', consumer)
       if (consumer === undefined) return
       try {
         consumer.resume(topics.map((topic: string): { topic: string } => ({ topic })))
@@ -78,14 +70,12 @@ export const setupConsumers = async (): Promise<void> => {
       console.log('Consumers:', consumers)
       let consumer: Consumer | undefined = getConsumerById(socket.id)
       if (consumer === undefined) {
-        console.log('Creating new consumer')
-        consumer = kafka.consumer({ groupId: socket.id })
+        consumer = kafkaManager.createConsumer(socket.id)
         console.log('New consumer created')
       }
       await consumer.connect()
       await consumer.subscribe({ topics: topics, fromBeginning: false })
-      // + '_' + topics[0].split('_')[0]
-      console.log('PUSHO il consumer')
+
       consumers.push({ id: socket.id, consumer })
       console.log('Consumers', consumers)
       socket.emit('subscribed')

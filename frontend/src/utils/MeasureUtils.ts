@@ -19,7 +19,7 @@ export const getMeasureAcronym = (unit: MeasureUnit) => {
       return 'bar'
     case MeasureUnit.CELSIUS:
       return '°C'
-    case MeasureUnit.FARENHEIT:
+    case MeasureUnit.FAHRENHEIT:
       return '°F'
     case MeasureUnit.KELVIN:
       return 'K'

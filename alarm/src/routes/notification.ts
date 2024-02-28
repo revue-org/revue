@@ -63,9 +63,9 @@ notificationRouter.route('/intrusions').post((req: Request, res: Response): void
     })
 })
 
-notificationRouter.route('/').delete((req: Request, res: Response): void => {
+notificationRouter.route('/:id').delete((req: Request, res: Response): void => {
   notificationController
-    .deleteNotification(req.body.id)
+    .deleteNotification(req.params.id)
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Notification correctly deleted' })
     })

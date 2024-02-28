@@ -7,6 +7,7 @@ import NotFoundView from '@/views/NotFoundView.vue'
 import NotificationView from '@/views/NotificationView.vue'
 import SecurityRuleView from '@/views/SecurityRuleView.vue'
 import HomeView from '@/views/HomeView.vue'
+import LogView from '@/views/HistoryView.vue'
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,11 @@ const router: Router = createRouter({
           path: 'notifications',
           name: 'Notifications',
           component: NotificationView
+        },
+        {
+          path: 'history',
+          name: 'History',
+          component: LogView
         }
       ]
     },

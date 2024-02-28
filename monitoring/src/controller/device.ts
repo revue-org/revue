@@ -17,37 +17,37 @@ import { DeviceType } from 'domain/dist/domain/device/core'
 
 export const cameraModel: Model<Camera> = model<Camera>('Camera', cameraSchema, 'device')
 export const sensorModel: Model<Sensor> = model<Sensor>('Sensor', sensorSchema, 'device')
-const deviceManager: DeviceRepository = new DeviceRepositoryImpl(cameraModel, sensorModel)
+const deviceRepository: DeviceRepository = new DeviceRepositoryImpl(cameraModel, sensorModel)
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const deviceController = {
   getDevices: async (): Promise<Device[]> => {
-    return await deviceManager.getDevices()
+    return await deviceRepository.getDevices()
   },
   getCapturingDevices: async (): Promise<Device[]> => {
-    return await deviceManager.getCapturingDevices()
+    return await deviceRepository.getCapturingDevices()
   },
   getDeviceById: async (type: DeviceType, code: string): Promise<Device> => {
-    return await deviceManager.getDeviceById(deviceIdFactory.createId(type, code))
+    return await deviceRepository.getDeviceById(deviceIdFactory.createId(type, code))
   },
   getCameraByCode: async (code: string): Promise<Camera> => {
-    return await deviceManager.getCameraByCode(code)
+    return await deviceRepository.getCameraByCode(code)
   },
   getSensorByCode: async (code: string): Promise<Sensor> => {
-    return await deviceManager.getSensorByCode(code)
+    return await deviceRepository.getSensorByCode(code)
   },
   getCameras: async (): Promise<Camera[]> => {
-    return await deviceManager.getCameras()
+    return await deviceRepository.getCameras()
   },
   getSensors: async (): Promise<Sensor[]> => {
-    return await deviceManager.getSensors()
+    return await deviceRepository.getSensors()
   },
   createCamera: async (deviceId: DeviceId, ipAddress: string, resolution: Resolution): Promise<void> => {
-    if ((await deviceManager.getDeviceById(deviceId)) !== null) {
+    if ((await deviceRepository.getDeviceById(deviceId)) !== null) {
       throw new Error('Camera already present' + deviceId.code + ' ' + deviceId.type.toString())
     }
-    return await deviceManager.insertCamera(
+    return await deviceRepository.insertCamera(
       deviceFactory.createCamera(deviceId, false, ipAddress, resolution)
     )
   },
@@ -57,10 +57,10 @@ export const deviceController = {
     intervalMillis: number,
     measures: Measure[]
   ): Promise<void> => {
-    if ((await deviceManager.getDeviceById(deviceId)) !== null) {
+    if ((await deviceRepository.getDeviceById(deviceId)) !== null) {
       throw new Error('Sensor already present')
     }
-    return await deviceManager.insertSensor(
+    return await deviceRepository.insertSensor(
       deviceFactory.createSensor(deviceId, false, ipAddress, intervalMillis, measures)
     )
   },
@@ -70,7 +70,7 @@ export const deviceController = {
     ipAddress: string,
     resolution: Resolution
   ): Promise<void> => {
-    return await deviceManager.updateCamera(
+    return await deviceRepository.updateCamera(
       deviceFactory.createCamera(deviceId, isCapturing, ipAddress, resolution)
     )
   },
@@ -81,14 +81,14 @@ export const deviceController = {
     intervalMillis: number,
     measures: Measure[]
   ): Promise<void> => {
-    return await deviceManager.updateSensor(
+    return await deviceRepository.updateSensor(
       deviceFactory.createSensor(deviceId, isCapturing, ipAddress, intervalMillis, measures)
     )
   },
   deleteCamera: async (code: string): Promise<void> => {
-    return await deviceManager.deleteCamera(code)
+    return await deviceRepository.deleteCamera(code)
   },
   deleteSensor: async (code: string): Promise<void> => {
-    return await deviceManager.deleteSensor(code)
+    return await deviceRepository.deleteSensor(code)
   }
 }

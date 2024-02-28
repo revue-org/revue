@@ -31,12 +31,12 @@ export const anomalyController = {
   },
   createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<void> => {
     return await anomalyRepository.insertExceeding(
-      anomalyFactory.createExceeding('', deviceId, new Date(), measure, value)
+      anomalyFactory.createExceeding(deviceId, new Date(), measure, value, '')
     )
   },
   createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<void> => {
     return await anomalyRepository.insertIntrusion(
-      anomalyFactory.createIntrusion('', deviceId, new Date(), intrusionObject)
+      anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, '')
     )
   },
   updateExceeding(
@@ -47,7 +47,7 @@ export const anomalyController = {
     value: number
   ): Promise<void> {
     return anomalyRepository.updateExceeding(
-      anomalyFactory.createExceeding(id, deviceId, timestamp, measure, value)
+      anomalyFactory.createExceeding(deviceId, timestamp, measure, value, id)
     )
   },
   updateIntrusion(
@@ -57,7 +57,7 @@ export const anomalyController = {
     intrusionObject: ObjectClass
   ): Promise<void> {
     return anomalyRepository.updateIntrusion(
-      anomalyFactory.createIntrusion(id, deviceId, timestamp, intrusionObject)
+      anomalyFactory.createIntrusion(deviceId, timestamp, intrusionObject, id)
     )
   },
   deleteAnomaly: async (id: string, type: string): Promise<void> => {

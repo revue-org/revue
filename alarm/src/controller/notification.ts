@@ -36,7 +36,7 @@ export const notificationController = {
     await notificationRepository.insertExceedingNotification(
       notificationFactory.createExceedingNotification(
         '',
-        anomalyFactory.createExceeding(anomalyId, deviceId, new Date(), value, measure)
+        anomalyFactory.createExceeding(deviceId, new Date(), value, measure, anomalyId)
       )
     )
   },
@@ -48,7 +48,7 @@ export const notificationController = {
     await notificationRepository.insertIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         '',
-        anomalyFactory.createIntrusion(anomalyId, deviceId, new Date(), intrusionObject)
+        anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, anomalyId)
       )
     )
   },
@@ -63,7 +63,7 @@ export const notificationController = {
     await notificationRepository.updateExceedingNotification(
       notificationFactory.createExceedingNotification(
         notificationId,
-        anomalyFactory.createExceeding(anomalyId, deviceId, timestamp, value, measure)
+        anomalyFactory.createExceeding(deviceId, timestamp, value, measure, anomalyId)
       )
     )
   },
@@ -77,7 +77,7 @@ export const notificationController = {
     await notificationRepository.updateIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         notificationId,
-        anomalyFactory.createIntrusion(anomalyId, deviceId, timestamp, intrusionObject)
+        anomalyFactory.createIntrusion(deviceId, timestamp, intrusionObject, anomalyId)
       )
     )
   },

@@ -6,17 +6,17 @@ import { ObjectClass } from '../../security-rule/core/impl/enum/ObjectClass.js'
 
 export interface AnomalyFactory {
   createExceeding(
-    anomalyId: string,
     deviceId: DeviceId,
     timestamp: Date,
     measure: Measure,
-    value: number
+    value: number,
+    anomalyId: string
   ): Exceeding
 
   createIntrusion(
-    anomalyId: string,
     deviceId: DeviceId,
     timestamp: Date,
-    intrusionObject: ObjectClass
+    intrusionObject: ObjectClass,
+    anomalyId: string,
   ): Intrusion
 }

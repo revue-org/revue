@@ -17,6 +17,6 @@ export interface AnomalyFactory {
     deviceId: DeviceId,
     timestamp: Date,
     intrusionObject: ObjectClass,
-    anomalyId: string,
+    anomalyId: string
   ): Intrusion
 }

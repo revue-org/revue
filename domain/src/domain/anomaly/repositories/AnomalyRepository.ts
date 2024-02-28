@@ -10,9 +10,9 @@ export interface AnomalyRepository {
 
   getAnomalyById(anomalyId: string): Promise<Anomaly>
 
-  insertExceeding(exceeding: Exceeding): Promise<void>
+  insertExceeding(exceeding: Exceeding): Promise<string>
 
-  insertIntrusion(intrusion: Intrusion): Promise<void>
+  insertIntrusion(intrusion: Intrusion): Promise<string>
 
   updateExceeding(anomaly: Exceeding): Promise<void>
 

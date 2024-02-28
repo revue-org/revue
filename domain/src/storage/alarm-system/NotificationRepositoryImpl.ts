@@ -17,28 +17,34 @@ export class NotificationRepositoryImpl implements NotificationRepository {
     return this.notificationModel.findById(notificationId).orFail()
   }
 
-  async insertExceedingNotification(notification: Notification): Promise<void> {
+  async insertExceedingNotification(notification: Notification): Promise<string> {
     let anomalyType: string = 'EXCEEDING'
-    await this.notificationModel
+    return await this.notificationModel
       .create({
         anomalyId: notification.anomaly.anomalyId,
         anomalyType: anomalyType,
         timestamp: notification.timestamp
       })
-      .catch((err): void => {
+      .then((notification): string => {
+        return notification._id.toString()
+      })
+      .catch((err): string => {
         throw err
       })
   }
 
-  async insertIntrusionNotification(notification: Notification): Promise<void> {
+  async insertIntrusionNotification(notification: Notification): Promise<string> {
     let anomalyType: string = 'INTRUSION'
-    await this.notificationModel
+    return await this.notificationModel
       .create({
         anomalyId: notification.anomaly.anomalyId,
         anomalyType: anomalyType,
         timestamp: notification.timestamp
       })
-      .catch((err): void => {
+      .then((notification): string => {
+        return notification._id.toString()
+      })
+      .catch((err): string => {
         throw err
       })
   }

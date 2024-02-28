@@ -32,8 +32,8 @@ export const notificationController = {
     deviceId: DeviceId,
     measure: Measure,
     value: number
-  ): Promise<void> => {
-    await notificationRepository.insertExceedingNotification(
+  ): Promise<string> => {
+    return await notificationRepository.insertExceedingNotification(
       notificationFactory.createExceedingNotification(
         '',
         anomalyFactory.createExceeding(deviceId, new Date(), value, measure, anomalyId)
@@ -44,8 +44,8 @@ export const notificationController = {
     anomalyId: string,
     deviceId: DeviceId,
     intrusionObject: ObjectClass
-  ): Promise<void> => {
-    await notificationRepository.insertIntrusionNotification(
+  ): Promise<string> => {
+    return await notificationRepository.insertIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         '',
         anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, anomalyId)

@@ -29,12 +29,12 @@ export const anomalyController = {
   getIntrusions: async (): Promise<Intrusion[]> => {
     return await anomalyRepository.getIntrusions()
   },
-  createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<void> => {
+  createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<string> => {
     return await anomalyRepository.insertExceeding(
       anomalyFactory.createExceeding(deviceId, new Date(), measure, value, '')
     )
   },
-  createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<void> => {
+  createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<string> => {
     return await anomalyRepository.insertIntrusion(
       anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, '')
     )

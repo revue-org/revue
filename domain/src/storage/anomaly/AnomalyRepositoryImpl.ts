@@ -46,8 +46,8 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
     throw new Error('Anomaly not found')
   }
 
-  async insertExceeding(exceeding: Exceeding): Promise<void> {
-    await this.exceedingModel
+  async insertExceeding(exceeding: Exceeding): Promise<string> {
+    return await this.exceedingModel
       .create({
         deviceId: {
           type: DeviceTypeConverter.convertToString(exceeding.deviceId.type),
@@ -57,13 +57,16 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
         value: exceeding.value,
         measure: MeasureConverter.convertToString(exceeding.measure)
       })
-      .catch((err): void => {
+      .then((exceeding): string => {
+        return exceeding._id.toString()
+      })
+      .catch((err): string => {
         throw err
       })
   }
 
-  async insertIntrusion(intrusion: Intrusion): Promise<void> {
-    await this.intrusionModel
+  async insertIntrusion(intrusion: Intrusion): Promise<string> {
+    return await this.intrusionModel
       .create({
         deviceId: {
           type: DeviceTypeConverter.convertToString(intrusion.deviceId.type),
@@ -72,7 +75,10 @@ export class AnomalyRepositoryImpl implements AnomalyRepository {
         timestamp: intrusion.timestamp,
         intrusionObject: ObjectClassConverter.convertToString((intrusion as IntrusionImpl).intrusionObject)
       })
-      .catch((err): void => {
+      .then((intrusion): string => {
+        return intrusion._id.toString()
+      })
+      .catch((err): string => {
         throw err
       })
   }

@@ -35,7 +35,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
 
   getActiveRules(): SecurityRule[] {
     return this.securityRules.filter((rule: SecurityRule) =>
-      this.hoursComparator(new Date(), rule.from, rule.to)
+      this.hourComparator(new Date(), rule.from, rule.to)
     )
   }
 
@@ -57,7 +57,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return (
       this.getActiveExceedingRules().filter(
         (rule: ExceedingRule) =>
-          this.hoursComparator(environmentData.timestamp, rule.from, rule.to) &&
+          this.hourComparator(environmentData.timestamp, rule.from, rule.to) &&
           rule.deviceId.code === environmentData.sourceDeviceId.code &&
           rule.measure === environmentData.measure &&
           (environmentData.value < rule.min || environmentData.value > rule.max)
@@ -70,7 +70,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return false
   }
 
-  hoursComparator = (date: Date, from: Date, to: Date): boolean => {
+  hourComparator = (date: Date, from: Date, to: Date): boolean => {
     return (
       (date.getHours() > from.getHours() ||
         (date.getHours() === from.getHours() && date.getMinutes() >= from.getMinutes())) &&

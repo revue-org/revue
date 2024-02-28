@@ -4,7 +4,7 @@ import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/co
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
-import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { alarmSocket, monitoringSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
@@ -92,39 +92,6 @@ monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
   }
 })
 
-const simulateExceeding = async () => {
-  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/simulations/exceedings`, {
-    deviceId: {
-      type: 'SENSOR',
-      code: 'sen-01'
-    },
-    measure: 'TEMPERATURE',
-    value: 100
-  })
-    .then((res: any) => {
-      console.log(res)
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-
-const simulateIntrusion = async () => {
-  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/simulations/intrusions`, {
-    deviceId: {
-      type: 'CAMERA',
-      code: 'cam-01'
-    },
-    intrusionObject: 'PERSON'
-  })
-    .then((res: any) => {
-      console.log(res)
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-
 if (alarmSocket?.listeners('notification').length === 0) {
   alarmSocket?.on('notification', (anomaly: { type: string }) => {
     switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
@@ -163,9 +130,6 @@ const showNotification = (message: string) => {
 }
 </script>
 <template>
-  <button class="btn btn-primary" @click="simulateExceeding">Simulate Exceeding</button>
-  <button class="btn btn-primary" @click="simulateIntrusion">Simulate Intrusion</button>
-
   <h2>Environment data</h2>
   <div>
     <sensor-data

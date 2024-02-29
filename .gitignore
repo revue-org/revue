@@ -135,8 +135,18 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# Python
+# Python Flask
 venv
+
+*.pyc
+__pycache__/
+
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
 
 
 ### LaTeX ###

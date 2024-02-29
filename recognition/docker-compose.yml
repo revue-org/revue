@@ -7,7 +7,9 @@ services:
     container_name: ${RECOGNITION_HOST}
     build:
       context: .
-      dockerfile: ./recognition/Dockerfile
+      dockerfile: recognition/Dockerfile
     restart: on-failure
     ports:
       - ${RECOGNITION_PORT}:${RECOGNITION_PORT}
+    environment:
+      - FLASK_RUN_PORT=${RECOGNITION_PORT}

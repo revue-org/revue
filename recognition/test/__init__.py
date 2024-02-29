@@ -1,5 +1,6 @@
 import unittest
-from recognition import MyClass
+from app.MyClass import MyClass
+
 
 class TestMyClass(unittest.TestCase):
     # test methods' names should begin with `test_`

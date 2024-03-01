@@ -1,9 +1,9 @@
 {
   "type": "module",
-  "name": "alarm",
+  "name": "notification",
   "version": "0.0.0",
   "private": true,
-  "description": "Alarm microservice",
+  "description": "Monitoring microservice",
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",

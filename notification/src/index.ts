@@ -3,16 +3,11 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { mongoConnect } from '@utils/connection.js'
-import { anomalyRouter } from './routes/anomaly.js'
 import { notificationRouter } from './routes/notification.js'
-import { recognizingNodeRouter } from './routes/recognizingNode.js'
-import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
-
-import { setupConsumer } from './consumer.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -42,9 +37,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     jwtManager.authenticate(req, res, next)
   }
 })
-app.use('/anomalies', anomalyRouter)
-app.use('/recognizing-nodes', recognizingNodeRouter)
-app.use('/security-rules', securityRuleRouter)
+app.use('/notifications', notificationRouter)
 
 const username: string = process.env.ALARM_DB_USERNAME || 'admin'
 const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
@@ -58,10 +51,9 @@ const dbName: string = process.env.ALARM_DB_NAME || 'alarm'
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
-    console.log(`Alarm server listening on port ${PORT}`)
+    console.log(`Notification server listening on port ${PORT}`)
     console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     //await setupNotificationSimulation() TODO: to check!!
-    await setupConsumer()
   })
 }

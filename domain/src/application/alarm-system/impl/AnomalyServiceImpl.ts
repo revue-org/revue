@@ -8,25 +8,23 @@ import { SecurityRuleRepository } from '../../../domain/alarm-system/repositorie
 import { NotificationRepository } from '../../../domain/notification/repositories/NotificationRepository'
 import { RecognizingNodeRepository } from '../../../domain/alarm-system/repositories/RecognizingNodeRepository'
 import { AnomalyType } from "../../../domain/alarm-system/core";
+import { AnomalyRepositoryImpl } from "../../../storage/alarm-system/AnomalyRepositoryImpl";
+import { Model } from "mongoose";
 
 export class AnomalyServiceImpl implements AnomalyService {
   private anomalyRepository: AnomalyRepository
-  private securityRuleRepository: SecurityRuleRepository
-  private notificationRepository: NotificationRepository
-  private recognizingNodeRepository: RecognizingNodeRepository
 
   private securityRules: SecurityRule[] = []
 
   constructor(
-    anomalyRepository: AnomalyRepository,
-    securityRuleRepository: SecurityRuleRepository,
-    notificationRepository: NotificationRepository,
-    recognizingNodeRepository: RecognizingNodeRepository
+    exceedingModel: Model<Exceeding>,
+    intrusionModel: Model<Intrusion>
   ) {
-    this.anomalyRepository = anomalyRepository
-    this.securityRuleRepository = securityRuleRepository
-    this.notificationRepository = notificationRepository
-    this.recognizingNodeRepository = recognizingNodeRepository
+    this.anomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
+  }
+
+  notifyNotificationService(anomaly: Anomaly): void {
+    throw new Error('Method not implemented.')
   }
 
   addAnomaly(anomaly: Anomaly): void {

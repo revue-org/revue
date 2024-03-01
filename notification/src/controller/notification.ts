@@ -1,7 +1,7 @@
 import { Model, model } from 'mongoose'
 import { Notification } from '@domain/alarm-system/core/Notification.js'
 import { NotificationRepository } from '@domain/alarm-system/repositories/NotificationRepository.js'
-import { NotificationRepositoryImpl } from '@storage/alarm-system/NotificationRepositoryImpl.js'
+import { NotificationRepositoryImpl } from '../../../domain/src/storage/notification/NotificationRepositoryImpl.js'
 import { NotificationFactory } from '@domain/alarm-system/factories/NotificationFactory.js'
 import { NotificationFactoryImpl } from '@domain/alarm-system/factories/impl/NotificationFactoryImpl.js'
 import { notificationSchema } from '@storage/alarm-system/schemas/NotificationSchema.js'

@@ -10,17 +10,9 @@ export interface AnomalyService {
 
   removeAnomaly(anomalyId: string): void
 
-  notifyAlarmService(anomaly: Anomaly): void
-
-  addSecurityRule(securityRule: SecurityRule): void
-
-  addSecurityRules(securityRules: SecurityRule[]): void
-
   updateExceeding(exceeding: Exceeding): void
 
   updateIntrusion(intrusion: Intrusion): void
-
-  removeSecurityRule(securityRuleId: string): void
 
   getExceedings(): Exceeding[]
 
@@ -34,5 +26,6 @@ export interface AnomalyService {
 
   deleteAnomaly(anomalyId: string, type: AnomalyType): void
 
-  sendNotification(anomaly: Anomaly): void
+  notifyNotificationService(anomaly: Anomaly): void
+
 }

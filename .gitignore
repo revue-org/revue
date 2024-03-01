@@ -135,7 +135,7 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# Python Flask
+# Python
 venv
 
 *.pyc
@@ -146,6 +146,8 @@ instance/
 .pytest_cache/
 .coverage
 htmlcov/
+
+recognition/app/resources/yolov3
 
 
 

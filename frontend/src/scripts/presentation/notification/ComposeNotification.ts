@@ -34,19 +34,19 @@ export const composeNotification = async (notification: any): Promise<Notificati
 
 function composeIntrusion(intrusion: any): Intrusion {
   return anomalyFactory.createIntrusion(
-    intrusion._id,
     deviceIdFactory.createCameraId(intrusion.deviceId.code),
     new Date(intrusion.timestamp),
-    ObjectClassConverter.convertToObjectClass(intrusion.intrusionObject)
+    ObjectClassConverter.convertToObjectClass(intrusion.intrusionObject),
+    intrusion._id
   )
 }
 
 function composeExceeding(exceeding: any): Exceeding {
   return anomalyFactory.createExceeding(
-    exceeding._id,
     deviceIdFactory.createSensorId(exceeding.deviceId.code),
     new Date(exceeding.timestamp),
     MeasureConverter.convertToMeasure(exceeding.measure),
-    exceeding.value
+    exceeding.value,
+    exceeding._id
   )
 }

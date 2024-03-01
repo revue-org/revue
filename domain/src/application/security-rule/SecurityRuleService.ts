@@ -12,6 +12,5 @@ export interface SecurityRuleService {
 
   checkExceedingDetection(environmentData: EnvironmentData): boolean
 
-  //TODO to model the intrusion detection, maybe a class detection is needed(?)
   checkIntrusionDetection(detection: any): boolean
 }

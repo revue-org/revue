@@ -7,14 +7,12 @@ import { anomalyRouter } from './routes/anomaly.js'
 import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
-import { simulationRouter } from './routes/simulation.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
 import { setupConsumer } from './consumer.js'
-import kafkaManager from './utils/KafkaManager.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -44,7 +42,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     jwtManager.authenticate(req, res, next)
   }
 })
-app.use('/simulations', simulationRouter)
 app.use('/notifications', notificationRouter)
 app.use('/anomalies', anomalyRouter)
 app.use('/recognizing-nodes', recognizingNodeRouter)

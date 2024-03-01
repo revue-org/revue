@@ -13,7 +13,7 @@ services:
       - ${LOG_PORT}:${LOG_PORT}
     depends_on:
       - revue-log-db
-      - ${KAFKA_CONTAINER}
+      - ${KAFKA_HOST}
 
   revue-log-db:
     image: mongo

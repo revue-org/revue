@@ -15,8 +15,6 @@ import { IntrusionRule } from 'domain/dist/domain/security-rule/core/IntrusionRu
 import { Device } from 'domain/dist/domain/device/core/Device.js'
 import { SecurityRuleService } from 'domain/dist/application/security-rule/SecurityRuleService.js'
 import { SecurityRuleServiceImpl } from 'domain/dist/application/security-rule/impl/SecurityRuleServiceImpl.js'
-import { AlarmService } from 'domain/dist/application/alarm-system/AlarmService.js'
-import { AlarmServiceImpl } from 'domain/dist/application/alarm-system/impl/AlarmServiceImpl.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
@@ -31,7 +29,6 @@ const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
-const alarmService: AlarmService = new AlarmServiceImpl()
 const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl()
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()

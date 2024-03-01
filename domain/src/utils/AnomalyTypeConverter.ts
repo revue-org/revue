@@ -1,4 +1,4 @@
-import { AnomalyType } from '../domain/anomaly/core/impl/enum/AnomalyType.js'
+import { AnomalyType } from '../domain/alarm-system/core/impl/enum/AnomalyType.js'
 
 export class AnomalyTypeConverter {
   static convertToAnomalyType(type: string): AnomalyType {

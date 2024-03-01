@@ -1,4 +1,4 @@
-import { Anomaly } from '../../anomaly/core/Anomaly.js'
+import { Anomaly } from '../../alarm-system/core/Anomaly.js'
 import { DeviceId } from '../../device/core/DeviceId.js'
 
 export interface RecognizingNode {

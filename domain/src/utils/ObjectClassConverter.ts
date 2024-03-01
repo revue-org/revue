@@ -1,4 +1,4 @@
-import { ObjectClass } from '../domain/security-rule/core/impl/enum/ObjectClass.js'
+import { ObjectClass } from '../domain/alarm-system/core/impl/enum/ObjectClass.js'
 
 export class ObjectClassConverter {
   static convertToObjectClass(type: string): ObjectClass {

@@ -47,6 +47,19 @@ subprojects {
         tasks.register("clean", Delete::class) {
             delete("dist", "node_modules/domain", "tsconfig.tsbuildinfo")
         }
+    } else {
+        println(project.name)
+        tasks.register("install", Exec::class) {
+            commandLine = listOf("pip", "install", "-r", "requirements.txt")
+        }
+        tasks.register("build") {
+            dependsOn(":${project.name}:install")
+        }
+        tasks.register("test", Exec::class) {
+            dependsOn(":${project.name}:build")
+            commandLine = listOf("python", "-m", "unittest", "discover", "-s", "test")
+        }
     }
+
 
 }

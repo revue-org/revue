@@ -9,6 +9,9 @@ COPY recognition recognition
 
 WORKDIR /home/revue/recognition
 
+# Install yolov3 neural network weights
+RUN wget -N -P app/resources/yolov3/ -c "https://pjreddie.com/media/files/yolov3.weights" --header "Referer: pjreddie.com"
+
 # removes the configurations to delete cached files after a successful install
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 

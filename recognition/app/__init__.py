@@ -16,7 +16,7 @@ logger = logging.getLogger('recognition')
 dotenv_path = join(dirname(__file__), '../../.env')
 load_dotenv(dotenv_path)
 ALARM_PORT = os.environ.get("ALARM_PORT")
-ALARM_HOST = 'localhost'# os.environ.get("ALARM_HOST")
+ALARM_HOST = 'localhost'  # os.environ.get("ALARM_HOST")
 DEV_API_KEY = os.environ.get("DEV_API_KEY")
 executor = ThreadPoolExecutor()
 
@@ -39,7 +39,8 @@ def create_app():
     logger.info(url)
     logger.info(headers)
     r = requests.get(url, headers=headers)
-    logger.info(r.json())
+    res: dict = r.json()
+    logger.info(res)
 
     @app.route("/")
     def hello_world():

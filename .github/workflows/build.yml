@@ -28,10 +28,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Run build
         run: ./gradlew build --info
       - name: Run tests
-        run: ./gradlew domain:testArchitecture auth:test monitoring:test alarm:test --info
+        run: ./gradlew domain:testArchitecture auth:test monitoring:test alarm:test recognition:test --info
 
   format:
     runs-on: ubuntu-latest

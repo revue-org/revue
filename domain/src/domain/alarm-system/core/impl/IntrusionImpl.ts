@@ -19,10 +19,6 @@ export class IntrusionImpl implements Intrusion {
     return this._anomalyId
   }
 
-  set anomalyId(anomalyId: string) {
-    this._anomalyId = anomalyId
-  }
-
   get deviceId(): DeviceId {
     return this._deviceId
   }

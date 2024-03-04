@@ -1,7 +1,4 @@
-import unittest
+import logging
 
-
-class TestMyClass(unittest.TestCase):
-    # test methods' names should begin with `test_`
-    def test_my_method(self):
-        self.assertEqual("Hello World", x)
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('recognition')

@@ -13,3 +13,6 @@ docs
 .git
 .gradle
 .DS_Store
+
+# Yolo
+**/yolov3/yolov3.weights

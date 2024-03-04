@@ -2,10 +2,10 @@ import { Anomaly } from '../../../domain/alarm-system/core/Anomaly.js'
 import { AnomalyService } from '../AnomalyService.js'
 import { Exceeding } from '../../../domain/alarm-system/core/Exceeding.js'
 import { Intrusion } from '../../../domain/alarm-system/core/Intrusion.js'
-import { AnomalyRepository } from '../../../domain/alarm-system/repositories/AnomalyRepository'
-import { AnomalyRepositoryImpl } from '../../../storage/alarm-system/AnomalyRepositoryImpl'
+import { AnomalyRepository } from '../../../domain/alarm-system/repositories/AnomalyRepository.js'
+import { AnomalyRepositoryImpl } from '../../../storage/alarm-system/AnomalyRepositoryImpl.js'
 import { Model } from 'mongoose'
-import { AnomalyType } from '../../../domain/alarm-system/core'
+import { AnomalyType } from '../../../domain/alarm-system/core/impl/enum/AnomalyType.js'
 
 export class AnomalyServiceImpl implements AnomalyService {
   private anomalyRepository: AnomalyRepository

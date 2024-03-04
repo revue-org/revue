@@ -1,14 +1,20 @@
-import { AnomalyService } from 'domain/dist/domain/alarm-system/AnomalyService.js'
 import { AnomalyServiceImpl } from 'domain/src/application/alarm-system/impl/AnomalyServiceImpl.js'
 import { model, Model } from 'mongoose'
-import { Exceeding, Intrusion } from 'domain/dist/domain/anomaly/core'
-import { exceedingSchema } from 'domain/dist/storage/anomaly/schemas/ExceedingSchema'
-import { intrusionSchema } from 'domain/dist/storage/anomaly/schemas/IntrusionSchema'
-import { ExceedingRule, IntrusionRule } from 'domain/dist/domain/security-rule/core'
-import { exceedingRuleSchema } from 'domain/dist/storage/security-rule/schemas/ExceedingRuleSchema'
-import { intrusionRuleSchema } from 'domain/dist/storage/security-rule/schemas/IntrusionRuleSchema'
-import { SecurityRuleRepository } from 'domain/dist/domain/security-rule/repositories/SecurityRuleRepository'
-import { SecurityRuleRepositoryImpl } from 'domain/dist/storage/security-rule/SecurityRuleRepositoryImpl'
+import { Exceeding } from 'domain/dist/domain/alarm-system/core/Exceeding.js'
+import { Intrusion } from 'domain/dist/domain/alarm-system/core/Intrusion.js'
+import { exceedingSchema } from 'domain/dist/storage/alarm-system/schemas/ExceedingSchema.js'
+import { intrusionSchema } from 'domain/dist/storage/alarm-system/schemas/IntrusionSchema.js'
+import { ExceedingRule } from 'domain/dist/domain/alarm-system/core/ExceedingRule.js'
+import { IntrusionRule } from 'domain/dist/domain/alarm-system/core/IntrusionRule.js'
+import { exceedingRuleSchema } from 'domain/dist/storage/alarm-system/schemas/ExceedingRuleSchema.js'
+import { intrusionRuleSchema } from 'domain/dist/storage/alarm-system/schemas/IntrusionRuleSchema.js'
+import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
+import { recognizingNodeSchema } from 'domain/dist/storage/alarm-system/schemas/RecognizingNodeSchema.js'
+import { AnomalyService } from 'domain/dist/application/alarm-system/AnomalyService.js'
+import { SecurityRuleService } from 'domain/dist/application/alarm-system/SecurityRuleService.js'
+import { SecurityRuleServiceImpl } from 'domain/dist/application/alarm-system/impl/SecurityRuleServiceImpl.js'
+import { RecognizingNodeService } from 'domain/dist/application/alarm-system/RecognizingNodeService.js'
+import { RecognizingNodeServiceImpl } from 'domain/dist/application/alarm-system/impl/RecognizingNodeServiceImpl.js'
 
 export const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 export const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
@@ -24,10 +30,17 @@ export const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
   'securityRule'
 )
 
-export const securityRuleRepository: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
+export const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNode>(
+  'RecognizingNode',
+  recognizingNodeSchema,
+  'recognizingNode'
+)
+
+const anomalyService: AnomalyService = new AnomalyServiceImpl(exceedingModel, intrusionModel)
+
+const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl(
   exceedingRuleModel,
   intrusionRuleModel
 )
-
-const alarmService: AlarmService = new AlarmServiceImpl()
-export default alarmService
+const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(recognizingNodeModel)
+export default { anomalyService, securityRuleService, recognizingNodeService }

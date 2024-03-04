@@ -1,12 +1,12 @@
-import { SecurityRuleService } from '../SecurityRuleService'
+import { SecurityRuleService } from '../SecurityRuleService.js'
 import { ExceedingRule } from '../../../domain/alarm-system/core/ExceedingRule.js'
 import { IntrusionRule } from '../../../domain/alarm-system/core/IntrusionRule.js'
 import { SecurityRule } from '../../../domain/alarm-system/core/SecurityRule.js'
 import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
-import { SecurityRuleRepository } from '../../../domain/alarm-system/repositories/SecurityRuleRepository'
+import { SecurityRuleRepository } from '../../../domain/alarm-system/repositories/SecurityRuleRepository.js'
 import { Model } from 'mongoose'
-import { SecurityRuleRepositoryImpl } from '../../../storage/alarm-system/SecurityRuleRepositoryImpl'
+import { SecurityRuleRepositoryImpl } from '../../../storage/alarm-system/SecurityRuleRepositoryImpl.js'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private securityRuleRepository: SecurityRuleRepository

@@ -1,3 +1,21 @@
+[tool.poetry]
+name = "recognition"
+version = "0.1.0"
+description = "Recognition servive of Revue"
+authors = ["Mattia Matteini <matteinimattia@gmail.com>", "Alberto Paganelli <alberto.paganelli3@studio.unibo.it>"]
+packages = [{include = "poetry_demo"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0.2"
+numpy = "^1.26.4"
+opencv-python = "^4.9.0.80"
+requests = "^2.31.0"
+waitress = "^3.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.2.0"
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -36,11 +36,11 @@ export const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNod
   'recognizingNode'
 )
 
-const anomalyService: AnomalyService = new AnomalyServiceImpl(exceedingModel, intrusionModel)
+export const anomalyService: AnomalyService = new AnomalyServiceImpl(exceedingModel, intrusionModel)
 
-const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl(
+export const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl(
   exceedingRuleModel,
   intrusionRuleModel
 )
-const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(recognizingNodeModel)
-export default { anomalyService, securityRuleService, recognizingNodeService }
+export const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(recognizingNodeModel)
+//export default { anomalyService, securityRuleService, recognizingNodeService }

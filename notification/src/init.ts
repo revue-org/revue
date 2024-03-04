@@ -19,6 +19,7 @@ import { intrusionRuleSchema } from 'domain/dist/storage/security-rule/schemas/I
 import { SecurityRuleRepository } from 'domain/dist/domain/security-rule/repositories/SecurityRuleRepository'
 import { SecurityRuleRepositoryImpl } from 'domain/dist/storage/security-rule/SecurityRuleRepositoryImpl'
 
+// qua devo ragionarci un attimo, ma appena posso testo e rendo uguale in tutti
 export const notificationModel: Model<Notification> = model<Notification>(
   'Notification',
   notificationSchema,

@@ -1,6 +1,6 @@
 import { notificationController } from '../controller/notification.js'
 import express, { Request, Response, Router } from 'express'
-import { Notification } from '@domain/alarm-system/core/Notification.js'
+import { Notification } from '@domain/notification/core/Notification.js'
 import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'

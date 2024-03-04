@@ -3,7 +3,7 @@
   "name": "notification",
   "version": "0.0.0",
   "private": true,
-  "description": "Monitoring microservice",
+  "description": "Notification microservice",
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",

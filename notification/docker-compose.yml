@@ -2,33 +2,33 @@ version: '3.8'
 
 services:
 
-  revue-alarm:
+  revue-notification:
     image: revue-alarm
     container_name: revue-alarm
     build:
       context: .
-      dockerfile: ./alarm/Dockerfile
+      dockerfile: ./notification/Dockerfile
     restart: on-failure
     ports:
       - ${ALARM_PORT}:${ALARM_PORT}
     depends_on:
-      - revue-alarm-db
+      - revue-notification-db
       - ${KAFKA_HOST}
 
-  revue-alarm-db:
+  revue-notification-db:
     image: mongo
-    container_name: ${ALARM_DB_HOST}
+    container_name: ${NOTIFICATION_DB_HOST}
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${ALARM_DB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${ALARM_DB_PASSWORD}
-      MONGO_INITDB_DATABASE: ${ALARM_DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${NOTIFICATION_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${NOTIFICATION_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${NOTIFICATION_DB_NAME}
     ports:
-      - ${ALARM_DB_PORT}:27017
+      - ${NOTIFICATION_DB_PORT}:27017
     volumes:
-      - alarm_data:/data/db
-      - ./alarm/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
+      - notificationn_data:/data/db
+      - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
 
 volumes:
-  alarm_data:
+  notification_data:
     driver: local

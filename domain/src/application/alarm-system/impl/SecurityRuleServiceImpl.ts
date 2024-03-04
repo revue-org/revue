@@ -4,31 +4,16 @@ import { IntrusionRule } from '../../../domain/alarm-system/core/IntrusionRule.j
 import { SecurityRule } from '../../../domain/alarm-system/core/SecurityRule.js'
 import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
+import { SecurityRuleRepository } from '../../../domain/alarm-system/repositories/SecurityRuleRepository'
+import { Model } from 'mongoose'
+import { SecurityRuleRepositoryImpl } from '../../../storage/alarm-system/SecurityRuleRepositoryImpl'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
+  private securityRuleRepository: SecurityRuleRepository
   private securityRules: SecurityRule[] = []
 
-  addSecurityRule(securityRule: SecurityRule): void {
-    this.securityRules.push(securityRule)
-  }
-
-  addSecurityRules(securityRules: SecurityRule[]): void {
-    this.securityRules.push(...securityRules)
-  }
-
-  removeSecurityRule(securityRuleId: string): void {
-    this.securityRules = this.securityRules.filter(
-      (rule: SecurityRule) => rule.securityRuleId !== securityRuleId
-    )
-  }
-
-  updateSecurityRule(securityRule: SecurityRule): void {
-    this.securityRules = this.securityRules.map((rule: SecurityRule) => {
-      if (rule.securityRuleId === securityRule.securityRuleId) {
-        return securityRule
-      }
-      return rule
-    })
+  constructor(exceedingRuleModel: Model<ExceedingRule>, intrusionRuleModel: Model<IntrusionRule>) {
+    this.securityRuleRepository = new SecurityRuleRepositoryImpl(exceedingRuleModel, intrusionRuleModel)
   }
 
   getActiveRules(): SecurityRule[] {
@@ -49,6 +34,60 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       // @ts-ignore
       (rule: SecurityRule) => rule.deviceId.type === DeviceType.CAMERA
     ) as IntrusionRule[]
+  }
+
+  insertExceedingSecurityRule(exceedingRule: ExceedingRule): void {
+    this.securityRuleRepository.insertExceedingSecurityRule(exceedingRule).then((): void => {
+      this.securityRules.push(exceedingRule)
+    })
+  }
+
+  insertIntrusionSecurityRule(intrusionRule: IntrusionRule): void {
+    this.securityRuleRepository.insertIntrusionSecurityRule(intrusionRule).then((): void => {
+      this.securityRules.push(intrusionRule)
+    })
+  }
+
+  deleteExceedingRule(id: string): void {
+    this.securityRuleRepository.deleteExceedingRule(id).then((): void => {
+      this.securityRules = this.securityRules.filter((rule: SecurityRule) => rule.securityRuleId !== id)
+    })
+  }
+
+  deleteIntrusionRule(id: string): void {
+    this.securityRuleRepository.deleteIntrusionRule(id).then((): void => {
+      this.securityRules = this.securityRules.filter((rule: SecurityRule) => rule.securityRuleId !== id)
+    })
+  }
+
+  getExceedingRules(): Promise<ExceedingRule[]> {
+    return this.securityRuleRepository.getExceedingRules()
+  }
+
+  getIntrusionRules(): Promise<IntrusionRule[]> {
+    return this.securityRuleRepository.getIntrusionRules()
+  }
+
+  getSecurityRuleById(id: string): Promise<SecurityRule> {
+    return this.securityRuleRepository.getSecurityRuleById(id)
+  }
+
+  updateExceedingSecurityRule(exceedingRule: ExceedingRule): void {
+    this.securityRuleRepository.updateExceedingSecurityRule(exceedingRule).then((): void => {
+      this.securityRules = this.securityRules.map(
+        (rule: SecurityRule): SecurityRule =>
+          rule.securityRuleId === exceedingRule.securityRuleId ? exceedingRule : rule
+      )
+    })
+  }
+
+  updateIntrusionSecurityRule(intrusionRule: IntrusionRule): void {
+    this.securityRuleRepository.updateIntrusionSecurityRule(intrusionRule).then((): void => {
+      this.securityRules = this.securityRules.map(
+        (rule: SecurityRule): SecurityRule =>
+          rule.securityRuleId === intrusionRule.securityRuleId ? intrusionRule : rule
+      )
+    })
   }
 
   checkExceedingDetection(environmentData: EnvironmentData): boolean {

@@ -5,24 +5,19 @@ import { Intrusion } from "../../domain/alarm-system/core/Intrusion.js";
 import { AnomalyType } from "../../domain/alarm-system/core";
 
 export interface AnomalyService {
+  getExceedings(): Promise<Exceeding[]>
 
-  addAnomaly(anomaly: Anomaly): void
+  getIntrusions(): Promise<Intrusion[]>
 
-  removeAnomaly(anomalyId: string): void
+  getAnomalyById(anomalyId: string): Promise<Anomaly>
+
+  insertExceeding(exceeding: Exceeding): Promise<string>
+
+  insertIntrusion(intrusion: Intrusion): Promise<string>
 
   updateExceeding(exceeding: Exceeding): void
 
   updateIntrusion(intrusion: Intrusion): void
-
-  getExceedings(): Exceeding[]
-
-  getIntrusions(): Intrusion[]
-
-  getAnomalyById(anomalyId: string): Anomaly
-
-  insertExceeding(exceeding: Exceeding): string
-
-  insertIntrusion(intrusion: Intrusion): string
 
   deleteAnomaly(anomalyId: string, type: AnomalyType): void
 

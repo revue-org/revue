@@ -73,25 +73,32 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     throw new Error('Security rule not found')
   }
 
-  async insertExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void> {
-    await this.exceedingRuleModel.create({
-      deviceId: {
-        type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
-        code: exceedingRule.deviceId.code
-      },
-      creatorId: exceedingRule.creatorId,
-      contactsToNotify: exceedingRule.contactsToNotify,
-      description: exceedingRule.description,
-      min: exceedingRule.min,
-      max: exceedingRule.max,
-      from: exceedingRule.from,
-      to: exceedingRule.to,
-      measure: MeasureConverter.convertToString(exceedingRule.measure)
-    })
+  async insertExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<string> {
+    return await this.exceedingRuleModel
+      .create({
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
+          code: exceedingRule.deviceId.code
+        },
+        creatorId: exceedingRule.creatorId,
+        contactsToNotify: exceedingRule.contactsToNotify,
+        description: exceedingRule.description,
+        min: exceedingRule.min,
+        max: exceedingRule.max,
+        from: exceedingRule.from,
+        to: exceedingRule.to,
+        measure: MeasureConverter.convertToString(exceedingRule.measure)
+      })
+      .then((exceedingRule): string => {
+        return exceedingRule._id.toString()
+      })
+      .catch((err): string => {
+        throw err
+      })
   }
 
-  async insertIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void> {
-    await this.intrusionRuleModel.create({
+  async insertIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<string> {
+    return await this.intrusionRuleModel.create({
       deviceId: {
         type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
         code: intrusionRule.deviceId.code
@@ -103,6 +110,12 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
       from: intrusionRule.from,
       to: intrusionRule.to
     })
+      .then((intrusionRule): string => {
+        return intrusionRule._id.toString()
+      })
+      .catch((err): string => {
+        throw err
+      })
   }
 
   async updateExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void> {

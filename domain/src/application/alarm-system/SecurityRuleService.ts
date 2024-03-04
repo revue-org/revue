@@ -1,16 +1,25 @@
 import { SecurityRule } from '../../domain/alarm-system/core/SecurityRule.js'
-import { EnvironmentData } from '../../domain/device/core'
+import { DeviceId, EnvironmentData, Measure } from "../../domain/device/core";
+import { Contact } from "../../domain/monitoring/core";
+import { ExceedingRule, IntrusionRule } from "../../domain/alarm-system/core";
 
 export interface SecurityRuleService {
-  addSecurityRule(securityRule: SecurityRule): void
+  getSecurityRuleById(id: string): Promise<SecurityRule>
 
-  addSecurityRules(securityRules: SecurityRule[]): void
+  getExceedingRules(): Promise<ExceedingRule[]>
 
-  removeSecurityRule(securityRuleId: string): void
+  getIntrusionRules(): Promise<IntrusionRule[]>
 
-  updateSecurityRule(securityRule: SecurityRule): void
+  insertExceedingSecurityRule(exceedingRule: ExceedingRule): void
 
-  checkExceedingDetection(environmentData: EnvironmentData): boolean
+  insertIntrusionSecurityRule(intrusionRule: IntrusionRule): void
 
-  checkIntrusionDetection(detection: any): boolean
+  updateExceedingSecurityRule(exceedingRule: ExceedingRule): void
+
+  updateIntrusionSecurityRule(intrusionRule: IntrusionRule): void
+
+  deleteExceedingRule(id: string): void
+
+  deleteIntrusionRule(id: string): void
+
 }

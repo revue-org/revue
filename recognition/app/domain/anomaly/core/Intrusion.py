@@ -3,7 +3,13 @@ from . import ObjectClass, Anomaly
 
 
 class Intrusion(Anomaly):
-    def __init__(self, anomaly_id: str, device_id: DeviceId, timestamp: str, intrusion_object: ObjectClass):
+    def __init__(
+        self,
+        anomaly_id: str,
+        device_id: DeviceId,
+        timestamp: str,
+        intrusion_object: ObjectClass,
+    ):
         super().__init__(anomaly_id, device_id, timestamp)
         self._intrusion_object: ObjectClass = intrusion_object
 

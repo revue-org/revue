@@ -2,7 +2,13 @@ from . import Device, DeviceId, Resolution
 
 
 class Camera(Device):
-    def __init__(self, device_id: DeviceId, is_capturing: bool, ip_address: str, resolution: Resolution):
+    def __init__(
+        self,
+        device_id: DeviceId,
+        is_capturing: bool,
+        ip_address: str,
+        resolution: Resolution,
+    ):
         super().__init__(device_id, is_capturing, ip_address)
         self._resolution = resolution
 

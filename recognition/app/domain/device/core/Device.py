@@ -2,7 +2,13 @@ from . import DeviceId, Resolution
 
 
 class Device:
-    def __init__(self, device_id: DeviceId, is_capturing: bool, ip_address: str, resolution: Resolution):
+    def __init__(
+        self,
+        device_id: DeviceId,
+        is_capturing: bool,
+        ip_address: str,
+        resolution: Resolution,
+    ):
         self._device_id: DeviceId = device_id
         self._ip_address: str = ip_address
         self._is_capturing: bool = is_capturing

@@ -11,6 +11,9 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.1"
 }
 
+class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
+
+
 subprojects {
 
     if (project.file("package.json").exists()) {
@@ -19,7 +22,6 @@ subprojects {
         node {
             download = false
         }
-        class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
 
         listOf(
             Task("install", listOf("install")),
@@ -47,17 +49,19 @@ subprojects {
         tasks.register("clean", Delete::class) {
             delete("dist", "node_modules/domain", "tsconfig.tsbuildinfo")
         }
-    } else {
-        println(project.name)
-        tasks.register("install", Exec::class) {
-            commandLine = listOf("pip", "install", "-r", "requirements.txt")
-        }
-        tasks.register("build") {
-            dependsOn(":${project.name}:install")
-        }
-        tasks.register("test", Exec::class) {
-            dependsOn(":${project.name}:build")
-            commandLine = listOf("python", "-m", "unittest", "discover", "-s", "test")
+    } else if (project.file(".python-version").exists()) {
+        listOf(
+            Task("install", listOf("pip", "install", "-r", "requirements.txt")),
+            Task("build", listOf("echo", "ciao"), listOf(":${project.name}:install")),
+            Task("test", listOf("python", "-m", "unittest", "discover", "-s", "test")),
+            Task("format", listOf("python", "-m", "black", ".")),
+            Task("format-fix", listOf("python", "-m", "black", ".", "--check")),
+        ).forEach { task ->
+            tasks.register(task.name, Exec::class) {
+                if (task.name != "install") dependsOn(":${project.name}:install")
+                commandLine = listOf(*task.args.toTypedArray())
+                if (task.dependencies.isNotEmpty()) dependsOn(task.dependencies)
+            }
         }
     }
 

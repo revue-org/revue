@@ -7,13 +7,15 @@ import numpy as np
 class Recognizer:
 
     def __init__(self, rtsp_stream_url: str, object_to_recognize: [str]):
-        yolo_resource: str = 'app/resources/yolov3'
-        with open(f'{yolo_resource}/coco.names', 'r') as f:
+        yolo_resource: str = "app/resources/yolov3"
+        with open(f"{yolo_resource}/coco.names", "r") as f:
             self.classes: [str] = [line.strip() for line in f.readlines()]
         self._rtsp_stream_url: str = rtsp_stream_url
         self._object_to_recognize: str = object_to_recognize
         self._is_recognizing: bool = False
-        self._net = cv.dnn_DetectionModel(f'{yolo_resource}/yolov3.weights', f'{yolo_resource}/yolov3.cfg')
+        self._net = cv.dnn_DetectionModel(
+            f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
+        )
         self._net.setInputSize(320, 320)
         self._net.setInputScale(1.0 / 255)
         self._net.setInputSwapRB(True)
@@ -47,7 +49,9 @@ class Recognizer:
                     confidences_unique.append(confidences[index])
 
                 confidences_unique = np.array(confidences_unique)
-                for classId, confidence in zip(classes_unique.flatten(), confidences_unique.flatten()):
+                for classId, confidence in zip(
+                    classes_unique.flatten(), confidences_unique.flatten()
+                ):
                     print(self.classes[classId], confidence)
 
         capture.release()

@@ -7,8 +7,17 @@ from app.domain.monitoring.core import Contact
 
 
 class IntrusionRule:
-    def __init__(self, object_class: ObjectClass, security_rule_id: str, device_id: DeviceId, creator_id: str,
-                 contacts_to_notify: List[Contact], description: str, from_date: datetime, to_date: datetime):
+    def __init__(
+        self,
+        object_class: ObjectClass,
+        security_rule_id: str,
+        device_id: DeviceId,
+        creator_id: str,
+        contacts_to_notify: List[Contact],
+        description: str,
+        from_date: datetime,
+        to_date: datetime,
+    ):
         self._object_class = object_class
         self._security_rule_id = security_rule_id
         self._device_id = device_id
@@ -19,10 +28,16 @@ class IntrusionRule:
         self._to_date = to_date
 
     def __eq__(self, other):
-        return self.object_class == other.object_class and self.security_rule_id == other.security_rule_id and \
-            self.device_id == other.device_id and self.creator_id == other.creator_id and \
-            self.contacts_to_notify == other.contacts_to_notify and self.description == other.description and \
-            self.from_date == other.from_date and self.to_date == other.to_date
+        return (
+            self.object_class == other.object_class
+            and self.security_rule_id == other.security_rule_id
+            and self.device_id == other.device_id
+            and self.creator_id == other.creator_id
+            and self.contacts_to_notify == other.contacts_to_notify
+            and self.description == other.description
+            and self.from_date == other.from_date
+            and self.to_date == other.to_date
+        )
 
     @property
     def object_class(self) -> ObjectClass:

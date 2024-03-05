@@ -51,11 +51,11 @@ subprojects {
         }
     } else if (project.file(".python-version").exists()) {
         listOf(
-            Task("install", listOf("pip", "install", "-r", "requirements.txt")),
-            Task("build", listOf("echo", "ciao"), listOf(":${project.name}:install")),
-            Task("test", listOf("python", "-m", "unittest", "discover", "-s", "test")),
-            Task("format", listOf("python", "-m", "black", ".")),
-            Task("format-fix", listOf("python", "-m", "black", ".", "--check")),
+            Task("install", listOf("poetry", "install", "--no-root")),
+            Task("build", listOf("poetry", "build")),
+            Task("test", listOf("poetry", "run", "python", "-m", "unittest", "discover", "-s", "test")),
+            Task("format", listOf("poetry", "run", "python", "-m", "black", ".")),
+            Task("format-fix", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),
         ).forEach { task ->
             tasks.register(task.name, Exec::class) {
                 if (task.name != "install") dependsOn(":${project.name}:install")
@@ -64,6 +64,4 @@ subprojects {
             }
         }
     }
-
-
 }

@@ -7,7 +7,7 @@ import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
 import { notificationService } from '../init.js'
-import { io } from "../index.js";
+import { io } from '../index.js'
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
@@ -38,7 +38,7 @@ export const notificationController = {
     deviceId: DeviceId,
     intrusionObject: ObjectClass
   ): Promise<string> => {
-    const notificationId: string =  await notificationService.insertIntrusionNotification(
+    const notificationId: string = await notificationService.insertIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         '',
         anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, anomalyId)

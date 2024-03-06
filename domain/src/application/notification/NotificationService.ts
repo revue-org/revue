@@ -1,4 +1,4 @@
-import { Notification } from "../../domain/notification/core/Notification";
+import { Notification } from '../../domain/notification/core/Notification'
 
 export interface NotificationService {
   getNotificationById(id: string): Promise<Notification>

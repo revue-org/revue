@@ -8,7 +8,12 @@ import { ResolutionFactory } from 'domain/dist/domain/device/factories/Resolutio
 import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/ResolutionFactoryImpl.js'
 import { AnomalyFactory } from 'domain/dist/domain/alarm-system/factories/AnomalyFactory.js'
 import { AnomalyFactoryImpl } from 'domain/dist/domain/alarm-system/factories/impl/AnomalyFactoryImpl.js'
-import RequestHelper, { monitoringHost, monitoringPort, notificationHost, notificationPort} from './utils/RequestHelper.js'
+import RequestHelper, {
+  monitoringHost,
+  monitoringPort,
+  notificationHost,
+  notificationPort
+} from './utils/RequestHelper.js'
 import { ExceedingRule } from 'domain/dist/domain/alarm-system/core/ExceedingRule.js'
 import { IntrusionRule } from 'domain/dist/domain/alarm-system/core/IntrusionRule.js'
 import { Device } from 'domain/dist/domain/device/core/Device.js'
@@ -18,10 +23,10 @@ import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/Envi
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
 import kafkaManager from './utils/KafkaManager.js'
 import { Exceeding } from 'domain/dist/domain/alarm-system/core/Exceeding.js'
-import { anomalyService, securityRuleService } from "./init.js";
-import { DeviceId } from "domain/dist/domain/device/core/DeviceId.js";
-import { Measure } from "domain/dist/domain/device/core/impl/enum/Measure.js";
-import { MeasureConverter } from "domain/dist/utils/MeasureConverter.js";
+import { anomalyService, securityRuleService } from './init.js'
+import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
+import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
+import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -53,7 +58,6 @@ export const setupConsumer = async (): Promise<void> => {
           //TODO to check the intrusion object and to create the anomaly in case of intrusion
           console.log('Devo controllare sulle intrusioni')
         } else if (topic.startsWith('SENSOR')) {
-          //TODO to check the measure and the value and to create the anomaly in case of exceeding
           for (const rawValue of rawValues) {
             if (
               securityRuleService.checkExceedingDetection(
@@ -75,9 +79,20 @@ export const setupConsumer = async (): Promise<void> => {
                 '' // TODO: check for the default value, it seems to not work
               )
               const exceedingId: string = await anomalyService.insertExceeding(
-                anomalyFactory.createExceeding(exceeding.deviceId, new Date(), exceeding.measure, exceeding.value, '')
+                anomalyFactory.createExceeding(
+                  exceeding.deviceId,
+                  new Date(),
+                  exceeding.measure,
+                  exceeding.value,
+                  ''
+                )
               )
-              await sendExceedingNotification(exceedingId, exceeding.deviceId, exceeding.measure, exceeding.value)
+              await sendExceedingNotification(
+                exceedingId,
+                exceeding.deviceId,
+                exceeding.measure,
+                exceeding.value
+              )
             } else {
               console.log('No anomaly detected')
             }
@@ -153,10 +168,15 @@ const getCapturingDevices = async (): Promise<Device[]> => {
   }
 }
 
-const sendExceedingNotification = async(anomalyId: string, deviceId: DeviceId, measure: Measure, value: number): Promise<void> => {
+const sendExceedingNotification = async (
+  anomalyId: string,
+  deviceId: DeviceId,
+  measure: Measure,
+  value: number
+): Promise<void> => {
   const notificationUrl: string = `http://${notificationHost}:${notificationPort}`
   console.log('Sending notification')
-  console.log(notificationUrl);
+  console.log(notificationUrl)
   try {
     await RequestHelper.post(`${notificationUrl}/notifications/exceedings`, {
       anomalyId: anomalyId,

@@ -31,23 +31,12 @@ export const anomalyController = {
       anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, '')
     )
   },
-  updateExceeding(
-    id: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    measure: Measure,
-    value: number
-  ): void {
+  updateExceeding(id: string, deviceId: DeviceId, timestamp: Date, measure: Measure, value: number): void {
     return anomalyService.updateExceeding(
       anomalyFactory.createExceeding(deviceId, timestamp, measure, value, id)
     )
   },
-  updateIntrusion(
-    id: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    intrusionObject: ObjectClass
-  ): void {
+  updateIntrusion(id: string, deviceId: DeviceId, timestamp: Date, intrusionObject: ObjectClass): void {
     return anomalyService.updateIntrusion(
       anomalyFactory.createIntrusion(deviceId, timestamp, intrusionObject, id)
     )

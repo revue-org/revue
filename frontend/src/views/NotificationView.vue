@@ -26,7 +26,9 @@ async function getNotifications() {
 
 const deleteNotification = async (notification: Notification) => {
   console.log(`http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`)
-  await RequestHelper.delete(`http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`)
+  await RequestHelper.delete(
+    `http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`
+  )
     .then((res: any) => {
       getNotifications()
       popPositive($q, 'Notification deleted successfully')

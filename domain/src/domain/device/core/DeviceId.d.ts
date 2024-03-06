@@ -1,7 +1,7 @@
-import { DeviceType } from './impl/enum/DeviceType.js';
+import { DeviceType } from './impl/enum/DeviceType.js'
 export interface DeviceId {
-    get type(): DeviceType;
-    set type(type: DeviceType);
-    get code(): string;
-    set code(code: string);
+  get type(): DeviceType
+  set type(type: DeviceType)
+  get code(): string
+  set code(code: string)
 }

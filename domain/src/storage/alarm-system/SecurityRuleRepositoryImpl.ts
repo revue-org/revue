@@ -98,18 +98,19 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
   }
 
   async insertIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<string> {
-    return await this.intrusionRuleModel.create({
-      deviceId: {
-        type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
-        code: intrusionRule.deviceId.code
-      },
-      creatorId: intrusionRule.creatorId,
-      contactsToNotify: intrusionRule.contactsToNotify,
-      description: intrusionRule.description,
-      objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
-      from: intrusionRule.from,
-      to: intrusionRule.to
-    })
+    return await this.intrusionRuleModel
+      .create({
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
+          code: intrusionRule.deviceId.code
+        },
+        creatorId: intrusionRule.creatorId,
+        contactsToNotify: intrusionRule.contactsToNotify,
+        description: intrusionRule.description,
+        objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
+        from: intrusionRule.from,
+        to: intrusionRule.to
+      })
       .then((intrusionRule): string => {
         return intrusionRule._id.toString()
       })

@@ -42,4 +42,6 @@ export const securityRuleService: SecurityRuleService = new SecurityRuleServiceI
   exceedingRuleModel,
   intrusionRuleModel
 )
-export const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(recognizingNodeModel)
+export const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(
+  recognizingNodeModel
+)

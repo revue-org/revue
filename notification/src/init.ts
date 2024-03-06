@@ -7,8 +7,8 @@ import { NotificationService } from 'domain/dist/application/notification/Notifi
 import { NotificationServiceImpl } from 'domain/dist/application/notification/impl/NotificationServiceImpl.js'
 import { SecurityRuleService } from 'domain/dist/application/alarm-system/SecurityRuleService.js'
 import { SecurityRuleServiceImpl } from 'domain/dist/application/alarm-system/impl/SecurityRuleServiceImpl.js'
-import { ExceedingRule } from "domain/dist/domain/alarm-system/core/ExceedingRule.js";
-import { IntrusionRule } from "domain/dist/domain/alarm-system/core/IntrusionRule.js";
+import { ExceedingRule } from 'domain/dist/domain/alarm-system/core/ExceedingRule.js'
+import { IntrusionRule } from 'domain/dist/domain/alarm-system/core/IntrusionRule.js'
 
 export const notificationModel: Model<Notification> = model<Notification>(
   'Notification',

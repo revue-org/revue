@@ -8,7 +8,6 @@ import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
-//import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
 import { setupConsumer } from './consumer.js'
@@ -22,13 +21,6 @@ app.use(cors())
 const PORT: number = Number(process.env.ALARM_PORT) || 4002
 
 const server: HttpServer = http.createServer(app)
-
-//const frontendPort: string = process.env.FRONTEND_PORT || '8080'
-/*export const io: SocketIOServer = new SocketIOServer(server, {
-  cors: {
-    origin: `http://localhost:${frontendPort}`
-  }
-})*/
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

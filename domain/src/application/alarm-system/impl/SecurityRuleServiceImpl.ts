@@ -60,12 +60,16 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     })
   }
 
-  getExceedingRules(): Promise<ExceedingRule[]> {
-    return this.securityRuleRepository.getExceedingRules()
+  async getExceedingRules(): Promise<ExceedingRule[]> {
+    const rules: ExceedingRule[] = await this.securityRuleRepository.getExceedingRules()
+    this.securityRules = this.securityRules.concat(rules)
+    return rules
   }
 
-  getIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.securityRuleRepository.getIntrusionRules()
+  async getIntrusionRules(): Promise<IntrusionRule[]> {
+    const rules: IntrusionRule[] = await this.securityRuleRepository.getIntrusionRules()
+    this.securityRules = this.securityRules.concat(rules)
+    return rules
   }
 
   getSecurityRuleById(id: string): Promise<SecurityRule> {

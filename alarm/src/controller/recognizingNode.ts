@@ -6,34 +6,27 @@ import { RecognizingNodeFactoryImpl } from '@domain/alarm-system/factories/impl/
 import { RecognizingNodeRepository } from '@domain/alarm-system/repositories/RecognizingNodeRepository.js'
 import { RecognizingNodeRepositoryImpl } from '@storage/alarm-system/RecognizingNodeRepositoryImpl.js'
 import { recognizingNodeSchema } from '@storage/alarm-system/schemas/RecognizingNodeSchema.js'
+import { recognizingNodeService } from '../init.js'
 
-export const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNode>(
-  'RecognizingNode',
-  recognizingNodeSchema,
-  'recognizingNode'
-)
-const recognizingNodeRepository: RecognizingNodeRepository = new RecognizingNodeRepositoryImpl(
-  recognizingNodeModel
-)
 const recognizingNodeFactory: RecognizingNodeFactory = new RecognizingNodeFactoryImpl()
 export const recognizingNodeController = {
   getRecognizingNodeById: async (id: string): Promise<RecognizingNode> => {
-    return await recognizingNodeRepository.getRecognizingNodeById(id)
+    return await recognizingNodeService.getRecognizingNodeById(id)
   },
   getRecognizingNodes: async (): Promise<RecognizingNode[]> => {
-    return await recognizingNodeRepository.getRecognizingNodes()
+    return await recognizingNodeService.getRecognizingNodes()
   },
   createRecognizingNode: async (req: Request): Promise<void> => {
-    await recognizingNodeRepository.insertRecognizingNode(
+    await recognizingNodeService.insertRecognizingNode(
       recognizingNodeFactory.createRecognizingNode('', req.body.ipAddress, req.body.deviceIds)
     )
   },
   updateRecognizingNode: async (req: Request): Promise<void> => {
-    await recognizingNodeRepository.updateRecognizingNode(
+    await recognizingNodeService.updateRecognizingNode(
       recognizingNodeFactory.createRecognizingNode(req.body.id, req.body.ipAddress, req.body.deviceIds)
     )
   },
   deleteRecognizingNode: async (id: string): Promise<void> => {
-    return await recognizingNodeRepository.deleteRecognizingNode(id)
+    return await recognizingNodeService.deleteRecognizingNode(id)
   }
 }

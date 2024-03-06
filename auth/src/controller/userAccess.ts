@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import { jwtManager } from '../utils/JWTManager.js'
 import { UserInfo } from '../utils/UserInfo.js'
 import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
-import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
+import { UserRepository } from '@domain/monitoring/repositories/UserRepository.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { userModel } from './user.js'
 

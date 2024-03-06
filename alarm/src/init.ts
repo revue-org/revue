@@ -1,4 +1,3 @@
-import { AnomalyServiceImpl } from 'domain/src/application/alarm-system/impl/AnomalyServiceImpl.js'
 import { model, Model } from 'mongoose'
 import { Exceeding } from 'domain/dist/domain/alarm-system/core/Exceeding.js'
 import { Intrusion } from 'domain/dist/domain/alarm-system/core/Intrusion.js'
@@ -11,6 +10,7 @@ import { intrusionRuleSchema } from 'domain/dist/storage/alarm-system/schemas/In
 import { RecognizingNode } from 'domain/dist/domain/alarm-system/core/RecognizingNode.js'
 import { recognizingNodeSchema } from 'domain/dist/storage/alarm-system/schemas/RecognizingNodeSchema.js'
 import { AnomalyService } from 'domain/dist/application/alarm-system/AnomalyService.js'
+import { AnomalyServiceImpl } from 'domain/dist/application/alarm-system/impl/AnomalyServiceImpl.js'
 import { SecurityRuleService } from 'domain/dist/application/alarm-system/SecurityRuleService.js'
 import { SecurityRuleServiceImpl } from 'domain/dist/application/alarm-system/impl/SecurityRuleServiceImpl.js'
 import { RecognizingNodeService } from 'domain/dist/application/alarm-system/RecognizingNodeService.js'
@@ -43,4 +43,3 @@ export const securityRuleService: SecurityRuleService = new SecurityRuleServiceI
   intrusionRuleModel
 )
 export const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(recognizingNodeModel)
-//export default { anomalyService, securityRuleService, recognizingNodeService }

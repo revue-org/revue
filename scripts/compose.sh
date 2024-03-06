@@ -8,6 +8,7 @@ docker compose \
     -f media-server/docker-compose.yml \
     -f frontend/docker-compose.yml \
     -f log/docker-compose.yml \
+    -f notification/docker-compose.yml \
     -f camera/docker-compose.yml \
     -f sensor/docker-compose.yml \
     "$@"

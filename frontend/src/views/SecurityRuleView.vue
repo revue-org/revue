@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/security-rule/core'
+import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/alarm-system/core'
 import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
 import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'

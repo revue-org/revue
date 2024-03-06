@@ -8,7 +8,7 @@ import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
-import { Server as SocketIOServer } from 'socket.io'
+//import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 
 import { setupConsumer } from './consumer.js'

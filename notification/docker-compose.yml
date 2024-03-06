@@ -26,7 +26,7 @@ services:
     ports:
       - ${NOTIFICATION_DB_PORT}:27017
     volumes:
-      - notificationn_data:/data/db
+      - notification_data:/data/db
       - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
 
 volumes:

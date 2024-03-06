@@ -1,7 +1,7 @@
 import type { Request } from 'express'
 import { Model, model } from 'mongoose'
 import { userSchema } from '@storage/monitoring/schemas/UserSchema.js'
-import { UserRepository } from '@domain/monitoring/repository/UserRepository.js'
+import { UserRepository } from '@domain/monitoring/repositories/UserRepository.js'
 import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { Contact } from '@domain/monitoring/core/Contact.js'

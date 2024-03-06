@@ -7,27 +7,27 @@ import { Anomaly } from '@domain/alarm-system/core/Anomaly.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
-import alarmService from '../init.js'
+import { anomalyService } from '../init.js'
 
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 
 export const anomalyController = {
   getAnomalyById: async (id: string): Promise<Anomaly> => {
-    return alarmService.getAnomalyById(id)
+    return anomalyService.getAnomalyById(id)
   },
   getExceedings: async (): Promise<Exceeding[]> => {
-    return alarmService.getExceedings()
+    return anomalyService.getExceedings()
   },
   getIntrusions: async (): Promise<Intrusion[]> => {
-    return alarmService.getIntrusions()
+    return anomalyService.getIntrusions()
   },
   createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<string> => {
-    return alarmService.insertExceeding(
+    return anomalyService.insertExceeding(
       anomalyFactory.createExceeding(deviceId, new Date(), measure, value, '')
     )
   },
   createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<string> => {
-    return alarmService.insertIntrusion(
+    return anomalyService.insertIntrusion(
       anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, '')
     )
   },
@@ -38,7 +38,7 @@ export const anomalyController = {
     measure: Measure,
     value: number
   ): void {
-    return alarmService.updateExceeding(
+    return anomalyService.updateExceeding(
       anomalyFactory.createExceeding(deviceId, timestamp, measure, value, id)
     )
   },
@@ -48,11 +48,11 @@ export const anomalyController = {
     timestamp: Date,
     intrusionObject: ObjectClass
   ): void {
-    return alarmService.updateIntrusion(
+    return anomalyService.updateIntrusion(
       anomalyFactory.createIntrusion(deviceId, timestamp, intrusionObject, id)
     )
   },
   deleteAnomaly: async (id: string, type: string): Promise<void> => {
-    alarmService.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
+    anomalyService.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
   }
 }

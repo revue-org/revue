@@ -6,7 +6,7 @@ import {
   type IntrusionRule,
   ObjectClass,
   type SecurityRule
-} from '@domain/security-rule/core'
+} from '@domain/alarm-system/core'
 import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
 import { ref, watch } from 'vue'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'

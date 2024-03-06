@@ -9,8 +9,8 @@ import {
   type IntrusionRule,
   ObjectClass,
   type SecurityRule
-} from 'domain/dist/domain/security-rule/core'
-import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/security-rule/factories'
+} from 'domain/dist/domain/alarm-system/core'
+import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/alarm-system/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Notification } from 'domain/dist/domain/alarm-system/core/Notification'
+import type { Notification } from 'domain/dist/domain/notification/core/Notification'
 import { getMeasureColor } from '@/utils/MeasureUtils'
 import { DeviceType, Measure } from 'domain/dist/domain/device/core'
-import type { Exceeding, Intrusion } from 'domain/dist/domain/anomaly/core'
-import { ObjectClass } from 'domain/dist/domain/security-rule/core'
+import type { Exceeding, Intrusion } from 'domain/dist/domain/alarm-system/core'
+import { ObjectClass } from 'domain/dist/domain/alarm-system/core'
 import { popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 

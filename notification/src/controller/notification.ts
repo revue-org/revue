@@ -6,7 +6,8 @@ import { AnomalyFactoryImpl } from '@domain/alarm-system/factories/impl/AnomalyF
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
-import notificationService from '../init.js'
+import { notificationService } from '../init.js'
+import { io } from "../index.js";
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
@@ -23,24 +24,28 @@ export const notificationController = {
     measure: Measure,
     value: number
   ): Promise<string> => {
-    return await notificationService.insertExceedingNotification(
+    const notificationId: string = await notificationService.insertExceedingNotification(
       notificationFactory.createExceedingNotification(
         '',
         anomalyFactory.createExceeding(deviceId, new Date(), value, measure, anomalyId)
       )
     )
+    io.emit('notification', { type: 'EXCEEDING' })
+    return notificationId
   },
   createIntrusionNotification: async (
     anomalyId: string,
     deviceId: DeviceId,
     intrusionObject: ObjectClass
   ): Promise<string> => {
-    return await notificationService.insertIntrusionNotification(
+    const notificationId: string =  await notificationService.insertIntrusionNotification(
       notificationFactory.createIntrusionNotification(
         '',
         anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, anomalyId)
       )
     )
+    io.emit('notification', { type: 'INTRUSION' })
+    return notificationId
   },
   updateExceedingNotification: async (
     notificationId: string,

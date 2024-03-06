@@ -5,11 +5,11 @@ import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { alarmSocket, monitoringSocket, setupSocketServers } from '@/socket'
+import { notificationSocket, monitoringSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
 import { AnomalyTypeConverter, DeviceTypeConverter } from 'domain/dist/utils'
-import { AnomalyType } from 'domain/dist/domain/anomaly/core'
+import { AnomalyType } from 'domain/dist/domain/alarm-system/core'
 import { useTopicsStore } from '@/stores/topics'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
 import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
@@ -22,7 +22,7 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 let values: Ref<{ sensor: Sensor; values: EnvironmentData[] }[]> = ref([])
 
-if (monitoringSocket == undefined || alarmSocket == undefined) {
+if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers()
 }
 
@@ -92,8 +92,8 @@ monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
   }
 })
 
-if (alarmSocket?.listeners('notification').length === 0) {
-  alarmSocket?.on('notification', (anomaly: { type: string }) => {
+if (notificationSocket?.listeners('notification').length === 0) {
+  notificationSocket?.on('notification', (anomaly: { type: string }) => {
     switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
       case AnomalyType.EXCEEDING:
         showNotification('Exceeding notification')

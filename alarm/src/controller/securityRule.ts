@@ -1,10 +1,5 @@
-import { Model, model } from 'mongoose'
-import { SecurityRuleRepository } from '@domain/alarm-system/repositories/SecurityRuleRepository.js'
-import { SecurityRuleRepositoryImpl } from '@storage/alarm-system/SecurityRuleRepositoryImpl.js'
 import { SecurityRuleFactory } from '@domain/alarm-system/factories/SecurityRuleFactory.js'
 import { SecurityRuleFactoryImpl } from '@domain/alarm-system/factories/impl/SecurityRuleFactoryImpl.js'
-import { exceedingRuleSchema } from '@storage/alarm-system/schemas/ExceedingRuleSchema.js'
-import { intrusionRuleSchema } from '@storage/alarm-system/schemas/IntrusionRuleSchema.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
@@ -12,32 +7,18 @@ import { ExceedingRule } from '@domain/alarm-system/core/ExceedingRule.js'
 import { IntrusionRule } from '@domain/alarm-system/core/IntrusionRule.js'
 import { SecurityRule } from '@domain/alarm-system/core/SecurityRule.js'
 import { Contact } from '@domain/monitoring/core/Contact.js'
+import { securityRuleService } from '../init.js'
 
-export const exceedingRuleModel: Model<ExceedingRule> = model<ExceedingRule>(
-  'ExceedingRule',
-  exceedingRuleSchema,
-  'securityRule'
-)
-export const intrusionRuleModel: Model<IntrusionRule> = model<IntrusionRule>(
-  'IntrusionRule',
-  intrusionRuleSchema,
-  'securityRule'
-)
-
-export const securityRuleRepository: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
-  exceedingRuleModel,
-  intrusionRuleModel
-)
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
-    return await securityRuleRepository.getSecurityRuleById(id)
+    return await securityRuleService.getSecurityRuleById(id)
   },
   getExceedingRules: async (): Promise<ExceedingRule[]> => {
-    return await securityRuleRepository.getExceedingRules()
+    return await securityRuleService.getExceedingRules()
   },
   getIntrusionRules: async (): Promise<IntrusionRule[]> => {
-    return await securityRuleRepository.getIntrusionRules()
+    return await securityRuleService.getIntrusionRules()
   },
   createExceedingRule: async (
     deviceId: DeviceId,
@@ -50,7 +31,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleRepository.insertExceedingSecurityRule(
+    securityRuleService.insertExceedingSecurityRule(
       securityRuleFactory.createExceedingRule(
         minValue,
         maxValue,
@@ -74,7 +55,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleRepository.insertIntrusionSecurityRule(
+    securityRuleService.insertIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
         objectClass,
         '',
@@ -98,7 +79,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleRepository.updateExceedingSecurityRule(
+    securityRuleService.updateExceedingSecurityRule(
       securityRuleFactory.createExceedingRule(
         minValue,
         maxValue,
@@ -122,7 +103,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await securityRuleRepository.updateIntrusionSecurityRule(
+    securityRuleService.updateIntrusionSecurityRule(
       securityRuleFactory.createIntrusionRule(
         objectClass,
         intrusionRuleId,
@@ -136,9 +117,9 @@ export const securityRuleController = {
     )
   },
   deleteExceedingRule: async (id: string): Promise<void> => {
-    return await securityRuleRepository.deleteExceedingRule(id)
+    return securityRuleService.deleteExceedingRule(id)
   },
   deleteIntrusionRule: async (id: string): Promise<void> => {
-    return await securityRuleRepository.deleteIntrusionRule(id)
+    return securityRuleService.deleteIntrusionRule(id)
   }
 }

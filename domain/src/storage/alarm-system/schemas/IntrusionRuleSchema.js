@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
 import { contactSchema } from '../../monitoring/schemas/ContactSchema.js'
-import { ObjectClass } from '../../../domain/security-rule/core/impl/enum/ObjectClass.js'
+import { ObjectClass } from '../../../domain/alarm-system/core/impl/enum/ObjectClass.js'
 
 export const intrusionRuleSchema = new Schema({
   deviceId: {

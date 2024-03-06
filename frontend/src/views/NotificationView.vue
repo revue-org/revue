@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type { Notification } from '@domain/alarm-system/core'
-import RequestHelper, { alarmHost, alarmPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import type { Notification } from 'domain/dist/domain/notification/core/Notification.js'
+import RequestHelper, { notificationHost, notificationPort } from '@/utils/RequestHelper'
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 import { composeNotification } from '@/scripts/presentation/notification/ComposeNotification'
 import { popNegative, popPositive } from '@/scripts/Popups'
@@ -11,7 +11,7 @@ const notifications: ref<Notification[]> = ref([])
 const $q = useQuasar()
 
 async function getNotifications() {
-  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/notifications`)
+  await RequestHelper.get(`http://${notificationHost}:${notificationPort}/notifications`)
     .then(async (res: any) => {
       notifications.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
@@ -25,8 +25,8 @@ async function getNotifications() {
 }
 
 const deleteNotification = async (notification: Notification) => {
-  console.log(`http://${alarmHost}:${alarmPort}/notifications/${notification.notificationId}`)
-  await RequestHelper.delete(`http://${alarmHost}:${alarmPort}/notifications/${notification.notificationId}`)
+  console.log(`http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`)
+  await RequestHelper.delete(`http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`)
     .then((res: any) => {
       getNotifications()
       popPositive($q, 'Notification deleted successfully')

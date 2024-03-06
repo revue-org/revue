@@ -4,7 +4,6 @@ class KafkaManager {
   private kafka: Kafka
 
   constructor(kafkaHost: string, kafkaPort: string) {
-    console.log('INFO: SETUP KAFKA')
     this.kafka = new Kafka({
       clientId: 'alarm',
       brokers: [`${kafkaHost}:${kafkaPort}`]

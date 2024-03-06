@@ -56,7 +56,6 @@ export const setupConsumer = async (): Promise<void> => {
 
         if (topic.startsWith('CAMERA')) {
           //TODO to check the intrusion object and to create the anomaly in case of intrusion
-          console.log('Devo controllare sulle intrusioni')
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {
             if (

@@ -13,7 +13,7 @@ describe('POST /notifications/', (): void => {
   describe('POST /notifications/exceedings', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const creation: Response = await alarmService.post('/notifications/exceedings')
+      const creation: Response = await notificationService.post('/notifications/exceedings')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
@@ -28,7 +28,7 @@ describe('POST /notifications/', (): void => {
         value: 30
       }
       // @ts-ignore
-      const creation: Response = await alarmService
+      const creation: Response = await notificationService
         .post('/notifications/exceedings')
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(newExceedingNotification)
@@ -41,7 +41,7 @@ describe('POST /notifications/', (): void => {
   describe('POST /notifications/intrusions', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const creation: Response = await alarmService.post('/notifications/intrusions')
+      const creation: Response = await notificationService.post('/notifications/intrusions')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
     }, 100000)
 
@@ -55,7 +55,7 @@ describe('POST /notifications/', (): void => {
         intrusionObject: 'PERSON'
       }
       // @ts-ignore
-      const creation: Response = await alarmService
+      const creation: Response = await notificationService
         .post('/notifications/intrusions')
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(newIntrusionNotification)

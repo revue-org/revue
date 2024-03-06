@@ -13,13 +13,13 @@ describe('GET /notifications/', (): void => {
 
   it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
-    const notifications: Response = await alarmService.get('/notifications/exceedings')
+    const notifications: Response = await notificationService.get('/notifications/exceedings')
     expect(notifications.status).toBe(HttpStatusCode.FORBIDDEN)
   })
 
   it('responds with the notifications otherwise', async (): Promise<void> => {
     // @ts-ignore
-    const notifications: Response = await alarmService
+    const notifications: Response = await notificationService
       .get('/notifications/')
       .set('Authorization', `Bearer ${TOKEN}`)
     expect(notifications.status).toBe(HttpStatusCode.OK)

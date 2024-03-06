@@ -1,18 +1,16 @@
-import { Model } from 'mongoose'
 import { Anomaly } from '../../../domain/alarm-system/core/Anomaly.js'
 import { AnomalyService } from '../AnomalyService.js'
 import { Exceeding } from '../../../domain/alarm-system/core/Exceeding.js'
 import { Intrusion } from '../../../domain/alarm-system/core/Intrusion.js'
 import { AnomalyRepository } from '../../../domain/alarm-system/repositories/AnomalyRepository.js'
-import { AnomalyRepositoryImpl } from '../../../storage/alarm-system/AnomalyRepositoryImpl.js'
 import { AnomalyType } from '../../../domain/alarm-system/core/impl/enum/AnomalyType.js'
 
 export class AnomalyServiceImpl implements AnomalyService {
   private anomalyRepository: AnomalyRepository
   private anomalies: Anomaly[] = []
 
-  constructor(exceedingModel: Model<Exceeding>, intrusionModel: Model<Intrusion>) {
-    this.anomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
+  constructor(anomalyRepository: AnomalyRepository) {
+    this.anomalyRepository = anomalyRepository
   }
 
   getExceedings(): Promise<Exceeding[]> {

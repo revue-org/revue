@@ -1,15 +1,13 @@
 import { RecognizingNodeService } from '../RecognizingNodeService.js'
 import { RecognizingNode } from '../../../domain/alarm-system/core/RecognizingNode.js'
 import { RecognizingNodeRepository } from '../../../domain/alarm-system/repositories/RecognizingNodeRepository.js'
-import { Model } from 'mongoose'
-import { RecognizingNodeRepositoryImpl } from '../../../storage/alarm-system/RecognizingNodeRepositoryImpl.js'
 
 export class RecognizingNodeServiceImpl implements RecognizingNodeService {
   private recognizingNodes: RecognizingNode[] = []
   private recognizingNodeRepository: RecognizingNodeRepository
 
-  constructor(recognizingNodeModel: Model<RecognizingNode>) {
-    this.recognizingNodeRepository = new RecognizingNodeRepositoryImpl(recognizingNodeModel)
+  constructor(recognizingNodeRepository: RecognizingNodeRepository) {
+    this.recognizingNodeRepository = recognizingNodeRepository
   }
 
   getRecognizingNodeById(id: string): Promise<RecognizingNode> {

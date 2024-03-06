@@ -1,15 +1,13 @@
 import { NotificationService } from '../NotificationService.js'
 import { NotificationRepository } from '../../../domain/notification/repositories/NotificationRepository.js'
 import { Notification } from '../../../domain/notification/core/Notification.js'
-import { NotificationRepositoryImpl } from '../../../storage/notification/NotificationRepositoryImpl.js'
-import { Model } from 'mongoose'
 
 export class NotificationServiceImpl implements NotificationService {
   private notificationRepository: NotificationRepository
   private notifications: Notification[] = []
 
-  constructor(notificationModel: Model<Notification>) {
-    this.notificationRepository = new NotificationRepositoryImpl(notificationModel)
+  constructor(notificationRepository: NotificationRepository) {
+    this.notificationRepository = notificationRepository
   }
 
   async getNotificationById(id: string): Promise<Notification> {

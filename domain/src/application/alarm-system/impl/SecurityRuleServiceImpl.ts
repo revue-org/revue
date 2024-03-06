@@ -5,15 +5,13 @@ import { SecurityRule } from '../../../domain/alarm-system/core/SecurityRule.js'
 import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 import { SecurityRuleRepository } from '../../../domain/alarm-system/repositories/SecurityRuleRepository.js'
-import { Model } from 'mongoose'
-import { SecurityRuleRepositoryImpl } from '../../../storage/alarm-system/SecurityRuleRepositoryImpl.js'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private securityRuleRepository: SecurityRuleRepository
   private securityRules: SecurityRule[] = []
 
-  constructor(exceedingRuleModel: Model<ExceedingRule>, intrusionRuleModel: Model<IntrusionRule>) {
-    this.securityRuleRepository = new SecurityRuleRepositoryImpl(exceedingRuleModel, intrusionRuleModel)
+  constructor(securityRuleRepository: SecurityRuleRepository) {
+    this.securityRuleRepository = securityRuleRepository
   }
 
   getActiveRules(): SecurityRule[] {

@@ -15,6 +15,12 @@ import { SecurityRuleService } from 'domain/dist/application/alarm-system/Securi
 import { SecurityRuleServiceImpl } from 'domain/dist/application/alarm-system/impl/SecurityRuleServiceImpl.js'
 import { RecognizingNodeService } from 'domain/dist/application/alarm-system/RecognizingNodeService.js'
 import { RecognizingNodeServiceImpl } from 'domain/dist/application/alarm-system/impl/RecognizingNodeServiceImpl.js'
+import { SecurityRuleRepository } from 'domain/dist/domain/alarm-system/repositories/SecurityRuleRepository.js'
+import { SecurityRuleRepositoryImpl } from 'domain/dist/storage/alarm-system/SecurityRuleRepositoryImpl.js'
+import { RecognizingNodeRepository } from 'domain/dist/domain/alarm-system/repositories/RecognizingNodeRepository.js'
+import { RecognizingNodeRepositoryImpl } from 'domain/dist/storage/alarm-system/RecognizingNodeRepositoryImpl.js'
+import { AnomalyRepository } from 'domain/dist/domain/alarm-system/repositories/AnomalyRepository.js'
+import { AnomalyRepositoryImpl } from 'domain/dist/storage/alarm-system/AnomalyRepositoryImpl.js'
 
 export const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 export const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
@@ -36,12 +42,21 @@ export const recognizingNodeModel: Model<RecognizingNode> = model<RecognizingNod
   'recognizingNode'
 )
 
-export const anomalyService: AnomalyService = new AnomalyServiceImpl(exceedingModel, intrusionModel)
+const anomalyRepository: AnomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
 
-export const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl(
+export const anomalyService: AnomalyService = new AnomalyServiceImpl(anomalyRepository)
+
+const securityRuleRepository: SecurityRuleRepository = new SecurityRuleRepositoryImpl(
   exceedingRuleModel,
   intrusionRuleModel
 )
-export const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(
+
+export const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl(securityRuleRepository)
+
+const recognizingNodeRepository: RecognizingNodeRepository = new RecognizingNodeRepositoryImpl(
   recognizingNodeModel
+)
+
+export const recognizingNodeService: RecognizingNodeService = new RecognizingNodeServiceImpl(
+  recognizingNodeRepository
 )

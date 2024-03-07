@@ -8,6 +8,22 @@
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
+    id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.3"
+}
+
+gitHooks {
+    commitMsg {
+        conventionalCommits {
+            defaultTypes()
+            types("wip", "other")
+        }
+    }
+    preCommit {
+        from {
+            "./gradlew format-fix"
+        }
+    }
+    createHooks(overwriteExisting = true)
 }
 
 rootProject.name = "revue"

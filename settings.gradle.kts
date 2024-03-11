@@ -22,6 +22,9 @@ gitHooks {
         from {
             "./gradlew format-fix"
         }
+        appendScript {
+            " && git add ."
+        }
     }
     createHooks(overwriteExisting = true)
 }

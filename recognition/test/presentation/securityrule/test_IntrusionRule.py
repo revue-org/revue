@@ -8,7 +8,7 @@ from app.domain.securityrule.core import IntrusionRule
 from app.domain.securityrule.utils.utils import is_intrusion_rule_active
 
 
-class IntrusionRuleSerializerTest(unittest.TestCase):
+class IntrusionRuleTest(unittest.TestCase):
 
     def setUp(self):
         self.intrusion_rule: IntrusionRule = IntrusionRule(
@@ -25,29 +25,13 @@ class IntrusionRuleSerializerTest(unittest.TestCase):
         )
 
     def test_valid_intrusion_rule(self):
-        self.assertTrue(
-            is_intrusion_rule_active(self.intrusion_rule, time(1, 0, 0))
-        )
-        self.assertTrue(
-            is_intrusion_rule_active(self.intrusion_rule, time(3, 0, 0))
-        )
-        self.assertTrue(
-            is_intrusion_rule_active(self.intrusion_rule, time(3, 40, 0))
-        )
-        self.assertTrue(
-            is_intrusion_rule_active(self.intrusion_rule, time(5, 0, 0))
-        )
+        self.assertTrue(is_intrusion_rule_active(self.intrusion_rule, time(1, 0, 0)))
+        self.assertTrue(is_intrusion_rule_active(self.intrusion_rule, time(3, 0, 0)))
+        self.assertTrue(is_intrusion_rule_active(self.intrusion_rule, time(3, 40, 0)))
+        self.assertTrue(is_intrusion_rule_active(self.intrusion_rule, time(5, 0, 0)))
 
     def test_invalid_intrusion_rule(self):
-        self.assertFalse(
-            is_intrusion_rule_active(self.intrusion_rule, time(0, 59, 0))
-        )
-        self.assertFalse(
-            is_intrusion_rule_active(self.intrusion_rule, time(5, 0, 1))
-        )
-        self.assertFalse(
-            is_intrusion_rule_active(self.intrusion_rule, time(6, 0, 0))
-        )
-        self.assertFalse(
-            is_intrusion_rule_active(self.intrusion_rule, time(23, 59, 0))
-        )
+        self.assertFalse(is_intrusion_rule_active(self.intrusion_rule, time(0, 59, 0)))
+        self.assertFalse(is_intrusion_rule_active(self.intrusion_rule, time(5, 0, 1)))
+        self.assertFalse(is_intrusion_rule_active(self.intrusion_rule, time(6, 0, 0)))
+        self.assertFalse(is_intrusion_rule_active(self.intrusion_rule, time(23, 59, 0)))

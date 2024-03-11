@@ -52,8 +52,8 @@ securityRuleRouter.route('/exceedings').post((req: Request, res: Response): void
       req.body.creatorId,
       req.body.description,
       MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.minValue,
-      req.body.maxValue,
+      req.body.min,
+      req.body.max,
       new Date(req.body.from),
       new Date(req.body.to),
       req.body.contacts
@@ -93,8 +93,8 @@ securityRuleRouter.route('/exceedings').put((req: Request, res: Response): void 
       deviceIdFactory.createSensorId(req.body.deviceId.code),
       req.body.description,
       MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.minValue,
-      req.body.maxValue,
+      req.body.min,
+      req.body.max,
       new Date(req.body.from),
       new Date(req.body.to),
       req.body.contacts

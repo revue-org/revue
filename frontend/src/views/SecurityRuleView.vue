@@ -50,8 +50,8 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     creatorId: exceedingRule.creatorId,
     description: exceedingRule.description,
     measure: MeasureConverter.convertToString(exceedingRule.measure),
-    minValue: exceedingRule.min,
-    maxValue: exceedingRule.max,
+    min: exceedingRule.min,
+    max: exceedingRule.max,
     from: exceedingRule.from.toISOString(),
     to: exceedingRule.to.toISOString(),
     contacts: exceedingRule.contactsToNotify

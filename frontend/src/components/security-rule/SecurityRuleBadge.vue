@@ -28,6 +28,20 @@ const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
 const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
+  console.log({
+    id: exceedingRule.securityRuleId,
+    deviceId: {
+      type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
+      code: exceedingRule.deviceId.code
+    },
+    description: exceedingRule.description,
+    min: exceedingRule.min,
+    max: exceedingRule.max,
+    measure: MeasureConverter.convertToString(exceedingRule.measure),
+    from: exceedingRule.from.toISOString(),
+    to: exceedingRule.to.toISOString(),
+    contacts: exceedingRule.contactsToNotify
+  })
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     id: exceedingRule.securityRuleId,
     deviceId: {
@@ -35,8 +49,8 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
       code: exceedingRule.deviceId.code
     },
     description: exceedingRule.description,
-    minValue: exceedingRule.min,
-    maxValue: exceedingRule.max,
+    min: exceedingRule.min,
+    max: exceedingRule.max,
     measure: MeasureConverter.convertToString(exceedingRule.measure),
     from: exceedingRule.from.toISOString(),
     to: exceedingRule.to.toISOString(),

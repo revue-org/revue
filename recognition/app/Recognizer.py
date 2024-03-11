@@ -49,7 +49,7 @@ class Recognizer:
 
                 confidences_unique = np.array(confidences_unique)
                 for classId, confidence in zip(
-                        classes_unique.flatten(), confidences_unique.flatten()
+                    classes_unique.flatten(), confidences_unique.flatten()
                 ):
                     if self.classes[classId] in self._object_to_recognize:
                         pass

@@ -49,7 +49,7 @@ def create_app():
             rule.object_class.name.lower() for rule in intrusion_rules
         ]
         recognizer = Recognizer(rtsp_stream_url, object_to_recognize)
-        logger.info(is_intrusion_rule_valid(intrusion_rules[0]))
+        logger.info(is_intrusion_rule_active(intrusion_rules[0]))
         executor.submit(recognizer.start_recognizing)
 
     set_interval(recognizer.stop_recognizing, seconds=60)
@@ -62,11 +62,3 @@ def get_intrusion_rules() -> List[dict]:
     headers = {"Authorization": f"Bearer {DEV_API_KEY}"}
     r = requests.get(url, headers=headers)
     return r.json()
-
-
-def is_intrusion_rule_valid(intrusion_rule: IntrusionRule) -> bool:
-    """ Check if current time is within the range of the intrusion rule validity """
-    now: time = time(datetime.now().hour, datetime.now().minute, datetime.now().second)
-    start: time = time.fromisoformat(intrusion_rule.from_date.time().isoformat())
-    end: time = time.fromisoformat(intrusion_rule.to_date.time().isoformat())
-    return start <= now <= end

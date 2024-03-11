@@ -13,6 +13,7 @@ opencv-python = "^4.9.0.80"
 requests = "^2.31.0"
 waitress = "^3.0.0"
 python-dotenv = "^1.0.1"
+kafka-python = "^2.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"

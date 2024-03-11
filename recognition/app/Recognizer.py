@@ -38,7 +38,6 @@ class Recognizer:
             # Detecting objects
             class_ids, confidences, _ = self._net.detect(frame, confThreshold=0.5)
 
-            # print(len(class_ids))
             if len(class_ids) != 0:
                 class_ids = np.array(class_ids)
                 # remove duplicates maintaining the most confident
@@ -50,9 +49,10 @@ class Recognizer:
 
                 confidences_unique = np.array(confidences_unique)
                 for classId, confidence in zip(
-                    classes_unique.flatten(), confidences_unique.flatten()
+                        classes_unique.flatten(), confidences_unique.flatten()
                 ):
-                    print(self.classes[classId], confidence)
+                    if self.classes[classId] in self._object_to_recognize:
+                        pass
 
         capture.release()
 

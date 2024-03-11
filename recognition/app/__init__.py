@@ -1,4 +1,3 @@
-import logging
 import os
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -9,9 +8,7 @@ from dotenv import load_dotenv
 from flask import Flask
 
 from app.Recognizer import Recognizer
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger("recognition")
+from app.utils.Logger import logger
 
 dotenv_path = join(dirname(__file__), "../../.env")
 load_dotenv(dotenv_path)
@@ -45,10 +42,10 @@ def create_app():
     @app.route("/")
     def hello_world():
         rtsp_stream_url = "rtsp://localhost:8554/mystream"
-        object_to_recognize = ["person"]
+        object_to_recognize = ["bowl"]
         recognizer = Recognizer(rtsp_stream_url, object_to_recognize)
         executor.submit(recognizer.start_recognizing)
-        set_interval(recognizer.stop_recognizing, 10)
+        # set_interval(recognizer.stop_recognizing, 10)
         return "<p>Hello, World!</p>"
 
     return app

@@ -25,14 +25,14 @@ describe('POST /security-rules', (): void => {
         },
         creatorId: '6582b78ee645d6402a3be6e2',
         description: 'descrizione regola di sicurezza',
-        minValue: 0,
-        maxValue: 25,
+        min: 0,
+        max: 25,
         measure: 'TEMPERATURE',
         from: '2018-01-01T01:00:00.000Z',
         to: '2020-01-01T01:00:00.000Z',
         contacts: [
           {
-            value: '3667161457',
+            value: '3333333333',
             type: 'SMS'
           },
           {
@@ -73,7 +73,7 @@ describe('POST /security-rules', (): void => {
         to: '2020-01-01T01:00:00.000Z',
         contacts: [
           {
-            value: '3667161457',
+            value: '3333333333',
             type: 'SMS'
           },
           {

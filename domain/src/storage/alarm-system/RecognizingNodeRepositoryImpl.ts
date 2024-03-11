@@ -1,5 +1,5 @@
 import { RecognizingNode } from '../../domain/alarm-system/core/RecognizingNode.js'
-import { Model, Promise } from 'mongoose'
+import { Model } from 'mongoose'
 import { RecognizingNodeRepository } from '../../domain/alarm-system/repositories/RecognizingNodeRepository.js'
 
 export class RecognizingNodeRepositoryImpl implements RecognizingNodeRepository {

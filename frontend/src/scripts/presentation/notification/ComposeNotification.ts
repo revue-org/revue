@@ -1,14 +1,14 @@
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import { DeviceType } from 'domain/dist/domain/device/core'
-import type { Exceeding, Intrusion } from 'domain/dist/domain/anomaly/core'
-import type { NotificationFactory } from 'domain/dist/domain/alarm-system/factories'
-import { NotificationFactoryImpl } from 'domain/dist/domain/alarm-system/factories'
-import type { AnomalyFactory } from 'domain/dist/domain/anomaly/factories'
-import { AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories'
+import type { Exceeding, Intrusion } from 'domain/dist/domain/alarm-system/core'
+import type { NotificationFactory } from 'domain/dist/domain/notification/factories/NotificationFactory.js'
+import { NotificationFactoryImpl } from 'domain/dist/domain/notification/factories/impl/NotificationFactoryImpl.js'
+import type { AnomalyFactory } from 'domain/dist/domain/alarm-system/factories'
+import { AnomalyFactoryImpl } from 'domain/dist/domain/alarm-system/factories'
 import type { DeviceIdFactory } from 'domain/dist/domain/device/factories'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories'
-import type { Notification } from 'domain/dist/domain/alarm-system/core'
+import type { Notification } from 'domain/dist/domain/notification/core/Notification.js'
 
 const notificationFactory: NotificationFactory = new NotificationFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()

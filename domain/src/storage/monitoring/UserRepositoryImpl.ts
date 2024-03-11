@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose'
 import { User } from '../../domain/monitoring/core/User.js'
-import { UserRepository } from '../../domain/monitoring/repository/UserRepository.js'
+import { UserRepository } from '../../domain/monitoring/repositories/UserRepository.js'
 import { ContactTypeConverter } from '../../utils/ContactTypeConverter.js'
 import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
 import { Contact } from '../../domain/monitoring/core/Contact.js'

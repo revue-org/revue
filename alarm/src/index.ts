@@ -4,14 +4,11 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { mongoConnect } from '@utils/connection.js'
 import { anomalyRouter } from './routes/anomaly.js'
-import { notificationRouter } from './routes/notification.js'
 import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
-import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
-
 import { setupConsumer } from './consumer.js'
 
 config({ path: process.cwd() + '/../.env' })
@@ -24,13 +21,6 @@ const PORT: number = Number(process.env.ALARM_PORT) || 4002
 
 const server: HttpServer = http.createServer(app)
 
-const frontendPort: string = process.env.FRONTEND_PORT || '8080'
-export const io: SocketIOServer = new SocketIOServer(server, {
-  cors: {
-    origin: `http://localhost:${frontendPort}`
-  }
-})
-
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
@@ -42,7 +32,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     jwtManager.authenticate(req, res, next)
   }
 })
-app.use('/notifications', notificationRouter)
 app.use('/anomalies', anomalyRouter)
 app.use('/recognizing-nodes', recognizingNodeRouter)
 app.use('/security-rules', securityRuleRouter)
@@ -62,7 +51,6 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Alarm server listening on port ${PORT}`)
     console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    //await setupNotificationSimulation() TODO: to check!!
     await setupConsumer()
   })
 }

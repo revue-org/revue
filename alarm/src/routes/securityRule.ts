@@ -4,9 +4,9 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
-import { SecurityRule } from '@domain/security-rule/core/SecurityRule.js'
-import { IntrusionRule } from '@domain/security-rule/core/IntrusionRule.js'
-import { ExceedingRule } from '@domain/security-rule/core/ExceedingRule.js'
+import { SecurityRule } from '@domain/alarm-system/core/SecurityRule.js'
+import { IntrusionRule } from '@domain/alarm-system/core/IntrusionRule.js'
+import { ExceedingRule } from '@domain/alarm-system/core/ExceedingRule.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const securityRuleRouter: Router = express.Router()

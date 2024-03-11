@@ -5,30 +5,33 @@ import { subscribeToAllTopics } from '@/topics'
 export const monitoringSocketState = reactive({
   connected: false
 })
-export const alarmSocketState = reactive({
+export const notificationSocketState = reactive({
   connected: false
 })
+
+console.log(import.meta.env)
+
 const monitoringHost: string = import.meta.env.VITE_MONITORING_HOST || 'localhost'
 const monitoringPort: string = import.meta.env.VITE_MONITORING_PORT || '4001'
 const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
 
-const alarmHost: string = import.meta.env.VITE_ALARM_HOST || 'localhost'
-const alarmPort: string = import.meta.env.VITE_ALARM_PORT || '4002'
-const alarmUrl: string = `http://${alarmHost}:${alarmPort}`
+const notificationHost: string = import.meta.env.VITE_NOTIFICATION_HOST || 'localhost'
+const notificationPort: string = import.meta.env.VITE_NOTIFICATION_PORT || '4004'
+const notificationUrl: string = `http://${notificationHost}:${notificationPort}`
 export let monitoringSocket: Socket | undefined
-export let alarmSocket: Socket | undefined
+export let notificationSocket: Socket | undefined
 
 export const setupSocketServers = (): void => {
   monitoringSocket = io(`${monitoringUrl}`)
-  alarmSocket = io(`${alarmUrl}`)
+  notificationSocket = io(`${notificationUrl}`)
 
-  alarmSocket.on('connect', (): void => {
-    alarmSocketState.connected = true
-    console.log('connected to alarm socket')
+  notificationSocket.on('connect', (): void => {
+    notificationSocketState.connected = true
+    console.log('connected to notification socket')
   })
 
-  alarmSocket.on('disconnect from alarm socket', (): void => {
-    alarmSocketState.connected = false
+  notificationSocket.on('disconnect from notification socket', (): void => {
+    notificationSocketState.connected = false
   })
 
   monitoringSocket.on('connect', async (): Promise<void> => {
@@ -44,5 +47,5 @@ export const setupSocketServers = (): void => {
 
 export const closeSocketServers = (): void => {
   monitoringSocket?.close()
-  alarmSocket?.close()
+  notificationSocket?.close()
 }

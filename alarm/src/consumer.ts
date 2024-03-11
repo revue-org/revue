@@ -1,38 +1,37 @@
 import { Consumer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
-import { securityRuleRepository } from './controller/securityRule.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
 import { DeviceFactory } from 'domain/dist/domain/device/factories/DeviceFactory.js'
 import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl.js'
 import { ResolutionFactory } from 'domain/dist/domain/device/factories/ResolutionFactory.js'
 import { ResolutionFactoryImpl } from 'domain/dist/domain/device/factories/impl/ResolutionFactoryImpl.js'
-import { AnomalyFactory } from 'domain/dist/domain/anomaly/factories/AnomalyFactory.js'
-import { AnomalyFactoryImpl } from 'domain/dist/domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
-import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
-import { ExceedingRule } from 'domain/dist/domain/security-rule/core/ExceedingRule.js'
-import { IntrusionRule } from 'domain/dist/domain/security-rule/core/IntrusionRule.js'
+import { AnomalyFactory } from 'domain/dist/domain/alarm-system/factories/AnomalyFactory.js'
+import { AnomalyFactoryImpl } from 'domain/dist/domain/alarm-system/factories/impl/AnomalyFactoryImpl.js'
+import RequestHelper, {
+  monitoringHost,
+  monitoringPort,
+  notificationHost,
+  notificationPort
+} from './utils/RequestHelper.js'
+import { ExceedingRule } from 'domain/dist/domain/alarm-system/core/ExceedingRule.js'
+import { IntrusionRule } from 'domain/dist/domain/alarm-system/core/IntrusionRule.js'
 import { Device } from 'domain/dist/domain/device/core/Device.js'
-import { SecurityRuleService } from 'domain/dist/application/security-rule/SecurityRuleService.js'
-import { SecurityRuleServiceImpl } from 'domain/dist/application/security-rule/impl/SecurityRuleServiceImpl.js'
-import { AlarmService } from 'domain/dist/application/alarm-system/AlarmService.js'
-import { AlarmServiceImpl } from 'domain/dist/application/alarm-system/impl/AlarmServiceImpl.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from 'domain/dist/utils/DeviceTypeConverter.js'
 import { EnvironmentDataFactory } from 'domain/dist/domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
 import kafkaManager from './utils/KafkaManager.js'
-import { io } from './index.js'
-import { notificationController } from './controller/notification.js'
-import { anomalyController } from './controller/anomaly.js'
-import { Exceeding } from 'domain/dist/domain/anomaly/core/Exceeding.js'
+import { Exceeding } from 'domain/dist/domain/alarm-system/core/Exceeding.js'
+import { anomalyService, securityRuleService } from './init.js'
+import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
+import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
+import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
-const alarmService: AlarmService = new AlarmServiceImpl()
-const securityRuleService: SecurityRuleService = new SecurityRuleServiceImpl()
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 
@@ -41,8 +40,9 @@ export const setupConsumer = async (): Promise<void> => {
   await consumer.subscribe({ topics: await getTopics(), fromBeginning: false })
 
   // TODO: andranno aggiunte anche le regole inerenti alle camere
-  console.log(await getSensorRules())
-  securityRuleService.addSecurityRules(await getSensorRules())
+  //console.log(await getSensorRules())
+  //TODO TO TEST MULTIPLE GETS
+  await securityRuleService.getExceedingRules()
 
   consumer
     .run({
@@ -56,9 +56,7 @@ export const setupConsumer = async (): Promise<void> => {
 
         if (topic.startsWith('CAMERA')) {
           //TODO to check the intrusion object and to create the anomaly in case of intrusion
-          console.log('Devo controllare sulle intrusioni')
         } else if (topic.startsWith('SENSOR')) {
-          //TODO to check the measure and the value and to create the anomaly in case of exceeding
           for (const rawValue of rawValues) {
             if (
               securityRuleService.checkExceedingDetection(
@@ -79,18 +77,21 @@ export const setupConsumer = async (): Promise<void> => {
                 rawValue._value,
                 '' // TODO: check for the default value, it seems to not work
               )
-              const exceedingId: string = await anomalyController.createExceeding(
-                exceeding.deviceId,
-                exceeding.measure,
-                exceeding.value
+              const exceedingId: string = await anomalyService.insertExceeding(
+                anomalyFactory.createExceeding(
+                  exceeding.deviceId,
+                  new Date(),
+                  exceeding.measure,
+                  exceeding.value,
+                  ''
+                )
               )
-              await notificationController.createExceedingNotification(
+              await sendExceedingNotification(
                 exceedingId,
                 exceeding.deviceId,
                 exceeding.measure,
                 exceeding.value
               )
-              io.emit('notification', { type: 'EXCEEDING' })
             } else {
               console.log('No anomaly detected')
             }
@@ -105,8 +106,8 @@ export const getTopics = async (): Promise<string[]> => {
   const topics: string[] = []
 
   const capturingDevices: Device[] = await getCapturingDevices()
-  const sensorRules: ExceedingRule[] = await getSensorRules()
-  const cameraRules: IntrusionRule[] = await getCameraRules()
+  const sensorRules: ExceedingRule[] = await securityRuleService.getExceedingRules()
+  const cameraRules: IntrusionRule[] = await securityRuleService.getIntrusionRules()
 
   capturingDevices.forEach((device: Device): void => {
     switch (device.deviceId.type) {
@@ -166,10 +167,27 @@ const getCapturingDevices = async (): Promise<Device[]> => {
   }
 }
 
-const getSensorRules = async (): Promise<ExceedingRule[]> => {
-  return securityRuleRepository.getExceedingRules()
-}
-
-const getCameraRules = async (): Promise<IntrusionRule[]> => {
-  return securityRuleRepository.getIntrusionRules()
+const sendExceedingNotification = async (
+  anomalyId: string,
+  deviceId: DeviceId,
+  measure: Measure,
+  value: number
+): Promise<void> => {
+  const notificationUrl: string = `http://${notificationHost}:${notificationPort}`
+  console.log('Sending notification')
+  console.log(notificationUrl)
+  try {
+    await RequestHelper.post(`${notificationUrl}/notifications/exceedings`, {
+      anomalyId: anomalyId,
+      deviceId: {
+        type: DeviceTypeConverter.convertToString(deviceId.type),
+        code: deviceId.code
+      },
+      measure: MeasureConverter.convertToString(measure),
+      value: value
+    })
+  } catch (e) {
+    console.log(e)
+    throw new Error('Error while posting exceeding notification')
+  }
 }

@@ -1,66 +1,47 @@
-import { Model, model } from 'mongoose'
-import { exceedingSchema } from '@storage/anomaly/schemas/ExceedingSchema.js'
-import { intrusionSchema } from '@storage/anomaly/schemas/IntrusionSchema.js'
-import { AnomalyRepositoryImpl } from '@storage/anomaly/AnomalyRepositoryImpl.js'
-import { AnomalyFactoryImpl } from '@domain/anomaly/factories/impl/AnomalyFactoryImpl.js'
-import { Exceeding } from '@domain/anomaly/core/Exceeding.js'
-import { Intrusion } from '@domain/anomaly/core/Intrusion.js'
-import { AnomalyFactory } from '@domain/anomaly/factories/AnomalyFactory.js'
-import { AnomalyRepository } from '@domain/anomaly/repositories/AnomalyRepository.js'
+import { AnomalyFactoryImpl } from '@domain/alarm-system/factories/impl/AnomalyFactoryImpl.js'
+import { Exceeding } from '@domain/alarm-system/core/Exceeding.js'
+import { Intrusion } from '@domain/alarm-system/core/Intrusion.js'
+import { AnomalyFactory } from '@domain/alarm-system/factories/AnomalyFactory.js'
 import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
-import { Anomaly } from '@domain/anomaly/core/Anomaly.js'
+import { Anomaly } from '@domain/alarm-system/core/Anomaly.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { ObjectClass } from '@domain/security-rule/core/impl/enum/ObjectClass.js'
+import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
+import { anomalyService } from '../init.js'
 
-export const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
-export const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')
-
-const anomalyRepository: AnomalyRepository = new AnomalyRepositoryImpl(exceedingModel, intrusionModel)
 const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
 
 export const anomalyController = {
   getAnomalyById: async (id: string): Promise<Anomaly> => {
-    return await anomalyRepository.getAnomalyById(id)
+    return anomalyService.getAnomalyById(id)
   },
   getExceedings: async (): Promise<Exceeding[]> => {
-    return await anomalyRepository.getExceedings()
+    return anomalyService.getExceedings()
   },
   getIntrusions: async (): Promise<Intrusion[]> => {
-    return await anomalyRepository.getIntrusions()
+    return anomalyService.getIntrusions()
   },
   createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<string> => {
-    return await anomalyRepository.insertExceeding(
+    return anomalyService.insertExceeding(
       anomalyFactory.createExceeding(deviceId, new Date(), measure, value, '')
     )
   },
   createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<string> => {
-    return await anomalyRepository.insertIntrusion(
+    return anomalyService.insertIntrusion(
       anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, '')
     )
   },
-  updateExceeding(
-    id: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    measure: Measure,
-    value: number
-  ): Promise<void> {
-    return anomalyRepository.updateExceeding(
+  updateExceeding(id: string, deviceId: DeviceId, timestamp: Date, measure: Measure, value: number): void {
+    return anomalyService.updateExceeding(
       anomalyFactory.createExceeding(deviceId, timestamp, measure, value, id)
     )
   },
-  updateIntrusion(
-    id: string,
-    deviceId: DeviceId,
-    timestamp: Date,
-    intrusionObject: ObjectClass
-  ): Promise<void> {
-    return anomalyRepository.updateIntrusion(
+  updateIntrusion(id: string, deviceId: DeviceId, timestamp: Date, intrusionObject: ObjectClass): void {
+    return anomalyService.updateIntrusion(
       anomalyFactory.createIntrusion(deviceId, timestamp, intrusionObject, id)
     )
   },
   deleteAnomaly: async (id: string, type: string): Promise<void> => {
-    await anomalyRepository.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
+    anomalyService.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
   }
 }

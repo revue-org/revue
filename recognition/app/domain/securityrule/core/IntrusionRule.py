@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from typing import List
 
 from app.domain.anomaly.core import ObjectClass

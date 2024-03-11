@@ -55,8 +55,8 @@ subprojects {
             Task("install", listOf("poetry", "install", "--no-root"), listOf("setup")),
             Task("build", listOf("poetry", "build")),
             Task("test", listOf("poetry", "run", "python", "-m", "unittest", "discover", "-s", "test")),
-            Task("format", listOf("poetry", "run", "python", "-m", "black", ".")),
-            Task("format-fix", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),
+            Task("format", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),
+            Task("format-fix", listOf("poetry", "run", "python", "-m", "black", ".")),
         ).forEach { task ->
             tasks.register(task.name, Exec::class) {
                 if (task.name != "install" && task.name != "setup") dependsOn(":${project.name}:install")

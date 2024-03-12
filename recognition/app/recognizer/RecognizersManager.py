@@ -31,7 +31,6 @@ class RecognizersManager:
         If parameters are invalid, it does nothing.
         :param object_class:
         :param camera_code:
-        :return:
         """
         if (
             camera_code in self.recognizers

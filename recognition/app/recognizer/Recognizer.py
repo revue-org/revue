@@ -29,40 +29,41 @@ class Recognizer:
         self._objects_to_recognize = objects_to_recognize
 
     def start_recognizing(self) -> None:
-        os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
+        if os.environ["TEST"] != "true":
+            os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
-        # load capture
-        capture = cv.VideoCapture(self._rtsp_stream_url, cv.CAP_FFMPEG)
-        capture.set(cv.CAP_PROP_FRAME_WIDTH, 640)
-        capture.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
+            # load capture
+            capture = cv.VideoCapture(self._rtsp_stream_url, cv.CAP_FFMPEG)
+            capture.set(cv.CAP_PROP_FRAME_WIDTH, 640)
+            capture.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
 
-        self._is_recognizing = True
-        # detect on stream
-        while self._is_recognizing:
-            ret, frame = capture.read()
-            if not ret:
-                break
+            self._is_recognizing = True
+            # detect on stream
+            while self._is_recognizing:
+                ret, frame = capture.read()
+                if not ret:
+                    break
 
-            # Detecting objects
-            class_ids, confidences, _ = self._net.detect(frame, confThreshold=0.5)
+                # Detecting objects
+                class_ids, confidences, _ = self._net.detect(frame, confThreshold=0.5)
 
-            if len(class_ids) != 0:
-                class_ids = np.array(class_ids)
-                # remove duplicates maintaining the most confident
-                classes_unique = np.unique(class_ids, axis=0)
-                confidences_unique = []
-                for class_ in classes_unique:
-                    index = confidences[np.where(class_ids == class_)].argmax()
-                    confidences_unique.append(confidences[index])
+                if len(class_ids) != 0:
+                    class_ids = np.array(class_ids)
+                    # remove duplicates maintaining the most confident
+                    classes_unique = np.unique(class_ids, axis=0)
+                    confidences_unique = []
+                    for class_ in classes_unique:
+                        index = confidences[np.where(class_ids == class_)].argmax()
+                        confidences_unique.append(confidences[index])
 
-                confidences_unique = np.array(confidences_unique)
-                for classId, confidence in zip(
-                    classes_unique.flatten(), confidences_unique.flatten()
-                ):
-                    if self.classes[classId] in self._objects_to_recognize:
-                        pass
+                    confidences_unique = np.array(confidences_unique)
+                    for classId, confidence in zip(
+                        classes_unique.flatten(), confidences_unique.flatten()
+                    ):
+                        if self.classes[classId] in self._objects_to_recognize:
+                            pass
 
-        capture.release()
+            capture.release()
 
     def stop_recognizing(self) -> None:
         self._is_recognizing = False

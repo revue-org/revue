@@ -14,6 +14,8 @@ class RecognizersManager:
         Add an object to recognize to a camera. If it's the first object for that camera, it creates a new Recognizer.
         If the camera already has a Recognizer, it adds the object to that Recognizer.
         If the object is already being recognized, it does nothing.
+        :param object_class: Object to recognize
+        :param camera_code: camera code on which to recognize the object
         """
         if camera_code not in self.recognizers:
             rtsp_stream_url: str = f"rtsp://localhost:8554/{camera_code}"
@@ -24,6 +26,13 @@ class RecognizersManager:
                 self.recognizers[camera_code].objects_to_recognize.append(object_class)
 
     def remove_object_to_recognize(self, object_class: str, camera_code: str):
+        """
+        Remove an object to recognize from a camera. If the camera has no more objects to recognize, it stops recognizing.
+        If parameters are invalid, it does nothing.
+        :param object_class:
+        :param camera_code:
+        :return:
+        """
         if (
             camera_code in self.recognizers
             and object_class in self.recognizers[camera_code].objects_to_recognize

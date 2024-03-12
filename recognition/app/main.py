@@ -11,7 +11,6 @@ from app.domain.securityrule.utils.utils import is_intrusion_rule_active
 from app.presentation.securityrule.IntrusionRuleSerializer import (
     IntrusionRuleSerializer,
 )
-from app.recognizer.Recognizer import Recognizer
 from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
 from app.utils.interval import set_interval
@@ -28,7 +27,6 @@ manager = RecognizersManager()
 
 def create_app():
     app = Flask(__name__)
-
     intrusion_rules.append(*get_intrusion_rules())
     logger.info(intrusion_rules)
     enable_intrusion_rules()

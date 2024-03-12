@@ -25,4 +25,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE $RECOGNITION_PORT
 
-CMD ["sh", "-c", "waitress-serve --port $FLASK_RUN_PORT --call app:create_app"]
+CMD ["sh", "-c", "waitress-serve --port $FLASK_RUN_PORT --call app.main:create_app"]

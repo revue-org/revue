@@ -6,12 +6,12 @@ import numpy as np
 
 class Recognizer:
 
-    def __init__(self, rtsp_stream_url: str, object_to_recognize: [str]):
+    def __init__(self, rtsp_stream_url: str, objects_to_recognize: [str]):
         yolo_resource: str = "app/resources/yolov3"
         with open(f"{yolo_resource}/coco.names", "r") as f:
             self.classes: [str] = [line.strip() for line in f.readlines()]
         self._rtsp_stream_url: str = rtsp_stream_url
-        self._object_to_recognize: str = object_to_recognize
+        self._objects_to_recognize: str = objects_to_recognize
         self._is_recognizing: bool = False
         self._net = cv.dnn_DetectionModel(
             f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
@@ -19,6 +19,14 @@ class Recognizer:
         self._net.setInputSize(320, 320)
         self._net.setInputScale(1.0 / 255)
         self._net.setInputSwapRB(True)
+
+    @property
+    def objects_to_recognize(self) -> str:
+        return self._objects_to_recognize
+
+    @objects_to_recognize.setter
+    def objects_to_recognize(self, objects_to_recognize: str):
+        self._objects_to_recognize = objects_to_recognize
 
     def start_recognizing(self) -> None:
         os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
@@ -51,7 +59,7 @@ class Recognizer:
                 for classId, confidence in zip(
                     classes_unique.flatten(), confidences_unique.flatten()
                 ):
-                    if self.classes[classId] in self._object_to_recognize:
+                    if self.classes[classId] in self._objects_to_recognize:
                         pass
 
         capture.release()

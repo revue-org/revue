@@ -1,10 +1,12 @@
 import unittest
 from datetime import datetime, time
 
-from app.domain.anomaly.core import ObjectClass
-from app.domain.device.core import DeviceId, DeviceType
-from app.domain.monitoring.core import Contact, ContactType
-from app.domain.securityrule.core import IntrusionRule
+from app.domain.anomaly.core.ObjectClass import ObjectClass
+from app.domain.device.core.DeviceId import DeviceId
+from app.domain.device.core.enum.DeviceType import DeviceType
+from app.domain.monitoring.core.Contact import Contact
+from app.domain.monitoring.core.enum.ContactType import ContactType
+from app.domain.securityrule.core.IntrusionRule import IntrusionRule
 from app.domain.securityrule.utils.utils import is_intrusion_rule_active
 
 

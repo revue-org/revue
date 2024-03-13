@@ -54,7 +54,7 @@ subprojects {
             Task("setup", listOf("pip", "install", "-r", "requirements.txt")),
             Task("install", listOf("poetry", "install", "--no-root"), listOf("setup")),
             Task("build", listOf("poetry", "build")),
-            Task("test", listOf("poetry", "run", "python", "-m", "unittest", "discover", "-s", "test")),
+            Task("test", listOf("poetry", "run", "python", "run_tests.py")),
             Task("format", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),
             Task("format-fix", listOf("poetry", "run", "python", "-m", "black", ".")),
         ).forEach { task ->

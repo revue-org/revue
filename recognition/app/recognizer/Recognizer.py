@@ -13,12 +13,13 @@ class Recognizer:
         self._rtsp_stream_url: str = rtsp_stream_url
         self._objects_to_recognize: str = objects_to_recognize
         self._is_recognizing: bool = False
-        self._net = cv.dnn_DetectionModel(
-            f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
-        )
-        self._net.setInputSize(320, 320)
-        self._net.setInputScale(1.0 / 255)
-        self._net.setInputSwapRB(True)
+        if os.environ["TEST"] != "true":
+            self._net = cv.dnn_DetectionModel(
+                f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
+            )
+            self._net.setInputSize(320, 320)
+            self._net.setInputScale(1.0 / 255)
+            self._net.setInputSwapRB(True)
 
     @property
     def objects_to_recognize(self) -> str:

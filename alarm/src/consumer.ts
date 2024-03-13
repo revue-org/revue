@@ -27,6 +27,7 @@ import { anomalyService, securityRuleService } from './init.js'
 import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
 import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
+import { ObjectClassConverter } from "domain/dist/utils/ObjectClassConverter.js";
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -39,10 +40,8 @@ export const setupConsumer = async (): Promise<void> => {
   await consumer.connect()
   await consumer.subscribe({ topics: await getTopics(), fromBeginning: false })
 
-  // TODO: andranno aggiunte anche le regole inerenti alle camere
-  //console.log(await getSensorRules())
-  //TODO TO TEST MULTIPLE GETS
   await securityRuleService.getExceedingRules()
+  await securityRuleService.getIntrusionRules()
 
   consumer
     .run({
@@ -55,6 +54,12 @@ export const setupConsumer = async (): Promise<void> => {
         const rawValues = JSON.parse(messageValue.toString())
 
         if (topic.startsWith('CAMERA')) {
+          console.log(rawValues)
+          const objecctClass = ObjectClassConverter.convertToObjectClass(rawValues)
+          if (securityRuleService.checkIntrusionDetection(rawValues)) {
+            console.log('Intrusion detected!')
+            //TODO to check the intrusion object and to create the anomaly in case of intrusion
+          }
           //TODO to check the intrusion object and to create the anomaly in case of intrusion
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {

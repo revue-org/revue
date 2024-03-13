@@ -71,17 +71,16 @@ const getContacts = async () => {
 const contacts: ref<Contact[]> = ref([])
 const from = ref<string>(securityRule.from.toLocaleString().split(' ')[1].slice(0, 5))
 const to = ref<string>(securityRule.to.toLocaleString().split(' ')[1].slice(0, 5))
-console.log('from: ' + from.value)
 const measure = ref<Measure>((securityRule as ExceedingRule).measure)
 const objectClass = ref<ObjectClass>((securityRule as IntrusionRule).objectClass)
+const min = ref<number>((securityRule as ExceedingRule).min)
+const max = ref<number>((securityRule as ExceedingRule).max)
 
 const updateSecurityRule = () => {
-  console.log(from.value)
-  console.log(to.value)
   if (securityRule.deviceId.type == DeviceType.SENSOR) {
     const updatedExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
-      (securityRule as ExceedingRule).min,
-      (securityRule as ExceedingRule).max,
+      parseInt(min.value.toString()),
+      parseInt(max.value.toString()),
       measure.value,
       securityRule.securityRuleId,
       deviceIdFactory.createSensorId(securityRule.deviceId.code),
@@ -96,10 +95,9 @@ const updateSecurityRule = () => {
       new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'), //from.value.includes(' ') ? from.value.split(' ')[0] :
       new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
+    console.log(updatedExceedingRule)
     emit('update-exceeding-rule', updatedExceedingRule)
   } else if (securityRule.deviceId.type == DeviceType.CAMERA) {
-    console.log(from.value)
-    console.log(to.value)
     const updatedIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
       objectClass.value,
       securityRule.securityRuleId,
@@ -143,9 +141,9 @@ onMounted(async () => {
         />
         <q-card-section class="q-pt-none">
           <label>Min tolerated value</label>
-          <q-input type="number" v-model="(securityRule as ExceedingRule).min" />
+          <q-input type="number" v-model="min" />
           <label>Max tolerated value</label>
-          <q-input type="number" v-model="(securityRule as ExceedingRule).max" />
+          <q-input type="number" v-model="max" />
         </q-card-section>
       </div>
       <div v-if="securityRule.deviceId.type == DeviceType.CAMERA">

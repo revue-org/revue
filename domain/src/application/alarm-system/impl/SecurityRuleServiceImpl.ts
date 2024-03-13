@@ -48,25 +48,33 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
 
   deleteExceedingRule(id: string): void {
     this.securityRuleRepository.deleteExceedingRule(id).then((): void => {
-      this.securityRules = this.securityRules.filter((rule: SecurityRule) => rule.securityRuleId !== id)
+      this.securityRules = this.securityRules.filter(
+        (rule: SecurityRule): boolean => rule.securityRuleId !== id
+      )
     })
   }
 
   deleteIntrusionRule(id: string): void {
     this.securityRuleRepository.deleteIntrusionRule(id).then((): void => {
-      this.securityRules = this.securityRules.filter((rule: SecurityRule) => rule.securityRuleId !== id)
+      this.securityRules = this.securityRules.filter(
+        (rule: SecurityRule): boolean => rule.securityRuleId !== id
+      )
     })
   }
 
   async getExceedingRules(): Promise<ExceedingRule[]> {
     const rules: ExceedingRule[] = await this.securityRuleRepository.getExceedingRules()
-    this.securityRules = this.securityRules.concat(rules)
+    this.securityRules = this.securityRules
+      .filter((rule: SecurityRule): boolean => rule.deviceId.type === DeviceType.CAMERA)
+      .concat(rules)
     return rules
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
     const rules: IntrusionRule[] = await this.securityRuleRepository.getIntrusionRules()
-    this.securityRules = this.securityRules.concat(rules)
+    this.securityRules = this.securityRules
+      .filter((rule: SecurityRule): boolean => rule.deviceId.type === DeviceType.SENSOR)
+      .concat(rules)
     return rules
   }
 
@@ -75,6 +83,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   updateExceedingSecurityRule(exceedingRule: ExceedingRule): void {
+    console.log(exceedingRule)
     this.securityRuleRepository.updateExceedingSecurityRule(exceedingRule).then((): void => {
       this.securityRules = this.securityRules.map(
         (rule: SecurityRule): SecurityRule =>

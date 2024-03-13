@@ -8,7 +8,7 @@ import {
   type SecurityRule
 } from '@domain/alarm-system/core'
 import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
@@ -35,8 +35,8 @@ const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
       code: exceedingRule.deviceId.code
     },
     description: exceedingRule.description,
-    minValue: exceedingRule.min,
-    maxValue: exceedingRule.max,
+    min: exceedingRule.min,
+    max: exceedingRule.max,
     measure: MeasureConverter.convertToString(exceedingRule.measure),
     from: exceedingRule.from.toISOString(),
     to: exceedingRule.to.toISOString(),

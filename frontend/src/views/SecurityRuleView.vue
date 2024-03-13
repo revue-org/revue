@@ -19,11 +19,10 @@ const $q = useQuasar()
 const getExceedingSecurityRules = async () => {
   await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`)
     .then((res: any) => {
-      const tmpExceedings = []
+      exceedingsSecurityRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        tmpExceedings.push(composeExceedingSecurityRule(res.data[i]))
+        exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
       }
-      exceedingsSecurityRules.value = tmpExceedings
     })
     .catch(error => {
       console.log(error)
@@ -51,8 +50,8 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     creatorId: exceedingRule.creatorId,
     description: exceedingRule.description,
     measure: MeasureConverter.convertToString(exceedingRule.measure),
-    minValue: exceedingRule.min,
-    maxValue: exceedingRule.max,
+    min: exceedingRule.min,
+    max: exceedingRule.max,
     from: exceedingRule.from.toISOString(),
     to: exceedingRule.to.toISOString(),
     contacts: exceedingRule.contactsToNotify

@@ -3,7 +3,6 @@ import os
 import cv2 as cv
 import numpy as np
 
-from app.domain.anomaly.core import Intrusion
 from app.recognizer.Producer import Producer
 
 
@@ -71,7 +70,7 @@ class Recognizer:
                     ):
                         if self.classes[classId] in self._objects_to_recognize:
                             self._producer.produce(
-                                self._camera_code, self.classes[classId]
+                                "CAMERA_" + self._camera_code, self.classes[classId]
                             )
 
             capture.release()

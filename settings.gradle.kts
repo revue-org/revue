@@ -11,23 +11,27 @@ plugins {
     id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.3"
 }
 
-gitHooks {
-    commitMsg {
-        conventionalCommits {
-            defaultTypes()
-            types("wip", "other")
+if (File(System.getProperty("user.dir") + "/.git").exists()) {
+    gitHooks {
+        commitMsg {
+            conventionalCommits {
+                defaultTypes()
+                types("wip", "other")
+            }
         }
+        preCommit {
+            from {
+                "./gradlew format-fix"
+            }
+            appendScript {
+                " && git add ."
+            }
+        }
+        createHooks(overwriteExisting = true)
     }
-    preCommit {
-        from {
-            "./gradlew format-fix"
-        }
-        appendScript {
-            " && git add ."
-        }
-    }
-    createHooks(overwriteExisting = true)
 }
+
+
 
 rootProject.name = "revue"
 

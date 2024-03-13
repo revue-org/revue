@@ -39,21 +39,17 @@ export const setupConsumer = async (): Promise<void> => {
   await consumer.connect()
   await consumer.subscribe({ topics: await getTopics(), fromBeginning: false })
 
-  // TODO: andranno aggiunte anche le regole inerenti alle camere
-  //console.log(await getSensorRules())
-  //TODO TO TEST MULTIPLE GETS
   await securityRuleService.getExceedingRules()
+  await securityRuleService.getIntrusionRules()
 
   consumer
     .run({
       eachMessage: async ({ topic, message }): Promise<void> => {
-        if (message.key === null || message.value === null) return
-        const messageKey: Buffer = message.key
+        if (message.value === null) return
         const messageValue: Buffer = message.value
 
-        console.log('Message num: ' + JSON.parse(messageKey.toString()))
+        console.log('Arrived message', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
-
         if (topic.startsWith('CAMERA')) {
           //TODO to check the intrusion object and to create the anomaly in case of intrusion
         } else if (topic.startsWith('SENSOR')) {

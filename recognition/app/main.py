@@ -8,6 +8,7 @@ from app.domain.securityrule.utils.utils import is_intrusion_rule_active
 from app.presentation.securityrule.IntrusionRuleSerializer import (
     IntrusionRuleSerializer,
 )
+from app.recognizer.Producer import Producer
 from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
 from app.utils.env import DEV_API_KEY, ALARM_PORT, ALARM_HOST

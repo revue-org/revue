@@ -19,9 +19,7 @@ class RecognizersManager:
         """
         if camera_code not in self.recognizers:
             rtsp_stream_url: str = f"rtsp://localhost:8554/{camera_code}"
-            self.recognizers[camera_code] = Recognizer(
-                camera_code, rtsp_stream_url, [object_class]
-            )
+            self.recognizers[camera_code] = Recognizer(camera_code, rtsp_stream_url)
             self._executor.submit(self.recognizers[camera_code].start_recognizing)
         else:
             if object_class not in self.recognizers[camera_code].objects_to_recognize:

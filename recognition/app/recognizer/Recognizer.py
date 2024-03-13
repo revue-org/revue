@@ -4,20 +4,19 @@ import cv2 as cv
 import numpy as np
 
 from app.recognizer.Producer import Producer
+from app.utils.interval import set_interval
 
 
 class Recognizer:
 
-    def __init__(
-        self, camera_code: str, rtsp_stream_url: str, objects_to_recognize: [str]
-    ):
+    def __init__(self, camera_code: str, rtsp_stream_url: str):
         yolo_resource: str = "app/resources/yolov3"
         with open(f"{yolo_resource}/coco.names", "r") as f:
             self.classes: [str] = [line.strip() for line in f.readlines()]
         self._camera_code: str = camera_code
         self._rtsp_stream_url: str = rtsp_stream_url
-        self._objects_to_recognize: str = objects_to_recognize
         self._is_recognizing: bool = False
+        self._recognized_objects: [str] = []
         if os.environ["TEST"] != "true":
             self._producer = Producer()
 
@@ -27,14 +26,6 @@ class Recognizer:
             self._net.setInputSize(320, 320)
             self._net.setInputScale(1.0 / 255)
             self._net.setInputSwapRB(True)
-
-    @property
-    def objects_to_recognize(self) -> str:
-        return self._objects_to_recognize
-
-    @objects_to_recognize.setter
-    def objects_to_recognize(self, objects_to_recognize: str):
-        self._objects_to_recognize = objects_to_recognize
 
     def start_recognizing(self) -> None:
         if os.environ["TEST"] != "true":
@@ -68,9 +59,17 @@ class Recognizer:
                     for classId, confidence in zip(
                         classes_unique.flatten(), confidences_unique.flatten()
                     ):
-                        if self.classes[classId] in self._objects_to_recognize:
+                        recognized_object: str = self.classes[classId]
+                        if recognized_object not in self._recognized_objects:
+                            self._recognized_objects.append(recognized_object)
                             self._producer.produce(
-                                "CAMERA_" + self._camera_code, self.classes[classId]
+                                "CAMERA_" + self._camera_code, recognized_object
+                            )
+                            set_interval(
+                                lambda: self._recognized_objects.remove(
+                                    recognized_object
+                                ),
+                                seconds=60,
                             )
 
             capture.release()

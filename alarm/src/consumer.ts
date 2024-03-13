@@ -51,6 +51,8 @@ export const setupConsumer = async (): Promise<void> => {
         console.log('Arrived message', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
         if (topic.startsWith('CAMERA')) {
+          const date = new Date(rawValues.timestamp)
+          console.log('TEST DATE', date)
           //TODO to check the intrusion object and to create the anomaly in case of intrusion
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {

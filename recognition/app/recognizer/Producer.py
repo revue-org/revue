@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from kafka import KafkaProducer
 
@@ -12,7 +13,11 @@ class Producer:
 
     def produce(self, topic: str, recognized_object: str):
         self._producer.send(
-            # TODO: add timestamp
             topic,
-            json.dumps({"value": recognized_object}).encode("utf-8"),
+            json.dumps(
+                {
+                    "objectClass": recognized_object,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            ).encode("utf-8"),
         )

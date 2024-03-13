@@ -27,7 +27,9 @@ import { anomalyService, securityRuleService } from './init.js'
 import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
 import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
 import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
-import { Anomaly, Intrusion, ObjectClass } from 'domain/dist/domain/alarm-system/core'
+import { Anomaly } from 'domain/dist/domain/alarm-system/core/Anomaly.js'
+import { Intrusion } from 'domain/dist/domain/alarm-system/core/Intrusion.js'
+import { ObjectClass } from 'domain/dist/domain/alarm-system/core/impl/enum/ObjectClass.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -55,8 +57,8 @@ export const setupConsumer = async (): Promise<void> => {
 
         if (topic.startsWith('CAMERA')) {
           console.log(rawValues)
-          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues[0].objectClass)
-          const timestamp: Date = new Date(rawValues[0].timestamp)
+          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass)
+          const timestamp: Date = new Date(rawValues.timestamp)
           const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])
           if (securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
             console.log('Intrusion detected!')

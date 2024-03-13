@@ -12,5 +12,7 @@ class Producer:
 
     def produce(self, topic: str, recognized_object: str):
         self._producer.send(
-            topic, json.dumps({"value": recognized_object}).encode("utf-8")
+            # TODO: add timestamp
+            topic,
+            json.dumps({"value": recognized_object}).encode("utf-8"),
         )

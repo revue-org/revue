@@ -8,7 +8,6 @@ from app.domain.securityrule.utils.utils import is_intrusion_rule_active
 from app.presentation.securityrule.IntrusionRuleSerializer import (
     IntrusionRuleSerializer,
 )
-from app.recognizer.Producer import Producer
 from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
 from app.utils.env import DEV_API_KEY, ALARM_PORT, ALARM_HOST
@@ -44,9 +43,7 @@ def get_intrusion_rules() -> List[IntrusionRule]:
 def enable_intrusion_rules() -> None:
     for intrusion_rule in intrusion_rules:
         if is_intrusion_rule_active(intrusion_rule):
-            manager.add_object_to_recognize(
-                intrusion_rule.object_class.name.lower(), intrusion_rule.device_id.code
-            )
+            manager.add_camera(intrusion_rule.device_id.code)
 
 
 def check_rule_update() -> None:
@@ -54,13 +51,11 @@ def check_rule_update() -> None:
     if new_intrusion_rules != intrusion_rules:
         intrusion_rules.clear()
         intrusion_rules.append(*new_intrusion_rules)
-        manager.remove_all_objects_to_recognize()
+        manager.remove_all_cameras()
         enable_intrusion_rules()
 
 
 def check_rule_validity() -> None:
     for intrusion_rule in intrusion_rules:
         if not is_intrusion_rule_active(intrusion_rule):
-            manager.remove_object_to_recognize(
-                intrusion_rule.object_class.name.lower(), intrusion_rule.device_id.code
-            )
+            manager.remove_camera(intrusion_rule.device_id.code)

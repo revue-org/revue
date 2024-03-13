@@ -3,17 +3,25 @@ import os
 import cv2 as cv
 import numpy as np
 
+from app.domain.anomaly.core import Intrusion
+from app.recognizer.Producer import Producer
+
 
 class Recognizer:
 
-    def __init__(self, rtsp_stream_url: str, objects_to_recognize: [str]):
+    def __init__(
+        self, camera_code: str, rtsp_stream_url: str, objects_to_recognize: [str]
+    ):
         yolo_resource: str = "app/resources/yolov3"
         with open(f"{yolo_resource}/coco.names", "r") as f:
             self.classes: [str] = [line.strip() for line in f.readlines()]
+        self._camera_code: str = camera_code
         self._rtsp_stream_url: str = rtsp_stream_url
         self._objects_to_recognize: str = objects_to_recognize
         self._is_recognizing: bool = False
         if os.environ["TEST"] != "true":
+            self._producer = Producer()
+
             self._net = cv.dnn_DetectionModel(
                 f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
             )
@@ -62,7 +70,9 @@ class Recognizer:
                         classes_unique.flatten(), confidences_unique.flatten()
                     ):
                         if self.classes[classId] in self._objects_to_recognize:
-                            pass
+                            self._producer.produce(
+                                self._camera_code, self.classes[classId]
+                            )
 
             capture.release()
 

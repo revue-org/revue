@@ -1,9 +1,6 @@
-import os
-from os.path import join, dirname
 from typing import List
 
 import requests
-from dotenv import load_dotenv
 from flask import Flask
 
 from app.domain.securityrule.core import IntrusionRule
@@ -13,13 +10,8 @@ from app.presentation.securityrule.IntrusionRuleSerializer import (
 )
 from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
+from app.utils.env import DEV_API_KEY, ALARM_PORT, ALARM_HOST
 from app.utils.interval import set_interval
-
-dotenv_path = join(dirname(__file__), "../../.env")
-load_dotenv(dotenv_path)
-ALARM_PORT = os.environ.get("ALARM_PORT")
-ALARM_HOST = "localhost"  # os.environ.get("ALARM_HOST")
-DEV_API_KEY = os.environ.get("DEV_API_KEY")
 
 intrusion_rules: List[IntrusionRule] = []
 manager = RecognizersManager()

@@ -2,6 +2,8 @@ import { SecurityRule } from '../../domain/alarm-system/core/SecurityRule.js'
 import { ExceedingRule } from '../../domain/alarm-system/core/ExceedingRule.js'
 import { IntrusionRule } from '../../domain/alarm-system/core/IntrusionRule.js'
 import { EnvironmentData } from '../../domain/device/core/EnvironmentData.js'
+import { ObjectClass } from "../../domain/alarm-system/core/impl/enum/ObjectClass.js";
+import { DeviceId } from "../../domain/device/core/DeviceId.js";
 
 export interface SecurityRuleService {
   getSecurityRuleById(id: string): Promise<SecurityRule>
@@ -24,5 +26,5 @@ export interface SecurityRuleService {
 
   checkExceedingDetection(environmentData: EnvironmentData): boolean
 
-  checkIntrusionDetection(detection: any): boolean
+  checkIntrusionDetection(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): boolean
 }

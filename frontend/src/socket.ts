@@ -9,8 +9,6 @@ export const notificationSocketState = reactive({
   connected: false
 })
 
-console.log(import.meta.env)
-
 const monitoringHost: string = import.meta.env.VITE_MONITORING_HOST || 'localhost'
 const monitoringPort: string = import.meta.env.VITE_MONITORING_PORT || '4001'
 const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
@@ -21,9 +19,9 @@ const notificationUrl: string = `http://${notificationHost}:${notificationPort}`
 export let monitoringSocket: Socket | undefined
 export let notificationSocket: Socket | undefined
 
-export const setupSocketServers = (): void => {
-  monitoringSocket = io(`${monitoringUrl}`)
-  notificationSocket = io(`${notificationUrl}`)
+export const setupSocketServers = (accessToken: string): void => {
+  monitoringSocket = io(`${monitoringUrl}`, { query: { token: accessToken } })
+  notificationSocket = io(`${notificationUrl}`, { query: { token: accessToken } })
 
   notificationSocket.on('connect', (): void => {
     notificationSocketState.connected = true

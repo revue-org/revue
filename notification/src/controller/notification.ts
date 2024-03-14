@@ -31,6 +31,7 @@ export const notificationController = {
       )
     )
     io.emit('notification', { type: 'EXCEEDING' })
+    console.log('mandata una nnotifica exceeding')
     return notificationId
   },
   createIntrusionNotification: async (
@@ -45,6 +46,7 @@ export const notificationController = {
       )
     )
     io.emit('notification', { type: 'INTRUSION' })
+    console.log('mandata una nnotifica itrusion')
     return notificationId
   },
   updateExceedingNotification: async (

@@ -25,8 +25,11 @@ import kafkaManager from './utils/KafkaManager.js'
 import { Exceeding } from 'domain/dist/domain/alarm-system/core/Exceeding.js'
 import { anomalyService, securityRuleService } from './init.js'
 import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
 import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
+import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
+import { Anomaly } from 'domain/dist/domain/alarm-system/core/Anomaly.js'
+import { Intrusion } from 'domain/dist/domain/alarm-system/core/Intrusion.js'
+import { ObjectClass } from 'domain/dist/domain/alarm-system/core/impl/enum/ObjectClass.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -51,9 +54,15 @@ export const setupConsumer = async (): Promise<void> => {
         console.log('Arrived message', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
         if (topic.startsWith('CAMERA')) {
-          const date = new Date(rawValues.timestamp)
-          console.log('TEST DATE', date)
-          //TODO to check the intrusion object and to create the anomaly in case of intrusion
+          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass)
+          const timestamp: Date = new Date(rawValues.timestamp)
+          const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])
+          if (securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
+            console.log('Intrusion detected!')
+            const intrusion: Intrusion = anomalyFactory.createIntrusion(cameraId, timestamp, objectClass, '')
+            intrusion.anomalyId = await anomalyService.insertIntrusion(intrusion)
+            await sendNotification(intrusion)
+          }
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {
             if (
@@ -75,21 +84,8 @@ export const setupConsumer = async (): Promise<void> => {
                 rawValue._value,
                 '' // TODO: check for the default value, it seems to not work
               )
-              const exceedingId: string = await anomalyService.insertExceeding(
-                anomalyFactory.createExceeding(
-                  exceeding.deviceId,
-                  new Date(),
-                  exceeding.measure,
-                  exceeding.value,
-                  ''
-                )
-              )
-              await sendExceedingNotification(
-                exceedingId,
-                exceeding.deviceId,
-                exceeding.measure,
-                exceeding.value
-              )
+              exceeding.anomalyId = await anomalyService.insertExceeding(exceeding)
+              await sendNotification(exceeding)
             } else {
               console.log('No anomaly detected')
             }
@@ -165,27 +161,38 @@ const getCapturingDevices = async (): Promise<Device[]> => {
   }
 }
 
-const sendExceedingNotification = async (
-  anomalyId: string,
-  deviceId: DeviceId,
-  measure: Measure,
-  value: number
-): Promise<void> => {
-  const notificationUrl: string = `http://${notificationHost}:${notificationPort}`
-  console.log('Sending notification')
-  console.log(notificationUrl)
+const sendNotification = async (anomaly: Anomaly): Promise<void> => {
+  let url: string = `http://${notificationHost}:${notificationPort}`
+  let body: any = {}
+  switch (anomaly.deviceId.type) {
+    case DeviceType.SENSOR:
+      url = url + '/notifications/exceedings'
+      body = {
+        anomalyId: anomaly.anomalyId,
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(anomaly.deviceId.type),
+          code: anomaly.deviceId.code
+        },
+        measure: MeasureConverter.convertToString((anomaly as Exceeding).measure),
+        value: (anomaly as Exceeding).value
+      }
+      break
+    case DeviceType.CAMERA:
+      url = url + '/notifications/intrusions'
+      body = {
+        anomalyId: anomaly.anomalyId,
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(anomaly.deviceId.type),
+          code: anomaly.deviceId.code
+        },
+        intrusionObject: ObjectClassConverter.convertToString((anomaly as Intrusion).intrusionObject)
+      }
+      break
+  }
   try {
-    await RequestHelper.post(`${notificationUrl}/notifications/exceedings`, {
-      anomalyId: anomalyId,
-      deviceId: {
-        type: DeviceTypeConverter.convertToString(deviceId.type),
-        code: deviceId.code
-      },
-      measure: MeasureConverter.convertToString(measure),
-      value: value
-    })
+    await RequestHelper.post(url, body)
   } catch (e) {
     console.log(e)
-    throw new Error('Error while posting exceeding notification')
+    throw new Error('Error while posting notification')
   }
 }

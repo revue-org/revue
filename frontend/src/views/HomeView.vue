@@ -11,10 +11,12 @@ import router from '@/router'
 import { AnomalyTypeConverter, DeviceTypeConverter } from 'domain/dist/utils'
 import { AnomalyType } from 'domain/dist/domain/alarm-system/core'
 import { useTopicsStore } from '@/stores/topics'
+import { useUserStore } from '@/stores/user'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
 import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
 
 const topicsStore = useTopicsStore()
+const userStore = useUserStore()
 
 const $q = useQuasar()
 
@@ -23,7 +25,7 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 let values: Ref<{ sensor: Sensor; values: EnvironmentData[] }[]> = ref([])
 
 if (monitoringSocket == undefined || notificationSocket == undefined) {
-  setupSocketServers()
+  setupSocketServers(userStore.accessToken)
 }
 
 RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then((res: AxiosResponse) => {

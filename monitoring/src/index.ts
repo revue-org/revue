@@ -24,6 +24,15 @@ export const io: SocketIOServer = new SocketIOServer(server, {
   }
 })
 
+io.use(function (socket, next): void {
+  if (socket.handshake.query && socket.handshake.query.token) {
+    console.log('middleware socket validation: ' + socket.handshake.query.token)
+    if (jwtManager.verify(socket.handshake.query.token as string)) next()
+  } else {
+    next(new Error('Authentication error'))
+  }
+})
+
 app.use(express.json())
 
 const PORT: number = Number(process.env.MONITORING_PORT) || 4000

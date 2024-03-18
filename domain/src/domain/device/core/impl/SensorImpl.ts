@@ -3,7 +3,7 @@ import { DeviceId } from '../DeviceId.js'
 import { Measure } from './enum/Measure.js'
 
 export class SensorImpl implements Sensor {
-  private readonly _deviceId: DeviceId
+  private _deviceId: DeviceId
   private _ipAddress: string
   private _isCapturing: boolean
   private _intervalMillis: number
@@ -25,6 +25,10 @@ export class SensorImpl implements Sensor {
 
   get deviceId(): DeviceId {
     return this._deviceId
+  }
+
+  set deviceId(deviceId: DeviceId) {
+    this._deviceId = deviceId
   }
 
   get ipAddress(): string {

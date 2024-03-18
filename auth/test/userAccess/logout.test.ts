@@ -1,5 +1,5 @@
 import { Response } from 'supertest'
-import { afterAll, beforeAll, describe, expect, it, vitest } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateUsers } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 

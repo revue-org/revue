@@ -19,7 +19,7 @@ db.device.insert([
       type: 'CAMERA',
       code: 'cam-01'
     },
-    isCapturing: false,
+    isCapturing: true,
     ipAddress: '192.168.1.20',
     resolution: {
       height: 200,

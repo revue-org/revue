@@ -1,17 +1,17 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { SecurityRuleService } from '../../src/application/security-rule/SecurityRuleService.js'
-import { SecurityRuleServiceImpl } from '../../src/application/security-rule/impl/SecurityRuleServiceImpl.js'
+import { SecurityRuleService } from '../../src/application/alarm-system/SecurityRuleService.js'
+import { SecurityRuleServiceImpl } from '../../src/application/alarm-system/impl/SecurityRuleServiceImpl.js'
 import {
   DeviceIdFactory,
   DeviceIdFactoryImpl,
   EnvironmentDataFactory,
   EnvironmentDataFactoryImpl
 } from '../../src/domain/device/factories'
-import { SecurityRuleFactory, SecurityRuleFactoryImpl } from '../../src/domain/security-rule/factories'
+import { SecurityRuleFactory, SecurityRuleFactoryImpl } from '../../src/domain/alarm-system/factories'
 import { DeviceId, Measure, MeasureUnit } from '../../src/domain/device/core'
 import { Contact, ContactType } from '../../src/domain/monitoring/core'
 import { ContactFactory, ContactFactoryImpl } from '../../src/domain/monitoring/factories'
-import { ExceedingRule } from '../../src/domain/security-rule/core'
+import { ExceedingRule } from '../../src/domain/alarm-system/core'
 
 describe('Check for exceeding', (): void => {
   let securityRuleService: SecurityRuleService

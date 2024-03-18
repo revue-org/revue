@@ -59,7 +59,6 @@ const environmentDataFactory = new EnvironmentDataFactoryImpl()
 export const produce = async (): Promise<void> => {
   const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
   await producer.connect()
-  let index: number = 0
   let values: EnvironmentData[] = []
   setInterval(async (): Promise<void> => {
     values = []
@@ -78,13 +77,10 @@ export const produce = async (): Promise<void> => {
       topic: `SENSOR_${sourceSensor.deviceId.code}`,
       messages: [
         {
-          value: JSON.stringify(values),
-          key: String(index)
+          value: JSON.stringify(values)
         }
       ]
     })
-    console.log(`Message ${index} sent`)
-    index++
   }, sourceSensor.intervalMillis)
 }
 

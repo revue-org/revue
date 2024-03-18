@@ -135,6 +135,20 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+# Python
+venv
+
+*.pyc
+__pycache__/
+
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+recognition/app/resources/yolov3/yolov3.weights
+
 
 ### LaTeX ###
 ## Core latex/pdflatex auxiliary files:

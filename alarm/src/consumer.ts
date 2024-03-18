@@ -48,13 +48,11 @@ export const setupConsumer = async (): Promise<void> => {
   consumer
     .run({
       eachMessage: async ({ topic, message }): Promise<void> => {
-        if (message.key === null || message.value === null) return
-        const messageKey: Buffer = message.key
+        if (message.value === null) return
         const messageValue: Buffer = message.value
 
-        console.log('Message num: ' + JSON.parse(messageKey.toString()))
+        console.log('Arrived message', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
-
         if (topic.startsWith('CAMERA')) {
           const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass)
           const timestamp: Date = new Date(rawValues.timestamp)

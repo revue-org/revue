@@ -24,7 +24,7 @@ const login = () => {
       userStore.accessToken = res.data.accessToken
       userStore.refreshToken = res.data.refreshToken
       userStore.isLoggedIn = true
-      setupSocketServers()
+      setupSocketServers(userStore.accessToken)
       router.push('/home')
     })
     .catch(() => {

@@ -62,7 +62,7 @@ db.securityRule.insert([
     creatorId: ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'),
     description: 'Intrusion rule description',
     objectClass: 'PERSON',
-    contacts: [
+    contactsToNotify: [
       {
         type: 'SMS',
         value: '3333333333'

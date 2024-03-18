@@ -11,15 +11,17 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.1"
 }
 
+class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
+
+
 subprojects {
 
-    if (project.name != "kafka") {
+    if (project.file("package.json").exists()) {
         apply(plugin = "com.github.node-gradle.node")
 
         node {
             download = false
         }
-        class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
 
         listOf(
             Task("install", listOf("install")),
@@ -47,6 +49,20 @@ subprojects {
         tasks.register("clean", Delete::class) {
             delete("dist", "node_modules/domain", "tsconfig.tsbuildinfo")
         }
+    } else if (project.file("pyproject.toml").exists()) {
+        listOf(
+            Task("setup", listOf("pip", "install", "-r", "requirements.txt")),
+            Task("install", listOf("poetry", "install", "--no-root"), listOf("setup")),
+            Task("build", listOf("poetry", "build")),
+            Task("test", listOf("poetry", "run", "python", "run_tests.py")),
+            Task("format", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),
+            Task("format-fix", listOf("poetry", "run", "python", "-m", "black", ".")),
+        ).forEach { task ->
+            tasks.register(task.name, Exec::class) {
+                if (task.name != "install" && task.name != "setup") dependsOn(":${project.name}:install")
+                commandLine = listOf(*task.args.toTypedArray())
+                if (task.dependencies.isNotEmpty()) dependsOn(task.dependencies)
+            }
+        }
     }
-
 }

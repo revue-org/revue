@@ -45,13 +45,9 @@ export const setupConsumers = async (): Promise<void> => {
         consumer
           .run({
             eachMessage: async ({ topic, message }): Promise<void> => {
-              if (message.key === null || message.value === null) return
-              const messageKey: Buffer = message.key
+              if (message.value === null) return
               const messageValue: Buffer = message.value
-              console.log({
-                value: messageValue,
-                key: JSON.parse(messageKey.toString())
-              })
+              console.log('Arrived message ', messageValue.toString())
               console.log(messageValue)
               if (topic.startsWith('CAMERA')) {
                 socket.emit('stream', { topic: topic, frame: messageValue.toString() })

@@ -33,6 +33,18 @@ class JWTManager {
       next()
     })
   }
+
+  /**
+   * Validate a token.
+   * @param {string} token the token to be verified.
+   * @returns {boolean} true if the token is valid, false otherwise.
+   */
+  verify(token: string): boolean {
+    if (token == null) return false
+    return this.jwt.verify(token, this.secret, (err: any): boolean => {
+      return !err
+    })
+  }
 }
 
 export const jwtManager: JWTManager = new JWTManager()

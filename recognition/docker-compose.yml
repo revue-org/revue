@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+
+  revue-recognition:
+    image: revue-recognition
+    container_name: ${RECOGNITION_HOST}
+    build:
+      context: .
+      dockerfile: recognition/Dockerfile
+    restart: on-failure
+    ports:
+      - ${RECOGNITION_PORT}:${RECOGNITION_PORT}
+    environment:
+      - FLASK_RUN_PORT=${RECOGNITION_PORT}

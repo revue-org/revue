@@ -4,7 +4,7 @@ services:
 
   media-server:
     image: bluenviron/mediamtx:latest
-    container_name: revue-media-server
+    container_name: ${MEDIA_SERVER_HOST}
     ports:
       - "8554:8554"
       - "1935:1935"

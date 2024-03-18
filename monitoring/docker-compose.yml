@@ -4,7 +4,7 @@ services:
 
   revue-monitoring:
     image: revue-monitoring
-    container_name: revue-monitoring
+    container_name: ${MONITORING_HOST}
     build:
       context: .
       dockerfile: ./monitoring/Dockerfile

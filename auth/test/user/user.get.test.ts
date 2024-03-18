@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { connectToMock, disconnectFromMock, populateUsers } from "../storage/MongoDBMock.js";
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
-const TOKEN: string = process.env.DEV_API_KEY
+const TOKEN = process.env.DEV_API_KEY
 
 describe('GET /users/', (): void => {
   beforeAll(async (): Promise<void> => {

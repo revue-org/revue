@@ -4,7 +4,7 @@ services:
 
   revue-auth:
     image: revue-auth
-    container_name: revue-auth
+    container_name: ${AUTH_HOST}
     build:
       context: .
       dockerfile: ./auth/Dockerfile

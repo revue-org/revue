@@ -45,8 +45,9 @@ if [ -z "$command" ]; then
   usage
 fi
 
-compose_files=("-fauth/docker-compose.yml"  "-fkafka/docker-compose.yml" "-fmonitoring/docker-compose.yml" "-falarm/docker-compose.yml"
-"-ffrontend/docker-compose.yml" "-flog/docker-compose.yml" "-fnotification/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml" "-fmedia-server/docker-compose.yml")
+compose_files=("-fauth/docker-compose.yml" "-fkafka/docker-compose.yml" "-fmonitoring/docker-compose.yml" "-falarm/docker-compose.yml"
+"-ffrontend/docker-compose.yml" "-flog/docker-compose.yml" "-fnotification/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml"
+"-fmedia-server/docker-compose.yml" "-frecognition/docker-compose.yml")
 
 
 if [ "$command" == "--down" ]; then

@@ -8,8 +8,31 @@
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
+    id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.3"
 }
+
+if (File(System.getProperty("user.dir") + "/.git").exists()) {
+    gitHooks {
+        commitMsg {
+            conventionalCommits {
+                defaultTypes()
+                types("wip", "other")
+            }
+        }
+        preCommit {
+            from {
+                "./gradlew format-fix"
+            }
+            appendScript {
+                " && git add ."
+            }
+        }
+        createHooks(overwriteExisting = true)
+    }
+}
+
+
 
 rootProject.name = "revue"
 
-include("domain", "monitoring", "frontend", "auth", "alarm", "kafka", "camera", "sensor", "log", "notification")
+include("domain", "monitoring", "frontend", "auth", "alarm", "notification", "kafka", "camera", "sensor", "log", "recognition")

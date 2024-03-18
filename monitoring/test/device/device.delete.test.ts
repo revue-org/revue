@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
-const TOKEN: string = process.env.DEV_API_KEY
+const TOKEN = process.env.DEV_API_KEY
 
 describe('DELETE /devices/', (): void => {
   beforeAll(async (): Promise<void> => {

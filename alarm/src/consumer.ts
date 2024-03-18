@@ -56,7 +56,6 @@ export const setupConsumer = async (): Promise<void> => {
         const rawValues = JSON.parse(messageValue.toString())
 
         if (topic.startsWith('CAMERA')) {
-          console.log(rawValues)
           const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass)
           const timestamp: Date = new Date(rawValues.timestamp)
           const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])

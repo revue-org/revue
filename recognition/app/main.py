@@ -1,6 +1,7 @@
 from typing import List
 
 import requests
+import os
 from flask import Flask
 
 from app.domain.securityrule.core import IntrusionRule
@@ -16,6 +17,7 @@ from app.utils.interval import set_interval
 intrusion_rules: List[IntrusionRule] = []
 manager = RecognizersManager()
 
+os.environ["TEST"] = "false"
 
 def create_app():
     app = Flask(__name__)

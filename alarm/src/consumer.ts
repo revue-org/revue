@@ -54,7 +54,7 @@ export const setupConsumer = async (): Promise<void> => {
         console.log('Arrived message', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
         if (topic.startsWith('CAMERA')) {
-          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass)
+          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass.toUpperCase())
           const timestamp: Date = new Date(rawValues.timestamp)
           const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])
           if (securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
@@ -192,7 +192,6 @@ const sendNotification = async (anomaly: Anomaly): Promise<void> => {
   try {
     await RequestHelper.post(url, body)
   } catch (e) {
-    console.log(e)
     throw new Error('Error while posting notification')
   }
 }

@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose'
+import { AnomalyType } from "../../../domain/alarm-system/core/impl/enum/AnomalyType.js";
 
 export const notificationSchema = new Schema({
   anomalyId: {
@@ -7,7 +8,7 @@ export const notificationSchema = new Schema({
   },
   anomalyType: {
     type: String,
-    enum: ['EXCEEDING', 'INTRUSION'],
+    enum: Object.values(AnomalyType),
     required: true
   },
   timestamp: {

@@ -1,5 +1,7 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from './DeviceIdSchema.js'
+import { Measure } from "../../../domain/device/core/impl/enum/Measure.js";
+import { MeasureUnit } from "../../../domain/device/core/impl/enum/MeasureUnit.js";
 
 export const environmentDataSchema = new Schema({
   deviceId: {
@@ -12,12 +14,12 @@ export const environmentDataSchema = new Schema({
   },
   measure: {
     type: String,
-    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'],
+    enum: Object.values(Measure),
     required: true
   },
   measureUnit: {
     type: String,
-    enum: ['PASCAL', 'BAR', 'CELSIUS', 'FAHRENHEIT', 'KELVIN', 'PERCENTAGE'],
+    enum: Object.values(MeasureUnit),
     required: true
   },
   timestamp: {

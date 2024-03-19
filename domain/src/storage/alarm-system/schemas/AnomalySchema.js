@@ -1,5 +1,7 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
+import { ObjectClass } from "../../../domain/alarm-system/core/impl/enum/ObjectClass.js";
+import { Measure } from "../../../domain/device/core/impl/enum/Measure.js";
 
 export const anomalySchema = new Schema({
   deviceId: {
@@ -12,7 +14,7 @@ export const anomalySchema = new Schema({
   },
   intrusionObject: {
     type: String,
-    enum: ['PERSON', 'ANIMAL', 'VEHICLE', 'OTHER'],
+    enum: Object.values(ObjectClass),
     required: true
   },
   value: {
@@ -21,7 +23,7 @@ export const anomalySchema = new Schema({
   },
   measure: {
     type: String,
-    enum: ['TEMPERATURE', 'HUMIDITY', 'PRESSURE'],
+    enum: Object.values(Measure),
     required: true
   }
 })

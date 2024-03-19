@@ -19,6 +19,7 @@ manager = RecognizersManager()
 
 os.environ["TEST"] = "false"
 
+
 def create_app():
     app = Flask(__name__)
     intrusion_rules.append(*get_intrusion_rules())

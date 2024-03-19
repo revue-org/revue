@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
-import { ObjectClass } from "../../../domain/alarm-system/core/impl/enum/ObjectClass.js";
-import { Measure } from "../../../domain/device/core/impl/enum/Measure.js";
+import { ObjectClass } from '../../../domain/alarm-system/core/impl/enum/ObjectClass.js'
+import { Measure } from '../../../domain/device/core/impl/enum/Measure.js'
 
 export const anomalySchema = new Schema({
   deviceId: {

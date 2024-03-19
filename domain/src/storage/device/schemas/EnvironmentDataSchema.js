@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from './DeviceIdSchema.js'
-import { Measure } from "../../../domain/device/core/impl/enum/Measure.js";
-import { MeasureUnit } from "../../../domain/device/core/impl/enum/MeasureUnit.js";
+import { Measure } from '../../../domain/device/core/impl/enum/Measure.js'
+import { MeasureUnit } from '../../../domain/device/core/impl/enum/MeasureUnit.js'
 
 export const environmentDataSchema = new Schema({
   deviceId: {

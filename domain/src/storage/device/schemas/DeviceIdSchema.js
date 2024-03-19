@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { DeviceType } from "../../../domain/device/core/impl/enum/DeviceType.js";
+import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 
 export const deviceIdSchema = new Schema(
   {

@@ -4,10 +4,15 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
 import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
 import type { Camera } from '@domain/device/core/Camera.js'
-import RequestHelper, { mediaServerHost, mediaServerRtspPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
+import RequestHelper, {
+  mediaServerHost,
+  mediaServerRtspPort,
+  monitoringHost,
+  monitoringPort
+} from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
 import path from 'path'
-import * as console from "console";
+import * as console from 'console'
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path)
 

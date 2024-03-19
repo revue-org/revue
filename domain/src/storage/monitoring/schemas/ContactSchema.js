@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { ContactType } from "../../../domain/monitoring/core/impl/enum/ContactType.js";
+import { ContactType } from '../../../domain/monitoring/core/impl/enum/ContactType.js'
 
 export const contactSchema = new Schema({
   type: {

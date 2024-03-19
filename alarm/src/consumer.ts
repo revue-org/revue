@@ -54,7 +54,9 @@ export const setupConsumer = async (): Promise<void> => {
         console.log('Arrived message', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
         if (topic.startsWith('CAMERA')) {
-          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(rawValues.objectClass.toUpperCase())
+          const objectClass: ObjectClass = ObjectClassConverter.convertToObjectClass(
+            rawValues.objectClass.toUpperCase()
+          )
           const timestamp: Date = new Date(rawValues.timestamp)
           const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])
           if (securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {

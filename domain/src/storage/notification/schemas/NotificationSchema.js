@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { AnomalyType } from "../../../domain/alarm-system/core/impl/enum/AnomalyType.js";
+import { AnomalyType } from '../../../domain/alarm-system/core/impl/enum/AnomalyType.js'
 
 export const notificationSchema = new Schema({
   anomalyId: {

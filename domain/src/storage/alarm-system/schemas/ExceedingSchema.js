@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
-import { Measure } from "../../../domain/device/core/impl/enum/Measure.js";
+import { Measure } from '../../../domain/device/core/impl/enum/Measure.js'
 
 export const exceedingSchema = new Schema({
   deviceId: {

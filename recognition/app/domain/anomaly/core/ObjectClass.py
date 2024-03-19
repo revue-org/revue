@@ -83,6 +83,5 @@ class ObjectClass(Enum):
     HAIR_DRIER = 78
     TOOTHBRUSH = 79
 
-
     def __eq__(self, other):
         return self.value == other.value

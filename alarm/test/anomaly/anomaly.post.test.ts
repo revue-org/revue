@@ -23,7 +23,7 @@ describe('POST /anomalies/', (): void => {
           type: 'CAMERA',
           code: 'cam-03'
         },
-        intrusionObject: 'ANIMAL'
+        intrusionObject: 'PERSON'
       }
 
       // @ts-ignore

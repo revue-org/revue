@@ -21,10 +21,10 @@ if (File(System.getProperty("user.dir") + "/.git").exists()) {
         }
         preCommit {
             from {
-                "./gradlew format-fix"
+                ""//./gradlew format-fix
             }
             appendScript {
-                " && git add ."
+                ""// && git add .
             }
         }
         createHooks(overwriteExisting = true)

@@ -2,7 +2,6 @@ import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { connectToMock, disconnectFromMock, populateAnomalies } from "../storage/MongoDBMock.js";
 import HttpStatusCode from '@utils/HttpStatusCode.js'
-import * as process from "process";
 
 const TOKEN = process.env.DEV_API_KEY
 

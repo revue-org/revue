@@ -9,7 +9,7 @@ import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFacto
 import { Resolution } from '@domain/device/core/Resolution.js'
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
-import { deviceService } from "../../src/init.js";
+import { deviceService } from '../../src/init.js'
 
 const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -40,9 +40,7 @@ export const deviceController = {
     if ((await deviceService.getDeviceById(deviceId)) !== null) {
       throw new Error('Camera already present' + deviceId.code + ' ' + deviceId.type.toString())
     }
-    return deviceService.insertCamera(
-      deviceFactory.createCamera(deviceId, false, ipAddress, resolution)
-    )
+    return deviceService.insertCamera(deviceFactory.createCamera(deviceId, false, ipAddress, resolution))
   },
   createSensor: async (
     deviceId: DeviceId,

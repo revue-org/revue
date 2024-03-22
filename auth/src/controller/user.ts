@@ -10,7 +10,7 @@ import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { ContactFactory } from '@domain/monitoring/factories/ContactFactory.js'
 import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl.js'
 import { ContactTypeConverter } from '@utils/ContactTypeConverter.js'
-import { userService } from "../init.js";
+import { userService } from '../init.js'
 
 const userFactory: UserFactory = new UserFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -44,7 +44,7 @@ export const userController = {
       contacts,
       deviceIds
     )
-    return userService.insertUser(user);
+    return userService.insertUser(user)
   },
   updateUser: async (req: Request): Promise<void> => {
     const user: User = userFactory.createUser(

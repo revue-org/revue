@@ -1,4 +1,4 @@
-import { User } from "../../domain/monitoring/core/User.js";
+import { User } from '../../domain/monitoring/core/User.js'
 
 export interface UserService {
   getUsers(): Promise<User[]>

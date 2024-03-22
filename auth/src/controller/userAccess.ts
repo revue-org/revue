@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import { jwtManager } from '../utils/JWTManager.js'
 import { UserInfo } from '../utils/UserInfo.js'
 import { User } from '@domain/monitoring/core/User.js'
-import { userService } from "../init.js";
+import { userService } from '../init.js'
 
 export const userAccessController = {
   login: async (

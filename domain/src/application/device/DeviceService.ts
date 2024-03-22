@@ -1,7 +1,7 @@
-import { Camera} from "../../domain/device/core/Camera.js";
-import { DeviceId } from "../../domain/device/core/DeviceId.js";
-import { Device } from "../../domain/device/core";
-import { Sensor } from "../../domain/device/core/Sensor.js";
+import { Camera } from '../../domain/device/core/Camera.js'
+import { DeviceId } from '../../domain/device/core/DeviceId.js'
+import { Device } from '../../domain/device/core'
+import { Sensor } from '../../domain/device/core/Sensor.js'
 
 export interface DeviceService {
   getDevices(): Promise<Device[]>

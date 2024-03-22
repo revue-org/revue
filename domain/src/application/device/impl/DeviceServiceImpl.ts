@@ -1,6 +1,6 @@
 import { DeviceService } from '../DeviceService.js'
 import { DeviceRepository } from '../../../domain/device/repositories/DeviceRepository.js'
-import { Camera} from '../../../domain/device/core/Camera.js'
+import { Camera } from '../../../domain/device/core/Camera.js'
 import { DeviceId } from '../../../domain/device/core/DeviceId.js'
 import { Device } from '../../../domain/device/core/Device.js'
 import { Sensor } from '../../../domain/device/core/Sensor.js'

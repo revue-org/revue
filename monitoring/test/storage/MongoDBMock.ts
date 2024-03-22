@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { cameraModel, sensorModel } from '../../src/controller/device.js'
+import { cameraModel, sensorModel } from '../../src/init.js'
 import { sensorSample } from '../resources/sensorSample.js'
 import { cameraSample } from '../resources/cameraSample.js'
 

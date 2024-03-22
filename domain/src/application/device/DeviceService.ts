@@ -1,14 +1,32 @@
-import { DeviceId } from '../../domain/device/core/DeviceId.js'
-import { Device } from '../../domain/device/core/Device.js'
+import { Camera} from "../../domain/device/core/Camera.js";
+import { DeviceId } from "../../domain/device/core/DeviceId.js";
+import { Device } from "../../domain/device/core";
+import { Sensor } from "../../domain/device/core/Sensor.js";
 
 export interface DeviceService {
-  getAllDevices(): Set<Device>
+  getDevices(): Promise<Device[]>
 
-  getDevice(deviceId: DeviceId): Device
+  getCapturingDevices(): Promise<Device[]>
 
-  addDevice(device: Device): void
+  getCameras(): Promise<Camera[]>
 
-  removeDevice(deviceId: DeviceId): void
+  getSensors(): Promise<Sensor[]>
 
-  deployDevice(deviceId: DeviceId): void
+  getDeviceById(deviceId: DeviceId): Promise<Device>
+
+  getCameraByCode(code: string): Promise<Camera>
+
+  getSensorByCode(code: string): Promise<Sensor>
+
+  insertCamera(camera: Camera): void
+
+  insertSensor(sensor: Sensor): void
+
+  updateCamera(camera: Camera): void
+
+  updateSensor(sensor: Sensor): void
+
+  deleteCamera(code: string): void
+
+  deleteSensor(code: string): void
 }

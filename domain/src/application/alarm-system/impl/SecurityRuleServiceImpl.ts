@@ -5,8 +5,12 @@ import { SecurityRule } from '../../../domain/alarm-system/core/SecurityRule.js'
 import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 import { SecurityRuleRepository } from '../../../domain/alarm-system/repositories/SecurityRuleRepository.js'
-import { ObjectClass } from '../../../domain/alarm-system/core'
-import { DeviceId } from '../../../domain/device/core'
+import { Anomaly } from "../../../domain/alarm-system/core/Anomaly.js";
+import { ObjectClass } from "../../../domain/alarm-system/core/impl/enum/ObjectClass.js";
+import { Intrusion } from "../../../domain/alarm-system/core/Intrusion.js";
+import { DeviceId } from '../../../domain/device/core/DeviceId.js'
+import { Contact } from "../../../domain/monitoring/core/Contact.js";
+import { Exceeding } from "../../../domain/alarm-system/core/Exceeding.js";
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private securityRuleRepository: SecurityRuleRepository
@@ -121,6 +125,29 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
           rule.objectClass === objectClass
       ).length > 0
     )
+  }
+
+  getContactsToNotify(anomaly: Anomaly): Contact[] {
+    switch (anomaly.deviceId.type) {
+      case DeviceType.CAMERA:
+        return (
+          this.getActiveIntrusionRules().filter(
+            (rule: IntrusionRule) =>
+              this.hourComparator(anomaly.timestamp, rule.from, rule.to) &&
+              rule.deviceId.code === anomaly.deviceId.code &&
+              rule.objectClass === (anomaly as Intrusion).intrusionObject
+          ).flatMap((rule: IntrusionRule) => rule.contactsToNotify)
+        )
+      case DeviceType.SENSOR:
+        return (
+          this.getActiveExceedingRules().filter(
+            (rule: ExceedingRule) =>
+              this.hourComparator(anomaly.timestamp, rule.from, rule.to) &&
+              rule.deviceId.code === anomaly.deviceId.code &&
+              rule.measure === (anomaly as Exceeding).measure
+          ).flatMap((rule: ExceedingRule) => rule.contactsToNotify)
+        )
+    }
   }
 
   hourComparator = (date: Date, from: Date, to: Date): boolean => {

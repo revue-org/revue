@@ -1,13 +1,26 @@
 import { NotificationService } from '../NotificationService.js'
 import { NotificationRepository } from '../../../domain/notification/repositories/NotificationRepository.js'
 import { Notification } from '../../../domain/notification/core/Notification.js'
+import { Contact } from '../../../domain/monitoring/core/Contact.js'
+import { MailService } from '../MailService.js'
+import { ContactType } from '../../../domain/monitoring/core/impl/enum/ContactType.js'
 
 export class NotificationServiceImpl implements NotificationService {
   private notificationRepository: NotificationRepository
   private notifications: Notification[] = []
+  private mailService: MailService
 
-  constructor(notificationRepository: NotificationRepository) {
+  constructor(notificationRepository: NotificationRepository, mailService: MailService) {
     this.notificationRepository = notificationRepository
+    this.mailService = mailService
+  }
+
+  sendMailNotification(notification: Notification, contacts: Contact[]): void {
+    contacts
+      .filter((contact: Contact): boolean => contact.contactType === ContactType.EMAIL)
+      .forEach((contact: Contact): void => {
+        this.mailService.sendMail(contact.value, notification)
+      })
   }
 
   async getNotificationById(id: string): Promise<Notification> {

@@ -38,9 +38,11 @@ notificationRouter.route('/exceedings').post((req: Request, res: Response): void
       req.body.anomalyId,
       deviceIdFactory.createSensorId(req.body.deviceId.code),
       MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.value
+      req.body.value,
+      req.body.contacts
     )
     .then((): void => {
+
       res.status(HttpStatusCode.CREATED).send({ success: 'Notification created' })
     })
     .catch((): void => {

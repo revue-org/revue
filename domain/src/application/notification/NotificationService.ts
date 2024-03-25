@@ -1,4 +1,5 @@
-import { Notification } from '../../domain/notification/core/Notification'
+import { Notification } from '../../domain/notification/core/Notification.js'
+import { Contact } from "../../domain/monitoring/core/Contact.js";
 
 export interface NotificationService {
   getNotificationById(id: string): Promise<Notification>
@@ -8,6 +9,8 @@ export interface NotificationService {
   insertExceedingNotification(notification: Notification): Promise<string>
 
   insertIntrusionNotification(notification: Notification): Promise<string>
+
+  sendMailNotification(notification: Notification, contacts: Contact[]): void
 
   updateExceedingNotification(notification: Notification): void
 

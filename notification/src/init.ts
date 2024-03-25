@@ -5,6 +5,8 @@ import { NotificationService } from 'domain/dist/application/notification/Notifi
 import { NotificationServiceImpl } from 'domain/dist/application/notification/impl/NotificationServiceImpl.js'
 import { NotificationRepository } from 'domain/dist/domain/notification/repositories/NotificationRepository.js'
 import { NotificationRepositoryImpl } from 'domain/dist/storage/notification/NotificationRepositoryImpl.js'
+import { MailService } from 'domain/dist/application/notification/MailService.js'
+import { MailServiceImpl } from 'domain/dist/application/notification/impl/MailServiceImpl.js'
 
 export const notificationModel: Model<Notification> = model<Notification>(
   'Notification',
@@ -13,4 +15,8 @@ export const notificationModel: Model<Notification> = model<Notification>(
 )
 
 const notificationRepository: NotificationRepository = new NotificationRepositoryImpl(notificationModel)
-export const notificationService: NotificationService = new NotificationServiceImpl(notificationRepository)
+const mailService: MailService = new MailServiceImpl()
+export const notificationService: NotificationService = new NotificationServiceImpl(
+  notificationRepository,
+  mailService
+)

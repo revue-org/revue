@@ -6,6 +6,7 @@ import { AnomalyFactoryImpl } from '@domain/alarm-system/factories/impl/AnomalyF
 import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from '@domain/device/core/DeviceId.js'
 import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
+import { Contact } from '@domain/monitoring/core/Contact.js'
 import { notificationService } from '../init.js'
 import { io } from '../index.js'
 
@@ -22,31 +23,31 @@ export const notificationController = {
     anomalyId: string,
     deviceId: DeviceId,
     measure: Measure,
-    value: number
+    value: number,
+    contacts: Contact[]
   ): Promise<string> => {
-    const notificationId: string = await notificationService.insertExceedingNotification(
-      notificationFactory.createExceedingNotification(
-        '',
-        anomalyFactory.createExceeding(deviceId, new Date(), value, measure, anomalyId)
-      )
+    const notification: Notification = notificationFactory.createExceedingNotification(
+      '',
+      anomalyFactory.createExceeding(deviceId, new Date(), value, measure, anomalyId)
     )
+    const notificationId: string = await notificationService.insertExceedingNotification(notification)
+    notificationService.sendMailNotification(notification, contacts)
     io.emit('notification', { type: 'EXCEEDING' })
-    console.log('mandata una nnotifica exceeding')
     return notificationId
   },
   createIntrusionNotification: async (
     anomalyId: string,
     deviceId: DeviceId,
-    intrusionObject: ObjectClass
+    intrusionObject: ObjectClass,
+    contacts: Contact[]
   ): Promise<string> => {
-    const notificationId: string = await notificationService.insertIntrusionNotification(
-      notificationFactory.createIntrusionNotification(
-        '',
-        anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, anomalyId)
-      )
+    const notification: Notification = notificationFactory.createIntrusionNotification(
+      '',
+      anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, anomalyId)
     )
+    const notificationId: string = await notificationService.insertIntrusionNotification(notification)
+    notificationService.sendMailNotification(notification, contacts)
     io.emit('notification', { type: 'INTRUSION' })
-    console.log('mandata una nnotifica itrusion')
     return notificationId
   },
   updateExceedingNotification: async (

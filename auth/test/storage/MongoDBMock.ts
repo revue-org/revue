@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { userModel } from '../../src/controller/user.js'
+import { userModel } from '../../src/init.js'
 import { userSample } from '../resources/userSample.js'
 
 let mongoMock: any = null

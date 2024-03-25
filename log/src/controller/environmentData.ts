@@ -1,7 +1,4 @@
-import { Model, model } from 'mongoose'
 import { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
-import { EnvironmentDataRepository } from '@domain/device/repositories/EnvironmentDataRepository.js'
-import { EnvironmentDataRepositoryImpl } from '@storage/device/EnvironmentDataRepositoryImpl.js'
 import { EnvironmentDataFactory } from '@domain/device/factories/EnvironmentDataFactory.js'
 import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
 import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
@@ -10,25 +7,17 @@ import { Measure } from '@domain/device/core/impl/enum/Measure.js'
 import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
 import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit.js'
 import { DeviceType } from 'domain/dist/domain/device/core/impl/enum/DeviceType.js'
-import { environmentDataSchema } from '@storage/device/schemas/EnvironmentDataSchema.js'
+import { logService } from '../../src/init.js'
 
-export const environmentDataModel: Model<EnvironmentData> = model<EnvironmentData>(
-  'EnvironmentData',
-  environmentDataSchema,
-  'environmentData'
-)
-const environmentDataRepository: EnvironmentDataRepository = new EnvironmentDataRepositoryImpl(
-  environmentDataModel
-)
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 export const environmentDataController = {
   getEnvironmentData: async (): Promise<EnvironmentData[]> => {
-    return await environmentDataRepository.getEnvironmentData()
+    return await logService.getEnvironmentData()
   },
   getDataByDeviceId: async (type: DeviceType, code: string): Promise<EnvironmentData[]> => {
-    return await environmentDataRepository.getDataByDeviceId(deviceIdFactory.createId(type, code))
+    return await logService.getDataByDeviceId(deviceIdFactory.createId(type, code))
   },
   createEnvironmentData: async (
     deviceId: DeviceId,
@@ -37,7 +26,7 @@ export const environmentDataController = {
     measureUnit: MeasureUnit,
     timestamp: Date
   ): Promise<void> => {
-    return await environmentDataRepository.insertEnvironmentData(
+    return logService.insertEnvironmentData(
       environmentDataFactory.createEnvironmentData(deviceId, value, measure, measureUnit, timestamp)
     )
   }

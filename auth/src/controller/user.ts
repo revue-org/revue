@@ -1,8 +1,4 @@
 import type { Request } from 'express'
-import { Model, model } from 'mongoose'
-import { userSchema } from '@storage/monitoring/schemas/UserSchema.js'
-import { UserRepository } from '@domain/monitoring/repositories/UserRepository.js'
-import { UserRepositoryImpl } from '@storage/monitoring/UserRepositoryImpl.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { Contact } from '@domain/monitoring/core/Contact.js'
 import { UserFactory } from '@domain/monitoring/factories/UserFactory.js'
@@ -14,19 +10,18 @@ import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 import { ContactFactory } from '@domain/monitoring/factories/ContactFactory.js'
 import { ContactFactoryImpl } from '@domain/monitoring/factories/impl/ContactFactoryImpl.js'
 import { ContactTypeConverter } from '@utils/ContactTypeConverter.js'
+import { userService } from '../init.js'
 
-export const userModel: Model<User> = model<User>('User', userSchema, 'user')
-const userRepository: UserRepository = new UserRepositoryImpl(userModel)
 const userFactory: UserFactory = new UserFactoryImpl()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const contactFactory: ContactFactory = new ContactFactoryImpl()
 
 export const userController = {
   getUserById: async (id: string): Promise<User> => {
-    return await userRepository.getUserById(id)
+    return await userService.getUserById(id)
   },
   getUsers: async (): Promise<User[]> => {
-    return await userRepository.getUsers()
+    return await userService.getUsers()
   },
   createUser: async (req: Request): Promise<void> => {
     const contacts: Contact[] = req.body.contacts.map((contactObj: { value: string; type: string }) =>
@@ -49,7 +44,7 @@ export const userController = {
       contacts,
       deviceIds
     )
-    return await userRepository.insertUser(user)
+    return userService.insertUser(user)
   },
   updateUser: async (req: Request): Promise<void> => {
     const user: User = userFactory.createUser(
@@ -63,9 +58,9 @@ export const userController = {
       req.body.contacts,
       req.body.deviceIds
     )
-    return await userRepository.updateUser(user)
+    return userService.updateUser(user)
   },
   deleteUser: async (id: string): Promise<void> => {
-    return await userRepository.deleteUser(id)
+    return userService.deleteUser(id)
   }
 }

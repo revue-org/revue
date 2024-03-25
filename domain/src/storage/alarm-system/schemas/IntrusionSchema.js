@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose'
 import { deviceIdSchema } from '../../device/schemas/DeviceIdSchema.js'
+import { ObjectClass } from '../../../domain/alarm-system/core/impl/enum/ObjectClass.js'
 
 export const intrusionSchema = new Schema({
   deviceId: {
@@ -12,7 +13,7 @@ export const intrusionSchema = new Schema({
   },
   intrusionObject: {
     type: String,
-    enum: ['PERSON', 'ANIMAL', 'VEHICLE', 'OTHER'],
+    enum: Object.values(ObjectClass),
     required: true
   }
 })

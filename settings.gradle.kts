@@ -21,10 +21,10 @@ if (File(System.getProperty("user.dir") + "/.git").exists()) {
         }
         preCommit {
             from {
-                "./gradlew format-fix"
+                ""//./gradlew format-fix
             }
             appendScript {
-                " && git add ."
+                ""// && git add .
             }
         }
         createHooks(overwriteExisting = true)
@@ -35,4 +35,4 @@ if (File(System.getProperty("user.dir") + "/.git").exists()) {
 
 rootProject.name = "revue"
 
-include("domain", "monitoring", "frontend", "auth", "alarm", "notification", "kafka", "camera", "sensor", "log", "recognition")
+include("domain", "monitoring", "frontend", "auth", "alarm", "notification", "kafka", "camera", "sensor", "log", "recognition", "media-server")

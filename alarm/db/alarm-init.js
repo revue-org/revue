@@ -73,7 +73,7 @@ db.securityRule.insert([
       }
     ],
     from: new Date("2020-01-01T01:00:00.000Z"),
-    to: new Date("2030-01-01T05:00:00.000Z"),
+    to: new Date("2030-01-01T23:00:00.000Z"),
     __v: 0
   }
 ])

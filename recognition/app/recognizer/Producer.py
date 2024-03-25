@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from kafka import KafkaProducer
+from kafka3 import KafkaProducer
 
 from app.utils.env import KAFKA_HOST, KAFKA_PORT
 

@@ -1,5 +1,4 @@
 import { MailService } from '../MailService.js'
-import nodemailer from 'nodemailer'
 import { Notification } from '../../../domain/notification/core/Notification.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from '../../../utils/DeviceTypeConverter.js'
@@ -9,16 +8,11 @@ import { MeasureConverter } from '../../../utils/MeasureConverter.js'
 import { ObjectClassConverter } from '../../../utils/ObjectClassConverter.js'
 
 export class MailServiceImpl implements MailService {
-  private transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'revue.noreply@gmail.com',
-      pass: 'nptavapeeorbovyp'
-    }
-  })
+  private transporter
+
+  constructor(transporter: any) {
+    this.transporter = transporter
+  }
 
   sendMail(to: string, notification: Notification): void {
     const subject: string =
@@ -52,9 +46,7 @@ export class MailServiceImpl implements MailService {
     }
 
     console.log('Sending email...')
-    console.log(to)
-    console.log(body)
-    this.transporter.sendMail(mailOptions, (error, info): void => {
+    this.transporter.sendMail(mailOptions, (error: any, info: { response: any }): void => {
       if (error) {
         console.error('Error sending email: ', error)
       } else {

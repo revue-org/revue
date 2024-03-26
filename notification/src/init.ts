@@ -1,4 +1,5 @@
 import { model, Model } from 'mongoose'
+import nodemailer from 'nodemailer'
 import { Notification } from 'domain/dist/domain/notification/core/Notification.js'
 import { notificationSchema } from 'domain/dist/storage/notification/schemas/NotificationSchema.js'
 import { NotificationService } from 'domain/dist/application/notification/NotificationService.js'
@@ -15,7 +16,18 @@ export const notificationModel: Model<Notification> = model<Notification>(
 )
 
 const notificationRepository: NotificationRepository = new NotificationRepositoryImpl(notificationModel)
-const mailService: MailService = new MailServiceImpl()
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'revue.noreply@gmail.com',
+      pass: ''
+    }
+  })
+const mailService: MailService = new MailServiceImpl(transporter)
 export const notificationService: NotificationService = new NotificationServiceImpl(
   notificationRepository,
   mailService

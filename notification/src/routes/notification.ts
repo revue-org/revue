@@ -6,6 +6,8 @@ import { DeviceIdFactory } from '@domain/device/factories/DeviceIdFactory.js'
 import { MeasureConverter } from '@utils/MeasureConverter.js'
 import { ObjectClassConverter } from '@utils/ObjectClassConverter.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
+import { ContactTypeConverter } from 'domain/dist/utils/ContactTypeConverter.js'
+import { Contact } from 'domain/dist/domain/monitoring/core/Contact.js'
 
 export const notificationRouter: Router = express.Router()
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -39,10 +41,14 @@ notificationRouter.route('/exceedings').post((req: Request, res: Response): void
       deviceIdFactory.createSensorId(req.body.deviceId.code),
       MeasureConverter.convertToMeasure(req.body.measure),
       req.body.value,
-      req.body.contacts
+      req.body.contacts.map((contact: any): Contact => {
+        return {
+          type: ContactTypeConverter.convertToContactType(contact.type),
+          value: contact.value
+        }
+      })
     )
     .then((): void => {
-
       res.status(HttpStatusCode.CREATED).send({ success: 'Notification created' })
     })
     .catch((): void => {
@@ -51,17 +57,25 @@ notificationRouter.route('/exceedings').post((req: Request, res: Response): void
 })
 
 notificationRouter.route('/intrusions').post((req: Request, res: Response): void => {
+  console.log(req.body)
   notificationController
     .createIntrusionNotification(
       req.body.anomalyId,
       deviceIdFactory.createCameraId(req.body.deviceId.code),
       ObjectClassConverter.convertToObjectClass(req.body.intrusionObject),
-      req.body.contacts
+      req.body.contacts.map((contact: any): Contact => {
+        return {
+          type: ContactTypeConverter.convertToContactType(contact.type),
+          value: contact.value
+        }
+      })
     )
     .then((): void => {
+      console.log('Notification created')
       res.status(HttpStatusCode.CREATED).send({ success: 'Notification created' })
     })
-    .catch((): void => {
+    .catch((e): void => {
+      console.log(e)
       res.send({ error: 'Notification not created' })
     })
 })

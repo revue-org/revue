@@ -30,7 +30,8 @@ import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
 import { Anomaly } from 'domain/dist/domain/alarm-system/core/Anomaly.js'
 import { Intrusion } from 'domain/dist/domain/alarm-system/core/Intrusion.js'
 import { ObjectClass } from 'domain/dist/domain/alarm-system/core/impl/enum/ObjectClass.js'
-import { Contact } from "domain/dist/domain/monitoring/core";
+import { Contact } from 'domain/dist/domain/monitoring/core/Contact.js'
+import { ContactTypeConverter } from 'domain/dist/utils/ContactTypeConverter.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -88,7 +89,7 @@ export const setupConsumer = async (): Promise<void> => {
                 '' // TODO: check for the default value, it seems to not work
               )
               exceeding.anomalyId = await anomalyService.insertExceeding(exceeding)
-              await sendNotification(exceeding, await securityRuleService.getContactsToNotify(exceeding))
+              await sendNotification(exceeding, securityRuleService.getContactsToNotify(exceeding))
             } else {
               console.log('No anomaly detected')
             }
@@ -178,7 +179,12 @@ const sendNotification = async (anomaly: Anomaly, contacts: Contact[]): Promise<
         },
         measure: MeasureConverter.convertToString((anomaly as Exceeding).measure),
         value: (anomaly as Exceeding).value,
-        contacts: contacts
+        contacts: contacts.map((contact: Contact) => {
+          return {
+            type: ContactTypeConverter.convertToString(contact.type),
+            value: contact.value
+          }
+        })
       }
       break
     case DeviceType.CAMERA:
@@ -190,7 +196,12 @@ const sendNotification = async (anomaly: Anomaly, contacts: Contact[]): Promise<
           code: anomaly.deviceId.code
         },
         intrusionObject: ObjectClassConverter.convertToString((anomaly as Intrusion).intrusionObject),
-        contacts: contacts
+        contacts: contacts.map((contact: Contact) => {
+          return {
+            type: ContactTypeConverter.convertToString(contact.type),
+            value: contact.value
+          }
+        })
       }
       break
   }

@@ -17,7 +17,7 @@ export class NotificationServiceImpl implements NotificationService {
 
   sendMailNotification(notification: Notification, contacts: Contact[]): void {
     contacts
-      .filter((contact: Contact): boolean => contact.contactType === ContactType.EMAIL)
+      .filter((contact: Contact): boolean => contact.type === ContactType.EMAIL)
       .forEach((contact: Contact): void => {
         this.mailService.sendMail(contact.value, notification)
       })

@@ -5,18 +5,20 @@ import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 import { DeviceTypeConverter } from '../../../utils/DeviceTypeConverter.js'
 import { Exceeding } from '../../../domain/alarm-system/core/Exceeding.js'
 import { Intrusion } from '../../../domain/alarm-system/core/Intrusion.js'
+import { MeasureConverter } from '../../../utils/MeasureConverter.js'
+import { ObjectClassConverter } from '../../../utils/ObjectClassConverter.js'
 
 export class MailServiceImpl implements MailService {
   private transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'revue.noreply@gmail.com',
-      pass: 'nptavapeeorbovyp'
-    }
-  })
+      service: 'Gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'revue.noreply@gmail.com',
+        pass: 'nptavapeeorbovyp'
+      }
+    })
 
   sendMail(to: string, notification: Notification): void {
     const subject: string =
@@ -38,8 +40,10 @@ export class MailServiceImpl implements MailService {
       subject +
       ' : ' +
       (notification.anomaly.deviceId.type === DeviceType.SENSOR
-        ? (notification.anomaly as Exceeding).measure + ' ' + (notification.anomaly as Exceeding).value
-        : (notification.anomaly as Intrusion).intrusionObject)
+        ? MeasureConverter.convertToString((notification.anomaly as Exceeding).measure) +
+          ' ' +
+          (notification.anomaly as Exceeding).value
+        : ObjectClassConverter.convertToString((notification.anomaly as Intrusion).intrusionObject))
     const mailOptions = {
       from: 'revue.noreply@gmail.com',
       to: to,
@@ -47,6 +51,9 @@ export class MailServiceImpl implements MailService {
       text: body
     }
 
+    console.log('Sending email...')
+    console.log(to)
+    console.log(body)
     this.transporter.sendMail(mailOptions, (error, info): void => {
       if (error) {
         console.error('Error sending email: ', error)

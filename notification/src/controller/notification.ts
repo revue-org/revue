@@ -28,7 +28,7 @@ export const notificationController = {
   ): Promise<string> => {
     const notification: Notification = notificationFactory.createExceedingNotification(
       '',
-      anomalyFactory.createExceeding(deviceId, new Date(), value, measure, anomalyId)
+      anomalyFactory.createExceeding(deviceId, new Date(), measure, value, anomalyId)
     )
     const notificationId: string = await notificationService.insertExceedingNotification(notification)
     notificationService.sendMailNotification(notification, contacts)

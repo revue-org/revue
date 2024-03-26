@@ -18,15 +18,15 @@ export const notificationModel: Model<Notification> = model<Notification>(
 const notificationRepository: NotificationRepository = new NotificationRepositoryImpl(notificationModel)
 
 const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'revue.noreply@gmail.com',
-      pass: ''
-    }
-  })
+  service: 'Gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'revue.noreply@gmail.com',
+    pass: ''
+  }
+})
 const mailService: MailService = new MailServiceImpl(transporter)
 export const notificationService: NotificationService = new NotificationServiceImpl(
   notificationRepository,

@@ -10,15 +10,15 @@ import { ObjectClassConverter } from '../../../utils/ObjectClassConverter.js'
 
 export class MailServiceImpl implements MailService {
   private transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'revue.noreply@gmail.com',
-        pass: 'nptavapeeorbovyp'
-      }
-    })
+    service: 'Gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'revue.noreply@gmail.com',
+      pass: 'nptavapeeorbovyp'
+    }
+  })
 
   sendMail(to: string, notification: Notification): void {
     const subject: string =

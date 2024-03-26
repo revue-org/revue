@@ -1,5 +1,5 @@
 import { Notification } from '../../domain/notification/core/Notification.js'
-import { Contact } from "../../domain/monitoring/core/Contact.js";
+import { Contact } from '../../domain/monitoring/core/Contact.js'
 
 export interface NotificationService {
   getNotificationById(id: string): Promise<Notification>

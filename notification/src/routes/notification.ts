@@ -55,7 +55,8 @@ notificationRouter.route('/intrusions').post((req: Request, res: Response): void
     .createIntrusionNotification(
       req.body.anomalyId,
       deviceIdFactory.createCameraId(req.body.deviceId.code),
-      ObjectClassConverter.convertToObjectClass(req.body.intrusionObject)
+      ObjectClassConverter.convertToObjectClass(req.body.intrusionObject),
+      req.body.contacts
     )
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'Notification created' })

@@ -1,9 +1,10 @@
 import { MailService } from '../MailService.js'
 import nodemailer from 'nodemailer'
 import { Notification } from '../../../domain/notification/core/Notification.js'
-import { DeviceType } from '../../../domain/device/core'
-import { DeviceTypeConverter } from '../../../utils'
-import { Exceeding, Intrusion } from '../../../domain/alarm-system/core'
+import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
+import { DeviceTypeConverter } from '../../../utils/DeviceTypeConverter.js'
+import { Exceeding } from '../../../domain/alarm-system/core/Exceeding.js'
+import { Intrusion } from '../../../domain/alarm-system/core/Intrusion.js'
 
 export class MailServiceImpl implements MailService {
   private transporter = nodemailer.createTransport({

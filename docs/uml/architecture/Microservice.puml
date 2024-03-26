@@ -1,0 +1,13 @@
+@startuml
+
+rectangle {
+    component Service <<web server>>
+    database ServiceDB <<mongo>>
+}
+interface HTTP
+
+Service -right-> ServiceDB : save
+Service -left- HTTP
+
+
+@enduml

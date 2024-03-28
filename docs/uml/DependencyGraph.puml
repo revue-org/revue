@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+component Kafka
+component Frontend
+component Auth
+component Monitoring
+component Alarm
+component Notification
+component Recognition
+component Log
+component "Media Server" as MediaServer
+component Sensor
+component Camera
+
+Sensor -up-> Kafka
+Monitoring -up-> Kafka
+Log -up-> Kafka
+Alarm -up-> Kafka
+Monitoring -up-> Log
+Frontend -up-> Auth
+Frontend -up-> Notification
+Frontend -up-> Monitoring
+Sensor -up-> Monitoring
+Camera -up-> Monitoring
+Camera -up-> MediaServer
+Alarm -up-> Notification
+Recognition -up-> Alarm
+Frontend -up-> Log
+
+
+@enduml

@@ -2,12 +2,6 @@
 
 left to right direction
 
-'rectangle {
-'    component Monitoring1 <<service>>
-'    database Monitoring1DB
-'    Monitoring1 --> Monitoring1DB : save
-'}
-
 rectangle {
     portin entrypoint
 

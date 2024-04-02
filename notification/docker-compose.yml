@@ -3,8 +3,8 @@ version: '3.8'
 services:
 
   revue-notification:
-    image: revue-alarm
-    container_name: revue-alarm
+    image: revue-notification
+    container_name: ${NOTIFICATION_HOST}
     build:
       context: .
       dockerfile: ./notification/Dockerfile

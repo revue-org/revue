@@ -1,0 +1,26 @@
+name: Revue Tolerance Tests
+
+on:
+  push:
+    branches: [ '**', '!main' ]
+
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+
+    # run on ubuntu, windows and macOS
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run fault-tolerant tests
+        run: ./distribution-tests.sh

@@ -29,6 +29,7 @@ function execute_test() {
 }
 
 ./deploy.sh
+sleep 2
 
 tear_down_services "log"
 execute_test "monitoring" "log"

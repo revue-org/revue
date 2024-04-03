@@ -11,7 +11,6 @@ const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
 
 export const composeEnvironmentData = (environmentData: any): EnvironmentData => {
-  console.log('composeEnvironmentData', environmentData)
   return environmentDataFactory.createEnvironmentData(
     deviceIdFactory.createSensorId(environmentData.deviceId.code),
     environmentData.value,

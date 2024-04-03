@@ -1,7 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
-import { useUserStore } from '@/stores/user' // lazy import of userStore
+import { useUserStore } from '@/stores/user'
 
-// lazy import of userStore
 const userStore = () => {
   return useUserStore()
 }
@@ -12,32 +11,17 @@ type Headers = {
   }
 }
 
-export const authHost: string = import.meta.env.ENV
-  ? 'localhost'
-  : import.meta.env.VITE_AUTH_HOST || 'localhost'
-export const authPort: string = import.meta.env.ENV ? '4000' : import.meta.env.VITE_AUTH_PORT || '4000'
-export const monitoringHost: string = import.meta.env.ENV
-  ? 'localhost'
-  : import.meta.env.VITE_MONITORING_HOST || 'localhost'
-export const monitoringPort: string = import.meta.env.ENV
-  ? '4001'
-  : import.meta.env.VITE_MONITORING_PORT || '4001'
-export const alarmHost: string = import.meta.env.ENV
-  ? 'localhost'
-  : import.meta.env.VITE_ALARM_HOST || 'localhost'
-export const alarmPort: string = import.meta.env.ENV ? '4002' : import.meta.env.VITE_ALARM_PORT || '4002'
-export const logHost: string = import.meta.env.ENV
-  ? 'localhost'
-  : import.meta.env.VITE_LOG_HOST || 'localhost'
-export const logPort: string = import.meta.env.ENV ? '4003' : import.meta.env.VITE_LOG_PORT || '4003'
-export const notificationHost: string = import.meta.env.ENV
-  ? 'localhost'
-  : import.meta.env.VITE_NOTIFICATION_HOST || 'localhost'
-export const notificationPort: string = import.meta.env.ENV
-  ? '4004'
-  : import.meta.env.VITE_NOTIFICATION_PORT || '4004'
-
-export const mediaServerHost: string = import.meta.env.MEDIA_SERVER_HOST || 'localhost'
+export const authHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_AUTH_HOST
+export const authPort = import.meta.env.DEV ? '4000' : import.meta.env.VITE_AUTH_PORT
+export const monitoringHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MONITORING_HOST
+export const monitoringPort = import.meta.env.DEV ? '4001' : import.meta.env.VITE_MONITORING_PORT
+export const alarmHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_ALARM_HOST
+export const alarmPort = import.meta.env.DEV ? '4002' : import.meta.env.VITE_ALARM_PORT
+export const logHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_LOG_HOST
+export const logPort = import.meta.env.DEV ? '4003' : import.meta.env.VITE_LOG_PORT
+export const notificationHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_NOTIFICATION_HOST
+export const notificationPort = import.meta.env.DEV ? '4004' : import.meta.env.VITE_NOTIFICATION_PORT
+export const mediaServerHost = import.meta.env.DEV ? 'localhost' : import.meta.env.MEDIA_SERVER_HOST
 
 export default class RequestHelper {
   static getHeaders(): Headers {

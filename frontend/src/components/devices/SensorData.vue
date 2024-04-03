@@ -27,7 +27,6 @@ const handleResize = () => {
   removeIfFull(bufferStore.temperatureBuffer)
   removeIfFull(bufferStore.humidityBuffer)
   removeIfFull(bufferStore.pressureBuffer)
-  console.log(bufferStore.bufferLength)
 }
 
 onMounted(() => {

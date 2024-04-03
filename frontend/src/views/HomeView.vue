@@ -43,12 +43,6 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
 onBeforeMount(() => {
-  console.log(
-    'resume' +
-      topicsStore.subscribedTopics.filter((topic: string) =>
-        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-      )
-  )
   monitoringSocket?.emit(
     'resume',
     topicsStore.subscribedTopics.filter((topic: string) =>
@@ -58,12 +52,6 @@ onBeforeMount(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log(
-    'pause' +
-      topicsStore.subscribedTopics.filter((topic: string) =>
-        topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-      )
-  )
   monitoringSocket?.emit(
     'pause',
     topicsStore.subscribedTopics.filter((topic: string) =>

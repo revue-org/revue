@@ -24,21 +24,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-// TODO: ARE THEY USEFUL?? WE WANT TO USE THE DIRECT ACCESS O AXIOS???
-const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
-const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
-const host: string =
-  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.MONITORING_DB_HOST || 'localhost'
-const dbPort: string =
-  process.env.NODE_ENV === 'develop'
-    ? process.env.MONITORING_DB_PORT || '27017'
-    : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
-
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Sensor server listening on ${PORT}`)
-    //await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     await getSensorInfo()
     await produce()
   })

@@ -49,7 +49,6 @@ const dbName: string = process.env.ALARM_DB_NAME || 'alarm'
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
-    console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     await setupConsumer()
   })

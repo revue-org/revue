@@ -14,7 +14,7 @@ export const notificationPort = process.env.NODE_ENV == 'develop' ? '4004' : pro
 
 export default class RequestHelper {
   static getHeaders(): Headers {
-    return { headers: { Authorization: `Bearer apikey-dev` } } // TODO: create an API key for the log service, same for sensors and cameras
+    return { headers: { Authorization: `Bearer ${process.env.ALARM_BEARER_TOKEN}` } }
   }
 
   static async get(url: string, params?: any): Promise<AxiosResponse> {

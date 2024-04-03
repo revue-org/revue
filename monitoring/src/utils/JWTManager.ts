@@ -8,10 +8,25 @@ config({ path: process.cwd() + '/../.env' })
 class JWTManager {
   private jwt: any
   private secret: any
+  private readonly admitted: string[] = [
+    process.env.DEV_API_KEY ? process.env.DEV_API_KEY : '',
+    process.env.ALARM_API_KEY ? process.env.ALARM_API_KEY : '',
+    process.env.LOG_BEARER_TOKEN ? process.env.LOG_BEARER_TOKEN : '',
+    process.env.CAMERA_API_KEY ? process.env.CAMERA_API_KEY : '',
+    process.env.SENSOR_API_KEY ? process.env.SENSOR_API_KEY : ''
+  ]
 
   constructor() {
     this.jwt = jsonwebtoken
     this.secret = process.env.JWT_SECRET
+  }
+
+  /**
+   * Returns the array of the admitted tokens.
+   * @returns {string[]} the array of the admitted tokens.
+   */
+  admittedTokens(): string[] {
+    return this.admitted
   }
 
   /**

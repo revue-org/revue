@@ -1,7 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
-import { useUserStore } from '@/stores/user' // lazy import of userStore
+import { useUserStore } from '@/stores/user'
 
-// lazy import of userStore
 const userStore = () => {
   return useUserStore()
 }

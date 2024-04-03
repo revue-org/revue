@@ -3,8 +3,8 @@ import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHe
 import { type AxiosResponse, HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import { monitoringSocket } from '@/socket'
 import router from '@/router'
-import { DeviceType } from '@domain/device/core'
-import { DeviceTypeConverter } from '@utils/DeviceTypeConverter'
+import { DeviceType } from '@domain/device/core/impl/enum/DeviceType.js'
+import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 
 export const subscribeToAllTopics = async (): Promise<void> => {
   console.log('subscribe to all topics')
@@ -15,18 +15,18 @@ export const subscribeToAllTopics = async (): Promise<void> => {
     for (let i = 0; i < res.data.length; i++) {
       useTopicsStore().addTopic(res.data[i]._id.type + '_' + res.data[i]._id.code)
     }
-    monitoringSocket.on('subscribed', (): void => {
+    monitoringSocket?.on('subscribed', (): void => {
       console.log('subscribed')
 
       if (router.currentRoute.value.name === 'Home') {
-        monitoringSocket.emit(
+        monitoringSocket?.emit(
           'resume',
           useTopicsStore().subscribedTopics.filter((topic: string): boolean =>
             topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
           )
         )
       } else if (router.currentRoute.value.name === 'Monitoring') {
-        monitoringSocket.emit(
+        monitoringSocket?.emit(
           'resume',
           useTopicsStore().subscribedTopics.filter((topic: string): boolean =>
             topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.CAMERA))
@@ -34,7 +34,7 @@ export const subscribeToAllTopics = async (): Promise<void> => {
         )
       }
     })
-    monitoringSocket.emit('subscribe', useTopicsStore().subscribedTopics)
+    monitoringSocket?.emit('subscribe', useTopicsStore().subscribedTopics)
   } else {
     console.log('Error while fetching devices')
   }

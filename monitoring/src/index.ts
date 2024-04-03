@@ -40,10 +40,10 @@ const PORT: number = Number(process.env.MONITORING_PORT) || 4000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
-  const token = (authHeader && authHeader.split(' ')[1]) || ""
+  const token = (authHeader && authHeader.split(' ')[1]) || ''
 
   if (jwtManager.admittedTokens().includes(token)) return next()
-  if (token === undefined || token === "") return res.status(403).send({ error: 'No authentication token' })
+  if (token === undefined || token === '') return res.status(403).send({ error: 'No authentication token' })
   else {
     console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)

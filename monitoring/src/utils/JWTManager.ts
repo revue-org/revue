@@ -9,11 +9,11 @@ class JWTManager {
   private jwt: any
   private secret: any
   private readonly admitted: string[] = [
-    process.env.DEV_API_KEY != undefined ? process.env.DEV_API_KEY : '',
-    process.env.ALARM_BEARER_TOKEN ? process.env.ALARM_BEARER_TOKEN : '',
-    process.env.LOG_BEARER_TOKEN ? process.env.LOG_BEARER_TOKEN : '',
-    process.env.CAMERA_BEARER_TOKEN ? process.env.CAMERA_BEARER_TOKEN : '',
-    process.env.SENSOR_BEARER_TOKEN ? process.env.SENSOR_BEARER_TOKEN : ''
+    process.env.DEV_API_KEY !== undefined ? process.env.DEV_API_KEY : '',
+    process.env.ALARM_BEARER_TOKEN !== undefined ? process.env.ALARM_BEARER_TOKEN : '',
+    process.env.LOG_BEARER_TOKEN !== undefined ? process.env.LOG_BEARER_TOKEN : '',
+    process.env.CAMERA_BEARER_TOKEN !== undefined ? process.env.CAMERA_BEARER_TOKEN : '',
+    process.env.SENSOR_BEARER_TOKEN !== undefined ? process.env.SENSOR_BEARER_TOKEN : ''
   ]
 
   constructor() {

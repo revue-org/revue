@@ -160,9 +160,7 @@ const getCapturingDevices = async (): Promise<Device[]> => {
       }
     }
     return capturingDevices
-  } catch (e: any) {
-    console.log(e)
-    console.log(e.status, e.message)
+  } catch (e) {
     throw new Error('Error while getting devices infos')
   }
 }

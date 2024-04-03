@@ -45,7 +45,13 @@ export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository 
 
   async updateEnvironmentData(environmentData: EnvironmentData): Promise<void> {
     await this.environmentDataModel
-      .findByIdAndUpdate(environmentData.id, {
+      .findOneAndUpdate({
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(environmentData.sourceDeviceId.type),
+          code: environmentData.sourceDeviceId.code
+        },
+        timestamp: environmentData.timestamp
+      }, {
         deviceId: { type: environmentData.sourceDeviceId.type, code: environmentData.sourceDeviceId.code },
         value: environmentData.value,
         measure: MeasureConverter.convertToString(environmentData.measure),

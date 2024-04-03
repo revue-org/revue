@@ -4,11 +4,10 @@ import { Measure } from './enum/Measure.js'
 import { MeasureUnit } from './enum/MeasureUnit.js'
 
 export class EnvironmentDataImpl implements EnvironmentData {
-  private _id: string
-  private _sourceDeviceId: DeviceId
-  private _value: number
-  private _measure: Measure
-  private _measureUnit: MeasureUnit
+  private readonly _sourceDeviceId: DeviceId
+  private readonly _value: number
+  private readonly _measure: Measure
+  private readonly _measureUnit: MeasureUnit
   private readonly _timestamp: Date
 
   constructor(
@@ -16,10 +15,8 @@ export class EnvironmentDataImpl implements EnvironmentData {
     value: number,
     measure: Measure,
     unit: MeasureUnit,
-    timestamp: Date,
-    id: string = ''
+    timestamp: Date
   ) {
-    this._id = id
     this._sourceDeviceId = sourceDeviceId
     this._value = value
     this._measure = measure
@@ -27,45 +24,37 @@ export class EnvironmentDataImpl implements EnvironmentData {
     this._timestamp = timestamp
   }
 
-  get id(): string {
-    return this._id
-  }
-
-  set id(id: string) {
-    this._id = id
-  }
-
   get sourceDeviceId(): DeviceId {
     return this._sourceDeviceId
   }
 
-  set sourceDeviceId(sourceDeviceId: DeviceId) {
+/*  set sourceDeviceId(sourceDeviceId: DeviceId) {
     this._sourceDeviceId = sourceDeviceId
-  }
+  }*/
 
   get value(): number {
     return this._value
   }
 
-  set value(value: number) {
+/*  set value(value: number) {
     this._value = value
-  }
+  }*/
 
   get measure(): Measure {
     return this._measure
   }
 
-  set measure(measure: Measure) {
+/*  set measure(measure: Measure) {
     this._measure = measure
-  }
+  }*/
 
   get measureUnit(): MeasureUnit {
     return this._measureUnit
   }
 
-  set measureUnit(unit: MeasureUnit) {
+/*  set measureUnit(unit: MeasureUnit) {
     this._measureUnit = unit
-  }
+  }*/
 
   get timestamp(): Date {
     return this._timestamp

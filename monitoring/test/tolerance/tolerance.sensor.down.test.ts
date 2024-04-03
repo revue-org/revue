@@ -9,8 +9,6 @@ const sensorCode: string = 'sen-01'
 
 describe(`When sensor ${sensorCode} is down`, (): void => {
 
-
-
   it('should consuming no environment data from kafka', async (): Promise<void> => {
     const sensor: AxiosResponse = await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors/sen-01`)
     expect(sensor.status).toBe(HttpStatusCode.OK)

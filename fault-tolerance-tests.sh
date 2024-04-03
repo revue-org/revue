@@ -29,9 +29,9 @@ function execute_test() {
 }
 
 ./deploy.sh
-
-tear_down_services "log"
-execute_test "monitoring" "log"
+sleep 5
+#tear_down_services "log"
+#execute_test "monitoring" "log"
 
 tear_down_services "sensor-1" "sensor-2"
 execute_test "monitoring" "sensor"

@@ -3,11 +3,11 @@ import { ContactType } from './enum/ContactType.js'
 
 export class ContactImpl implements Contact {
   private _value: string
-  private _contactType: ContactType
+  private _type: ContactType
 
-  constructor(value: string, contactType: ContactType) {
+  constructor(value: string, type: ContactType) {
     this._value = value
-    this._contactType = contactType
+    this._type = type
   }
   get value(): string {
     return this._value
@@ -17,11 +17,11 @@ export class ContactImpl implements Contact {
     this._value = v
   }
 
-  get contactType(): ContactType {
-    return this._contactType
+  get type(): ContactType {
+    return this._type
   }
 
-  set contactType(c: ContactType) {
-    this._contactType = c
+  set type(c: ContactType) {
+    this._type = c
   }
 }

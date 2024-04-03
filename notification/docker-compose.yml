@@ -10,7 +10,7 @@ services:
       dockerfile: ./notification/Dockerfile
     restart: on-failure
     ports:
-      - ${ALARM_PORT}:${ALARM_PORT}
+      - ${NOTIFICATION_PORT}:${NOTIFICATION_PORT}
     depends_on:
       - revue-notification-db
       - ${KAFKA_HOST}

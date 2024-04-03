@@ -5,11 +5,13 @@ sleep 5
 
 sleep 5
 
-./scripts/compose.sh run --rm monitoring npm test
+./scripts/compose.sh run --rm --name monitoring-test revue-monitoring npm test
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
     echo "Tests of monitoring failed. Exiting."
     exit $EXIT_CODE
 fi
+
+./undeploy.sh
 
 echo "Tests passed successfully."

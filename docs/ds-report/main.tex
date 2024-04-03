@@ -4,6 +4,10 @@
 \usepackage{url}
 \usepackage{natbib}
 \usepackage{graphicx}
+\usepackage{enumitem}
+%% for labeling items
+\renewcommand\labelenumi{\arabic{enumi}.}
+\renewcommand\theenumi{\thesubsection.\arabic{enumi}}%% references with subsection numbering
 
 \newcommand{\emailaddr}[1]{\href{mailto:#1}{\texttt{#1}}}
 
@@ -49,11 +53,32 @@
 
     In the following are listed the main requirements of the system.
 
-    \begin{itemize}
-        \item test
-        \item tr
-        \item mkln
-    \end{itemize}
+    \subsection{User Requirements}\label{subsec:user-requirements}
+
+    \begin{enumerate}
+        \item \label{itm:user-1} The user can authenticate to the system through a web interface.
+        \item \label{itm:user-2} The user can monitor the environment data produced by the sensors.
+        \item \label{itm:user-3} The user can monitor the video stream produced by the cameras.
+        \item \label{itm:user-4} The user can add/delete a device to the system (if it is physically connected to the system).
+        \item \label{itm:user-5} The user can enable and disable a device.
+        \item \label{itm:user-6} The user can modify a device configuration.
+        \item \label{itm:user-7} The user can add/delete a security rule regarding a camera/sensor.
+    \end{enumerate}
+
+    \subsection{System Requirements}\label{subsec:system-requirements}
+    \begin{enumerate}
+        \item \label{itm:sys-1} The system grants access using token-based authentication.
+        \item \label{itm:sys-2} The system provides a web interface as an entry point for the user.
+        \item
+    \end{enumerate}
+
+    \subsection{Non-functional Requirements}
+
+    \subsection{Implementation Requirements}
+
+    \begin{enumerate}
+    \end{enumerate}
+
 
     \subsection{Scenarios}
     The system offers various ways of usage.
@@ -71,7 +96,7 @@
     For example, the director of food wholesale could monitor the temperature of the warehouse and the presence of
     unauthorised people during the night.
     In this case, the recognition part of the system is necessary to detect whenever the
-    temperature exceeds a certain range or-° the camera records objects that are not supposed to be there.
+    temperature exceeds a certain range or the camera records objects that are not supposed to be there.
 
 %
     It should describe \emph{how} and \emph{why} a user should use / interact with the system.

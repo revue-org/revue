@@ -21,7 +21,7 @@ let sourceSensor: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
   //TODO: TO SET THE CORRECT URL FOR DEVELOPMENT OR NOT, MAYBE IT IS BETTER IN THE HELPER
-  const monitoringUrl: string = `http://localhost:4001` //`http://${monitoringHost}:${monitoringPort}`
+  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
     sourceSensor = new DeviceFactoryImpl().createSensor(

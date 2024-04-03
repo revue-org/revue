@@ -11,7 +11,7 @@ export const authHost: string =
 export const authPort: string = process.env.NODE_ENV == 'develop' ? '4000' : process.env.AUTH_PORT || '4000'
 export const monitoringHost: string =
   process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.MONITORING_HOST || 'localhost'
-export const monitoringPort: string =
+export const monitoringPort: string | undefined =
   process.env.NODE_ENV == 'develop' ? '4001' : process.env.MONITORING_PORT || '4001'
 export const alarmHost: string =
   process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.ALARM_HOST || 'localhost'

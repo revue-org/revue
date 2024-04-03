@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 import RequestHelper, { logHost, logPort, monitoringHost, monitoringPort } from '../utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
@@ -10,7 +10,6 @@ describe(`When log service is down`, (): void => {
 
   test('sensor should continue producing data but not storing them', async (): Promise<void> => {
     const response: AxiosResponse = await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
-    console.log(response.data)
     expect(response.status).toBe(HttpStatusCode.OK)
     const sensors = response.data
     const intervals: number[] = sensors.map((sensor: any): number => sensor.intervalMillis)
@@ -28,8 +27,13 @@ describe(`When log service is down`, (): void => {
     // await 10 seconds
     await new Promise((resolve): NodeJS.Timeout => setTimeout(resolve, intervals.reduce((acc, curr) => acc + curr, 0) + 2))
     expect(collectedData.length).not.toBe(0)
-    const logs: AxiosResponse = await RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
-    expect(logs.status).toBe(HttpStatusCode.NOT_FOUND)
+    let logResponse: AxiosResponse | undefined
+    try {
+      logResponse = await RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
+    } catch (e: any) {
+      expect(e).toBeDefined()
+    }
+    expect(logResponse, 'Log service should be down').toBe(undefined)
   })
 
 

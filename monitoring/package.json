@@ -10,7 +10,7 @@
     "dev": "npm run build && NODE_ENV=develop node .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
-    "test:tolerance": "vitest --run tolerance",
+    "test:tolerance:sensor": "vitest --run tolerance.sensor",
     "test": "vitest --run",
     "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
+    "axios": "^1.6.8",
     "cors": "^2.8.5",
     "domain": "file:../domain",
     "dotenv": "^16.3.1",

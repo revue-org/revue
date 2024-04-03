@@ -1,4 +1,4 @@
-function tear_down() {
+function tear_down_system() {
     ./undeploy.sh
     if [ "$1" -ne 0 ]; then
         echo "Tests of $2 failed. Exiting."
@@ -8,23 +8,30 @@ function tear_down() {
     fi
 }
 
+function tear_down_services() {
+    for service in "$@"
+    do
+        ./scripts/compose.sh down revue-"$service"
+    done
+    sleep 2
+}
+
 function execute_test() {
     SERVICE=$1
-    ./scripts/compose.sh run --rm --name "$SERVICE"-test revue-"$SERVICE" npm test
+    SERVICE_DOWN=$2
+    echo "Running tests $SERVICE_DOWN"
+    ./scripts/compose.sh run --rm --name "$SERVICE"-test revue-"$SERVICE" npm run test:tolerance:"$SERVICE_DOWN"
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
-        tear_down $EXIT_CODE "monitoring"
+        tear_down_system $EXIT_CODE "monitoring"
     fi
+    sleep 2
 }
 
 ./deploy.sh
-sleep 5
 
-./scripts/compose.sh down revue-recognition
+tear_down_services "sensor-1" "sensor-2"
+execute_test "monitoring" "sensor"
 
-sleep 5
-
-execute_test "monitoring"
-
-tear_down 0
+tear_down_system 0
 

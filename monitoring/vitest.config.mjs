@@ -13,6 +13,7 @@ export default  defineConfig({
     }
   },
   test: {
-    setupFiles: ['./test/setup.ts']
+    setupFiles: ['./test/setup.ts'],
+    testTimeout: 10000
   }
 })

@@ -11,7 +11,7 @@ class JWTManager {
   private readonly secret: any
   private readonly admitted: string[] = [
     process.env.DEV_API_KEY ? process.env.DEV_API_KEY : '',
-    process.env.ALARM_API_KEY ? process.env.ALARM_API_KEY : ''
+    process.env.ALARM_BEARER_TOKEN ? process.env.ALARM_BEARER_TOKEN : ''
   ]
 
   constructor() {

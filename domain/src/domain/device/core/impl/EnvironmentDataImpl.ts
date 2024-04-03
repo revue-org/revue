@@ -21,34 +21,16 @@ export class EnvironmentDataImpl implements EnvironmentData {
   get sourceDeviceId(): DeviceId {
     return this._sourceDeviceId
   }
-
-  /*  set sourceDeviceId(sourceDeviceId: DeviceId) {
-    this._sourceDeviceId = sourceDeviceId
-  }*/
-
   get value(): number {
     return this._value
   }
 
-  /*  set value(value: number) {
-    this._value = value
-  }*/
-
   get measure(): Measure {
     return this._measure
   }
-
-  /*  set measure(measure: Measure) {
-    this._measure = measure
-  }*/
-
   get measureUnit(): MeasureUnit {
     return this._measureUnit
   }
-
-  /*  set measureUnit(unit: MeasureUnit) {
-    this._measureUnit = unit
-  }*/
 
   get timestamp(): Date {
     return this._timestamp

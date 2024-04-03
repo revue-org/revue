@@ -3,7 +3,6 @@ import { Measure } from './impl/enum/Measure.js'
 import { MeasureUnit } from './impl/enum/MeasureUnit'
 
 export interface EnvironmentData {
-
   get sourceDeviceId(): DeviceId
 
   set sourceDeviceId(sourceDeviceId: DeviceId)

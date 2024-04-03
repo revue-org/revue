@@ -10,13 +10,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
   private readonly _measureUnit: MeasureUnit
   private readonly _timestamp: Date
 
-  constructor(
-    sourceDeviceId: DeviceId,
-    value: number,
-    measure: Measure,
-    unit: MeasureUnit,
-    timestamp: Date
-  ) {
+  constructor(sourceDeviceId: DeviceId, value: number, measure: Measure, unit: MeasureUnit, timestamp: Date) {
     this._sourceDeviceId = sourceDeviceId
     this._value = value
     this._measure = measure
@@ -28,7 +22,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
     return this._sourceDeviceId
   }
 
-/*  set sourceDeviceId(sourceDeviceId: DeviceId) {
+  /*  set sourceDeviceId(sourceDeviceId: DeviceId) {
     this._sourceDeviceId = sourceDeviceId
   }*/
 
@@ -36,7 +30,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
     return this._value
   }
 
-/*  set value(value: number) {
+  /*  set value(value: number) {
     this._value = value
   }*/
 
@@ -44,7 +38,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
     return this._measure
   }
 
-/*  set measure(measure: Measure) {
+  /*  set measure(measure: Measure) {
     this._measure = measure
   }*/
 
@@ -52,7 +46,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
     return this._measureUnit
   }
 
-/*  set measureUnit(unit: MeasureUnit) {
+  /*  set measureUnit(unit: MeasureUnit) {
     this._measureUnit = unit
   }*/
 

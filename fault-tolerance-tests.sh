@@ -38,4 +38,3 @@ tear_down_services "sensor-1" "sensor-2"
 execute_test "monitoring" "sensor"
 
 tear_down_system 0
-

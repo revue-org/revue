@@ -17,7 +17,7 @@ class IntrusionRuleSerializer:
         device_id: DeviceId = DeviceId(device_type, data["deviceId"]["code"])
         creator_id: str = data["creatorId"]
         description: str = data["description"]
-        object_class: ObjectClass = ObjectClass(data["objectClass"]).value
+        object_class: ObjectClass = ObjectClass(data["objectClass"])
         contacts_to_notify: List[Contact] = [
             Contact(item["value"], ContactType(item["type"]))
             for item in data["contactsToNotify"]

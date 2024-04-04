@@ -20,5 +20,4 @@ export interface AnomalyService {
 
   deleteAnomaly(anomalyId: string, type: AnomalyType): void
 
-  notifyNotificationService(anomaly: Anomaly): void
 }

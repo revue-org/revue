@@ -4,7 +4,6 @@ import { UserRepository } from '../../../domain/monitoring/repositories/UserRepo
 
 export class UserServiceImpl implements UserService {
   private userRepository: UserRepository
-  private users: User[] = []
 
   constructor(userRepository: UserRepository) {
     this.userRepository = userRepository
@@ -23,18 +22,14 @@ export class UserServiceImpl implements UserService {
   }
 
   deleteUser(userId: string): void {
-    this.userRepository.deleteUser(userId).then((): void => {
-      this.users = this.users.filter((user: User): boolean => user.id !== userId)
-    })
+    this.userRepository.deleteUser(userId)
   }
 
   insertUser(user: User): void {
-    this.userRepository.insertUser(user).then(() => this.users.push(user))
+    this.userRepository.insertUser(user)
   }
 
   updateUser(user: User): void {
-    this.userRepository.updateUser(user).then((): void => {
-      this.users = this.users.map((u: User): User => (u.id === user.id ? user : u))
-    })
+    this.userRepository.updateUser(user)
   }
 }

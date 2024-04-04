@@ -59,27 +59,42 @@
         \item \label{itm:user-1} The user can authenticate to the system through a web interface.
         \item \label{itm:user-2} The user can monitor the environment data produced by the sensors.
         \item \label{itm:user-3} The user can monitor the video stream produced by the cameras.
-        \item \label{itm:user-4} The user can add/delete a device to the system (if it is physically connected to the system).
+        \item \label{itm:user-4} The user can add/delete a device to the system.
         \item \label{itm:user-5} The user can enable and disable a device.
         \item \label{itm:user-6} The user can modify a device configuration.
         \item \label{itm:user-7} The user can add/delete a security rule regarding a camera/sensor.
+        \item \label{itm:user-8} The user can modify a security rule.
+        \item \label{itm:user-9} The user can delete received notifications.
+        \item \label{itm:user-10} The user can consult the history of produced data.
     \end{enumerate}
 
     \subsection{System Requirements}\label{subsec:system-requirements}
     \begin{enumerate}
-        \item \label{itm:sys-1} The system grants access using token-based authentication.
+        \item \label{itm:sys-1} The system grants access only to authenticated users.
         \item \label{itm:sys-2} The system provides a web interface as an entry point for the user.
-        \item \label{itm:sys-3} The system has devices that generate video and data streams.
-        \item \label{itm:sys-4} The system monitors data and detects anomalies.
+        \item \label{itm:sys-3} The system generates video and data streams.
+        \item \label{itm:sys-4} The system monitors streams in order to detect anomalies.
         \item \label{itm:sys-5} The system notifies the user when a security rule is violated.
+        \item \label{itm:sys-6} The system persistently stores produced data.
     \end{enumerate}
 
     \subsection{Non-functional Requirements}\label{subsec:non-functional-requirements}
     \begin{enumerate}
-        \item \label{itm:func-1}
+        \item \label{itm:func-1} The system should work even though the recognition component is down or not deployed.
+        \item \label{itm:func-2} The system should work even though the component responsible for the storage of the data is down or not deployed.
+        \item \label{itm:func-3} The system should be replicable in order to increase the availability of the system.
+        \item \label{itm:func-4} The system should work even though the component responsible for the authentication is down.
+        \item \label{itm:func-5} The video compartment should be independent of the data compartment and vice versa.
     \end{enumerate}
 
-    \subsection{Implementation Requirements}
+    \subsection{Implementation Requirements}\label{subsec:implementation-requirements}
+    \begin{enumerate}
+        \item \label{itm:impl-1} The recognition component of the system should be implemented in Python in order to reduce the abstraction gap.
+        \item \label{itm:impl-2} The frontend of the system should be implemented using Vue 3 and Typescript.
+        \item \label{itm:impl-3} The storage of data should be implemented using a NoSQL database.
+        \item \label{itm:impl-4} The system should be implemented using a microservices architecture.
+        \item \label{itm:impl-5} The system should be deployed using Docker.
+    \end{enumerate}
 
     \begin{enumerate}
     \end{enumerate}

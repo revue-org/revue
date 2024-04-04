@@ -44,7 +44,7 @@ services:
 #    ports:
 #      - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
 #    depends_on:
-#      - ${KAFKA_CONTAINER}
+#      - ${KAFKA_HOST}
 
 #  revue-sensor-3:
 #    image: revue-sensor

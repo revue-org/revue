@@ -15,13 +15,16 @@ class KafkaManager {
   }
 }
 
-let kafkaHost: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-let kafkaPort: string = process.env.KAFKA_PORT || '9092'
+let kafkaHost: string = process.env.KAFKA_HOST!
+let kafkaPort: string = process.env.KAFKA_PORT!
+
+console.log(`INFO: KAFKA HOST: ${kafkaHost}`)
+console.log(`INFO: KAFKA PORT: ${kafkaPort}`)
 
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: KAFKA DEVELOPMENT MODE')
-  kafkaHost = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
-  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
+  kafkaHost = process.env.KAFKA_EXTERNAL_HOST!
+  kafkaPort = process.env.KAFKA_EXTERNAL_PORT!
 }
 
 const kafkaManager: KafkaManager = new KafkaManager(kafkaHost, kafkaPort)

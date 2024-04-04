@@ -24,7 +24,6 @@ describe(`When sensor ${sensorCode} is down`, (): void => {
           collectedData.push(message.value.toString())
         }
       })
-    // await 10 seconds
     await new Promise((resolve): NodeJS.Timeout => setTimeout(resolve, interval + 2))
     expect(collectedData.length).toBe(0)
   })

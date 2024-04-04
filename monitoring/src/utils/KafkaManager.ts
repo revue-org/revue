@@ -15,8 +15,8 @@ class KafkaManager {
   }
 }
 
-let kafkaHost: string = process.env.KAFKA_CONTAINER || 'revue-kafka'
-let kafkaPort: string = process.env.KAFKA_PORT || '9092'
+let kafkaHost: string = process.env.KAFKA_CONTAINER!
+let kafkaPort: string = process.env.KAFKA_PORT!
 
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: KAFKA DEVELOPMENT MODE')

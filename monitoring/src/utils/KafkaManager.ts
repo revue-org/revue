@@ -27,6 +27,5 @@ if (process.env.NODE_ENV == 'develop') {
   kafkaPort = process.env.KAFKA_EXTERNAL_PORT!
 }
 
-
 const kafkaManager: KafkaManager = new KafkaManager(kafkaHost, kafkaPort)
 export default kafkaManager

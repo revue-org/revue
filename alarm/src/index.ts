@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { mongoConnect } from '@utils/connection.js'
 import { anomalyRouter } from './routes/anomaly.js'
-import { recognizingNodeRouter } from './routes/recognizingNode.js'
 import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
@@ -33,7 +32,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 app.use('/anomalies', anomalyRouter)
-app.use('/recognizing-nodes', recognizingNodeRouter)
 app.use('/security-rules', securityRuleRouter)
 
 const username: string = process.env.ALARM_DB_USERNAME || 'admin'

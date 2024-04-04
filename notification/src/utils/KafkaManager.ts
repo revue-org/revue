@@ -18,7 +18,6 @@ class KafkaManager {
 let kafkaHost: string = process.env.KAFKA_HOST!
 let kafkaPort: string = process.env.KAFKA_PORT!
 
-
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: KAFKA DEVELOPMENT MODE')
   kafkaHost = process.env.KAFKA_EXTERNAL_HOST!

@@ -43,5 +43,4 @@ export class AnomalyServiceImpl implements AnomalyService {
   deleteAnomaly(anomalyId: string, type: AnomalyType): void {
     this.anomalyRepository.deleteAnomaly(anomalyId, type)
   }
-
 }

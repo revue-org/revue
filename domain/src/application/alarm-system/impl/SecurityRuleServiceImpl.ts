@@ -20,7 +20,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   async getActiveRules(): Promise<SecurityRule[]> {
-    const rules: SecurityRule[] = (await this.securityRuleRepository.getExceedingRules())
+    const rules: SecurityRule[] = await this.securityRuleRepository.getExceedingRules()
     rules.concat(await this.securityRuleRepository.getIntrusionRules())
     return rules.filter((rule: SecurityRule) => this.hourComparator(new Date(), rule.from, rule.to))
   }
@@ -85,7 +85,11 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     )
   }
 
-  async checkIntrusionDetection(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): Promise<boolean> {
+  async checkIntrusionDetection(
+    cameraId: DeviceId,
+    objectClass: ObjectClass,
+    timestamp: Date
+  ): Promise<boolean> {
     return (
       (await this.getActiveIntrusionRules()).filter(
         (rule: IntrusionRule) =>

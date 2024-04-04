@@ -19,7 +19,7 @@ const PORT: number = Number(process.env.NOTIFICATION_PORT) || 4002
 
 const server: HttpServer = http.createServer(app)
 
-const frontendHost: string = process.env.FRONTEND_HOST || 'localhost'
+const frontendHost: string = 'localhost' //process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.FRONTEND_HOST
 const frontendPort: string = process.env.FRONTEND_PORT || '8080'
 export const io: SocketIOServer = new SocketIOServer(server, {
   cors: {

@@ -5,7 +5,7 @@ export interface Contact {
 
   set value(v: string)
 
-  get contactType(): ContactType
+  get type(): ContactType
 
-  set contactType(c: ContactType)
+  set type(c: ContactType)
 }

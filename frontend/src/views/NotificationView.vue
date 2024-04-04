@@ -16,7 +16,6 @@ async function getNotifications() {
       notifications.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
         notifications.value.push(await composeNotification(res.data[i]))
-        console.log(res.data[i])
       }
     })
     .catch(error => {
@@ -25,7 +24,6 @@ async function getNotifications() {
 }
 
 const deleteNotification = async (notification: Notification) => {
-  console.log(`http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`)
   await RequestHelper.delete(
     `http://${notificationHost}:${notificationPort}/notifications/${notification.notificationId}`
   )

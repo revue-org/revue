@@ -20,7 +20,6 @@ app.use(pinia)
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
-  console.log(`isLoggedIn: ${userStore.isLoggedIn}`)
   if (to.name != 'Login' && !userStore.isLoggedIn) next('/login')
   else if (to.name == 'Login' && userStore.isLoggedIn) next('/')
   else next()

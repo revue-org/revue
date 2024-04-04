@@ -41,8 +41,6 @@ const getCameras = () => {
 }
 
 const insertSensor = async (sensor: Sensor) => {
-  console.log(sensor)
-  console.log(sensor.measures)
   await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
     code: sensor.deviceId.code,
     ipAddress: sensor.ipAddress,

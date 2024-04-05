@@ -3,7 +3,6 @@ import { RecognizingNode } from '../../../domain/alarm-system/core/RecognizingNo
 import { RecognizingNodeRepository } from '../../../domain/alarm-system/repositories/RecognizingNodeRepository.js'
 
 export class RecognizingNodeServiceImpl implements RecognizingNodeService {
-  private recognizingNodes: RecognizingNode[] = []
   private recognizingNodeRepository: RecognizingNodeRepository
 
   constructor(recognizingNodeRepository: RecognizingNodeRepository) {
@@ -20,15 +19,10 @@ export class RecognizingNodeServiceImpl implements RecognizingNodeService {
 
   async insertRecognizingNode(recognizingNode: RecognizingNode): Promise<void> {
     await this.recognizingNodeRepository.insertRecognizingNode(recognizingNode)
-    this.recognizingNodes.push(recognizingNode)
   }
 
   async updateRecognizingNode(recognizingNode: RecognizingNode): Promise<void> {
     await this.recognizingNodeRepository.updateRecognizingNode(recognizingNode)
-    this.recognizingNodes = this.recognizingNodes.map(
-      (node: RecognizingNode): RecognizingNode =>
-        node.recognizingNodeId === recognizingNode.recognizingNodeId ? recognizingNode : node
-    )
   }
 
   deleteRecognizingNode(id: string): Promise<void> {

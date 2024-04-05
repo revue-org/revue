@@ -7,7 +7,6 @@ import { ContactType } from '../../../domain/monitoring/core/impl/enum/ContactTy
 
 export class NotificationServiceImpl implements NotificationService {
   private notificationRepository: NotificationRepository
-  private notifications: Notification[] = []
   private mailService: MailService
 
   constructor(notificationRepository: NotificationRepository, mailService: MailService) {
@@ -32,35 +31,19 @@ export class NotificationServiceImpl implements NotificationService {
   }
 
   async insertExceedingNotification(notification: Notification): Promise<string> {
-    return await this.notificationRepository.insertExceedingNotification(notification).then((id: string) => {
-      this.notifications.push(notification)
-      return id
-    })
+    return await this.notificationRepository.insertExceedingNotification(notification)
   }
 
   async insertIntrusionNotification(notification: Notification): Promise<string> {
-    return await this.notificationRepository.insertIntrusionNotification(notification).then((id: string) => {
-      this.notifications.push(notification)
-      return id
-    })
+    return await this.notificationRepository.insertIntrusionNotification(notification)
   }
 
   async updateExceedingNotification(notification: Notification): Promise<void> {
-    await this.notificationRepository.updateExceedingNotification(notification).then((): void => {
-      this.notifications = this.notifications.map(
-        (not: Notification): Notification =>
-          not.notificationId === notification.notificationId ? notification : not
-      )
-    })
+    await this.notificationRepository.updateExceedingNotification(notification)
   }
 
   async updateIntrusionNotification(notification: Notification): Promise<void> {
-    await this.notificationRepository.updateIntrusionNotification(notification).then((): void => {
-      this.notifications = this.notifications.map(
-        (not: Notification): Notification =>
-          not.notificationId === notification.notificationId ? notification : not
-      )
-    })
+    await this.notificationRepository.updateIntrusionNotification(notification)
   }
 
   async deleteNotification(id: string): Promise<void> {

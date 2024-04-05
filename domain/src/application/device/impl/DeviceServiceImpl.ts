@@ -7,22 +7,17 @@ import { Sensor } from '../../../domain/device/core/Sensor.js'
 
 export class DeviceServiceImpl implements DeviceService {
   private deviceRepository: DeviceRepository
-  private devices: Device[] = []
 
   constructor(deviceRepository: DeviceRepository) {
     this.deviceRepository = deviceRepository
   }
 
   deleteCamera(code: string): void {
-    this.deviceRepository.deleteCamera(code).then((): void => {
-      this.devices = this.devices.filter((device: Device): boolean => device.deviceId.code !== code)
-    })
+    this.deviceRepository.deleteCamera(code)
   }
 
   deleteSensor(code: string): void {
-    this.deviceRepository.deleteSensor(code).then((): void => {
-      this.devices = this.devices.filter((device: Device): boolean => device.deviceId.code !== code)
-    })
+    this.deviceRepository.deleteSensor(code)
   }
 
   getCameraByCode(code: string): Promise<Camera> {
@@ -54,30 +49,18 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   insertCamera(camera: Camera): void {
-    this.deviceRepository.insertCamera(camera).then((): void => {
-      this.devices.push(camera)
-    })
+    this.deviceRepository.insertCamera(camera)
   }
 
   insertSensor(sensor: Sensor): void {
-    this.deviceRepository.insertSensor(sensor).then((): void => {
-      this.devices.push(sensor)
-    })
+    this.deviceRepository.insertSensor(sensor)
   }
 
   updateCamera(camera: Camera): void {
-    this.deviceRepository.updateCamera(camera).then((): void => {
-      this.devices = this.devices.map(
-        (device: Device): Device => (device.deviceId.code === camera.deviceId.code ? camera : device)
-      )
-    })
+    this.deviceRepository.updateCamera(camera)
   }
 
   updateSensor(sensor: Sensor): void {
-    this.deviceRepository.updateSensor(sensor).then((): void => {
-      this.devices = this.devices.map(
-        (device: Device): Device => (device.deviceId.code === sensor.deviceId.code ? sensor : device)
-      )
-    })
+    this.deviceRepository.updateSensor(sensor)
   }
 }

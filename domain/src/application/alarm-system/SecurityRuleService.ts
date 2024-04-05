@@ -14,7 +14,7 @@ export interface SecurityRuleService {
 
   getIntrusionRules(): Promise<IntrusionRule[]>
 
-  getContactsToNotify(anomaly: Anomaly): Contact[]
+  getContactsToNotify(anomaly: Anomaly): Promise<Contact[]>
 
   insertExceedingSecurityRule(exceedingRule: ExceedingRule): void
 
@@ -28,7 +28,7 @@ export interface SecurityRuleService {
 
   deleteIntrusionRule(id: string): void
 
-  checkExceedingDetection(environmentData: EnvironmentData): boolean
+  checkExceedingDetection(environmentData: EnvironmentData): Promise<boolean>
 
-  checkIntrusionDetection(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): boolean
+  checkIntrusionDetection(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): Promise<boolean>
 }

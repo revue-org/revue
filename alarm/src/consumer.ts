@@ -61,16 +61,16 @@ export const setupConsumer = async (): Promise<void> => {
           )
           const timestamp: Date = new Date(rawValues.timestamp)
           const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])
-          if (securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
+          if (await securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
             console.log('Intrusion detected!')
             const intrusion: Intrusion = anomalyFactory.createIntrusion(cameraId, timestamp, objectClass, '')
             intrusion.anomalyId = await anomalyService.insertIntrusion(intrusion)
-            await sendNotification(intrusion, securityRuleService.getContactsToNotify(intrusion))
+            await sendNotification(intrusion, await securityRuleService.getContactsToNotify(intrusion))
           }
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {
             if (
-              securityRuleService.checkExceedingDetection(
+              await securityRuleService.checkExceedingDetection(
                 environmentDataFactory.createEnvironmentData(
                   deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
                   rawValue._value,
@@ -89,7 +89,7 @@ export const setupConsumer = async (): Promise<void> => {
                 '' // TODO: check for the default value, it seems to not work
               )
               exceeding.anomalyId = await anomalyService.insertExceeding(exceeding)
-              await sendNotification(exceeding, securityRuleService.getContactsToNotify(exceeding))
+              await sendNotification(exceeding, await securityRuleService.getContactsToNotify(exceeding))
             } else {
               console.log('No anomaly detected')
             }

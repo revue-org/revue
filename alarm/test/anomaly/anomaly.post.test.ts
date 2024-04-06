@@ -1,6 +1,6 @@
 import { Response } from 'supertest'
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { connectToMock, disconnectFromMock, populateAnomalies } from "../storage/MongoDBMock.js";
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { connectToMock, disconnectFromMock, populateAnomalies } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
@@ -66,5 +66,5 @@ describe('POST /anomalies/', (): void => {
   })
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()
-  });
+  })
 })

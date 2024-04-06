@@ -13,8 +13,8 @@
     "test": "vitest --run",
     "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
-    "format:fix": "prettier --write src/",
-    "format": "prettier --check src/"
+    "format:fix": "prettier --write src test",
+    "format": "prettier --check src test"
   },
   "repository": {
     "type": "git",

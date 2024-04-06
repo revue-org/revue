@@ -6,17 +6,17 @@ import { notificationSample } from '../resources/notificationSample.js'
 let mongoMock: any = null
 
 export const connectToMock = async (): Promise<void> => {
-    mongoMock = await MongoMemoryServer.create()
-    await mongoose.connect(mongoMock.getUri(), {
-      directConnection: true
-    })
+  mongoMock = await MongoMemoryServer.create()
+  await mongoose.connect(mongoMock.getUri(), {
+    directConnection: true
+  })
 }
 
 export const disconnectFromMock = async (): Promise<void> => {
-    await mongoose.connection.close()
-    if (mongoMock) {
-      await mongoMock.stop()
-    }
+  await mongoose.connection.close()
+  if (mongoMock) {
+    await mongoMock.stop()
+  }
 }
 
 export const populateNotifications = async (): Promise<void> => {

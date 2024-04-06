@@ -28,7 +28,6 @@ describe('GET /devices/', (): void => {
     })
   })
 
-
   describe('GET /devices/cameras', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
@@ -44,7 +43,6 @@ describe('GET /devices/', (): void => {
       expect(cameras.status).toBe(HttpStatusCode.OK)
       expect(cameras.type).toBe('application/json')
     })
-
   })
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()

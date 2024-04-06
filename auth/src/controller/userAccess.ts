@@ -13,8 +13,9 @@ export const userAccessController = {
     if (!user) throw new Error('User not found')
     const match: boolean = await bcrypt.compare(password, user.password)
     if (!match) throw new Error('Wrong password')
-    user.token = jwtManager.generateAccessToken({ id: user.id, username: user.username })
-    user.refreshToken = jwtManager.generateRefreshToken({ id: user.id, username: user.username })
+    const userInfo: UserInfo = new UserInfo(user.id, user.username)
+    user.token = jwtManager.generateAccessToken(userInfo)
+    user.refreshToken = jwtManager.generateRefreshToken(userInfo)
     userService.updateUser(user)
     return { userId: user.id, accessToken: user.token, refreshToken: user.refreshToken }
   },

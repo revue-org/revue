@@ -23,7 +23,7 @@ class JWTManager {
    * @param {Object} payload the payload to serialize in the token
    * @returns {String} the access token string
    */
-  generateAccessToken(payload: Object) {
+  generateAccessToken(payload: UserInfo): string {
     return this.jwt.sign(payload, this.secret, { expiresIn: '12h' })
   }
 
@@ -33,7 +33,7 @@ class JWTManager {
    * @param {Object} payload the payload to serialize in the token
    * @returns {String} the refresh token string
    */
-  generateRefreshToken(payload: Object) {
+  generateRefreshToken(payload: UserInfo): string {
     return this.jwt.sign(payload, this.refreshSecret)
   }
 
@@ -51,13 +51,13 @@ class JWTManager {
     if (token == null) return res.status(403)
 
     console.log('Authentication token: ' + token)
-    this.jwt.verify(token, this.secret, (err: any, user: any) => {
+    this.jwt.verify(token, this.secret, (err: any, _user: any) => {
       if (err) return res.sendStatus(401)
       next()
     })
   }
 
-  verify(token: string, callback: (err: Error, userInfo: UserInfo) => void) {
+  verify(token: string, callback: (_err: Error, _infos: UserInfo) => Promise<void>): void {
     this.jwt.verify(token, this.refreshSecret, callback)
   }
 }

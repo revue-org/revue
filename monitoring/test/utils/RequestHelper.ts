@@ -16,7 +16,7 @@ export default class RequestHelper {
     return { headers: { Authorization: `Bearer apikey-dev` } } // TODO: create an API key for the log service, same for sensors and cameras
   }
 
-  static async get(url: string, params?: any): Promise<AxiosResponse> {
+  static async get(url: string): Promise<AxiosResponse> {
     return await axios.get(url, this.getHeaders())
   }
 

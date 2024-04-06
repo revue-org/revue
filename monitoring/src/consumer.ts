@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io'
-import { Consumer, Kafka } from 'kafkajs'
+import { Consumer } from 'kafkajs'
 import { io } from './index.js'
 import kafkaManager from './utils/KafkaManager.js'
 

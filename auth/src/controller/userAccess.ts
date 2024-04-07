@@ -13,7 +13,7 @@ export const userAccessController = {
     if (!user) throw new Error('User not found')
     const match: boolean = await bcrypt.compare(password, user.password)
     if (!match) throw new Error('Wrong password')
-    const userInfo: UserInfo = new UserInfo(user.id, user.username)
+    const userInfo: UserInfo = { id: user.id, username: user.username }
     user.token = jwtManager.generateAccessToken(userInfo)
     user.refreshToken = jwtManager.generateRefreshToken(userInfo)
     userService.updateUser(user)

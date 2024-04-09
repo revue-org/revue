@@ -11,3 +11,10 @@ services:
     restart: on-failure
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    networks:
+      - my_net
+
+networks:
+  my_net:
+    external: false
+    name: revue_my_network

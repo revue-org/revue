@@ -14,6 +14,8 @@ services:
     depends_on:
       - revue-monitoring-db
       - ${KAFKA_HOST}
+    networks:
+      - my_net
 
   revue-monitoring-db:
     image: mongo
@@ -28,7 +30,14 @@ services:
     volumes:
       - monitoring_data:/data/db
       - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
+    networks:
+      - my_net
 
 volumes:
   monitoring_data:
     driver: local
+
+networks:
+  my_net:
+    external: false
+    name: revue_my_network

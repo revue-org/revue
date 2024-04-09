@@ -3,6 +3,9 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
+  env: {
+    node:true
+  },
   extends: [
     'plugin:@typescript-eslint/recommended',
     'eslint:recommended',

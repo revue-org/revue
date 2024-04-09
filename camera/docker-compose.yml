@@ -16,6 +16,8 @@ services:
     depends_on:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
+    networks:
+      - my_net
 
   revue-camera-2:
     image: revue-camera
@@ -31,6 +33,8 @@ services:
     depends_on:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
+    networks:
+      - my_net
 
 #  revue-camera-3:
 #    image: revue-camera
@@ -45,3 +49,8 @@ services:
 #      - ${CAMERA_PORT_3}:${CAMERA_PORT_3}
 #    depends_on:
 #      - ${KAFKA_HOST}
+
+networks:
+  my_net:
+    external: false
+    name: revue_my_network

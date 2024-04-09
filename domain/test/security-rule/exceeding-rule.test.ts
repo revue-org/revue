@@ -35,7 +35,7 @@ describe('Check for exceeding', (): void => {
     testContact = contactFactory.createContact('3333333333', ContactType.SMS)
     testSecurityRuleId = 'FAKE_SECURITY_RULE_ID'
 
-    let testSecurityRule: ExceedingRule = securityRuleFactory.createExceedingRule(
+    const testSecurityRule: ExceedingRule = securityRuleFactory.createExceedingRule(
       0,
       10,
       Measure.TEMPERATURE,

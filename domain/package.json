@@ -12,8 +12,8 @@
     "test:architecture": "npx depcruise src",
     "lint:fix": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "lint": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts",
-    "format:fix": "prettier --write src/",
-    "format": "prettier --check src/"
+    "format:fix": "prettier --write src test",
+    "format": "prettier --check src test"
   },
   "repository": {
     "type": "git",

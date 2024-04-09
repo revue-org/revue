@@ -31,7 +31,9 @@ subprojects {
             Task("testArchitecture", listOf("run", "test:architecture")),
             Task("format", listOf("run", "format")),
             Task("format-fix", listOf("run", "format:fix")),
-            Task("lint", listOf("run", "lint"))
+            Task("lint", listOf("run", "lint")),
+            Task("lint-fix", listOf("run", "lint:fix"))
+
         ).forEach { task ->
             tasks.register<NpmTask>(task.name) {
                 args = task.args

@@ -31,5 +31,5 @@ export default defineConfig({
   preview: {
     port: 8080
   },
-  envDir: (process.env.NODE_ENV === 'development') ? '../' : './'
+  envDir: '../'
 })

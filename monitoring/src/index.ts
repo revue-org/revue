@@ -17,11 +17,9 @@ app.use(cors())
 
 const server: HttpServer = http.createServer(app)
 
-const frontendHost: string = 'localhost' //process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.FRONTEND_HOST
-const frontendPort = process.env.NODE_ENV == 'develop' ? '8080' : process.env.FRONTEND_PORT
 export const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: `http://${frontendHost}:${frontendPort}`
+    origin: '*'
   }
 })
 

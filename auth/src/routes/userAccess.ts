@@ -18,7 +18,7 @@ userAccessRouter.route('/login').post((req: Request, res: Response): void => {
 userAccessRouter.route('/logout').post((req: Request, res: Response): void => {
   if (req.headers['authorization'] === undefined)
     res.status(HttpStatusCode.UNAUTHORIZED).send('No authentication token')
-  let token: string =
+  const token: string =
     req.headers['authorization'] === undefined ? '' : req.headers['authorization'].split(' ')[1]
   userAccessController
     .logout(token, req.body.username)

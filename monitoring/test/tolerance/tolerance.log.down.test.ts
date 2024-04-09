@@ -5,26 +5,30 @@ import { AxiosResponse } from 'axios'
 import kafkaManager from '../../src/utils/KafkaManager.js'
 import { Consumer } from 'kafkajs'
 
-
 describe(`When log service is down`, (): void => {
-
   test('sensor should continue producing data but not storing them', async (): Promise<void> => {
-    const response: AxiosResponse = await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
+    const response: AxiosResponse = await RequestHelper.get(
+      `http://${monitoringHost}:${monitoringPort}/devices/sensors`
+    )
     expect(response.status).toBe(HttpStatusCode.OK)
     const sensors = response.data
     const intervals: number[] = sensors.map((sensor: any): number => sensor.intervalMillis)
     const collectedData: string[] = []
     const consumer: Consumer = kafkaManager.createConsumer('test-consumer-log')
     await consumer.connect()
-    await consumer.subscribe({ topics: sensors.map((sensor:any) => `SENSOR_${sensor._id.code}`), fromBeginning: false })
-    await consumer
-      .run({
-        eachMessage: async ({ topic, message }): Promise<void> => {
-          if (message.value === null) return
-          collectedData.push(message.value.toString())
-        }
-      })
-    await new Promise((resolve): NodeJS.Timeout => setTimeout(resolve, intervals.reduce((acc, curr) => acc + curr, 0) + 2))
+    await consumer.subscribe({
+      topics: sensors.map((sensor: any) => `SENSOR_${sensor._id.code}`),
+      fromBeginning: false
+    })
+    await consumer.run({
+      eachMessage: async ({ topic, message }): Promise<void> => {
+        if (message.value === null) return
+        collectedData.push(message.value.toString())
+      }
+    })
+    await new Promise(
+      (resolve): NodeJS.Timeout => setTimeout(resolve, intervals.reduce((acc, curr) => acc + curr, 0) + 2)
+    )
     expect(collectedData.length).not.toBe(0)
     let logResponse: AxiosResponse | undefined
     try {
@@ -34,6 +38,4 @@ describe(`When log service is down`, (): void => {
     }
     expect(logResponse, 'Log service should be down').toBe(undefined)
   })
-
-
 })

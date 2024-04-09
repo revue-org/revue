@@ -44,8 +44,8 @@ describe('POST /devices/', (): void => {
 
     it('should create a new camera', async (): Promise<void> => {
       const newCamera = {
-        code: "cam-2",
-        ipAddress: "192.168.1.1",
+        code: 'cam-2',
+        ipAddress: '192.168.1.1',
         resolution: {
           width: 200,
           height: 200
@@ -63,5 +63,5 @@ describe('POST /devices/', (): void => {
   })
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()
-  });
+  })
 })

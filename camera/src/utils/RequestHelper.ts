@@ -9,7 +9,8 @@ type Headers = {
 export const monitoringHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.MONITORING_HOST
 export const monitoringPort = process.env.NODE_ENV == 'develop' ? '4001' : process.env.MONITORING_PORT
 export const mediaServerHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.MEDIA_SERVER_HOST
-export const mediaServerRtspPort = process.env.NODE_ENV == 'develop' ? '8554' : process.env.MEDIA_SERVER_PORTx
+export const mediaServerRtspPort =
+  process.env.NODE_ENV == 'develop' ? '8554' : process.env.MEDIA_SERVER_RTSP_PORT
 
 export default class RequestHelper {
   static getHeaders(): Headers {

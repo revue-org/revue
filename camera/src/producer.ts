@@ -43,7 +43,7 @@ export const getCameraInfo = async (): Promise<void> => {
 }
 
 const inputFilePath: string = 'video.mp4'
-const rtspStreamUrl: string = `rtsp://172.17.0.50:${mediaServerRtspPort}/${CAMERA_CODE}/stream`
+const rtspStreamUrl: string = `rtsp://${mediaServerHost}:${mediaServerRtspPort}/${CAMERA_CODE}/stream`
 console.log('RTSP Stream URL:', rtspStreamUrl)
 
 export const produce = async (): Promise<void> => {

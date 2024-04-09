@@ -16,14 +16,3 @@ environmentDataRouter.route('/').get((_req: Request, res: Response): void => {
       res.send({ error: 'No data found' })
     })
 })
-
-environmentDataRouter.route('/:code').get((req: Request, res: Response): void => {
-  environmentDataController
-    .getDataByDeviceId(DeviceTypeConverter.convertToDeviceType(req.params.type), req.params.code)
-    .then((environmentData: EnvironmentData[]): void => {
-      res.status(HttpStatusCode.OK).send(environmentData)
-    })
-    .catch((): void => {
-      res.send({ error: 'No data found' })
-    })
-})

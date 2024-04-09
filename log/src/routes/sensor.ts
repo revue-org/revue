@@ -16,7 +16,6 @@ sensorRouter.route('/:code/environment-data').get((req: Request, res: Response):
     })
 })
 
-
 sensorRouter.route('/:code/environment-data/latest').get((req: Request, res: Response): void => {
   const quantity: number = req.query.quantity as unknown as number
   if (!quantity) {

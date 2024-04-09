@@ -1,4 +1,4 @@
-import { Consumer, Kafka } from 'kafkajs'
+import { Consumer } from 'kafkajs'
 import { environmentDataController } from '@/controller/environmentData.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
 import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'

@@ -13,5 +13,4 @@ export interface LogService {
   updateEnvironmentData(environmentData: EnvironmentData): void
 
   deleteEnvironmentData(id: string): void
-
 }

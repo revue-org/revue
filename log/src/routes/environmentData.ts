@@ -2,7 +2,6 @@ import express, { Request, Response, Router } from 'express'
 import { environmentDataController } from '../controller/environmentData.js'
 import { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { DeviceTypeConverter } from '@utils/DeviceTypeConverter.js'
 
 export const environmentDataRouter: Router = express.Router()
 

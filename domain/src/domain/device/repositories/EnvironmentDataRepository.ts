@@ -13,5 +13,4 @@ export interface EnvironmentDataRepository {
   updateEnvironmentData(environmentData: EnvironmentData): Promise<void>
 
   deleteEnvironmentData(id: string): Promise<void>
-
 }

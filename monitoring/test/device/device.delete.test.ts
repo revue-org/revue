@@ -26,10 +26,7 @@ describe('DELETE /devices/', (): void => {
       }
 
       // @ts-ignore
-      await monitoringService
-        .post('/devices/sensors')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newSensor)
+      await monitoringService.post('/devices/sensors').set('Authorization', `Bearer ${TOKEN}`).send(newSensor)
 
       // @ts-ignore
       const deletion: Response = await monitoringService
@@ -40,20 +37,16 @@ describe('DELETE /devices/', (): void => {
     })
 
     it('responds with an ok http status code if the camera is correctly deleted', async (): Promise<void> => {
-
       const newCamera = {
-        code: "cam-10",
-        ipAddress: "192.168.1.1",
+        code: 'cam-10',
+        ipAddress: '192.168.1.1',
         resolution: {
           width: 200,
           height: 200
         }
       }
       // @ts-ignore
-      await monitoringService
-        .post('/devices/cameras')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newCamera)
+      await monitoringService.post('/devices/cameras').set('Authorization', `Bearer ${TOKEN}`).send(newCamera)
       // @ts-ignore
       const deletion: Response = await monitoringService
         .delete('/devices/cameras/cam-10')
@@ -61,9 +54,9 @@ describe('DELETE /devices/', (): void => {
       expect(deletion.status).toBe(HttpStatusCode.OK)
       expect(deletion.type).toBe('application/json')
     })
-  });
+  })
 
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()
-  });
+  })
 })

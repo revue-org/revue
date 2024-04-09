@@ -1,6 +1,6 @@
 import { Response } from 'supertest'
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { connectToMock, disconnectFromMock, populateUsers } from "../storage/MongoDBMock.js";
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { connectToMock, disconnectFromMock, populateUsers } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
@@ -15,15 +15,15 @@ describe('POST /login/', (): void => {
     // @ts-ignore
     const login: Response = await authService
       .post('/login')
-      .send({username: 'paga16', password: 'passwordprova'})
+      .send({ username: 'paga16', password: 'passwordprova' })
     expect(login.status).toBe(HttpStatusCode.OK)
     expect(login.type).toBe('application/json')
-    expect(login.body).toHaveProperty("accessToken")
-    expect(login.body).toHaveProperty("refreshToken")
+    expect(login.body).toHaveProperty('accessToken')
+    expect(login.body).toHaveProperty('refreshToken')
     expect(login.body.accessToken.length).toBeGreaterThan(1)
     expect(login.body.refreshToken.length).toBeGreaterThan(1)
   })
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()
-  });
+  })
 })

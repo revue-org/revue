@@ -9,7 +9,6 @@
     ]
   },
   "devDependencies": {
-    "semantic-release-preconfigured-conventional-commits": "latest",
-    "vitest": "^1.4.0"
+    "semantic-release-preconfigured-conventional-commits": "latest"
   }
 }

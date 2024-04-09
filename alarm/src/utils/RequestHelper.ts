@@ -17,7 +17,7 @@ export default class RequestHelper {
     return { headers: { Authorization: `Bearer ${process.env.ALARM_BEARER_TOKEN}` } }
   }
 
-  static async get(url: string, params?: any): Promise<AxiosResponse> {
+  static async get(url: string): Promise<AxiosResponse> {
     return await axios.get(url, this.getHeaders())
   }
 

@@ -16,17 +16,10 @@ services:
       - MTX_PROTOCOLS=tcp
     restart: always
     networks:
-      my_network:
-        ipv4_address: 172.20.0.50
-
-#networks:
-    #  my_net:
-    #name: revue_my_network
-    #external: true
+      my_net:
+        ipv4_address: 192.168.0.10
 
 networks:
-  my_network:
-    ipam:
-      driver: default
-      config:
-        - subnet: "172.20.0.0/16"
+    my_net:
+      name: revue_network
+      external: true

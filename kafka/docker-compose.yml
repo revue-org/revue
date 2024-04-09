@@ -41,5 +41,5 @@ services:
 
 networks:
   my_net:
-    external: false
-    name: revue_my_network
+    name: revue_network
+    external: true

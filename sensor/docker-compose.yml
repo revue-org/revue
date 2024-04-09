@@ -67,5 +67,5 @@ services:
 
 networks:
   my_net:
-    external: false
-    name: revue_my_network
+    external: true
+    name: revue_network

@@ -45,14 +45,15 @@ if [ -z "$command" ]; then
   usage
 fi
 
-#compose_files=("-fnetwork/docker-compose.yml" "-fauth/docker-compose.yml" "-fkafka/docker-compose.yml" "-fmonitoring/docker-compose.yml" "-falarm/docker-compose.yml"
-#"-ffrontend/docker-compose.yml" "-flog/docker-compose.yml" "-fnotification/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml"
-#"-fmedia-server/docker-compose.yml" "-frecognition/docker-compose.yml") "-fmedia-server/docker-compose.yml" TO REMOVE "-fnetwork/docker-compose.yml"
-compose_files=("-fmedia-server/docker-compose.yml")
-
+compose_files=("-fauth/docker-compose.yml" "-fkafka/docker-compose.yml" "-fmonitoring/docker-compose.yml" "-falarm/docker-compose.yml"
+"-ffrontend/docker-compose.yml" "-flog/docker-compose.yml" "-fnotification/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml"
+"-fmedia-server/docker-compose.yml" "-frecognition/docker-compose.yml")
 
 if [ "$command" == "--down" ]; then
-  eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
+  eval docker network rm revue_network
+  eval docker compose --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
 else
+  eval docker network create --driver=bridge --subnet=192.168.0.0/16 revue_network
+  #eval docker compose --project-name revue --project-directory . -fmedia-server/docker-compose.yml up -d
   eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${detached}" "${build}"
 fi

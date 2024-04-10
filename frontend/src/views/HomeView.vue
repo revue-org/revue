@@ -30,45 +30,45 @@ if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
 }
 
-RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then(async (res: AxiosResponse) => {
-  if (res.status == HttpStatusCode.Ok) {
-    for (let i = 0; i < res.data.length; i++) {
-      if (res.data[i].isCapturing) {
-        const sensor = composeSensor(res.data[i])
-        const quantity: number = 594
-        const response1 = await RequestHelper.get(`http://${logHost}:${logPort}/environment-data/`)
-        console.log(response1.data.length)
-        const response = await RequestHelper.get(`http://${logHost}:${logPort}/sensors/${sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`)
-        if (response.status == HttpStatusCode.Ok) {
-          for (let j = 0; j < response.data.length; j++) {
-            switch (response.data[j].measure) {
-              case 'TEMPERATURE':
-                bufferStore.temperatureBuffer.push(response.data[j].value)
-                break
-              case 'HUMIDITY':
-                bufferStore.humidityBuffer.push(response.data[j].value)
-                break
-              case 'PRESSURE':
-                bufferStore.pressureBuffer.push(response.data[j].value)
-                break
-            }
-            if (quantity % 3 == 0) {
-              bufferStore.timestampBuffer.push(new Date(response.data[j].timestamp).toLocaleString().split(' ')[1])
+RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then(
+  async (res: AxiosResponse) => {
+    if (res.status == HttpStatusCode.Ok) {
+      for (let i = 0; i < res.data.length; i++) {
+        if (res.data[i].isCapturing) {
+          const sensor = composeSensor(res.data[i])
+          const quantity: number = 594
+          const response = await RequestHelper.get(
+            `http://${logHost}:${logPort}/sensors/${sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
+          )
+          if (response.status == HttpStatusCode.Ok) {
+            for (let j = 0; j < response.data.length; j++) {
+              switch (response.data[j].measure) {
+                case 'TEMPERATURE':
+                  bufferStore.temperatureBuffer.push(response.data[j].value)
+                  break
+                case 'HUMIDITY':
+                  bufferStore.humidityBuffer.push(response.data[j].value)
+                  break
+                case 'PRESSURE':
+                  bufferStore.pressureBuffer.push(response.data[j].value)
+                  break
+              }
+              if (quantity % 3 == 0) {
+                bufferStore.timestampBuffer.push(
+                  new Date(response.data[j].timestamp).toLocaleString().split(' ')[1]
+                )
+              }
             }
           }
+          values.value.push({
+            sensor: sensor,
+            values: []
+          })
         }
-        console.log(bufferStore.temperatureBuffer.length)
-        console.log(bufferStore.humidityBuffer.length)
-        console.log(bufferStore.pressureBuffer.length)
-        console.log(bufferStore.timestampBuffer.length)
-        values.value.push({
-          sensor: sensor,
-          values: []
-        })
       }
     }
   }
-})
+)
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
@@ -136,8 +136,7 @@ const showNotification = (message: string) => {
       {
         label: 'Dismiss',
         color: 'white',
-        handler: () => {
-        }
+        handler: () => {}
       },
       {
         label: 'Read',

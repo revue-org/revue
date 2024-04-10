@@ -30,6 +30,8 @@ import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
 import { Anomaly } from 'domain/dist/domain/alarm-system/core/Anomaly.js'
 import { Intrusion } from 'domain/dist/domain/alarm-system/core/Intrusion.js'
 import { ObjectClass } from 'domain/dist/domain/alarm-system/core/impl/enum/ObjectClass.js'
+import { Contact } from 'domain/dist/domain/monitoring/core/Contact.js'
+import { ContactTypeConverter } from 'domain/dist/utils/ContactTypeConverter.js'
 
 const consumer: Consumer = kafkaManager.createConsumer('alarmConsumer')
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -59,16 +61,16 @@ export const setupConsumer = async (): Promise<void> => {
           )
           const timestamp: Date = new Date(rawValues.timestamp)
           const cameraId: DeviceId = deviceIdFactory.createCameraId(topic.split('_')[1])
-          if (securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
+          if (await securityRuleService.checkIntrusionDetection(cameraId, objectClass, timestamp)) {
             console.log('Intrusion detected!')
             const intrusion: Intrusion = anomalyFactory.createIntrusion(cameraId, timestamp, objectClass, '')
             intrusion.anomalyId = await anomalyService.insertIntrusion(intrusion)
-            await sendNotification(intrusion)
+            await sendNotification(intrusion, await securityRuleService.getContactsToNotify(intrusion))
           }
         } else if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {
             if (
-              securityRuleService.checkExceedingDetection(
+              await securityRuleService.checkExceedingDetection(
                 environmentDataFactory.createEnvironmentData(
                   deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
                   rawValue._value,
@@ -87,7 +89,7 @@ export const setupConsumer = async (): Promise<void> => {
                 '' // TODO: check for the default value, it seems to not work
               )
               exceeding.anomalyId = await anomalyService.insertExceeding(exceeding)
-              await sendNotification(exceeding)
+              await sendNotification(exceeding, await securityRuleService.getContactsToNotify(exceeding))
             } else {
               console.log('No anomaly detected')
             }
@@ -163,7 +165,7 @@ const getCapturingDevices = async (): Promise<Device[]> => {
   }
 }
 
-const sendNotification = async (anomaly: Anomaly): Promise<void> => {
+const sendNotification = async (anomaly: Anomaly, contacts: Contact[]): Promise<void> => {
   let url: string = `http://${notificationHost}:${notificationPort}`
   let body: any = {}
   switch (anomaly.deviceId.type) {
@@ -176,7 +178,13 @@ const sendNotification = async (anomaly: Anomaly): Promise<void> => {
           code: anomaly.deviceId.code
         },
         measure: MeasureConverter.convertToString((anomaly as Exceeding).measure),
-        value: (anomaly as Exceeding).value
+        value: (anomaly as Exceeding).value,
+        contacts: contacts.map((contact: Contact) => {
+          return {
+            type: ContactTypeConverter.convertToString(contact.type),
+            value: contact.value
+          }
+        })
       }
       break
     case DeviceType.CAMERA:
@@ -187,7 +195,13 @@ const sendNotification = async (anomaly: Anomaly): Promise<void> => {
           type: DeviceTypeConverter.convertToString(anomaly.deviceId.type),
           code: anomaly.deviceId.code
         },
-        intrusionObject: ObjectClassConverter.convertToString((anomaly as Intrusion).intrusionObject)
+        intrusionObject: ObjectClassConverter.convertToString((anomaly as Intrusion).intrusionObject),
+        contacts: contacts.map((contact: Contact) => {
+          return {
+            type: ContactTypeConverter.convertToString(contact.type),
+            value: contact.value
+          }
+        })
       }
       break
   }

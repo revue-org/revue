@@ -19,6 +19,4 @@ export interface AnomalyService {
   updateIntrusion(intrusion: Intrusion): void
 
   deleteAnomaly(anomalyId: string, type: AnomalyType): void
-
-  notifyNotificationService(anomaly: Anomaly): void
 }

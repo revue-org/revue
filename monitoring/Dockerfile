@@ -28,10 +28,17 @@ LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 WORKDIR /home/revue
 
 COPY --from=build /home/revue/.env .env
+COPY --from=build /home/revue/tsconfig.shared.json tsconfig.shared.json
 COPY --from=build /home/revue/monitoring monitoring
 COPY --from=build /home/revue/domain domain
 
 RUN apk add dumb-init && apk add --update npm
+
+# for executing tests
+#COPY --from=build /home/revue/tsconfig.shared.json tsconfig.shared.json
+#RUN wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+#RUN apk add dpkg
+#RUN dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 
 WORKDIR /home/revue/monitoring
 

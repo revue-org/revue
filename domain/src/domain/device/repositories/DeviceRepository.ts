@@ -1,7 +1,7 @@
 import { DeviceId } from '../core/DeviceId.js'
 import { Sensor } from '../core/Sensor.js'
 import { Camera } from '../core/Camera.js'
-import { Device } from '../core'
+import { Device } from '../core/Device.js'
 
 export interface DeviceRepository {
   getDevices(): Promise<Device[]>

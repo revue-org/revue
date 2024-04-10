@@ -18,7 +18,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   async insertExceedingNotification(notification: Notification): Promise<string> {
-    let anomalyType: string = 'EXCEEDING'
+    const anomalyType: string = 'EXCEEDING'
     return await this.notificationModel
       .create({
         anomalyId: notification.anomaly.anomalyId,
@@ -34,7 +34,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   async insertIntrusionNotification(notification: Notification): Promise<string> {
-    let anomalyType: string = 'INTRUSION'
+    const anomalyType: string = 'INTRUSION'
     return await this.notificationModel
       .create({
         anomalyId: notification.anomaly.anomalyId,
@@ -50,7 +50,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   async updateExceedingNotification(notification: Notification): Promise<void> {
-    let anomalyType: string = 'EXCEEDING'
+    const anomalyType: string = 'EXCEEDING'
     await this.notificationModel.findByIdAndUpdate(notification.notificationId, {
       anomalyType: anomalyType,
       timestamp: new Date()
@@ -58,7 +58,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   async updateIntrusionNotification(notification: Notification): Promise<void> {
-    let anomalyType: string = 'INTRUSION'
+    const anomalyType: string = 'INTRUSION'
     await this.notificationModel.findByIdAndUpdate(notification.notificationId, {
       anomalyType: anomalyType,
       timestamp: new Date()

@@ -5,77 +5,60 @@ import { SecurityRule } from '../../../domain/alarm-system/core/SecurityRule.js'
 import { EnvironmentData } from '../../../domain/device/core/EnvironmentData.js'
 import { DeviceType } from '../../../domain/device/core/impl/enum/DeviceType.js'
 import { SecurityRuleRepository } from '../../../domain/alarm-system/repositories/SecurityRuleRepository.js'
-import { ObjectClass } from '../../../domain/alarm-system/core'
-import { DeviceId } from '../../../domain/device/core'
+import { Anomaly } from '../../../domain/alarm-system/core/Anomaly.js'
+import { ObjectClass } from '../../../domain/alarm-system/core/impl/enum/ObjectClass.js'
+import { Intrusion } from '../../../domain/alarm-system/core/Intrusion.js'
+import { DeviceId } from '../../../domain/device/core/DeviceId.js'
+import { Contact } from '../../../domain/monitoring/core/Contact.js'
+import { Exceeding } from '../../../domain/alarm-system/core/Exceeding.js'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private securityRuleRepository: SecurityRuleRepository
-  private securityRules: SecurityRule[] = []
 
   constructor(securityRuleRepository: SecurityRuleRepository) {
     this.securityRuleRepository = securityRuleRepository
   }
 
-  getActiveRules(): SecurityRule[] {
-    return this.securityRules.filter((rule: SecurityRule) =>
-      this.hourComparator(new Date(), rule.from, rule.to)
-    )
+  async getActiveRules(): Promise<SecurityRule[]> {
+    const rules: SecurityRule[] = await this.securityRuleRepository.getExceedingRules()
+    rules.concat(await this.securityRuleRepository.getIntrusionRules())
+    return rules.filter((rule: SecurityRule) => this.hourComparator(new Date(), rule.from, rule.to))
   }
 
-  getActiveExceedingRules(): ExceedingRule[] {
-    return this.getActiveRules().filter(
+  async getActiveExceedingRules(): Promise<ExceedingRule[]> {
+    return (await this.getActiveRules()).filter(
       (rule: SecurityRule): boolean => rule.deviceId.type === DeviceType.SENSOR
     ) as ExceedingRule[]
   }
 
-  getActiveIntrusionRules(): IntrusionRule[] {
-    return this.getActiveRules().filter(
+  async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
+    return (await this.getActiveRules()).filter(
       (rule: SecurityRule): boolean => rule.deviceId.type === DeviceType.CAMERA
     ) as IntrusionRule[]
   }
 
   insertExceedingSecurityRule(exceedingRule: ExceedingRule): void {
-    this.securityRuleRepository.insertExceedingSecurityRule(exceedingRule).then((): void => {
-      this.securityRules.push(exceedingRule)
-    })
+    this.securityRuleRepository.insertExceedingSecurityRule(exceedingRule)
   }
 
   insertIntrusionSecurityRule(intrusionRule: IntrusionRule): void {
-    this.securityRuleRepository.insertIntrusionSecurityRule(intrusionRule).then((): void => {
-      this.securityRules.push(intrusionRule)
-    })
+    this.securityRuleRepository.insertIntrusionSecurityRule(intrusionRule)
   }
 
   deleteExceedingRule(id: string): void {
-    this.securityRuleRepository.deleteExceedingRule(id).then((): void => {
-      this.securityRules = this.securityRules.filter(
-        (rule: SecurityRule): boolean => rule.securityRuleId !== id
-      )
-    })
+    this.securityRuleRepository.deleteExceedingRule(id)
   }
 
   deleteIntrusionRule(id: string): void {
-    this.securityRuleRepository.deleteIntrusionRule(id).then((): void => {
-      this.securityRules = this.securityRules.filter(
-        (rule: SecurityRule): boolean => rule.securityRuleId !== id
-      )
-    })
+    this.securityRuleRepository.deleteIntrusionRule(id)
   }
 
   async getExceedingRules(): Promise<ExceedingRule[]> {
-    const rules: ExceedingRule[] = await this.securityRuleRepository.getExceedingRules()
-    this.securityRules = this.securityRules
-      .filter((rule: SecurityRule): boolean => rule.deviceId.type === DeviceType.CAMERA)
-      .concat(rules)
-    return rules
+    return await this.securityRuleRepository.getExceedingRules()
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
-    const rules: IntrusionRule[] = await this.securityRuleRepository.getIntrusionRules()
-    this.securityRules = this.securityRules
-      .filter((rule: SecurityRule): boolean => rule.deviceId.type === DeviceType.SENSOR)
-      .concat(rules)
-    return rules
+    return await this.securityRuleRepository.getIntrusionRules()
   }
 
   getSecurityRuleById(id: string): Promise<SecurityRule> {
@@ -83,26 +66,16 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   updateExceedingSecurityRule(exceedingRule: ExceedingRule): void {
-    this.securityRuleRepository.updateExceedingSecurityRule(exceedingRule).then((): void => {
-      this.securityRules = this.securityRules.map(
-        (rule: SecurityRule): SecurityRule =>
-          rule.securityRuleId === exceedingRule.securityRuleId ? exceedingRule : rule
-      )
-    })
+    this.securityRuleRepository.updateExceedingSecurityRule(exceedingRule)
   }
 
   updateIntrusionSecurityRule(intrusionRule: IntrusionRule): void {
-    this.securityRuleRepository.updateIntrusionSecurityRule(intrusionRule).then((): void => {
-      this.securityRules = this.securityRules.map(
-        (rule: SecurityRule): SecurityRule =>
-          rule.securityRuleId === intrusionRule.securityRuleId ? intrusionRule : rule
-      )
-    })
+    this.securityRuleRepository.updateIntrusionSecurityRule(intrusionRule)
   }
 
-  checkExceedingDetection(environmentData: EnvironmentData): boolean {
+  async checkExceedingDetection(environmentData: EnvironmentData): Promise<boolean> {
     return (
-      this.getActiveExceedingRules().filter(
+      (await this.getActiveExceedingRules()).filter(
         (rule: ExceedingRule) =>
           this.hourComparator(environmentData.timestamp, rule.from, rule.to) &&
           rule.deviceId.code === environmentData.sourceDeviceId.code &&
@@ -112,15 +85,42 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     )
   }
 
-  checkIntrusionDetection(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): boolean {
+  async checkIntrusionDetection(
+    cameraId: DeviceId,
+    objectClass: ObjectClass,
+    timestamp: Date
+  ): Promise<boolean> {
     return (
-      this.getActiveIntrusionRules().filter(
+      (await this.getActiveIntrusionRules()).filter(
         (rule: IntrusionRule) =>
           this.hourComparator(timestamp, rule.from, rule.to) &&
           rule.deviceId.code === cameraId.code &&
           rule.objectClass === objectClass
       ).length > 0
     )
+  }
+
+  async getContactsToNotify(anomaly: Anomaly): Promise<Contact[]> {
+    switch (anomaly.deviceId.type) {
+      case DeviceType.CAMERA:
+        return (await this.getActiveIntrusionRules())
+          .filter(
+            (rule: IntrusionRule) =>
+              this.hourComparator(anomaly.timestamp, rule.from, rule.to) &&
+              rule.deviceId.code === anomaly.deviceId.code &&
+              rule.objectClass === (anomaly as Intrusion).intrusionObject
+          )
+          .flatMap((rule: IntrusionRule) => rule.contactsToNotify)
+      case DeviceType.SENSOR:
+        return (await this.getActiveExceedingRules())
+          .filter(
+            (rule: ExceedingRule) =>
+              this.hourComparator(anomaly.timestamp, rule.from, rule.to) &&
+              rule.deviceId.code === anomaly.deviceId.code &&
+              rule.measure === (anomaly as Exceeding).measure
+          )
+          .flatMap((rule: ExceedingRule) => rule.contactsToNotify)
+    }
   }
 
   hourComparator = (date: Date, from: Date, to: Date): boolean => {

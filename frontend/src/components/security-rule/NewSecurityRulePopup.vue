@@ -118,8 +118,6 @@ const getContacts = async () => {
 }
 
 const addNewSecurityRule = () => {
-  console.log(from.value)
-  console.log(to.value)
   if (anomalyType.value == AnomalyType.EXCEEDING) {
     const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
       min.value!,

@@ -17,10 +17,9 @@ app.use(cors())
 
 const server: HttpServer = http.createServer(app)
 
-const frontendPort: string = process.env.FRONTEND_PORT || '8080'
 export const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: `http://localhost:${frontendPort}`
+    origin: '*'
   }
 })
 
@@ -39,10 +38,10 @@ const PORT: number = Number(process.env.MONITORING_PORT) || 4000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
-  const token = authHeader && authHeader.split(' ')[1]
+  const token = (authHeader && authHeader.split(' ')[1]) || ''
 
-  if (token === process.env.DEV_API_KEY) return next()
-  if (token === undefined) return res.status(403).send({ error: 'No authentication token' })
+  if (jwtManager.admittedTokens().includes(token)) return next()
+  if (token === undefined || token === '') return res.status(403).send({ error: 'No authentication token' })
   else {
     console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)

@@ -7,7 +7,6 @@ import { AnomalyType } from '../../../domain/alarm-system/core/impl/enum/Anomaly
 
 export class AnomalyServiceImpl implements AnomalyService {
   private anomalyRepository: AnomalyRepository
-  private anomalies: Anomaly[] = []
 
   constructor(anomalyRepository: AnomalyRepository) {
     this.anomalyRepository = anomalyRepository
@@ -34,34 +33,14 @@ export class AnomalyServiceImpl implements AnomalyService {
   }
 
   updateExceeding(exceeding: Exceeding): void {
-    this.anomalyRepository.updateExceeding(exceeding).then((): void => {
-      this.anomalies = this.anomalies.map(
-        (anomaly: Anomaly): Anomaly => (anomaly.anomalyId === exceeding.anomalyId ? exceeding : anomaly)
-      )
-    })
+    this.anomalyRepository.updateExceeding(exceeding)
   }
 
   updateIntrusion(intrusion: Intrusion): void {
-    this.anomalyRepository.updateIntrusion(intrusion).then((): void => {
-      this.anomalies = this.anomalies.map(
-        (anomaly: Anomaly): Anomaly => (anomaly.anomalyId === intrusion.anomalyId ? intrusion : anomaly)
-      )
-    })
+    this.anomalyRepository.updateIntrusion(intrusion)
   }
 
   deleteAnomaly(anomalyId: string, type: AnomalyType): void {
-    this.anomalyRepository.deleteAnomaly(anomalyId, type).then((): void => {
-      this.anomalies = this.anomalies.filter((anomaly: Anomaly): boolean => anomaly.anomalyId !== anomalyId)
-    })
-  }
-
-  notifyNotificationService(anomaly: Anomaly): void {
-    throw new Error('Method not implemented.')
-  }
-
-  sendNotification(anomaly: Anomaly): void {
-    //i have to contact the user through the socket and by the requested method.
-    console.log('DEVO MANDARE UNA MAIL')
-    console.log(anomaly)
+    this.anomalyRepository.deleteAnomaly(anomalyId, type)
   }
 }

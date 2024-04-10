@@ -46,7 +46,7 @@ db.securityRule.insert([
       },
       {
         type: 'EMAIL',
-        value: 'email@gmail.com'
+        value: 'letsdothis.shared@gmail.com'
       }
     ],
     from: new Date("2020-01-01T01:00:00.000Z"),
@@ -69,7 +69,7 @@ db.securityRule.insert([
       },
       {
         type: 'EMAIL',
-        value: 'email@gmail.com'
+        value: 'letsdothis.shared@gmail.com'
       }
     ],
     from: new Date("2020-01-01T01:00:00.000Z"),

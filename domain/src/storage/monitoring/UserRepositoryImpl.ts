@@ -36,7 +36,7 @@ export class UserRepositoryImpl implements UserRepository {
         refreshToken: user.refreshToken,
         contacts: user.contacts.map((contact: Contact) => {
           return {
-            type: ContactTypeConverter.convertToString(contact.contactType),
+            type: ContactTypeConverter.convertToString(contact.type),
             value: contact.value.toString()
           }
         }),

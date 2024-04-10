@@ -27,9 +27,8 @@ class JWTManager {
     if (token == null) return res.status(401)
 
     console.log('Authentication token: ' + token)
-    this.jwt.verify(token, this.secret, (err: any, user: any) => {
+    this.jwt.verify(token, this.secret, (err: any, _user: any) => {
       if (err) return res.sendStatus(403)
-      console.log(user)
       next()
     })
   }

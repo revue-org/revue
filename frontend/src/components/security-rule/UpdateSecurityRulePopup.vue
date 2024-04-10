@@ -95,7 +95,6 @@ const updateSecurityRule = () => {
       new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'), //from.value.includes(' ') ? from.value.split(' ')[0] :
       new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
-    console.log(updatedExceedingRule)
     emit('update-exceeding-rule', updatedExceedingRule)
   } else if (securityRule.deviceId.type == DeviceType.CAMERA) {
     const updatedIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(

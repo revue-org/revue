@@ -16,7 +16,7 @@ if (File(System.getProperty("user.dir") + "/.git").exists()) {
         commitMsg {
             conventionalCommits {
                 defaultTypes()
-                types("wip", "other")
+                types("wip", "other", "deps")
             }
         }
         preCommit {

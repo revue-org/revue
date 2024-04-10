@@ -5,4 +5,6 @@ os.environ["TEST"] = "true"
 
 
 suite = unittest.TestLoader().discover("test")
-unittest.TextTestRunner(verbosity=2).run(suite)
+result = unittest.TextTestRunner(verbosity=2).run(suite)
+
+exit(0) if result.wasSuccessful() else exit(1)

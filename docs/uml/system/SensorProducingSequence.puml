@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant Sensor
+participant "Kafka Broker"
+participant Frontend
+actor ":User" as User
+participant Notification
+participant Monitoring
+participant Alarm
+participant Log
+
+
+Sensor -> "Kafka Broker": Produce data
+"Kafka Broker" --> Monitoring: Consume data
+"Kafka Broker" --> Alarm: Consume data
+"Kafka Broker" --> Log: Consume data
+Log -> Log: Store data in database
+Monitoring -> Frontend: Update
+Alarm -> Alarm: Check \nexceedings
+opt Data violating exceeding rule
+Alarm -> Notification: Create notification
+Notification -> Frontend: Update
+Notification -> User: SMS
+Notification -> User: Email
+end
+@enduml

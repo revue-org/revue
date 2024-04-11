@@ -1,7 +1,7 @@
 @startuml
 left to right direction
 actor "User" as fc
-rectangle "Video Surveillance Application" {
+rectangle "Revue Application" {
   usecase "Dashboard access" as UC1
   usecase "Monitor cameras" as UC2
   usecase "Manage alarms" as UC3

@@ -9,6 +9,8 @@ services:
       - ${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - my-net
 
   revue-kafka:
     image: bitnami/kafka:latest
@@ -31,6 +33,13 @@ services:
 #      - ~/kafka/data/zookeeper_log:/var/lib/zookeeper/log
     depends_on:
       - revue-zookeeper
+    networks:
+      - my-net
 #volumes:
 #  kafka_data:
 #    driver: local
+
+networks:
+  my-net:
+    name: revue-network
+    external: true

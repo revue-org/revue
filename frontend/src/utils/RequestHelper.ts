@@ -1,5 +1,6 @@
-import axios, { type AxiosResponse } from 'axios'
+import axios, { type AxiosResponse, HttpStatusCode } from 'axios'
 import { useUserStore } from '@/stores/user'
+import router from '@/router'
 
 const userStore = () => {
   return useUserStore()
@@ -28,15 +29,25 @@ export default class RequestHelper {
     return { headers: { Authorization: `Bearer ${userStore().accessToken}` } }
   }
 
-  static async get(url: string): Promise<AxiosResponse> {
-    return await axios.get(url, this.getHeaders())
+  static async get(url: string): Promise<AxiosResponse | void> {
+    return await axios.get(url, this.getHeaders()).catch((error): void => {
+      if (error.response.status === HttpStatusCode.Forbidden) {
+        userStore().clearFields()
+        router.push('/login')
+      }
+    })
   }
 
-  static async post(url: string, body?: any): Promise<AxiosResponse> {
+  static async post(url: string, body?: any): Promise<AxiosResponse | void> {
     if (url.includes('login')) {
       return await axios.post(url, body)
     }
-    return await axios.post(url, body, this.getHeaders())
+    return await axios.post(url, body, this.getHeaders()).catch((error): void => {
+      if (error.response.status === HttpStatusCode.Forbidden) {
+        userStore().clearFields()
+        router.push('/login')
+      }
+    })
   }
 
   static async put(url: string, body?: any): Promise<AxiosResponse> {

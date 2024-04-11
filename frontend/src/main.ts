@@ -3,13 +3,9 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import { createApp } from 'vue'
 import router from './router'
-import { Notify, Quasar } from 'quasar'
-// Import icon libraries
-import '@quasar/extras/material-icons/material-icons.css'
-
-// Import Quasar css
+import { Notify, Quasar } from 'quasar' // Import icon libraries
+import '@quasar/extras/material-icons/material-icons.css' // Import Quasar css
 import 'quasar/src/css/index.sass'
-
 import '@/assets/main.scss'
 import { useUserStore } from '@/stores/user'
 

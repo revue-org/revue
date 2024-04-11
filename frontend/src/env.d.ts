@@ -12,7 +12,7 @@ interface ImportMetaEnv {
   readonly VITE_NOTIFICATION_PORT: string
   readonly VITE_LOG_HOST: string
   readonly VITE_LOG_PORT: string
-  readonly MEDIA_SERVER_HOST: string
+  readonly VITE_MEDIA_SERVER_HOST: string
 }
 
 interface ImportMeta {

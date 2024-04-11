@@ -4,7 +4,9 @@ import { EnvironmentData } from '../core/EnvironmentData.js'
 export interface EnvironmentDataRepository {
   getEnvironmentData(): Promise<EnvironmentData[]>
 
-  getDataByDeviceId(deviceId: DeviceId): Promise<EnvironmentData[]>
+  getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]>
+
+  getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]>
 
   insertEnvironmentData(environmentData: EnvironmentData): Promise<void>
 

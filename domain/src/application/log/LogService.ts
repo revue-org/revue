@@ -4,7 +4,9 @@ import { EnvironmentData } from '../../domain/device/core/EnvironmentData.js'
 export interface LogService {
   getEnvironmentData(): Promise<EnvironmentData[]>
 
-  getDataByDeviceId(deviceId: DeviceId): Promise<EnvironmentData[]>
+  getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]>
+
+  getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]>
 
   insertEnvironmentData(environmentData: EnvironmentData): void
 

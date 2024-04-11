@@ -14,8 +14,12 @@ export class LogServiceImpl implements LogService {
     this.environmentDataRepository.deleteEnvironmentData(id)
   }
 
-  getDataByDeviceId(deviceId: DeviceId): Promise<EnvironmentData[]> {
-    return this.environmentDataRepository.getDataByDeviceId(deviceId)
+  getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]> {
+    return this.environmentDataRepository.getDataBySensorId(deviceId)
+  }
+
+  getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]> {
+    return this.environmentDataRepository.getLatestDataBySensorId(deviceId, quantity)
   }
 
   getEnvironmentData(): Promise<EnvironmentData[]> {

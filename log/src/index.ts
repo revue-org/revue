@@ -4,6 +4,7 @@ import { mongoConnect } from '@utils/connection.js'
 import cors from 'cors'
 import { config } from 'dotenv'
 import { environmentDataRouter } from './routes/environmentData.js'
+import { sensorRouter } from './routes/sensor.js'
 import { jwtManager } from './utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { setupConsumers } from './consumer.js'
@@ -33,6 +34,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 app.use('/environment-data', environmentDataRouter)
+app.use('/sensors', sensorRouter)
 
 const username: string = process.env.LOG_DB_USERNAME || 'admin'
 const password: string = process.env.LOG_DB_PASSWORD || 'admin'
@@ -45,7 +47,7 @@ const dbName: string = process.env.LOG_DB_NAME || 'log'
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
-    console.log(`Monitoring server listening on ${process.env.LOG_PORT}`)
+    console.log(`Log server listening on ${process.env.LOG_PORT}`)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     await setupConsumers()
   })

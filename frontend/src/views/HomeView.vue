@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/core'
+import { DeviceType, type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import RequestHelper, { logHost, logPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { monitoringSocket, notificationSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
@@ -14,9 +14,11 @@ import { useTopicsStore } from '@/stores/topics'
 import { useUserStore } from '@/stores/user'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
 import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
+import { useBuffersStore } from '@/stores/buffers'
 
 const topicsStore = useTopicsStore()
 const userStore = useUserStore()
+const bufferStore = useBuffersStore()
 
 const $q = useQuasar()
 
@@ -28,17 +30,45 @@ if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
 }
 
-RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then((res: any) => {
-  if (res.status == HttpStatusCode.Ok) {
-    for (let i = 0; i < res.data.length; i++) {
-      const sensor = composeSensor(res.data[i])
-      values.value.push({
-        sensor: sensor,
-        values: []
-      })
+RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then(
+  async (res: AxiosResponse) => {
+    if (res.status == HttpStatusCode.Ok) {
+      for (let i = 0; i < res.data.length; i++) {
+        if (res.data[i].isCapturing) {
+          const sensor = composeSensor(res.data[i])
+          const quantity: number = 594
+          const response = await RequestHelper.get(
+            `http://${logHost}:${logPort}/sensors/${sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
+          )
+          if (response.status == HttpStatusCode.Ok) {
+            for (let j = 0; j < response.data.length; j++) {
+              switch (response.data[j].measure) {
+                case 'TEMPERATURE':
+                  bufferStore.temperatureBuffer.push(response.data[j].value)
+                  break
+                case 'HUMIDITY':
+                  bufferStore.humidityBuffer.push(response.data[j].value)
+                  break
+                case 'PRESSURE':
+                  bufferStore.pressureBuffer.push(response.data[j].value)
+                  break
+              }
+              if (quantity % 3 == 0) {
+                bufferStore.timestampBuffer.push(
+                  new Date(response.data[j].timestamp).toLocaleString().split(' ')[1]
+                )
+              }
+            }
+          }
+          values.value.push({
+            sensor: sensor,
+            values: []
+          })
+        }
+      }
     }
   }
-})
+)
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 

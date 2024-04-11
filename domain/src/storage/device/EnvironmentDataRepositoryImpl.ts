@@ -17,13 +17,25 @@ export class EnvironmentDataRepositoryImpl implements EnvironmentDataRepository 
     return this.environmentDataModel.find().orFail()
   }
 
-  async getDataByDeviceId(deviceId: DeviceId): Promise<EnvironmentData[]> {
+  async getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]> {
     return this.environmentDataModel.find({
       deviceId: {
         type: DeviceTypeConverter.convertToString(deviceId.type),
         code: deviceId.code
       }
     }) as unknown as EnvironmentData[]
+  }
+
+  async getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]> {
+    return this.environmentDataModel
+      .find({
+        deviceId: {
+          type: DeviceTypeConverter.convertToString(deviceId.type),
+          code: deviceId.code
+        }
+      })
+      .sort({ timestamp: -1 })
+      .limit(quantity) as unknown as EnvironmentData[]
   }
 
   async insertEnvironmentData(environmentData: EnvironmentData): Promise<void> {

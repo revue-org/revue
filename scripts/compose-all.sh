@@ -53,6 +53,6 @@ if [ "$command" == "--down" ]; then
   eval docker compose --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"
   eval docker network rm revue-network
 else
-  eval docker network create --driver=bridge --subnet=192.168.0.0/16 revue-network
+  eval docker network create --driver=bridge --subnet=172.25.0.0/16 revue-network
   eval docker compose --project-name revue --project-directory . "${compose_files[@]}" "${command:2}" "${detached}" "${build}"
 fi

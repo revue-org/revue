@@ -4,7 +4,7 @@ services:
 
   media-server:
     image: bluenviron/mediamtx:latest
-    container_name: ${MEDIA_SERVER_HOST}
+    container_name: revue-media-server
     ports:
       - "8554:8554"
       - "1935:1935"
@@ -17,7 +17,7 @@ services:
     restart: always
     networks:
       my-net:
-        ipv4_address: 192.168.0.10
+        ipv4_address: ${MEDIA_SERVER_HOST}
 
 networks:
     my-net:

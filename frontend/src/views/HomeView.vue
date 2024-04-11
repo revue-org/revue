@@ -5,7 +5,7 @@ import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { notificationSocket, monitoringSocket, setupSocketServers } from '@/socket'
+import { monitoringSocket, notificationSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
 import { AnomalyTypeConverter, DeviceTypeConverter } from 'domain/dist/utils'
@@ -28,7 +28,7 @@ if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
 }
 
-RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then((res: AxiosResponse) => {
+RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then((res: any) => {
   if (res.status == HttpStatusCode.Ok) {
     for (let i = 0; i < res.data.length; i++) {
       const sensor = composeSensor(res.data[i])

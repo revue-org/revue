@@ -15,7 +15,7 @@ services:
       - revue-alarm-db
       - ${KAFKA_HOST}
     networks:
-      - my_net
+      - my-net
 
   revue-alarm-db:
     image: mongo
@@ -31,13 +31,13 @@ services:
       - alarm_data:/data/db
       - ./alarm/db/alarm-init.js:/docker-entrypoint-initdb.d/alarm-init.js
     networks:
-      - my_net
+      - my-net
 
 volumes:
   alarm_data:
     driver: local
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

@@ -14,7 +14,7 @@ services:
     depends_on:
       - revue-auth-db
     networks:
-      - my_net
+      - my-net
 
   revue-auth-db:
     image: mongo
@@ -30,13 +30,13 @@ services:
       - auth_data:/data/db
       - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
     networks:
-      - my_net
+      - my-net
 
 volumes:
   auth_data:
     driver: local
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

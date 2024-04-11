@@ -15,7 +15,7 @@ services:
       - revue-notification-db
       - ${KAFKA_HOST}
     networks:
-      - my_net
+      - my-net
 
   revue-notification-db:
     image: mongo
@@ -31,13 +31,13 @@ services:
       - notification_data:/data/db
       - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
     networks:
-      - my_net
+      - my-net
 
 volumes:
   notification_data:
     driver: local
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

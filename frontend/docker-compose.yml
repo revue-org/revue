@@ -12,9 +12,9 @@ services:
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - my_net
+      - my-net
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

@@ -15,7 +15,7 @@ services:
       - revue-log-db
       - ${KAFKA_HOST}
     networks:
-      - my_net
+      - my-net
 
   revue-log-db:
     image: mongo
@@ -31,13 +31,13 @@ services:
       - log_data:/data/db
       - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
     networks:
-      - my_net
+      - my-net
 
 volumes:
   log_data:
     driver: local
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

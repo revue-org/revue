@@ -10,7 +10,7 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
-      - my_net
+      - my-net
 
   revue-kafka:
     image: bitnami/kafka:latest
@@ -34,12 +34,12 @@ services:
     depends_on:
       - revue-zookeeper
     networks:
-      - my_net
+      - my-net
 #volumes:
 #  kafka_data:
 #    driver: local
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

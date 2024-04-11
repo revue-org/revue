@@ -15,7 +15,7 @@ services:
       - revue-monitoring-db
       - ${KAFKA_HOST}
     networks:
-      - my_net
+      - my-net
 
   revue-monitoring-db:
     image: mongo
@@ -31,13 +31,13 @@ services:
       - monitoring_data:/data/db
       - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
     networks:
-      - my_net
+      - my-net
 
 volumes:
   monitoring_data:
     driver: local
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

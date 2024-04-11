@@ -17,7 +17,7 @@ services:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
     networks:
-      - my_net
+      - my-net
 
   revue-camera-2:
     image: revue-camera
@@ -34,7 +34,7 @@ services:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
     networks:
-      - my_net
+      - my-net
 
 #  revue-camera-3:
 #    image: revue-camera
@@ -51,6 +51,6 @@ services:
 #      - ${KAFKA_HOST}
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

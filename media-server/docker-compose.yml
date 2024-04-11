@@ -16,10 +16,10 @@ services:
       - MTX_PROTOCOLS=tcp
     restart: always
     networks:
-      my_net:
+      my-net:
         ipv4_address: 192.168.0.10
 
 networks:
-    my_net:
-      name: revue_network
+    my-net:
+      name: revue-network
       external: true

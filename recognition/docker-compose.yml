@@ -14,9 +14,9 @@ services:
     environment:
       - FLASK_RUN_PORT=${RECOGNITION_PORT}
     networks:
-      - my_net
+      - my-net
 
 networks:
-  my_net:
-    name: revue_network
+  my-net:
+    name: revue-network
     external: true

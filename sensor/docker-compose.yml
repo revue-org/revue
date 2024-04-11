@@ -16,6 +16,8 @@ services:
     depends_on:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
+    networks:
+      - my-net
 
   revue-sensor-2:
     image: revue-sensor
@@ -31,6 +33,8 @@ services:
     depends_on:
       - ${KAFKA_HOST}
       - ${MONITORING_HOST}
+    networks:
+      - my-net
 
 #  revue-sensor-2:
 #    image: revue-sensor
@@ -60,3 +64,8 @@ services:
 #    depends_on:
 #      - ${KAFKA_HOST}
 #      - ${MONITORING_HOST}
+
+networks:
+  my-net:
+    external: true
+    name: revue-network

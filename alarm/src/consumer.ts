@@ -89,7 +89,11 @@ export const setupConsumer = async (): Promise<void> => {
                 '' // TODO: check for the default value, it seems to not work
               )
               exceeding.anomalyId = await anomalyService.insertExceeding(exceeding)
-              await sendNotification(exceeding, await securityRuleService.getContactsToNotify(exceeding))
+              try {
+                await sendNotification(exceeding, await securityRuleService.getContactsToNotify(exceeding))
+              } catch (e) {
+                console.log('Error while trying to send notification')
+              }
             } else {
               console.log('No anomaly detected')
             }

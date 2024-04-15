@@ -11,6 +11,7 @@
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
     "test": "vitest --run",
+    "test:tolerance:notification": "vitest --run tolerance.notification",
     "coverage": "vitest --run --coverage",
     "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",

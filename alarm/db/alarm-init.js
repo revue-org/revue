@@ -37,7 +37,7 @@ db.securityRule.insert([
     creatorId: ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'),
     description: 'Exceeding rule description',
     min: 0,
-    max: 25,
+    max: 20,
     measure: 'TEMPERATURE',
     contactsToNotify: [
       {

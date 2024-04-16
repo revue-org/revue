@@ -44,7 +44,8 @@ describe(`When notification service is down`, (): void => {
 
     const actualAnomalies: number = (await anomalyService.getExceedings()).length
     await new Promise(
-      (resolve): NodeJS.Timeout => setTimeout(resolve, intervals.reduce((acc, curr) => acc + curr, 0) + 2)
+      (resolve): NodeJS.Timeout =>
+        setTimeout(resolve, intervals.reduce((acc: number, curr: number) => acc + curr, 0) + 2)
     )
 
     const newAnomalies: number = (await anomalyService.getExceedings()).length

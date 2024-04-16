@@ -22,9 +22,9 @@ describe(`When notification service is down`, (): void => {
     const username: string = process.env.ALARM_DB_USERNAME || 'admin'
     const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
     const host: string =
-      process.env.NODE_ENV === 'test' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
+      process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
     const dbPort: string =
-      process.env.NODE_ENV === 'test'
+      process.env.NODE_ENV === 'develop'
         ? process.env.ALARM_DB_PORT || '27017'
         : process.env.DEFAULT_DB_PORT || '27017'
     const dbName: string = process.env.ALARM_DB_NAME || 'alarm'

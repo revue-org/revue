@@ -14,7 +14,6 @@ class JWTManager {
     process.env.LOG_BEARER_TOKEN !== undefined ? process.env.LOG_BEARER_TOKEN : '',
     process.env.CAMERA_BEARER_TOKEN !== undefined ? process.env.CAMERA_BEARER_TOKEN : '',
     process.env.SENSOR_BEARER_TOKEN !== undefined ? process.env.SENSOR_BEARER_TOKEN : '',
-    process.env.RECOGNITION_BEARER_TOKEN !== undefined ? process.env.RECOGNITION_BEARER_TOKEN : '',
   ]
 
   constructor() {

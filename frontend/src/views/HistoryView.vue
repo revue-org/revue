@@ -8,10 +8,11 @@ import { composeEnvironmentData } from '@/scripts/presentation/device/ComposeEnv
 
 const sensorData: ref<EnvironmentData[]> = ref([])
 
-async function getEnvironmentData() {
-  await RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
+function getEnvironmentData() {
+  RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
     .then(async (res: any) => {
       sensorData.value = []
+      console.log(res.data)
       for (let i = res.data.length - 1; i >= 0; i--) {
         sensorData.value.push(composeEnvironmentData(res.data[i]))
       }
@@ -21,8 +22,8 @@ async function getEnvironmentData() {
     })
 }
 
-onMounted(async () => {
-  await getEnvironmentData()
+onMounted(() => {
+  getEnvironmentData()
 })
 </script>
 

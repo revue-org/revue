@@ -12,7 +12,7 @@ services:
     ports:
       - ${RECOGNITION_PORT}:${RECOGNITION_PORT}
     environment:
-      - FLASK_RUN_PORT=${RECOGNITION_PORT}
+      - RECOGNITION_PORT=${RECOGNITION_PORT}
     networks:
       - my-net
 

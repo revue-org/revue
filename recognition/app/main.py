@@ -21,9 +21,10 @@ os.environ["TEST"] = "false"
 
 
 def create_app():
+    logger.info(f"ENV: {os.environ.get('FLASK_ENV')}")
     app = Flask(__name__)
+    logger.info(os.environ.get("FLASK_ENV"))
     intrusion_rules.append(*get_intrusion_rules())
-    logger.info(intrusion_rules)
     enable_intrusion_rules()
 
     set_interval(check_rule_update, seconds=60)
@@ -32,7 +33,8 @@ def create_app():
 
 
 def get_intrusion_rules() -> List[IntrusionRule]:
-    url = f"http://{ALARM_HOST}:{ALARM_PORT}/security-rules/intrusions"
+    url: str = f"http://{ALARM_HOST}:{ALARM_PORT}/security-rules/intrusions"
+    logger.debug("URL: " + url)
     headers = {"Authorization": f"Bearer {DEV_API_KEY}"}
     res = requests.get(url, headers=headers)
     rules: List[IntrusionRule] = []

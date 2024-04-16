@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "recognition"
 version = "0.1.0"
-description = "Recognition servive of Revue"
+description = "Recognition service of Revue"
 authors = ["Mattia Matteini <matteinimattia@gmail.com>", "Alberto Paganelli <alberto.paganelli3@studio.unibo.it>"]
 packages = [{include = "app"}]
 

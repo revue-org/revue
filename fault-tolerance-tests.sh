@@ -16,6 +16,14 @@ function tear_down_services() {
     sleep 2
 }
 
+function tear_up_services() {
+    for service in "$@"
+    do
+        ./scripts/compose.sh up -d revue-"$service"
+    done
+    sleep 2
+}
+
 function execute_test() {
     SERVICE=$1
     SERVICE_DOWN=$2
@@ -31,10 +39,13 @@ function execute_test() {
 ./deploy.sh
 sleep 2
 
-tear_down_services "log"
-execute_test "monitoring" "log"
+#tear_down_services "log"
+#execute_test "monitoring" "log"
 
-tear_down_services "sensor-1" "sensor-2"
-execute_test "monitoring" "sensor"
+tear_down_services "auth"
+execute_test "notification" "auth"
+
+#tear_down_services "sensor-1" "sensor-2"
+#execute_test "monitoring" "sensor"
 
 tear_down_system 0

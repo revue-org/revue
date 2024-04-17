@@ -124,7 +124,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   hourComparator = (date: Date, from: Date, to: Date): boolean => {
-    //TODO to check if the date is in the range
+    date.setHours(date.getHours() + 1) // correction due to timezone
     return (
       (date.getHours() > from.getHours() ||
         (date.getHours() === from.getHours() && date.getMinutes() >= from.getMinutes())) &&

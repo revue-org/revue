@@ -86,7 +86,7 @@ export const setupConsumer = async (): Promise<void> => {
                 new Date(rawValue._timestamp),
                 rawValue._measure,
                 rawValue._value,
-                '' // TODO: check for the default value, it seems to not work
+                ''
               )
               exceeding.anomalyId = await anomalyService.insertExceeding(exceeding)
               try {

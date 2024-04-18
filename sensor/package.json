@@ -7,7 +7,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",
-    "dev": "npm run build && NODE_ENV=develop node .",
+    "dev": "npm run build && NODE_ENV=develop SENSOR_CODE=sen-01 SENSOR_PORT=6001 node .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
     "test": "vitest --run",

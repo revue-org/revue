@@ -7,7 +7,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",
-    "dev": "npm run build && NODE_ENV=develop node .",
+    "dev": "npm run build && NODE_ENV=develop CAMERA_CODE=cam-01 CAMERA_PORT=5001 node .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
     "test": "vitest --run",

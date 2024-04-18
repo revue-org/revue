@@ -12,15 +12,15 @@ import RequestHelper, {
 } from '@/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
 import path from 'path'
-import * as console from 'console'
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path)
 
-if (process.env.CAMERA_CODE === undefined && process.env.NODE_ENV !== 'develop') {
+const CAMERA_CODE = process.env.CAMERA_CODE
+
+if (CAMERA_CODE === undefined) {
   console.log('No camera code provided')
   process.exit(1)
 }
-const CAMERA_CODE: string = process.env.CAMERA_CODE || 'cam-01'
 
 let sourceCamera: Camera
 

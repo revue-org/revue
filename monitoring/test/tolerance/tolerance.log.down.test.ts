@@ -28,7 +28,7 @@ describe(`When log service is down`, (): void => {
     })
     await new Promise(
       (resolve): NodeJS.Timeout =>
-        setTimeout(resolve, intervals.reduce((acc: number, curr: number) => acc + curr, 0) + 2)
+        setTimeout(resolve, intervals.reduce((acc: number, curr: number) => acc + curr, 0) + 2000)
     )
     expect(collectedData.length).not.toBe(0)
     let logResponse: AxiosResponse | undefined

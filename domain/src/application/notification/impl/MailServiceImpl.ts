@@ -46,12 +46,14 @@ export class MailServiceImpl implements MailService {
     }
 
     console.log('Sending email...')
-    this.transporter.sendMail(mailOptions, (error: any, info: { response: any }): void => {
-      if (error) {
-        console.error('Error sending email: ', error)
-      } else {
-        console.log('Email sent: ', info.response)
-      }
-    })
+    if (this.transporter !== null) {
+      this.transporter.sendMail(mailOptions, (error: any, info: { response: any }): void => {
+        if (error) {
+          console.error('Error sending email: ', error)
+        } else {
+          console.log('Email sent: ', info.response)
+        }
+      })
+    }
   }
 }

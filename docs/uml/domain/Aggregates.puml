@@ -16,9 +16,26 @@ package SecurityRule <<Rectangle>> {
     !includesub Alarm.puml!SecurityRuleRoot
 }
 
+package Auth <<Rectangle>> {
+    !includesub Auth.puml!AuthRoot
+}
 
+package Log <<Rectangle>> {
+    !includesub Log.puml!LogRoot
+}
 
+package Notification <<Rectangle>> {
+    !includesub Notification.puml!NotificationRoot
+}
+
+Anomaly -down-> Notification
+Anomaly -down-> SecurityRule
+
+/'MonitoringRoom <<aggregate root>>
 DeviceService <<aggregate root>>
+
+Anomaly -right- Notification
+MonitoringRoom -- DeviceService'/
 
 
 @enduml

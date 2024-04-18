@@ -96,8 +96,8 @@ package SecurityRules <<Rectangle>> {
     IntrusionRule o-- ObjectClass
 
     interface ExceedingRule {
-      + getMinValue(): Float
-      + getMaxValue(): Float
+      + getMin(): Float
+      + getMax(): Float
       + getMeasure(): Measure
     }
 

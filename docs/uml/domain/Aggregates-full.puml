@@ -16,5 +16,4 @@ DeviceService <<aggregate root>>
 MonitoringRoom -down- AlarmService
 MonitoringRoom -down- DeviceService
 
-
 @enduml

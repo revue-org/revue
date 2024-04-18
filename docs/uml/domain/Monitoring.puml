@@ -3,12 +3,6 @@
 !startsub MonitoringRoot
 
 interface MonitoringRoom {
-  + registerDevice(device: Device): void
-  + enableDevice(deviceId: DeviceId): void
-  + disableDevice(deviceId: DeviceId): void
-  + createSecurityRule(): void
-  + deleteSecurityRule(): void
-  + getHistory(deviceId: DeviceId): List<Anomaly>
 }
 !endsub MonitoringRoot
 note left: Service

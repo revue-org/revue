@@ -1,6 +1,6 @@
 @startuml
 
-!include Alarm.puml
+!include Anomaly.puml
 
 package Device <<Rectangle>> {
     !include Device.puml

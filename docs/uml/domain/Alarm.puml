@@ -1,6 +1,6 @@
 @startuml
 
-
+package AlarmSystem <<Rectangle>> {
 package Anomaly <<Rectangle>> {
 
     interface Anomaly {
@@ -35,7 +35,7 @@ package Anomaly <<Rectangle>> {
       + createIntrusion(): Anomaly
       + createExceeding(): Anomaly
     }
-    note left: Factory
+    note right: Factory
     AnomalyFactory --> Anomaly : creates
     AnomalyFactory <-- AnomalyService : uses
 
@@ -110,41 +110,8 @@ package SecurityRules <<Rectangle>> {
 
 }
 
-package AlarmSystem <<Rectangle>> {
-
-    !startsub AlarmServiceRoot
-    interface AlarmService <<aggregate root>> {
-      + startRecognizing(deviceId: DeviceId): void
-      + stopRecognizing(deviceId: DeviceId): void
-      + sendNotification(anomaly: Anomaly): void
-    }
-    AlarmService --> SecurityRuleService : uses
-    RecognizingNode <-down- AlarmService : deploy
-    AnomalyService --> AlarmService : notifies
-
-    interface RecognizingNode {
-      + getRecognizingNodeId(): Number
-      + getIpAddress(): String
-      + getDeviceIds(): Set<DeviceId>
-      + anomalyDetected(): Anomaly
-    }
-    RecognizingNode --> AnomalyService: uses
-    !endsub AlarmServiceRoot
-    note left of AlarmService: Service
-
-    note left of RecognizingNode: Entity
     SecurityRule --* ExceedingRule
     SecurityRule --* IntrusionRule
-    interface Notification {
-      + getNotificationId(): Int
-      + getTimestamp(): Date
-      + getAnomaly(): Anomaly
-    }
-    note right of Notification: Entity
-    AlarmService --> Notification : uses
-
-
 }
-
 
 @enduml

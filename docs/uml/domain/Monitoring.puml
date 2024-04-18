@@ -13,30 +13,6 @@ interface MonitoringRoom {
 !endsub MonitoringRoot
 note left: Service
 
-MonitoringRoom -right-> User : uses
-
-interface User {
- + getUserId(): Int
- + getName(): String
- + addContact(c: Contact): void
- + removeContact(c: Contact): void
-}
-note right: Entity
-User o-- Contact
-
-interface Contact {
- + getValue(): String
- + setValue(v: String): void
- + getContactType(): ContactType
- + setContactType(c: ContactType): void
-}
-note right: Value Object
-
-enum ContactType {
-  EMAIL
-  SMS
-}
-Contact o-- ContactType
 
 
 

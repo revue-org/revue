@@ -16,15 +16,9 @@ package SecurityRule <<Rectangle>> {
     !includesub Alarm.puml!SecurityRuleRoot
 }
 
-package AlarmSystem <<Rectangle>> {
-    !includesub Alarm.puml!AlarmServiceRoot
-}
 
-MonitoringRoom <<aggregate root>>
+
 DeviceService <<aggregate root>>
-
-MonitoringRoom -right- AlarmService
-MonitoringRoom -- DeviceService
 
 
 @enduml

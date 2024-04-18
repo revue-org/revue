@@ -11,7 +11,7 @@ export class EnvironmentDataFactoryImpl implements EnvironmentDataFactory {
     value: number,
     measure: Measure,
     unit: MeasureUnit,
-    timestamp: Date = new Date()
+    timestamp: Date
   ): EnvironmentData {
     return new EnvironmentDataImpl(sourceDeviceId, value, measure, unit, timestamp)
   }

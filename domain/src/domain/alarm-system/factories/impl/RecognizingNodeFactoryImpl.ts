@@ -5,7 +5,7 @@ import { DeviceId } from '../../../device/core/DeviceId.js'
 
 export class RecognizingNodeFactoryImpl implements RecognizingNodeFactory {
   createRecognizingNode(
-    recognizingNodeId: string = '',
+    recognizingNodeId: string,
     ipAddress: string,
     deviceIds: DeviceId[]
   ): RecognizingNode {

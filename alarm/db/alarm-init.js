@@ -9,7 +9,7 @@ db.anomaly.insert([
       type: 'SENSOR',
       code: 'sen-01'
     },
-    timestamp: new Date("2024-01-27T15:32:15.925Z"),
+    timestamp: new Date('2024-01-27T15:32:15.925Z'),
     value: 30,
     measure: 'PRESSURE',
     __v: 0
@@ -20,7 +20,7 @@ db.anomaly.insert([
       type: 'CAMERA',
       code: 'cam-01'
     },
-    timestamp: new Date("2024-01-27T16:32:15.925Z"),
+    timestamp: new Date('2024-01-27T16:32:15.925Z'),
     intrusionObject: 'PERSON',
     __v: 0
   }
@@ -37,7 +37,7 @@ db.securityRule.insert([
     creatorId: ObjectId('aaaaaaaaaaaaaaaaaaaaaaaa'),
     description: 'Exceeding rule description',
     min: 0,
-    max: 25,
+    max: 20,
     measure: 'TEMPERATURE',
     contactsToNotify: [
       {
@@ -49,8 +49,8 @@ db.securityRule.insert([
         value: 'letsdothis.shared@gmail.com'
       }
     ],
-    from: new Date("2020-01-01T01:00:00.000Z"),
-    to: new Date("2030-01-01T05:00:00.000Z"),
+    from: new Date('2020-01-01T01:00:00.000Z'),
+    to: new Date('2030-01-01T22:00:00.000Z'),
     __v: 0
   },
   {
@@ -72,8 +72,8 @@ db.securityRule.insert([
         value: 'letsdothis.shared@gmail.com'
       }
     ],
-    from: new Date("2020-01-01T01:00:00.000Z"),
-    to: new Date("2030-01-01T23:00:00.000Z"),
+    from: new Date('2020-01-01T01:00:00.000Z'),
+    to: new Date('2030-01-01T22:00:00.000Z'),
     __v: 0
   }
 ])

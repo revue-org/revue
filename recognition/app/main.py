@@ -11,7 +11,7 @@ from app.presentation.securityrule.IntrusionRuleSerializer import (
 )
 from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
-from app.utils.env import DEV_API_KEY, ALARM_PORT, ALARM_HOST
+from app.utils.env import RECOGNITION_BEARER_TOKEN, ALARM_PORT, ALARM_HOST
 from app.utils.interval import set_interval
 
 intrusion_rules: List[IntrusionRule] = []
@@ -21,9 +21,10 @@ os.environ["TEST"] = "false"
 
 
 def create_app():
+    logger.info(f"ENV: {os.environ.get('FLASK_ENV')}")
     app = Flask(__name__)
+    logger.info(os.environ.get("FLASK_ENV"))
     intrusion_rules.append(*get_intrusion_rules())
-    logger.info(intrusion_rules)
     enable_intrusion_rules()
 
     set_interval(check_rule_update, seconds=60)
@@ -32,8 +33,9 @@ def create_app():
 
 
 def get_intrusion_rules() -> List[IntrusionRule]:
-    url = f"http://{ALARM_HOST}:{ALARM_PORT}/security-rules/intrusions"
-    headers = {"Authorization": f"Bearer {DEV_API_KEY}"}
+    url: str = f"http://{ALARM_HOST}:{ALARM_PORT}/security-rules/intrusions"
+    logger.debug("URL: " + url)
+    headers = {"Authorization": f"Bearer {RECOGNITION_BEARER_TOKEN}"}
     res = requests.get(url, headers=headers)
     rules: List[IntrusionRule] = []
     for intrusion_rule_dict in res.json():

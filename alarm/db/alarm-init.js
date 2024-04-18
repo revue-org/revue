@@ -21,7 +21,7 @@ db.anomaly.insert([
       code: 'cam-01'
     },
     timestamp: new Date('2024-01-27T16:32:15.925Z'),
-    intrusionObject: 'ANIMAL',
+    intrusionObject: 'PERSON',
     __v: 0
   }
 ])

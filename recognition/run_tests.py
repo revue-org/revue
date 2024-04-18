@@ -1,10 +1,22 @@
 import os
-import unittest
+import sys
+import subprocess
 
-os.environ["TEST"] = "true"
 
-
-suite = unittest.TestLoader().discover("test")
-result = unittest.TextTestRunner(verbosity=2).run(suite)
-
-exit(0) if result.wasSuccessful() else exit(1)
+if __name__ == "__main__":
+    os.environ["TEST"] = "true"
+    process = subprocess.run(
+        args=[
+            sys.executable,
+            "-m",
+            "unittest",
+            "discover",
+            "-v",
+            "-s",
+            "test",
+            "-p",
+            "test_*.py",
+        ],
+        env=os.environ,
+    )
+    exit(process.returncode)

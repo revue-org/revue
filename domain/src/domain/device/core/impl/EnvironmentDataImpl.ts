@@ -28,6 +28,7 @@ export class EnvironmentDataImpl implements EnvironmentData {
   get measure(): Measure {
     return this._measure
   }
+
   get measureUnit(): MeasureUnit {
     return this._measureUnit
   }

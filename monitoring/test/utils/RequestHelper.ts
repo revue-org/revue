@@ -13,7 +13,7 @@ export const logPort = process.env.NODE_ENV == 'develop' ? '4003' : process.env.
 
 export default class RequestHelper {
   static getHeaders(): Headers {
-    return { headers: { Authorization: `Bearer ${process.env.MONITORING_BEARER_TOKEN}` } }
+    return { headers: { Authorization: `Bearer apikey-dev` } }
   }
 
   static async get(url: string): Promise<AxiosResponse> {

@@ -3,10 +3,14 @@ import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { onMounted, ref, toRaw } from 'vue'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl } from '@domain/device/factories'
-import { AnomalyType } from 'domain/dist/domain/alarm-system/core'
+import {
+  AnomalyType,
+  type ExceedingRule,
+  type IntrusionRule,
+  ObjectClass
+} from 'domain/dist/domain/alarm-system/core'
 import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/alarm-system/factories'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
-import { type ExceedingRule, type IntrusionRule, ObjectClass } from 'domain/dist/domain/alarm-system/core'
 import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
@@ -46,6 +50,12 @@ const objectClass = ref<ObjectClass>(ObjectClass.PERSON)
 const optionsObjectClass = ref(
   Object.keys(ObjectClass)
     .filter(key => isNaN(Number(key)))
+    .filter(
+      key =>
+        Array.of(ObjectClass.PERSON, ObjectClass.CAR, ObjectClass.TRUCK, ObjectClass.BOAT).indexOf(
+          ObjectClassConverter.convertToObjectClass(key)
+        ) >= 0
+    )
     .map(value => {
       return {
         label: value,

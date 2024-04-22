@@ -136,7 +136,10 @@ const chartOptions = ref({
       {{ sensorData.sensor.deviceId.code }}
     </h3>
     <div class="measures">
-      <div v-for="value in sensorData.values" :key="value.timestamp + Math.random().toString(36).substring(3)">
+      <div
+        v-for="value in sensorData.values"
+        :key="value.timestamp + Math.random().toString(36).substring(3)"
+      >
         <span
           ><i
             :style="{

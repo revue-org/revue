@@ -13,7 +13,7 @@ import {
 
 const { chartData, chartOptions } = defineProps<{
   chartData: { labels: string[]; datasets: { data: number[] } }
-  chartOptions: Object
+  chartOptions: any
 }>()
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement)

@@ -17,7 +17,9 @@ class RecognizersManager:
         :param camera_code: the camera code of the camera to add
         """
         if camera_code not in self.recognizers:
-            rtsp_stream_url: str = f"rtsp://{MEDIA_SERVER_HOST}:{MEDIA_SERVER_RTSP_PORT}/{camera_code}/stream"
+            rtsp_stream_url: str = (
+                f"rtsp://{MEDIA_SERVER_HOST}:{MEDIA_SERVER_RTSP_PORT}/{camera_code}/stream"
+            )
             self.recognizers[camera_code] = Recognizer(camera_code, rtsp_stream_url)
             self._executor.submit(self.recognizers[camera_code].start_recognizing)
 

@@ -12,8 +12,8 @@ import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } fro
 import { useUserStore } from '@/stores/user'
 
 const emit = defineEmits<{
-  (e: 'insert-exceeding-rule', exceedingRule: ExceedingRule): void
-  (e: 'insert-intrusion-rule', intrusionRule: IntrusionRule): void
+  (_e: 'insert-exceeding-rule', _exceedingRule: ExceedingRule): void
+  (_e: 'insert-intrusion-rule', _intrusionRule: IntrusionRule): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

@@ -8,7 +8,8 @@ services:
       dockerfile: ./sensor/Dockerfile
     restart: on-failure
     environment:
-      - SENSOR_CODE=sen-01
+      - SENSOR_CODE=${SENSOR_CODE_1}
+      - SENSOR_PORT=${SENSOR_PORT_1}
     ports:
       - ${SENSOR_PORT_1}:${SENSOR_PORT_1}
     depends_on:
@@ -25,7 +26,8 @@ services:
       dockerfile: ./sensor/Dockerfile
     restart: on-failure
     environment:
-      - SENSOR_CODE=sen-02
+      - SENSOR_CODE=${SENSOR_CODE_2}
+      - SENSOR_PORT=${SENSOR_PORT_2}
     ports:
       - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
     depends_on:

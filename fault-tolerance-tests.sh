@@ -1,5 +1,6 @@
 function tear_down_system() {
-    ./undeploy.sh
+    echo "Tearing down the system..."
+    ./undeploy.sh > /dev/null 2>&1
     if [ "$1" -ne 0 ]; then
         echo "Tests of $2 failed. Exiting."
         exit "$1"
@@ -11,7 +12,8 @@ function tear_down_system() {
 function tear_down_services() {
     for service in "$@"
     do
-        ./scripts/compose.sh down revue-"$service"
+        echo "Tearing down $service service..."
+        ./scripts/compose.sh down revue-"$service" > /dev/null 2>&1
     done
     sleep 2
 }
@@ -19,7 +21,8 @@ function tear_down_services() {
 function tear_up_services() {
     for service in "$@"
     do
-        ./scripts/compose.sh up -d revue-"$service"
+        echo "Tearing up $service service..."
+        ./scripts/compose.sh up -d revue-"$service" > /dev/null 2>&1
     done
     sleep 2
 }
@@ -27,7 +30,7 @@ function tear_up_services() {
 function execute_test() {
     SERVICE=$1
     SERVICE_DOWN=$2
-    echo "Running tests $SERVICE_DOWN"
+    echo "Running $SERVICE tests with $SERVICE_DOWN service down"
     ./scripts/compose.sh run --rm --name "$SERVICE"-test revue-"$SERVICE" npm run test:tolerance:"$SERVICE_DOWN"
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
@@ -36,7 +39,8 @@ function execute_test() {
     sleep 2
 }
 
-./deploy.sh
+echo "Tearing up the system..."
+./deploy.sh > /dev/null 2>&1
 sleep 2
 
 tear_down_services "log"

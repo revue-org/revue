@@ -8,7 +8,7 @@ import { MeasureConverter } from '../../../utils/MeasureConverter.js'
 import { ObjectClassConverter } from '../../../utils/ObjectClassConverter.js'
 
 export class MailServiceImpl implements MailService {
-  private transporter
+  private readonly transporter
 
   constructor(transporter: any) {
     this.transporter = transporter

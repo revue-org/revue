@@ -14,9 +14,9 @@ const { device } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'delete-device'): void
-  (e: 'get-sensors'): void
-  (e: 'get-cameras'): void
+  (_e: 'delete-device'): void
+  (_e: 'get-sensors'): void
+  (_e: 'get-cameras'): void
 }>()
 
 const updatePopupVisible = ref<boolean>(false)
@@ -32,11 +32,11 @@ const updateSensor = (sensor: Sensor) => {
       return MeasureConverter.convertToString(m)
     })
   })
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Sensor updated successfully')
       emit('get-sensors')
     })
-    .catch(error => {
+    .catch(_error => {
       popNegative($q, 'Error while updating sensor')
     })
 }
@@ -51,11 +51,11 @@ const updateCamera = (camera: Camera) => {
       height: parseInt(camera.resolution.height.toString())
     }
   })
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Camera updated successfully')
       emit('get-cameras')
     })
-    .catch(error => {
+    .catch(_error => {
       popNegative($q, 'Error while updating camera')
     })
 }
@@ -85,13 +85,13 @@ const enableDevice = async () => {
     `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s`,
     bodyRequest
   )
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, device.isCapturing ? 'Device disabled successfully' : 'Device enabled successfully')
       device.isCapturing ? device.stopCapturing() : device.stopCapturing()
       emit('get-cameras')
       emit('get-sensors')
     })
-    .catch(error => {
+    .catch(_error => {
       popNegative($q, 'Error while enabling device')
     })
 }
@@ -129,6 +129,7 @@ const deleteDevice = () => {
           :style="{
             color: getMeasureColor(measure)
           }"
+          :key="measure"
         >
           {{ Measure[measure] }}
         </q-badge>

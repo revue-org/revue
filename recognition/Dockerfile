@@ -41,4 +41,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
-CMD ["poe", "serve", "--port", "$RECOGNITION_PORT"]
+CMD ["sh", "-c", "poe serve --port $RECOGNITION_PORT"]

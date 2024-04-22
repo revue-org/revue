@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, type Ref, ref } from 'vue'
 import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
 import EnvironmentDataBadge from '@/components/history/EnvironmentDataBadge.vue'
-import { useQuasar } from 'quasar'
 import type { EnvironmentData } from 'domain/dist/domain/device/core'
 import { composeEnvironmentData } from '@/scripts/presentation/device/ComposeEnvironmentData'
 
-const sensorData: ref<EnvironmentData[]> = ref([])
+const sensorData: Ref<EnvironmentData[]> = ref([])
 
 function getEnvironmentData() {
   RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)

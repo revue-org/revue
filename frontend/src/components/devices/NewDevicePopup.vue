@@ -7,8 +7,8 @@ import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@
 import { MeasureConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
-  (e: 'insert-camera', camera: Camera): void
-  (e: 'insert-sensor', sensor: Sensor): void
+  (_e: 'insert-camera', _camera: Camera): void
+  (_e: 'insert-sensor', _sensor: Sensor): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

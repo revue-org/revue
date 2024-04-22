@@ -22,10 +22,7 @@ export const setupConsumers = async (): Promise<void> => {
         console.log('Message arrived ', messageValue.toString())
         const rawValues = JSON.parse(messageValue.toString())
 
-        if (topic.startsWith('CAMERA')) {
-          console.log('Devo salvare su detection')
-          //TODO SALVATAGGIO SU TABELLA DETECTION, SEMPRE CON KAFKA E CI ARRIVANO ATTRAVERSO IL RECOGNIZING NODE
-        } else if (topic.startsWith('SENSOR')) {
+        if (topic.startsWith('SENSOR')) {
           for (const rawValue of rawValues) {
             await environmentDataController.createEnvironmentData(
               deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),

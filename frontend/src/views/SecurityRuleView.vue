@@ -56,7 +56,7 @@ const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
     to: exceedingRule.to.toISOString(),
     contacts: exceedingRule.contactsToNotify
   })
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Exceeding rule added successfully')
       await getExceedingSecurityRules()
     })
@@ -78,7 +78,7 @@ const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
     to: intrusionRule.to.toISOString(),
     contacts: intrusionRule.contactsToNotify
   })
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Intrusion rule added successfully')
       await getIntrusionSecurityRules()
     })
@@ -92,7 +92,7 @@ const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
   await RequestHelper.delete(
     `http://${alarmHost}:${alarmPort}/security-rules/intrusions/` + intrusionRule.securityRuleId
   )
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Intrusion rule deleted successfully')
       await getIntrusionSecurityRules()
     })
@@ -106,7 +106,7 @@ const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
   await RequestHelper.delete(
     `http://${alarmHost}:${alarmPort}/security-rules/exceedings/` + exceedingRule.securityRuleId
   )
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Exceeding rule deleted successfully')
       await getExceedingSecurityRules()
     })
@@ -136,6 +136,7 @@ const popupVisible = ref<boolean>(false)
       :security-rule="exceedingRule"
       @delete-security-rule="deleteExceedingRule(exceedingRule)"
       @get-exceeding-rules="getExceedingSecurityRules"
+      :key="exceedingRule.securityRuleId"
     />
   </div>
 
@@ -146,6 +147,7 @@ const popupVisible = ref<boolean>(false)
       :security-rule="intrusionRule"
       @delete-security-rule="deleteIntrusionRule(intrusionRule)"
       @get-intrusion-rules="getIntrusionSecurityRules"
+      :key="intrusionRule.securityRuleId"
     />
   </div>
 

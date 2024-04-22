@@ -1,6 +1,4 @@
-export * from './RecognizingNodeFactory'
 export * from './AnomalyFactory'
 export * from './SecurityRuleFactory'
-export * from './impl/RecognizingNodeFactoryImpl'
 export * from './impl/AnomalyFactoryImpl'
 export * from './impl/SecurityRuleFactoryImpl'

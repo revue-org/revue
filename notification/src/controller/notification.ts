@@ -31,7 +31,7 @@ export const notificationController = {
       anomalyFactory.createExceeding(deviceId, new Date(), measure, value, anomalyId)
     )
     const notificationId: string = await notificationService.insertExceedingNotification(notification)
-    //notificationService.sendMailNotification(notification, contacts)
+    notificationService.sendMailNotification(notification, contacts)
     io.emit('notification', { type: 'EXCEEDING' })
     return notificationId
   },

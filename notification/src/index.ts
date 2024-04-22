@@ -62,6 +62,5 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Notification server listening on port ${PORT}`)
     console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    //await setupNotificationSimulation() TODO: to check!!
   })
 }

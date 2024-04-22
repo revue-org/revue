@@ -9,13 +9,13 @@ import { MeasureConverter } from '@utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
-import * as process from 'process'
 
-if (process.env.SENSOR_CODE_1 === undefined && process.env.NODE_ENV !== 'develop') {
+const SENSOR_CODE = process.env.SENSOR_CODE
+
+if (SENSOR_CODE === undefined) {
   console.log('No sensor code provided')
   process.exit(1)
 }
-const SENSOR_CODE: string = process.env.SENSOR_CODE_1 || 'sen-01' // TODO TO GENERALIZE!!
 
 let sourceSensor: Sensor
 

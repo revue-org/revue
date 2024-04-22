@@ -38,6 +38,7 @@ export const getCameraInfo = async (): Promise<void> => {
     )
     console.log(sourceCamera)
   } catch (e) {
+    console.log(e)
     throw new Error('Error while getting camera info')
   }
 }

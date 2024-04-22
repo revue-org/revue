@@ -20,3 +20,5 @@ KAFKA_PORT = (
     "9094" if os.environ.get("FLASK_ENV") == "develop" else os.environ.get("KAFKA_PORT")
 )
 RECOGNITION_BEARER_TOKEN = os.environ.get("RECOGNITION_BEARER_TOKEN")
+MEDIA_SERVER_HOST = os.environ.get("MEDIA_SERVER_HOST")
+MEDIA_SERVER_RTSP_PORT = os.environ.get("MEDIA_SERVER_RTSP_PORT")

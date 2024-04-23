@@ -1,0 +1,12 @@
+@startuml
+
+left to right direction
+actor "Logged User" as user
+rectangle "Revue" {
+  usecase "Monitor video streams" as UC2
+  usecase "Monitor environment data" as UC1
+}
+user --> UC1
+user --> UC2
+
+@enduml

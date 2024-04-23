@@ -7,7 +7,6 @@ interface SecurityRuleService {
   + removeSecurityRule(securityRuleId: Int): void
 }
 !endsub SecurityRuleRoot
-note left of SecurityRuleService: Service
 SecurityRuleService --> SecurityRuleRepository : uses
 SecurityRuleService --> SecurityRuleFactory : uses
 
@@ -16,7 +15,6 @@ interface SecurityRuleRepository {
   + insertSecurityRule(securityRule: SecurityRule): void
   + deleteSecurityRule(securityRule: SecurityRule): void
 }
-note left of SecurityRuleRepository : Repository
 SecurityRuleRepository o-- SecurityRule
 
 
@@ -29,13 +27,11 @@ interface SecurityRule {
   + getFrom(): Timestamp
   + getTo(): Timestamp
 }
-note left of SecurityRule: Entity
 
 interface SecurityRuleFactory {
   + createIntrusionRule(...): SecurityRule
   + createExceedingRule(...): SecurityRule
 }
-note right of SecurityRuleFactory : Factory
 SecurityRuleFactory -left-> SecurityRule : creates
 
 interface IntrusionRule {

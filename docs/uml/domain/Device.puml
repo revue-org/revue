@@ -19,13 +19,11 @@ interface Device {
  + stopCapturing(): void
 }
 Device o-right- DeviceId
-note left: Entity
 
 interface DeviceFactory {
  + createSensor(): Device
  + createCamera(): Device
 }
-note right: Factory
 DeviceFactory --> Device: creates
 DeviceFactory --> DeviceId: creates
 
@@ -35,7 +33,6 @@ interface DeviceRepository {
  + insertDevice(device: Device): void
  + deleteDevice(deviceId: DeviceId): void
 }
-note left: Repository
 DeviceRepository o-- Device
 
 !startsub DeviceRoot
@@ -48,7 +45,6 @@ interface DeviceService {
  + deployDevice(deviceId: DeviceId): void
 }
 !endsub DeviceRoot
-note right: Service
 
 DeviceService --> DeviceRepository: uses
 DeviceService --> DeviceFactory: uses
@@ -56,7 +52,6 @@ DeviceService --> DeviceFactory: uses
 interface Camera {
  + getResolution(): Resolution
 }
-note left: Entity
 Camera o-- Resolution
 Device *-- Camera
 Device *-- Sensor
@@ -67,7 +62,6 @@ interface Sensor {
  + addMeasure(): void
  + sendEnvironmentData(): void
 }
-note left: Entity
 Sensor --> EnvironmentData : uses
 Sensor o-- Measure
 
@@ -78,8 +72,6 @@ interface EnvironmentData {
  + getMeasure(): Measure
  + getTimestamp(): Date
 }
-
-note right: Value Object
 
 class Resolution {
  + height

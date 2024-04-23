@@ -5,7 +5,6 @@ interface Anomaly {
   + getDeviceId(): DeviceId
   + getTimestamp(): Date
 }
-note right of Anomaly: Domain Event
 
 interface Exceeding {
   + getValue(): Float,
@@ -26,13 +25,11 @@ interface AnomalyService {
   + notifyAlarmService(anomaly: Anomaly): void
 }
 !endsub AnomalyRoot
-note left of AnomalyService: Service
 
 interface AnomalyFactory {
   + createIntrusion(): Anomaly
   + createExceeding(): Anomaly
 }
-note right: Factory
 AnomalyFactory --> Anomaly : creates
 AnomalyFactory <-- AnomalyService : uses
 
@@ -41,7 +38,6 @@ interface AnomalyRepository {
   + insertAnomaly(anomaly: Anomaly): void
   + deleteAnomaly(anomalyId: Int): void
 }
-note left of AnomalyRepository: Repository
 AnomalyRepository o-up- Anomaly
 AnomalyService --> AnomalyRepository : uses
 

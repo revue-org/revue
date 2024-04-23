@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "recognition"
 version = "0.1.0"
-description = "Recognition servive of Revue"
+description = "Recognition service of Revue"
 authors = ["Mattia Matteini <matteinimattia@gmail.com>", "Alberto Paganelli <alberto.paganelli3@studio.unibo.it>"]
-packages = [{include = "app"}]
+packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -21,3 +21,16 @@ black = "^24.2.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+test = "python run_tests.py"
+format-check = "black --check ."
+format = "black ."
+
+[tool.poe.tasks.dev]
+shell = "FLASK_ENV=develop flask --app app/main.py run -h localhost -p $port"
+args = ["port"]
+
+[tool.poe.tasks.serve]
+shell = "waitress-serve --port $port --call app.main:create_app"
+args = ["port"]

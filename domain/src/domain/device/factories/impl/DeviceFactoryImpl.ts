@@ -8,18 +8,13 @@ import { Measure } from '../../core/impl/enum/Measure.js'
 import { SensorImpl } from '../../core/impl/SensorImpl.js'
 
 export class DeviceFactoryImpl implements DeviceFactory {
-  createCamera(
-    deviceId: DeviceId,
-    isCapturing: boolean = false,
-    ipAddress: string,
-    resolution: Resolution
-  ): Camera {
+  createCamera(deviceId: DeviceId, isCapturing: boolean, ipAddress: string, resolution: Resolution): Camera {
     return new CameraImpl(deviceId, isCapturing, ipAddress, resolution)
   }
 
   createSensor(
     deviceId: DeviceId,
-    isCapturing: boolean = false,
+    isCapturing: boolean,
     ipAddress: string,
     intervalMillis: number,
     measures: Measure[]

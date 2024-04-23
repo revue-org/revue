@@ -13,7 +13,7 @@ export class AnomalyFactoryImpl implements AnomalyFactory {
     timestamp: Date,
     measure: Measure,
     value: number,
-    anomalyId: string = ''
+    anomalyId: string
   ): Exceeding {
     return new ExceedingImpl(anomalyId, deviceId, timestamp, measure, value)
   }
@@ -22,7 +22,7 @@ export class AnomalyFactoryImpl implements AnomalyFactory {
     deviceId: DeviceId,
     timestamp: Date,
     intrusionObject: ObjectClass,
-    anomalyId: string = ''
+    anomalyId: string
   ): Intrusion {
     return new IntrusionImpl(anomalyId, deviceId, timestamp, intrusionObject)
   }

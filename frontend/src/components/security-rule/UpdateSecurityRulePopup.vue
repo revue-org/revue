@@ -21,8 +21,8 @@ const { securityRule } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update-exceeding-rule', exceedingRule: ExceedingRule): void
-  (e: 'update-intrusion-rule', intrusionRule: IntrusionRule): void
+  (_e: 'update-exceeding-rule', _exceedingRule: ExceedingRule): void
+  (_e: 'update-intrusion-rule', _intrusionRule: IntrusionRule): void
 }>()
 
 const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()

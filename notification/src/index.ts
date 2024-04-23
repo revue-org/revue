@@ -55,13 +55,12 @@ const dbPort: string =
   process.env.NODE_ENV === 'develop'
     ? process.env.NOTIFICATION_DB_PORT || '27017'
     : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.NOTIFICATION_DB_NAME || 'alarm'
+const dbName: string = process.env.NOTIFICATION_DB_NAME || 'notification'
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Notification server listening on port ${PORT}`)
     console.log(username, password, host, dbPort, dbName)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    //await setupNotificationSimulation() TODO: to check!!
   })
 }

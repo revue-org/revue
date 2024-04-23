@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   revue-camera-1:
@@ -10,7 +8,8 @@ services:
       dockerfile: ./camera/Dockerfile
     restart: on-failure
     environment:
-      - CAMERA_CODE=cam-01
+      - CAMERA_CODE=${CAMERA_CODE_1}
+      - CAMERA_PORT=${CAMERA_PORT_1}
     ports:
       - ${CAMERA_PORT_1}:${CAMERA_PORT_1}
     depends_on:
@@ -27,7 +26,8 @@ services:
       dockerfile: ./camera/Dockerfile
     restart: on-failure
     environment:
-      - CAMERA_CODE=cam-02
+      - CAMERA_CODE=${CAMERA_CODE_2}
+      - CAMERA_PORT=${CAMERA_PORT_2}
     ports:
       - ${CAMERA_PORT_2}:${CAMERA_PORT_2}
     depends_on:

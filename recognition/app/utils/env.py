@@ -5,8 +5,20 @@ from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), "../../../.env")
 load_dotenv(dotenv_path)
-ALARM_HOST = "localhost"  # os.environ.get("ALARM_HOST")
+ALARM_HOST = (
+    "localhost"
+    if os.environ.get("FLASK_ENV") == "develop"
+    else os.environ.get("ALARM_HOST")
+)
 ALARM_PORT = os.environ.get("ALARM_PORT")
-KAFKA_HOST = "localhost"  # os.environ.get("KAFKA_HOST")
-KAFKA_PORT = "9094"  # os.environ.get("KAFKA_PORT")
-DEV_API_KEY = os.environ.get("DEV_API_KEY")
+KAFKA_HOST = (
+    "localhost"
+    if os.environ.get("FLASK_ENV") == "develop"
+    else os.environ.get("KAFKA_HOST")
+)
+KAFKA_PORT = (
+    "9094" if os.environ.get("FLASK_ENV") == "develop" else os.environ.get("KAFKA_PORT")
+)
+RECOGNITION_BEARER_TOKEN = os.environ.get("RECOGNITION_BEARER_TOKEN")
+MEDIA_SERVER_HOST = os.environ.get("MEDIA_SERVER_HOST")
+MEDIA_SERVER_RTSP_PORT = os.environ.get("MEDIA_SERVER_RTSP_PORT")

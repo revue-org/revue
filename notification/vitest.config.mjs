@@ -14,7 +14,8 @@ export default defineConfig(({mode}) => {
       }
     },
     test: {
-      setupFiles: ["./test/setup.ts"]
+      setupFiles: ["./test/setup.ts"],
+      testTimeout: 30000
     }
   }
 });

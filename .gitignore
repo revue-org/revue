@@ -136,7 +136,7 @@ gradle-app.setting
 *.hprof
 
 # Python
-venv
+.venv
 
 *.pyc
 __pycache__/

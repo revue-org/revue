@@ -12,7 +12,7 @@ const { notification } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'delete-notification'): void
+  (_e: 'delete-notification'): void
 }>()
 
 const $q = useQuasar()

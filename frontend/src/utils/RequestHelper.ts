@@ -22,7 +22,7 @@ export const logHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_
 export const logPort = import.meta.env.DEV ? '4003' : import.meta.env.VITE_LOG_PORT
 export const notificationHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_NOTIFICATION_HOST
 export const notificationPort = import.meta.env.DEV ? '4004' : import.meta.env.VITE_NOTIFICATION_PORT
-export const mediaServerHost = import.meta.env.DEV ? 'localhost' : import.meta.env.MEDIA_SERVER_HOST
+export const mediaServerHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MEDIA_SERVER_HOST
 
 export default class RequestHelper {
   static getHeaders(): Headers {

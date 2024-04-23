@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -36,12 +36,12 @@ jobs:
       - name: Run tests
         run: ./gradlew domain:testArchitecture auth:test monitoring:test alarm:test recognition:test --info
 
-  format:
+  style:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -50,3 +50,5 @@ jobs:
           python-version: '3.10'
       - name: Check format
         run: ./gradlew format --info
+      - name: Check lint
+        run: ./gradlew lint --info

@@ -10,8 +10,8 @@ const { device } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update-camera', camera: Camera): void
-  (e: 'update-sensor', sensor: Sensor): void
+  (_e: 'update-camera', _camera: Camera): void
+  (_e: 'update-sensor', _sensor: Sensor): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()

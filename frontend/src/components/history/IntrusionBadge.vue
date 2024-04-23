@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Intrusion } from 'domain/dist/domain/anomaly/core'
 import { ObjectClass } from 'domain/dist/domain/security-rule/core'
-import { useQuasar } from 'quasar'
 
 defineProps<{
   intrusion: Intrusion

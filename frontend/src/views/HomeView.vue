@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { DeviceType, type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
+import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/core'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'

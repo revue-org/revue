@@ -10,7 +10,7 @@ export const app: Express = express()
 
 app.use(express.json())
 
-const PORT: number = Number(process.env.SENSOR_PORT_1) || 6001
+const PORT: number = Number(process.env.SENSOR_PORT)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

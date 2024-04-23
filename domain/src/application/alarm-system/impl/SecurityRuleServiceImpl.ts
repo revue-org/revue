@@ -20,8 +20,9 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   async getActiveRules(): Promise<SecurityRule[]> {
-    const rules: SecurityRule[] = await this.securityRuleRepository.getExceedingRules()
-    rules.concat(await this.securityRuleRepository.getIntrusionRules())
+    const exceedingRules: SecurityRule[] = await this.securityRuleRepository.getExceedingRules()
+    const intrusionRules: SecurityRule[] = await this.securityRuleRepository.getIntrusionRules()
+    const rules: SecurityRule[] = exceedingRules.concat(intrusionRules)
     return rules.filter((rule: SecurityRule) => this.hourComparator(new Date(), rule.from, rule.to))
   }
 
@@ -124,7 +125,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   hourComparator = (date: Date, from: Date, to: Date): boolean => {
-    //TODO to check if the date is in the range
+    date.setHours(date.getHours() + 1) // correction due to timezone
     return (
       (date.getHours() > from.getHours() ||
         (date.getHours() === from.getHours() && date.getMinutes() >= from.getMinutes())) &&

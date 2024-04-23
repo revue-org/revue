@@ -8,7 +8,7 @@ import { MeasureConverter } from '../../../utils/MeasureConverter.js'
 import { ObjectClassConverter } from '../../../utils/ObjectClassConverter.js'
 
 export class MailServiceImpl implements MailService {
-  private transporter
+  private readonly transporter
 
   constructor(transporter: any) {
     this.transporter = transporter
@@ -46,12 +46,14 @@ export class MailServiceImpl implements MailService {
     }
 
     console.log('Sending email...')
-    this.transporter.sendMail(mailOptions, (error: any, info: { response: any }): void => {
-      if (error) {
-        console.error('Error sending email: ', error)
-      } else {
-        console.log('Email sent: ', info.response)
-      }
-    })
+    if (this.transporter !== null) {
+      this.transporter.sendMail(mailOptions, (error: any, info: { response: any }): void => {
+        if (error) {
+          console.error('Error sending email: ', error)
+        } else {
+          console.log('Email sent: ', info.response)
+        }
+      })
+    }
   }
 }

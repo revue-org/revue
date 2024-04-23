@@ -14,7 +14,7 @@ export const app: Express = express()
 app.use(express.json())
 app.use(cors())
 
-const PORT: number = Number(process.env.CAMERA_PORT) || 5001
+const PORT = Number(process.env.CAMERA_PORT)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

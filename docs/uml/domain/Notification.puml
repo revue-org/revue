@@ -10,7 +10,7 @@ interface NotificationService {
   + deleteNotification(id: string): void
 }
 !endsub NotificationRoot
-note left of NotificationService: Service
+
 NotificationService --> MailService : uses
 NotificationService --> NotificationRepository : uses
 NotificationService --> NotificationFactory : uses
@@ -26,22 +26,20 @@ interface NotificationRepository {
   + insertIntrusionNotification(notification: Notification): Promise<string>
   + deleteNotification(notificationId: string): Promise<void>
 }
-note right of NotificationRepository : Repository
-NotificationRepository o-- Notification
 
+NotificationRepository o-- Notification
 
 interface Notification {
   + notificationId(): string
   + timestamp(): Date
   + anomaly(): Anomaly
 }
-note left of Notification: Entity
 
 interface NotificationFactory {
   + createExceedingNotification(id: string, exceeding: Exceeding): Notification
   + createIntrusionNotification(id: string, intrusion: Intrusion): Notification
 }
-note right of NotificationFactory : Factory
+
 NotificationFactory -left-> Notification : creates
 
 @enduml

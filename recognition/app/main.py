@@ -12,7 +12,7 @@ from app.presentation.securityrule.IntrusionRuleSerializer import (
 from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
 from app.utils.env import RECOGNITION_BEARER_TOKEN, ALARM_PORT, ALARM_HOST
-from app.utils.interval import set_interval
+from app.utils.interval import set_timeout
 
 intrusion_rules: List[IntrusionRule] = []
 manager = RecognizersManager()
@@ -27,8 +27,8 @@ def create_app():
     intrusion_rules.append(*get_intrusion_rules())
     enable_intrusion_rules()
 
-    set_interval(check_rule_update, seconds=60)
-    set_interval(check_rule_validity, seconds=60)
+    set_timeout(check_rule_update, seconds=60)
+    set_timeout(check_rule_validity, seconds=60)
     return app
 
 

@@ -1,0 +1,48 @@
+@startuml
+
+package Log <<Rectangle>> {
+
+    !startsub LogRoot
+
+    interface LogService <<aggregate root>> {
+      + getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]>
+      + getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]>
+      + insertEnvironmentData(environmentData: EnvironmentData): void
+    }
+    !endsub LogRoot
+    note left of LogService: Service
+    LogService --> EnvironmentDataRepository : uses
+    LogService --> EnvironmentDataFactory : uses
+
+    interface EnvironmentDataRepository {
+      + getEnvironmentData(): Promise<EnvironmentData[]>
+      + getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]>
+      + getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]>
+      + insertEnvironmentData(environmentData: EnvironmentData): Promise<void>
+      + deleteEnvironmentData(id: string): Promise<void>
+    }
+    note right of EnvironmentDataRepository : Repository
+    EnvironmentDataRepository o-- EnvironmentData
+
+    interface EnvironmentData {
+     + getSourceDeviceId(): DeviceId
+     + getValue(): Float
+     + getMeasure(): Measure
+     + getTimestamp(): Date
+    }
+    note left of EnvironmentData : Value object
+
+    interface EnvironmentDataFactory {
+        + createEnvironmentData(
+          sourceDeviceId: DeviceId,
+          value: number,
+          measure: Measure,
+          unit: MeasureUnit,
+          timestamp: Date
+        ): EnvironmentData
+    }
+    note right of EnvironmentDataFactory : Factory
+    EnvironmentDataFactory -left-> EnvironmentData : creates
+
+}
+@enduml

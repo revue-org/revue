@@ -1,0 +1,65 @@
+@startuml
+
+!startsub SecurityRuleRoot
+
+interface SecurityRuleService {
+  + addSecurityRule(securityRule: SecurityRule): void
+  + removeSecurityRule(securityRuleId: Int): void
+}
+!endsub SecurityRuleRoot
+note left of SecurityRuleService: Service
+SecurityRuleService --> SecurityRuleRepository : uses
+SecurityRuleService --> SecurityRuleFactory : uses
+
+interface SecurityRuleRepository {
+  + getSecurityRules(): Set<SecurityRule>
+  + insertSecurityRule(securityRule: SecurityRule): void
+  + deleteSecurityRule(securityRule: SecurityRule): void
+}
+note left of SecurityRuleRepository : Repository
+SecurityRuleRepository o-- SecurityRule
+
+
+interface SecurityRule {
+  + getSecurityRuleId(): Int
+  + getDeviceId(): DeviceId
+  + getCreatorId(): Int
+  + getContactsToNotify(): Set<Contact>
+  + getDescription(): String
+  + getFrom(): Timestamp
+  + getTo(): Timestamp
+}
+note left of SecurityRule: Entity
+
+interface SecurityRuleFactory {
+  + createIntrusionRule(...): SecurityRule
+  + createExceedingRule(...): SecurityRule
+}
+note right of SecurityRuleFactory : Factory
+SecurityRuleFactory -left-> SecurityRule : creates
+
+interface IntrusionRule {
+  + getObjectClass(): ObjectClass
+}
+IntrusionRule o-- ObjectClass
+
+interface ExceedingRule {
+  + getMin(): Float
+  + getMax(): Float
+  + getMeasure(): Measure
+}
+
+enum ObjectClass {
+  PERSON
+  BICYCLE
+  CAR
+  ...
+}
+
+
+
+SecurityRule --* ExceedingRule
+SecurityRule --* IntrusionRule
+
+
+@enduml

@@ -1,0 +1,74 @@
+@startuml
+
+package Auth <<Rectangle>> {
+
+    !startsub AuthRoot
+
+    interface UserService <<aggregate root>> {
+      + getUsers(): Promise<User[]>
+      + getUserById(userId: string): Promise<User>
+      + getUserByUsername(username: string): Promise<User>
+      + insertUser(user: User): void
+      + updateUser(user: User): void
+      + deleteUser(userId: string): void
+    }
+
+    !endsub AuthRoot
+
+    note left of UserService: Service
+    UserService --> UserRepository : uses
+    UserService --> UserFactory : uses
+
+    interface UserRepository {
+      + getUsers(): Promise<User[]>
+      + getUserById(userId: string): Promise<User>
+      + getUserByUsername(username: string): Promise<User>
+      + insertUser(user: User): Promise<void>
+      + updateUser(user: User): Promise<void>
+      + deleteUser(userId: string): Promise<void>
+    }
+    note right of UserRepository : Repository
+    UserRepository o-- User
+
+    interface UserFactory {
+          + createUser(
+            id: string,
+            name: string,
+            surname: string,
+            username: string,
+            password: string,
+            token: string,
+            refreshToken: string,
+            contact: Contact[],
+            deviceIds: DeviceId[]
+          ): User
+    }
+    note right of UserFactory : Factory
+    UserFactory -left-> User : creates
+
+
+    interface User {
+     + getUserId(): Int
+     + getName(): String
+     + addContact(c: Contact): void
+     + removeContact(c: Contact): void
+    }
+    note right: Entity
+    User o-- Contact
+
+    interface Contact {
+     + getValue(): String
+     + setValue(v: String): void
+     + getContactType(): ContactType
+     + setContactType(c: ContactType): void
+    }
+    note right: Value Object
+
+    enum ContactType {
+      EMAIL
+      SMS
+    }
+    Contact o-- ContactType
+
+}
+@enduml

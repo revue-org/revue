@@ -4,7 +4,7 @@ import cv2 as cv
 import numpy as np
 
 from app.recognizer.Producer import Producer
-from app.utils.interval import set_interval
+from app.utils.interval import set_timeout
 
 
 class Recognizer:
@@ -65,7 +65,7 @@ class Recognizer:
                             self._producer.produce(
                                 "CAMERA_" + self._camera_code, recognized_object
                             )
-                            set_interval(
+                            set_timeout(
                                 lambda: self._recognized_objects.remove(
                                     recognized_object
                                 ),

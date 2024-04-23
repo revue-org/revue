@@ -5,8 +5,12 @@ rectangle "Revue Application" {
   usecase "Dashboard access" as UC1
   usecase "Monitor cameras" as UC2
   usecase "Manage alarms" as UC3
+  usecase "Consult notification" as UC4
+  usecase "Consult historical data" as UC5
 }
 fc --> UC1
 fc --> UC2
 fc --> UC3
+fc --> UC4
+fc --> UC5
 @enduml

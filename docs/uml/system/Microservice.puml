@@ -4,10 +4,10 @@ rectangle {
     component Service <<web server>>
     database ServiceDB <<mongo>>
 }
-interface HTTP
+interface API
 
 Service -right-> ServiceDB : save
-Service -left- HTTP
+Service -left- API
 
 
 @enduml

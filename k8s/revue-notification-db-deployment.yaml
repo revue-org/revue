@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: revue-notification-db
+  name: revue-notification-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: revue-notification-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+        kompose.version: 1.32.0 (HEAD)
+      labels:
+        io.kompose.network/revue-network: "true"
+        io.kompose.service: revue-notification-db
+    spec:
+      containers:
+        - env:
+            - name: MONGO_INITDB_DATABASE
+              value: notification
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: example
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+          image: mongo
+          name: revue-notification-db
+          ports:
+            - containerPort: 27017
+              hostPort: 27021
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data/db
+              name: notification-data
+            - mountPath: /docker-entrypoint-initdb.d/notification-init.js
+              name: revue-notification-db-claim1
+      restartPolicy: Always
+      volumes:
+        - name: notification-data
+          persistentVolumeClaim:
+            claimName: notification-data
+        - name: revue-notification-db-claim1
+          persistentVolumeClaim:
+            claimName: revue-notification-db-claim1

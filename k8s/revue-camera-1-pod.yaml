@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.network/revue-network: "true"
+    io.kompose.service: revue-camera-1
+  name: revue-camera-1
+spec:
+  containers:
+    - env:
+        - name: CAMERA_CODE
+          value: cam-01
+        - name: CAMERA_PORT
+          value: "5001"
+      image: revue-camera
+      name: revue-camera-1
+      ports:
+        - containerPort: 5001
+          hostPort: 5001
+          protocol: TCP
+  restartPolicy: OnFailure

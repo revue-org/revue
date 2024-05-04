@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: revue-kafka
+  name: revue-kafka
+spec:
+  ports:
+    - name: "9092"
+      port: 9092
+      targetPort: 9092
+    - name: "9094"
+      port: 9094
+      targetPort: 9094
+  selector:
+    io.kompose.service: revue-kafka

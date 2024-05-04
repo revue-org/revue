@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.network/revue-network: "true"
+    io.kompose.service: revue-log
+  name: revue-log
+spec:
+  containers:
+    - image: revue-log
+      name: revue-log
+      ports:
+        - containerPort: 4003
+          hostPort: 4003
+          protocol: TCP
+  restartPolicy: OnFailure

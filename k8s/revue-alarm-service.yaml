@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: revue-alarm
+  name: revue-alarm
+spec:
+  ports:
+    - name: "4002"
+      port: 4002
+      targetPort: 4002
+  selector:
+    io.kompose.service: revue-alarm

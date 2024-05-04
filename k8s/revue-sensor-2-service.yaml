@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: revue-sensor-2
+  name: revue-sensor-2
+spec:
+  ports:
+    - name: "6002"
+      port: 6002
+      targetPort: 6002
+  selector:
+    io.kompose.service: revue-sensor-2

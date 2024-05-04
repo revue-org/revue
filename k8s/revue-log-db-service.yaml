@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: revue-log-db
+  name: revue-log-db
+spec:
+  ports:
+    - name: "27020"
+      port: 27020
+      targetPort: 27017
+  selector:
+    io.kompose.service: revue-log-db

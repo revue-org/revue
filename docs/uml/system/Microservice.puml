@@ -2,7 +2,7 @@
 
 rectangle {
     component Service <<web server>>
-    database ServiceDB <<mongo>>
+    database ServiceDB
 }
 interface API
 

@@ -36,7 +36,6 @@ interface AnomalyFactory {
   + createExceeding(): Exceeding
 }
 AnomalyFactory --> Anomaly : creates
-AnomalyFactory <-- AnomalyService : uses
 interface AnomalyRepository {
     +getExceedings(): Promise<Exceeding[]>
     +getIntrusions(): Promise<Intrusion[]>

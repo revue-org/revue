@@ -12,8 +12,8 @@ interface DeviceId {
 DeviceId o-- DeviceType
 
 interface Device {
- + getDeviceId(): DeviceId
- + getIpAddress(): String
+ + deviceId: DeviceId
+ + ipAddress: String
  + isCapturing(): Boolean
  + startCapturing(): void
  + stopCapturing(): void
@@ -21,32 +21,48 @@ interface Device {
 Device o-right- DeviceId
 
 interface DeviceFactory {
- + createSensor(): Device
- + createCamera(): Device
+ + createSensor(): Sensor
+ + createCamera(): Camera
 }
 DeviceFactory --> Device: creates
-DeviceFactory --> DeviceId: creates
 
 interface DeviceRepository {
- + getAllDevices(): Set<Device>
- + getDevice(deviceId: DeviceId): Device
- + insertDevice(device: Device): void
- + deleteDevice(deviceId: DeviceId): void
+    +getDevices(): Promise<Device[]>
+    +getCapturingDevices(): Promise<Device[]>
+    +getCameras(): Promise<Camera[]>
+    +getSensors(): Promise<Sensor[]>
+    +getDeviceById(deviceId: DeviceId): Promise<Device>
+    +getCameraByCode(code: string): Promise<Camera>
+    +getSensorByCode(code: string): Promise<Sensor>
+    +insertCamera(camera: Camera): Promise<void>
+    +insertSensor(sensor: Sensor): Promise<void>
+    +updateCamera(camera: Camera): Promise<void>
+    +updateSensor(sensor: Sensor): Promise<void>
+    +deleteCamera(code: string): Promise<void>
+    +deleteSensor(code: string): Promise<void>
 }
 DeviceRepository o-- Device
 
 !startsub DeviceRoot
 
 interface DeviceService {
- + getAllDevices(): Set<Device>
- + getDevice(deviceId: DeviceId): Device
- + addDevice(device: Device): void
- + removeDevice(deviceId: DeviceId): void
- + deployDevice(deviceId: DeviceId): void
+    +getDevices(): Promise<Device[]>
+    +getCapturingDevices(): Promise<Device[]>
+    +getCameras(): Promise<Camera[]>
+    +getSensors(): Promise<Sensor[]>
+    +getDeviceById(deviceId: DeviceId): Promise<Device>
+    +getCameraByCode(code: string): Promise<Camera>
+    +getSensorByCode(code: string): Promise<Sensor>
+    +insertCamera(camera: Camera): void
+    +insertSensor(sensor: Sensor): void
+    +updateCamera(camera: Camera): void
+    +updateSensor(sensor: Sensor): void
+    +deleteCamera(code: string): void
+    +deleteSensor(code: string): void
 }
 !endsub DeviceRoot
 
-DeviceService --> DeviceRepository: uses
+DeviceService -left-> DeviceRepository: uses
 DeviceService --> DeviceFactory: uses
 
 interface Camera {
@@ -60,7 +76,7 @@ interface Sensor {
  + getIntervalMillis(): Int
  + getMeasures(): Set<Measure>
  + addMeasure(): void
- + sendEnvironmentData(): void
+ + sendEnvironmentData(): void // to remove?
 }
 Sensor --> EnvironmentData : uses
 Sensor o-- Measure
@@ -70,6 +86,7 @@ interface EnvironmentData {
  + getSourceDeviceId(): DeviceId
  + getValue(): Float
  + getMeasure(): Measure
+ + getMeasureUnit(): MeasureUnit
  + getTimestamp(): Date
 }
 
@@ -82,8 +99,16 @@ enum Measure {
  HUMIDITY
  TEMPERATURE
  PRESSURE
- ...
 }
 
+enum MeasureUnit {
+  PASCAL
+  BAR
+  CELSIUS
+  FAHRENHEIT
+  KELVIN
+  PERCENTAGE
+}
+MeasureUnit -up-o EnvironmentData
 
 @enduml

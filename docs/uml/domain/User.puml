@@ -2,7 +2,7 @@
 
 !startsub AuthRoot
 
-interface UserService <<aggregate root>> {
+interface UserService {
   + getUsers(): Promise<User[]>
   + getUserById(userId: string): Promise<User>
   + getUserByUsername(username: string): Promise<User>
@@ -27,21 +27,12 @@ interface UserRepository {
 UserRepository o-- User
 
 interface UserFactory {
-      + createUser(
-        id: string,
-        name: string,
-        surname: string,
-        username: string,
-        password: string,
-        token: string,
-        refreshToken: string,
-        contact: Contact[],
-        deviceIds: DeviceId[]
-      ): User
+      + createUser(): User
 }
 UserFactory -left-> User : creates
 
 
+' TODO: completely different
 interface User {
  + getUserId(): Int
  + getName(): String

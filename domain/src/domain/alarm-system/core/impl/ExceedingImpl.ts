@@ -6,8 +6,8 @@ export class ExceedingImpl implements Exceeding {
   private _anomalyId: string
   private _deviceId: DeviceId
   private readonly _timestamp: Date
-  private _value: number
-  private _measure: Measure
+  private readonly _value: number
+  private readonly _measure: Measure
 
   constructor(anomalyId: string, deviceId: DeviceId, timestamp: Date, measure: Measure, value: number) {
     this._anomalyId = anomalyId
@@ -41,15 +41,8 @@ export class ExceedingImpl implements Exceeding {
     return this._value
   }
 
-  set value(value: number) {
-    this._value = value
-  }
-
   get measure(): Measure {
     return this._measure
   }
 
-  set measure(measure: Measure) {
-    this._measure = measure
-  }
 }

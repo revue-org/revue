@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       name: 'no-unreachable-from-presentation',
-      comment: 'The presentation layer should only depend on the domain layer',
+      comment: 'The presentation layer should only depend on the domain and application layers',
       severity: 'error',
       from: {
         path: '^(src/presentation)'

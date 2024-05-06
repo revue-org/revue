@@ -10,7 +10,7 @@ COPY recognition/poetry.lock ./poetry.lock
 COPY recognition/poetry.toml ./poetry.toml
 
 # Install yolov3 neural network weights
-# RUN wget -N -P app/resources/yolov3/ -c "https://pjreddie.com/media/files/yolov3.weights" --header "Referer: pjreddie.com"
+ADD "https://pjreddie.com/media/files/yolov3.weights" app/resources/yolov3/yolov3.weights
 
 ENV POETRY_CACHE_DIR=/tmp/poetry_cache
 

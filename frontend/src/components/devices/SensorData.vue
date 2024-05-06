@@ -214,6 +214,7 @@ li {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 10px;
+    width: 220px;
 
     div.measure {
       display: flex;

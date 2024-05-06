@@ -4,7 +4,7 @@ start
 :Get camera info;
 
 while (node running)
-:Produce stream;
+:Produce video stream;
 
 endwhile
 stop

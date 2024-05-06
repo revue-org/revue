@@ -35,8 +35,8 @@ Broker --> Alarm
 Broker <-up- Sensor
 
 MediaServer <-- Camera : produce
-MediaServer --> Frontend: consume
-MediaServer --> Recognition: consume
+MediaServer <-- Frontend: consume
+MediaServer <-- Recognition: consume
 }
 
 actor Client

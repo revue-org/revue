@@ -44,5 +44,4 @@ export class ExceedingImpl implements Exceeding {
   get measure(): Measure {
     return this._measure
   }
-
 }

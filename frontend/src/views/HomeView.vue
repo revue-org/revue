@@ -36,7 +36,7 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].isCapturing) {
           const sensor = composeSensor(res.data[i])
-          const quantity: number = 594
+          const quantity: number = 500
           const response = await RequestHelper.get(
             `http://${logHost}:${logPort}/sensors/${sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
           )
@@ -53,11 +53,10 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
                   bufferStore.pressureBuffer.push(response.data[j].value)
                   break
               }
-              if (quantity % 3 == 0) {
-                bufferStore.timestampBuffer.push(
-                  new Date(response.data[j].timestamp).toLocaleString().split(' ')[1]
-                )
-              }
+              bufferStore.timestampBuffer.push(
+                new Date(response.data[j].timestamp).toLocaleString().split(' ')[1]
+              )
+
             }
           }
           values.value.push({

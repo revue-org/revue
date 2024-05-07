@@ -194,6 +194,8 @@
         \item \textbf{Broker}: used to manage some internal communications.
     \end{itemize}
 
+    In Figure \ref{fig:architecture} is presented the whole architecture diagram.
+
     \begin{figure}
         \centering
         \includegraphics[scale=0.51]{img/architecture}
@@ -204,14 +206,29 @@
 
     \subsection{Structure}
 
-    Which entities need to be modelled to solve the problem?
+%    Which entities need to be modelled to solve the problem?
+%%
+%    (UML Class diagram)
 %
-    (UML Class diagram)
+%    How should entities be modularised?
+%%
+%    (UML Component / Package / Deployment Diagrams)
 
-    How should entities be modularised?
-%
-    (UML Component / Package / Deployment Diagrams)
+    For the design phase, Domain Driven Design (DDD) and Hexagonal Architecture (HA) have been adopted.
+    Actually, the adherence to DDD and HA can be considered a little bit rough (for example, because of the lack of an ad hoc presentation layer) and it will be improved in the future.
 
+    To briefly specify the layers' dependencies:
+    \begin{itemize}
+        \item \textbf{Domain} layer cannot depend on any other layer.
+        \item \textbf{Application} layer (which contains business logic) can depend only on Domain layer.
+        \item \textbf{Storage} layer depends on the layers above.
+        It is the outer layer since it contains platform-dependent implementation.
+    \end{itemize}
+
+
+    Each microservice has the same structure in terms of classes and packages.
+    Furthermore, it is responsible for a specific subset of domain entities.
+    In Figure \ref{fig:general-structure}, is represented the general packages/classes structure.
 
     \begin{figure}
         \centering

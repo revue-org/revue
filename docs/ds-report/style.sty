@@ -1,0 +1,37 @@
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+
+% Define TypeScript language
+\lstdefinelanguage{TypeScript}{
+% General settings
+    sensitive=true,
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]',
+    morestring=[b]",
+    morekeywords={abstract, any, as, break, case, catch, class, const, continue, debugger, declare, default, delete, do, else, enum, export, extends, false, finally, for, from, function, get, if, implements, import, in, instanceof, interface, let, module, namespace, new, null, number, of, package, private, protected, public, readonly, require, return, set, static, super, switch, symbol, this, throw, true, try, typeof, undefined, var, void, while, with, yield, async, await},
+% Style definitions
+    basicstyle=\ttfamily\footnotesize,
+    commentstyle=\color{teal},
+    identifierstyle=\color{black},
+    ndkeywordstyle=\color{purple},
+    stringstyle=\color{orange},
+    keywordstyle=\color{blue},
+}
+
+% Configure listings package for TypeScript language
+\lstset{
+    language=TypeScript,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=10pt,
+    tabsize=2,
+    extendedchars=true,
+    frame=trBL,
+    frameround=fttt,
+}

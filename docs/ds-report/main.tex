@@ -6,6 +6,9 @@
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{cleveref}
+\usepackage{listings}
+\usepackage{style}
+
 %% for labeling items
 \renewcommand\labelenumi{\arabic{enumi}.}
 \renewcommand\theenumi{\thesubsection.\arabic{enumi}}%% references with subsection numbering
@@ -266,7 +269,10 @@
         \caption{Alarm service activity diagram}
         \label{fig:alarm-activity}
     \end{figure}
-    Microservice responsible of the alarm management. It is able to check the data coming from the sensors or the recognized objects on cameras streams. The service needs only to check active rules for active devices. It is able to create an anomaly and to notify the notification service if the data is not compliant with the rules.
+    Microservice responsible of the alarm management.
+    It is able to check the data coming from the sensors or the recognized objects on cameras streams.
+    The service needs only to check active rules for active devices.
+    It is able to create an anomaly and to notify the notification service if the data is not compliant with the rules.
 
     \subsubsection{Notification Service}
 
@@ -305,6 +311,45 @@
         \item SSO
     \end{itemize}
 
+    \subsection{Kafka}
+
+    \href{https://kafka.apache.org}{Apache Kafka} is the technology chosen to handle intra-system real-time communications.
+
+    In particular, \href{https://kafka.js.org}{KafkaJS} and \href{https://kafka-python.readthedocs.io/en/master/}{kafka-python} clients
+    have been used respectively for the \href{https://nodejs.org/en}{Node.js} and \href{https://flask.palletsprojects.com/en/3.0.x/}{Flask} services.
+
+    Kafka is ...
+
+    In the following, is reported the code for producing (Listing \ref{lst:kafka-producer}) and consuming (Listing \ref{lst:kafka-consumer}) messages using KafkaJS.
+
+    \lstinputlisting[
+        language=JavaScript,
+        caption={Producing using KafkaJS},
+        label={lst:kafka-producer},
+    ]{code/producer.ts}
+
+    \lstinputlisting[
+        language=JavaScript,
+        caption={Consuming using KafkaJS},
+        label={lst:kafka-consumer},
+    ]{code/consumer.ts}
+
+    \subsection{Sockets}
+
+
+    \subsection{Object Recognition with YOLO}
+    You only look once (\href{https://pjreddie.com/darknet/yolo}{YOLO}) is a state-of-the-art, efficient real-time object detection algorithm.
+    YOLO is able to recognise classes of objects and its position in the video.
+
+    \lstinputlisting[
+        language=Python,
+        label={lst:object-recognition},
+    ]{code/Recognizer.py}
+
+
+    \subsection{Media Server}
+
+    \subsection{Single Sign-On}
 
     \section{Self-assessment / Validation}
 

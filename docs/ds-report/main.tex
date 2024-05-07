@@ -103,7 +103,7 @@
     to recognise the objects in the video. In this case, the user can just rely on the camera, monitoring the home or a proprietary field. The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone.
     The user can also set up sensors to monitor data from the environment.
 
-    \begin{figure}[h!]
+    \begin{figure}
         \centering
         \includegraphics[scale=0.6]{img/simple-use-case}
         \caption{Simple Use Case}
@@ -117,7 +117,7 @@
     the warehouse is always in the right range and be alerted whenever the temperature exceeds a certain range to detect or
     prevent problems.
 
-    \begin{figure}[ht]
+    \begin{figure}
         \centering
         \includegraphics[scale=0.6]{img/advanced-use-case}
         \caption{Advanced Use Case}
@@ -169,13 +169,13 @@
     \begin{itemize}
         \item \textbf{Authentication Service}: responsible for the authentication and access control.
         \item \textbf{Monitoring Service}: responsible for managing devices and environment data.
-        \item \textbf{Recognition Service}: responsible for the recognition of the objects in the video streams.
+        \item \textbf{Recognition Service}: responsible for the recognition of objects in the video streams.
         \item \textbf{Alarm Service}: responsible for the management of the security rules and anomalies.
         \item \textbf{Notification Service}: responsible for sending notifications to the user.
         \item \textbf{Log Service}: responsible for the persistent saving of data.
     \end{itemize}
 
-    Each microservice consists of a web server exposing REST APIs and a database to store the data (Figure \ref{fig:microservice}).
+    Each microservice consists of a web server that exposes REST APIs and a database to store the data (Figure \ref{fig:microservice}).
 
     \begin{figure}
         \centering
@@ -194,7 +194,7 @@
         \item \textbf{Broker}: used to manage some internal communications.
     \end{itemize}
 
-    \begin{figure}[ht]
+    \begin{figure}
         \centering
         \includegraphics[scale=0.51]{img/architecture}
         \caption{Revue Architecture}
@@ -212,13 +212,60 @@
 %
     (UML Component / Package / Deployment Diagrams)
 
+
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.55]{img/general-structure}
+        \caption{General structure of microservice}
+        \label{fig:general-structure}
+    \end{figure}
+
     \subsection{Behaviour}
 
-    How should each entity behave?
-%
-    (UML State diagram or Activity Diagram)
+    \subsubsection{Authentication Service}
+
+    \subsubsection{Monitoring Service}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.4]{img/device-activity}
+        \caption{Device activity diagram}
+        \label{fig:device-activity}
+    \end{figure}
+
+    \subsubsection{Recognition Service}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.6]{img/recognition-activity}
+        \caption{Recognition service activity diagram}
+        \label{fig:recognition-activity}
+    \end{figure}
+    Microservice responsible of the recognition of the objects on the camera streams. The service is able to recognize a set of predefined objects and notify the Alarm Service that is in charge of the alarm management. For every camera stream a topic and a recognition process is created and started. When a predefined object is recognized it is sent trought the relative topic.
+
+
+    \subsubsection{Alarm Service}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.3]{img/alarm-activity}
+        \caption{Alarm service activity diagram}
+        \label{fig:alarm-activity}
+    \end{figure}
+    Microservice responsible of the alarm management. It is able to check the data coming from the sensors or the recognized objects on cameras streams. The service needs only to check active rules for active devices. It is able to create an anomaly and to notify the notification service if the data is not compliant with the rules.
+
+    \subsubsection{Notification Service}
+
+    \subsubsection{Log Service}
+
 
     \subsection{Interaction}
+
+    \subsubsection{Auth Service}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.3]{img/auth-service-sequence}
+        \caption{Auth service sequence diagram}
+        \label{fig:auth-service-sequence}
+    \end{figure}
+    The Auth Service is responsible of the authentication of the users. When a Login request is performed, the Auth Service checks the credentials and returns a token if the user is authenticated. When the user wants to perform a request to another service, the user needs only to provide the token in the header of the request. Every service contains a validation middleware where the token is checked. This process has been implemented through the use of JSON Web Token and sharing the secret key between federated services.
 
     How should entities interact with each other?
 %
@@ -233,6 +280,14 @@
 %
     This this case, the produced documentation should be referenced here.
 
+    \begin{itemize}
+        \item Kafka publish/subscription - Kafka per il real time e reliability (at least one)
+        \item Recognition neural network
+        \item Media server
+        \item Socket per comunicazione real time al client
+        \item SSO
+    \end{itemize}
+
 
     \section{Self-assessment / Validation}
 
@@ -242,6 +297,11 @@
 
     In case of a test-driven development, describe tests here and possibly report the amount of passing tests, the total amount of tests, and possibly the test coverage.
 
+    \begin{itemize}
+        \item architecture tests
+        \item fault tolerance test
+        \item prettier e linter
+    \end{itemize}
 
     \section{Deployment Instructions}
 

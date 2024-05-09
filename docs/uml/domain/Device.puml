@@ -69,8 +69,8 @@ interface Camera {
  + getResolution(): Resolution
 }
 Camera o-- Resolution
-Device *-- Camera
-Device *-- Sensor
+Device <|.. Camera
+Device <|.. Sensor
 
 interface Sensor {
  + getIntervalMillis(): Int

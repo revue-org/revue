@@ -52,7 +52,9 @@
     of a certain area through sensors and cameras, providing real-time data and video streaming.
 
     Moreover, to enhance the usefulness of the system, it should also be able to notify the user when specificconditions are met.
+    %
     These conditions include detecting if sensor data exceeds a predetermined range or if the camerarecognises a particular object.
+    %
     This notification feature ensures that the user is promptly informed about critical
     events or anomalies in the monitored environment.
 
@@ -109,11 +111,15 @@
 
     \subsection{Scenarios}
     The system can be used in various scenarios, depending on the user needs.
+    %
     This system is designed to be used by multiple types of users, from a private user to a company director.
-    In the sections below, we will describe two main of the possible scenarios in which the system can be used.
 
-    In the simplest scenario, the system is used by a private user, who wants just to monitor his home or a particular environment without the necessity
-    to recognise the objects in the video. In this case, the user can just rely on the camera, monitoring the home or a proprietary field. The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone.
+    In the sections below, we will describe two main possible scenarios in which the system can be used.
+
+    In the simplest scenario, the system is used by a private user, who wants just to monitor his home or a particular
+    environment without the necessity to recognise the objects in the video.
+    %
+    In this case, the user can just rely on the camera, monitoring the home or a proprietary field. The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone.
     The user can also set up sensors to monitor data from the environment.
 
     \begin{figure}
@@ -123,9 +129,12 @@
         \label{fig:simple-use-case}
     \end{figure}
 
-    A more complex scenario could involve both sensor and camera usages with the support of a neural network to detect intrusion. For example, the director of food wholesale could
-    monitor the temperature of the warehouse and the presence of unauthorised people during the night. In this case, the
-    recognition part of the system is necessary to detect whenever an intrusion occurs.
+    A more complex scenario could involve both sensor and camera usages with the support of a neural network to detect intrusion.
+    %
+    For example, the director of food wholesale could monitor the temperature of the warehouse and the presence of unauthorised people during the night.
+    %
+    In this case, the recognition part of the system is necessary to detect whenever an intrusion occurs.
+
     Moreover, supply chain monitoring can be done for who's needs to ensure that the temperature of
     the warehouse is always in the right range and be alerted whenever the temperature exceeds a certain range to detect or
     prevent problems.
@@ -157,13 +166,17 @@
 %What's the abstraction gap among the available models / paradigms / techonologies and the problem to be solved?
 
     Drawing up requirements, one relevant considered topic is the recognition feature.
+    %
     This is supposed to be developed using Python and exploiting its main libraries for video processing and object recognition, in order to minimise the abstraction gap.
 
     Another important aspect is the handling of video streams.
+    %
     In fact, to facilitate the development, an implicit requirement is necessary: the use of an ad hoc \textit{media server}.
+    %
     This permits also to improve the compatibility permitting to produce and consume using different protocols.
 
     Eventually, internal communications between devices and services need to be guaranteed.
+    %
     This implicitly leads to the use of a message broker (\textit{Kafka}) which guarantees better scalability and at least one message delivery policy.
 
 
@@ -237,10 +250,11 @@
     \subsection{Architecture}
 
     The overall system is designed with microservices architecture.
-%
+    %
     This choice helped us to increase modularity, scalability, reliability and fault tolerance.
-
+    %
     The system is composed of the following microservices:
+
     \begin{itemize}
         \item \textbf{Authentication Service}: responsible for the authentication and access control.
         \item \textbf{Monitoring Service}: responsible for managing devices and environment data.
@@ -295,6 +309,7 @@
 %    (UML Component / Package / Deployment Diagrams)
 
     For the design phase, Domain Driven Design (DDD) and Hexagonal Architecture (HA) have been adopted.
+    %
     Actually, the adherence to DDD and HA can be considered a little bit rough (for example, because of the lack of an ad hoc presentation layer) and it will be improved in the future.
 
     To briefly specify the layers' dependencies:
@@ -307,7 +322,9 @@
 
 
     Each microservice has the same structure in terms of classes and packages.
+    %
     Furthermore, it is responsible for a specific subset of domain entities.
+
     In \cref{fig:general-structure}, is represented the general packages/classes structure.
 
     \begin{figure}
@@ -349,7 +366,7 @@
         \caption{Alarm service activity diagram}
         \label{fig:alarm-activity}
     \end{figure}
-    Microservice responsible of the alarm management.
+    Microservice responsible for the alarm management.
     It is able to check the data coming from the sensors or the recognized objects on cameras streams.
     The service needs only to check active rules for active devices.
     It is able to create an anomaly and to notify the notification service if the data is not compliant with the rules.
@@ -357,7 +374,6 @@
     \subsubsection{Notification Service}
 
     \subsubsection{Log Service}
-
 
     \subsection{Interaction}
 
@@ -374,22 +390,7 @@
 %
     (UML Sequence Diagram)
 
-
     \section{Implementation Details}
-
-    Just report interesting / non-trivial / non-obvious implementation details.
-
-    This section is expected to be short in case some documentation (e.g. Javadoc or Swagger Spec) has been produced for the software artefacts.
-%
-    This this case, the produced documentation should be referenced here.
-
-    \begin{itemize}
-        \item Kafka publish/subscription - Kafka per il real time e reliability (at least one)
-        \item Recognition neural network
-        \item Media server
-        \item Socket per comunicazione real time al client
-        \item SSO
-    \end{itemize}
 
     \subsection{Kafka}
 
@@ -419,6 +420,7 @@
 
     \subsection{Object Recognition with YOLO}
     You only look once (\href{https://pjreddie.com/darknet/yolo}{YOLO}) is a state-of-the-art, efficient real-time object detection algorithm.
+    %
     YOLO is able to recognise classes of objects and its position in the video.
 
     This algorithm is used within the \textbf{Recognition} service to perform object recognition on video stream produced by the cameras, according to active security rules.
@@ -451,7 +453,7 @@
 
     \subsection{Architectural Testing}\label{subsec:architecture-testing}
 
-     In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser} framework has been exploited.
+    In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser} framework has been exploited.
 
     Essentially, the configured rules check that:
 
@@ -501,6 +503,7 @@
     Each test previously described in this section has been integrated into the Continuous Integration pipeline.
 
 
+
     \section{Deployment Instructions}
 
     Explain here how to install and launch the produced software artefacts.
@@ -538,15 +541,36 @@
 
     \section{Conclusions}
 
-    Recap what you did
-
     \subsection{Future Works}
 
-    Recap what you did \emph{not}
+    Future developments of this system will certainly have to enrich the user experience in order to exploit all the possible features offered by the system.
+    Certainly a well-designed user section and the introduction of roles could open up to better configurability.
+
+    Real-time video consultation could be improved with the introduction of video recording functions as well as a recorded history,
+    which has been put aside for now due to time restrictions.
+
+    Furthermore, Web of Things perspective is the objective for next courses' exams.
+    %
+    This will lead to the refactor of existent API, the addition of Thing Descriptions, etc.
+    %
+    Also, an upgrade to the RESTful API could be considered to make them \href{https://en.wikipedia.org/wiki/HATEOAS}{HATEOAS} compliant.
+
+    Another point that could certainly be worked on would be a refinement of the system design to make it even more scalable and maintainable.
+    %
+    In particular, device management, which is currently part of the monitoring service, surely will be improved with the introduction of a dedicated service.
+
+    For the deployment of the system, the use of Kubernetes (k3s) will be considered to manage the containers in a more efficient way.
+    %
+    The goal is to deploy the system in a Raspberry PI cluster.
 
     \subsection{What did we learned}
 
-    Racap what did you learned
+    This project allowed us to deepen our knowledge of the microservices architecture and to understand the advantages and disadvantages of this approach.
+
+    Moreover, it helped us to experiment with new technologies such as Kafka and a more in-depth testing.
+
+    Fault tolerance testing has been particularly interesting and has allowed us to understand how to manage the system in case of failure of one or more services, validating the reliability of the system.
+
 
     \section*{Stylistic Notes}
 

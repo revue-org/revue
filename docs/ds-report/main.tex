@@ -3,11 +3,18 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{natbib}
+\usepackage{tabularx}
+\renewcommand\tabularxcolumn[1]{m{#1}} % for vertical centering text in tabularx
 \usepackage{graphicx}
-\usepackage{enumitem}
-\usepackage{cleveref}
-\usepackage{listings}
+\usepackage[inline]{enumitem}
 \usepackage{style}
+
+% references
+\usepackage[noabbrev]{cleveref}
+%\crefname{figure}{figure}{figures}
+%\Crefname{figure}{Figure}{Figures}
+%\crefname{lstlisting}{listing}{listings}
+%\Crefname{lstlisting}{Listing}{Listings}
 
 %% for labeling items
 \renewcommand\labelenumi{\arabic{enumi}.}
@@ -81,11 +88,14 @@
 
     \subsection{Non-functional Requirements}\label{subsec:non-functional-requirements}
     \begin{enumerate}
-        \item \label{itm:func-1} The system should work even though the recognition component is down or not deployed.
-        \item \label{itm:func-2} The system should work even though the component responsible for the storage of the data is down or not deployed.
-        \item \label{itm:func-3} The system should be replicable in order to increase the availability of the system.
-        \item \label{itm:func-4} The system should work even though the component responsible for the authentication is down.
-        \item \label{itm:func-5} The video compartment should be independent of the data compartment and vice versa.
+        \item \label{itm:non-func-1} The system should be modular and reliable. In particular:
+        \begin{enumerate}
+            \item The system should work even though the recognition component is down or not deployed.
+            \item The system should work even though the component responsible for the storage of the data is down or not deployed.
+            \item The system should work even though the component responsible for the authentication is down.
+        \end{enumerate}
+        \item \label{itm:non-func-2} The system should be as much as possible available (and so replicable).
+        \item \label{itm:non-func-3} The system should be usable, with a user-friendly and minimal interface.
     \end{enumerate}
 
     \subsection{Implementation Requirements}\label{subsec:implementation-requirements}
@@ -146,21 +156,83 @@
 %
 %What's the abstraction gap among the available models / paradigms / techonologies and the problem to be solved?
 
-    Drawing up requirements, one relevant thing considered is the recognition feature. This is supposed to be developed using Python and exploiting its main libraries for video processing and object recognition, in order to minimise the abstraction gap.
+    Drawing up requirements, one relevant considered topic is the recognition feature.
+    This is supposed to be developed using Python and exploiting its main libraries for video processing and object recognition, in order to minimise the abstraction gap.
 
-    Another important aspect is the handling of video streams. In fact, to facilitate development, an implicit requirement is necessary: the use of an ad hoc \textit{media server}. This permits also to improve the compatibility permitting to produce and consume using different protocols.
+    Another important aspect is the handling of video streams.
+    In fact, to facilitate the development, an implicit requirement is necessary: the use of an ad hoc \textit{media server}.
+    This permits also to improve the compatibility permitting to produce and consume using different protocols.
 
-    Eventually, internal communications between devices and services need to be guaranteed. This implicitly leads to the use of a message broker (\textit{Kafka}) which guarantees better scalability and at least one message delivery policy.
+    Eventually, internal communications between devices and services need to be guaranteed.
+    This implicitly leads to the use of a message broker (\textit{Kafka}) which guarantees better scalability and at least one message delivery policy.
 
 
     \section{Design}
 
-% This is where the logical / abstract contribution of the project is presented.
+    \subsection{Ubiquitous Language}
 
-% Notice that, when describing a software project, three dimensions need to be taken into account: structure, behaviour, and interaction.
+    For the initial design phase, it's useful to define a common language that permits referring to the concepts with coherence and no ambiguity.
+    This is a fundamental part of Domain Driven Design philosophy.
 
-% Always remember to report \textbf{why} a particular design has been chosen.
-% Reporting wrong design choices which has been valued during the design phase is welcome too.
+    In \cref{tab:ubiquitous-language} is shown the designed ubiquitous language, while in \cref{tab:synonyms} are reported the synonyms.
+
+    \renewcommand{\arraystretch}{1.5}
+    \begin{table}
+        \centering
+        \begin{tabularx}{0.7\textwidth}{ | c | >{\centering\arraybackslash}X | }
+            \hline
+            \textbf{Term} & \textbf{Meaning} \\
+            \hline
+            Camera & Device that records an environment and sends the data to the central system \\
+            \hline
+            Sensor & Device capturing sensing data from an environment (e.g.\ temperature) \\
+            \hline
+            Device & Either a camera or a sensor \\
+            \hline
+            Video Stream & Stream of video data produced by a camera \\
+            \hline
+            Environment Data & Data produced by a sensor \\
+            \hline
+            User & User that can access the system \\
+            \hline
+            Detection & Recognition of an object in a video stream \\
+            \hline
+            Intrusion & Detection of an unauthorised object \\
+            \hline
+            Exceeding & Environment value exceeding user defined ranges \\
+            \hline
+            Anomaly & Either an intrusion or an exceeding \\
+            \hline
+            Security Rule & Rule defined by the supervisor to trigger anomalies \\
+            \hline
+            Notification & An alert sent to the user to inform that an anomaly has been triggered. \\
+            \hline
+        \end{tabularx}
+        \caption{Ubiquitous Language}
+        \label{tab:ubiquitous-language}
+    \end{table}
+
+    \renewcommand{\arraystretch}{1.8}
+    \begin{table}
+        \centering
+        \begin{tabularx}{0.6\textwidth}{ | >{\centering\arraybackslash}X | >{\centering\arraybackslash}X | }
+            \hline
+            \textbf{Term} & \textbf{Synonyms} \\
+            \hline
+            Camera & Videocamera \\
+            \hline
+            Video Stream & Video, Transmission \\
+            \hline
+            Environment Data & Data, Sensing Data \\
+            \hline
+            User & Supervisor, Admin \\
+            \hline
+            Security Rule & Rule \\
+            \hline
+        \end{tabularx}
+        \caption{Synonyms}
+        \label{tab:synonyms}
+    \end{table}
 
     \subsection{Architecture}
 
@@ -178,7 +250,12 @@
         \item \textbf{Log Service}: responsible for the persistent saving of data.
     \end{itemize}
 
-    Each microservice consists of a web server that exposes REST APIs and a database to store the data (Figure \ref{fig:microservice}).
+    Each microservice consists of
+    \begin{enumerate*}
+        \item Web server exposing REST APIs
+        \item Database to store its data (except for the \textbf{Recognition Service})
+    \end{enumerate*}
+    (\cref{fig:microservice}).
 
     \begin{figure}
         \centering
@@ -197,7 +274,7 @@
         \item \textbf{Broker}: used to manage some internal communications.
     \end{itemize}
 
-    In Figure \ref{fig:architecture} is presented the whole architecture diagram.
+    In \cref{fig:architecture} is presented the whole architecture diagram.
 
     \begin{figure}
         \centering
@@ -231,7 +308,7 @@
 
     Each microservice has the same structure in terms of classes and packages.
     Furthermore, it is responsible for a specific subset of domain entities.
-    In Figure \ref{fig:general-structure}, is represented the general packages/classes structure.
+    In \cref{fig:general-structure}, is represented the general packages/classes structure.
 
     \begin{figure}
         \centering
@@ -259,7 +336,10 @@
         \caption{Recognition service activity diagram}
         \label{fig:recognition-activity}
     \end{figure}
-    Microservice responsible of the recognition of the objects on the camera streams. The service is able to recognize a set of predefined objects and notify the Alarm Service that is in charge of the alarm management. For every camera stream a topic and a recognition process is created and started. When a predefined object is recognized it is sent trought the relative topic.
+    Microservice in charge of object recognition on the camera streams.
+    The service is able to recognise a set of predefined objects and notify the Alarm Service, that is in charge of the alarm management.
+    For every camera stream, a topic and a recognition process is created and started.
+    When a predefined object is recognised it is sent through the relative topic.
 
 
     \subsubsection{Alarm Service}
@@ -320,16 +400,16 @@
 
     Kafka is ...
 
-    In the following, is reported the code for producing (Listing \ref{lst:kafka-producer}) and consuming (Listing \ref{lst:kafka-consumer}) messages using KafkaJS.
+    In the following, is reported the code for producing (\Cref{lst:kafka-producer}) and consuming (\Cref{lst:kafka-consumer}) messages using KafkaJS.
 
     \lstinputlisting[
-        language=JavaScript,
+        language=TypeScript,
         caption={Producing using KafkaJS},
         label={lst:kafka-producer},
     ]{code/producer.ts}
 
     \lstinputlisting[
-        language=JavaScript,
+        language=TypeScript,
         caption={Consuming using KafkaJS},
         label={lst:kafka-consumer},
     ]{code/consumer.ts}
@@ -341,9 +421,13 @@
     You only look once (\href{https://pjreddie.com/darknet/yolo}{YOLO}) is a state-of-the-art, efficient real-time object detection algorithm.
     YOLO is able to recognise classes of objects and its position in the video.
 
+    This algorithm is used within the \textbf{Recognition} service to perform object recognition on video stream produced by the cameras, according to active security rules.
+
+    In \Cref{lst:object-recognition} is reported the responsible code for this task.
     \lstinputlisting[
         language=Python,
         label={lst:object-recognition},
+        caption={Python class performing object recognition with YOLO},
     ]{code/Recognizer.py}
 
 
@@ -353,17 +437,69 @@
 
     \section{Self-assessment / Validation}
 
-    Choose a criterion for the evaluation of the produced software and \textbf{its compliance to the requirements above}.
+    \subsection{Quality Assurance}\label{subsec:quality-assurance}
 
-    Pseudo-formal or formal criteria are preferred.
-
-    In case of a test-driven development, describe tests here and possibly report the amount of passing tests, the total amount of tests, and possibly the test coverage.
+    Two main tools have been used to ensure the quality of the code produced:
 
     \begin{itemize}
-        \item architecture tests
-        \item fault tolerance test
-        \item prettier e linter
+        \item \href{https://prettier.io/}{Prettier} is a code formatter that supports many languages.
+        It enforces a consistent style by parsing code and re-printing it according to the configuration rules.
+        \item \href{https://eslint.org/}{ESLint} is a tool that statically analyses code to find suboptimal patterns and errors.
     \end{itemize}
+
+    Both tools have been integrated into the Continuous Integration pipeline (\cref{subsec:continuous-integration}) to keep the high-quality code production.
+
+    \subsection{Architectural Testing}\label{subsec:architecture-testing}
+
+     In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser} framework has been exploited.
+
+    Essentially, the configured rules check that:
+
+    \begin{itemize}
+        \item \textbf{Domain} layer does not access to any other layer.
+        \item \textbf{Application} layer can access only the Domain layer.
+        \item \textbf{Presentation} layer can access only Domain and Application layers.
+    \end{itemize}
+
+    \subsection{API Testing}\label{subsec:api-testing}
+
+    API testing has been performed using \href{https://vitest.dev/}{Vitest} framework.
+
+    To be able to execute the tests, the database has been mocked using \href{https://github.com/nodkz/mongodb-memory-server}{MongoDB Memory Server}.
+
+    In \Cref{lst:api-test} is reported a simplified example of an API test.
+
+    \lstinputlisting[
+        language=TypeScript,
+        label={lst:api-test},
+        caption={API testing example},
+    ]{code/api-test.ts}
+
+
+    \subsection{Fault Tolerance Testing}\label{subsec:fault-tolerance-testing}
+
+    Since reliability is an important non-functional requirement (requirement \ref{itm:non-func-1}),
+    a specific script has been set up to test the system behaviour in case of faults.
+
+    In \Cref{lst:fault-tolerance-test} is reported the main part of the script used to
+    \begin{enumerate*}
+        \item Tearing up the system
+        \item Tearing down some running services
+        \item Executing fault tolerance tests.
+    \end{enumerate*}
+
+    Nevertheless, script and tests could be improved by adding new different fault scenarios.
+
+    \lstinputlisting[
+        language=bash,
+        label={lst:fault-tolerance-test},
+        caption={API testing example},
+    ]{code/fault-tolerance-tests.sh}
+
+    \subsection{Continuous Integration}\label{subsec:continuous-integration}
+
+    Each test previously described in this section has been integrated into the Continuous Integration pipeline.
+
 
     \section{Deployment Instructions}
 

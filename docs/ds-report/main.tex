@@ -40,9 +40,10 @@
     \maketitle
 
     \begin{abstract}
-        Revue is a real-time video surveillance and environment monitoring system. It is designed to be used in multiple scenarios such as home, office or warehouses following the user needs.
+        Revue is a real-time video surveillance and environment monitoring system.
+        It is designed to be used in multiple scenarios such as home, office or warehouses following the user needs.
 %
-        Composed by multiple features, it permits high modularity, allowing a more complex usage through the video streaming detection of predefined set of object classes and sending alerts to the user or simply to monitoring camera streams.
+        Composed by multiple features, it permits high modularity, allowing a more complex usage through the video streaming detection of a predefined set of object classes or simply to monitoring camera streams.
     \end{abstract}
 
 
@@ -51,9 +52,9 @@
     The goal of the project is to develop a distributed software system which is able to monitor the environment
     of a certain area through sensors and cameras, providing real-time data and video streaming.
 
-    Moreover, to enhance the usefulness of the system, it should also be able to notify the user when specificconditions are met.
+    Moreover, to enhance the usefulness of the system, it should also be able to notify the user when specific conditions are met.
     %
-    These conditions include detecting if sensor data exceeds a predetermined range or if the camerarecognises a particular object.
+    These conditions include detecting if sensor data exceeds a predetermined range or if some camera recognizes a particular object.
     %
     This notification feature ensures that the user is promptly informed about critical
     events or anomalies in the monitored environment.
@@ -83,20 +84,21 @@
         \item \label{itm:sys-1} The system grants access only to authenticated users.
         \item \label{itm:sys-2} The system provides a web interface as an entry point for the user.
         \item \label{itm:sys-3} The system generates video and data streams.
-        \item \label{itm:sys-4} The system monitors streams in order to detect anomalies.
+        \item \label{itm:sys-4} The system monitors streams to detect anomalies.
         \item \label{itm:sys-5} The system notifies the user when a security rule is violated.
         \item \label{itm:sys-6} The system persistently stores produced data.
     \end{enumerate}
 
     \subsection{Non-functional Requirements}\label{subsec:non-functional-requirements}
     \begin{enumerate}
-        \item \label{itm:non-func-1} The system should be modular and reliable. In particular:
+        \item \label{itm:non-func-1} The system should be modular and reliable.
+        In particular:
         \begin{enumerate}
             \item The system should work even though the recognition component is down or not deployed.
             \item The system should work even though the component responsible for the storage of the data is down or not deployed.
             \item The system should work even though the component responsible for the authentication is down.
         \end{enumerate}
-        \item \label{itm:non-func-2} The system should be as much as possible available (and so replicable).
+        \item \label{itm:non-func-2} The system should be as much as possible available (and also replicable).
         \item \label{itm:non-func-3} The system should be usable, with a user-friendly and minimal interface.
     \end{enumerate}
 
@@ -105,7 +107,7 @@
         \item \label{itm:impl-1} The recognition component of the system should be implemented in Python.
         \item \label{itm:impl-2} The frontend of the system should be implemented using Vue 3 and Typescript.
         \item \label{itm:impl-3} The storage of data should be implemented using a NoSQL database.
-        \item \label{itm:impl-4} The system should be implemented using a microservices architecture.
+        \item \label{itm:impl-4} The system should be implemented using a microservices' architecture.
         \item \label{itm:impl-5} The system should be deployed using Docker.
     \end{enumerate}
 
@@ -117,9 +119,10 @@
     In the sections below, we will describe two main possible scenarios in which the system can be used.
 
     In the simplest scenario, the system is used by a private user, who wants just to monitor his home or a particular
-    environment without the necessity to recognise the objects in the video.
+    environment without the necessity to recognize the objects in the video.
     %
-    In this case, the user can just rely on the camera, monitoring the home or a proprietary field. The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone.
+    In this case, the user can just rely on the camera, monitoring the home or a proprietary field.
+    The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone.
     The user can also set up sensors to monitor data from the environment.
 
     \begin{figure}
@@ -131,7 +134,7 @@
 
     A more complex scenario could involve both sensor and camera usages with the support of a neural network to detect intrusion.
     %
-    For example, the director of food wholesale could monitor the temperature of the warehouse and the presence of unauthorised people during the night.
+    For example, the director of food wholesale could monitor the temperature of the warehouse and the presence of unauthorized people during the night.
     %
     In this case, the recognition part of the system is necessary to detect whenever an intrusion occurs.
 
@@ -150,8 +153,8 @@
 
     The project can be considered completed when \textbf{all} requirements are satisfied.
 
-    In particular, non-functional requirements aim to grant a good general quality of the system. This will be achieved also using automated tests that will ensure, among other things, the quality code production.
-
+    In particular, non-functional requirements aim to grant a good general quality of the system.
+    This will be achieved also using automated tests that will ensure, among other things, the quality of code production.
 
     \section{Requirements Analysis}
 
@@ -167,13 +170,13 @@
 
     Drawing up requirements, one relevant considered topic is the recognition feature.
     %
-    This is supposed to be developed using Python and exploiting its main libraries for video processing and object recognition, in order to minimise the abstraction gap.
+    This is supposed to be developed using Python and exploiting its main libraries for video processing and object recognition, to minimize the abstraction gap.
 
     Another important aspect is the handling of video streams.
     %
     In fact, to facilitate the development, an implicit requirement is necessary: the use of an ad hoc \textit{media server}.
     %
-    This permits also to improve the compatibility permitting to produce and consume using different protocols.
+    This permits also improving the compatibility permitting to produce and consume using different protocols.
 
     Eventually, internal communications between devices and services need to be guaranteed.
     %
@@ -210,7 +213,7 @@
             \hline
             Detection & Recognition of an object in a video stream \\
             \hline
-            Intrusion & Detection of an unauthorised object \\
+            Intrusion & Detection of an unauthorized object \\
             \hline
             Exceeding & Environment value exceeding user defined ranges \\
             \hline
@@ -232,7 +235,7 @@
             \hline
             \textbf{Term} & \textbf{Synonyms} \\
             \hline
-            Camera & Videocamera \\
+            Camera & Video camera \\
             \hline
             Video Stream & Video, Transmission \\
             \hline
@@ -288,7 +291,7 @@
         \item \textbf{Broker}: used to manage some internal communications.
     \end{itemize}
 
-    In \cref{fig:architecture} is presented the whole architecture diagram.
+    In \cref{fig:architecture}is presented the whole architecture diagram.
 
     \begin{figure}
         \centering
@@ -320,7 +323,6 @@
         It is the outer layer since it contains platform-dependent implementation.
     \end{itemize}
 
-
     Each microservice has the same structure in terms of classes and packages.
     %
     Furthermore, it is responsible for a specific subset of domain entities.
@@ -336,8 +338,6 @@
 
     \subsection{Behaviour}
 
-    \subsubsection{Authentication Service}
-
     \subsubsection{Monitoring Service}
     \begin{figure}
         \centering
@@ -345,6 +345,8 @@
         \caption{Device activity diagram}
         \label{fig:device-activity}
     \end{figure}
+    Microservice relative to the monitoring of the environment data retrieved from sensors or active streams retrieved from cameras.
+    It allows also adding, delete or modify a device configuration, and it is responsible for the management of the devices.
 
     \subsubsection{Recognition Service}
     \begin{figure}
@@ -354,10 +356,9 @@
         \label{fig:recognition-activity}
     \end{figure}
     Microservice in charge of object recognition on the camera streams.
-    The service is able to recognise a set of predefined objects and notify the Alarm Service, that is in charge of the alarm management.
+    The service is able to recognize a set of predefined objects and notify the Alarm Service, that is in charge of the alarm management.
     For every camera stream, a topic and a recognition process is created and started.
-    When a predefined object is recognised it is sent through the relative topic.
-
+    When a predefined object is recognized it is sent through the relative topic.
 
     \subsubsection{Alarm Service}
     \begin{figure}
@@ -367,13 +368,19 @@
         \label{fig:alarm-activity}
     \end{figure}
     Microservice responsible for the alarm management.
-    It is able to check the data coming from the sensors or the recognized objects on cameras streams.
+    It is able to check the data coming from the sensors or the recognized objects on cameras' streams.
     The service needs only to check active rules for active devices.
-    It is able to create an anomaly and to notify the notification service if the data is not compliant with the rules.
+    It is able to create an anomaly, store it and to notify the notification service if the data is not compliant with the rules.
+    Moreover, this service is in charge of the management of the security rules, allowing the user to modify their configuration.
 
     \subsubsection{Notification Service}
+    This microservice is responsible to notify the user in case of Anomaly and store them.
+    When the Alarm service detects an Intrusion or an Exceeding, it sends a message to the Notification Service that will notify the user.
+    Moreover, the notification is in real-time if the user is logged in.
 
     \subsubsection{Log Service}
+    Microservice responsible for the storage of the environment data retrieved from the sensors.
+    Moreover, it allows the user to consult the historical data of the environment retrieving them when requested from the persistence.
 
     \subsection{Interaction}
 
@@ -384,7 +391,11 @@
         \caption{Auth service sequence diagram}
         \label{fig:auth-service-sequence}
     \end{figure}
-    The Auth Service is responsible of the authentication of the users. When a Login request is performed, the Auth Service checks the credentials and returns a token if the user is authenticated. When the user wants to perform a request to another service, the user needs only to provide the token in the header of the request. Every service contains a validation middleware where the token is checked. This process has been implemented through the use of JSON Web Token and sharing the secret key between federated services.
+    The Auth Service is responsible for the authentication of the users.
+    When a Login request is performed, the Auth Service checks the credentials and returns a token if the user is authenticated.
+    When the user wants to perform a request to another service, the user needs only to provide the token in the header of the request.
+    Every service contains a validation middleware where the token is checked.
+    This process has been implemented through the use of JSON Web Token and sharing the secret key between federated services.
 
     How should entities interact with each other?
 %
@@ -416,12 +427,21 @@
     ]{code/consumer.ts}
 
     \subsection{Sockets}
+    \href{https://socket.io/}{Socket IO} is a library that enables real-time, bidirectional and event-based communication between the browser and the server.
+    It has been exploited to implement the real-time communication between the user and the system, in particular for pushing notifications or sending the environment data to the user.
+    A security layer has been added to socket servers to ensure secure connections.
+    Also for this feature, the JWT token generated when the user logs in has been used.
 
+    \lstinputlisting[
+        language=TypeScript,
+        caption={Socket Server middleware},
+        label={lst:socket-middleware},
+    ]{code/sockets.ts}
 
     \subsection{Object Recognition with YOLO}
     You only look once (\href{https://pjreddie.com/darknet/yolo}{YOLO}) is a state-of-the-art, efficient real-time object detection algorithm.
     %
-    YOLO is able to recognise classes of objects and its position in the video.
+    YOLO is able to recognize classes of objects and its position in the video.
 
     This algorithm is used within the \textbf{Recognition} service to perform object recognition on video stream produced by the cameras, according to active security rules.
 
@@ -434,8 +454,29 @@
 
 
     \subsection{Media Server}
+    \href{https://github.com/bluenviron/mediamtx}{MediaMTX} has been used to allow the system to support more than one protocol without implementing a single procedure for each of them.
+    All the cameras are linked to the media server, and it can be used to retrieve the streams from the cameras with a single protocol.
+    In this case the RTSP protocol has been exploited.
+
+    \subsection{WebRTC}
+    To simulate the camera streams, the \href{https://webrtc.org/}{WebRTC} protocol takes place.
+    It has been selected for its ability to stream video and audio in real-time with simplicity.
+    It does not require any plugin or software installation, it is supported by all the major browsers, and it is open-source.
+    Developed by Google, it implements the google congestion control \href{https://www.researchgate.net/publication/316684665_Congestion_Control_for_Real-Time_Communication}{(GCC)} algorithm that allows to stream video and audio in real-time with a low latency.
 
     \subsection{Single Sign-On}
+    \href{https://en.wikipedia.org/wiki/Single_sign-on}{The Single Sign-On (SSO)} has been implemented to allow the user to access the system with a single set of credentials.
+    The Auth Service is responsible for the authentication of the user and the generation of the \href{https://jwt.io/}{JWT} token that will be used to authenticate the user in the other services.
+    The generated token can be validated from each microservice to ensure that the user is authenticated.
+    Following this approach, in case of failure of the authentication service, the user can still access the system until its token validity expires.
+    Moreover, the single point of failure is avoided.
+    This process has been implemented through the use of \href{https://jwt.io/}{JSON Web Token} and sharing the secret key between federated services.
+
+    \lstinputlisting[
+        language=TypeScript,
+        caption={Middleware for the microservices},
+        label={lst:microservice-middleware},
+    ]{code/sso.ts}
 
     \section{Self-assessment / Validation}
 
@@ -446,14 +487,14 @@
     \begin{itemize}
         \item \href{https://prettier.io/}{Prettier} is a code formatter that supports many languages.
         It enforces a consistent style by parsing code and re-printing it according to the configuration rules.
-        \item \href{https://eslint.org/}{ESLint} is a tool that statically analyses code to find suboptimal patterns and errors.
+        \item \href{https://eslint.org/}{ESLint} Is a tool that statically analyses code to find suboptimal patterns and errors.
     \end{itemize}
 
     Both tools have been integrated into the Continuous Integration pipeline (\cref{subsec:continuous-integration}) to keep the high-quality code production.
 
     \subsection{Architectural Testing}\label{subsec:architecture-testing}
 
-    In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser} framework has been exploited.
+    In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser}framework has been exploited.
 
     Essentially, the configured rules check that:
 
@@ -480,8 +521,8 @@
 
     \subsection{Fault Tolerance Testing}\label{subsec:fault-tolerance-testing}
 
-    Since reliability is an important non-functional requirement (requirement \ref{itm:non-func-1}),
-    a specific script has been set up to test the system behaviour in case of faults.
+    Since reliability is an important non-functional requirement (requirement\ref{itm:non-func-1}),
+    a specific script has been set up to test the system behavior in case of faults.
 
     In \Cref{lst:fault-tolerance-test} is reported the main part of the script used to
     \begin{enumerate*}
@@ -506,9 +547,9 @@
 
     \section{Deployment Instructions}
 
-    Explain here how to install and launch the produced software artefacts.
+    Explain here how to install and launch the produced software artifacts.
 %
-    Assume the softaware must be installed on a totally virgin environment.
+    Assume the software must be installed in a totally virgin environment.
 %
     So, report \textbf{any} configuration step.
 
@@ -521,16 +562,16 @@
 
     LOGIN PIC
 
-    In the simplest scenario the user can see the section designated for sensor environment data or the camera video streams consultation.
+    In the simplest scenario, the user can see the section designated for sensor environment data or the camera video streams consultation.
 
     HOME PIC e CAMERA PIC
 
-    In the more complex scenario the user can add security rules in order to detect exceeding values or unauthorized objects in the video streams.
-    When adding a new security rule the user can choose the object class to detect or the threshold value (for a particular measure) in addition to the device and time slot in which the rule is active.
+    In the more complex scenario, the user can add security rules to detect exceeding values or unauthorized objects in the video streams.
+    When adding a new security rule, the user can choose the object class to detect or the threshold value (for a particular measure) in addition to the device and time slot in which the rule is active.
 
     SECURITY RULES PIC
 
-    Both usage of the system consent to the user to add, delete or modify a device or a security rule configuration.
+    Both usages of the system consent to the user to add, delete or modify a device or a security rule configuration.
 
     UPDATE DEVICE E SECURITY RULES PIC
 
@@ -543,7 +584,7 @@
 
     \subsection{Future Works}
 
-    Future developments of this system will certainly have to enrich the user experience in order to exploit all the possible features offered by the system.
+    Future developments of this system will certainly have to enrich the user experience to exploit all the possible features offered by the system.
     Certainly a well-designed user section and the introduction of roles could open up to better configurability.
 
     Real-time video consultation could be improved with the introduction of video recording functions as well as a recorded history,
@@ -579,7 +620,7 @@
     This is a very short paragraph.
 
     This is a longer paragraph (notice the blank line in the code).
-    It composed by several sentences.
+    It is composed of several sentences.
 %
     You're invited to use comments within \texttt{.tex} source files to separate sentences composing the same paragraph.
 

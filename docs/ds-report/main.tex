@@ -543,9 +543,42 @@
 
     Each test previously described in this section has been integrated into the Continuous Integration pipeline.
 
+    \section{Deployment}
+    To deploy the system, Docker and Docker Compose has to be installed on the machine.
+    Multiple scripts are available to start the system with some differences, to deploy a single service or the entire system.
+
+    The system is decomposed in a container for each service and a container for the relative database.
+    In addiction to these containers, three more containers are used to deploy Kafka, Zookeeper and the media server.
+    Moreover, a container for the Yolo object detection algorithm is deployed.
+
+    To simulate running devices two containers of each device are deployed.
+
+    For the entire system, only the "deploy.sh" script has to be launched from the project root.
+    This script will build the images and start the containers for each service.
+
+    For the development phase, a script running only services' database and Kafka is available.
+    This script is called ‘compose-db.sh‘.
+    This script allows the user to pass different parameters to deploy or undeploy databases with the command ‘--up‘ or ‘--down‘ followed by services' names.
+
+    Moreover, also a script to deploy a single service and its database is available.
+    This script is called ‘compose-service.sh‘ and, like other scripts, has to be launched from the service root.
+
+    \subsection{Deployment Instructions}
+
+    Clone Revue from \href{https://github.com/Mala1180/revue/}{repository} and navigate to the project root.
+
+    To deploy the entire system, run the following command: ‘./deploy.sh‘.
+
+    The system will be deployed and the services will be available at localhost on port 8080.
+    Keep in mind that an example user is already present in the database with the following credentials:
+    - Username: user
+    - Password: user
+
+    To deploy a single service, navigate to the service root and run the following command: ‘./compose-service.sh --up‘, followed by the service name you want to deploy.
+
+    To deploy one or more databases, navigate to the service root and run the following command: ‘./compose-db.sh --up‘, followed by the services' names you want to deploy.
 
 
-    \section{Deployment Instructions}
 
     Explain here how to install and launch the produced software artifacts.
 %

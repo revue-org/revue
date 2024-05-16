@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-    kompose.version: 1.32.0 (HEAD)
   labels:
     io.kompose.service: revue-log-db
   name: revue-log-db
@@ -16,9 +13,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-        kompose.version: 1.32.0 (HEAD)
       labels:
         io.kompose.network/revue-network: "true"
         io.kompose.service: revue-log-db
@@ -32,6 +26,7 @@ spec:
             - name: MONGO_INITDB_ROOT_USERNAME
               value: root
           image: mongo
+          imagePullPolicy: IfNotPresent
           name: revue-log-db
           ports:
             - containerPort: 27017
@@ -40,13 +35,8 @@ spec:
           volumeMounts:
             - mountPath: /data/db
               name: log-data
-            - mountPath: /docker-entrypoint-initdb.d/history-init.js
-              name: revue-log-db-claim1
       restartPolicy: Always
       volumes:
         - name: log-data
           persistentVolumeClaim:
             claimName: log-data
-        - name: revue-log-db-claim1
-          persistentVolumeClaim:
-            claimName: revue-log-db-claim1

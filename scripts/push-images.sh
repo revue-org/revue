@@ -1,0 +1,9 @@
+docker push letsdothisshared/revue-auth:latest
+docker push letsdothisshared/revue-alarm:latest
+docker push letsdothisshared/revue-camera:latest
+docker push letsdothisshared/revue-frontend:latest
+docker push letsdothisshared/revue-log:latest
+docker push letsdothisshared/revue-monitoring:latest
+docker push letsdothisshared/revue-notification:latest
+docker push letsdothisshared/revue-recognition:latest
+docker push letsdothisshared/revue-sensor:latest

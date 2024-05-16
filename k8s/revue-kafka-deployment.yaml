@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-    kompose.version: 1.32.0 (HEAD)
   labels:
     io.kompose.service: revue-kafka
   name: revue-kafka
@@ -14,9 +11,6 @@ spec:
       io.kompose.service: revue-kafka
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-        kompose.version: 1.32.0 (HEAD)
       labels:
         io.kompose.network/revue-network: "true"
         io.kompose.service: revue-kafka

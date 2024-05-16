@@ -1,16 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-    kompose.version: 1.32.0 (HEAD)
   labels:
     io.kompose.network/revue-network: "true"
     io.kompose.service: revue-frontend
   name: revue-frontend
 spec:
   containers:
-    - image: revue-frontend
+    - image: letsdothisshared/revue-frontend
       name: revue-frontend
       ports:
         - containerPort: 8080

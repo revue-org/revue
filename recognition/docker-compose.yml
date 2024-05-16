@@ -1,7 +1,7 @@
 services:
 
   revue-recognition:
-    image: revue-recognition
+    image: letsdothisshared/revue-recognition
     container_name: ${RECOGNITION_HOST}
     build:
       context: .
@@ -13,6 +13,10 @@ services:
       - RECOGNITION_PORT=${RECOGNITION_PORT}
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
 networks:
   my-net:

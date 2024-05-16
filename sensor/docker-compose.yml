@@ -1,7 +1,7 @@
 services:
 
   revue-sensor-1:
-    image: revue-sensor
+    image: letsdothisshared/revue-sensor
     container_name: revue-sensor-1
     build:
       context: .
@@ -17,9 +17,13 @@ services:
       - ${MONITORING_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
   revue-sensor-2:
-    image: revue-sensor
+    image: letsdothisshared/revue-sensor
     container_name: revue-sensor-2
     build:
       context: .
@@ -35,6 +39,10 @@ services:
       - ${MONITORING_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
 #  revue-sensor-2:
 #    image: revue-sensor

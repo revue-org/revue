@@ -1,7 +1,7 @@
 services:
 
   revue-camera-1:
-    image: revue-camera
+    image: letsdothisshared/revue-camera
     container_name: revue-camera-1
     build:
       context: .
@@ -17,9 +17,13 @@ services:
       - ${MONITORING_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
   revue-camera-2:
-    image: revue-camera
+    image: letsdothisshared/revue-camera
     container_name: revue-camera-2
     build:
       context: .
@@ -35,6 +39,10 @@ services:
       - ${MONITORING_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
 #  revue-camera-3:
 #    image: revue-camera

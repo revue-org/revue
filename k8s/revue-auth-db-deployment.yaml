@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-    kompose.version: 1.32.0 (HEAD)
   labels:
     io.kompose.service: revue-auth-db
   name: revue-auth-db
@@ -16,9 +13,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f all-docker-compose.yml -o k8s
-        kompose.version: 1.32.0 (HEAD)
       labels:
         io.kompose.network/revue-network: "true"
         io.kompose.service: revue-auth-db
@@ -32,6 +26,7 @@ spec:
             - name: MONGO_INITDB_ROOT_USERNAME
               value: root
           image: mongo
+          imagePullPolicy: IfNotPresent
           name: revue-auth-db
           ports:
             - containerPort: 27017
@@ -40,13 +35,8 @@ spec:
           volumeMounts:
             - mountPath: /data/db
               name: auth-data
-            - mountPath: /docker-entrypoint-initdb.d/auth-init.js
-              name: revue-auth-db-claim1
       restartPolicy: Always
       volumes:
         - name: auth-data
           persistentVolumeClaim:
             claimName: auth-data
-        - name: revue-auth-db-claim1
-          persistentVolumeClaim:
-            claimName: revue-auth-db-claim1

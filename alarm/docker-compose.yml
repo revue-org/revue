@@ -1,7 +1,7 @@
 services:
 
   revue-alarm:
-    image: revue-alarm
+    image: letsdothisshared/revue-alarm
     container_name: ${ALARM_HOST}
     build:
       context: .
@@ -14,6 +14,10 @@ services:
       - ${KAFKA_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: nodeport
+      kompose.controller.type: deployment
+      # kompose.image-pull-policy: IfNotPresent
 
   revue-alarm-db:
     image: mongo
@@ -27,9 +31,13 @@ services:
       - ${ALARM_DB_PORT}:27017
     volumes:
       - alarm_data:/data/db
-      - ./alarm/db/alarm-init.js:/docker-entrypoint-initdb.d/alarm-init.js
+#      - ./alarm/db/alarm-init.js:/docker-entrypoint-initdb.d/alarm-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
 volumes:
   alarm_data:

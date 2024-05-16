@@ -14,7 +14,11 @@ docker compose \
     -f recognition/docker-compose.yml \
     config > all-docker-compose.yml
 
+rm -f "k8s"/*
+
 kompose convert \
+  --with-kompose-annotation=false \
+  --volumes persistentVolumeClaim \
   -f all-docker-compose.yml \
   -o k8s
 

@@ -1,7 +1,7 @@
 services:
 
   revue-notification:
-    image: revue-notification
+    image: letsdothisshared/revue-notification
     container_name: ${NOTIFICATION_HOST}
     build:
       context: .
@@ -14,6 +14,10 @@ services:
       - ${KAFKA_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: nodeport
+      kompose.controller.type: deployment
+      # kompose.image-pull-policy: IfNotPresent
 
   revue-notification-db:
     image: mongo
@@ -27,9 +31,13 @@ services:
       - ${NOTIFICATION_DB_PORT}:27017
     volumes:
       - notification_data:/data/db
-      - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
+#      - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
 volumes:
   notification_data:

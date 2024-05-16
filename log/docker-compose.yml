@@ -1,7 +1,7 @@
 services:
 
   revue-log:
-    image: revue-log
+    image: letsdothisshared/revue-log
     container_name: ${LOG_HOST}
     build:
       context: .
@@ -14,6 +14,10 @@ services:
       - ${KAFKA_HOST}
     networks:
       - my-net
+    labels:
+      kompose.service.type: nodeport
+      kompose.controller.type: deployment
+      # kompose.image-pull-policy: IfNotPresent
 
   revue-log-db:
     image: mongo
@@ -27,9 +31,13 @@ services:
       - ${LOG_DB_PORT}:27017
     volumes:
       - log_data:/data/db
-      - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
+#      - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
+      kompose.image-pull-policy: IfNotPresent
 
 volumes:
   log_data:

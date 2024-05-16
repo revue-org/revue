@@ -106,7 +106,7 @@ const humidityData = ref({
     {
       label: 'Humidity',
       borderColor: 'teal',
-      data: [],
+      data: []
     }
   ]
 })
@@ -117,7 +117,7 @@ const pressureData = ref({
     {
       label: 'Pressure',
       borderColor: 'orange',
-      data: [],
+      data: []
     }
   ]
 })
@@ -156,30 +156,43 @@ const currentMeasure = ref<Measure>(Measure.TEMPERATURE)
       {{ sensorData.sensor.deviceId.code }}
     </h3>
     <div class="measures">
-      <div class="measure"
+      <div
+        class="measure"
         v-for="value in sensorData.values"
         :key="value.timestamp + Math.random().toString(36).substring(3)"
       >
         <q-radio dense v-model="currentMeasure" :val="value.measure" label="" />
         <div>
           <span>
-          <i
-            :style="{
-              color: getMeasureColor(value.measure)
-            }"
-          >{{ Measure[value.measure] }}</i
-          >
-          :
-          {{ value.value }}{{ getMeasureAcronym(value.measureUnit) }}</span
+            <i
+              :style="{
+                color: getMeasureColor(value.measure)
+              }"
+              >{{ Measure[value.measure] }}</i
+            >
+            :
+            {{ value.value }}{{ getMeasureAcronym(value.measureUnit) }}</span
           >
           <span class="timestamp">{{ value.timestamp.toLocaleString().split(' ')[1] }}</span>
         </div>
       </div>
     </div>
     <div class="chart-container">
-      <line-chart v-show="currentMeasure == Measure.TEMPERATURE" :chart-data="temperatureData" :chart-options="chartOptions" />
-      <line-chart v-show="currentMeasure == Measure.HUMIDITY" :chart-data="humidityData" :chart-options="chartOptions" />
-      <line-chart v-show="currentMeasure == Measure.PRESSURE" :chart-data="pressureData" :chart-options="chartOptions" />
+      <line-chart
+        v-show="currentMeasure == Measure.TEMPERATURE"
+        :chart-data="temperatureData"
+        :chart-options="chartOptions"
+      />
+      <line-chart
+        v-show="currentMeasure == Measure.HUMIDITY"
+        :chart-data="humidityData"
+        :chart-options="chartOptions"
+      />
+      <line-chart
+        v-show="currentMeasure == Measure.PRESSURE"
+        :chart-data="pressureData"
+        :chart-options="chartOptions"
+      />
     </div>
   </li>
 </template>

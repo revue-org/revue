@@ -56,7 +56,6 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
               bufferStore.timestampBuffer.push(
                 new Date(response.data[j].timestamp).toLocaleString().split(' ')[1]
               )
-
             }
           }
           values.value.push({

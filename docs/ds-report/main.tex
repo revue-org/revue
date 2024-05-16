@@ -544,54 +544,87 @@
     Each test previously described in this section has been integrated into the Continuous Integration pipeline.
 
     \section{Deployment}
-    To deploy the system, Docker and Docker Compose has to be installed on the machine.
-    Multiple scripts are available to start the system with some differences, to deploy a single service or the entire system.
+    To deploy the system, the Docker daemon has to be running on the machine.
 
     The system is decomposed in a container for each service and a container for the relative database.
-    In addiction to these containers, three more containers are used to deploy Kafka, Zookeeper and the media server.
-    Moreover, a container for the Yolo object detection algorithm is deployed.
+    In addiction to these containers, four more containers are used to deploy Kafka, Zookeeper, the Media Server and Recognition.
+    To simulate running devices, two containers for each device are deployed.
 
-    To simulate running devices two containers of each device are deployed.
+    Multiple scripts are available to start the system with some differences, to deploy only databases, a single service or the entire system.
 
-    For the entire system, only the "deploy.sh" script has to be launched from the project root.
-    This script will build the images and start the containers for each service.
+    For the development phase, a script running only services' database and Kafka has been exploited, and it's available.
+    This script is called "compose-db.sh" and allows the user to deploy or undeploy databases based on the user inserted parameters.
 
-    For the development phase, a script running only services' database and Kafka is available.
-    This script is called ‘compose-db.sh‘.
-    This script allows the user to pass different parameters to deploy or undeploy databases with the command ‘--up‘ or ‘--down‘ followed by services' names.
+    Also, a script to deploy a single service and its database is available.
+    It is called ‘compose-service.sh‘ and permits to operate always considering the service and the database like a single entity.
 
-    Moreover, also a script to deploy a single service and its database is available.
-    This script is called ‘compose-service.sh‘ and, like other scripts, has to be launched from the service root.
+    Moreover, for the entire system, the "deploy.sh" script has to be launched.
+    This script will build the images and start the containers for each component.
+
+    Every script has to be launched from the root of the project.
 
     \subsection{Deployment Instructions}
 
-    Clone Revue from \href{https://github.com/Mala1180/revue/}{repository} and navigate to the project root.
+    Clone Revue from the \href{https://github.com/Mala1180/revue/}{repository} and navigate to the project root.
 
-    To deploy the entire system, run the following command: ‘./deploy.sh‘.
+    To deploy the entire system, run the following command:
+    ```bash
+    ./deploy.sh
+    ```
 
-    The system will be deployed and the services will be available at localhost on port 8080.
+    To keep the deployment simplified and the code well organized, an .env file is present in the project root.
+    Without modifying the .env file, the services will be exposed on different ports according to the table.
+
+    \begin{table}
+        \centering
+        \begin{tabularx}{0.7\textwidth}{ | c | >{\centering\arraybackslash}X | >{\centering\arraybackslash}X | }
+            \hline
+            \textbf{Service name} & \textbf{Service Port} & \textbf{Database Port} \\
+            \hline
+            frontend & 8080 & ---\\
+            \hline
+            auth & 4000 & 27017 \\
+            \hline
+            monitoring & 4001 & 27018 \\
+            \hline
+            alarm & 4002 & 27019 \\
+            \hline
+            log & 4003 & 27020\\
+            \hline
+            notification & 4004 & 27021 \\
+            \hline
+            recognition & 4005 & --- \\
+            \hline
+            media-server & 8554 rtsp & --- \\
+            \hline
+            kafka & 9092 & --- \\
+            \hline
+            zookeper & 2181 &  --- \\
+            \hline
+        \end{tabularx}
+        \caption{Services binding ports}
+        \label{tab:services-binding-ports}
+    \end{table}
+
     Keep in mind that an example user is already present in the database with the following credentials:
-    - Username: user
-    - Password: user
+    \begin{itemize}
+        \item Username: user
+        \item Password: user
+    \end{itemize}
 
-    To deploy a single service, navigate to the service root and run the following command: ‘./compose-service.sh --up‘, followed by the service name you want to deploy.
+    If instead of deploying the entire system, you want to deploy only specific services or a databases, you can use the other scripts.
+    To deploy services, you have to use the "./compose-service.sh" script while to deploy a database, you have to use the "./compose-db.sh" script.
 
-    To deploy one or more databases, navigate to the service root and run the following command: ‘./compose-db.sh --up‘, followed by the services' names you want to deploy.
+    For these scripts, you have to specify some parameters.
+    The first one is the "--up" or "--down" instruction to deploy or undeploy what you need.
+    Following the instruction, at least one service name is required.
+    Depending on the script you are using, the system will deploy or undeploy services and databases.
 
-
-
-    Explain here how to install and launch the produced software artifacts.
-%
-    Assume the software must be installed in a totally virgin environment.
-%
-    So, report \textbf{any} configuration step.
-
-    Gradle and Docker may be useful here to ensure the deployment and launch processes to be easy.
-
+    NB: Scripts have to be launched from the root of the project.
 
     \section{Usage Examples}
 
-    For every usage, the system require a login for security reasons.
+    For every usage, the system requires a login for security reasons.
 
     \begin{figure}
         \centering

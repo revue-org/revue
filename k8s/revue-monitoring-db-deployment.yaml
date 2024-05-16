@@ -35,8 +35,13 @@ spec:
           volumeMounts:
             - mountPath: /data/db
               name: monitoring-data
+            - mountPath: /docker-entrypoint-initdb.d/device-init.js
+              name: revue-monitoring-db-claim1
       restartPolicy: Always
       volumes:
         - name: monitoring-data
           persistentVolumeClaim:
             claimName: monitoring-data
+        - name: revue-monitoring-db-claim1
+          persistentVolumeClaim:
+            claimName: revue-monitoring-db-claim1

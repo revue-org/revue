@@ -31,7 +31,7 @@ services:
       - ${LOG_DB_PORT}:27017
     volumes:
       - log_data:/data/db
-#      - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
+      - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
     networks:
       - my-net
     labels:

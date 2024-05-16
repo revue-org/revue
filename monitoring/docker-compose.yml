@@ -31,7 +31,7 @@ services:
       - ${MONITORING_DB_PORT}:27017
     volumes:
       - monitoring_data:/data/db
-#      - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
+      - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
     networks:
       - my-net
     labels:

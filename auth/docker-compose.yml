@@ -30,7 +30,7 @@ services:
       - ${AUTH_DB_PORT}:27017
     volumes:
       - auth_data:/data/db
-#      - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
+      - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
     networks:
       - my-net
     labels:

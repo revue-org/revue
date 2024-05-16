@@ -98,7 +98,8 @@ monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
         deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
         rawValue._value,
         rawValue._measure,
-        rawValue._measureUnit
+        rawValue._measureUnit,
+        rawValue._timestamp
       )
     )
   }

@@ -546,34 +546,29 @@
     \section{Deployment}
     To deploy the system, the Docker daemon has to be running on the machine.
 
-    The system is decomposed in a container for each service and a container for the relative database.
-    In addiction to these containers, four more containers are used to deploy Kafka, Zookeeper, the Media Server and Recognition.
+    The system is decomposed in a container for each service and a container for the relative database\ref{fig:microservice}.
+    In addiction to these containers, other containers are used to deploy Kafka, Zookeeper, the Media Server and Recognition.
     To simulate running devices, two containers for each device are deployed.
 
     Multiple scripts are available to start the system with some differences, to deploy only databases, a single service or the entire system.
 
     For the development phase, a script running only services' database and Kafka has been exploited, and it's available.
-    This script is called "compose-db.sh" and allows the user to deploy or undeploy databases based on the user inserted parameters.
+    This script is called ``compose-db.sh'' and allows the user to deploy or undeploy databases based on the user inserted parameters.
 
     Also, a script to deploy a single service and its database is available.
-    It is called ‘compose-service.sh‘ and permits to operate always considering the service and the database like a single entity.
+    It is called ``compose-service.sh'' and permits to operate always considering the service and the database like a single entity.
 
-    Moreover, for the entire system, the "deploy.sh" script has to be launched.
+    Moreover, for the entire system, the ``deploy.sh'' script has to be launched.
     This script will build the images and start the containers for each component.
 
     Every script has to be launched from the root of the project.
 
     \subsection{Deployment Instructions}
 
-    Clone Revue from the \href{https://github.com/Mala1180/revue/}{repository} and navigate to the project root.
+    Clone \href{https://github.com/Mala1180/revue/}{Revue} and navigate to the project root.
 
-    To deploy the entire system, run the following command:
-    ```bash
-    ./deploy.sh
-    ```
-
-    To keep the deployment simplified and the code well organized, an .env file is present in the project root.
-    Without modifying the .env file, the services will be exposed on different ports according to the table.
+    An .env file is present in the project root.
+    Without modifying the .env file, the services will be exposed on different ports according to the table\ref{tab:services-binding-ports}.
 
     \begin{table}
         \centering
@@ -606,6 +601,12 @@
         \label{tab:services-binding-ports}
     \end{table}
 
+    To deploy the entire system, run the following command:
+    \\
+
+    \verb|./deploy.sh|
+    \\
+
     Keep in mind that an example user is already present in the database with the following credentials:
     \begin{itemize}
         \item Username: user
@@ -613,12 +614,21 @@
     \end{itemize}
 
     If instead of deploying the entire system, you want to deploy only specific services or a databases, you can use the other scripts.
-    To deploy services, you have to use the "./compose-service.sh" script while to deploy a database, you have to use the "./compose-db.sh" script.
+    To deploy services, you have to use the ``compose-service.sh'' script while to deploy a database, you have to use the ``compose-db.sh'' script.
 
     For these scripts, you have to specify some parameters.
-    The first one is the "--up" or "--down" instruction to deploy or undeploy what you need.
+    The first one is the ``--up'' or ``--down'' instruction to deploy or undeploy what you need.
     Following the instruction, at least one service name is required.
     Depending on the script you are using, the system will deploy or undeploy services and databases.
+    Usage examples:
+    \\
+
+    \verb|./compose-service.sh --up monitoring alarm auth notification|
+    \\
+    \\
+
+    \verb|./compose-db.sh --up monitoring alarm auth notification|
+    \\
 
     NB: Scripts have to be launched from the root of the project.
 
@@ -635,7 +645,12 @@
 
     In the simplest scenario, the user can see the section designated for sensor environment data or the camera video streams consultation.
 
-    HOME PIC
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.3]{img/usage/home_view}
+        \caption{Home view}
+        \label{fig:home_view}
+    \end{figure}
     \begin{figure}
         \centering
         \includegraphics[scale=0.3]{img/usage/camera_view}

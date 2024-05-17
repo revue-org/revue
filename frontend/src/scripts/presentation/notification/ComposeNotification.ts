@@ -33,9 +33,11 @@ export const composeNotification = async (notification: any): Promise<Notificati
 }
 
 function composeIntrusion(intrusion: any): Intrusion {
+  const date: Date = new Date(intrusion.timestamp)
+  date.setHours(new Date(intrusion.timestamp).getHours() - 1)
   return anomalyFactory.createIntrusion(
     deviceIdFactory.createCameraId(intrusion.deviceId.code),
-    new Date(intrusion.timestamp),
+    date,
     ObjectClassConverter.convertToObjectClass(intrusion.intrusionObject),
     intrusion._id
   )

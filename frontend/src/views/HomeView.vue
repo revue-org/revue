@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/core'
+import { DeviceType, type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import type { DeviceIdFactory } from '@domain/device/factories'
 import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
 import SensorData from '@/components/devices/SensorData.vue'
@@ -14,17 +14,17 @@ import { useTopicsStore } from '@/stores/topics'
 import { useUserStore } from '@/stores/user'
 import { type AxiosResponse, HttpStatusCode } from 'axios'
 import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
-import { useBuffersStore } from '@/stores/buffers'
+import type { SensorMeasures } from '@/utils/types'
 
 const topicsStore = useTopicsStore()
 const userStore = useUserStore()
-const bufferStore = useBuffersStore()
+// const bufferStore = useBuffersStore()
 
 const $q = useQuasar()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
-let values: Ref<{ sensor: Sensor; values: EnvironmentData[] }[]> = ref([])
+let sensors: Ref<SensorMeasures[]> = ref([])
 
 if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
@@ -36,32 +36,44 @@ RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].isCapturing) {
           const sensor = composeSensor(res.data[i])
-          const quantity: number = 500
+          const quantity: number = 50
           const response = await RequestHelper.get(
             `http://${logHost}:${logPort}/sensors/${sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
           )
           if (response.status == HttpStatusCode.Ok) {
+            const temperatureData: EnvironmentData[] = []
+            const humidityData: EnvironmentData[] = []
+            const pressureData: EnvironmentData[] = []
             for (let j = 0; j < response.data.length; j++) {
-              switch (response.data[j].measure) {
-                case 'TEMPERATURE':
-                  bufferStore.temperatureBuffer.push(response.data[j].value)
+              const envData = environmentDataFactory.createEnvironmentData(
+                sensor.deviceId,
+                response.data[j].value,
+                response.data[j].measure,
+                response.data[j].measureUnit,
+                new Date(response.data[j].timestamp)
+              )
+              switch (envData.measure) {
+                case Measure.TEMPERATURE:
+                  temperatureData.push(envData)
                   break
-                case 'HUMIDITY':
-                  bufferStore.humidityBuffer.push(response.data[j].value)
+                case Measure.HUMIDITY:
+                  humidityData.push(envData)
                   break
-                case 'PRESSURE':
-                  bufferStore.pressureBuffer.push(response.data[j].value)
+                case Measure.PRESSURE:
+                  pressureData.push(envData)
                   break
               }
-              bufferStore.timestampBuffer.push(
-                new Date(response.data[j].timestamp).toLocaleString().split(' ')[1]
-              )
+              // updateSensorValues([envData])
             }
+            sensors.value.push({
+              sensor: sensor,
+              measures: [
+                { measure: Measure.TEMPERATURE, data: temperatureData },
+                { measure: Measure.HUMIDITY, data: humidityData },
+                { measure: Measure.PRESSURE, data: pressureData }
+              ]
+            })
           }
-          values.value.push({
-            sensor: sensor,
-            values: []
-          })
         }
       }
     }
@@ -102,14 +114,18 @@ monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
       )
     )
   }
-  const index = values.value.findIndex(
+  // updateSensorValues(newValues)
+})
+
+const updateSensorValues = (newValues: EnvironmentData[]) => {
+  const index = sensors.value.findIndex(
     (item: { sensor: Sensor; values: EnvironmentData[] }) =>
       item.sensor.deviceId.code === newValues[0].sourceDeviceId.code
   )
   if (index !== -1) {
-    values.value[index].values = newValues
+    sensors.value[index].values = newValues
   }
-})
+}
 
 if (notificationSocket?.listeners('notification').length === 0) {
   notificationSocket?.on('notification', (anomaly: { type: string }) => {
@@ -152,7 +168,7 @@ const showNotification = (message: string) => {
   <h2>Environment data</h2>
   <div>
     <sensor-data
-      v-for="(value, index) in values.filter(value_ => value_.sensor.isCapturing)"
+      v-for="(value, index) in sensors.filter(value_ => value_.sensor.isCapturing)"
       :key="index"
       :sensor-data="value"
     />

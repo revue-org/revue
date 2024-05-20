@@ -31,10 +31,7 @@ export default class RequestHelper {
 
   static async get(url: string): Promise<AxiosResponse | void> {
     return await axios.get(url, this.getHeaders()).catch((error): void => {
-      if (error.response.status === HttpStatusCode.Forbidden) {
-        userStore().clearFields()
-        router.push('/login')
-      }
+      this.errorHandling(error)
     })
   }
 
@@ -43,10 +40,7 @@ export default class RequestHelper {
       return await axios.post(url, body)
     }
     return await axios.post(url, body, this.getHeaders()).catch((error): void => {
-      if (error.response.status === HttpStatusCode.Forbidden) {
-        userStore().clearFields()
-        router.push('/login')
-      }
+      this.errorHandling(error)
     })
   }
 
@@ -56,5 +50,17 @@ export default class RequestHelper {
 
   static async delete(url: string): Promise<AxiosResponse> {
     return await axios.delete(url, this.getHeaders())
+  }
+
+  private static errorHandling(error: any): void {
+    if (error.code === 'ECONNREFUSED') {
+      console.error('Connection refused. Please check if the server is running.')
+    }
+    if (error.response) {
+      if (error.response.status === HttpStatusCode.Forbidden) {
+        userStore().clearFields()
+        router.push('/login')
+      }
+    }
   }
 }

@@ -2,7 +2,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{url}
-\usepackage{natbib}
 \usepackage{tabularx}
 \renewcommand\tabularxcolumn[1]{m{#1}} % for vertical centering text in tabularx
 \usepackage{graphicx}
@@ -56,7 +55,7 @@
 
     Moreover, to enhance the usefulness of the system, it should also be able to notify the user when specific conditions are met.
     %
-    These conditions include detecting if sensor data exceeds a predetermined range or if some camera recognizes a particular object.
+    These conditions include detecting if sensor data exceeds a predetermined range or if some camera recognises a particular object.
     %
     This notification feature ensures that the user is promptly informed about critical
     events or anomalies in the monitored environment.
@@ -121,7 +120,7 @@
     In the sections below, we will describe two main possible scenarios in which the system can be used.
 
     In the simplest scenario, the system is used by a private user, who wants just to monitor his home or a particular
-    environment without the necessity to recognize the objects in the video.
+    environment without the necessity to recognise the objects in the video.
     %
     In this case, the user can just rely on the camera, monitoring the home or a proprietary field.
     The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone.
@@ -221,7 +220,7 @@
             \hline
             Anomaly & Either an intrusion or an exceeding \\
             \hline
-            Security Rule & Rule defined by the supervisor to trigger anomalies \\
+            Security Rule & Rule defined by the supervisor to trigger anomalies in a defined range of time \\
             \hline
             Notification & An alert sent to the user to inform that an anomaly has been triggered. \\
             \hline
@@ -343,11 +342,13 @@
     \subsubsection{Monitoring Service}
     \begin{figure}
         \centering
-        \includegraphics[scale=0.4]{img/device-activity}
+        \includegraphics[scale=0.6]{img/device-activity}
         \caption{Device activity diagram}
         \label{fig:device-activity}
     \end{figure}
-    Microservice relative to the monitoring of the environment data retrieved from sensors or active streams retrieved from cameras.
+
+    \textbf{Monitoring} is the microservice in charge of retrieving environment data from the \textbf{Broker} produced by the sensors,
+    and to provide them to the user through the \textbf{Frontend}.
     It allows also adding, delete or modify a device configuration, and it is responsible for the management of the devices.
 
     \subsubsection{Recognition Service}
@@ -357,32 +358,39 @@
         \caption{Recognition service activity diagram}
         \label{fig:recognition-activity}
     \end{figure}
-    Microservice in charge of object recognition on the camera streams.
-    The service is able to recognize a set of predefined objects and notify the Alarm Service, that is in charge of the alarm management.
-    For every camera stream, a topic and a recognition process is created and started.
-    When a predefined object is recognized it is sent through the relative topic.
+
+    \textbf{Recognition} microservice performs in loop object recognition on cameras' video streams.
+    Initially, it gets the intrusion rules from the \textbf{Alarm} service.
+    Then, it connects to the \textbf{Media Server} to consume the video streams.
+    When a predefined object is recognised, it sends it to the \textbf{Alarm} service.
+
+    Periodically, it checks if the intrusion rules, or their validity, have changed.
 
     \subsubsection{Alarm Service}
     \begin{figure}
         \centering
-        \includegraphics[scale=0.3]{img/alarm-activity}
+        \includegraphics[scale=0.24]{img/alarm-activity}
         \caption{Alarm service activity diagram}
         \label{fig:alarm-activity}
     \end{figure}
-    Microservice responsible for the alarm management.
-    It is able to check the data coming from the sensors or the recognized objects on cameras' streams.
+
+    \textbf{Alarm} microservice is responsible for the anomalies' detection.
+    It is able to check the data coming from the sensors or the recognised objects on cameras' streams.
     The service needs only to check active rules for active devices.
-    It is able to create an anomaly, store it and to notify the notification service if the data is not compliant with the rules.
-    Moreover, this service is in charge of the management of the security rules, allowing the user to modify their configuration.
+    It is able to create an anomaly, store it, and notify the \textbf{Notification} service if the data is not compliant with the rules.
+
+    Moreover, this service is in charge of the security rules management, allowing the user to modify their configuration.
 
     \subsubsection{Notification Service}
-    This microservice is responsible to notify the user in case of Anomaly and store them.
-    When the Alarm service detects an Intrusion or an Exceeding, it sends a message to the Notification Service that will notify the user.
-    Moreover, the notification is in real-time if the user is logged in.
+    This microservice is responsible to notify the user in case of anomalies.
+    When the \textbf{Alarm} service detects an intrusion or an exceeding, it sends a message to the \textbf{Notification} service that will notify the user.
+
+    If the user is logged in, the notification will be sent in real-time using sockets.
 
     \subsubsection{Log Service}
-    Microservice responsible for the storage of the environment data retrieved from the sensors.
-    Moreover, it allows the user to consult the historical data of the environment retrieving them when requested from the persistence.
+    Microservice responsible for the storage of the environment data produced by sensors.
+    It is simply listening to the \textbf{Broker} and storing the data published by events in the database.
+    It also allows the user to consult the historical data of the environment.
 
     \subsection{Interaction}
 
@@ -481,7 +489,7 @@
     \subsection{Object Recognition with YOLO}
     You only look once (\href{https://pjreddie.com/darknet/yolo}{YOLO}) is a state-of-the-art, efficient real-time object detection algorithm.
     %
-    YOLO is able to recognize classes of objects and its position in the video.
+    YOLO is able to recognise classes of objects and its position in the video.
 
     This algorithm is used within the \textbf{Recognition} service to perform object recognition on video stream produced by the cameras, according to active security rules.
 
@@ -561,8 +569,8 @@
 
     \subsection{Fault Tolerance Testing}\label{subsec:fault-tolerance-testing}
 
-    Since reliability is an important non-functional requirement (requirement\ref{itm:non-func-1}),
-    a specific script has been set up to test the system behavior in case of faults.
+    Since reliability is an important non-functional requirement (requirement \ref{itm:non-func-1}),
+    a specific script has been set up to test the system behaviour in case of faults.
 
     In \Cref{lst:fault-tolerance-test} is reported the main part of the script used to
     \begin{enumerate*}
@@ -584,11 +592,35 @@
     Each test previously described in this section has been integrated into the Continuous Integration pipeline.
 
     \section{Deployment}
-    To deploy the system, the Docker daemon has to be running on the machine.
 
-    The system is decomposed in a container for each service and a container for the relative database\ref{fig:microservice}.
-    In addiction to these containers, other containers are used to deploy Kafka, Zookeeper, the Media Server and Recognition.
+    \subsection{Prerequisites}
+
+    \begin{itemize}
+        \item Docker
+    \end{itemize}
+
+    \subsection{Starting the system}
+
+    To deploy the whole system:
+    \begin{enumerate}
+        \item Clone the project from \href{https://github.com/Mala1180/revue/}{Revue}.
+        \item Navigate to the project root.
+        \item Run the \textit{deploy.sh} script.
+    \end{enumerate}
+
+    Once the system is up and running, the web interface entrypoint is available at \href{http://localhost:8080}{http://localhost:8080}.
+    The credentials of the example user are:
+    \begin{itemize}
+        \item Username: \verb|user|
+        \item Password: \verb|user|
+    \end{itemize}
+
+    To tear down the system, run the \textit{undeploy.sh} script.
+
+    In addiction to already cited entities, there is Zookeeper container that is necessary for Kafka to work properly.
+
     To simulate running devices, two containers for each device are deployed.
+    Note that if more devices are needed,
 
     Multiple scripts are available to start the system with some differences, to deploy only databases, a single service or the entire system.
 
@@ -598,17 +630,12 @@
     Also, a script to deploy a single service and its database is available.
     It is called ``compose-service.sh'' and permits to operate always considering the service and the database like a single entity.
 
-    Moreover, for the entire system, the ``deploy.sh'' script has to be launched.
-    This script will build the images and start the containers for each component.
+    NB: Every script has to be launched from the root of the project.
 
-    Every script has to be launched from the root of the project.
-
-    \subsection{Deployment Instructions}
-
-    Clone \href{https://github.com/Mala1180/revue/}{Revue} and navigate to the project root.
-
-    An .env file is present in the project root.
-    Without modifying the .env file, the services will be exposed on different ports according to the table\ref{tab:services-binding-ports}.
+    \subsection{Configurations}
+    In the root of the project, there is a \textit{.env} that contains the environment variables needed to configure
+    correctly the system.
+    Without modifying the \textit{.env} file, the services will be exposed on different ports according to the \cref{tab:services-binding-ports}.
 
     \begin{table}
         \centering
@@ -624,7 +651,7 @@
             \hline
             alarm & 4002 & 27019 \\
             \hline
-            log & 4003 & 27020\\
+            log & 4003 & 27020 \\
             \hline
             notification & 4004 & 27021 \\
             \hline
@@ -640,18 +667,6 @@
         \caption{Services binding ports}
         \label{tab:services-binding-ports}
     \end{table}
-
-    To deploy the entire system, run the following command:
-    \\
-
-    \verb|./deploy.sh|
-    \\
-
-    Keep in mind that an example user is already present in the database with the following credentials:
-    \begin{itemize}
-        \item Username: \verb|user|
-        \item Password: \verb|user|
-    \end{itemize}
 
     If instead of deploying the entire system, you want to deploy only specific services or a databases, you can use the other scripts.
     To deploy services, you have to use the ``compose-service.sh'' script while to deploy a database, you have to use the ``compose-db.sh'' script.
@@ -679,7 +694,7 @@
         \centering
         \includegraphics[scale=0.25]{img/usage/login_view}
         \caption{Login view}
-        \label{fig:login_view}
+        \label{fig:login-view}
     \end{figure}
 
     In the simplest scenario, the user can see the section designated for sensor environment data or the camera video streams consultation.
@@ -688,13 +703,13 @@
         \centering
         \includegraphics[scale=0.25]{img/usage/home_view}
         \caption{Home view}
-        \label{fig:home_view}
+        \label{fig:home-view}
     \end{figure}
     \begin{figure}
         \centering
         \includegraphics[scale=0.25]{img/usage/camera_view}
         \caption{Monitoring view}
-        \label{fig:camera_view}
+        \label{fig:monitoring-view}
     \end{figure}
 
 
@@ -705,7 +720,7 @@
         \centering
         \includegraphics[scale=0.25]{img/usage/security_rule_view}
         \caption{Security rule view}
-        \label{fig:security_rule_view}
+        \label{fig:security-rule-view}
     \end{figure}
 
     Both usages of the system consent to the user to add, delete or modify a device or a security rule configuration.
@@ -714,13 +729,13 @@
         \centering
         \includegraphics[scale=0.25]{img/usage/update_device_view}
         \caption{Updating a device}
-        \label{fig:update_device_view}
+        \label{fig:update-device-view}
     \end{figure}
     \begin{figure}
         \centering
         \includegraphics[scale=0.25]{img/usage/update_security_rule_view}
         \caption{Updating a security rule}
-        \label{fig:update_security_rule_view}
+        \label{fig:update-security-rule-view}
     \end{figure}
 
     Moreover, the user can consult the history of produced data or all the notifications received by the system.
@@ -729,19 +744,19 @@
         \centering
         \includegraphics[scale=0.6]{img/usage/notification_example_view}
         \caption{Notification alert}
-        \label{fig:notification_example_view}
+        \label{fig:notification-example-view}
     \end{figure}
     \begin{figure}
         \centering
         \includegraphics[scale=0.25]{img/usage/notification_view}
         \caption{Security rule view}
-        \label{fig:notification_view}
+        \label{fig:notification-view}
     \end{figure}
     \begin{figure}
         \centering
         \includegraphics[scale=0.25]{img/usage/log_view}
         \caption{Security rule view}
-        \label{fig:log_view}
+        \label{fig:log-view}
     \end{figure}
 
 
@@ -773,32 +788,12 @@
 
     This project allowed us to deepen our knowledge of the microservices architecture and to understand the advantages and disadvantages of this approach.
 
-    Moreover, it helped us to experiment with new technologies such as Kafka and a more in-depth testing.
+    Moreover, it helped us to experiment with new technologies such as Kafka, and more in-depth testing.
 
     Fault tolerance testing has been particularly interesting and has allowed us to understand how to manage the system in case of failure of one or more services, validating the reliability of the system.
 
-
-    \section*{Stylistic Notes}
-
-    Use a uniform style, especially when writing formal stuff: $X$, X, $\mathbf{X}$, $\mathcal{X}$, \texttt{X} are all different symbols possibly referring to different entities.
-
-    This is a very short paragraph.
-
-    This is a longer paragraph (notice the blank line in the code).
-    It is composed of several sentences.
-%
-    You're invited to use comments within \texttt{.tex} source files to separate sentences composing the same paragraph.
-
-    Paragraph should be logically atomic: a subordinate sentence from one paragraph should always refer to another sentence from within the same paragraph.
-
-    The first line of a paragraph is usually indented.
-%
-    This is intended: it is the way \LaTeX{} lets the reader know a new paragraph is beginning.
-
-    Use the \href{https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings}{\texttt{listing}} package for inserting scripts into the \LaTeX{} source.
-
-    \nocite{*} % Includes all references from the `references.bib` file
-    \bibliographystyle{plain}
-    \bibliography{references}
+%    \nocite{*} % Includes all references from the `references.bib` file
+%    \bliographystyle{plain}
+%    \bibliography{references}
 
 \end{document}

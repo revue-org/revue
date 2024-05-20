@@ -386,22 +386,60 @@
 
     \subsection{Interaction}
 
-    \subsubsection{Auth Service}
+    \subsubsection{Authentication}
     \begin{figure}
         \centering
         \includegraphics[scale=0.3]{img/auth-service-sequence}
         \caption{Auth service sequence diagram}
         \label{fig:auth-service-sequence}
     \end{figure}
-    The Auth Service is responsible for the authentication of the users.
-    When a Login request is performed, the Auth Service checks the credentials and returns a token if the user is authenticated.
-    When the user wants to perform a request to another service, the user needs only to provide the token in the header of the request.
-    Every service contains a validation middleware where the token is checked.
-    This process has been implemented through the use of JSON Web Token and sharing the secret key between federated services.
 
-    How should entities interact with each other?
-%
-    (UML Sequence Diagram)
+    The \textbf{Auth} service is responsible for the authentication process (\cref{fig:auth-service-sequence}).
+
+    When a login request is performed, the \textbf{Auth} service checks the credentials and returns an access token if the authentication is successful.
+    Whenever a request to another service is performed, the access token is sent in the header.
+    Every service contains a validation middleware through which the token is checked.
+
+    This process has been implemented using the Json Web Token (JWT) and sharing the secret key between federated services.
+
+    \subsection{Video Stream}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{img/video-stream-sequence}
+        \caption{Video stream sequence diagram}
+        \label{fig:video-stream-sequence}
+    \end{figure}
+
+    The handling of video stream involves a set of components as shown in \cref{fig:video-stream-sequence}.
+
+    First of all, the camera sends the video stream to the \textbf{Media Server} using RTSP protocol.
+    Then, the \textbf{Media Server} is responsible for making the stream available to whoever wants to consume it.
+
+    In this case, the  \textbf{Recognition} service consumes the stream using RTSP protocol, while the \textbf{Frontend} consumes it using WebRTC protocol.
+
+    \textbf{Recognition} service starts the image recognition process on the stream and sends the recognised objects to the \textbf{Alarm} service.
+    The latter, in case of an intrusion (\cref{tab:ubiquitous-language}), will alert the  \textbf{Notification} service to notify the user.
+
+    \subsection{Sensor Data Stream}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{img/sensor-data-sequence}
+        \caption{Sensor data sequence diagram}
+        \label{fig:sensor-data-sequence}
+    \end{figure}
+
+    In the sensor data stream scenario (\cref{fig:sensor-data-sequence}), what happens is analogous to the video stream scenario.
+
+    Sensors continuously produce data, publishing them to the \textbf{Broker}.
+    In the complete scenario, three services will consume the data:
+
+    \begin{itemize}
+        \item  \textbf{Monitoring} service, to make the data available to the user through the Frontend.
+        \item  \textbf{Alarm} service, to check the data against the security rules.
+        \item  \textbf{Log} service, to store the data persistently.
+    \end{itemize}
+
+    In case of an exceeding (\cref{tab:ubiquitous-language}), the same notification process as the video stream scenario will be triggered.
 
     \section{Implementation Details}
 
@@ -412,7 +450,7 @@
     In particular, \href{https://kafka.js.org}{KafkaJS} and \href{https://kafka-python.readthedocs.io/en/master/}{kafka-python} clients
     have been used respectively for the \href{https://nodejs.org/en}{Node.js} and \href{https://flask.palletsprojects.com/en/3.0.x/}{Flask} services.
 
-    Kafka is ...
+    Kafka is an open-source distributed event streaming platform capable of handling plenty of events per second.
 
     In the following, is reported the code for producing (\Cref{lst:kafka-producer}) and consuming (\Cref{lst:kafka-consumer}) messages using KafkaJS.
 
@@ -464,11 +502,11 @@
     To simulate the camera streams, the \href{https://webrtc.org/}{WebRTC} protocol takes place.
     It has been selected for its ability to stream video and audio in real-time with simplicity.
     It does not require any plugin or software installation, it is supported by all the major browsers, and it is open-source.
-    Developed by Google, it implements the google congestion control \href{https://www.researchgate.net/publication/316684665_Congestion_Control_for_Real-Time_Communication}{(GCC)} algorithm that allows to stream video and audio in real-time with a low latency.
+    Developed by Google, it implements the Google Congestion Control \href{https://www.researchgate.net/publication/316684665_Congestion_Control_for_Real-Time_Communication}{(GCC)} algorithm that allows to stream video and audio in real-time with a low latency.
 
     \subsection{Single Sign-On}
     \href{https://en.wikipedia.org/wiki/Single_sign-on}{The Single Sign-On (SSO)} has been implemented to allow the user to access the system with a single set of credentials.
-    The Auth Service is responsible for the authentication of the user and the generation of the \href{https://jwt.io/}{JWT} token that will be used to authenticate the user in the other services.
+    The \textbf{Auth} service is responsible for the authentication of the user and the generation of the \href{https://jwt.io/}{JWT} token that will be used to authenticate the user in the other services.
     The generated token can be validated from each microservice to ensure that the user is authenticated.
     Following this approach, in case of failure of the authentication service, the user can still access the system until its token validity expires.
     Moreover, the single point of failure is avoided.
@@ -496,7 +534,7 @@
 
     \subsection{Architectural Testing}\label{subsec:architecture-testing}
 
-    In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser}framework has been exploited.
+    In order to ensure that layers' dependencies are respected, \href{https://github.com/sverweij/dependency-cruiser}{Dependency Cruiser} framework has been exploited.
 
     Essentially, the configured rules check that:
 

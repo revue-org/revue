@@ -3,7 +3,6 @@ import { type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 import LineChart from '@/components/charts/LineChart.vue'
 import { onMounted, ref, toRaw, watch } from 'vue'
-import { useBuffersStore } from '@/stores/buffers'
 import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
 import { HttpStatusCode } from 'axios'
 import { MeasureConverter, MeasureUnitConverter } from 'domain/dist/utils'
@@ -14,16 +13,20 @@ const props = defineProps<{
   lastData: EnvironmentData[]
 }>()
 
+let bufferLength: number
+const temperatureBuffer: { value: number; timestamp: string }[] = []
+const humidityBuffer: { value: number; timestamp: string }[] = []
+const pressureBuffer: { value: number; timestamp: string }[] = []
+
 const environmentData = ref<EnvironmentData[]>([])
 const currentMeasure = ref<Measure>(Measure.TEMPERATURE)
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
 console.log('SensorData')
-const bufferStore = useBuffersStore()
 
 const getSensorData = async () => {
-  const quantity: number = 500
+  const quantity: number = bufferLength * 3
   const response = await RequestHelper.get(
     `http://${logHost}:${logPort}/sensors/${props.sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
   )
@@ -60,7 +63,9 @@ watch(
 )
 
 const removeIfFull = (buffer: any[]): void => {
-  while (buffer.length > bufferStore.bufferLength) {
+  console.log('removeIfFull')
+  console.log(buffer.length, ' ', bufferLength)
+  while (buffer.length > bufferLength) {
     buffer.shift()
   }
 }
@@ -69,16 +74,16 @@ const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
   const timestampStr = timestamp.toLocaleString().split(' ')[1]
   switch (measure) {
     case Measure.TEMPERATURE:
-      removeIfFull(bufferStore.temperatureBuffer)
-      bufferStore.temperatureBuffer.push({ value: value, timestamp: timestampStr })
+      removeIfFull(temperatureBuffer)
+      temperatureBuffer.push({ value: value, timestamp: timestampStr })
       break
     case Measure.HUMIDITY:
-      removeIfFull(bufferStore.humidityBuffer)
-      bufferStore.humidityBuffer.push({ value: value, timestamp: timestampStr })
+      removeIfFull(humidityBuffer)
+      humidityBuffer.push({ value: value, timestamp: timestampStr })
       break
     case Measure.PRESSURE:
-      removeIfFull(bufferStore.pressureBuffer)
-      bufferStore.pressureBuffer.push({ value: value, timestamp: timestampStr })
+      removeIfFull(pressureBuffer)
+      pressureBuffer.push({ value: value, timestamp: timestampStr })
       break
   }
   renderValues()
@@ -86,32 +91,32 @@ const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
 
 const renderValues = () => {
   temperatureData.value = {
-    labels: toRaw(bufferStore.temperatureBuffer.map(obj => obj.timestamp)) as never[],
+    labels: toRaw(temperatureBuffer.map(obj => obj.timestamp)) as never[],
     datasets: [
       {
         label: 'Temperature',
         borderColor: 'red',
-        data: toRaw(bufferStore.temperatureBuffer.map(obj => obj.value)) as never[]
+        data: toRaw(temperatureBuffer.map(obj => obj.value)) as never[]
       }
     ]
   }
   humidityData.value = {
-    labels: toRaw(bufferStore.humidityBuffer.map(obj => obj.timestamp)) as never[],
+    labels: toRaw(humidityBuffer.map(obj => obj.timestamp)) as never[],
     datasets: [
       {
         label: 'Humidity',
         borderColor: 'teal',
-        data: toRaw(bufferStore.humidityBuffer.map(obj => obj.value)) as never[]
+        data: toRaw(humidityBuffer.map(obj => obj.value)) as never[]
       }
     ]
   }
   pressureData.value = {
-    labels: toRaw(bufferStore.pressureBuffer.map(obj => obj.timestamp)) as never[],
+    labels: toRaw(pressureBuffer.map(obj => obj.timestamp)) as never[],
     datasets: [
       {
         label: 'Pressure',
         borderColor: 'orange',
-        data: toRaw(bufferStore.pressureBuffer.map(obj => obj.value)) as never[]
+        data: toRaw(pressureBuffer.map(obj => obj.value)) as never[]
       }
     ]
   }
@@ -178,20 +183,21 @@ const chartOptions = ref({
 
 const handleResize = () => {
   if (window.innerWidth < 576) {
-    bufferStore.bufferLength = 80
+    bufferLength = 80
   } else if (window.innerWidth < 768) {
-    bufferStore.bufferLength = 120
+    bufferLength = 120
   } else if (window.innerWidth < 992) {
-    bufferStore.bufferLength = 150
+    bufferLength = 150
   } else if (window.innerWidth < 1200) {
-    bufferStore.bufferLength = 170
+    bufferLength = 170
   } else {
-    bufferStore.bufferLength = 200
+    bufferLength = 200
   }
-  removeIfFull(bufferStore.temperatureBuffer)
-  removeIfFull(bufferStore.humidityBuffer)
-  removeIfFull(bufferStore.pressureBuffer)
+  removeIfFull(temperatureBuffer)
+  removeIfFull(humidityBuffer)
+  removeIfFull(pressureBuffer)
 }
+handleResize()
 </script>
 
 <template>

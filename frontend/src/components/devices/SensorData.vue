@@ -1,43 +1,63 @@
 <script setup lang="ts">
-import { Measure } from '@domain/device/core'
+import { type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 import LineChart from '@/components/charts/LineChart.vue'
 import { onMounted, ref, toRaw, watch } from 'vue'
 import { useBuffersStore } from '@/stores/buffers'
-import type { SensorMeasures } from '@/utils/types'
+import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
+import { HttpStatusCode } from 'axios'
+import { MeasureConverter, MeasureUnitConverter } from 'domain/dist/utils'
+import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories'
 
-const { sensorData } = defineProps<{
-  sensorData: SensorMeasures
+const props = defineProps<{
+  sensor: Sensor
+  lastData: EnvironmentData[]
 }>()
 
-console.log('SensorData')
-console.log(sensorData)
+const environmentData = ref<EnvironmentData[]>([])
+const currentMeasure = ref<Measure>(Measure.TEMPERATURE)
 
+const environmentDataFactory = new EnvironmentDataFactoryImpl()
+
+console.log('SensorData')
 const bufferStore = useBuffersStore()
 
-onMounted(() => {
-  window.addEventListener('resize', handleResize)
-  console.log('SensorData mounted')
-  console.log(sensorData)
-  for (const obj of sensorData.measures) {
-    const measure = obj.measure
-    const environmentData = obj.data
-    console.log(obj)
-    for (const data of environmentData) {
-      addMeasureValue(measure, data.value, data.timestamp)
+const getSensorData = async () => {
+  const quantity: number = 500
+  const response = await RequestHelper.get(
+    `http://${logHost}:${logPort}/sensors/${props.sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
+  )
+  if (response.status == HttpStatusCode.Ok) {
+    for (let j = 0; j < response.data.length; j++) {
+      const envData = environmentDataFactory.createEnvironmentData(
+        props.sensor.deviceId,
+        response.data[j].value,
+        MeasureConverter.convertToMeasure(response.data[j].measure),
+        MeasureUnitConverter.convertToMeasureUnit(response.data[j].measureUnit),
+        new Date(response.data[j].timestamp)
+      )
+      environmentData.value.push(envData)
+      addMeasureValue(envData.measure, envData.value, envData.timestamp)
     }
   }
+}
+
+onMounted(() => {
+  getSensorData()
+  window.addEventListener('resize', handleResize)
+  console.log('SensorData mounted')
 })
 
-// watch(sensorData, newSensorData => {
-//   console.log('SensorData changed')
-//   console.log(sensorData)
-//   addMeasureValue(
-//     newSensorData.measures[0].measure,
-//     newSensorData.measures[0].data[0].value,
-//     newSensorData.measures[0].data[0].timestamp
-//   )
-// })
+watch(
+  () => props.lastData,
+  () => {
+    console.log('SensorData changed')
+    console.log(props.lastData)
+    for (const envData of props.lastData) {
+      addMeasureValue(envData.measure, envData.value, envData.timestamp)
+    }
+  }
+)
 
 const removeIfFull = (buffer: any[]): void => {
   while (buffer.length > bufferStore.bufferLength) {
@@ -63,29 +83,6 @@ const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
   }
   renderValues()
 }
-
-// const addValues = (newSensorData: SensorData) => {
-//   newSensorData.measures.forEach(obj => {
-//     const measure = obj.measure
-//     const environmentData = obj.data
-//     const timestamp = obj.timestamp.toLocaleString().split(' ')[1]
-//     switch (measure) {
-//       case Measure.TEMPERATURE:
-//         removeIfFull(bufferStore.temperatureBuffer)
-//         bufferStore.temperatureBuffer.push({ value: obj.value, timestamp: timestamp })
-//         break
-//       case Measure.HUMIDITY:
-//         removeIfFull(bufferStore.humidityBuffer)
-//         bufferStore.humidityBuffer.push({ value: obj.value, timestamp: timestamp })
-//         break
-//       case Measure.PRESSURE:
-//         removeIfFull(bufferStore.pressureBuffer)
-//         bufferStore.pressureBuffer.push({ value: obj.value, timestamp: timestamp })
-//         break
-//     }
-//     renderValues()
-//   })
-// }
 
 const renderValues = () => {
   temperatureData.value = {
@@ -118,10 +115,6 @@ const renderValues = () => {
       }
     ]
   }
-  console.log('renderValues')
-  console.log(temperatureData.value)
-  console.log(humidityData.value)
-  console.log(pressureData.value)
 }
 
 const temperatureData = ref({
@@ -182,7 +175,6 @@ const chartOptions = ref({
     }
   }
 })
-const currentMeasure = ref<Measure>(Measure.TEMPERATURE)
 
 const handleResize = () => {
   if (window.innerWidth < 576) {
@@ -205,29 +197,23 @@ const handleResize = () => {
 <template>
   <li>
     <h3>
-      {{ sensorData.sensor.deviceId.code }}
+      {{ sensor.deviceId.code }}
     </h3>
     <div class="measures">
-      <div
-        class="measure"
-        v-for="value in sensorData.measures"
-        :key="value.data.pop() + Math.random().toString(36).substring(3)"
-      >
-        <div v-if="value.data.length > 0">
-          <q-radio dense v-model="currentMeasure" :val="value.measure" label="" />
-          <div>
-            <span>
-              <i
-                :style="{
-                  color: getMeasureColor(value.measure)
-                }"
-                >{{ Measure[value.measure] }}</i
-              >
-              :
-              {{ value.data.pop()?.value }}{{ getMeasureAcronym(value.data.pop()!.measureUnit) }}</span
+      <div class="measure" v-for="(envData, index) in lastData" :key="index">
+        <q-radio dense v-model="currentMeasure" :val="envData.measure" label="" />
+        <div>
+          <span>
+            <i
+              :style="{
+                color: getMeasureColor(envData.measure)
+              }"
+              >{{ Measure[envData.measure] }}</i
             >
-            <span class="timestamp">{{ value.data.pop()?.timestamp.toLocaleString().split(' ')[1] }}</span>
-          </div>
+            :
+            {{ envData.value }}{{ getMeasureAcronym(envData.measureUnit) }}</span
+          >
+          <span class="timestamp">{{ envData.timestamp.toLocaleString().split(' ')[1] }}</span>
         </div>
       </div>
     </div>

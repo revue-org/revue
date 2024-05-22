@@ -33,9 +33,6 @@ class Recognizer:
 
             # load capture
             capture = cv.VideoCapture(self._rtsp_stream_url, cv.CAP_FFMPEG)
-            print("RTSP stream opened: " + self._rtsp_stream_url + capture.isOpened())
-            if not capture.isOpened():
-                raise Exception("Error opening RTSP video stream: " + self._rtsp_stream_url)
             capture.set(cv.CAP_PROP_FRAME_WIDTH, 640)
             capture.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
 

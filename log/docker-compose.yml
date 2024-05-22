@@ -1,7 +1,7 @@
 services:
 
   revue-log:
-    image: revue-log
+    image: letsdothisshared/revue-log
     container_name: ${LOG_HOST}
     build:
       context: .

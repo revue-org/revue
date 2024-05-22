@@ -1,7 +1,7 @@
 services:
 
   revue-notification:
-    image: revue-notification
+    image: letsdothisshared/revue-notification
     container_name: ${NOTIFICATION_HOST}
     build:
       context: .

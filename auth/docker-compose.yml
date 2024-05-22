@@ -1,7 +1,7 @@
 services:
 
   revue-auth:
-    image: revue-auth
+    image: letsdothisshared/revue-auth
     container_name: ${AUTH_HOST}
     build:
       context: .

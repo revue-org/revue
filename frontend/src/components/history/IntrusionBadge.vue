@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <li>
-    <q-icon size="28px" name="timeline" />
+    <q-icon size="28px" name="sensor_occupied" />
     <span>
       {{ intrusion.deviceId.code }}
     </span>

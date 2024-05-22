@@ -11,7 +11,6 @@ function getEnvironmentData() {
   RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
     .then(async (res: any) => {
       sensorData.value = []
-      console.log(res.data)
       for (let i = res.data.length - 1; i >= 0; i--) {
         sensorData.value.push(composeEnvironmentData(res.data[i]))
       }

@@ -23,8 +23,6 @@ const currentMeasure = ref<Measure>(Measure.TEMPERATURE)
 
 const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
-console.log('SensorData')
-
 const getSensorData = async () => {
   const quantity: number = bufferLength * 3
   const response = await RequestHelper.get(
@@ -48,14 +46,11 @@ const getSensorData = async () => {
 onMounted(() => {
   getSensorData()
   window.addEventListener('resize', handleResize)
-  console.log('SensorData mounted')
 })
 
 watch(
   () => props.lastData,
   () => {
-    console.log('SensorData changed')
-    console.log(props.lastData)
     for (const envData of props.lastData) {
       addMeasureValue(envData.measure, envData.value, envData.timestamp)
     }
@@ -63,8 +58,6 @@ watch(
 )
 
 const removeIfFull = (buffer: any[]): void => {
-  console.log('removeIfFull')
-  console.log(buffer.length, ' ', bufferLength)
   while (buffer.length > bufferLength) {
     buffer.shift()
   }

@@ -61,7 +61,7 @@ export const notificationController = {
     notificationService.updateExceedingNotification(
       notificationFactory.createExceedingNotification(
         notificationId,
-        anomalyFactory.createExceeding(deviceId, timestamp, value, measure, anomalyId)
+        anomalyFactory.createExceeding(deviceId, timestamp, measure, value, anomalyId)
       )
     )
   },

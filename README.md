@@ -1,4 +1,4 @@
-# Revue—a distributed REal-time system for Video sUrveillancE
+# Revue — a distributed real-time system for video surveillance
 
 ## Prerequisites
 

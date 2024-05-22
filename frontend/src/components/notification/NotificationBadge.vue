@@ -35,21 +35,23 @@ const deleteNotification = () => {
     </span>
     <span> {{ notification.timestamp.toLocaleString().split(',')[0] }} </span>
     <span v-if="notification.anomaly.deviceId.type == DeviceType.SENSOR">
-      <i>For the </i>
+      <i>It was detected a value out of range of </i>
       <i
         :style="{
           color: getMeasureColor((notification.anomaly as Exceeding).measure)
         }"
         >{{ Measure[(notification.anomaly as Exceeding).measure] }}</i
-      >
+      >.
+      <br />
       <i>
-        measurement a value out of range was detected. Value:
+        Value:
         {{ (notification.anomaly as Exceeding).value }}
       </i>
     </span>
 
     <span v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA">
-      <i>A {{ ObjectClass[(notification.anomaly as Intrusion).intrusionObject] }} intrusion was detected.</i>
+      <i style="color: royalblue">{{ ObjectClass[(notification.anomaly as Intrusion).intrusionObject] }}</i
+      ><i> intrusion was detected.</i>
     </span>
     <span class="timestamp"
       >Detection hour: {{ notification.anomaly.timestamp.toLocaleString().split(' ')[1] }}</span

@@ -10,10 +10,7 @@
 
 % references
 \usepackage[noabbrev]{cleveref}
-%\crefname{figure}{figure}{figures}
-%\Crefname{figure}{Figure}{Figures}
-%\crefname{lstlisting}{listing}{listings}
-%\Crefname{lstlisting}{Listing}{Listings}
+
 \lstset{
     showstringspaces=false
 }
@@ -44,7 +41,8 @@
         Revue is a real-time video surveillance and environment monitoring system.
         It is designed to be used in multiple scenarios such as home, office or warehouses following the user needs.
 %
-        Composed by multiple features, it permits high modularity, allowing a more complex usage through the video streaming detection of a predefined set of object classes or simply to monitoring camera streams.
+        Revue permits controlling the environment through sensors and cameras, providing real-time data and video streaming.
+        It is also possible to configure security rules, to get notified when a sensor data exceeds a specified range, or when camera recognise an intrusion.
     \end{abstract}
 
 
@@ -55,7 +53,7 @@
 
     Moreover, to enhance the usefulness of the system, it should also be able to notify the user when specific conditions are met.
     %
-    These conditions include detecting if sensor data exceeds a predetermined range or if some camera recognises a particular object.
+    These conditions include detecting whether sensor data exceed a predetermined range or cameras recognise a particular object.
     %
     This notification feature ensures that the user is promptly informed about critical
     events or anomalies in the monitored environment.
@@ -108,7 +106,7 @@
         \item \label{itm:impl-1} The recognition component of the system should be implemented in Python.
         \item \label{itm:impl-2} The frontend of the system should be implemented using Vue 3 and Typescript.
         \item \label{itm:impl-3} The storage of data should be implemented using a NoSQL database.
-        \item \label{itm:impl-4} The system should be implemented using a microservices' architecture.
+        \item \label{itm:impl-4} The system should be implemented using a microservices architecture.
         \item \label{itm:impl-5} The system should be deployed using Docker.
     \end{enumerate}
 
@@ -117,7 +115,7 @@
     %
     This system is designed to be used by multiple types of users, from a private user to a company director.
 
-    In the sections below, we will describe two main possible scenarios in which the system can be used.
+    In the sections below, are explained two main possible scenarios in which the system can be used.
 
     In the simplest scenario, the system is used by a private user, who wants just to monitor his home or a particular
     environment without the necessity to recognise the objects in the video.
@@ -133,7 +131,7 @@
         \label{fig:simple-use-case}
     \end{figure}
 
-    A more complex scenario could involve both sensor and camera usages with the support of a neural network to detect intrusion.
+    A more complex scenario could involve both sensor and camera usages with the support of n intelligent feature to detect intrusion.
     %
     For example, the director of food wholesale could monitor the temperature of the warehouse and the presence of unauthorized people during the night.
     %
@@ -200,7 +198,7 @@
             \hline
             \textbf{Term} & \textbf{Meaning} \\
             \hline
-            Camera & Device that records an environment and sends the data to the central system \\
+            Camera & Device that generates a video stream and sends it to the other parts of the system \\
             \hline
             Sensor & Device capturing sensing data from an environment (e.g.\ temperature) \\
             \hline
@@ -286,13 +284,13 @@
 
     \begin{itemize}
         \item \textbf{Frontend}: provides to the user the web interface to interact with the system.
-        \item \textbf{Sensors}: capture the environment data and send them to the rest of the system.
-        \item \textbf{Cameras}: capture the video streams and send them to the rest of the system.
+        \item \textbf{Sensors}: captures the environment data and send them to the rest of the system.
+        \item \textbf{Cameras}: captures the video streams and send them to the rest of the system.
         \item \textbf{Media Server}: used to consume the produced video streams and make them available using different protocols.
         \item \textbf{Broker}: used to manage some internal communications.
     \end{itemize}
 
-    In \cref{fig:architecture}is presented the whole architecture diagram.
+    In \cref{fig:architecture} is presented the whole architecture diagram.
 
     \begin{figure}
         \centering
@@ -330,6 +328,10 @@
 
     In \cref{fig:general-structure}, is represented the general packages/classes structure.
 
+    To not replicate all the code in the microservices, a shared module called \textbf{domain} has been created.
+    This is possible due to the fact most of the microservices share the same platform (Node.js).
+    The exception is the \textbf{Recognition} service, which is implemented in Python, and it required a reimplementation of some domain entities.
+
     \begin{figure}
         \centering
         \includegraphics[scale=0.55]{img/general-structure}
@@ -340,24 +342,12 @@
     \subsection{Behaviour}
 
     \subsubsection{Monitoring Service}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.6]{img/device-activity}
-        \caption{Device activity diagram}
-        \label{fig:device-activity}
-    \end{figure}
 
     \textbf{Monitoring} is the microservice in charge of retrieving environment data from the \textbf{Broker} produced by the sensors,
     and to provide them to the user through the \textbf{Frontend}.
     It allows also adding, delete or modify a device configuration, and it is responsible for the management of the devices.
 
     \subsubsection{Recognition Service}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.6]{img/recognition-activity}
-        \caption{Recognition service activity diagram}
-        \label{fig:recognition-activity}
-    \end{figure}
 
     \textbf{Recognition} microservice performs in loop object recognition on cameras' video streams.
     Initially, it gets the intrusion rules from the \textbf{Alarm} service.
@@ -366,7 +356,28 @@
 
     Periodically, it checks if the intrusion rules, or their validity, have changed.
 
+    Foreach camera subject to an active rule, it spawns a new process to perform the recognition.
+    When there is no more active rule for a camera, the process terminates.
+
+    An activity diagram is shown in \cref{fig:recognition-activity}.
+
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.6]{img/recognition-activity}
+        \caption{Recognition service activity diagram}
+        \label{fig:recognition-activity}
+    \end{figure}
+
+
     \subsubsection{Alarm Service}
+
+    \textbf{Alarm} microservice is responsible for the anomalies' detection.
+    It is able to check the data coming from the sensors or the recognised objects on cameras' streams.
+    The service needs to check active rules for active devices.
+    It is able to create an anomaly, store it, and notify the \textbf{Notification} service if the data is not compliant with the rules (\cref{fig:alarm-activity}).
+
+    Moreover, this service is in charge of the security rules management, allowing the user to modify their configuration.
+
     \begin{figure}
         \centering
         \includegraphics[scale=0.24]{img/alarm-activity}
@@ -374,23 +385,38 @@
         \label{fig:alarm-activity}
     \end{figure}
 
-    \textbf{Alarm} microservice is responsible for the anomalies' detection.
-    It is able to check the data coming from the sensors or the recognised objects on cameras' streams.
-    The service needs only to check active rules for active devices.
-    It is able to create an anomaly, store it, and notify the \textbf{Notification} service if the data is not compliant with the rules.
-
-    Moreover, this service is in charge of the security rules management, allowing the user to modify their configuration.
-
     \subsubsection{Notification Service}
     This microservice is responsible to notify the user in case of anomalies.
-    When the \textbf{Alarm} service detects an intrusion or an exceeding, it sends a message to the \textbf{Notification} service that will notify the user.
+    When the \textbf{Alarm} service detects an intrusion or an exceeding, it sends a message to the \textbf{Notification}
+    service that will notify the user through an email or an SMS\@.
 
-    If the user is logged in, the notification will be sent in real-time using sockets.
+    If the user is logged in through \textbf{Frontend}, the notification will be sent in real-time using sockets.
 
     \subsubsection{Log Service}
     Microservice responsible for the storage of the environment data produced by sensors.
-    It is simply listening to the \textbf{Broker} and storing the data published by events in the database.
+    It is simply listening to the \textbf{Broker} and storing the published data in the database.
     It also allows the user to consult the historical data of the environment.
+
+    \subsubsection{Devices}
+
+    Devices, both cameras and sensors, are responsible for producing data and sending them to the \textbf{Broker}.
+    Once initialised, they start to produce data, in particular:
+    \begin{itemize}
+        \item Sensors publish environment data on a topic.
+        \item Cameras publish video streams with RTSP protocol to the \textbf{Media Server}.
+    \end{itemize}
+
+    Actually, both devices are simulated.
+    Sensor nodes produce random data, while the camera nodes stream a local video file.
+
+
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.6]{img/device-activity}
+        \caption{Device activity diagram}
+        \label{fig:device-activity}
+    \end{figure}
+
 
     \subsection{Interaction}
 
@@ -439,12 +465,12 @@
     In the sensor data stream scenario (\cref{fig:sensor-data-sequence}), what happens is analogous to the video stream scenario.
 
     Sensors continuously produce data, publishing them to the \textbf{Broker}.
-    In the complete scenario, three services will consume the data:
+    In the standard case, three services will consume the data:
 
     \begin{itemize}
-        \item  \textbf{Monitoring} service, to make the data available to the user through the Frontend.
-        \item  \textbf{Alarm} service, to check the data against the security rules.
-        \item  \textbf{Log} service, to store the data persistently.
+        \item \textbf{Monitoring} service, to make the data available to the user through the \textbf{Frontend}.
+        \item \textbf{Alarm} service, to check the data against the security rules.
+        \item \textbf{Log} service, to store the data persistently.
     \end{itemize}
 
     In case of an exceeding (\cref{tab:ubiquitous-language}), the same notification process as the video stream scenario will be triggered.
@@ -503,8 +529,10 @@
 
     \subsection{Media Server}
     \href{https://github.com/bluenviron/mediamtx}{MediaMTX} has been used to allow the system to support more than one protocol without implementing a single procedure for each of them.
-    All the cameras are linked to the media server, and it can be used to retrieve the streams from the cameras with a single protocol.
-    In this case the RTSP protocol has been exploited.
+    All the cameras connect to the media server, it can be used to retrieve the video streams using different protocols.
+
+    In this case, RTSP protocol is used from cameras to produce video streams and from \textbf{Recognition} to consume video streams.
+    Instead, WebRTC protocol is used to consume video streams from the \textbf{Frontend}.
 
     \subsection{WebRTC}
     To simulate the camera streams, the \href{https://webrtc.org/}{WebRTC} protocol takes place.
@@ -514,11 +542,11 @@
 
     \subsection{Single Sign-On}
     \href{https://en.wikipedia.org/wiki/Single_sign-on}{The Single Sign-On (SSO)} has been implemented to allow the user to access the system with a single set of credentials.
-    The \textbf{Auth} service is responsible for the authentication of the user and the generation of the \href{https://jwt.io/}{JWT} token that will be used to authenticate the user in the other services.
+    The \textbf{Auth} service is responsible for the authentication of the user and the generation of the \href{https://jwt.io/}{Json Web Token} (JWT) token that will be used to authenticate the user in the other services.
     The generated token can be validated from each microservice to ensure that the user is authenticated.
     Following this approach, in case of failure of the authentication service, the user can still access the system until its token validity expires.
     Moreover, the single point of failure is avoided.
-    This process has been implemented through the use of \href{https://jwt.io/}{JSON Web Token} and sharing the secret key between federated services.
+    This process has been implemented through the use of JWT and sharing the secret key between federated services.
 
     \lstinputlisting[
         language=TypeScript,
@@ -534,8 +562,8 @@
 
     \begin{itemize}
         \item \href{https://prettier.io/}{Prettier} is a code formatter that supports many languages.
-        It enforces a consistent style by parsing code and re-printing it according to the configuration rules.
-        \item \href{https://eslint.org/}{ESLint} Is a tool that statically analyses code to find suboptimal patterns and errors.
+        It enforces a consistent style by parsing code and re-writing it according to the configuration rules.
+        \item \href{https://eslint.org/}{ESLint} is a tool that statically analyses code to find suboptimal patterns and errors.
     \end{itemize}
 
     Both tools have been integrated into the Continuous Integration pipeline (\cref{subsec:continuous-integration}) to keep the high-quality code production.
@@ -620,7 +648,7 @@
     In addiction to already cited entities, is present a \href{https://zookeeper.apache.org}{Zookeeper} container that is necessary for Kafka to work properly.
 
     To simulate running devices, two containers for each device are deployed.
-    Note that if more devices are needed, it is necessary to manually add more containers to the docker-compose file in sensor module.
+    Note that if more devices are needed, it is necessary to manually add more containers to the docker-compose file in devices' modules (\textbf{sensor} and \textbf{camera}).
     It is also necessary, when adding new devices through the web interface, inserting the same device code used in the docker-compose file.
 
     \subsection{Starting sub-parts of the system}
@@ -704,7 +732,10 @@
 
 
     In the more complex scenario, the user can add security rules to detect exceeding values or unauthorized objects in the video streams.
-    When adding a new security rule, the user can choose the object class to detect or the threshold value (for a particular measure) in addition to the device and time slot in which the rule is active.
+
+    When adding a new intrusion rule, the user can choose the object class to detect, the camera, and the time slot on which the rule will be active.
+
+    Instead, when adding a new exceeding rule, the user specifies the range value (for a specific measure), the target sensor and the time slot validity.
 
     \begin{figure}
         \centering
@@ -770,7 +801,7 @@
     %
     In particular, device management, which is currently part of the monitoring service, surely will be improved with the introduction of a dedicated service.
 
-    For the deployment of the system, the use of Kubernetes (k3s) will be considered to manage the containers in a more efficient way.
+    For the deployment of the system, the use of Kubernetes (in particulare k3s) will be considered to manage the containers in a more efficient way.
     %
     The goal is to deploy the system in a Raspberry PI cluster.
 

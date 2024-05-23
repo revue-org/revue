@@ -1,7 +1,7 @@
 services:
 
   revue-camera-1:
-    image: revue-camera
+    image: letsdothisshared/revue-camera:1.8.4
     container_name: revue-camera-1
     build:
       context: .
@@ -19,7 +19,7 @@ services:
       - my-net
 
   revue-camera-2:
-    image: revue-camera
+    image: letsdothisshared/revue-camera:1.8.4
     container_name: revue-camera-2
     build:
       context: .
@@ -37,7 +37,7 @@ services:
       - my-net
 
 #  revue-camera-3:
-#    image: revue-camera
+#    image: letsdothisshared/revue-camera:1.8.4
 #    container_name: revue-camera-3
 #    build:
 #      context: .

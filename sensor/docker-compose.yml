@@ -1,7 +1,7 @@
 services:
 
   revue-sensor-1:
-    image: revue-sensor
+    image: letsdothisshared/revue-sensor:1.8.4
     container_name: revue-sensor-1
     build:
       context: .
@@ -19,7 +19,7 @@ services:
       - my-net
 
   revue-sensor-2:
-    image: revue-sensor
+    image: letsdothisshared/revue-sensor:1.8.4
     container_name: revue-sensor-2
     build:
       context: .
@@ -36,22 +36,8 @@ services:
     networks:
       - my-net
 
-#  revue-sensor-2:
-#    image: revue-sensor
-#    container_name: revue-sensor-2
-#    build:
-#      context: .
-#      dockerfile: ./sensor/Dockerfile
-#    restart: on-failure
-#    environment:
-#      - SENSOR_CODE=sen-02
-#    ports:
-#      - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
-#    depends_on:
-#      - ${KAFKA_HOST}
-
 #  revue-sensor-3:
-#    image: revue-sensor
+#    image: letsdothisshared/revue-sensor:1.8.4
 #    container_name: revue-sensor-3
 #    build:
 #      context: .

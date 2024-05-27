@@ -1,0 +1,31 @@
+@startuml
+
+start
+:Get intrusion rules;
+
+fork
+    while (service running)
+        :Wait an interval;
+        :Check if intrusion rules
+        (or their validity) changed;
+        if (rules on new camera) then (yes)
+            :Spawn new recognizing process;
+        else (no)
+        endif
+    endwhile
+
+fork again
+    ->foreach camera;
+    while (service running)
+        :Connect to video stream;
+        :Recognize objects based on intrusion rules;
+
+        if (object recognized) then (yes)
+            :Publish recognized object message;
+        else (no)
+        endif
+    endwhile
+
+endfork
+stop
+@enduml

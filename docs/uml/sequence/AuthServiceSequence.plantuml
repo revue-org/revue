@@ -1,0 +1,47 @@
+/'
+<? extends Element>'//'
+
+
+@startuml
+left to right direction
+actor "User" as fc
+rectangle Microservices {
+  usecase "Auth" as UC5
+  usecase "Monitoring" as UC1
+  usecase "Alarm" as UC2
+  usecase "Notification" as UC3
+  usecase "Log" as UC4
+}
+fc --> UC1
+fc --> UC2
+fc --> UC3
+fc --> UC4
+fc <-- UC5 : Token
+fc --> UC5 : Login
+
+
+@enduml'/
+
+@startuml
+User -> Auth: Login Request
+
+alt Successful case
+
+    Auth -> User: Response with the auth token
+
+    User -> Microservice: Request with token in the header
+
+    Microservice -> Microservice: Token Validation
+
+    Microservice -> User: Response with data
+
+else Unsuccessful case
+
+    Auth -> User: Response with bad request status
+
+    User -> Microservice: Request with no token
+
+    Microservice -> User: Response with forbidden status
+
+end
+@enduml

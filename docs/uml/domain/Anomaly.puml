@@ -1,14 +1,13 @@
 @startuml
 
 interface Anomaly {
-  + getAnomalyId(): Int
-  + getDeviceId(): DeviceId
+  + anomalyId: Int
+  + deviceId: DeviceId
   + getTimestamp(): Date
 }
-note right of Anomaly: Domain Event
 
 interface Exceeding {
-  + getValue(): Float,
+  + getValue(): Float
   + getMeasure(): Measure
 }
 
@@ -21,27 +20,32 @@ Intrusion *-- Anomaly
 
 !startsub AnomalyRoot
 interface AnomalyService {
-  + addAnomaly(anomaly: Anomaly): void
-  + removeAnomaly(anomalyId: String): void
-  + notifyAlarmService(anomaly: Anomaly): void
+    +getExceedings(): Promise<Exceeding[]>
+    +getIntrusions(): Promise<Intrusion[]>
+    +getAnomalyById(anomalyId: string): Promise<Anomaly>
+    +insertExceeding(exceeding: Exceeding): Promise<string>
+    +insertIntrusion(intrusion: Intrusion): Promise<string>
+    +updateExceeding(exceeding: Exceeding): void
+    +updateIntrusion(intrusion: Intrusion): void
+    +deleteAnomaly(anomalyId: string, type: AnomalyType): void
 }
 !endsub AnomalyRoot
-note left of AnomalyService: Service
 
 interface AnomalyFactory {
-  + createIntrusion(): Anomaly
-  + createExceeding(): Anomaly
+  + createIntrusion(): Intrusion
+  + createExceeding(): Exceeding
 }
-note right: Factory
 AnomalyFactory --> Anomaly : creates
-AnomalyFactory <-- AnomalyService : uses
-
 interface AnomalyRepository {
-  + getAnomalies(): Set<Anomaly>
-  + insertAnomaly(anomaly: Anomaly): void
-  + deleteAnomaly(anomalyId: Int): void
+    +getExceedings(): Promise<Exceeding[]>
+    +getIntrusions(): Promise<Intrusion[]>
+    +getAnomalyById(anomalyId: string): Promise<Anomaly>
+    +insertExceeding(exceeding: Exceeding): Promise<string>
+    +insertIntrusion(intrusion: Intrusion): Promise<string>
+    +updateExceeding(anomaly: Exceeding): Promise<void>
+    +updateIntrusion(anomaly: Intrusion): Promise<void>
+    +deleteAnomaly(anomalyId: string, type: AnomalyType): Promise<void>
 }
-note left of AnomalyRepository: Repository
 AnomalyRepository o-up- Anomaly
 AnomalyService --> AnomalyRepository : uses
 

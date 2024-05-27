@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant Sensor
+participant Broker
+participant Frontend
+actor ":User" as User
+participant Notification
+participant Monitoring
+participant Alarm
+participant Log
+
+
+Sensor -> Broker: Produce data
+Broker --> Monitoring: Consume data
+Broker --> Alarm: Consume data
+Broker --> Log: Consume data
+Log -> Log: Store data in database
+Monitoring -> Frontend: Update
+Alarm -> Alarm: Check \nexceedings
+opt Data violating exceeding rule
+Alarm -> Notification: Create notification
+Notification -> Frontend: Update
+Notification -> User: SMS
+Notification -> User: Email
+end
+@enduml

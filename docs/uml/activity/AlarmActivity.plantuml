@@ -1,0 +1,17 @@
+@startuml
+
+start
+:Get active devices based on active security rules;
+:Subscribe to device topics;
+while (Service running)
+    :Consume data from device topics;
+    :Check security rules;
+    if (Anomaly discovered) then (yes)
+        :Create Anomaly;
+        :Alert notification service;
+    else (no)
+    endif
+endwhile
+
+stop
+@enduml

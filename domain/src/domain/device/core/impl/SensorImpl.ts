@@ -76,6 +76,7 @@ export class SensorImpl implements Sensor {
   }
 
   sendEnvironmentData(): void {
+    // TODO: remove(?)
     throw new Error('Method not implemented.')
   }
 }

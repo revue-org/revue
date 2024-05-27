@@ -1,0 +1,22 @@
+@startuml
+
+start
+:Get camera info;
+
+while (node running)
+:Produce video stream;
+
+endwhile
+stop
+
+start
+:Get sensor info;
+
+while (node running)
+:Publish environment data;
+
+endwhile
+stop
+
+
+@enduml

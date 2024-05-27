@@ -1,0 +1,47 @@
+@startuml
+
+left to right direction
+
+rectangle {
+    portin entrypoint
+
+cloud Broker
+
+rectangle Microservices {
+    component Monitoring
+    component Auth
+    component Alarm
+    component Log
+
+    component Notification
+    component Recognition
+
+}
+component MediaServer
+component Frontend
+rectangle "Devices" {
+    component Sensor
+    component Camera
+}
+interface API
+Microservices -up- API
+Frontend --( API : Requests
+
+
+Broker <-- Recognition
+Broker --> Monitoring
+Broker --> Log
+Broker --> Alarm
+Broker <-up- Sensor
+
+MediaServer <-- Camera : produce
+MediaServer <-- Frontend: consume
+MediaServer <-- Recognition: consume
+}
+
+actor Client
+Client --> entrypoint
+entrypoint --> Frontend
+
+
+@enduml

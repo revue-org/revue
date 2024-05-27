@@ -163,3 +163,8 @@ docs/**/*.fot
 docs/**/*.cb
 docs/**/*.cb2
 docs/**/*.gz
+
+### BibTex ###
+docs/**/*.bbl
+docs/**/*.blg
+

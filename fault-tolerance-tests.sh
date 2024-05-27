@@ -1,6 +1,6 @@
 function tear_down_system() {
     echo "Tearing down the system..."
-    ./undeploy.sh > /dev/null 2>&1
+    ./undeploy.sh #> /dev/null 2>&1
     if [ "$1" -ne 0 ]; then
         echo "Tests of $2 failed. Exiting."
         exit "$1"
@@ -13,7 +13,7 @@ function tear_down_services() {
     for service in "$@"
     do
         echo "Tearing down $service service..."
-        ./scripts/compose.sh down revue-"$service" > /dev/null 2>&1
+        ./scripts/compose.sh down revue-"$service" #> /dev/null 2>&1
     done
     sleep 2
 }
@@ -22,7 +22,7 @@ function tear_up_services() {
     for service in "$@"
     do
         echo "Tearing up $service service..."
-        ./scripts/compose.sh up -d revue-"$service" > /dev/null 2>&1
+        ./scripts/compose.sh up -d revue-"$service" #> /dev/null 2>&1
     done
     sleep 2
 }
@@ -40,7 +40,7 @@ function execute_test() {
 }
 
 echo "Tearing up the system..."
-./deploy.sh > /dev/null 2>&1
+./deploy.sh #> /dev/null 2>&1
 sleep 2
 
 tear_down_services "log"

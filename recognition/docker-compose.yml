@@ -1,7 +1,7 @@
 services:
 
   revue-recognition:
-    image: letsdothisshared/revue-recognition:1.8.4
+    image: letsdothisshared/revue-recognition
     container_name: ${RECOGNITION_HOST}
     build:
       context: .

@@ -1,7 +1,7 @@
 services:
 
   revue-sensor-1:
-    image: letsdothisshared/revue-sensor:1.8.4
+    image: letsdothisshared/revue-sensor
     container_name: revue-sensor-1
     build:
       context: .
@@ -19,7 +19,7 @@ services:
       - my-net
 
   revue-sensor-2:
-    image: letsdothisshared/revue-sensor:1.8.4
+    image: letsdothisshared/revue-sensor
     container_name: revue-sensor-2
     build:
       context: .
@@ -37,7 +37,7 @@ services:
       - my-net
 
 #  revue-sensor-3:
-#    image: letsdothisshared/revue-sensor:1.8.4
+#    image: letsdothisshared/revue-sensor
 #    container_name: revue-sensor-3
 #    build:
 #      context: .

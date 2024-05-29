@@ -1,7 +1,7 @@
 services:
 
   revue-alarm:
-    image: letsdothisshared/revue-alarm:1.8.4
+    image: letsdothisshared/revue-alarm
     container_name: ${ALARM_HOST}
     build:
       context: .

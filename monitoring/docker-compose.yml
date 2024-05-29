@@ -1,7 +1,7 @@
 services:
 
   revue-monitoring:
-    image: letsdothisshared/revue-monitoring:1.8.4
+    image: letsdothisshared/revue-monitoring
     container_name: ${MONITORING_HOST}
     build:
       context: .

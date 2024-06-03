@@ -1,0 +1,32 @@
+@startuml
+
+package Domain {
+
+  package Core {
+    entity Entity {}
+
+    entity EntityId {}
+  }
+  package Factories {
+    entity EntityFactory
+  }
+
+  package Repositories {
+    entity EntityRepository
+  }
+}
+
+package Application {
+  entity EntityService
+}
+
+package Storage {
+  entity EntityRepositoryImpl
+}
+
+EntityId -left-* Entity
+EntityFactory -down-> Entity : creates
+EntityRepository -down-> Entity : stores
+EntityService --> EntityRepository : uses
+EntityRepositoryImpl --|> EntityRepository
+@enduml

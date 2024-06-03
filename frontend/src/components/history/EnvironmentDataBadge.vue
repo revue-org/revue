@@ -9,7 +9,7 @@ defineProps<{
 </script>
 <template>
   <li>
-    <q-icon size="28px" name="sensor_occupied" />
+    <q-icon size="28px" name="timeline" />
     <span>
       {{ environmentData.sourceDeviceId.code }}
     </span>

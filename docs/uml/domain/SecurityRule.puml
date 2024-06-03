@@ -1,52 +1,63 @@
 @startuml
 
 !startsub SecurityRuleRoot
-
 interface SecurityRuleService {
-  + addSecurityRule(securityRule: SecurityRule): void
-  + removeSecurityRule(securityRuleId: Int): void
+    +getSecurityRuleById(id: string): Promise<SecurityRule>
+    +getExceedingRules(): Promise<ExceedingRule[]>
+    +getIntrusionRules(): Promise<IntrusionRule[]>
+    +getContactsToNotify(anomaly: Anomaly): Promise<Contact[]>
+    +insertExceedingSecurityRule(exceedingRule: ExceedingRule): void
+    +insertIntrusionSecurityRule(intrusionRule: IntrusionRule): void
+    +updateExceedingSecurityRule(exceedingRule: ExceedingRule): void
+    +updateIntrusionSecurityRule(intrusionRule: IntrusionRule): void
+    +deleteExceedingRule(id: string): void
+    +deleteIntrusionRule(id: string): void
+    +checkExceedingDetection(environmentData: EnvironmentData): Promise<boolean>
+    +checkIntrusionDetection(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): Promise<boolean>
 }
 !endsub SecurityRuleRoot
-note left of SecurityRuleService: Service
 SecurityRuleService --> SecurityRuleRepository : uses
 SecurityRuleService --> SecurityRuleFactory : uses
 
 interface SecurityRuleRepository {
-  + getSecurityRules(): Set<SecurityRule>
-  + insertSecurityRule(securityRule: SecurityRule): void
-  + deleteSecurityRule(securityRule: SecurityRule): void
+    +getExceedingRules(): Promise<ExceedingRule[]>
+    +getIntrusionRules(): Promise<IntrusionRule[]>
+    +getSecurityRuleById(securityRuleId: string): Promise<SecurityRule>
+    +insertExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<string>
+    +insertIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<string>
+    +updateExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void>
+    +updateIntrusionSecurityRule(intrusionRule: IntrusionRule): Promise<void>
+    +deleteExceedingRule(exceedingRuleId: string): Promise<void>
+    +deleteIntrusionRule(intrusionRuleId: string): Promise<void>
 }
-note left of SecurityRuleRepository : Repository
 SecurityRuleRepository o-- SecurityRule
 
 
 interface SecurityRule {
-  + getSecurityRuleId(): Int
-  + getDeviceId(): DeviceId
+  + securityRuleId: Int
+  + deviceId: DeviceId
   + getCreatorId(): Int
-  + getContactsToNotify(): Set<Contact>
-  + getDescription(): String
-  + getFrom(): Timestamp
-  + getTo(): Timestamp
+  + contactsToNotify: Set<Contact>
+  + description: String
+  + from: Timestamp
+  + to: Timestamp
 }
-note left of SecurityRule: Entity
 
 interface SecurityRuleFactory {
-  + createIntrusionRule(...): SecurityRule
-  + createExceedingRule(...): SecurityRule
+  + createIntrusionRule(...): IntrusionRule
+  + createExceedingRule(...): ExceedingRule
 }
-note right of SecurityRuleFactory : Factory
 SecurityRuleFactory -left-> SecurityRule : creates
 
 interface IntrusionRule {
-  + getObjectClass(): ObjectClass
+  + objectClass: ObjectClass
 }
 IntrusionRule o-- ObjectClass
 
 interface ExceedingRule {
-  + getMin(): Float
-  + getMax(): Float
-  + getMeasure(): Measure
+  + min: Float
+  + max: Float
+  + measure: Measure
 }
 
 enum ObjectClass {

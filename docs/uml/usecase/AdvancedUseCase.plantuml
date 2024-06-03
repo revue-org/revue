@@ -1,0 +1,16 @@
+@startuml
+
+left to right direction
+actor "Logged User" as user
+rectangle "Revue" {
+  usecase "Consult historical data" as UC4
+  usecase "View notifications" as UC3
+  usecase "Manage alarms" as UC2
+  usecase "Monitor video and data" as UC1
+}
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC4
+
+@enduml

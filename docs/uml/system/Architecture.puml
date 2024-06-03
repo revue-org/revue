@@ -5,7 +5,7 @@ left to right direction
 rectangle {
     portin entrypoint
 
-cloud Kafka
+cloud Broker
 
 rectangle Microservices {
     component Monitoring
@@ -20,33 +20,28 @@ rectangle Microservices {
 component MediaServer
 component Frontend
 rectangle "Devices" {
-    component Sensor <<web server>>
-    component Camera <<web server>>
+    component Sensor
+    component Camera
 }
 interface API
 Microservices -up- API
-Frontend -- API : Requests
+Frontend --( API : Requests
 
 
-Kafka <-- Recognition
-Kafka --> Monitoring
-Kafka --> Log
-Kafka --> Alarm
-Kafka <-up- Sensor
+Broker <-- Recognition
+Broker --> Monitoring
+Broker --> Log
+Broker --> Alarm
+Broker <-up- Sensor
 
-MediaServer <-- Camera : RTSP
-MediaServer --> Frontend: WebRTC
-MediaServer --> Recognition: RTSP
+MediaServer <-- Camera : produce
+MediaServer <-- Frontend: consume
+MediaServer <-- Recognition: consume
 }
 
 actor Client
 Client --> entrypoint
 entrypoint --> Frontend
-
-legend
-    Kafka --> Service : Consume
-    Kafka <-- Service : Produce
-end legend
 
 
 @enduml

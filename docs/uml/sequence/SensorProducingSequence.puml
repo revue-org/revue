@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 participant Sensor
-participant "Kafka Broker"
+participant Broker
 participant Frontend
 actor ":User" as User
 participant Notification
@@ -10,10 +10,10 @@ participant Alarm
 participant Log
 
 
-Sensor -> "Kafka Broker": Produce data
-"Kafka Broker" --> Monitoring: Consume data
-"Kafka Broker" --> Alarm: Consume data
-"Kafka Broker" --> Log: Consume data
+Sensor -> Broker: Produce data
+Broker --> Monitoring: Consume data
+Broker --> Alarm: Consume data
+Broker --> Log: Consume data
 Log -> Log: Store data in database
 Monitoring -> Frontend: Update
 Alarm -> Alarm: Check \nexceedings

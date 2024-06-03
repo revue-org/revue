@@ -8,7 +8,6 @@ fork
         :Wait an interval;
         :Check if intrusion rules
         (or their validity) changed;
-        :Update intrusion rules;
         if (rules on new camera) then (yes)
             :Spawn new recognizing process;
         else (no)

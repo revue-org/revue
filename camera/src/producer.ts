@@ -63,9 +63,9 @@ export const produce = async (): Promise<void> => {
     })
     .on('error', (err, stdout, stderr) => {
       if (err) {
-        console.log(err.message)
         console.log('stdout:\n' + stdout)
         console.log('stderr:\n' + stderr)
+        throw new Error(err.message)
       }
     })
     .run()

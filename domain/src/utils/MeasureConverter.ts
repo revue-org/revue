@@ -10,7 +10,7 @@ export class MeasureConverter {
       case 'PRESSURE':
         return Measure.PRESSURE
       default:
-        throw new Error('Measure not found')
+        throw new Error('Measure not found: ' + measure)
     }
   }
 
@@ -23,7 +23,7 @@ export class MeasureConverter {
       case Measure.PRESSURE:
         return 'PRESSURE'
       default:
-        throw new Error('Measure not found')
+        throw new Error('Measure not found: ' + measure)
     }
   }
 }

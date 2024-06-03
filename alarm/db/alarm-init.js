@@ -77,38 +77,3 @@ db.securityRule.insert([
     __v: 0
   }
 ])
-
-db.createCollection('recognizingNode')
-
-db.recognizingNode.insert([
-  {
-    _id: ObjectId('65a020d5de7178fe501e7dda'),
-    ipAddress: '192.168.1.2',
-    deviceIds: [
-      {
-        type: 'CAMERA',
-        code: 'cam-01'
-      },
-      {
-        type: 'SENSOR',
-        code: 'sen-01'
-      }
-    ],
-    __v: 0
-  },
-  {
-    _id: ObjectId('65a020d5de7178fe501e7ddb'),
-    ipAddress: '192.168.1.2',
-    deviceIds: [
-      {
-        type: 'CAMERA',
-        code: 'cam-02'
-      },
-      {
-        type: 'SENSOR',
-        code: 'sen-02'
-      }
-    ],
-    __v: 0
-  }
-])

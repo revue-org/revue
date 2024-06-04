@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  notification-init.js: |
+    db = new Mongo().getDB("notification");
+
+    db.createCollection("notification");
+
+    db.notification.insert([]);
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: revue-notification-db
+  name: revue-notification-db-cm1

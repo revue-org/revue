@@ -36,12 +36,16 @@ spec:
             - mountPath: /data/db
               name: alarm-data
             - mountPath: /docker-entrypoint-initdb.d/alarm-init.js
-              name: revue-alarm-db-claim1
+              name: revue-alarm-db-cm1
+              subPath: alarm-init.js
       restartPolicy: Always
       volumes:
         - name: alarm-data
           persistentVolumeClaim:
             claimName: alarm-data
-        - name: revue-alarm-db-claim1
-          persistentVolumeClaim:
-            claimName: revue-alarm-db-claim1
+        - configMap:
+            items:
+              - key: alarm-init.js
+                path: alarm-init.js
+            name: revue-alarm-db-cm1
+          name: revue-alarm-db-cm1

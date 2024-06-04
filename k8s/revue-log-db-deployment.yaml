@@ -36,12 +36,16 @@ spec:
             - mountPath: /data/db
               name: log-data
             - mountPath: /docker-entrypoint-initdb.d/history-init.js
-              name: revue-log-db-claim1
+              name: revue-log-db-cm1
+              subPath: history-init.js
       restartPolicy: Always
       volumes:
         - name: log-data
           persistentVolumeClaim:
             claimName: log-data
-        - name: revue-log-db-claim1
-          persistentVolumeClaim:
-            claimName: revue-log-db-claim1
+        - configMap:
+            items:
+              - key: history-init.js
+                path: history-init.js
+            name: revue-log-db-cm1
+          name: revue-log-db-cm1

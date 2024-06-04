@@ -36,12 +36,16 @@ spec:
             - mountPath: /data/db
               name: notification-data
             - mountPath: /docker-entrypoint-initdb.d/notification-init.js
-              name: revue-notification-db-claim1
+              name: revue-notification-db-cm1
+              subPath: notification-init.js
       restartPolicy: Always
       volumes:
         - name: notification-data
           persistentVolumeClaim:
             claimName: notification-data
-        - name: revue-notification-db-claim1
-          persistentVolumeClaim:
-            claimName: revue-notification-db-claim1
+        - configMap:
+            items:
+              - key: notification-init.js
+                path: notification-init.js
+            name: revue-notification-db-cm1
+          name: revue-notification-db-cm1

@@ -36,12 +36,16 @@ spec:
             - mountPath: /data/db
               name: auth-data
             - mountPath: /docker-entrypoint-initdb.d/auth-init.js
-              name: revue-auth-db-claim1
+              name: revue-auth-db-cm1
+              subPath: auth-init.js
       restartPolicy: Always
       volumes:
         - name: auth-data
           persistentVolumeClaim:
             claimName: auth-data
-        - name: revue-auth-db-claim1
-          persistentVolumeClaim:
-            claimName: revue-auth-db-claim1
+        - configMap:
+            items:
+              - key: auth-init.js
+                path: auth-init.js
+            name: revue-auth-db-cm1
+          name: revue-auth-db-cm1

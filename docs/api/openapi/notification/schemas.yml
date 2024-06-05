@@ -1,21 +1,46 @@
 components:
     schemas:
-        DeviceId:
+        Notification:
             type: object
             properties:
-                code:
+                id:
                     type: string
-                    description: The unique identifier of the device
+                    description: The unique identifier of the notification
+                userId:
+                    type: string
+                    description: The recepients of the notification
+                timestamp:
+                    type: string
+                    description: The timestamp of the notification
+                message:
+                    type: string
+                    description: The message of the notification
+                type:
+                    type: string
+                    description: The type of the notification
+                data: # This can be any data useful for the notification (eg. anomaly details), so it is an object
+                    type: object
+                    description: The data of the notification
 
-        Device:
+        Email:
             type: object
             properties:
-                ip:
+                email:
                     type: string
-                    description: The ip address of the device
-                port:
-                    type: integer
-                    description: The port of the device
-                locationId:
+                    description: The email address of the user
+                subject:
                     type: string
-                    description: The location in which the sensor is placed
+                    description: The subject of the email
+                message:
+                    type: string
+                    description: The message of the email
+
+        Sms:
+            type: object
+            properties:
+                phone:
+                    type: string
+                    description: The phone number of the user
+                message:
+                    type: string
+                    description: The message of the sms

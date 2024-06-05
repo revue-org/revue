@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-    title: User AA Service API
+    title: User Authentication and Authorization Service API
     description: User authentication and user permissions microservice API
     version: 1.0.0
 tags:
@@ -19,13 +19,17 @@ paths:
                         schema:
                             $ref: "./schemas.yml#/components/schemas/Credentials"
             responses:
-                201:
+                200:
                     description: Login successful
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/User"
                 400:
                     description: Invalid input
                 403:
                     description: User not authorized
-    /newToken:
+    /refresh:
         post:
             summary: Get a new token
             tags: [UserAuth]
@@ -46,3 +50,67 @@ paths:
                     description: Invalid input
                 403:
                     description: User not authorized
+
+    /permissions/{userId}:
+        get:
+            summary: Get the list of locations to which a user has access
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: The list of locations to which the user has access
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        put:
+            summary: Set the user's permissions
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Permissions"
+            responses:
+                200:
+                    description: User's permissions updated
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+
+    /permissions/{userId}/{locationId}:
+        get:
+            summary: Check user permissions
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: User has access permissions
+                403:
+                    description: User not authorized
+        post:
+            summary: Add user permission
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: User has access permissions
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        delete:
+            summary: Remove user permission
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: User permission deleted
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found

@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+    title: User AA Service API
+    description: User authentication and user permissions microservice API
+    version: 1.0.0
+tags:
+    - name: UserAuth
+      description: Operations related to user authentication and user permissions
+
+paths:
+    /login:
+        post:
+            summary: Login to the application
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Credentials"
+            responses:
+                201:
+                    description: Login successful
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+    /newToken:
+        post:
+            summary: Get a new token
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Token"
+            responses:
+                200:
+                    description: Token updated
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Token"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized

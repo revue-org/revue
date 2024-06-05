@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+    title: Device Service API
+    description: Device management and monitoring microservice API
+    version: 1.0.0
+tags:
+    - name: Devices
+      description: Operations related to devices
+
+paths:
+    /devices:
+        get:
+            summary: Get all devices
+            tags: [Devices]
+            responses:
+                200:
+                    description: The list of all devices to which the user has access
+                403:
+                    description: User not authorized
+        post:
+            summary: Join a new device to the system
+            tags: [Devices]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Camera"
+            responses:
+                201:
+                    description: The camera was created successfully
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized            
+    /devices/{id}:
+        get:
+            summary: Get a device
+            tags: [Devices]
+            responses:
+                200:
+                    description: The device details
+                403:
+                    description: The user is unauthorized
+
+        
+    /devices/sensors:
+        post:
+            summary: Create a new sensor
+            tags: [Devices]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Sensor"
+            responses:
+                201:
+                    description: The sensor was created successfully
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+
+    /devices/{id}:
+        get:
+            summary: Get a device by id
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the device
+            responses:
+                200:
+                    description: The device with the specified ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Device"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+
+        put:
+            summary: Update a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the device
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Device"
+            responses:
+                200:
+                    description: The device was updated successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+
+        delete:
+            summary: Delete a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the device
+            responses:
+                204:
+                    description: The resource was deleted successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized

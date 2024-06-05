@@ -1,0 +1,31 @@
+components:
+    schemas:
+        Token:
+            type: object
+            properties:
+                token:
+                    type: string
+                    description: The access token
+
+        Credentials:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+
+        UserAuth:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+                refreshToken:
+                    type: string
+                    description: The refresh token of the user

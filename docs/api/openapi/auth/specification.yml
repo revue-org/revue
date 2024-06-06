@@ -10,7 +10,7 @@ tags:
 paths:
     /login:
         post:
-            summary: Login to the application
+            summary: Log into the application
             tags: [UserAuth]
             requestBody:
                 required: true
@@ -24,7 +24,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: "./schemas.yml#/components/schemas/User"
+                                $ref: "./schemas.yml#/components/schemas/Authorization"
                 400:
                     description: Invalid input
                 403:
@@ -58,12 +58,52 @@ paths:
             responses:
                 200:
                     description: The list of locations to which the user has access
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Permissions"
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        post:
+            summary: Set user permissions
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Permissions"
+            responses:
+                200:
+                    description: User's permissions updated
+                400:
+                    description: Invalid request
                 403:
                     description: User not authorized
                 404:
                     description: User not found
         put:
-            summary: Set the user's permissions
+            summary: Add user permissions
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Permissions"
+            responses:
+                200:
+                    description: User's permissions updated
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        delete:
+            summary: Remove user permissions
             tags: [UserAuth]
             requestBody:
                 required: true
@@ -95,7 +135,7 @@ paths:
             tags: [UserAuth]
             responses:
                 200:
-                    description: User has access permissions
+                    description: User have been correctly set
                 400:
                     description: Invalid request
                 403:

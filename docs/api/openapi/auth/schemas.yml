@@ -17,7 +17,7 @@ components:
                     type: string
                     description: The password of the user
 
-        User:
+        Authorization:
             type: object
             properties:
                 accessToken:

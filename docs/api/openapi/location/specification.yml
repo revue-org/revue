@@ -197,3 +197,27 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
+    /buildings/{id}/rooms:
+        get:
+            summary: Get all rooms in a building to which the user has access
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            responses:
+                200:
+                    description: The list of all rooms in the building
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Room"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized

@@ -26,7 +26,7 @@ paths:
                             schema:
                                 $ref: "./schemas.yml#/components/schemas/Authorization"
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /refresh:
@@ -47,7 +47,7 @@ paths:
                             schema:
                                 $ref: "./schemas.yml#/components/schemas/Token"
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
 

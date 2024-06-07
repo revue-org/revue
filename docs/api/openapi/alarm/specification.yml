@@ -30,7 +30,7 @@ paths:
                 201:
                     description: The rule was created successfully
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /rules/ranges/{id}:
@@ -53,7 +53,7 @@ paths:
                             $ref: "./schemas.yml#/components/schemas/RangeRule"
             responses:
                 200:
-                    description: The rule was correcty updated
+                    description: The rule was correctly updated
                 403:
                     description: User is not authorized
                 404:
@@ -63,7 +63,7 @@ paths:
             tags: [Alarm]
             responses:
                 200:
-                    description: The rule was correcty deleted
+                    description: The rule was correctly deleted
                 403:
                     description: User is not authorized
                 404:
@@ -74,7 +74,7 @@ paths:
             tags: [Alarm]
             responses:
                 200:
-                    description: The list of all the range rules
+                    description: The list of all the intrusion rules
                 403:
                     description: User not authorized
         post:
@@ -90,7 +90,7 @@ paths:
                 201:
                     description: The rule was created successfully
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /rules/intrusions/{id}:
@@ -113,7 +113,7 @@ paths:
                             $ref: "./schemas.yml#/components/schemas/IntrusionRule"
             responses:
                 200:
-                    description: The range rule was correcty updated
+                    description: The range rule was correctly updated
                 403:
                     description: User is not authorized
         delete:

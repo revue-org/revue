@@ -30,7 +30,7 @@ paths:
                 201:
                     description: The user was created successfully
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /users/{userId}:
@@ -75,7 +75,7 @@ paths:
                 200:
                     description: The user was updated
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 404:
                     description: User not found
                 403:

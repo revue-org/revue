@@ -36,7 +36,7 @@ paths:
                 201:
                     description: The room was created successfully
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /rooms/{id}:
@@ -58,7 +58,7 @@ paths:
                             schema:
                                 $ref: "./schemas.yml#/components/schemas/Room"
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
 
@@ -131,7 +131,7 @@ paths:
                 201:
                     description: The building was created successfully
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /buildings/{id}:
@@ -153,7 +153,7 @@ paths:
                             schema:
                                 $ref: "./schemas.yml#/components/schemas/Building"
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
 
@@ -218,6 +218,6 @@ paths:
                                 items:
                                     $ref: "./schemas.yml#/components/schemas/Room"
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized

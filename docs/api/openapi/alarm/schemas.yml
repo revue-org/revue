@@ -11,7 +11,8 @@ components:
                     description: The id of the device in which the rule will be active on
                 contacts:
                     type: array
-                    ref: "../user/schema.yml#/components/schemas/Contact"
+                    items:
+                        $ref: "../user/schemas.yml#/components/schemas/Contact"
                 author:
                     type: string
                     description: The user id of the creator of the rule
@@ -26,7 +27,7 @@ components:
                     properties:
                         measureType:
                             type: string
-                            description: The id the measure type for the rule
+                            description: The id of the measure type for the rule
                         minValue:
                             type: double
                             description: The minimum value accepted by the rule
@@ -45,7 +46,8 @@ components:
                     description: The id of the device in which the rule will be active on
                 contacts:
                     type: array
-                    ref: "../user/schema.yml#/components/schemas/Contact"
+                    items:
+                        $ref: "../user/schemas.yml#/components/schemas/Contact"
                 author:
                     type: string
                     description: The user id of the creator of the rule
@@ -57,4 +59,4 @@ components:
                     description: The activation end time
                 objectClass:
                     type: string
-                    description: The object class that if recognized will trigger an anomaly
+                    description: The object class that if recognized will trigger an intrusion anomaly

@@ -36,7 +36,7 @@ paths:
                 201:
                     description: The camera was created successfully
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
     /devices/{id}:
@@ -58,7 +58,7 @@ paths:
                             schema:
                                 $ref: "./schemas.yml#/components/schemas/Device"
                 400:
-                    description: Invalid input
+                    description: The request was invalid
                 403:
                     description: User not authorized
 

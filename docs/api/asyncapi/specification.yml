@@ -28,57 +28,57 @@ operations:
         action: send
         summary: Publish a message to the AnomalyDetected channel
         channel:
-            $ref: "#/channels/anomaly.detected"
+            $ref: "#/channels/anomalies"
     onAnomalyDetected:
         action: receive
         summary: Receive a message from the AnomalyDetected channel
         channel:
-            $ref: "#/channels/anomaly.detected"
+            $ref: "#/channels/anomalies"
 
     publishMeasurementDetected:
         action: send
         summary: Publish a message to the MeasurementDetected channel
         channel:
-            $ref: "#/channels/measurement.detected"
+            $ref: "#/channels/measurements.{sensorId}"
     onMeasurementDetected:
         action: receive
         summary: Receive a message from the MeasurementDetected channel
         channel:
-            $ref: "#/channels/measurement.detected"
+            $ref: "#/channels/measurements.{sensorId}"
 
     publishDetectionDetected:
         action: send
         summary: Publish a message to the DetectionDetected channel
         channel:
-            $ref: "#/channels/detection.detected"
+            $ref: "#/channels/detection.{cameraId}"
     onDetectionDetected:
         action: receive
         summary: Receive a message from the DetectionDetected channel
         channel:
-            $ref: "#/channels/detection.detected"
+            $ref: "#/channels/detection.{cameraId}"
 
 channels:
-    anomaly.detected:
+    anomalies:
         tags:
             - name: Anomalies
         description: This channel contains a message per each anomaly detected in the system.
-        address: anomaly-detected
+        address: anomalies
         messages:
             Anomaly:
                 $ref: "#/components/messages/Anomaly"
-    measurement.detected:
+    measurements.{sensorId}:
         tags:
             - name: Measurements
-        description: This channel contains a message per each measurement detected in the system.
-        address: measurement-detected
+        description: This channel contains a message per each measurement detected in the system for a specific device.
+        address: measurements.{sensorId}
         messages:
             Measurement:
                 $ref: "#/components/messages/Measurement"
-    detection.detected:
+    detection.{cameraId}:
         tags:
             - name: Detections
-        description: This channel contains a message per each detection detected in the system.
-        address: detection-detected
+        description: This channel contains a message per each detection detected in the system for a specific device.
+        address: detection.{cameraId}
         messages:
             Detection:
                 $ref: "#/components/messages/Detection"

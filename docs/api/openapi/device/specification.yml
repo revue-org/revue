@@ -48,8 +48,7 @@ paths:
                   name: id
                   required: true
                   schema:
-                      type: integer
-                      description: ID of the device
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             responses:
                 200:
                     description: The device with the specified ID
@@ -70,8 +69,7 @@ paths:
                   name: id
                   required: true
                   schema:
-                      type: integer
-                      description: ID of the device
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             requestBody:
                 required: true
                 content:
@@ -93,8 +91,7 @@ paths:
                   name: id
                   required: true
                   schema:
-                      type: integer
-                      description: ID of the device
+                      $ref: "./schemas.yml#/components/schemas/Device"
             responses:
                 204:
                     description: The resource was deleted successfully

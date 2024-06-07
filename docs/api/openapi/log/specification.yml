@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+    title: Log Service API
+    description: Log microservice API
+    version: 1.0.0
+tags:
+    - name: Log
+      description: Operations related to logs
+paths:
+    /intrusions/:
+        get:
+            summary: Get all intrusions
+            tags: [Log]
+            parameters:
+                - in: query
+                  name: limit
+                  required: false
+                  schema:
+                      type: integer
+                      default: 200
+                      description: The maximum number of intrusions to return
+                - in: query
+                  name: deviceId
+                  required: false
+                  schema:
+                      $ref: "../device/schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: The list of all the occurred intrusions
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Intrusion"
+                403:
+                    description: User not authorized
+    /outliers/:
+        get:
+            summary: Get all outliers
+            tags: [Log]
+            parameters:
+                - in: query
+                  name: limit
+                  required: false
+                  schema:
+                      type: integer
+                      default: 200
+                      description: The maximum number of outliers to return
+                - in: query
+                  name: deviceId
+                  required: false
+                  schema:
+                      $ref: "../device/schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: The list of all the outliers
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Outlier"
+                403:
+                    description: User not authorized
+    /detections/:
+        get:
+            summary: Get all detections
+            tags: [ Log ]
+            parameters:
+                - in: query
+                  name: limit
+                  required: false
+                  schema:
+                      type: integer
+                      default: 200
+                      description: The maximum number of detections to return
+                - in: query
+                  name: deviceId
+                  required: false
+                  schema:
+                      $ref: "../device/schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: The list of all the detections
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Detection"
+                403:
+                    description: User not authorized
+    /measurements/:
+        get:
+            summary: Get all measurements
+            tags: [ Log ]
+            parameters:
+                - in: query
+                  name: limit
+                  required: false
+                  schema:
+                      type: integer
+                      default: 200
+                      description: The maximum number of measurements to return
+                - in: query
+                  name: deviceId
+                  required: false
+                  schema:
+                      $ref: "../device/schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: The list of all the measurements
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Measurement"
+                403:
+                    description: User not authorized
+

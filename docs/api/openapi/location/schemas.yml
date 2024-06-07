@@ -21,4 +21,4 @@ components:
                     description: The address of the building
                 external:
                     type: boolean
-                    descrition: If is true the builing is external
+                    description: If is true the building is external

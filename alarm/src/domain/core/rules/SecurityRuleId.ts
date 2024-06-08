@@ -1,3 +1,3 @@
 export interface SecurityRuleId {
-    get id(): string
+    readonly id: string
 }

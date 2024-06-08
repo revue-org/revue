@@ -3,18 +3,18 @@ import { SecurityRuleId } from './SecurityRuleId.js'
 
 export interface SecurityRule {
 
-  get id(): SecurityRuleId
+  readonly id: SecurityRuleId
 
-  get creatorId(): UserId
+  readonly creatorId: UserId
 
-  get activeOn(): DeviceId
+  readonly activeOn: DeviceId
 
-  get description(): string
+  readonly description: string
 
-  get contacts(): Contact[]
+  readonly contacts: Contact[]
 
-  get enabled(): boolean
+  readonly enabled: boolean
 
-  get validity(): TimeSlot
+  readonly validity: TimeSlot
 
 }

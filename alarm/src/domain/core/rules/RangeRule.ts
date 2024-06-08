@@ -2,10 +2,10 @@ import { SecurityRule } from './SecurityRule.js'
 
 export interface RangeRule extends SecurityRule {
 
-  get min(): number
+  readonly min: number
 
-  get max(): number
+  readonly max: number
 
-  get measure(): MeasureType
+  readonly measure: MeasureType
 
 }

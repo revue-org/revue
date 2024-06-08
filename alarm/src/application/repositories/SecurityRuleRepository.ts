@@ -1,7 +1,8 @@
-import { IntrusionRule } from '../core/rules/IntrusionRule.js'
-import { RangeRule } from '../core/rules/RangeRule.js'
-import { SecurityRule } from '../core/rules/SecurityRule.js'
-import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
+import { IntrusionRule } from "@/domain/core/rules/IntrusionRule"
+import { RangeRule } from "@/domain/core/rules/RangeRule"
+import { SecurityRule } from "@/domain/core/rules/SecurityRule"
+import { SecurityRuleId } from "@/domain/core/rules/SecurityRuleId"
+
 
 export interface SecurityRuleRepository {
 

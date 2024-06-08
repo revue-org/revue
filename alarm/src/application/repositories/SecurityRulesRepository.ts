@@ -4,11 +4,11 @@ import { SecurityRule } from "@/domain/core/rules/SecurityRule"
 import { SecurityRuleId } from "@/domain/core/rules/SecurityRuleId"
 
 
-export interface SecurityRuleRepository {
+export interface SecurityRulesRepository {
 
   getSecurityRules(): Promise<SecurityRule[]>
 
-  getSecurityRuleById(): Promise<SecurityRule>
+  getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
 
   saveSecurityRule(securityRule: SecurityRule): Promise<void>
 

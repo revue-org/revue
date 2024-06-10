@@ -1,0 +1,38 @@
+@startuml
+
+interface DomainEventId {
+  + getValue(): string
+}
+
+interface DomainEvent {
+  + getId(): DomainEventId
+  + getTimestamp(): Date
+}
+
+interface DeviceEvent {
+  + getDeviceId(): DeviceId
+}
+DomainEvent *- DomainEventId
+
+interface Detection
+interface Measurement
+
+interface Notification
+
+interface Anomaly
+interface Intrusion
+interface Outlier
+
+DomainEvent <|-- DeviceEvent
+DomainEvent <|-- Notification
+DeviceEvent <|-- Measurement
+DeviceEvent <|-- Detection
+
+DomainEvent <|-- Anomaly
+Anomaly <|-- Intrusion
+Anomaly <|-- Outlier
+
+Outlier o-- Measurement
+Intrusion o-up- Detection
+
+@enduml

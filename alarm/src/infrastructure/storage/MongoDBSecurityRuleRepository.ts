@@ -1,79 +1,102 @@
-import { SecurityRuleRepository } from '../../domain/alarm-system/repositories/SecurityRuleRepository.js'
-import { SecurityRule } from '../../domain/alarm-system/core/SecurityRule.js'
 import mongoose, { Model } from 'mongoose'
-import { ExceedingRule } from '../../domain/alarm-system/core/ExceedingRule.js'
-import { IntrusionRule } from '../../domain/alarm-system/core/IntrusionRule.js'
-import { DeviceTypeConverter } from '../../utils/DeviceTypeConverter.js'
-import { MeasureConverter } from '../../utils/MeasureConverter.js'
-import { ObjectClassConverter } from '../../utils/ObjectClassConverter.js'
-import { ContactTypeConverter } from '../../utils/ContactTypeConverter.js'
+import { SecurityRulesRepository } from '@/application/repositories/SecurityRulesRepository.js'
+import { RangeRule } from '@/domain/core/rules/RangeRule.js'
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule.js'
+import { securityRuleSchema } from './SecurityRuleSchema'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
+import { SecurityRule } from '@/domain/core/rules/SecurityRule'
+import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 
-export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
-  exceedingRuleModel: Model<ExceedingRule>
-  intrusionRuleModel: Model<IntrusionRule>
 
-  constructor(exceedingRuleModel: Model<ExceedingRule>, intrusionRuleModel: Model<IntrusionRule>) {
-    this.exceedingRuleModel = exceedingRuleModel
-    this.intrusionRuleModel = intrusionRuleModel
-  }
+export class MongoDBSecurityRuleRepository implements SecurityRulesRepository {
+  private _model = mongoose.model('SecurityRuleSchema', securityRuleSchema);
 
-  async getExceedingRules(): Promise<ExceedingRule[]> {
-    return this.exceedingRuleModel
+  async getRangeRules(): Promise<RangeRule[]> {
+    return this._model
       .find({
-        'deviceId.type': 'SENSOR'
+        'type': 'range'
       })
       .lean()
       .then(rules => {
         return rules.map(rule => {
-          // @ts-ignore
-          rule.deviceId.type = DeviceTypeConverter.convertToDeviceType(rule.deviceId.type)
-          // @ts-ignore
-          rule.measure = MeasureConverter.convertToMeasure(rule.measure)
-          rule.contactsToNotify.map(contact => {
-            // @ts-ignore
-            contact.type = ContactTypeConverter.convertToContactType(contact.type)
-            return contact
-          })
-          return rule
+          return SecurityRulesFactory.createRangeRule(
+            SecurityRulesFactory.idOf(rule.id),
+            rule.activeOn,
+            rule.creatorId,
+            rule.contacts,
+            rule.description,
+            TimeSlotFactory.create(rule.validity),
+            rule.data.min,
+            rule.data.max,
+            rule.data.measure,
+            rule.enabled)
         })
       })
   }
 
-  async getIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.intrusionRuleModel
+  async getIntrusionRules(): Promise<InstrusionRule[]> {
+    return this._model
       .find({
-        'deviceId.type': 'CAMERA'
+        'type': 'range'
       })
       .lean()
       .then(rules => {
         return rules.map(rule => {
-          // @ts-ignore
-          rule.deviceId.type = DeviceTypeConverter.convertToDeviceType(rule.deviceId.type)
-          // @ts-ignore
-          rule.objectClass = ObjectClassConverter.convertToObjectClass(rule.objectClass)
-          rule.contactsToNotify.map(contact => {
-            // @ts-ignore
-            contact.type = ContactTypeConverter.convertToContactType(contact.type)
-            return contact
-          })
-          return rule
+          const contacts: Contact[] = [];
+          rule.contacts.forEach(contact => contacts.push(contact));
+          return SecurityRulesFactory.createIntrusionRule(
+            SecurityRulesFactory.idOf(rule.id),
+            rule.activeOn,
+            rule.creatorId,
+            rule.data.objectClass,
+            contacts,
+            rule.description,
+            TimeSlotFactory.create(rule.validity),
+            rule.enabled
+          )
         })
       })
   }
 
-  async getSecurityRuleById(securityRuleId: string): Promise<SecurityRule> {
-    const exceedingRule = await this.exceedingRuleModel.findById(securityRuleId)
-    if (exceedingRule) {
-      return exceedingRule
+
+
+  async getSecurityRuleById(securityRuleId: SecurityRuleId): Promise<SecurityRule> {
+    const rule = await this._model.findOne({
+      id: securityRuleId.id
+    })
+    if (!rule) {
+      throw new Error('Security rule not found')
     }
-    const intrusionRule = await this.intrusionRuleModel.findById(securityRuleId)
-    if (intrusionRule) {
-      return intrusionRule
+    const contacts: Contact[] = [];
+    rule.contacts.forEach(contact => contacts.push(contact));
+    if (rule.type == 'range') {
+      return SecurityRulesFactory.createRangeRule(
+        SecurityRulesFactory.idOf(rule.id),
+        rule.activeOn,
+        rule.creatorId,
+        contacts,
+        rule.description,
+        TimeSlotFactory.create(rule.validity),
+        rule.data.min,
+        rule.data.max,
+        rule.data.measure,
+        rule.enabled
+      )
+    } else {
+      return SecurityRulesFactory.createIntrusionRule(
+        SecurityRulesFactory.idOf(rule.id),
+        rule.activeOn,
+        rule.creatorId,
+        rule.data.objectClass,
+        contacts,
+        rule.description,
+        TimeSlotFactory.create(rule.validity),
+        rule.enabled
+      )
     }
-    throw new Error('Security rule not found')
   }
 
-  async insertExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<string> {
+  async insertExceedingSecurityRule(exceedingRule: RangeRule): Promise<string> {
     return await this.exceedingRuleModel
       .create({
         deviceId: {
@@ -119,7 +142,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
       })
   }
 
-  async updateExceedingSecurityRule(exceedingRule: ExceedingRule): Promise<void> {
+  async updateExceedingSecurityRule(exceedingRule: RangeRule): Promise<void> {
     await this.exceedingRuleModel.findByIdAndUpdate(
       new mongoose.Types.ObjectId(exceedingRule.securityRuleId),
       {
@@ -155,7 +178,7 @@ export class SecurityRuleRepositoryImpl implements SecurityRuleRepository {
     )
   }
 
-  async deleteExceedingRule(exceedingRuleId: string): Promise<void> {
+  async deleteRangeRule(exceedingRuleId: string): Promise<void> {
     await this.exceedingRuleModel.deleteOne({
       _id: new mongoose.Types.ObjectId(exceedingRuleId)
     })

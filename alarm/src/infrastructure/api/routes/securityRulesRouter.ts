@@ -1,6 +1,6 @@
 import HttpStatusCode from 'domain/dist/utils/HttpStatusCode'
 import express, { Router, Request, Response } from 'express'
-import { securityRuleController as controller } from './securityRulesController'
+import { securityRuleController as controller } from '../controllers/securityRulesController'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 

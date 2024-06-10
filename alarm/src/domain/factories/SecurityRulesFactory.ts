@@ -4,10 +4,15 @@ import { RangeRule } from '../core/rules/RangeRule.js'
 import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
 
 export class SecurityRulesFactory {
+
+  static idOf(id: string): SecurityRuleId {
+    return { id }
+  }
+
   static createIntrusionRule(
     id: SecurityRuleId,
-    activeOn: DeviceId,
-    creatorId: UserId,
+    activeOn: string,
+    creatorId: string,
     objectClass: ObjectClass,
     contacts: Contact[],
     description: string,
@@ -16,6 +21,7 @@ export class SecurityRulesFactory {
   ): IntrusionRule {
     return {
       id,
+      type: 'intrusion',
       activeOn,
       creatorId,
       objectClass,
@@ -28,7 +34,7 @@ export class SecurityRulesFactory {
 
   static createRangeRule(
     id: SecurityRuleId,
-    activeOn: DeviceId,
+    activeOn: string,
     creatorId: string,
     contacts: Contact[],
     description: string,
@@ -40,6 +46,7 @@ export class SecurityRulesFactory {
   ): RangeRule {
     return {
       id,
+      type: 'range',
       activeOn,
       creatorId,
       contacts,

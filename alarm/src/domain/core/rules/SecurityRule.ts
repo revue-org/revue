@@ -1,5 +1,6 @@
 import { TimeSlot } from './TimeSlot.js'
 import { SecurityRuleId } from './SecurityRuleId.js'
+import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
 
 export type SecurityRuleType = 'range' | 'intrusion'
 
@@ -8,9 +9,9 @@ export interface SecurityRule {
 
   readonly id: SecurityRuleId
 
-  readonly creatorId: UserId
+  readonly creatorId: string
 
-  readonly activeOn: DeviceId
+  readonly activeOn: string
 
   readonly description: string
 

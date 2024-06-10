@@ -1,0 +1,148 @@
+@startuml
+
+interface DomainEvent {
+  + getId(): DomainEventId
+  + getTimestamp(): Date
+}
+
+interface DeviceEvent {
+  + getDeviceId(): DeviceId
+}
+
+interface Measurement {
+ + getMeasureType(): MeasureType
+ + getValue(): Float
+}
+
+interface MeasureType {
+ + getMeasure(): Measure
+ + getMeasureUnit(): MeasureUnit
+}
+
+interface MeasureTypeFactory {
+  + createTemperature(): MeasureType
+  + createHumidity(): MeasureType
+  + createPressure(): MeasureType
+}
+
+
+enum Measure {
+ HUMIDITY
+ TEMPERATURE
+ PRESSURE
+}
+
+enum MeasureUnit {
+  PASCAL
+  BAR
+  CELSIUS
+  FAHRENHEIT
+  KELVIN
+  PERCENTAGE
+}
+
+interface MonitoringService {
+ + getCapturingDevices(): Promise<Device[]>
+ + startMonitoring(deviceId: DeviceId): void
+ + stopMonitoring(deviceId: DeviceId): void
+}
+
+
+DomainEvent <|-- DeviceEvent
+DeviceEvent <|-- Measurement
+DeviceEvent o-- DeviceId
+'DeviceEvent <|-- Detection
+'Detection o-- ObjectClass
+
+Measurement o-- MeasureType
+MeasureType o-- MeasureUnit
+MeasureType o-- Measure
+MeasureTypeFactory -right-> MeasureType : creates
+Measurement <-up- MonitoringService : uses
+
+'note top of MeasureTypeFactory : Factory
+'note right of MeasureType : Value Object
+'note bottom of Measurement : Domain Event
+'note left of MonitoringService : Service
+
+
+'------------ DEVICES ------------
+
+enum DeviceType {
+  CAMERA
+  SENSOR
+}
+
+interface DeviceId {
+ + getType(): DeviceType
+ + getCode(): String
+}
+
+interface Device {
+ + deviceId: DeviceId
+ + ipAddress: String
+ + isCapturing(): Boolean
+ + startCapturing(): void
+ + stopCapturing(): void
+}
+
+interface DeviceFactory {
+ + createSensor(): Sensor
+ + createCamera(): Camera
+}
+
+interface DeviceRepository {
+    +getDevices(): Promise<Device[]>
+    +getCapturingDevices(): Promise<Device[]>
+    +getDeviceById(deviceId: DeviceId): Promise<Device>
+    +getDeviceByCode(code: string): Promise<Device>
+    +insertDevice(device: Device): Promise<void>
+    +updateDevice(device: Device): Promise<void>
+    +deleteDevice(code: string): Promise<void>
+}
+
+!startsub DeviceRoot
+
+interface DeviceService {
+    +getDevices(): Promise<Device[]>
+    +getCapturingDevices(): Promise<Device[]>
+    +getDeviceById(deviceId: DeviceId): Promise<Device>
+    +getDeviceByCode(code: string): Promise<Device>
+    +insertDevice(device: Device): void
+    +updateDevice(device: Device): void
+    +deleteDevice(code: string): void
+}
+!endsub DeviceRoot
+
+interface Camera {
+ + getResolution(): Resolution
+}
+
+interface Sensor {
+ + getIntervalMillis(): Int
+ + getMeasureTypes(): Set<MeasureType>
+}
+
+class Resolution {
+ + height
+ + width
+}
+
+DeviceId o-left- DeviceType
+Device o-left- DeviceId
+Device <|-- Camera
+Device <|-- Sensor
+DeviceFactory --> Device: creates
+DeviceRepository --> Device : stores
+DeviceService -left-> DeviceRepository: uses
+DeviceService --> DeviceFactory: use
+Camera o-- Resolution
+Sensor o-- MeasureType
+
+'note bottom of Device: Entity
+'note right of DeviceFactory: Factory
+'note left of DeviceRepository : Repository
+
+
+
+@enduml

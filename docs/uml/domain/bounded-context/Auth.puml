@@ -6,8 +6,8 @@ interface AuthService {
   + login(username: string, password: string): Promise<User>
   + register(username: string, password: string): Promise<User>
   + logout(userId: string): Promise<void>
-  + generateAccessToken(userId: string): Promise<string>
-  + generateRefreshToken(userId: string): Promise<string>
+  - generateAccessToken(userId: string): Promise<string>
+  - generateRefreshToken(userId: string): Promise<string>
 }
 
 !endsub AuthRoot

@@ -48,10 +48,15 @@ interface Contact {
  + getContactType(): ContactType
 }
 
+interface ContactFactory {
+ + createContact(): Contact
+}
+
 enum ContactType {
   EMAIL
   SMS
 }
 Contact o-- ContactType
+ContactFactory --> Contact : creates
 
 @enduml

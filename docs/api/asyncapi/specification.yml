@@ -10,8 +10,8 @@ info:
           description: Events about measurements detected in the system
         - name: Detections
           description: Events about object recognized in the system
-        - name: Users
-          description: Events about users operations in the system
+        - name: Notifications
+          description: Events about notifications sent to the users
 
 servers:
     firstKafkaServer:
@@ -22,6 +22,10 @@ servers:
         host: kafka-broker-2:8092
         description: Second instance of Kafka
         protocol: kafka
+    notificationSocketServer:
+        host: notification:4004
+        protocol: wss
+        description: WebSocket server for notifications
 
 operations:
     publishAnomalyDetected:
@@ -50,12 +54,23 @@ operations:
         action: send
         summary: Publish a message to the DetectionDetected channel
         channel:
-            $ref: "#/channels/detection.{cameraId}"
+            $ref: "#/channels/detections.{cameraId}"
     onDetectionDetected:
         action: receive
         summary: Receive a message from the DetectionDetected channel
         channel:
-            $ref: "#/channels/detection.{cameraId}"
+            $ref: "#/channels/detections.{cameraId}"
+
+    publishNotificationSent:
+        action: send
+        summary: Publish a message to the NotificationSent channel
+        channel:
+            $ref: "#/channels/notifications"
+    onNotificationSent:
+        action: receive
+        summary: Receive a message from the NotificationSent channel
+        channel:
+            $ref: "#/channels/notifications"
 
 channels:
     anomalies:
@@ -66,6 +81,10 @@ channels:
         messages:
             Anomaly:
                 $ref: "#/components/messages/Anomaly"
+        servers:
+            - $ref: "#/servers/firstKafkaServer"
+            - $ref: "#/servers/secondKafkaServer"
+
     measurements.{sensorId}:
         tags:
             - name: Measurements
@@ -74,14 +93,32 @@ channels:
         messages:
             Measurement:
                 $ref: "#/components/messages/Measurement"
-    detection.{cameraId}:
+        servers:
+            - $ref: "#/servers/firstKafkaServer"
+            - $ref: "#/servers/secondKafkaServer"
+
+    detections.{cameraId}:
         tags:
             - name: Detections
         description: This channel contains a message per each detection detected in the system for a specific device.
-        address: detection.{cameraId}
+        address: detections.{cameraId}
         messages:
             Detection:
                 $ref: "#/components/messages/Detection"
+        servers:
+            - $ref: "#/servers/firstKafkaServer"
+            - $ref: "#/servers/secondKafkaServer"
+
+    notifications:
+        tags:
+            - name: Notifications
+        description: This channel contains a message per each notification sent to the users.
+        address: notifications
+        messages:
+            Notification:
+                $ref: "#/components/messages/Notification"
+        servers:
+            - $ref: "#/servers/notificationSocketServer"
 
 components:
     messages:
@@ -96,6 +133,10 @@ components:
         Detection:
             payload:
                 $ref: "#/components/schemas/Detection"
+
+        Notification:
+            payload:
+                $ref: "#/components/schemas/Notification"
 
     schemas:
         DeviceId:
@@ -129,6 +170,14 @@ components:
                 code:
                     type: string
                     description: The unique code of the detection
+
+        NotificationId:
+            additionalProperties: false
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique code of the notification
 
         Anomaly:
             additionalProperties: false
@@ -190,3 +239,20 @@ components:
                 objectClass:
                     type: string
                     description: The class of the object detected (Person, Car, Dog, etc.)
+
+        Notification:
+            additionalProperties: false
+            type: object
+            properties:
+                notificationId:
+                    $ref: "#/components/schemas/NotificationId"
+                timestamp:
+                    type: string
+                    format: date-time
+                    description: The timestamp when the notification was created
+                message:
+                    type: string
+                    description: The message of the notification
+                data:
+                    type: object
+                    description: The data of the notification

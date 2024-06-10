@@ -1,0 +1,1 @@
+In this file, there will be some kafka producer used to send data to a kafka topic to get a good level of auditing.

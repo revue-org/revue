@@ -1,17 +1,19 @@
 @startuml
 
-!startsub AuthRoot
+!startsub UserRoot
 
 interface UserService {
   + getUsers(): Promise<User[]>
-  + getUserById(userId: string): Promise<User>
-  + getUserByUsername(username: string): Promise<User>
+  + getUser(taxCode: string): Promise<User>
   + insertUser(user: User): void
   + updateUser(user: User): void
-  + deleteUser(userId: string): void
+  + deleteUser(taxCode: string): void
+  + getContacts(taxCode: string): Promise<Contact[]>
+  + addContact(taxCode: string, contact: Contact): void
+  + removeContact(taxCode: string, contact: Contact): void
 }
 
-!endsub AuthRoot
+!endsub UserRoot
 
 UserService --> UserRepository : uses
 UserService --> UserFactory : uses
@@ -32,20 +34,18 @@ interface UserFactory {
 UserFactory -left-> User : creates
 
 
-' TODO: completely different
 interface User {
- + getUserId(): Int
+ + getTaxId(): String
  + getName(): String
- + addContact(c: Contact): void
- + removeContact(c: Contact): void
+ + getSurname(): String
+ + getMail(): String
+ + getContacts(): List<Contact>
 }
 User o-left- Contact
 
 interface Contact {
  + getValue(): String
- + setValue(v: String): void
  + getContactType(): ContactType
- + setContactType(c: ContactType): void
 }
 
 enum ContactType {

@@ -1,12 +1,11 @@
-import { SecurityRule } from "@/domain/core/rules/SecurityRule"
-import { SecurityRulesRepository } from "../repositories/SecurityRulesRepository"
-import { SecurityRuleService } from "./SecurityRuleService"
-import { RangeRule } from "@/domain/core/rules/RangeRule"
-import { SecurityRuleId } from "@/domain/core/rules/SecurityRuleId"
-import { IntrusionRule } from "@/domain/core/rules/IntrusionRule"
+import { SecurityRule } from '@/domain/core/rules/SecurityRule'
+import { SecurityRulesRepository } from '../repositories/SecurityRulesRepository'
+import { SecurityRuleService } from './SecurityRuleService'
+import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
-
   private repository: SecurityRulesRepository
 
   constructor(repository: SecurityRulesRepository) {
@@ -57,11 +56,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     )
   }
 
-  async isIntrusion(
-    deviceId: DeviceId,
-    objectClass: ObjectClass,
-    timestamp: Date
-  ): Promise<boolean> {
+  async isIntrusion(deviceId: DeviceId, objectClass: ObjectClass, timestamp: Date): Promise<boolean> {
     return (
       (await this.getActiveIntrusionRules()).filter(
         (rule: IntrusionRule) =>

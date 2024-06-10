@@ -1,7 +1,5 @@
 interface DTOAdapter<E extends Entity> {
+  get dto(): any
 
-    get dto(): any
-
-    get entity(): E
-
+  get entity(): E
 }

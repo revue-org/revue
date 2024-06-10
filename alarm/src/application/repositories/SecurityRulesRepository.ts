@@ -1,11 +1,9 @@
-import { IntrusionRule } from "@/domain/core/rules/IntrusionRule"
-import { RangeRule } from "@/domain/core/rules/RangeRule"
-import { SecurityRule } from "@/domain/core/rules/SecurityRule"
-import { SecurityRuleId } from "@/domain/core/rules/SecurityRuleId"
-
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
+import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { SecurityRule } from '@/domain/core/rules/SecurityRule'
+import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 
 export interface SecurityRulesRepository {
-
   getSecurityRules(): Promise<SecurityRule[]>
 
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
@@ -19,5 +17,4 @@ export interface SecurityRulesRepository {
   getRangeRules(): Promise<RangeRule[]>
 
   getIntrusionRules(): Promise<IntrusionRule[]>
-
 }

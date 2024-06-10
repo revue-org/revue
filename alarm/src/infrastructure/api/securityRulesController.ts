@@ -11,7 +11,6 @@ import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 const service: SecurityRuleService = new SecurityRuleServiceImpl(new SecurityRuleRepositoryImpl())
 
 export const securityRuleController = {
-
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
     return await service.getSecurityRuleById(id)
   },
@@ -70,7 +69,6 @@ export const securityRuleController = {
         description,
         new TimeSlot(from, to),
         true
-
       )
     )
   },
@@ -86,11 +84,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateRangeRule(
-      SecurityRulesFactory.createRangeRule(
-
-      )
-    )
+    service.updateRangeRule(SecurityRulesFactory.createRangeRule())
   },
 
   updateIntrusionRule: async (
@@ -102,14 +96,10 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateIntrusionRule(
-      SecurityRulesFactory.createIntrusionRule(
-
-      )
-    )
+    service.updateIntrusionRule(SecurityRulesFactory.createIntrusionRule())
   },
 
   deleteSecurityRule: async (id: string): Promise<void> => {
     return service.deleteSecurityRule(id)
-  },
+  }
 }

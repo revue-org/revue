@@ -4,7 +4,6 @@ import { RangeRule } from '../core/rules/RangeRule.js'
 import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
 
 export class SecurityRulesFactory {
-
   static createIntrusionRule(
     id: SecurityRuleId,
     activeOn: DeviceId,
@@ -52,5 +51,4 @@ export class SecurityRulesFactory {
       enabled
     }
   }
-
 }

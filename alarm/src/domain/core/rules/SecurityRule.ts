@@ -1,7 +1,10 @@
 import { TimeSlot } from './TimeSlot.js'
 import { SecurityRuleId } from './SecurityRuleId.js'
 
+export type SecurityRuleType = 'range' | 'intrusion'
+
 export interface SecurityRule {
+  readonly type: SecurityRuleType
 
   readonly id: SecurityRuleId
 
@@ -16,5 +19,4 @@ export interface SecurityRule {
   readonly enabled: boolean
 
   readonly validity: TimeSlot
-
 }

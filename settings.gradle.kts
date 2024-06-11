@@ -35,4 +35,19 @@ if (File(System.getProperty("user.dir") + "/.git").exists()) {
 
 rootProject.name = "revue"
 
-include("domain", "monitoring", "frontend", "auth", "alarm", "notification", "kafka", "camera", "sensor", "log", "recognition", "media-server", "user")
+include(
+    "domain", 
+    "common", 
+    "monitoring", 
+    "frontend", 
+    "auth", 
+    "alarm", 
+    "notification", 
+    "kafka", 
+    "camera", 
+    "sensor", 
+    "log", 
+    "recognition", 
+    "media-server", 
+    "user"
+)

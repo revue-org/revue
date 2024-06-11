@@ -30,7 +30,7 @@ export class SecurityRuleDBAdapter {
 
     static asDomainEntity(securityRule: SecurityRuleDBEntity): SecurityRule {
         const contacts: Contact[] = [];
-        securityRule.contacts.forEach(contact => contacts.push(contact));
+        securityRule.contacts.forEach(contact => contacts.push(ContactFactory.create(contact.type, contact.value)));
         if (securityRule.type == 'range') {
             return SecurityRulesFactory.createRangeRule(
                 SecurityRulesFactory.idOf(securityRule.id),

@@ -36,7 +36,7 @@ export class MongoDBSecurityRuleRepository implements SecurityRulesRepository {
     return SecurityRuleDBAdapter.asDomainEntity(rule)
   }
 
-  getSecurityRules(): Promise<SecurityRule[]> {
+  async getSecurityRules(): Promise<SecurityRule[]> {
     return this._model.find().lean().then((rules) => {
       return rules.map(rule => SecurityRuleDBAdapter.asDomainEntity(rule))
     })

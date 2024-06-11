@@ -3,6 +3,7 @@ import { User } from '@domain/monitoring/core/User.js'
 import { userController } from '../controller/user.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 import bcrypt from 'bcryptjs'
+import { UserFactory } from "@/domain/factories/UserFactory";
 
 export const userRouter: Router = express.Router()
 
@@ -30,8 +31,11 @@ userRouter.route('/:id').get((req: Request, res: Response): void => {
 
 userRouter.route('/').post(async (req: Request, res: Response): Promise<void> => {
   req.body.password = await bcrypt.hash(req.body.password, 10)
+  const contacts: Contact[] = req.body.contacts.map((contact: Contact) => {
+    return ContactFactory.createContact(contact.type, contact.value)
+  })
   userController
-    .createUser(req)
+    .createUser(req.body.name, req.body.surname, req.body.mail, contacts)
     .then((): void => {
       res.status(HttpStatusCode.CREATED).send({ success: 'User created' })
     })
@@ -41,8 +45,11 @@ userRouter.route('/').post(async (req: Request, res: Response): Promise<void> =>
 })
 
 userRouter.route('/').put((req: Request, res: Response): void => {
+  const contacts: Contact[] = req.body.contacts.map((contact: Contact) => {
+    return ContactFactory.createContact(contact.type, contact.value)
+  })
   userController
-    .updateUser(req)
+    .updateUser(UserFactory.idOf(req.body.taxCode), req.body.name, req.body.surname, req.body.mail, contacts)
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'User correctly updated' })
     })

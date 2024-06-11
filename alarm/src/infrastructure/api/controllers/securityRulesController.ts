@@ -7,6 +7,8 @@ import { SecurityRuleServiceImpl } from '@/application/services/SecurityRuleServ
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
+import { SecurityRuleId } from "@/domain/core/rules/SecurityRuleId";
+import { ObjectClass } from "@/domain/core/ObjectClass";
 
 const service: SecurityRuleService = new SecurityRuleServiceImpl(new SecurityRuleRepositoryImpl())
 
@@ -74,7 +76,7 @@ export const securityRuleController = {
   },
 
   updateRangeRule: async (
-    exceedingRuleId: string,
+    exceedingRuleId: SecurityRuleId,
     deviceId: DeviceId,
     description: string,
     measure: Measure,
@@ -88,7 +90,7 @@ export const securityRuleController = {
   },
 
   updateIntrusionRule: async (
-    intrusionRuleId: string,
+    intrusionRuleId: SecurityRuleId,
     deviceId: DeviceId,
     description: string,
     objectClass: ObjectClass,

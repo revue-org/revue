@@ -4,7 +4,7 @@ import { UserInfo } from '../utils/UserInfo.js'
 import { User } from '@domain/monitoring/core/User.js'
 import { userService } from '../init.js'
 
-export const userAccessController = {
+export const userController = {
   login: async (
     username: string,
     password: string

@@ -2,9 +2,9 @@ import { userAccessController } from '../controller/userAccess.js'
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
-export const userAccessRouter: Router = express.Router()
+export const userRouter: Router = express.Router()
 
-userAccessRouter.route('/login').post((req: Request, res: Response): void => {
+userRouter.route('/login').post((req: Request, res: Response): void => {
   userAccessController
     .login(req.body.username, req.body.password)
     .then((access: { accessToken: string; refreshToken: string }): void => {
@@ -15,7 +15,7 @@ userAccessRouter.route('/login').post((req: Request, res: Response): void => {
     })
 })
 
-userAccessRouter.route('/logout').post((req: Request, res: Response): void => {
+userRouter.route('/logout').post((req: Request, res: Response): void => {
   if (req.headers['authorization'] === undefined)
     res.status(HttpStatusCode.UNAUTHORIZED).send('No authentication token')
   const token: string =
@@ -30,7 +30,7 @@ userAccessRouter.route('/logout').post((req: Request, res: Response): void => {
     })
 })
 
-userAccessRouter.route('/newToken').post((req: Request, res: Response): void => {
+userRouter.route('/newToken').post((req: Request, res: Response): void => {
   userAccessController
     .newToken(req.body.username, req.body.refreshToken)
     .then((token: any): void => {

@@ -30,7 +30,6 @@ userRouter.route('/:id').get((req: Request, res: Response): void => {
 })
 
 userRouter.route('/').post(async (req: Request, res: Response): Promise<void> => {
-  req.body.password = await bcrypt.hash(req.body.password, 10)
   const contacts: Contact[] = req.body.contacts.map((contact: Contact) => {
     return ContactFactory.createContact(contact.type, contact.value)
   })

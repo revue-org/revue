@@ -1,6 +1,6 @@
 import { TimeSlot } from './TimeSlot.js'
 import { SecurityRuleId } from './SecurityRuleId.js'
-import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
+import { Contact } from 'common/dist/domain/core/Contact.js'
 
 export type SecurityRuleType = 'range' | 'intrusion'
 

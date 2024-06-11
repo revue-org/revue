@@ -1,3 +1,4 @@
+import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
 import { SecurityRule } from './SecurityRule.js'
 
 export interface RangeRule extends SecurityRule {

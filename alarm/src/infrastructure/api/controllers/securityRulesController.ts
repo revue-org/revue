@@ -1,5 +1,3 @@
-import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { Contact } from '@domain/monitoring/core/Contact.js'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleService } from '@/application/services/SecurityRuleService'
 import { SecurityRuleServiceImpl } from '@/application/services/SecurityRuleServiceImpl'
@@ -8,6 +6,9 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
 import { ObjectClass } from '@/domain/core/ObjectClass'
+import { Contact } from 'common/dist/domain/core/Contact.js'
+
+
 
 const service: SecurityRuleService = new SecurityRuleServiceImpl(new MongoDBSecurityRuleRepository())
 type MeasureType = {
@@ -32,7 +33,7 @@ export const securityRuleController = {
     deviceId: string,
     creatorId: string,
     description: string,
-    measure: Measure,
+    measure: MeasureType,
     minValue: number,
     maxValue: number,
     from: Date,
@@ -59,7 +60,7 @@ export const securityRuleController = {
     deviceId: string,
     creatorId: string,
     description: string,
-    objectClass: ObjectClass,
+    objectClass: string,
     from: Date,
     to: Date,
     contacts: Contact[]
@@ -69,7 +70,7 @@ export const securityRuleController = {
         SecurityRulesFactory.newId(),
         deviceId,
         creatorId,
-        objectClass,
+        ObjectClass.PERSON,
         contacts,
         description,
         SecurityRulesFactory.newTimeSlot(from, to),
@@ -107,7 +108,7 @@ export const securityRuleController = {
     ruleId: string,
     deviceId: string,
     description: string,
-    objectClass: ObjectClass,
+    objectClass: string,
     from: Date,
     to: Date,
     contacts: Contact[]
@@ -116,7 +117,7 @@ export const securityRuleController = {
       SecurityRulesFactory.idOf(ruleId),
       deviceId,
       "",
-      objectClass,
+      ObjectClass.PERSON,
       contacts,
       description,
       SecurityRulesFactory.newTimeSlot(from, to),

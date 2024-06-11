@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose'
+import mongoose from 'mongoose'
 import { SecurityRulesRepository } from '@/application/repositories/SecurityRulesRepository.js'
 import { RangeRule } from '@/domain/core/rules/RangeRule.js'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule.js'

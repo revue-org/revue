@@ -5,7 +5,6 @@ import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 
 export const router: Router = express.Router()
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 router.route('/:id').get((req: Request, res: Response): void => {
   controller
@@ -33,10 +32,10 @@ router
   .post((req: Request, res: Response): void => {
     controller
       .createRangeRule(
-        deviceIdFactory.createSensorId(req.body.deviceId.code),
+        req.body.deviceId.code,
         req.body.creatorId,
         req.body.description,
-        MeasureConverter.convertToMeasure(req.body.measure),
+        req.body.measure,
         req.body.min,
         req.body.max,
         new Date(req.body.from),
@@ -54,9 +53,9 @@ router
     controller
       .updateRangeRule(
         req.body.id,
-        deviceIdFactory.createSensorId(req.body.deviceId.code),
+        req.body.deviceId.code,
         req.body.description,
-        MeasureConverter.convertToMeasure(req.body.measure),
+        req.body.measure,
         req.body.min,
         req.body.max,
         new Date(req.body.from),
@@ -97,10 +96,10 @@ router
   .post((req: Request, res: Response): void => {
     controller
       .createIntrusionRule(
-        deviceIdFactory.createCameraId(req.body.deviceId.code),
+        req.body.deviceId.code,
         req.body.creatorId,
         req.body.description,
-        ObjectClassConverter.convertToObjectClass(req.body.objectClass),
+        req.body.objectClass,
         new Date(req.body.from),
         new Date(req.body.to),
         req.body.contacts
@@ -117,9 +116,9 @@ router
     controller
       .updateIntrusionRule(
         req.body.id,
-        deviceIdFactory.createCameraId(req.body.deviceId.code),
+        req.body.deviceId.code,
         req.body.description,
-        ObjectClassConverter.convertToObjectClass(req.body.objectClass),
+        req.body.objectClass,
         new Date(req.body.from),
         new Date(req.body.to),
         req.body.contacts

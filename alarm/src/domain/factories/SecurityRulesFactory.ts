@@ -2,6 +2,9 @@ import { TimeSlot } from '../core/rules/TimeSlot.js'
 import { IntrusionRule } from '../core/rules/IntrusionRule.js'
 import { RangeRule } from '../core/rules/RangeRule.js'
 import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
+import { ObjectClass } from '../core/ObjectClass.js'
+import { Contact } from 'common/dist/domain/core/Contact.js'
+import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
 
 export class SecurityRulesFactory {
 

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 
 const contactSchema = new Schema({
   type: {

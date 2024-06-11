@@ -3,41 +3,24 @@
 !startsub NotificationRoot
 
 interface NotificationService {
-  + getNotificationById(id: string): Promise<Notification>
-  + insertExceedingNotification(notification: Notification): Promise<string>
-  + insertIntrusionNotification(notification: Notification): Promise<string>
+  + getNotificationById(id: DomainEventId): Promise<Notification>
+  + insertAnomalyNotification(notification: Notification): Promise<string>
   + sendMailNotification(notification: Notification, contacts: Contact[]): void
   + deleteNotification(id: string): void
 }
 !endsub NotificationRoot
 
 NotificationService --> MailService : uses
-NotificationService --> NotificationRepository : uses
 NotificationService --> NotificationFactory : uses
 
 interface MailService {
   + sendMail(to: string, notification: Notification): void
 }
 
-interface NotificationRepository {
-  + getNotifications(): Promise<Notification[]>
-  + getNotificationById(notificationId: string): Promise<Notification>
-  + insertExceedingNotification(notification: Notification): Promise<string>
-  + insertIntrusionNotification(notification: Notification): Promise<string>
-  + deleteNotification(notificationId: string): Promise<void>
-}
-
-NotificationRepository o-- Notification
-
-interface Notification {
-  + notificationId(): string
-  + timestamp(): Date
-  + anomaly(): Anomaly
-}
+interface Notification
 
 interface NotificationFactory {
-  + createExceedingNotification(id: string, exceeding: Exceeding): Notification
-  + createIntrusionNotification(id: string, intrusion: Intrusion): Notification
+  + createAnomalyNotification(id: string, anomaly: Anomaly): Notification
 }
 
 NotificationFactory -left-> Notification : creates

@@ -60,10 +60,8 @@ MeasureType o-- Measure
 MeasureTypeFactory -right-> MeasureType : creates
 Measurement <-up- MonitoringService : uses
 
-'note top of MeasureTypeFactory : Factory
-'note right of MeasureType : Value Object
-'note bottom of Measurement : Domain Event
-'note left of MonitoringService : Service
+note right of MeasureType : Value Object
+note top of Measurement : Domain Event
 
 
 '------------ DEVICES ------------
@@ -139,9 +137,7 @@ DeviceService --> DeviceFactory: use
 Camera o-- Resolution
 Sensor o-- MeasureType
 
-'note bottom of Device: Entity
-'note right of DeviceFactory: Factory
-'note left of DeviceRepository : Repository
+note bottom of Device: Entity
 
 
 

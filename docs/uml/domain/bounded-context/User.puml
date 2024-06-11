@@ -1,7 +1,5 @@
 @startuml
 
-!startsub UserRoot
-
 interface UserService {
   + getUsers(): Promise<User[]>
   + getUser(taxCode: string): Promise<User>
@@ -12,8 +10,6 @@ interface UserService {
   + addContact(taxCode: string, contact: Contact): void
   + removeContact(taxCode: string, contact: Contact): void
 }
-
-!endsub UserRoot
 
 UserService --> UserRepository : uses
 UserService --> UserFactory : uses
@@ -41,12 +37,14 @@ interface User {
  + getMail(): String
  + getContacts(): List<Contact>
 }
+note bottom of User : Entity
 User o-left- Contact
 
 interface Contact {
  + getValue(): String
  + getContactType(): ContactType
 }
+note left of Contact : Value Object
 
 interface ContactFactory {
  + createContact(): Contact
@@ -56,6 +54,7 @@ enum ContactType {
   EMAIL
   SMS
 }
+
 Contact o-- ContactType
 ContactFactory --> Contact : creates
 

@@ -48,6 +48,7 @@ interface SecurityRuleFactory {
   + createIntrusionRule(...): IntrusionRule
   + createRangeRule(...): RangeRule
 }
+'TODO: creates SecurityRule or IntrusionRule/RangeRule?
 SecurityRuleFactory -left-> SecurityRule : creates
 SecurityRule *-- SecurityRuleId
 
@@ -75,45 +76,41 @@ SecurityRule *-- TimeSlot
 
 '------------ ANOMALIES ------------
 
-interface DomainEvent {
-  + getId(): DomainEventId
-  + getTimestamp(): Date
-}
-
-interface Anomaly {
-}
-
-interface Measurement
-interface Outlier {
-  + getMeasurement(): Measurement
-  + getRangeRule(): RangeRule
-}
-
-interface Intrusion {
-  + getDetection(): Detection
-  + getIntrusionRule(): IntrusionRule
-}
-
-Anomaly <|-- Intrusion
-Anomaly <|-- Outlier
-
-Intrusion o-- Detection
-Outlier o-- Measurement
-
-'interface AnomalyFactory {
-'  + createIntrusion(): Intrusion
-'  + createOutlier(): Outlier
+'interface DomainEvent {
+'  + getId(): DomainEventId
+'  + getTimestamp(): Date
 '}
-'AnomalyFactory -left-> Anomaly : creates
-
-'interface AnomalyRepository {
-'    +getAnomalies(): Promise<Outlier[]>
-'    +getAnomalyById(anomalyId: string): Promise<Anomaly>
-'    +insertAnomaly(anomaly: Anomaly): Promise<AnomalyId>
-'    +updateAnomaly(anomaly: Anomaly): Promise<Anomaly>
-'    +deleteAnomaly(anomalyId: string): Promise<void>
+'
+'interface Anomaly
+'interface Measurement
+'interface Detection
+'
+'interface Outlier {
+'  + getMeasurement(): Measurement
+'  + getRangeRule(): RangeRule
 '}
-
-DomainEvent <|-- Anomaly
+'
+'interface Intrusion {
+'  + getDetection(): Detection
+'  + getIntrusionRule(): IntrusionRule
+'}
+'
+'Anomaly <|-- Intrusion
+'Anomaly <|-- Outlier
+'
+'DomainEvent <|-- DeviceEvent
+'DeviceEvent <|-- Measurement
+'DeviceEvent <|-- Detection
+'
+'Intrusion o-- Detection
+'Outlier o-- Measurement
+'
+''interface AnomalyFactory {
+''  + createIntrusion(): Intrusion
+''  + createOutlier(): Outlier
+''}
+''AnomalyFactory -left-> Anomaly : creates
+'
+'DomainEvent <|-- Anomaly
 
 @enduml

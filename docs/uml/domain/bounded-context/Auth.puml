@@ -34,5 +34,6 @@ interface User {
  + getAccessToken(): String
  + getRefreshToken(): String
 }
+note left of User : Entity
 
 @enduml

@@ -12,16 +12,32 @@ interface DomainEvent {
 interface DeviceEvent {
   + getDeviceId(): DeviceId
 }
-DomainEvent *- DomainEventId
 
-interface Detection
-interface Measurement
+interface Detection {
+  + getObjectClass(): ObjectClass
+}
+interface Measurement {
+  + getMeasureType(): MeasureType
+  + getValue(): Float
+}
 
-interface Notification
+interface Notification {
+  + getMessage(): string
+  + getEvent(): DomainEvent
+}
 
 interface Anomaly
-interface Intrusion
-interface Outlier
+interface Intrusion {
+  + getDetection(): Detection
+  + getIntrusionRule(): IntrusionRule
+}
+
+interface Outlier {
+  + getMeasurement(): Measurement
+  + getRangeRule(): RangeRule
+}
+
+DomainEvent *-left- DomainEventId
 
 DomainEvent <|-- DeviceEvent
 DomainEvent <|-- Notification
@@ -31,6 +47,8 @@ DeviceEvent <|-- Detection
 DomainEvent <|-- Anomaly
 Anomaly <|-- Intrusion
 Anomaly <|-- Outlier
+
+Notification o-- DomainEvent
 
 Outlier o-- Measurement
 Intrusion o-up- Detection

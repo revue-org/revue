@@ -5,6 +5,12 @@ import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
 
 export class SecurityRulesFactory {
 
+  static newId(): SecurityRuleId {
+    return {
+      id: "test"
+    }
+  }
+
   static idOf(id: string): SecurityRuleId {
     return { id }
   }
@@ -56,6 +62,13 @@ export class SecurityRulesFactory {
       max,
       measure,
       enabled
+    }
+  }
+
+  static newTimeSlot(from: Date, to: Date): TimeSlot {
+    return {
+      from,
+      to
     }
   }
 }

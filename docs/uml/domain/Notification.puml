@@ -1,28 +1,42 @@
 @startuml
 
-!startsub NotificationRoot
-
 interface NotificationService {
   + getNotificationById(id: DomainEventId): Promise<Notification>
   + insertAnomalyNotification(notification: Notification): Promise<string>
   + sendMailNotification(notification: Notification, contacts: Contact[]): void
   + deleteNotification(id: string): void
 }
-!endsub NotificationRoot
-
-NotificationService --> MailService : uses
-NotificationService --> NotificationFactory : uses
 
 interface MailService {
   + sendMail(to: string, notification: Notification): void
 }
 
-interface Notification
-
-interface NotificationFactory {
-  + createAnomalyNotification(id: string, anomaly: Anomaly): Notification
+interface Notification {
+  + getMessage(): string
+  + getEvent(): DomainEvent
 }
 
-NotificationFactory -left-> Notification : creates
+interface NotificationId {
+  + getValue(): string
+}
+
+interface NotificationFactory {
+  + createNotification(id: string, event: DomainEvent): Notification
+}
+
+interface DomainEvent {
+  + getId(): DomainEventId
+  + getTimestamp(): Date
+}
+
+Notification o-- DomainEvent
+Notification *- NotificationId
+
+NotificationFactory --> Notification : creates
+NotificationService --> MailService : uses
+NotificationService --> NotificationFactory : uses
+
+note left of Notification : Entity
+
 
 @enduml

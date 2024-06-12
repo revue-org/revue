@@ -1,7 +1,7 @@
-import { Anomaly } from '@/domain/core/Anomaly.js'
-import { Intrusion } from '@/domain/core/Intrusion.js'
-import { AnomalyId } from "@/domain/core/AnomalyId";
-import { Outlier } from "@/domain/core/Outlier";
+import { Anomaly } from '@common/domain/core/Anomaly.js'
+import { Intrusion } from '@common/domain/core/Intrusion.js'
+import { Outlier } from "@common/domain/core/Outlier.js";
+import { DomainEventId } from "@common/domain/core/DomainEventId.js";
 
 export interface AnomalyRepository {
 
@@ -11,12 +11,12 @@ export interface AnomalyRepository {
 
   getIntrusions(): Promise<Intrusion[]>
 
-  getAnomalyById(anomalyId: AnomalyId): Promise<Anomaly>
+  getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>
 
   saveAnomaly(anomaly: Anomaly): Promise<void>
 
   updateAnomaly(anomaly: Anomaly): Promise<void>
 
-  removeAnomaly(anomalyId: AnomalyId): Promise<void>
+  removeAnomaly(anomalyId: DomainEventId): Promise<void>
 
 }

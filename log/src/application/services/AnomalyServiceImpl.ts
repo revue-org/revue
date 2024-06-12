@@ -1,9 +1,9 @@
-import { AnomalyService } from "@/application/services/AnomalyService";
-import { AnomalyRepository } from "@/application/repositories/AnomalyRepository";
-import { Anomaly } from "@/domain/core/Anomaly";
-import { Intrusion } from "@/domain/core/Intrusion";
-import { Outlier } from "@/domain/core/Outlier";
-import { AnomalyId } from "@/domain/core/AnomalyId";
+import { AnomalyService } from "@/application/services/AnomalyService.js";
+import { AnomalyRepository } from "@/application/repositories/AnomalyRepository.js";
+import { Anomaly } from "@common/domain/core/Anomaly.js";
+import { Intrusion } from "@common/domain/core/Intrusion.js";
+import { Outlier } from "@common/domain/core/Outlier.js";
+import { DomainEventId } from "@common/domain/core/DomainEventId.js";
 
 
 export class AnomalyServiceImpl implements AnomalyService {
@@ -25,7 +25,7 @@ export class AnomalyServiceImpl implements AnomalyService {
     return this.repository.getOutliers();
   }
 
-  async getAnomalyById(anomalyId: AnomalyId): Promise<Anomaly> {
+  async getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly> {
     return this.repository.getAnomalyById(anomalyId);
   }
 
@@ -45,7 +45,7 @@ export class AnomalyServiceImpl implements AnomalyService {
     await this.repository.updateAnomaly(outlier);
   }
 
-  async deleteAnomaly(anomalyId: AnomalyId): Promise<void> {
+  async deleteAnomaly(anomalyId: DomainEventId): Promise<void> {
     await this.repository.removeAnomaly(anomalyId);
   }
 }

@@ -11,10 +11,6 @@ export const anomalySchema = new Schema({
     enum: ['outlier', 'intrusion'],
     required: true
   },
-  sourceDeviceId: {
-    type: String,
-    required: true
-  },
   timestamp: {
     type: Date,
     default: Date.now

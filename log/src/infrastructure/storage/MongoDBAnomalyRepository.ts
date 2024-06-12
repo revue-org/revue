@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import { Anomaly } from "../../domain/alarm-system/core/Anomaly.js";
-import { Intrusion } from "../../domain/alarm-system/core/Intrusion.js";
-import { AnomalyRepository } from "../../domain/alarm-system/repositories/AnomalyRepository.js";
+import { AnomalyRepository } from "@/application/repositories/AnomalyRepository";
 import { AnomalyDBAdapter, AnomalyDBEntity } from "@/infrastructure/storage/models/AnomalyModel";
+import { Outlier } from "@common/domain/core/Outlier";
+import { Intrusion } from "@common/domain/core/Intrusion";
+import { DomainEventId } from "@common/domain/core/DomainEventId";
 import { anomalySchema } from "@/infrastructure/storage/AnomalySchema";
-import { Outlier } from "@/domain/core/Outlier";
-import { AnomalyId } from "@/domain/core/AnomalyId";
+import { Anomaly } from "@common/domain/core/Anomaly";
+
 
 export class MongoDBAnomalyRepository implements AnomalyRepository {
   private _model = mongoose.model<AnomalyDBEntity>("AnomalySchema", anomalySchema);
@@ -26,7 +27,7 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
     return intrusions.map(intrusion => AnomalyDBAdapter.asDomainEntity(intrusion) as Intrusion);
   }
 
-  async getAnomalyById(anomalyId: AnomalyId): Promise<Anomaly> {
+  async getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly> {
     const anomaly = await this._model.findOne({
       id: anomalyId.id
     }).lean();
@@ -52,7 +53,7 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
     }, AnomalyDBAdapter.asDBEntity(anomaly));
   }
 
-  async removeAnomaly(anomalyId: AnomalyId): Promise<void> {
+  async removeAnomaly(anomalyId: DomainEventId): Promise<void> {
     await this._model.deleteOne({ id: anomalyId.id });
   }
 }

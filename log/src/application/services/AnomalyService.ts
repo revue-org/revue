@@ -1,7 +1,7 @@
-import { Anomaly } from "@/domain/core/Anomaly";
-import { Outlier } from "@/domain/core/Outlier";
-import { Intrusion } from "@/domain/core/Intrusion";
-import { AnomalyId } from "@/domain/core/AnomalyId";
+import { Anomaly } from "@common/domain/core/Anomaly.js";
+import { Outlier } from "@common/domain/core/Outlier.js";
+import { Intrusion } from "@common/domain/core/Intrusion.js";
+import { DomainEventId } from "@common/domain/core/DomainEventId.js";
 
 export interface AnomalyService {
   getAnomalies(): Promise<Anomaly[]>;
@@ -10,7 +10,7 @@ export interface AnomalyService {
 
   getIntrusions(): Promise<Intrusion[]>;
 
-  getAnomalyById(anomalyId: AnomalyId): Promise<Anomaly>;
+  getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>;
 
   createOutlier(outlier: Outlier): void;
 
@@ -20,6 +20,6 @@ export interface AnomalyService {
 
   updateIntrusion(intrusion: Intrusion): void;
 
-  deleteAnomaly(anomalyId: AnomalyId): void;
+  deleteAnomaly(anomalyId: DomainEventId): void;
 
 }

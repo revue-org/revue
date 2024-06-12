@@ -1,4 +1,5 @@
-
+import { Measurement } from '@common/domain/core/Measurement.js'
+import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 export interface MeasurementService {
   getMeasurements(): Promise<Measurement[]>
 
@@ -8,5 +9,5 @@ export interface MeasurementService {
 
   updateMeasurement(measurementId: Measurement): void
 
-  removeMeasurement(measurementId: MeasurementId): void
+  removeMeasurement(measurementId: DomainEventId): void
 }

@@ -1,0 +1,1 @@
+here is where we have to add factories about entity used exclusively by the log microservices, for now its all in the common package.

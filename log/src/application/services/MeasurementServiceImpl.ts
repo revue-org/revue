@@ -1,5 +1,7 @@
 import { MeasurementService } from "@/application/services/MeasurementService";
 import { MeasurementRepository } from "@/application/repositories/MeasurementRepository";
+import { Measurement } from '@common/domain/core/Measurement.js'
+import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 
 export class MeasurementServiceImpl implements MeasurementService {
   private repository: MeasurementRepository;
@@ -24,7 +26,7 @@ export class MeasurementServiceImpl implements MeasurementService {
     await this.repository.updateMeasurement(measurementId);
   }
 
-  async removeMeasurement(measurementId: MeasurementId): Promise<void> {
+  async removeMeasurement(measurementId: DomainEventId): Promise<void> {
     await this.repository.removeMeasurement(measurementId);
   }
 

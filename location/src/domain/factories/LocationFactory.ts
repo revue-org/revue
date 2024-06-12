@@ -7,6 +7,10 @@ export class LocationFactory {
         return { value: "id" }
     }
 
+    static idOf(id: string): LocationId {
+        return { value: id }
+    }
+
     static newRoom(description: string, buildingId: LocationId): Location {
         return {
             locationId: this.newLocationId(),

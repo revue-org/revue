@@ -1,7 +1,4 @@
-export enum ContactType {
-  EMAIL = 'email',
-  PHONE = 'phone'
-}
+import { ContactType } from "./ContactType";
 
 export interface Contact {
   get value(): string

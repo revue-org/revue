@@ -6,9 +6,7 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
 import { ObjectClass } from '@/domain/core/ObjectClass'
-import { Contact } from 'common/dist/domain/core/Contact.js'
-
-
+import { Contact } from '@common/domain/core/Contact'
 
 const service: SecurityRuleService = new SecurityRuleServiceImpl(new MongoDBSecurityRuleRepository())
 type MeasureType = {

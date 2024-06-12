@@ -14,7 +14,7 @@ import { SecurityRuleServiceImpl } from 'domain/dist/application/alarm-system/im
 import { SecurityRuleRepository } from 'domain/dist/domain/alarm-system/repositories/SecurityRuleRepository.js'
 import { SecurityRuleRepositoryImpl } from 'domain/dist/storage/alarm-system/SecurityRuleRepositoryImpl.js'
 import { AnomalyRepository } from 'domain/dist/domain/alarm-system/repositories/AnomalyRepository.js'
-import { AnomalyRepositoryImpl } from 'domain/dist/storage/alarm-system/AnomalyRepositoryImpl.js'
+import { AnomalyRepositoryImpl } from 'domain/dist/storage/alarm-system/MongoDBAnomalyRepository.js'
 
 export const exceedingModel: Model<Exceeding> = model<Exceeding>('Exceeding', exceedingSchema, 'anomaly')
 export const intrusionModel: Model<Intrusion> = model<Intrusion>('Intrusion', intrusionSchema, 'anomaly')

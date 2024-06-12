@@ -1,5 +1,5 @@
 db = new Mongo().getDB('log')
 
-db.createCollection('environmentData')
+db.createCollection('measurement')
+db.createCollection('anomaly')
 
-db.environmentData.insert([])

@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express'
-import { environmentDataController } from '../controller/environmentData.js'
+import { environmentDataController } from '../controller/measurements.js'
 import { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 

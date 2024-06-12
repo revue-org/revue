@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express'
-import { sensorController } from '../controller/sensor.js'
+import { sensorController } from '../controller/todelete-sensor.js'
 import { EnvironmentData } from 'domain/dist/domain/device/core'
 import HttpStatusCode from 'domain/dist/utils/HttpStatusCode.js'
 

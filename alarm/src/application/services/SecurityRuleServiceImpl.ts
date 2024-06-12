@@ -20,7 +20,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return await this.repository.getIntrusionRules()
   }
 
-  getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule> {
+  async getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule> {
     return this.repository.getSecurityRuleById(id)
   }
 

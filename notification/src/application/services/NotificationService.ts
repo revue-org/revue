@@ -1,9 +1,8 @@
-import { NotificationId } from "@/domain/core/NotificationId";
-import { Notification } from "@/domain/core/Notification";
-import { Contact } from "@common/domain/core/Contact"
+import { NotificationId } from '@/domain/core/NotificationId'
+import { Notification } from '@/domain/core/Notification'
+import { Contact } from '@common/domain/core/Contact'
 
 export interface NotificationService {
-
   getNotifications(): Promise<Notification[]>
 
   getNotificationById(id: NotificationId): Promise<Notification>

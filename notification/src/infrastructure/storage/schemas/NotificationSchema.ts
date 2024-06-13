@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { DomainEventType } from "common/dist/domain/core/DomainEventType";
+import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 
 export const notificationSchema = new Schema({
   id: {
@@ -16,7 +16,7 @@ export const notificationSchema = new Schema({
     required: true
   },
   event: {
-    type: Schema.Types.Mixed,
+    type: Schema.Types.Mixed
   },
   message: {
     type: String,

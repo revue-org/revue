@@ -1,6 +1,6 @@
 import { MailService } from './MailService.js'
-import { Notification } from "@/domain/core/Notification";
-import { DomainEventType } from "common/dist/domain/core/DomainEventType";
+import { Notification } from '@/domain/core/Notification'
+import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 
 export class MailServiceImpl implements MailService {
   private readonly transporter
@@ -10,11 +10,9 @@ export class MailServiceImpl implements MailService {
   }
 
   sendMail(to: string, notification: Notification): void {
-    const subject: string =
-      notification.type === DomainEventType.OUTLIER ? 'Outlier' : 'Intrusion'
+    const subject: string = notification.type === DomainEventType.OUTLIER ? 'Outlier' : 'Intrusion'
 
-    const body: string =
-      notification.type
+    const body: string = notification.type
     const mailOptions = {
       from: 'revue.noreply@gmail.com',
       to: to,

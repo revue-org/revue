@@ -1,4 +1,4 @@
-import { Notification } from '../core/Notification.js'
+import { Notification } from '@/domain/core/Notification'
 import { NotificationId } from '@/domain/core/NotificationId'
 
 export interface NotificationRepository {
@@ -6,7 +6,7 @@ export interface NotificationRepository {
 
   getNotificationById(notificationId: NotificationId): Promise<Notification>
 
-  saveNotification(notification: Notification): Promise<NotificationId>
+  saveNotification(notification: Notification): Promise<void>
 
   removeNotification(notificationId: NotificationId): Promise<void>
 }

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { notificationSchema } from './schemas/NotificationSchema'
 import { NotificationId } from '@/domain/core/NotificationId'
 import { Notification } from '@/domain/core/Notification'
-import { NotificationRepository } from '@/domain/repositories/NotificationRepository'
+import { NotificationRepository } from '@/application/repositories/NotificationRepository'
 import {
   NotificationDBAdapter,
   NotificationDBEntity
@@ -33,10 +33,10 @@ export class MongoDBNotificationRepository implements NotificationRepository {
   }
 
   async saveNotification(notification: Notification): Promise<void> {
-    return this._model.create(NotificationDBAdapter.asDBEntity(notification))
+    await this._model.create(NotificationDBAdapter.asDBEntity(notification))
   }
 
   async removeNotification(notificationId: NotificationId): Promise<void> {
-    return this._model.deleteOne({ id: notificationId.value })
+    await this._model.deleteOne({ id: notificationId.value })
   }
 }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { userSchema } from "./UserSchema";
+import { userSchema } from "./schemas/UserSchema";
 import { UserDBAdapter, UserDBEntity } from "@/infrastructure/storage/models/UserModel";
 import { UserRepository } from "@/application/repositories/UserRepository";
 import { UserId } from "@/domain/core/UserId";

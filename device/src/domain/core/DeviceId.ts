@@ -1,3 +1,3 @@
 export interface DeviceId {
-    readonly value: string
+  readonly value: string
 }

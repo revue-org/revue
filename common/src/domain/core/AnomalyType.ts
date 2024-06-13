@@ -1,4 +1,4 @@
 export enum AnomalyType {
-  OUTLIER = "outlier",
-  INTRUSION = "intrusion"
+  OUTLIER = 'outlier',
+  INTRUSION = 'intrusion'
 }

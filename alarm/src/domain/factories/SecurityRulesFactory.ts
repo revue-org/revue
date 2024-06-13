@@ -7,10 +7,9 @@ import { Contact } from 'common/dist/domain/core/Contact.js'
 import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
 
 export class SecurityRulesFactory {
-
   static newId(): SecurityRuleId {
     return {
-      id: "test"
+      id: 'test'
     }
   }
 

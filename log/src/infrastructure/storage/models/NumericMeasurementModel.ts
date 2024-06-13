@@ -1,6 +1,6 @@
 import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
 import { MeasureType } from '@common/domain/core/MeasureType'
-import { Measurement } from "@common/domain/core/Measurement";
+import { Measurement } from '@common/domain/core/Measurement'
 
 export interface NumericMeasurementDBEntity {
   id: string

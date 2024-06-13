@@ -1,12 +1,12 @@
-import { Schema } from 'mongoose';
+import { Schema } from 'mongoose'
 
 export const deviceSchema = new Schema({
-    deviceId: String,
-    locationId: String,
-    description: String,
-    endpoint: {
-        ipAddress: String,
-        port: Number
-    },
-    external: Boolean,
-});
+  deviceId: String,
+  locationId: String,
+  description: String,
+  endpoint: {
+    ipAddress: String,
+    port: Number
+  },
+  external: Boolean
+})

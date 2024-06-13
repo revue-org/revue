@@ -10,12 +10,12 @@ const contactSchema = new Schema({
     type: String,
     required: true
   }
-});
+})
 
 const timeSlotSchema = new Schema({
   from: Date,
-  to: Date,
-});
+  to: Date
+})
 
 export const securityRuleSchema = new Schema({
   id: {
@@ -48,7 +48,7 @@ export const securityRuleSchema = new Schema({
     required: true
   },
   data: {
-    type: Schema.Types.Mixed,
+    type: Schema.Types.Mixed
   },
   enabled: {
     type: Boolean,

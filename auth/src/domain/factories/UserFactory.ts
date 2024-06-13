@@ -1,9 +1,9 @@
-import { User } from "../core/User.js";
-import { UserId } from "../core/UserId";
+import { User } from '../core/User.js'
+import { UserId } from '../core/UserId'
 
 export class UserFactory {
   static idOf(mail: string): UserId {
-    return { mail };
+    return { mail }
   }
 
   static createUser(

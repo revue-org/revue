@@ -1,7 +1,7 @@
-import { UserId } from "@/domain/core/UserId";
-import { User } from "@/domain/core/User";
-import { UserRepository } from "@/application/repositories/UserRepository";
-import { UserService } from "@/application/services/UserService";
+import { UserId } from '@/domain/core/UserId'
+import { User } from '@/domain/core/User'
+import { UserRepository } from '@/application/repositories/UserRepository'
+import { UserService } from '@/application/services/UserService'
 
 export class UserServiceImpl implements UserService {
   private userRepository: UserRepository
@@ -37,5 +37,4 @@ export class UserServiceImpl implements UserService {
   deleteUser(userId: UserId): void {
     this.userRepository.deleteUser(userId)
   }
-
 }

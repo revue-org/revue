@@ -15,7 +15,7 @@ export const anomalySchema = new Schema({
     type: Date,
     default: Date.now
   },
-  data : {
+  data: {
     type: Schema.Types.Mixed,
     required: true
   }

@@ -1,7 +1,7 @@
-import { DomainEventId } from "./DomainEventId";
+import { DomainEventId } from './DomainEventId'
 
 export interface DomainEvent {
-  readonly id: DomainEventId;
+  readonly id: DomainEventId
 
-  readonly timestamp: Date;
+  readonly timestamp: Date
 }

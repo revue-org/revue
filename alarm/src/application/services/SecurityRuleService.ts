@@ -7,7 +7,6 @@ import { Contact } from 'common/dist/domain/core/Contact'
 import { MeasureType } from 'common/dist/domain/core/MeasureType'
 
 export interface SecurityRuleService {
-
   getSecurityRuleById(id: SecurityRuleId | string): Promise<SecurityRule>
 
   getRangeRules(): Promise<RangeRule[]>
@@ -43,7 +42,7 @@ export interface SecurityRuleService {
     validFrom: Date,
     validUntil: Date,
     minValue: number,
-    maxValue: number,
+    maxValue: number
   ): Promise<void>
 
   updateIntrusionRule(

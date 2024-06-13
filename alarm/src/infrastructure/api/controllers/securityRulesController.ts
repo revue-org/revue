@@ -38,17 +38,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.createRangeRule(
-      creatorId,
-      deviceId,
-      description,
-      contacts,
-      from,
-      to,
-      minValue,
-      maxValue,
-      measure
-    );
+    service.createRangeRule(creatorId, deviceId, description, contacts, from, to, minValue, maxValue, measure)
   },
 
   createIntrusionRule: async (
@@ -60,15 +50,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.createIntrusionRule(
-      creatorId,
-      deviceId,
-      description,
-      contacts,
-      from,
-      to,
-      ObjectClass.PERSON
-    )
+    service.createIntrusionRule(creatorId, deviceId, description, contacts, from, to, ObjectClass.PERSON)
   },
 
   updateRangeRule: async (
@@ -80,7 +62,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateRangeRule(ruleId, description, contacts, from, to, min, max);
+    service.updateRangeRule(ruleId, description, contacts, from, to, min, max)
   },
 
   updateIntrusionRule: async (
@@ -91,7 +73,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateIntrusionRule(ruleId, description, contacts, from, to, ObjectClass.PERSON);
+    service.updateIntrusionRule(ruleId, description, contacts, from, to, ObjectClass.PERSON)
   },
 
   deleteSecurityRule: async (id: string): Promise<void> => {

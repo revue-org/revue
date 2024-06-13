@@ -14,7 +14,7 @@ export class UserServiceImpl implements UserService {
     return this.userRepository.getUsers()
   }
 
-  getPermissions(): Promise<Permission[]> {
+  getPermissions(): Promise<string[]> {
     return this.userRepository.getPermissions()
   }
 
@@ -22,7 +22,7 @@ export class UserServiceImpl implements UserService {
     return this.userRepository.getUserById(userId)
   }
 
-  getPermissionsByUserId(userId: UserId): Promise<Permission[]> {
+  getPermissionsByUserId(userId: UserId): Promise<string[]> {
     return this.userRepository.getPermissionsByUserId(userId)
   }
 

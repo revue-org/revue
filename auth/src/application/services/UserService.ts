@@ -4,11 +4,11 @@ import { UserId } from "@/domain/core/UserId";
 export interface UserService {
   getUsers(): Promise<User[]>
 
-  getPermissions(): Promise<Permission[]>
+  getPermissions(): Promise<string[]>
 
   getUserById(userId: UserId): Promise<User>
 
-  getPermissionsByUserId(userId: UserId): Promise<Permission[]>
+  getPermissionsByUserId(userId: UserId): Promise<string[]>
 
   insertUser(user: User): void
 

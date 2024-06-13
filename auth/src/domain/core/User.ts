@@ -7,7 +7,7 @@ export interface User {
 
   get password(): string;
 
-  get permissions(): Permission[];
+  get permissions(): string[];
 
   get accessToken(): string;
 

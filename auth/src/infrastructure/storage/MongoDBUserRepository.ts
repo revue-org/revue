@@ -14,7 +14,7 @@ export class MongoDBUserRepository implements UserRepository {
     });
   }
 
-  async getPermissions(): Promise<Permission[]> {
+  async getPermissions(): Promise<string[]> {
     return this._model.find().lean().then((users) => {
       return users.map(user => user.asDomainEntity(user)).map(user => user.permissions).unique();
     });
@@ -30,7 +30,7 @@ export class MongoDBUserRepository implements UserRepository {
     return UserDBAdapter.asDomainEntity(user);
   }
 
-  async getPermissionsByUserId(userId: UserId): Promise<Permission> {
+  async getPermissionsByUserId(userId: UserId): Promise<string[]> {
     return (await this.getUserById(userId)).permissions;
   }
 

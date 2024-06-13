@@ -40,3 +40,14 @@ userRouter.route('/newToken').post((req: Request, res: Response): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
+
+userRouter.route('/permissions').post((req: Request, res: Response): void => {
+  userAccessController
+    .newToken(req.body.username, req.body.refreshToken)
+    .then((token: any): void => {
+      res.status(HttpStatusCode.OK).send(token)
+    })
+    .catch((err): void => {
+      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+    })
+})

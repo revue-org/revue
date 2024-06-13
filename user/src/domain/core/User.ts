@@ -1,4 +1,5 @@
 import { UserId } from "@/domain/core/UserId";
+import { Contact } from "@common/domain/core/Contact";
 
 export interface User {
   get id(): UserId

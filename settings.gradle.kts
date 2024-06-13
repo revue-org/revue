@@ -49,5 +49,6 @@ include(
     "log", 
     "recognition", 
     "media-server", 
-    "user"
+    "user",
+    "location"
 )

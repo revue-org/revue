@@ -10,7 +10,7 @@ export class UserFactory {
     id: UserId,
     username: string,
     password: string,
-    permissions: Permission[],
+    permissions: string[],
     accessToken: string,
     refreshToken: string
   ): User {

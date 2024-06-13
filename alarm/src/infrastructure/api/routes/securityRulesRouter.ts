@@ -3,6 +3,7 @@ import express, { Router, Request, Response } from 'express'
 import { securityRuleController as controller } from '../controllers/securityRulesController'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 
 export const router: Router = express.Router()
 
@@ -53,9 +54,7 @@ router
     controller
       .updateRangeRule(
         req.body.id,
-        req.body.deviceId.code,
         req.body.description,
-        req.body.measure,
         req.body.min,
         req.body.max,
         new Date(req.body.from),
@@ -116,7 +115,6 @@ router
     controller
       .updateIntrusionRule(
         req.body.id,
-        req.body.deviceId.code,
         req.body.description,
         req.body.objectClass,
         new Date(req.body.from),

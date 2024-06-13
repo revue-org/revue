@@ -39,19 +39,16 @@ export const securityRuleController = {
     contacts: Contact[]
   ): Promise<void> => {
     service.createRangeRule(
-      SecurityRulesFactory.createRangeRule(
-        SecurityRulesFactory.newId(),
-        deviceId,
-        creatorId,
-        contacts,
-        description,
-        SecurityRulesFactory.newTimeSlot(from, to),
-        minValue,
-        maxValue,
-        measure,
-        true
-      )
-    )
+      creatorId,
+      deviceId,
+      description,
+      contacts,
+      from,
+      to,
+      minValue,
+      maxValue,
+      measure
+    );
   },
 
   createIntrusionRule: async (
@@ -64,67 +61,37 @@ export const securityRuleController = {
     contacts: Contact[]
   ): Promise<void> => {
     service.createIntrusionRule(
-      SecurityRulesFactory.createIntrusionRule(
-        SecurityRulesFactory.newId(),
-        deviceId,
-        creatorId,
-        ObjectClass.PERSON,
-        contacts,
-        description,
-        SecurityRulesFactory.newTimeSlot(from, to),
-        true
-      )
+      creatorId,
+      deviceId,
+      description,
+      contacts,
+      from,
+      to,
+      ObjectClass.PERSON
     )
   },
 
   updateRangeRule: async (
     ruleId: string,
-    deviceId: string,
     description: string,
-    measure: MeasureType,
     min: number,
     max: number,
     from: Date,
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateRangeRule(
-      SecurityRulesFactory.createRangeRule(
-        SecurityRulesFactory.idOf(ruleId),
-        deviceId,
-        '',
-        contacts,
-        description,
-        SecurityRulesFactory.newTimeSlot(from, to),
-        min,
-        max,
-        measure,
-        true
-      )
-    )
+    service.updateRangeRule(ruleId, description, contacts, from, to, min, max);
   },
 
   updateIntrusionRule: async (
     ruleId: string,
-    deviceId: string,
     description: string,
     objectClass: string,
     from: Date,
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateIntrusionRule(
-      SecurityRulesFactory.createIntrusionRule(
-        SecurityRulesFactory.idOf(ruleId),
-        deviceId,
-        '',
-        ObjectClass.PERSON,
-        contacts,
-        description,
-        SecurityRulesFactory.newTimeSlot(from, to),
-        true
-      )
-    )
+    service.updateIntrusionRule(ruleId, description, contacts, from, to, ObjectClass.PERSON);
   },
 
   deleteSecurityRule: async (id: string): Promise<void> => {

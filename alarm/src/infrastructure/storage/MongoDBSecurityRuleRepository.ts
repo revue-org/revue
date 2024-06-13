@@ -57,12 +57,24 @@ export class MongoDBSecurityRuleRepository implements SecurityRulesRepository {
   }
 
   async updateSecurityRule(securityRule: SecurityRule): Promise<void> {
-    await this._model.updateOne(
-      {
-        id: securityRule.id.id
-      },
+    await this._model.findOneAndUpdate(
+      { id: securityRule.id.id },
       SecurityRuleDBAdapter.asDBEntity(securityRule)
     )
+  }
+
+  async enableSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
+    await this._model.findOneAndUpdate(
+      { id: securityRuleId.id },
+      { enabled: true }
+    );
+  }
+
+  async disableSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
+    await this._model.findOneAndUpdate(
+      { id: securityRuleId.id },
+      { enabled: false }
+    );
   }
 
   async removeSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {

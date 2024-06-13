@@ -3,23 +3,63 @@ import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
+import { Contact } from 'common/dist/domain/core/Contact'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
 
 export interface SecurityRuleService {
-  getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
+
+  getSecurityRuleById(id: SecurityRuleId | string): Promise<SecurityRule>
 
   getRangeRules(): Promise<RangeRule[]>
 
   getIntrusionRules(): Promise<IntrusionRule[]>
 
-  createRangeRule(rangeRule: RangeRule): void
+  createRangeRule(
+    creatorId: string,
+    activeOn: string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    minValue: number,
+    maxValue: number,
+    measure: MeasureType
+  ): Promise<SecurityRuleId>
 
-  createIntrusionRule(intrusionRule: IntrusionRule): void
+  createIntrusionRule(
+    creatorId: string,
+    activeOn: string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    intrusionObject: ObjectClass
+  ): Promise<SecurityRuleId>
 
-  updateRangeRule(exceedingRule: RangeRule): void
+  updateRangeRule(
+    rangeRuleId: SecurityRuleId | string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    minValue: number,
+    maxValue: number,
+  ): Promise<void>
 
-  updateIntrusionRule(intrusionRule: IntrusionRule): void
+  updateIntrusionRule(
+    intrusionRuleId: SecurityRuleId | string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    intrusionObject: ObjectClass
+  ): Promise<void>
 
-  deleteSecurityRule(id: SecurityRuleId): void
+  enableSecurityRule(id: SecurityRuleId | string): Promise<void>
+
+  disableSecurityRule(id: SecurityRuleId | string): Promise<void>
+
+  deleteSecurityRule(id: SecurityRuleId): Promise<void>
 
   isOutlier(deviceId: string, measurement: Measurement): Promise<boolean>
 

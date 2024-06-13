@@ -4,6 +4,10 @@ import { SecurityRuleService } from './SecurityRuleService'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
+import { Contact } from 'common/dist/domain/core/Contact'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
+import { ObjectClass } from '@/domain/core/ObjectClass'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private repository: SecurityRulesRepository
@@ -20,28 +24,112 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return await this.repository.getIntrusionRules()
   }
 
-  async getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule> {
-    return this.repository.getSecurityRuleById(id)
+  async getSecurityRuleById(id: SecurityRuleId | string): Promise<SecurityRule> {
+    return this.repository.getSecurityRuleById(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id)
   }
 
-  createRangeRule(rangeRule: RangeRule): void {
-    this.repository.saveSecurityRule(rangeRule)
+  async createRangeRule(
+    creatorId: string,
+    activeOn: string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    minValue: number,
+    maxValue: number,
+    measure: MeasureType
+  ): Promise<SecurityRuleId> {
+    const rule = SecurityRulesFactory.createRangeRule(
+      SecurityRulesFactory.newId(),
+      activeOn,
+      creatorId,
+      contacts,
+      description,
+      SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
+      minValue,
+      maxValue,
+      measure,
+      true
+    );
+    await this.repository.saveSecurityRule(rule);
+    return rule.id;
   }
 
-  createIntrusionRule(intrusionRule: IntrusionRule): void {
-    this.repository.saveSecurityRule(intrusionRule)
+  async createIntrusionRule(
+    creatorId: string,
+    activeOn: string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    intrusionObject: ObjectClass
+  ): Promise<SecurityRuleId> {
+    const rule = SecurityRulesFactory.createIntrusionRule(
+      SecurityRulesFactory.newId(),
+      activeOn,
+      creatorId,
+      intrusionObject,
+      contacts,
+      description,
+      SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
+      true
+    );
+    await this.repository.saveSecurityRule(rule);
+    return rule.id;
+  }
+  updateRangeRule(
+    rangeRuleId: string | SecurityRuleId,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    minValue: number,
+    maxValue: number
+  ): Promise<void> {
+    return this.repository.getSecurityRuleById(
+      typeof rangeRuleId === 'string' ? SecurityRulesFactory.idOf(rangeRuleId) : rangeRuleId
+    ).then((rule: SecurityRule) => {
+      const update = {
+        ...(rule as RangeRule),
+        description,
+        contacts,
+        validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
+        min: minValue,
+        max: maxValue
+      };
+      this.repository.updateSecurityRule(update);
+    });
+  }
+  updateIntrusionRule(
+    intrusionRuleId: string | SecurityRuleId,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    intrusionObject: ObjectClass
+  ): Promise<void> {
+    return this.repository.getSecurityRuleById(
+      typeof intrusionRuleId === 'string' ? SecurityRulesFactory.idOf(intrusionRuleId) : intrusionRuleId
+    ).then((rule: SecurityRule) => {
+      const update = {
+        ...(rule as IntrusionRule),
+        description,
+        contacts,
+        validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
+        objectClass: intrusionObject
+      };
+      this.repository.updateSecurityRule(update);
+    });
+  }
+  async enableSecurityRule(id: SecurityRuleId | string): Promise<void> {
+    this.repository.enableSecurityRule(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id);
+  }
+  async disableSecurityRule(id: SecurityRuleId | string): Promise<void> {
+    this.repository.disableSecurityRule(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id);
   }
 
-  updateRangeRule(exceedingRule: RangeRule): void {
-    this.repository.updateSecurityRule(exceedingRule)
-  }
-
-  updateIntrusionRule(intrusionRule: IntrusionRule): void {
-    this.repository.updateSecurityRule(intrusionRule)
-  }
-
-  deleteSecurityRule(id: SecurityRuleId): void {
-    this.repository.removeSecurityRule(id)
+  async deleteSecurityRule(id: SecurityRuleId | string): Promise<void> {
+    this.repository.removeSecurityRule(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id);
   }
 
   async isOutlier(deviceId: DeviceId, measurement: Measurement): Promise<boolean> {

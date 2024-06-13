@@ -3,9 +3,9 @@ import { DomainEventId } from '../core/DomainEventId'
 import { MeasureType } from '../core/MeasureType'
 
 export class MeasurementFactory {
-  static idOf(id: string): DomainEventId {
+  static idOf(value: string): DomainEventId {
     return {
-      id
+      value
     }
   }
 

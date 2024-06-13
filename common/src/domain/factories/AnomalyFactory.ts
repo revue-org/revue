@@ -6,12 +6,12 @@ import { AnomalyType } from '../core/AnomalyType'
 export class AnomalyFactory {
   static newId(): DomainEventId {
     return {
-      id: 'test'
+      value: 'test'
     }
   }
 
-  static idOf(id: string): DomainEventId {
-    return { id }
+  static idOf(value: string): DomainEventId {
+    return { value }
   }
 
   static createOutlier(

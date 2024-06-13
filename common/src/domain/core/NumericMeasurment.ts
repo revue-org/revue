@@ -3,8 +3,8 @@ import { MeasureType } from "./MeasureType";
 
 export interface NumericMeasurement extends Measurement {
 
-  measureType: MeasureType
+  readonly measureType: MeasureType
 
-  value: number
+  readonly value: number
 
 }

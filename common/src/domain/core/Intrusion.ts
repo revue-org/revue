@@ -3,9 +3,9 @@ import { DomainEventId } from "./DomainEventId";
 import { AnomalyType } from "./AnomalyType";
 
 export interface Intrusion extends Anomaly {
-  type : AnomalyType.INTRUSION
+  readonly type : AnomalyType.INTRUSION
 
-  detectionId : DomainEventId
+  readonly detectionId : DomainEventId
 
-  intrusionRuleId: string
+  readonly intrusionRuleId: string
 }

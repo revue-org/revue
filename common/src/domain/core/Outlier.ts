@@ -3,10 +3,10 @@ import { DomainEventId } from "./DomainEventId";
 import { AnomalyType } from "./AnomalyType";
 
 export interface Outlier extends Anomaly {
-  type: AnomalyType.OUTLIER
+  readonly type: AnomalyType.OUTLIER
 
-  measurementId: DomainEventId
+  readonly measurementId: DomainEventId
 
-  rangeRuleId: string
+  readonly rangeRuleId: string
 
 }

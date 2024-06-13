@@ -3,8 +3,8 @@ import { MeasureType } from "./MeasureType";
 
 export interface Measurement extends DeviceEvent {
 
-  get measureType(): MeasureType;
+  readonly measureType: MeasureType;
 
-  get value(): any;
+  readonly value: any;
 
 }

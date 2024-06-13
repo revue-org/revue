@@ -1,7 +1,7 @@
 import { ContactType } from "./ContactType";
 
 export interface Contact {
-  get value(): string
+  readonly value: string
 
-  get type(): ContactType
+  readonly type: ContactType
 }

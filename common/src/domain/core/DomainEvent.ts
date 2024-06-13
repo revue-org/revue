@@ -1,7 +1,7 @@
 import { DomainEventId } from "./DomainEventId";
 
 export interface DomainEvent {
-  get id(): DomainEventId;
+  readonly id: DomainEventId;
 
-  get timestamp(): Date;
+  readonly timestamp: Date;
 }

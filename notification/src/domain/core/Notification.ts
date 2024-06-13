@@ -1,9 +1,9 @@
 import { NotificationId } from '@/domain/core/NotificationId'
 
 export interface Notification {
-  get notificationId(): NotificationId
+  readonly notificationId: NotificationId
 
-  get message(): string
+  readonly message: string
 
-  get event(): DomainEvent
+  readonly event: DomainEvent
 }

@@ -1,5 +1,7 @@
 import { Notification } from "@/domain/core/Notification";
 import { NotificationFactory } from "@/domain/factories/NotificationFactory";
+import { NotificationType } from '@/domain/core/enum/NotificationType'
+import { DomainEvent } from '@common/domain/core/DomainEvent'
 
 export interface NotificationDBEntity {
     id: string
@@ -17,7 +19,8 @@ export interface NotificationDBEntity {
 export class NotificationDBAdapter {
 
     static asDomainEntity(notification: NotificationDBEntity): Notification {
-        if (notification.type === 'outlier') {
+        if (notification.type === NotificationType.OUTLIER) {
+            Outlier outlier =
             return NotificationFactory.createNotification(
                 NotificationFactory.idOf(notification.id),
                 notification.message,
@@ -25,7 +28,7 @@ export class NotificationDBAdapter {
                 notification.data.measureType as string,
                 notification.data.value as object
             )
-        } else if (notification.type === 'intrusion') {
+        } else if (notification.type === NotificationType.INTRUSION) {
             return NotificationFactory.createIntrusionRule(
                 NotificationFactory.idOf(notification.id),
                 notification.message,

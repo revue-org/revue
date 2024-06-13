@@ -18,7 +18,7 @@ interface Detection {
 }
 interface Measurement {
   + getMeasureType(): MeasureType
-  + getValue(): Float
+  + getValue(): Object
 }
 
 interface NotificationCreated {
@@ -53,8 +53,5 @@ DomainEvent <|-- Anomaly
 Anomaly <|-- Intrusion
 Anomaly <|-- Outlier
 
-
-Outlier o-- Measurement
-Intrusion o-up- Detection
 
 @enduml

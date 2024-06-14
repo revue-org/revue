@@ -18,7 +18,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     this.repository = repository
     this.eventsManager = eventsManager
 
-    this.eventsManager.setNewMeasurementHandler(async (measurement) => {
+    this.eventsManager.setNewMeasurementHandler(async measurement => {
       const rules = await this.getActiveRangeRules()
       rules.forEach(rule => {
         if (measurement.value < rule.min || measurement.value > rule.max) {
@@ -27,7 +27,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       })
     })
 
-    this.eventsManager.setNewDetectionHandler(async (detection) => {
+    this.eventsManager.setNewDetectionHandler(async detection => {
       const rules = await this.getActiveIntrusionRules()
       rules.forEach(rule => {
         if (detection.objectClass === rule.objectClass) {
@@ -107,19 +107,17 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     minValue: number,
     maxValue: number
   ): Promise<void> {
-    return this.repository
-      .getSecurityRuleById(rangeRuleId)
-      .then((rule: SecurityRule) => {
-        const update = {
-          ...(rule as RangeRule),
-          description,
-          contacts,
-          validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
-          min: minValue,
-          max: maxValue
-        }
-        this.repository.updateSecurityRule(update)
-      })
+    return this.repository.getSecurityRuleById(rangeRuleId).then((rule: SecurityRule) => {
+      const update = {
+        ...(rule as RangeRule),
+        description,
+        contacts,
+        validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
+        min: minValue,
+        max: maxValue
+      }
+      this.repository.updateSecurityRule(update)
+    })
   }
   updateIntrusionRule(
     intrusionRuleId: SecurityRuleId,
@@ -129,18 +127,16 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     validUntil: Date,
     intrusionObject: ObjectClass
   ): Promise<void> {
-    return this.repository
-      .getSecurityRuleById(intrusionRuleId)
-      .then((rule: SecurityRule) => {
-        const update = {
-          ...(rule as IntrusionRule),
-          description,
-          contacts,
-          validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
-          objectClass: intrusionObject
-        }
-        this.repository.updateSecurityRule(update)
-      })
+    return this.repository.getSecurityRuleById(intrusionRuleId).then((rule: SecurityRule) => {
+      const update = {
+        ...(rule as IntrusionRule),
+        description,
+        contacts,
+        validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
+        objectClass: intrusionObject
+      }
+      this.repository.updateSecurityRule(update)
+    })
   }
   async enableSecurityRule(id: SecurityRuleId): Promise<void> {
     this.repository.enableSecurityRule(id)
@@ -154,41 +150,45 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   private async getActiveRules(): Promise<SecurityRule[]> {
-    return this.repository.getSecurityRules()
+    return this.repository
+      .getSecurityRules()
       .then((rules: SecurityRule[]) =>
-        rules.filter(rule => this.isEnabled(rule))
+        rules
+          .filter(rule => this.isEnabled(rule))
           .filter(rule => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
-      );
-  }
-
-  private isEnabled(rule: SecurityRule): boolean {
-    return rule.enabled;
-  }
-
-  private async getActiveRangeRules(): Promise<RangeRule[]> {
-    return this.getActiveRules()
-      .then((rules: SecurityRule[]) => rules.filter(rule => rule.type === 'range') as RangeRule[])
-  }
-
-  private async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.getActiveRules()
-      .then((rules: SecurityRule[]) => rules.filter(rule => rule.type === 'intrusion') as IntrusionRule[])
-  }
-
-  private triggeredRulesFor(anomaly: Anomaly): Promise<SecurityRule[]> { // For Measurement or ObjectClass
-    return this.getActiveRules()
-      .then((rules: SecurityRule[]) =>
-        rules.filter(
-          rule =>
-            rule.activeOn === anomaly.deviceId &&
-            this.checkIfDateIsInRange(anomaly.timestamp, rule.validity.from, rule.validity.to)
-          // && check measure or objectClass
-        )
       )
   }
 
+  private isEnabled(rule: SecurityRule): boolean {
+    return rule.enabled
+  }
+
+  private async getActiveRangeRules(): Promise<RangeRule[]> {
+    return this.getActiveRules().then(
+      (rules: SecurityRule[]) => rules.filter(rule => rule.type === 'range') as RangeRule[]
+    )
+  }
+
+  private async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
+    return this.getActiveRules().then(
+      (rules: SecurityRule[]) => rules.filter(rule => rule.type === 'intrusion') as IntrusionRule[]
+    )
+  }
+
+  private triggeredRulesFor(anomaly: Anomaly): Promise<SecurityRule[]> {
+    // For Measurement or ObjectClass
+    return this.getActiveRules().then((rules: SecurityRule[]) =>
+      rules.filter(
+        rule =>
+          rule.activeOn === anomaly.deviceId &&
+          this.checkIfDateIsInRange(anomaly.timestamp, rule.validity.from, rule.validity.to)
+        // && check measure or objectClass
+      )
+    )
+  }
+
   private extractContactsFrom(rules: SecurityRule[]): Contact[] {
-    return [...new Set(rules.flatMap(rule => rule.contacts))];
+    return [...new Set(rules.flatMap(rule => rule.contacts))]
   }
 
   private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {

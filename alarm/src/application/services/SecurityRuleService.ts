@@ -7,7 +7,6 @@ import { Contact } from 'common/dist/domain/core/Contact'
 import { MeasureType } from 'common/dist/domain/core/MeasureType'
 
 export interface SecurityRuleService {
-
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
 
   getRangeRules(): Promise<RangeRule[]>

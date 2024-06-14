@@ -136,72 +136,45 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     this.repository.removeSecurityRule(this.asSecurityRuleId(id))
   }
 
-  async isOutlier(deviceId: DeviceId, measurement: Measurement): Promise<boolean> {
-    return (
-      (await this.getActiveRangeRules()).filter(
-        (rule: RangeRule) =>
-          this.hourComparator(environmentData.timestamp, rule.from, rule.to) &&
-          rule.deviceId.code === environmentData.sourceDeviceId.code &&
-          rule.measure === environmentData.measure &&
-          (environmentData.value < rule.min || environmentData.value > rule.max)
-      ).length > 0
-    )
+  private async getActiveRules(): Promise<SecurityRule[]> {
+    return this.repository.getSecurityRules()
+      .then((rules: SecurityRule[]) =>
+        rules.filter(rule => this.isEnabled(rule))
+          .filter(rule => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
+      );
   }
 
-  async isIntrusion(deviceId: DeviceId, objectClass: ObjectClass, timestamp: Date): Promise<boolean> {
-    return (
-      (await this.getActiveIntrusionRules()).filter(
-        (rule: IntrusionRule) =>
-          this.hourComparator(timestamp, rule.from, rule.to) &&
-          rule.deviceId.code === cameraId.code &&
-          rule.objectClass === objectClass
-      ).length > 0
-    )
+  private isEnabled(rule: SecurityRule): boolean {
+    return rule.enabled;
   }
 
-  async getActiveRules(): Promise<SecurityRule[]> {
-    const exceedingRules: SecurityRule[] = await this.repository.getRangeRules()
-    const intrusionRules: SecurityRule[] = await this.repository.getIntrusionRules()
-    const rules: SecurityRule[] = exceedingRules.concat(intrusionRules)
-    return rules.filter((rule: SecurityRule) => this.hourComparator(new Date(), rule.from, rule.to))
+  private async getActiveRangeRules(): Promise<RangeRule[]> {
+    return this.getActiveRules()
+      .then((rules: SecurityRule[]) => rules.filter(rule => rule.type === 'range') as RangeRule[])
   }
 
-  async getActiveRangeRules(): Promise<RangeRule[]> {
-    return (await this.getActiveRules()).filter(
-      (rule: SecurityRule): boolean => rule.activeOn.type === DeviceType.SENSOR
-    ) as RangeRule[]
+  private async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
+    return this.getActiveRules()
+      .then((rules: SecurityRule[]) => rules.filter(rule => rule.type === 'intrusion') as IntrusionRule[])
   }
 
-  async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
-    return (await this.getActiveRules()).filter(
-      (rule: SecurityRule): boolean => rule.activeOn.type === DeviceType.CAMERA
-    ) as IntrusionRule[]
+  private triggeredRulesFor(anomaly: Anomaly): Promise<SecurityRule[]> {
+    return this.getActiveRules()
+      .then((rules: SecurityRule[]) =>
+        rules.filter(
+          rule =>
+            rule.activeOn === anomaly.deviceId &&
+            this.checkIfDateIsInRange(anomaly.timestamp, rule.validity.from, rule.validity.to)
+          // && check measure or objectClass
+        )
+      )
   }
 
-  async getContactsToNotify(anomaly: Anomaly): Promise<Contact[]> {
-    switch (anomaly.deviceId.type) {
-      case DeviceType.CAMERA:
-        return (await this.getActiveIntrusionRules())
-          .filter(
-            (rule: IntrusionRule) =>
-              this.hourComparator(anomaly.timestamp, rule.from, rule.to) &&
-              rule.deviceId.code === anomaly.deviceId.code &&
-              rule.objectClass === (anomaly as Intrusion).intrusionObject
-          )
-          .flatMap((rule: IntrusionRule) => rule.contactsToNotify)
-      case DeviceType.SENSOR:
-        return (await this.getActiveRangeRules())
-          .filter(
-            (rule: RangeRule) =>
-              this.hourComparator(anomaly.timestamp, rule.from, rule.to) &&
-              rule.deviceId.code === anomaly.deviceId.code &&
-              rule.measure === (anomaly as Exceeding).measure
-          )
-          .flatMap((rule: RangeRule) => rule.contactsToNotify)
-    }
+  private extractContactsFrom(rules: SecurityRule[]): Contact[] {
+    return [...new Set(rules.flatMap(rule => rule.contacts))];
   }
 
-  hourComparator = (date: Date, from: Date, to: Date): boolean => {
+  private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {
     date.setHours(date.getHours() + 1) // correction due to timezone
     return (
       (date.getHours() > from.getHours() ||

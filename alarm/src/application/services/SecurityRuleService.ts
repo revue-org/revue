@@ -59,8 +59,4 @@ export interface SecurityRuleService {
   disableSecurityRule(id: SecurityRuleId | string): Promise<void>
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
-
-  isOutlier(deviceId: string, measurement: Measurement): Promise<boolean>
-
-  isIntrusion(deviceId: string, objectClass: ObjectClass, timestamp: Date): Promise<boolean>
 }

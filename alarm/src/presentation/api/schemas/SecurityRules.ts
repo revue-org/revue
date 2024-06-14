@@ -12,7 +12,7 @@ export const rangeRuleSchema = z.object({
   validityStart: z.date(),
   validityEnd: z.date(),
   rule: z.object({
-    measureType: z.enum(['temperature', 'humidity', 'pressure']),
+    measureType: z.enum(['temperature', 'humidity', 'pressure']), // TODO: replace with enum values MeasureType
     minValue: z.number(),
     maxValue: z.number()
   })
@@ -28,5 +28,5 @@ export const intrusionRuleSchema = z.object({
   author: z.string(),
   validityStart: z.date(),
   validityEnd: z.date(),
-  objectClass: z.enum(['person', 'animal', 'vehicle']) //Object.keys(ObjectClass)
+  objectClass: z.enum(['person', 'animal', 'vehicle']) // TODO: Object.keys(ObjectClass)
 })

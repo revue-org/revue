@@ -2,39 +2,56 @@ import { UserId } from '@/domain/core/UserId'
 import { User } from '@/domain/core/User'
 import { UserRepository } from '@/application/repositories/UserRepository'
 import { UserService } from '@/application/services/UserService'
+import { UserFactory } from "@/domain/factories/UserFactory";
 
 export class UserServiceImpl implements UserService {
-  private userRepository: UserRepository
+  private repository: UserRepository
 
   constructor(userRepository: UserRepository) {
-    this.userRepository = userRepository
+    this.repository = userRepository
   }
 
-  getUsers(): Promise<User[]> {
-    return this.userRepository.getUsers()
+  async getUsers(): Promise<User[]> {
+    return this.repository.getUsers()
   }
 
-  getPermissions(): Promise<string[]> {
-    return this.userRepository.getPermissions()
+  async getPermissions(): Promise<string[]> {
+    return this.repository.getPermissions()
   }
 
-  getUserById(userId: UserId): Promise<User> {
-    return this.userRepository.getUserById(userId)
+  async getUserById(userId: UserId): Promise<User> {
+    return this.repository.getUserById(userId)
   }
 
-  getPermissionsByUserId(userId: UserId): Promise<string[]> {
-    return this.userRepository.getPermissionsByUserId(userId)
+  async getPermissionsByUserId(userId: UserId): Promise<string[]> {
+    return this.repository.getPermissionsByUserId(userId)
   }
 
-  insertUser(user: User): void {
-    this.userRepository.insertUser(user)
+  async createUser(username: string, password: string, permissions: string[]): Promise<UserId> {
+    const user: User = UserFactory.createUser(
+      UserFactory.newId(),
+      username,
+      password,
+      permissions,
+      "",
+      ""
+    )
+    await this.repository.insertUser(user)
+    return user.id
   }
 
-  updateUser(user: User): void {
-    this.userRepository.updateUser(user)
+  async updateUser(id:UserId, password: string, permissions: string[]): Promise<void> {
+    this.repository.getUserById(id).then((user: User): void => {
+      const update = {
+        ...(user as User),
+        password,
+        permissions
+      }
+      this.repository.updateUser(update)
+    })
   }
 
-  deleteUser(userId: UserId): void {
-    this.userRepository.deleteUser(userId)
+  async deleteUser(userId: UserId): Promise<void> {
+    await this.repository.deleteUser(userId)
   }
 }

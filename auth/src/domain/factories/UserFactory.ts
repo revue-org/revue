@@ -2,8 +2,12 @@ import { User } from '../core/User.js'
 import { UserId } from '../core/UserId'
 
 export class UserFactory {
-  static idOf(mail: string): UserId {
-    return { mail }
+  static newId(): UserId {
+    return { value: '' }
+  }
+
+  static idOf(value: string): UserId {
+    return { value }
   }
 
   static createUser(

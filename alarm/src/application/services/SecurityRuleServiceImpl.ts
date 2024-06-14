@@ -8,12 +8,33 @@ import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
 import { Contact } from 'common/dist/domain/core/Contact'
 import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { ObjectClass } from '@/domain/core/ObjectClass'
+import { AlarmEventsManager } from '@/infrastructure/events/AlarmEventsManager'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private repository: SecurityRulesRepository
+  private eventsManager: AlarmEventsManager
 
-  constructor(repository: SecurityRulesRepository) {
+  constructor(repository: SecurityRulesRepository, eventsManager: AlarmEventsManager) {
     this.repository = repository
+    this.eventsManager = eventsManager
+
+    this.eventsManager.setNewMeasurementHandler(async (measurement) => {
+      const rules = await this.getActiveRangeRules()
+      rules.forEach(rule => {
+        if (measurement.value < rule.min || measurement.value > rule.max) {
+          this.eventsManager.sendAnomalyDetection()
+        }
+      })
+    })
+
+    this.eventsManager.setNewDetectionHandler(async (detection) => {
+      const rules = await this.getActiveIntrusionRules()
+      rules.forEach(rule => {
+        if (detection.objectClass === rule.objectClass) {
+          this.eventsManager.sendAnomalyDetection()
+        }
+      })
+    })
   }
 
   private asSecurityRuleId(id: string | SecurityRuleId): SecurityRuleId {
@@ -158,7 +179,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       .then((rules: SecurityRule[]) => rules.filter(rule => rule.type === 'intrusion') as IntrusionRule[])
   }
 
-  private triggeredRulesFor(anomaly: Anomaly): Promise<SecurityRule[]> {
+  private triggeredRulesFor(anomaly: Anomaly): Promise<SecurityRule[]> { // For Measurement or ObjectClass
     return this.getActiveRules()
       .then((rules: SecurityRule[]) =>
         rules.filter(

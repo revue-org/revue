@@ -1,5 +1,5 @@
-import { Location } from "@/domain/core/Location"
-import { LocationFactory } from "@/domain/factories/LocationFactory"
+import { Location } from '@/domain/core/Location'
+import { LocationFactory } from '@/domain/factories/LocationFactory'
 
 export interface LocationDBEntity {
   description: string

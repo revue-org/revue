@@ -1,7 +1,7 @@
-import { DeviceCapability } from "@/domain/core/capabilities/DeviceCapability"
-import { Device } from "@/domain/core/Device"
-import { DeviceEndpoint } from "@/domain/core/DeviceEndpoint"
-import { DeviceId } from "@/domain/core/DeviceId"
+import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
+import { Device } from '@/domain/core/Device'
+import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint'
+import { DeviceId } from '@/domain/core/DeviceId'
 
 export interface DeviceService {
   getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]>

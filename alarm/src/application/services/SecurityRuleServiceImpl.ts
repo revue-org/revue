@@ -16,6 +16,10 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     this.repository = repository
   }
 
+  private asSecurityRuleId(id: string | SecurityRuleId): SecurityRuleId {
+    return typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id
+  }
+
   async getRangeRules(): Promise<RangeRule[]> {
     return await this.repository.getRangeRules()
   }
@@ -25,7 +29,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   async getSecurityRuleById(id: SecurityRuleId | string): Promise<SecurityRule> {
-    return this.repository.getSecurityRuleById(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id)
+    return this.repository.getSecurityRuleById(this.asSecurityRuleId(id))
   }
 
   async createRangeRule(
@@ -87,9 +91,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     maxValue: number
   ): Promise<void> {
     return this.repository
-      .getSecurityRuleById(
-        typeof rangeRuleId === 'string' ? SecurityRulesFactory.idOf(rangeRuleId) : rangeRuleId
-      )
+      .getSecurityRuleById(this.asSecurityRuleId(rangeRuleId))
       .then((rule: SecurityRule) => {
         const update = {
           ...(rule as RangeRule),
@@ -111,9 +113,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     intrusionObject: ObjectClass
   ): Promise<void> {
     return this.repository
-      .getSecurityRuleById(
-        typeof intrusionRuleId === 'string' ? SecurityRulesFactory.idOf(intrusionRuleId) : intrusionRuleId
-      )
+      .getSecurityRuleById(this.asSecurityRuleId(intrusionRuleId))
       .then((rule: SecurityRule) => {
         const update = {
           ...(rule as IntrusionRule),
@@ -126,14 +126,14 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       })
   }
   async enableSecurityRule(id: SecurityRuleId | string): Promise<void> {
-    this.repository.enableSecurityRule(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id)
+    this.repository.enableSecurityRule(this.asSecurityRuleId(id))
   }
   async disableSecurityRule(id: SecurityRuleId | string): Promise<void> {
-    this.repository.disableSecurityRule(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id)
+    this.repository.disableSecurityRule(this.asSecurityRuleId(id))
   }
 
   async deleteSecurityRule(id: SecurityRuleId | string): Promise<void> {
-    this.repository.removeSecurityRule(typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id)
+    this.repository.removeSecurityRule(this.asSecurityRuleId(id))
   }
 
   async isOutlier(deviceId: DeviceId, measurement: Measurement): Promise<boolean> {

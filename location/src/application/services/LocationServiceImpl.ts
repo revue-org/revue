@@ -1,8 +1,8 @@
-import { Location } from '../../domain/core/Location'
-import { LocationId } from '../../domain/core/LocationId'
-import { LocationFactory } from '../../domain/factories/LocationFactory'
+import { LocationId } from '@/domain/core/LocationId'
 import { LocationRepository } from '../repositories/LocationRepository'
 import { LocationService } from './LocationService'
+import { LocationFactory } from '@/domain/factories/LocationFactory'
+import { Location } from '@/domain/core/Location'
 
 export class LocationServiceImpl implements LocationService {
   private _repository: LocationRepository

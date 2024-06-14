@@ -1,10 +1,10 @@
-import { DeviceCapability } from '../../domain/core/capabilities/DeviceCapability'
-import { Device } from '../../domain/core/Device'
-import { DeviceEndpoint } from '../../domain/core/DeviceEndpoint'
-import { DeviceId } from '../../domain/core/DeviceId'
-import { DeviceFactory } from '../../domain/factories/DeviceFactory'
+import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
 import { DeviceRepository } from '../repositories/DeviceRepository'
 import { DeviceService } from './DeviceService'
+import { DeviceId } from '@/domain/core/DeviceId'
+import { Device } from '@/domain/core/Device'
+import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint'
+import { DeviceFactory } from '@/domain/factories/DeviceFactory'
 
 export class DeviceServiceImpl implements DeviceService {
   private _repository: DeviceRepository

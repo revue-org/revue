@@ -1,9 +1,9 @@
-import { LocationRepository } from '../../application/repositories/LocationRepository'
-import { Location } from '../../domain/core/Location'
-import { LocationId } from '../../domain/core/LocationId'
 import mongoose from 'mongoose'
 import { locationSchema } from './schemas/LocationSchema'
 import { LocationDBAdapter, LocationDBEntity } from './models/LocationModel'
+import { LocationRepository } from '@/application/repositories/LocationRepository'
+import { Location } from '@/domain/core/Location'
+import { LocationId } from '@/domain/core/LocationId'
 
 export class MongoDBLocationRepository implements LocationRepository {
   private _model = mongoose.model<LocationDBEntity>('Location', locationSchema)

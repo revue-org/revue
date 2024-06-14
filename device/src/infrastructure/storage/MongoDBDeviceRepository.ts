@@ -1,9 +1,9 @@
-import { DeviceRepository } from '../../application/repositories/DeviceRepository'
-import { Device } from '../../domain/core/Device'
-import { DeviceId } from '../../domain/core/DeviceId'
 import mongoose from 'mongoose'
 import { DeviceDBAdapter, DeviceDBEntity } from './models/DeviceModel'
 import { deviceSchema } from './schemas/DeviceSchema'
+import { DeviceRepository } from '@/application/repositories/DeviceRepository'
+import { Device } from '@/domain/core/Device'
+import { DeviceId } from '@/domain/core/DeviceId'
 
 export class MongoDBDeviceRepository implements DeviceRepository {
   private _model = mongoose.model<DeviceDBEntity>('Device', deviceSchema)

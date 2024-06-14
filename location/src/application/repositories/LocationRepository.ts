@@ -1,5 +1,5 @@
-import { Location } from '../../domain/core/Location'
-import { LocationId } from '../../domain/core/LocationId'
+import { Location } from '@/domain/core/Location'
+import { LocationId } from '@/domain/core/LocationId'
 
 export interface LocationRepository {
   saveLocation(location: Location): Promise<void>

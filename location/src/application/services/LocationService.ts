@@ -1,5 +1,5 @@
-import { LocationId } from '../../domain/core/LocationId'
-import { Location } from '../../domain/core/Location'
+import { Location } from "@/domain/core/Location"
+import { LocationId } from "@/domain/core/LocationId"
 
 export interface LocationService {
   createRoom(description: string, buildingId: LocationId): Promise<void>

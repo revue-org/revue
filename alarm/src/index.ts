@@ -8,7 +8,7 @@ import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
-import { setupConsumer } from './consumer.js'
+import { setupConsumer } from './infrastructure/events/consumer.js'
 
 config({ path: process.cwd() + '/../.env' })
 

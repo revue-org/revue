@@ -3,7 +3,7 @@ export type KafkaOptions = {
   brokers: [
     {
       host: string,
-      port: number
+      port: string
     }
   ],
   groupId?: string,

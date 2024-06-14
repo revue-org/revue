@@ -22,13 +22,15 @@ export default class ProducerFactory {
     await this.producer.disconnect()
   }
 
-  public async produce(topic: string, message: object): Promise<void> {
+  public produce(topic: string, message: object): void {
     try {
-      await this.producer.send({
+      this.producer.send({
         topic: topic,
         messages: [
           { value: JSON.stringify(message) }
         ]
+      }).then(() => {
+        console.log('Message sent to topic: ', topic)
       })
     } catch (error) {
       console.log('Error producing message: ', error)

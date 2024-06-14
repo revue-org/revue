@@ -1,9 +1,10 @@
 import express, { Request, Response, Router } from 'express'
-import { User } from '@domain/monitoring/core/User.js'
-import { userController } from '../controller/user.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
-import bcrypt from 'bcryptjs'
-import { UserFactory } from "@/domain/factories/UserFactory";
+import { ContactFactory } from '@common/domain/factories/ContactFactory'
+import { userController } from '@/infrastructure/api/controllers/user'
+import { User } from '@/domain/core/User'
+import { Contact } from 'common/dist/domain/core/Contact'
+import { ContactType } from 'common/dist/domain/core/ContactType'
 
 export const userRouter: Router = express.Router()
 
@@ -31,7 +32,7 @@ userRouter.route('/:id').get((req: Request, res: Response): void => {
 
 userRouter.route('/').post(async (req: Request, res: Response): Promise<void> => {
   const contacts: Contact[] = req.body.contacts.map((contact: Contact) => {
-    return ContactFactory.createContact(contact.type, contact.value)
+    return contact.type === ContactType.EMAIL ? ContactFactory.createMailContact(contact.value) : ContactFactory.createSmsContact(contact.value)
   })
   userController
     .createUser(req.body.name, req.body.surname, req.body.mail, contacts)
@@ -45,7 +46,7 @@ userRouter.route('/').post(async (req: Request, res: Response): Promise<void> =>
 
 userRouter.route('/').put((req: Request, res: Response): void => {
   const contacts: Contact[] = req.body.contacts.map((contact: Contact) => {
-    return ContactFactory.createContact(contact.type, contact.value)
+    return contact.type === ContactType.EMAIL ? ContactFactory.createMailContact(contact.value) : ContactFactory.createSmsContact(contact.value)
   })
   userController
     .updateUser(UserFactory.idOf(req.body.taxCode), req.body.name, req.body.surname, req.body.mail, contacts)

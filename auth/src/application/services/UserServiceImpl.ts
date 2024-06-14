@@ -36,12 +36,12 @@ export class UserServiceImpl implements UserService {
       "",
       ""
     )
-    await this.repository.insertUser(user)
+    await this.repository.saveUser(user)
     return user.id
   }
 
   async updateUser(id:UserId, password: string, permissions: string[]): Promise<void> {
-    this.repository.getUserById(id).then((user: User): void => {
+   return this.repository.getUserById(id).then((user: User): void => {
       const update = {
         ...(user as User),
         password,
@@ -52,6 +52,6 @@ export class UserServiceImpl implements UserService {
   }
 
   async deleteUser(userId: UserId): Promise<void> {
-    await this.repository.deleteUser(userId)
+    await this.repository.removeUser(userId)
   }
 }

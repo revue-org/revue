@@ -23,7 +23,7 @@ export class MongoDBUserRepository implements UserRepository {
       .lean()
       .then(users => {
         return users
-          .map(user => user.asDomainEntity(user))
+          .map(user => UserDBAdapter.asDomainEntity(user))
           .map(user => user.permissions)
           .unique()
       })
@@ -32,7 +32,7 @@ export class MongoDBUserRepository implements UserRepository {
   async getUserById(userId: UserId): Promise<User> {
     const user = await this._model
       .findOne({
-        id: userId.mail
+        id: userId.value
       })
       .lean()
     if (!user) {
@@ -46,19 +46,19 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async saveUser(user: User): Promise<void> {
-    return this._model.create(UserDBAdapter.asDBEntity(user))
+    await this._model.create(UserDBAdapter.asDBEntity(user))
   }
 
   async updateUser(user: User): Promise<void> {
-    return this._model.updateOne(
+    await this._model.updateOne(
       {
-        id: user.id.mail
+        id: user.id.value
       },
       UserDBAdapter.asDBEntity(user)
     )
   }
 
   async removeUser(userId: UserId): Promise<void> {
-    return this._model.deleteOne({ id: userId.mail })
+    await this._model.deleteOne({ id: userId.value })
   }
 }

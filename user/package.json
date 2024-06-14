@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "domain": "file:../domain",
     "common": "file:../common",

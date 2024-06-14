@@ -8,7 +8,7 @@ import { MeasureType } from 'common/dist/domain/core/MeasureType'
 
 export interface SecurityRuleService {
 
-  getSecurityRuleById(id: SecurityRuleId | string): Promise<SecurityRule>
+  getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
 
   getRangeRules(): Promise<RangeRule[]>
 
@@ -37,7 +37,7 @@ export interface SecurityRuleService {
   ): Promise<SecurityRuleId>
 
   updateRangeRule(
-    rangeRuleId: SecurityRuleId | string,
+    rangeRuleId: SecurityRuleId,
     description: string,
     contacts: Contact[],
     validFrom: Date,
@@ -47,7 +47,7 @@ export interface SecurityRuleService {
   ): Promise<void>
 
   updateIntrusionRule(
-    intrusionRuleId: SecurityRuleId | string,
+    intrusionRuleId: SecurityRuleId,
     description: string,
     contacts: Contact[],
     validFrom: Date,
@@ -55,9 +55,9 @@ export interface SecurityRuleService {
     intrusionObject: ObjectClass
   ): Promise<void>
 
-  enableSecurityRule(id: SecurityRuleId | string): Promise<void>
+  enableSecurityRule(id: SecurityRuleId): Promise<void>
 
-  disableSecurityRule(id: SecurityRuleId | string): Promise<void>
+  disableSecurityRule(id: SecurityRuleId): Promise<void>
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
 }

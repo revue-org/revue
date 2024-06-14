@@ -37,10 +37,6 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     })
   }
 
-  private asSecurityRuleId(id: string | SecurityRuleId): SecurityRuleId {
-    return typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id
-  }
-
   async getRangeRules(): Promise<RangeRule[]> {
     return await this.repository.getRangeRules()
   }
@@ -49,8 +45,8 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return await this.repository.getIntrusionRules()
   }
 
-  async getSecurityRuleById(id: SecurityRuleId | string): Promise<SecurityRule> {
-    return this.repository.getSecurityRuleById(this.asSecurityRuleId(id))
+  async getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule> {
+    return this.repository.getSecurityRuleById(id)
   }
 
   async createRangeRule(
@@ -103,7 +99,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return rule.id
   }
   updateRangeRule(
-    rangeRuleId: string | SecurityRuleId,
+    rangeRuleId: SecurityRuleId,
     description: string,
     contacts: Contact[],
     validFrom: Date,
@@ -112,7 +108,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     maxValue: number
   ): Promise<void> {
     return this.repository
-      .getSecurityRuleById(this.asSecurityRuleId(rangeRuleId))
+      .getSecurityRuleById(rangeRuleId)
       .then((rule: SecurityRule) => {
         const update = {
           ...(rule as RangeRule),
@@ -126,7 +122,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       })
   }
   updateIntrusionRule(
-    intrusionRuleId: string | SecurityRuleId,
+    intrusionRuleId: SecurityRuleId,
     description: string,
     contacts: Contact[],
     validFrom: Date,
@@ -134,7 +130,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     intrusionObject: ObjectClass
   ): Promise<void> {
     return this.repository
-      .getSecurityRuleById(this.asSecurityRuleId(intrusionRuleId))
+      .getSecurityRuleById(intrusionRuleId)
       .then((rule: SecurityRule) => {
         const update = {
           ...(rule as IntrusionRule),
@@ -146,15 +142,15 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
         this.repository.updateSecurityRule(update)
       })
   }
-  async enableSecurityRule(id: SecurityRuleId | string): Promise<void> {
-    this.repository.enableSecurityRule(this.asSecurityRuleId(id))
+  async enableSecurityRule(id: SecurityRuleId): Promise<void> {
+    this.repository.enableSecurityRule(id)
   }
-  async disableSecurityRule(id: SecurityRuleId | string): Promise<void> {
-    this.repository.disableSecurityRule(this.asSecurityRuleId(id))
+  async disableSecurityRule(id: SecurityRuleId): Promise<void> {
+    this.repository.disableSecurityRule(id)
   }
 
-  async deleteSecurityRule(id: SecurityRuleId | string): Promise<void> {
-    this.repository.removeSecurityRule(this.asSecurityRuleId(id))
+  async deleteSecurityRule(id: SecurityRuleId): Promise<void> {
+    this.repository.removeSecurityRule(id)
   }
 
   private async getActiveRules(): Promise<SecurityRule[]> {

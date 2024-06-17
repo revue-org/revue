@@ -1,42 +1,20 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
-import { SecurityRulesRepository } from '../repositories/SecurityRulesRepository'
-import { AlarmService } from './AlarmService'
+import { SecurityRulesRepository } from '../../repositories/SecurityRulesRepository'
+import { AlarmService } from '../AlarmService'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { Contact } from '@common/domain/core/Contact'
-import { MeasureType } from '@common/domain/core/MeasureType'
+import { Contact } from 'common/dist/domain/core/Contact'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { ObjectClass } from '@/domain/core/ObjectClass'
-import { AlarmEventsManager } from '@/infrastructure/events/AlarmEventsManager'
-import { Measurement } from '@common/domain/core/Measurement'
-import { Anomaly } from '@common/domain/core/Anomaly'
+import { Anomaly } from 'common/dist/domain/core/Anomaly'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRulesRepository
-  private eventsManager: AlarmEventsManager
 
-  constructor(repository: SecurityRulesRepository, eventsManager: AlarmEventsManager) {
+  constructor(repository: SecurityRulesRepository) {
     this.repository = repository
-    this.eventsManager = eventsManager
-
-    this.eventsManager.setNewMeasurementHandler(async (measurement: Measurement) => {
-      const rules: RangeRule[] = await this.getActiveRangeRules()
-      rules.forEach((rule: RangeRule): void => {
-        if (measurement.value < rule.min || measurement.value > rule.max) {
-          this.eventsManager.sendAnomalyDetection()
-        }
-      })
-    })
-
-    this.eventsManager.setNewDetectionHandler(async detection => {
-      const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
-      rules.forEach((rule: IntrusionRule): void => {
-        if (detection.objectClass === rule.objectClass) {
-          this.eventsManager.sendAnomalyDetection()
-        }
-      })
-    })
   }
 
   async getRangeRules(): Promise<RangeRule[]> {
@@ -186,7 +164,7 @@ export class AlarmServiceImpl implements AlarmService {
     return this.getActiveRules().then((rules: SecurityRule[]) =>
       rules.filter(
         rule =>
-          rule.activeOn === anomaly.deviceId &&
+          rule.activeOn === anomaly.id.value &&
           this.checkIfDateIsInRange(anomaly.timestamp, rule.validity.from, rule.validity.to)
         // && check measure or objectClass
       )

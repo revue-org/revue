@@ -1,4 +1,3 @@
-import { Measurement } from '@common/domain/core/Measurement'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { Contact } from 'common/dist/domain/core/Contact'

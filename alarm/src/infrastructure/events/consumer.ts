@@ -4,7 +4,7 @@ import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHe
 import { AxiosResponse } from 'axios'
 import { KafkaMessage } from 'kafkajs'
 import { alarmService } from '@/init'
-import { measurementSchema } from '@/presentation/events/schemas/MeasurementSchema'
+import { detectionSchema, measurementSchema } from '@/presentation/events/schemas/MeasurementSchema'
 
 let kafkaHost: string = process.env.KAFKA_HOST!
 let kafkaPort: string = process.env.KAFKA_PORT!
@@ -22,7 +22,6 @@ const kafkaOptions: KafkaOptions = {
 
 const consumer: KafkaConsumer = new KafkaConsumer(kafkaOptions)
 
-// TODO: polling to update devices?
 const res: AxiosResponse = await RequestHelper.get(`${monitoringHost}:${monitoringPort}/devices`)
 if (res.status !== 200) {
   console.log('Error getting devices')
@@ -46,10 +45,20 @@ consumer
     if (message.value) {
       if ('measurementId' in message.value) {
         console.log('Measurement received')
-        const measurement = measurementSchema.parse(message.value)
-        alarmService.isOutlier(measurement.sourceDeviceId.code, message.value)
+        try {
+          const measurement = measurementSchema.parse(message.value)
+          // alarmService.isOutlier(...)
+        } catch (e) {
+          console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+        }
       } else {
         console.log('Detection received')
+        try {
+          const detection = detectionSchema.parse(message.value)
+          // alarmService.isIntrusion(...)
+        } catch (e) {
+          console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+        }
       }
     }
   })

@@ -1,6 +1,6 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { AlarmService } from '@/application/services/AlarmService'
-import { AlarmServiceImpl } from '@/application/services/AlarmServiceImpl'
+import { AlarmServiceImpl } from '@/application/services/impl/AlarmServiceImpl'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
 import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
 import { Contact } from '@common/domain/core/Contact'

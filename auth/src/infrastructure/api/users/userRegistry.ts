@@ -33,7 +33,7 @@ userRegistry.route('/').post((req: Request, res: Response): void => {
   controller
     .createUser(req.body.username, req.body.password, req.body.permissions)
     .then((userId: UserId): void => {
-      res.status(HttpStatusCode.OK).send(userId)
+      res.status(HttpStatusCode.CREATED).send(userId)
     })
     .catch((err: Error): void => {
       res.status(HttpStatusCode.BAD_REQUEST).send(err)

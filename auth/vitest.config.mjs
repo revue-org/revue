@@ -6,6 +6,7 @@ export default  defineConfig({
   testFiles: 'test/**/*.test.ts',
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, 'src/'),
       '@domain': path.resolve(__dirname, 'node_modules/domain/dist/domain/'),
       '@application': path.resolve(__dirname, 'node_modules/domain/dist/application/'),
       '@utils': path.resolve(__dirname, 'node_modules/domain/dist/utils/'),

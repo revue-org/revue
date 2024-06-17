@@ -17,4 +17,8 @@ export interface SecurityRulesRepository {
   getRangeRules(): Promise<RangeRule[]>
 
   getIntrusionRules(): Promise<IntrusionRule[]>
+
+  enableSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
+
+  disableSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
 }

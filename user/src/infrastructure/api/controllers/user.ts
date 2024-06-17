@@ -1,38 +1,26 @@
-import { User } from '@domain/monitoring/core/User.js'
-import { Contact } from '@domain/monitoring/core/Contact.js'
-import { UserFactory } from '@domain/monitoring/factories/UserFactory.js'
-import { userService } from '../init.js'
-import { UserId } from "@/domain/core/UserId";
+import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository'
+import { UserServiceImpl } from '@/application/services/UserServiceImpl'
+import { User } from '@/domain/core/User'
+import { Contact } from 'common/dist/domain/core/Contact'
+import { UserId } from '@/domain/core/UserId'
+import { UserFactory } from '@/domain/factories/UserFactory'
+import { UserService } from '@/application/services/UserService'
 
+const service: UserService = new UserServiceImpl(new MongoDBUserRepository())
 export const userController = {
-  getUserById: async (id: string): Promise<User> => {
-    return await userService.getUserById(id)
-  },
   getUsers: async (): Promise<User[]> => {
-    return await userService.getUsers()
+    return await service.getUsers()
   },
-  createUser: async (name: string, surname: string, mail: string, contacts: Contact[]): Promise<void> => {
-    //TODO: Add id generation
-    const id: UserId = UserFactory.idOf(mail)
-    const user: User = UserFactory.createUser(
-      id,
-      name,
-      surname,
-      mail,
-      contacts
-    )
-    return userService.insertUser(user)
+  getUserById: async (id: string): Promise<User> => {
+    return await service.getUserById(UserFactory.idOf(id))
   },
-  updateUser: async (id: UserId, name: string, surname: string, mail: string, contacts: Contact[]): Promise<void> => {
-    return userService.updateUser(UserFactory.createUser(
-      id,
-      name,
-      surname,
-      mail,
-      contacts
-    ))
+  createUser: async (name: string, surname: string, mail: string, contacts: Contact[]): Promise<UserId> => {
+    return service.createUser(name, surname, mail, contacts)
+  },
+  updateUser: async (id: UserId, name: string, surname: string, contacts: Contact[]): Promise<void> => {
+    return service.updateUser(id, name, surname, contacts)
   },
   deleteUser: async (id: UserId): Promise<void> => {
-    return userService.deleteUser(id)
+    return service.deleteUser(id)
   }
 }

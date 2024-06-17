@@ -1,3 +1,3 @@
 export interface UserId {
-  readonly taxCode: string
+  readonly value: string
 }

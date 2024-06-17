@@ -41,7 +41,7 @@ export class SecurityRulesFactory {
   }
 
   static createRangeRule(
-    id: SecurityRuleId,
+    id: SecurityRuleId | string,
     activeOn: string,
     creatorId: string,
     contacts: Contact[],
@@ -53,7 +53,7 @@ export class SecurityRulesFactory {
     enabled: boolean
   ): RangeRule {
     return {
-      id,
+      id: typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id,
       type: 'range',
       activeOn,
       creatorId,

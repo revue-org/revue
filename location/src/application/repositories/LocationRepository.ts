@@ -1,23 +1,22 @@
-import { Location } from "../../domain/core/Location"
-import { LocationId } from "../../domain/core/LocationId"
+import { Location } from '@/domain/core/Location'
+import { LocationId } from '@/domain/core/LocationId'
 
 export interface LocationRepository {
+  getBuildings(): Promise<Location[]>
 
-    saveLocation(location: Location): Promise<void>
+  getExternalBuildings(): Promise<Location[]>
 
-    deleteLocation(location: LocationId): Promise<void>
+  getBuildingRooms(buildingId: LocationId): Promise<Location[]>
 
-    updateLocation(location: Location): Promise<void>
+  getRooms(): Promise<Location[]>
 
-    getLocationById(locationId: LocationId): Promise<Location>
+  getExternalRooms(): Promise<Location[]>
 
-    getBuildings(): Promise<Location[]>
+  getLocationById(locationId: LocationId): Promise<Location>
 
-    getExernalBuildings(): Promise<Location[]>
+  saveLocation(location: Location): Promise<void>
 
-    getBuildingRooms(buildingId: LocationId): Promise<Location[]>
+  updateLocation(location: Location): Promise<void>
 
-    getRooms(): Promise<Location[]>
-
-    getExternalRooms(): Promise<Location[]>
+  removeLocation(location: LocationId): Promise<void>
 }

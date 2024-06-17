@@ -1,4 +1,4 @@
-import { ContactType } from "./ContactType";
+import { ContactType } from './ContactType'
 
 export interface Contact {
   readonly value: string

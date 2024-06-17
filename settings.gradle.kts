@@ -36,6 +36,8 @@ if (File(System.getProperty("user.dir") + "/.git").exists()) {
 rootProject.name = "revue"
 
 include(
+    "location",
+    "device",
     "domain", 
     "common", 
     "monitoring", 

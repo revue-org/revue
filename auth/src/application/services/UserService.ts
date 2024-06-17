@@ -1,5 +1,5 @@
 import { User } from '@/domain/core/User.js'
-import { UserId } from "@/domain/core/UserId";
+import { UserId } from '@/domain/core/UserId'
 
 export interface UserService {
   getUsers(): Promise<User[]>
@@ -10,9 +10,9 @@ export interface UserService {
 
   getPermissionsByUserId(userId: UserId): Promise<string[]>
 
-  insertUser(user: User): void
+  createUser(username: string, password: string, permissions: string[]): Promise<UserId>
 
-  updateUser(user: User): void
+  updateUser(id: UserId, password: string, permissions: string[]): void
 
   deleteUser(userId: UserId): void
 }

@@ -16,7 +16,7 @@ export class MongoDBUserRepository implements UserRepository {
 
   async getUserById(userId: UserId): Promise<User> {
     const user = await this._model.findOne({
-      id: userId.taxCode
+      id: userId.value
     }).lean();
     if (!user) {
       throw new Error("User not found");
@@ -25,16 +25,16 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async saveUser(user: User): Promise<void> {
-    return this._model.create(UserDBAdapter.asDBEntity(user));
+    await this._model.create(UserDBAdapter.asDBEntity(user));
   }
 
   async updateUser(user: User): Promise<void> {
-    return this._model.updateOne({
-      id: user.id.taxCode
+    await this._model.updateOne({
+      id: user.id.value
     }, UserDBAdapter.asDBEntity(user));
   }
 
   async removeUser(userId: UserId): Promise<void> {
-    return this._model.deleteOne({ id: userId.taxCode });
+    await this._model.deleteOne({ id: userId.value });
   }
 }

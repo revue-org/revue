@@ -1,16 +1,15 @@
-import { UserId } from "@/domain/core/UserId";
+import { UserId } from '@/domain/core/UserId'
 
 export interface User {
-  get id(): UserId;
+  get id(): UserId
 
-  get username(): string;
+  get username(): string
 
-  get password(): string;
+  get password(): string
 
-  get permissions(): string[];
+  get permissions(): string[]
 
-  get accessToken(): string;
+  get accessToken(): string
 
-  get refreshToken(): string;
-
+  get refreshToken(): string
 }

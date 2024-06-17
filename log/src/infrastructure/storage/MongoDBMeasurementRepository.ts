@@ -6,7 +6,7 @@ import { DomainEventId } from 'common/dist/domain/core/DomainEventId'
 import {
   NumericMeasurementDBAdapter,
   NumericMeasurementDBEntity
-} from "@/infrastructure/storage/models/NumericMeasurementModel";
+} from '@/infrastructure/storage/models/NumericMeasurementModel'
 
 export class MongoDBMeasurementRepository implements MeasurementRepository {
   private _model = mongoose.model<NumericMeasurementDBEntity>(

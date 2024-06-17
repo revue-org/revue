@@ -1,7 +1,9 @@
 import { UserService } from './UserService.js'
 import { UserRepository } from '../repositories/UserRepository.js'
-import { UserId } from "@/domain/core/UserId";
-import { User } from "@/domain/core/User";
+import { UserId } from '@/domain/core/UserId'
+import { User } from '@/domain/core/User'
+import { Contact } from '@common/domain/core/Contact'
+import { UserFactory } from '@/domain/factories/UserFactory'
 
 export class UserServiceImpl implements UserService {
   private repository: UserRepository
@@ -10,23 +12,33 @@ export class UserServiceImpl implements UserService {
     this.repository = repository
   }
 
-  getUserById(userId: UserId): Promise<User> {
-    return this.repository.getUserById(userId)
-  }
-
-  getUsers(): Promise<User[]> {
+  async getUsers(): Promise<User[]> {
     return this.repository.getUsers()
   }
 
-  deleteUser(userId: UserId): void {
-    this.repository.removeUser(userId)
+  async getUserById(userId: UserId): Promise<User> {
+    return this.repository.getUserById(userId)
   }
 
-  createUser(user: User): void {
-    this.repository.saveUser(user)
+  async createUser(name: string, surname: string, mail: string, contacts: Contact[]): Promise<UserId> {
+    const user: User = UserFactory.createUser(UserFactory.newId(), name, surname, mail, contacts)
+    await this.repository.saveUser(user)
+    return user.id
   }
 
-  updateUser(user: User): void {
-    this.repository.updateUser(user)
+  async updateUser(id: UserId, name: string, surname: string, contacts: Contact[]): Promise<void> {
+    return this.repository.getUserById(id).then((user: User): void => {
+      const update = {
+        ...(user as User),
+        name: name,
+        surname: surname,
+        contacts: contacts
+      }
+      this.repository.updateUser(update)
+    })
+  }
+
+  async deleteUser(userId: UserId): Promise<void> {
+    await this.repository.removeUser(userId)
   }
 }

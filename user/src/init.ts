@@ -1,10 +1,9 @@
 import { model, Model } from 'mongoose'
-import { UserService } from 'domain/dist/application/monitoring/UserService.js'
-import { UserServiceImpl } from 'domain/dist/application/monitoring/impl/UserServiceImpl.js'
 import { User } from 'domain/dist/domain/monitoring/core/User.js'
 import { userSchema } from 'domain/dist/storage/monitoring/schemas/UserSchema.js'
-import { UserRepository } from 'domain/dist/domain/monitoring/repositories/UserRepository.js'
-import { UserRepositoryImpl } from 'domain/dist/storage/monitoring/MongoDBUserRepository.js'
+import { UserService } from "@/application/services/UserService";
+import { UserServiceImpl } from "@/application/services/UserServiceImpl";
+import { UserRepository } from "@/application/repositories/UserRepository";
 
 export const userModel: Model<User> = model<User>('User', userSchema, 'user')
 

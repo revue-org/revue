@@ -1,16 +1,15 @@
-import { LocationId } from "./LocationId"
+import { LocationId } from './LocationId'
 
 export interface Location {
+  readonly locationId: LocationId
 
-    readonly locationId: LocationId
+  readonly description: string
 
-    readonly description: string
+  readonly buildingId?: LocationId
 
-    readonly buildingId?: LocationId
+  readonly address?: string
 
-    readonly address?: string
+  readonly isExternal?: boolean
 
-    readonly isExternal?: boolean
-
-    readonly isRoom: boolean
+  readonly isRoom: boolean
 }

@@ -1,5 +1,5 @@
-import { DomainEvent } from "./DomainEvent";
+import { DomainEvent } from './DomainEvent'
 
 export interface DeviceEvent extends DomainEvent {
-  readonly sourceDeviceId: string;
+  readonly sourceDeviceId: string
 }

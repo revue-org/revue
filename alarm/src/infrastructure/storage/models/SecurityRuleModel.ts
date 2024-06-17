@@ -5,6 +5,7 @@ import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
 import { Contact } from '@common/domain/core/Contact'
 import { ContactFactory } from '@common/domain/factories/ContactFactory'
 
+
 export interface SecurityRuleDBEntity {
   id: string
   type: string

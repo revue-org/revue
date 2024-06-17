@@ -1,3 +1,3 @@
 export interface DeviceCapability {
-    readonly type: "sensor" | "camera"
+  readonly type: 'sensor' | 'camera'
 }

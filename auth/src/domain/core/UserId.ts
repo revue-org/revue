@@ -1,3 +1,3 @@
 export interface UserId {
-  readonly mail: string
+  readonly value: string
 }

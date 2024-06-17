@@ -1,6 +1,8 @@
 import { Measurement } from '@common/domain/core/Measurement'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
+import { Contact } from 'common/dist/domain/core/Contact'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { ObjectClass } from '@/domain/core/ObjectClass'
@@ -12,17 +14,50 @@ export interface AlarmService {
 
   getIntrusionRules(): Promise<IntrusionRule[]>
 
-  createRangeRule(rangeRule: RangeRule): void
+  createRangeRule(
+    creatorId: string,
+    activeOn: string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    minValue: number,
+    maxValue: number,
+    measure: MeasureType
+  ): Promise<SecurityRuleId>
 
-  createIntrusionRule(intrusionRule: IntrusionRule): void
+  createIntrusionRule(
+    creatorId: string,
+    activeOn: string,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    intrusionObject: ObjectClass
+  ): Promise<SecurityRuleId>
 
-  updateRangeRule(exceedingRule: RangeRule): void
+  updateRangeRule(
+    rangeRuleId: SecurityRuleId,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    minValue: number,
+    maxValue: number
+  ): Promise<void>
 
-  updateIntrusionRule(intrusionRule: IntrusionRule): void
+  updateIntrusionRule(
+    intrusionRuleId: SecurityRuleId,
+    description: string,
+    contacts: Contact[],
+    validFrom: Date,
+    validUntil: Date,
+    intrusionObject: ObjectClass
+  ): Promise<void>
 
-  deleteSecurityRule(id: SecurityRuleId): void
+  enableSecurityRule(id: SecurityRuleId): Promise<void>
 
-  isOutlier(sensorId: string, measure: Measure, value: Float, timestamp: Date): Promise<boolean>
+  disableSecurityRule(id: SecurityRuleId): Promise<void>
 
-  isIntrusion(deviceId: string, objectClass: ObjectClass, timestamp: Date): Promise<boolean>
+  deleteSecurityRule(id: SecurityRuleId): Promise<void>
 }

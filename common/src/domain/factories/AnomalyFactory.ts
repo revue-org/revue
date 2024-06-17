@@ -1,18 +1,17 @@
-import { DomainEventId } from "../core/DomainEventId";
-import { Intrusion } from "../core/Intrusion";
-import { Outlier } from "../core/Outlier";
-import { AnomalyType } from "../core/AnomalyType";
+import { DomainEventId } from '../core/DomainEventId'
+import { Intrusion } from '../core/Intrusion'
+import { Outlier } from '../core/Outlier'
+import { AnomalyType } from '../core/AnomalyType'
 
 export class AnomalyFactory {
-
   static newId(): DomainEventId {
     return {
-      id: "test"
-    };
+      value: 'test'
+    }
   }
 
-  static idOf(id: string): DomainEventId {
-    return { id };
+  static idOf(value: string): DomainEventId {
+    return { value }
   }
 
   static createOutlier(
@@ -27,7 +26,7 @@ export class AnomalyFactory {
       timestamp,
       measurementId,
       rangeRuleId
-    };
+    }
   }
 
   static createIntrusion(
@@ -42,7 +41,6 @@ export class AnomalyFactory {
       timestamp,
       detectionId,
       intrusionRuleId
-    };
+    }
   }
-
 }

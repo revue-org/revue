@@ -1,25 +1,20 @@
-import { Anomaly } from "@common/domain/core/Anomaly.js";
-import { Outlier } from "@common/domain/core/Outlier.js";
-import { Intrusion } from "@common/domain/core/Intrusion.js";
-import { DomainEventId } from "@common/domain/core/DomainEventId.js";
+import { Anomaly } from '@common/domain/core/Anomaly.js'
+import { Outlier } from '@common/domain/core/Outlier.js'
+import { Intrusion } from '@common/domain/core/Intrusion.js'
+import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 
 export interface AnomalyService {
-  getAnomalies(): Promise<Anomaly[]>;
+  getAnomalies(): Promise<Anomaly[]>
 
-  getOutliers(): Promise<Outlier[]>;
+  getOutliers(): Promise<Outlier[]>
 
-  getIntrusions(): Promise<Intrusion[]>;
+  getIntrusions(): Promise<Intrusion[]>
 
-  getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>;
+  getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>
 
-  createOutlier(outlier: Outlier): void;
+  createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Promise<void>
 
-  createIntrusion(intrusion: Intrusion): void;
+  createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Promise<void>
 
-  updateOutlier(outlier: Outlier): void;
-
-  updateIntrusion(intrusion: Intrusion): void;
-
-  deleteAnomaly(anomalyId: DomainEventId): void;
-
+  deleteAnomaly(anomalyId: DomainEventId): Promise<void>
 }

@@ -1,3 +1,3 @@
 export interface DomainEventId {
-  readonly id: string
+  readonly value: string
 }

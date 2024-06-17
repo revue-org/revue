@@ -37,18 +37,18 @@ subprojects {
             tasks.register<NpmTask>(task.name) {
                 args = task.args
                 if (task.name != "install") dependsOn(":${project.name}:install")
-                if (project.name != "domain") dependsOn(":domain:build")
+                if (project.name != "common") dependsOn(":common:build")
             }
         }
 
         // ordering task execution
-        if (project.name != "domain") {
-            tasks.findByPath(":${project.name}:install")?.mustRunAfter(":domain:build")
+        if (project.name != "common") {
+            tasks.findByPath(":${project.name}:install")?.mustRunAfter(":common:build")
         }
         tasks.findByPath(":${project.name}:build")?.mustRunAfter(":${project.name}:install")
 
         tasks.register("clean", Delete::class) {
-            delete("dist", "node_modules/domain", "node_modules/common", "tsconfig.tsbuildinfo") // TODO remove domain
+            delete("dist", "node_modules/common", "tsconfig.tsbuildinfo")
         }
     } else if (project.file("pyproject.toml").exists()) {
         listOf(

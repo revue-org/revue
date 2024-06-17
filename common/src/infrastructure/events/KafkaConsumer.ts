@@ -2,7 +2,7 @@ import { Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
 import { KafkaOptions } from './KafkaOptions'
 
 export default class KafkaConsumer {
-  private kafkaConsumer: Consumer
+  private readonly kafkaConsumer: Consumer
   private readonly kafkaOptions: KafkaOptions
 
   constructor(config: KafkaOptions) {

@@ -48,7 +48,7 @@ subprojects {
         tasks.findByPath(":${project.name}:build")?.mustRunAfter(":${project.name}:install")
 
         tasks.register("clean", Delete::class) {
-            delete("dist", "node_modules/domain", "tsconfig.tsbuildinfo")
+            delete("dist", "node_modules/domain", "node_modules/common", "tsconfig.tsbuildinfo") // TODO remove domain
         }
     } else if (project.file("pyproject.toml").exists()) {
         listOf(

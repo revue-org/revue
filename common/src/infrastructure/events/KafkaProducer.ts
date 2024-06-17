@@ -2,7 +2,7 @@ import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { KafkaOptions } from './KafkaOptions'
 
 export default class ProducerFactory {
-  private producer: Producer
+  private readonly producer: Producer
   private readonly kafkaOptions: KafkaOptions
 
   constructor(kafkaOptions: KafkaOptions) {

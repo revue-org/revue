@@ -8,6 +8,8 @@ export interface UserRepository {
 
   getUserById(userId: UserId): Promise<User>
 
+  getUserByUsername(username: string): Promise<User>
+
   getPermissionsByUserId(userId: UserId): Promise<string[]>
 
   saveUser(user: User): Promise<void>

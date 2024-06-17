@@ -1,53 +1,43 @@
-import { userAccessController } from '../controller/userAccess.js'
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
+import { controller } from "@/infrastructure/api/controller/user";
 
-export const userRouter: Router = express.Router()
+export const userAccess: Router = express.Router()
 
-userRouter.route('/login').post((req: Request, res: Response): void => {
-  userAccessController
+userAccess.route('/login').post((req: Request, res: Response): void => {
+  controller
     .login(req.body.username, req.body.password)
     .then((access: { accessToken: string; refreshToken: string }): void => {
       res.status(HttpStatusCode.OK).send(access)
     })
-    .catch((err): void => {
+    .catch((err: Error): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
 
-userRouter.route('/logout').post((req: Request, res: Response): void => {
+userAccess.route('/logout').post((req: Request, res: Response): void => {
   if (req.headers['authorization'] === undefined)
     res.status(HttpStatusCode.UNAUTHORIZED).send('No authentication token')
   const token: string =
     req.headers['authorization'] === undefined ? '' : req.headers['authorization'].split(' ')[1]
-  userAccessController
+  controller
     .logout(token, req.body.username)
     .then((): void => {
       res.status(HttpStatusCode.OK).send('User logged out')
     })
-    .catch((err): void => {
+    .catch((err: Error): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
 
-userRouter.route('/newToken').post((req: Request, res: Response): void => {
-  userAccessController
-    .newToken(req.body.username, req.body.refreshToken)
+userAccess.route('/refresh').post((req: Request, res: Response): void => {
+  controller
+    .refreshToken(req.body.refreshToken)
     .then((token: any): void => {
       res.status(HttpStatusCode.OK).send(token)
     })
-    .catch((err): void => {
+    .catch((err: Error): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
 
-userRouter.route('/permissions').post((req: Request, res: Response): void => {
-  userAccessController
-    .newToken(req.body.username, req.body.refreshToken)
-    .then((token: any): void => {
-      res.status(HttpStatusCode.OK).send(token)
-    })
-    .catch((err): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
-    })
-})

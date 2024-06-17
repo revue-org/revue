@@ -23,7 +23,7 @@ export class UserDBAdapter {
 
   static asDBEntity(user: User): UserDBEntity {
     return {
-      id: user.id.mail,
+      id: user.id.value,
       username: user.username,
       password: user.password,
       permissions: user.permissions,

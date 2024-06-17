@@ -22,10 +22,8 @@ export class MongoDBUserRepository implements UserRepository {
       .find()
       .lean()
       .then(users => {
-        return users
-          .map(user => UserDBAdapter.asDomainEntity(user))
-          .map(user => user.permissions)
-          .unique()
+        return users.map(user => UserDBAdapter.asDomainEntity(user))
+          .flatMap((user: User) => user.permissions)
       })
   }
 
@@ -33,6 +31,18 @@ export class MongoDBUserRepository implements UserRepository {
     const user = await this._model
       .findOne({
         id: userId.value
+      })
+      .lean()
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return UserDBAdapter.asDomainEntity(user)
+  }
+
+  async getUserByUsername(username: string): Promise<User> {
+    const user = await this._model
+      .findOne({
+        username: username
       })
       .lean()
     if (!user) {

@@ -5,6 +5,8 @@ import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { ObjectClass } from '@/domain/core/ObjectClass'
+import { Detection } from 'common/dist/domain/core/Detection'
+import { Measurement } from 'common/dist/domain/core/Measurement'
 
 export interface AlarmService {
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
@@ -59,4 +61,12 @@ export interface AlarmService {
   disableSecurityRule(id: SecurityRuleId): Promise<void>
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
+
+  checkIntrusion(detection: Detection): Promise<boolean>
+
+  checkMeasurement(measurement: Measurement): Promise<boolean>
+
+  createIntrusion(detection: Detection): void
+
+  createOutlier(measurement: Measurement): void
 }

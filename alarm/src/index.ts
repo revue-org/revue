@@ -8,7 +8,7 @@ import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
-import { eventsService } from '@/init'
+import { alarmService, eventsService } from '@/init'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Detection } from 'common/dist/domain/core/Detection'
 import { Intrusion } from 'common/dist/domain/core/Intrusion'
@@ -54,25 +54,15 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    eventsService.subscribeToDetections(detectionsHandler)
-    eventsService.subscribeToMeasurements(measurementsHandler)
-  })
-}
-
-const detectionsHandler = async (detection: Detection) => {
-  const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
-  rules.forEach((rule: IntrusionRule): void => {
-    if (detection.objectClass === rule.objectClass) {
-      eventsService.publishAnomaly(Intrusion)
-    }
-  })
-}
-
-const measurementsHandler = async (measurement: Measurement) => {
-  const rules: RangeRule[] = await this.getActiveRangeRules()
-  rules.forEach((rule: RangeRule): void => {
-    if (measurement.value < rule.min || measurement.value > rule.max) {
-      eventsService.publishAnomaly()
-    }
+    eventsService.subscribeToDetections(async (detection: Detection) => {
+      if (await alarmService.checkIntrusion(detection)) {
+        alarmService.createIntrusion(detection)
+      }
+    })
+    eventsService.subscribeToMeasurements(async (measurement: Measurement) => {
+      if (await alarmService.checkMeasurement(measurement)) {
+        alarmService.createOutlier(measurement)
+      }
+    })
   })
 }

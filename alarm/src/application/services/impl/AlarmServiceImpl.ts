@@ -9,6 +9,10 @@ import { Contact } from 'common/dist/domain/core/Contact'
 import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { ObjectClass } from '@/domain/core/ObjectClass'
 import { Anomaly } from 'common/dist/domain/core/Anomaly'
+import { Detection } from 'common/dist/domain/core/Detection'
+import { Measurement } from 'common/dist/domain/core/Measurement'
+import { eventsService } from '@/init'
+import { Intrusion } from 'common/dist/domain/core/Intrusion'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
@@ -132,6 +136,34 @@ export class AlarmServiceImpl implements AlarmService {
   async deleteSecurityRule(id: SecurityRuleId): Promise<void> {
     await this.repository.removeSecurityRule(id)
   }
+
+  async checkIntrusion(detection: Detection): Promise<boolean> {
+    const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
+    return rules.some(
+      rule =>
+        rule.activeOn === detection.id.value &&
+        rule.objectClass === detection.objectClass
+    )
+  }
+
+  async checkMeasurement(measurement: Measurement): Promise<boolean> {
+    const rules: RangeRule[] = await this.getActiveRangeRules()
+    return rules.some(
+      rule =>
+        rule.activeOn === measurement.id.value &&
+        rule.measure === measurement.measureType &&
+        (measurement.value < rule.min || measurement.value > rule.max)
+    )
+  }
+
+  createIntrusion(detection: Detection): void {
+    throw new Error('Method not implemented.')
+  }
+
+  createOutlier(measurement: Measurement): void {
+    throw new Error('Method not implemented.')
+  }
+
 
   private async getActiveRules(): Promise<SecurityRule[]> {
     return this.repository

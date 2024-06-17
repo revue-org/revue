@@ -11,3 +11,13 @@ export const measurementSchema = z.object({
   value: z.object({})
 })
 
+export const detectionSchema = z.object({
+  detectionId: z.object({
+    code: z.string()
+  }),
+  anomalyId: z.object({
+    code: z.string()
+  }),
+  timestamp: z.date(),
+  data: z.object({})
+})

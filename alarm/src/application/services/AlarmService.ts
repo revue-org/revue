@@ -3,6 +3,7 @@ import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
+import { Measurement } from '@common/domain/core/Measurement'
 
 export interface SecurityRuleService {
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>

@@ -1,5 +1,5 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
-import { SecurityRulesRepository } from '../../repositories/SecurityRulesRepository'
+import { SecurityRuleRepository } from '../../repositories/SecurityRuleRepository'
 import { AlarmService } from '../AlarmService'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
@@ -11,9 +11,9 @@ import { ObjectClass } from '@/domain/core/ObjectClass'
 import { Anomaly } from 'common/dist/domain/core/Anomaly'
 
 export class AlarmServiceImpl implements AlarmService {
-  private repository: SecurityRulesRepository
+  private repository: SecurityRuleRepository
 
-  constructor(repository: SecurityRulesRepository) {
+  constructor(repository: SecurityRuleRepository) {
     this.repository = repository
   }
 

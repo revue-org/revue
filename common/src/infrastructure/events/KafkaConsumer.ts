@@ -10,7 +10,7 @@ export default class KafkaConsumer {
     this.kafkaConsumer = this.createConsumer()
   }
 
-  public async startConsumer(topics: string[], fromBeginning: boolean, consumeHandler: (_message: KafkaMessage) => void): Promise<void> {
+  public async startConsuming(topics: string[], fromBeginning: boolean, consumeHandler: (_message: KafkaMessage) => void): Promise<void> {
     try {
       await this.kafkaConsumer.connect()
       await this.kafkaConsumer.subscribe({

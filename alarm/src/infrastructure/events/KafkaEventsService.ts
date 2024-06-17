@@ -2,38 +2,74 @@ import { EventsService } from '@/application/services/EventsService'
 import { Anomaly } from '@common/domain/core/Anomaly'
 import { Detection } from '@common/domain/core/Detection'
 import { Measurement } from '@common/domain/core/Measurement'
+import { KafkaMessage } from 'kafkajs'
+import { detectionSchema, measurementSchema } from '@/presentation/events/schemas/MeasurementSchema'
+import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer'
+import KafkaProducer from '@common/infrastructure/events/KafkaProducer'
+import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
+import { AxiosResponse } from 'axios'
+import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 
 export class KafkaEventsService implements EventsService {
+  private measurementsConsumer: KafkaConsumer
+  private detectionsConsumer: KafkaConsumer
+  private anomalyProducer: KafkaProducer
+  private devices: any[] = []
 
-  constructor() {
-    // this.eventsManager.setNewMeasurementHandler(async (measurement: Measurement) => {
-    //   const rules: RangeRule[] = await this.getActiveRangeRules()
-    //   rules.forEach((rule: RangeRule): void => {
-    //     if (measurement.value < rule.min || measurement.value > rule.max) {
-    //       this.eventsManager.sendAnomalyDetection()
-    //     }
-    //   })
-    // })
-    // this.eventsManager.setNewDetectionHandler(async detection => {
-    //   const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
-    //   rules.forEach((rule: IntrusionRule): void => {
-    //     if (detection.objectClass === rule.objectClass) {
-    //       this.eventsManager.sendAnomalyDetection()
-    //     }
-    //   })
-    // })
+  constructor(kafkaOptions: KafkaOptions) {
+    this.measurementsConsumer = new KafkaConsumer(kafkaOptions)
+    this.detectionsConsumer = new KafkaConsumer(kafkaOptions)
+    this.anomalyProducer = new KafkaProducer(kafkaOptions)
+    this.getDevices()
+  }
+
+  private getDevices(): void {
+    RequestHelper.get(`${monitoringHost}:${monitoringPort}/devices`).then((res: AxiosResponse) => {
+      this.devices = res.data
+    })
   }
 
   publishAnomaly(anomaly: Anomaly): void {
-    throw new Error('Method not implemented.')
+    this.anomalyProducer.produce('anomalies', anomaly)
   }
 
   subscribeToMeasurements(handler: (measurement: Measurement) => void): void {
-    throw new Error('Method not implemented.')
+    const topics: string[] = this.devices
+      .filter((device: any) => device.type === 'CAMERA')
+      .map((device: any) => `measurements.${device.id.code}`)
+    this.measurementsConsumer
+      .startConsuming(topics, false, (message: KafkaMessage) => {
+        if (message.value) {
+          try {
+            const measurement = measurementSchema.parse(message.value)
+            handler(measurement)
+          } catch (e) {
+            console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+          }
+        }
+      })
+      .then((): void => {
+        console.log('Consumer started')
+      })
   }
 
   subscribeToDetections(handler: (detection: Detection) => void): void {
-    throw new Error('Method not implemented.')
+    const topics: string[] = this.devices
+      .filter((device: any) => device.type === 'SENSOR')
+      .map((device: any) => `detections.${device.id.code}`)
+    this.detectionsConsumer
+      .startConsuming(topics, false, (message: KafkaMessage) => {
+        if (message.value) {
+          try {
+            const detection = detectionSchema.parse(message.value)
+            handler(detection)
+          } catch (e) {
+            console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+          }
+        }
+      })
+      .then((): void => {
+        console.log('Consumer started')
+      })
   }
-
 }

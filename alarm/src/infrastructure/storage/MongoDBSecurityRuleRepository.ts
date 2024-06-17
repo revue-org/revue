@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { SecurityRulesRepository } from '@/application/repositories/SecurityRulesRepository.js'
+import { SecurityRuleRepository } from '@/application/repositories/SecurityRuleRepository.js'
 import { RangeRule } from '@/domain/core/rules/RangeRule.js'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule.js'
 import { securityRuleSchema } from './schemas/SecurityRuleSchema'
@@ -10,7 +10,7 @@ import {
   SecurityRuleDBEntity
 } from '@/infrastructure/storage/models/SecurityRuleModel'
 
-export class MongoDBSecurityRuleRepository implements SecurityRulesRepository {
+export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   private _model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema)
 
   async getRangeRules(): Promise<RangeRule[]> {

@@ -1,13 +1,15 @@
-import { z } from "zod";
+import { z } from 'zod'
 // import { ObjectClass } from '@/domain/core/ObjectClass'
 
 export const rangeRuleSchema = z.object({
   description: z.string(),
   deviceId: z.string(),
-  contacts: z.array(z.object({
-    contactType: z.enum(['sms', 'email']),
-    value: z.string().min(5)
-  })),
+  contacts: z.array(
+    z.object({
+      contactType: z.enum(['sms', 'email']),
+      value: z.string().min(5)
+    })
+  ),
   author: z.string(),
   validityStart: z.date(),
   validityEnd: z.date(),
@@ -21,10 +23,12 @@ export const rangeRuleSchema = z.object({
 export const intrusionRuleSchema = z.object({
   description: z.string(),
   deviceId: z.string(),
-  contacts: z.array(z.object({
-    contactType: z.enum(['sms', 'email']),
-    value: z.string().min(5)
-  })),
+  contacts: z.array(
+    z.object({
+      contactType: z.enum(['sms', 'email']),
+      value: z.string().min(5)
+    })
+  ),
   author: z.string(),
   validityStart: z.date(),
   validityEnd: z.date(),

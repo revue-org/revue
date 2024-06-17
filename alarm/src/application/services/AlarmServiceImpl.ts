@@ -1,11 +1,11 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRulesRepository } from '../repositories/SecurityRulesRepository'
-import { SecurityRuleService } from './SecurityRuleService'
+import { AlarmService } from './AlarmService'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 
-export class SecurityRuleServiceImpl implements SecurityRuleService {
+export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRulesRepository
 
   constructor(repository: SecurityRulesRepository) {

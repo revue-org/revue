@@ -1,11 +1,11 @@
-import { ObjectClass } from '@/domain/core/ObjectClass'
-import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { Measurement } from '@common/domain/core/Measurement'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
-import { Measurement } from '@common/domain/core/Measurement'
+import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
+import { ObjectClass } from '@/domain/core/ObjectClass'
 
-export interface SecurityRuleService {
+export interface AlarmService {
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
 
   getRangeRules(): Promise<RangeRule[]>
@@ -22,7 +22,7 @@ export interface SecurityRuleService {
 
   deleteSecurityRule(id: SecurityRuleId): void
 
-  isOutlier(deviceId: string, measurement: Measurement): Promise<boolean>
+  isOutlier(sensorId: string, measure: Measure, value: Float, timestamp: Date): Promise<boolean>
 
   isIntrusion(deviceId: string, objectClass: ObjectClass, timestamp: Date): Promise<boolean>
 }

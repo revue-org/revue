@@ -9,6 +9,8 @@ import KafkaProducer from '@common/infrastructure/events/KafkaProducer'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { AxiosResponse } from 'axios'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { ObjectClass } from '@/domain/core/ObjectClass'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
 
 export class KafkaEventsService implements EventsService {
   private measurementsConsumer: KafkaConsumer
@@ -41,7 +43,18 @@ export class KafkaEventsService implements EventsService {
       .startConsuming(topics, false, (message: KafkaMessage) => {
         if (message.value) {
           try {
-            const measurement = measurementSchema.parse(message.value)
+            const measurementMessage = measurementSchema.parse(message.value)
+            const measurement: Measurement = {
+              id: {
+                value: measurementMessage.measurementId.code
+              },
+              timestamp: measurementMessage.timestamp,
+              measureType: {
+                measure: MeasureType[measurementMessage.value.measureType.measure as keyof typeof MeasureType],
+                unit: measurementMessage.value.measureType.unit
+              },
+              value: measurementMessage.value.value.value
+            }
             handler(measurement)
           } catch (e) {
             console.log('Error parsing measurement, message ignored because is not compliant to the schema')
@@ -61,7 +74,15 @@ export class KafkaEventsService implements EventsService {
       .startConsuming(topics, false, (message: KafkaMessage) => {
         if (message.value) {
           try {
-            const detection = detectionSchema.parse(message.value)
+            const detectionMessage = detectionSchema.parse(message.value)
+            const detection: Detection = {
+              id: {
+                value: detectionMessage.detectionId.code
+              },
+              timestamp: detectionMessage.timestamp,
+              sourceDeviceId: detectionMessage.sourceDeviceId.code,
+              objectClass: ObjectClass[detectionMessage.data.objectClass as keyof typeof ObjectClass]
+            }
             handler(detection)
           } catch (e) {
             console.log('Error parsing measurement, message ignored because is not compliant to the schema')

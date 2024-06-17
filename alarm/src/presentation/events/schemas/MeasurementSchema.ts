@@ -8,16 +8,26 @@ export const measurementSchema = z.object({
     code: z.string()
   }),
   timestamp: z.date(),
-  value: z.object({})
+  value: z.object({
+    measureType: z.object({
+      measure: z.string(),
+      unit: z.string()
+    }),
+    value: z.object({
+      value: z.any()
+    })
+  })
 })
 
 export const detectionSchema = z.object({
   detectionId: z.object({
     code: z.string()
   }),
-  anomalyId: z.object({
+  sourceDeviceId: z.object({
     code: z.string()
   }),
   timestamp: z.date(),
-  data: z.object({})
+  data: z.object({
+    objectClass: z.string(),
+  })
 })

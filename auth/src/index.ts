@@ -24,7 +24,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const token = authHeader && authHeader.split(' ')[1]
 
   if (token === process.env.DEV_API_KEY) return next()
-  if ((req.url === '/login' || req.url === '/newToken') && req.method === 'POST') {
+  if ((req.url === '/login' || req.url === '/refresh') && req.method === 'POST') {
     return next()
   }
   if (token === undefined)

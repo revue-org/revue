@@ -1,8 +1,8 @@
-import { UserService } from '@/application/services/UserService'
-import { UserServiceImpl } from '@/application/services/UserServiceImpl'
-import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository'
-import { User } from '@/domain/core/User'
-import { UserId } from '@/domain/core/UserId'
+import { UserService } from '@/application/services/UserService.js'
+import { UserServiceImpl } from '@/application/services/UserServiceImpl.js'
+import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository.js'
+import { User } from '@/domain/core/User.js'
+import { UserId } from '@/domain/core/UserId.js'
 
 const service: UserService = new UserServiceImpl(new MongoDBUserRepository())
 
@@ -43,8 +43,8 @@ export const controller = {
     return await service.createUser(username, password, permissions)
   },
 
-  updateUser: async (id: UserId, password: string, permissions: string[]): Promise<void> => {
-    return service.updateUser(id, password, permissions)
+  updateUser: async (id: UserId, permissions: string[]): Promise<void> => {
+    return service.updateUser(id, permissions)
   },
 
   deleteUser: async (userId: UserId): Promise<void> => {

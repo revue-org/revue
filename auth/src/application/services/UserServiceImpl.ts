@@ -1,10 +1,10 @@
-import { UserId } from '@/domain/core/UserId'
-import { User } from '@/domain/core/User'
-import { UserRepository } from '@/application/repositories/UserRepository'
-import { UserService } from '@/application/services/UserService'
-import { UserFactory } from '@/domain/factories/UserFactory'
+import { UserId } from '@/domain/core/UserId.js'
+import { User } from '@/domain/core/User.js'
+import { UserRepository } from '@/application/repositories/UserRepository.js'
+import { UserService } from '@/application/services/UserService.js'
+import { UserFactory } from '@/domain/factories/UserFactory.js'
 import bcrypt from 'bcryptjs'
-import { jwtManager } from '@/utils/JWTManager'
+import { jwtManager } from '@/utils/JWTManager.js'
 
 export class UserServiceImpl implements UserService {
   private repository: UserRepository
@@ -20,17 +20,16 @@ export class UserServiceImpl implements UserService {
     if (!match) throw new Error('Wrong password')
     const accessToken: string = jwtManager.generateAccessToken(user)
     const refreshToken: string = jwtManager.generateRefreshToken(user)
-    await this.repository.updateUser(
-      UserFactory.createUser(
-        user.id,
-        user.username,
-        user.password,
-        user.permissions,
-        accessToken,
-        refreshToken
-      )
+    const update: User = UserFactory.createUser(
+      user.id,
+      user.username,
+      user.password,
+      user.permissions,
+      accessToken,
+      refreshToken
     )
-    return user
+    await this.repository.updateUser(update)
+    return update
   }
 
   async logout(username: string): Promise<void> {
@@ -79,16 +78,23 @@ export class UserServiceImpl implements UserService {
   }
 
   async createUser(username: string, password: string, permissions: string[]): Promise<UserId> {
-    const user: User = UserFactory.createUser(UserFactory.newId(), username, password, permissions, '', '')
+    const hashedPassword: string = await bcrypt.hash(password, 10)
+    const user: User = UserFactory.createUser(
+      UserFactory.newId(),
+      username,
+      hashedPassword,
+      permissions,
+      '',
+      ''
+    )
     await this.repository.saveUser(user)
     return user.id
   }
 
-  async updateUser(id: UserId, password: string, permissions: string[]): Promise<void> {
+  async updateUser(id: UserId, permissions: string[]): Promise<void> {
     return this.repository.getUserById(id).then((user: User): void => {
       const update = {
         ...(user as User),
-        password,
         permissions
       }
       this.repository.updateUser(update)

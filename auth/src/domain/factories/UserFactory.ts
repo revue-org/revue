@@ -3,7 +3,7 @@ import { UserId } from '../core/UserId'
 
 export class UserFactory {
   static newId(): UserId {
-    return { value: '' }
+    return { value: 'test' }
   }
 
   static idOf(value: string): UserId {

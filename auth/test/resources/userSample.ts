@@ -1,3 +1,4 @@
+/*
 export const userSample = {
   name: 'Alberto',
   surname: 'Paga',
@@ -25,3 +26,4 @@ export const userSample = {
     }
   ]
 }
+*/

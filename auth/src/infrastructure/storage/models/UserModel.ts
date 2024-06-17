@@ -1,5 +1,5 @@
 import { User } from '@/domain/core/User'
-import { UserFactory } from '@/domain/factories/UserFactory'
+import { UserFactory } from '@/domain/factories/UserFactory.js'
 
 export interface UserDBEntity {
   id: string

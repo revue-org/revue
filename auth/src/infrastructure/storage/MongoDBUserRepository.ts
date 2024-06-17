@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import { userSchema } from './schemas/UserSchema'
-import { UserDBAdapter, UserDBEntity } from '@/infrastructure/storage/models/UserModel'
-import { UserRepository } from '@/application/repositories/UserRepository'
+import { userSchema } from './schemas/UserSchema.js'
+import { UserDBAdapter, UserDBEntity } from '@/infrastructure/storage/models/UserModel.js'
+import { UserRepository } from '@/application/repositories/UserRepository.js'
 import { UserId } from '@/domain/core/UserId'
 import { User } from '@/domain/core/User'
 
 export class MongoDBUserRepository implements UserRepository {
-  private _model = mongoose.model<UserDBEntity>('UserSchema', userSchema)
+  private _model = mongoose.model<UserDBEntity>('UserSchema', userSchema, 'user')
 
   async getUsers(): Promise<User[]> {
     return this._model
@@ -22,8 +22,7 @@ export class MongoDBUserRepository implements UserRepository {
       .find()
       .lean()
       .then(users => {
-        return users.map(user => UserDBAdapter.asDomainEntity(user))
-          .flatMap((user: User) => user.permissions)
+        return users.map(user => UserDBAdapter.asDomainEntity(user)).flatMap((user: User) => user.permissions)
       })
   }
 

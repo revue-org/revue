@@ -1,31 +1,31 @@
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { controller } from "@/infrastructure/api/controller/user";
-import { userAccess } from "@/infrastructure/api/users/userAccess";
-import { UserFactory } from "@/domain/factories/UserFactory";
-import { User } from "@/domain/core/User";
-import { UserId } from "@/domain/core/UserId";
+import { controller } from '@/infrastructure/api/controller/user.js'
+import { UserFactory } from '@/domain/factories/UserFactory.js'
+import { User } from '@/domain/core/User.js'
+import { UserId } from '@/domain/core/UserId.js'
 
 export const userRegistry: Router = express.Router()
 
 userRegistry.route('/').get((req: Request, res: Response): void => {
   controller
-    .refreshToken(req.body.refreshToken)
+    .getUsers()
     .then((token: any): void => {
       res.status(HttpStatusCode.OK).send(token)
     })
     .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+      res.status(HttpStatusCode.BAD_REQUEST).send(err)
     })
 })
 
 userRegistry.route('/:id').get((req: Request, res: Response): void => {
-  controller.getUserById(UserFactory.idOf(req.body.id))
+  controller
+    .getUserById(UserFactory.idOf(req.params.id))
     .then((user: User): void => {
       res.status(HttpStatusCode.OK).send(user)
     })
     .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+      res.status(HttpStatusCode.BAD_REQUEST).send(err.message)
     })
 })
 
@@ -36,28 +36,28 @@ userRegistry.route('/').post((req: Request, res: Response): void => {
       res.status(HttpStatusCode.OK).send(userId)
     })
     .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+      res.status(HttpStatusCode.BAD_REQUEST).send(err)
     })
 })
 
 userRegistry.route('/').put((req: Request, res: Response): void => {
   controller
-    .updateUser(UserFactory.idOf(req.body.id), req.body.password, req.body.permissions)
-    .then((token: any): void => {
-      res.status(HttpStatusCode.OK).send(token)
+    .updateUser(UserFactory.idOf(req.body.id), req.body.permissions)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send('User updated')
     })
     .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+      res.status(HttpStatusCode.BAD_REQUEST).send(err)
     })
 })
 
 userRegistry.route('/:id').delete((req: Request, res: Response): void => {
   controller
-    .deleteUser(UserFactory.idOf(req.body.id))
-    .then((res: any): void => {
-      res.status(HttpStatusCode.OK).send(res)
+    .deleteUser(UserFactory.idOf(req.params.id))
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send("User deleted")
     })
     .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+      res.status(HttpStatusCode.BAD_REQUEST).send(err)
     })
 })

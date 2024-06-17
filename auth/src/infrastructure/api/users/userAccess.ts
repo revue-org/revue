@@ -1,16 +1,19 @@
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { controller } from "@/infrastructure/api/controller/user";
+import { controller } from "@/infrastructure/api/controller/user.js";
+import { User } from "@/domain/core/User";
+import * as console from "node:console";
 
 export const userAccess: Router = express.Router()
 
 userAccess.route('/login').post((req: Request, res: Response): void => {
   controller
     .login(req.body.username, req.body.password)
-    .then((access: { accessToken: string; refreshToken: string }): void => {
-      res.status(HttpStatusCode.OK).send(access)
+    .then((user: User): void => {
+      res.status(HttpStatusCode.OK).send(user)
     })
     .catch((err: Error): void => {
+      console.log(err)
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
@@ -33,8 +36,8 @@ userAccess.route('/logout').post((req: Request, res: Response): void => {
 userAccess.route('/refresh').post((req: Request, res: Response): void => {
   controller
     .refreshToken(req.body.refreshToken)
-    .then((token: any): void => {
-      res.status(HttpStatusCode.OK).send(token)
+    .then((user: User): void => {
+      res.status(HttpStatusCode.OK).send(user)
     })
     .catch((err: Error): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)

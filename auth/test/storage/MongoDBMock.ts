@@ -1,3 +1,4 @@
+/*
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
 import { userModel } from '../../src/init.js'
@@ -23,3 +24,4 @@ export const populateUsers = async (): Promise<void> => {
   await userModel.createCollection()
   await userModel.create(userSample)
 }
+*/

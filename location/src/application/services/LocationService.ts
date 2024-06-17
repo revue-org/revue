@@ -2,12 +2,6 @@ import { Location } from '@/domain/core/Location'
 import { LocationId } from '@/domain/core/LocationId'
 
 export interface LocationService {
-  createRoom(description: string, buildingId: LocationId): Promise<void>
-
-  createBuilding(description: string, address: string, external: boolean): Promise<void>
-
-  getLocationById(locationId: LocationId): Promise<Location>
-
   getBuildings(): Promise<Location[]>
 
   getExternalBuildings(): Promise<Location[]>
@@ -17,6 +11,12 @@ export interface LocationService {
   getRooms(): Promise<Location[]>
 
   getExternalRooms(): Promise<Location[]>
+
+  getLocationById(locationId: LocationId): Promise<Location>
+
+  createRoom(description: string, buildingId: LocationId): Promise<void>
+
+  createBuilding(description: string, address: string, external: boolean): Promise<void>
 
   updateLocation(location: Location): Promise<void>
 

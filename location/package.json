@@ -11,7 +11,7 @@
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
     "test": "vitest --exclude \"test/tolerance/**\" --run",
-    "test:tolerance:notification": "vitest --run tolerance.notification",
+    "test:tolerance:locatioon": "vitest --run tolerance.locatioon",
     "coverage": "vitest --run --coverage",
     "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
     "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
@@ -32,7 +32,6 @@
   "dependencies": {
     "axios": "^1.6.7",
     "cors": "^2.8.5",
-    "domain": "file:../domain",
     "common": "file:../common",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

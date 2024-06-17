@@ -5,10 +5,12 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { Contact } from 'common/dist/domain/core/Contact'
-import { MeasureType } from 'common/dist/domain/core/MeasureType'
+import { Contact } from '@common/domain/core/Contact'
+import { MeasureType } from '@common/domain/core/MeasureType'
 import { ObjectClass } from '@/domain/core/ObjectClass'
 import { AlarmEventsManager } from '@/infrastructure/events/AlarmEventsManager'
+import { Measurement } from '@common/domain/core/Measurement'
+import { Anomaly } from '@common/domain/core/Anomaly'
 
 export class SecurityRuleServiceImpl implements SecurityRuleService {
   private repository: SecurityRulesRepository
@@ -18,9 +20,9 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     this.repository = repository
     this.eventsManager = eventsManager
 
-    this.eventsManager.setNewMeasurementHandler(async measurement => {
-      const rules = await this.getActiveRangeRules()
-      rules.forEach(rule => {
+    this.eventsManager.setNewMeasurementHandler(async (measurement: Measurement) => {
+      const rules: RangeRule[] = await this.getActiveRangeRules()
+      rules.forEach((rule: RangeRule): void => {
         if (measurement.value < rule.min || measurement.value > rule.max) {
           this.eventsManager.sendAnomalyDetection()
         }
@@ -28,8 +30,8 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     })
 
     this.eventsManager.setNewDetectionHandler(async detection => {
-      const rules = await this.getActiveIntrusionRules()
-      rules.forEach(rule => {
+      const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
+      rules.forEach((rule: IntrusionRule): void => {
         if (detection.objectClass === rule.objectClass) {
           this.eventsManager.sendAnomalyDetection()
         }
@@ -60,7 +62,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     maxValue: number,
     measure: MeasureType
   ): Promise<SecurityRuleId> {
-    const rule = SecurityRulesFactory.createRangeRule(
+    const rule: RangeRule = SecurityRulesFactory.createRangeRule(
       SecurityRulesFactory.newId(),
       activeOn,
       creatorId,
@@ -85,7 +87,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     validUntil: Date,
     intrusionObject: ObjectClass
   ): Promise<SecurityRuleId> {
-    const rule = SecurityRulesFactory.createIntrusionRule(
+    const rule: IntrusionRule = SecurityRulesFactory.createIntrusionRule(
       SecurityRulesFactory.newId(),
       activeOn,
       creatorId,
@@ -98,6 +100,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     await this.repository.saveSecurityRule(rule)
     return rule.id
   }
+
   updateRangeRule(
     rangeRuleId: SecurityRuleId,
     description: string,
@@ -119,6 +122,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       this.repository.updateSecurityRule(update)
     })
   }
+
   updateIntrusionRule(
     intrusionRuleId: SecurityRuleId,
     description: string,
@@ -138,15 +142,17 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
       this.repository.updateSecurityRule(update)
     })
   }
+
   async enableSecurityRule(id: SecurityRuleId): Promise<void> {
-    this.repository.enableSecurityRule(id)
+    await this.repository.enableSecurityRule(id)
   }
+
   async disableSecurityRule(id: SecurityRuleId): Promise<void> {
-    this.repository.disableSecurityRule(id)
+    await this.repository.disableSecurityRule(id)
   }
 
   async deleteSecurityRule(id: SecurityRuleId): Promise<void> {
-    this.repository.removeSecurityRule(id)
+    await this.repository.removeSecurityRule(id)
   }
 
   private async getActiveRules(): Promise<SecurityRule[]> {
@@ -188,7 +194,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
   }
 
   private extractContactsFrom(rules: SecurityRule[]): Contact[] {
-    return [...new Set(rules.flatMap(rule => rule.contacts))]
+    return [...new Set(rules.flatMap((rule: SecurityRule) => rule.contacts))]
   }
 
   private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {

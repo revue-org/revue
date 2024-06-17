@@ -1,47 +1,39 @@
-import { AnomalyFactoryImpl } from '@domain/alarm-system/factories/impl/AnomalyFactoryImpl.js'
-import { Exceeding } from '@domain/alarm-system/core/Exceeding.js'
-import { Intrusion } from '@domain/alarm-system/core/Intrusion.js'
-import { AnomalyFactory } from '@domain/alarm-system/factories/AnomalyFactory.js'
-import { AnomalyTypeConverter } from '@utils/AnomalyTypeConverter.js'
-import { Anomaly } from '@domain/alarm-system/core/Anomaly.js'
-import { DeviceId } from '@domain/device/core/DeviceId.js'
-import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { ObjectClass } from '@domain/alarm-system/core/impl/enum/ObjectClass.js'
-import { anomalyService } from '../init.js'
+import { MongoDBAnomalyRepository } from '@/infrastructure/storage/MongoDBAnomalyRepository'
+import { AnomalyServiceImpl } from '@/application/services/AnomalyServiceImpl'
+import { AnomalyService } from '@/application/services/AnomalyService'
+import { Anomaly } from '@common/domain/core/Anomaly'
+import { Outlier } from '@common/domain/core/Outlier'
+import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory'
+import { Intrusion } from '@common/domain/core/Intrusion'
+import { DomainEventId } from '@common/domain/core/DomainEventId'
 
-const anomalyFactory: AnomalyFactory = new AnomalyFactoryImpl()
+const service: AnomalyService = new AnomalyServiceImpl(new MongoDBAnomalyRepository())
 
 export const anomalyController = {
   getAnomalyById: async (id: string): Promise<Anomaly> => {
-    return anomalyService.getAnomalyById(id)
+    return service.getAnomalyById(AnomalyFactory.idOf(id))
   },
-  getExceedings: async (): Promise<Exceeding[]> => {
-    return anomalyService.getExceedings()
+  getOutliers: async (): Promise<Outlier[]> => {
+    return await service.getOutliers()
   },
   getIntrusions: async (): Promise<Intrusion[]> => {
-    return anomalyService.getIntrusions()
+    return await service.getIntrusions()
   },
-  createExceeding: async (deviceId: DeviceId, measure: Measure, value: number): Promise<string> => {
-    return anomalyService.insertExceeding(
-      anomalyFactory.createExceeding(deviceId, new Date(), measure, value, '')
-    )
+  createOutlier: async (
+    timestamp: Date,
+    measurementId: DomainEventId,
+    rangeRuleId: string
+  ): Promise<void> => {
+    await service.createOutlier(timestamp, measurementId, rangeRuleId)
   },
-  createIntrusion: async (deviceId: DeviceId, intrusionObject: ObjectClass): Promise<string> => {
-    return anomalyService.insertIntrusion(
-      anomalyFactory.createIntrusion(deviceId, new Date(), intrusionObject, '')
-    )
+  createIntrusion: async (
+    timestamp: Date,
+    detectionId: DomainEventId,
+    intrusionRuleId: string
+  ): Promise<void> => {
+    await service.createIntrusion(timestamp, detectionId, intrusionRuleId)
   },
-  updateExceeding(id: string, deviceId: DeviceId, timestamp: Date, measure: Measure, value: number): void {
-    return anomalyService.updateExceeding(
-      anomalyFactory.createExceeding(deviceId, timestamp, measure, value, id)
-    )
-  },
-  updateIntrusion(id: string, deviceId: DeviceId, timestamp: Date, intrusionObject: ObjectClass): void {
-    return anomalyService.updateIntrusion(
-      anomalyFactory.createIntrusion(deviceId, timestamp, intrusionObject, id)
-    )
-  },
-  deleteAnomaly: async (id: string, type: string): Promise<void> => {
-    anomalyService.deleteAnomaly(id, AnomalyTypeConverter.convertToAnomalyType(type))
+  deleteAnomaly: async (id: DomainEventId): Promise<void> => {
+    await service.deleteAnomaly(id)
   }
 }

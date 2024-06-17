@@ -2,6 +2,8 @@ import { MeasurementService } from '@/application/services/MeasurementService'
 import { MeasurementRepository } from '@/application/repositories/MeasurementRepository'
 import { Measurement } from '@common/domain/core/Measurement.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
+import { MeasurementFactory } from 'common/dist/domain/factories/MeasurementFactory'
 
 export class MeasurementServiceImpl implements MeasurementService {
   private repository: MeasurementRepository
@@ -18,15 +20,24 @@ export class MeasurementServiceImpl implements MeasurementService {
     return this.repository.getMeasurementsBySourceDeviceId(deviceId, quantity)
   }
 
-  async createMeasurement(measurement: Measurement): Promise<void> {
-    await this.repository.saveMeasurement(measurement)
+  async createNumericMeasurement(
+    timestamp: Date,
+    sourceDeviceId: string,
+    measureType: MeasureType,
+    value: number
+  ): Promise<void> {
+    await this.repository.saveMeasurement(
+      MeasurementFactory.createNumericMeasurement(
+        MeasurementFactory.newId(),
+        timestamp,
+        sourceDeviceId,
+        measureType,
+        value
+      )
+    )
   }
 
-  async updateMeasurement(measurementId: Measurement): Promise<void> {
-    await this.repository.updateMeasurement(measurementId)
-  }
-
-  async removeMeasurement(measurementId: DomainEventId): Promise<void> {
+  async removeNumericMeasurement(measurementId: DomainEventId): Promise<void> {
     await this.repository.removeMeasurement(measurementId)
   }
 }

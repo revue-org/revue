@@ -2,12 +2,11 @@ import bcrypt from 'bcryptjs'
 import { jwtManager } from '../utils/JWTManager.js'
 import { UserInfo } from '../utils/UserInfo.js'
 import { User } from '@domain/monitoring/core/User.js'
-import { UserService } from "@/application/services/UserService";
-import { UserServiceImpl } from "@/application/services/UserServiceImpl";
-import { MongoDBUserRepository } from "@/infrastructure/storage/MongoDBUserRepository";
+import { UserService } from '@/application/services/UserService'
+import { UserServiceImpl } from '@/application/services/UserServiceImpl'
+import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository'
 
 const service: UserService = new UserServiceImpl(new MongoDBUserRepository())
-
 
 export const userController = {
   login: async (

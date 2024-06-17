@@ -4,6 +4,9 @@ import { ContactType } from 'common/dist/domain/core/ContactType'
 import { NotificationRepository } from '@/application/repositories/NotificationRepository'
 import { NotificationService } from '@/application/services/NotificationService'
 import { NotificationId } from '@/domain/core/NotificationId'
+import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
+import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
+import { NotificationFactory } from '@/domain/factories/NotificationFactory'
 
 export class NotificationServiceImpl implements NotificationService {
   private repository: NotificationRepository
@@ -20,11 +23,13 @@ export class NotificationServiceImpl implements NotificationService {
     return await this.repository.getNotificationById(id)
   }
 
-  async createNotification(notification: Notification): Promise<void> {
-    //const id = await this.repository.saveNotification(notification)
-    //TODO: to retrieve contacts from user service(?)
-    //this.sendMailNotification(notification, notification.contacts)
-    console.log(notification)
+  async createNotification(
+    id: NotificationId,
+    type: DomainEventType,
+    event: DomainEvent,
+    message: string
+  ): Promise<void> {
+    await this.repository.saveNotification(NotificationFactory.createNotification(id, type, event, message))
   }
 
   sendMailNotification(notification: Notification, contacts: Contact[]): void {
@@ -36,7 +41,7 @@ export class NotificationServiceImpl implements NotificationService {
       })
   }
 
-  deleteNotification(id: NotificationId): void {
-    this.repository.removeNotification(id)
+  async deleteNotification(id: NotificationId): Promise<void> {
+    await this.repository.removeNotification(id)
   }
 }

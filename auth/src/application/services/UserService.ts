@@ -12,7 +12,7 @@ export interface UserService {
 
   createUser(username: string, password: string, permissions: string[]): Promise<UserId>
 
-  updateUser(id:UserId, password: string, permissions: string[]): void
+  updateUser(id: UserId, password: string, permissions: string[]): void
 
   deleteUser(userId: UserId): void
 }

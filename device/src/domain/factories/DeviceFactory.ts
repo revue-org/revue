@@ -4,6 +4,12 @@ import { DeviceEndpoint } from '../core/DeviceEndpoint'
 import { DeviceId } from '../core/DeviceId'
 
 export class DeviceFactory {
+  static newId(): DeviceId {
+    return {
+      value: 'test'
+    }
+  }
+
   static idOf(id: string): DeviceId {
     return { value: id }
   }
@@ -22,7 +28,7 @@ export class DeviceFactory {
     port: number,
     locationId: string,
     capabilities: DeviceCapability[],
-    enabled
+    enabled: boolean
   ): Device {
     return {
       deviceId: id,

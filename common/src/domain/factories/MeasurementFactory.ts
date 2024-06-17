@@ -3,6 +3,12 @@ import { DomainEventId } from '../core/DomainEventId'
 import { MeasureType } from '../core/MeasureType'
 
 export class MeasurementFactory {
+  static newId(): DomainEventId {
+    return {
+      value: 'test'
+    }
+  }
+
   static idOf(value: string): DomainEventId {
     return {
       value

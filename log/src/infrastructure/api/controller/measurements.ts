@@ -1,26 +1,21 @@
-import { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
-import { EnvironmentDataFactory } from '@domain/device/factories/EnvironmentDataFactory.js'
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
-import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { DeviceId } from 'domain/dist/domain/device/core/DeviceId.js'
-import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit.js'
-import { logService } from '../../src/init.js'
+import { MeasurementService } from '@/application/services/MeasurementService'
+import { MeasurementServiceImpl } from '@/application/services/MeasurementServiceImpl'
+import { MongoDBMeasurementRepository } from '@/infrastructure/storage/MongoDBMeasurementRepository'
+import { Measurement } from 'common/dist/domain/core/Measurement'
+import { MeasureType } from 'common/dist/domain/core/MeasureType'
 
-const environmentDataFactory: EnvironmentDataFactory = new EnvironmentDataFactoryImpl()
+const service: MeasurementService = new MeasurementServiceImpl(new MongoDBMeasurementRepository())
 
-export const environmentDataController = {
-  getEnvironmentData: async (): Promise<EnvironmentData[]> => {
-    return await logService.getEnvironmentData()
+export const measurementController = {
+  getMeasurements: async (): Promise<Measurement[]> => {
+    return await service.getMeasurements()
   },
-  createEnvironmentData: async (
-    deviceId: DeviceId,
-    value: number,
-    measure: Measure,
-    measureUnit: MeasureUnit,
-    timestamp: Date
+  createMeasurement: async (
+    timestamp: Date,
+    sourceDeviceId: string,
+    measureType: MeasureType,
+    value: number
   ): Promise<void> => {
-    return logService.insertEnvironmentData(
-      environmentDataFactory.createEnvironmentData(deviceId, value, measure, measureUnit, timestamp)
-    )
+    return service.createNumericMeasurement(timestamp, sourceDeviceId, measureType, value)
   }
 }

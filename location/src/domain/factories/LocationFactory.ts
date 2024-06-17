@@ -2,8 +2,8 @@ import { Location } from '../core/Location'
 import { LocationId } from '../core/LocationId'
 
 export class LocationFactory {
-  static newLocationId(): LocationId {
-    return { value: 'id' }
+  static newId(): LocationId {
+    return { value: 'test' }
   }
 
   static idOf(id: string): LocationId {
@@ -12,7 +12,7 @@ export class LocationFactory {
 
   static newRoom(description: string, buildingId: LocationId): Location {
     return {
-      locationId: this.newLocationId(),
+      locationId: this.newId(),
       description,
       buildingId,
       isRoom: true
@@ -21,7 +21,7 @@ export class LocationFactory {
 
   static newBuilding(description: string, address: string, isExternal: boolean): Location {
     return {
-      locationId: this.newLocationId(),
+      locationId: this.newId(),
       description,
       address,
       isExternal,

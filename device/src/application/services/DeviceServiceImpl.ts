@@ -13,13 +13,15 @@ export class DeviceServiceImpl implements DeviceService {
     this._repository = repository
   }
 
-  getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
+  async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
     // returned by the device itself
-    return this._repository.getDeviceById(deviceId).then(device => device.capabilities)
+    const device = await this._repository.getDeviceById(deviceId)
+    return device.capabilities
   }
 
-  getDeviceLocation(deviceId: DeviceId): Promise<string> {
-    return this._repository.getDeviceById(deviceId).then(device => device.locationId)
+  async getDeviceLocation(deviceId: DeviceId): Promise<string> {
+    const device = await this._repository.getDeviceById(deviceId)
+    return device.locationId
   }
 
   getDevice(deviceId: DeviceId): Promise<Device> {
@@ -49,6 +51,7 @@ export class DeviceServiceImpl implements DeviceService {
       )
     )
   }
+
   updateDevice(
     deviceId: DeviceId,
     description: string,
@@ -71,7 +74,7 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   deleteDevice(deviceId: DeviceId): Promise<void> {
-    return this._repository.deleteDevice(deviceId)
+    return this._repository.removeDevice(deviceId)
   }
 
   enableDevice(deviceId: DeviceId): Promise<void> {
@@ -83,7 +86,7 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   private async toggleDevice(deviceId: DeviceId, enabled: boolean): Promise<void> {
-    const device = await this._repository.getDeviceById(deviceId)
-    this._repository.updateDevice({ ...device, isEnabled: enabled })
+    const device: Device = await this._repository.getDeviceById(deviceId)
+    await this._repository.updateDevice({ ...device, isEnabled: enabled })
   }
 }

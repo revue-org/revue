@@ -12,7 +12,7 @@ export class MongoDBLocationRepository implements LocationRepository {
     await this._model.create(LocationDBAdapter.asDBEntity(location))
   }
 
-  async deleteLocation(location: LocationId): Promise<void> {
+  async removeLocation(location: LocationId): Promise<void> {
     await this._model.deleteOne({ id: location.value })
   }
 
@@ -34,7 +34,7 @@ export class MongoDBLocationRepository implements LocationRepository {
       .then(locations => locations.map(location => LocationDBAdapter.asDomainEntity(location)))
   }
 
-  getExernalBuildings(): Promise<Location[]> {
+  getExternalBuildings(): Promise<Location[]> {
     return this._model
       .find({ isRoom: false, external: true })
       .lean()

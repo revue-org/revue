@@ -1,15 +1,19 @@
 import { NotificationId } from '@/domain/core/NotificationId'
 import { Notification } from '@/domain/core/Notification'
-import { Contact } from '@common/domain/core/Contact'
+import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
+import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
 
 export interface NotificationService {
   getNotifications(): Promise<Notification[]>
 
   getNotificationById(id: NotificationId): Promise<Notification>
 
-  createNotification(notification: Notification): Promise<void>
+  createNotification(
+    id: NotificationId,
+    type: DomainEventType,
+    event: DomainEvent,
+    message: string
+  ): Promise<void>
 
-  sendMailNotification(notification: Notification, contacts: Contact[]): void
-
-  deleteNotification(id: NotificationId): void
+  deleteNotification(id: NotificationId): Promise<void>
 }

@@ -2,7 +2,7 @@ import { UserId } from '@/domain/core/UserId'
 import { User } from '@/domain/core/User'
 import { UserRepository } from '@/application/repositories/UserRepository'
 import { UserService } from '@/application/services/UserService'
-import { UserFactory } from "@/domain/factories/UserFactory";
+import { UserFactory } from '@/domain/factories/UserFactory'
 
 export class UserServiceImpl implements UserService {
   private repository: UserRepository
@@ -28,20 +28,13 @@ export class UserServiceImpl implements UserService {
   }
 
   async createUser(username: string, password: string, permissions: string[]): Promise<UserId> {
-    const user: User = UserFactory.createUser(
-      UserFactory.newId(),
-      username,
-      password,
-      permissions,
-      "",
-      ""
-    )
+    const user: User = UserFactory.createUser(UserFactory.newId(), username, password, permissions, '', '')
     await this.repository.saveUser(user)
     return user.id
   }
 
-  async updateUser(id:UserId, password: string, permissions: string[]): Promise<void> {
-   return this.repository.getUserById(id).then((user: User): void => {
+  async updateUser(id: UserId, password: string, permissions: string[]): Promise<void> {
+    return this.repository.getUserById(id).then((user: User): void => {
       const update = {
         ...(user as User),
         password,

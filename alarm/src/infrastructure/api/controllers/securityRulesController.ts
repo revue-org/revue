@@ -1,12 +1,12 @@
-import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleService } from '@/application/services/SecurityRuleService'
 import { SecurityRuleServiceImpl } from '@/application/services/SecurityRuleServiceImpl'
-import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
+import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
+import { Contact } from '@common/domain/core/Contact'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
+import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { ObjectClass } from '@/domain/core/ObjectClass'
-import { Contact } from '@common/domain/core/Contact'
 
 const service: SecurityRuleService = new SecurityRuleServiceImpl(new MongoDBSecurityRuleRepository())
 type MeasureType = {
@@ -38,7 +38,17 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.createRangeRule(creatorId, deviceId, description, contacts, from, to, minValue, maxValue, measure)
+    await service.createRangeRule(
+      creatorId,
+      deviceId,
+      description,
+      contacts,
+      from,
+      to,
+      minValue,
+      maxValue,
+      measure
+    )
   },
 
   createIntrusionRule: async (
@@ -50,7 +60,15 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.createIntrusionRule(creatorId, deviceId, description, contacts, from, to, ObjectClass.PERSON)
+    await service.createIntrusionRule(
+      creatorId,
+      deviceId,
+      description,
+      contacts,
+      from,
+      to,
+      ObjectClass.PERSON
+    )
   },
 
   updateRangeRule: async (
@@ -62,7 +80,15 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateRangeRule(ruleId, description, contacts, from, to, min, max)
+    await service.updateRangeRule(
+      SecurityRulesFactory.idOf(ruleId),
+      description,
+      contacts,
+      from,
+      to,
+      min,
+      max
+    )
   },
 
   updateIntrusionRule: async (
@@ -73,10 +99,17 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    service.updateIntrusionRule(ruleId, description, contacts, from, to, ObjectClass.PERSON)
+    await service.updateIntrusionRule(
+      SecurityRulesFactory.idOf(ruleId),
+      description,
+      contacts,
+      from,
+      to,
+      ObjectClass.PERSON
+    )
   },
 
   deleteSecurityRule: async (id: string): Promise<void> => {
-    return service.deleteSecurityRule(SecurityRulesFactory.idOf(id))
+    await service.deleteSecurityRule(SecurityRulesFactory.idOf(id))
   }
 }

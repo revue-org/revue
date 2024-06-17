@@ -4,6 +4,7 @@ import { Anomaly } from '@common/domain/core/Anomaly.js'
 import { Intrusion } from '@common/domain/core/Intrusion.js'
 import { Outlier } from '@common/domain/core/Outlier.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
+import { AnomalyFactory } from 'common/dist/domain/factories/AnomalyFactory'
 
 export class AnomalyServiceImpl implements AnomalyService {
   private repository: AnomalyRepository
@@ -28,20 +29,16 @@ export class AnomalyServiceImpl implements AnomalyService {
     return this.repository.getAnomalyById(anomalyId)
   }
 
-  async createIntrusion(intrusion: Intrusion): Promise<void> {
-    await this.repository.saveAnomaly(intrusion)
+  async createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Promise<void> {
+    await this.repository.saveAnomaly(
+      AnomalyFactory.createIntrusion(AnomalyFactory.newId(), timestamp, detectionId, intrusionRuleId)
+    )
   }
 
-  async createOutlier(outlier: Outlier): Promise<void> {
-    await this.repository.saveAnomaly(outlier)
-  }
-
-  async updateIntrusion(intrusion: Intrusion): Promise<void> {
-    await this.repository.updateAnomaly(intrusion)
-  }
-
-  async updateOutlier(outlier: Outlier): Promise<void> {
-    await this.repository.updateAnomaly(outlier)
+  async createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Promise<void> {
+    await this.repository.saveAnomaly(
+      AnomalyFactory.createOutlier(AnomalyFactory.newId(), timestamp, measurementId, rangeRuleId)
+    )
   }
 
   async deleteAnomaly(anomalyId: DomainEventId): Promise<void> {

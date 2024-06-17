@@ -4,6 +4,9 @@ import { DomainEvent } from '@common/domain/core/DomainEvent'
 import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 
 export class NotificationFactory {
+  static newId(): NotificationId {
+    return { value: 'test' }
+  }
   static idOf(value: string): NotificationId {
     return { value }
   }

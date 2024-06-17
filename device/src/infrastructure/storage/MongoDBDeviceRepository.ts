@@ -37,7 +37,7 @@ export class MongoDBDeviceRepository implements DeviceRepository {
     await this._model.updateOne({ deviceId: device.deviceId.value }, DeviceDBAdapter.toDBEntity(device))
   }
 
-  async deleteDevice(deviceId: DeviceId): Promise<void> {
+  async removeDevice(deviceId: DeviceId): Promise<void> {
     await this._model.deleteOne({ deviceId: deviceId.value })
   }
 }

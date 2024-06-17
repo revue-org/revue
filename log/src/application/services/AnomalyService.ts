@@ -12,13 +12,9 @@ export interface AnomalyService {
 
   getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>
 
-  createOutlier(outlier: Outlier): void
+  createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Promise<void>
 
-  createIntrusion(intrusion: Intrusion): void
+  createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Promise<void>
 
-  updateOutlier(outlier: Outlier): void
-
-  updateIntrusion(intrusion: Intrusion): void
-
-  deleteAnomaly(anomalyId: DomainEventId): void
+  deleteAnomaly(anomalyId: DomainEventId): Promise<void>
 }

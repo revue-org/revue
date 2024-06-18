@@ -1,12 +1,10 @@
-import { ObjectClass } from '@/domain/core/ObjectClass'
-import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
-import { Contact } from 'common/dist/domain/core/Contact'
-import { MeasureType } from 'common/dist/domain/core/MeasureType'
+import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
+import { Contact, Detection, Measure, Measurement, ObjectClass } from '@common/domain/core'
 
-export interface SecurityRuleService {
+export interface AlarmService {
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
 
   getRangeRules(): Promise<RangeRule[]>
@@ -22,7 +20,7 @@ export interface SecurityRuleService {
     validUntil: Date,
     minValue: number,
     maxValue: number,
-    measure: MeasureType
+    measure: Measure
   ): Promise<SecurityRuleId>
 
   createIntrusionRule(
@@ -59,4 +57,12 @@ export interface SecurityRuleService {
   disableSecurityRule(id: SecurityRuleId): Promise<void>
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
+
+  checkIntrusion(detection: Detection): Promise<boolean>
+
+  checkMeasurement(measurement: Measurement): Promise<boolean>
+
+  createIntrusion(detection: Detection): void
+
+  createOutlier(measurement: Measurement): void
 }

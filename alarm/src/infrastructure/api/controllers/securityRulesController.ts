@@ -1,14 +1,14 @@
-import { SecurityRuleService } from '@/application/services/SecurityRuleService'
-import { SecurityRuleServiceImpl } from '@/application/services/SecurityRuleServiceImpl'
+import { SecurityRule } from '@/domain/core/rules/SecurityRule'
+import { AlarmService } from '@/application/services/AlarmService'
+import { AlarmServiceImpl } from '@/application/services/impl/AlarmServiceImpl'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
 import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
 import { Contact } from '@common/domain/core/Contact'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { ObjectClass } from '@/domain/core/ObjectClass'
 
-const service: SecurityRuleService = new SecurityRuleServiceImpl(new MongoDBSecurityRuleRepository())
+const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository())
 type MeasureType = {
   type: string
   unit: string

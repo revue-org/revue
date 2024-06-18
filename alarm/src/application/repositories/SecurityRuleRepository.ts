@@ -3,7 +3,7 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 
-export interface SecurityRulesRepository {
+export interface SecurityRuleRepository {
   getSecurityRules(): Promise<SecurityRule[]>
 
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>

@@ -1,42 +1,17 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
-import { SecurityRulesRepository } from '../repositories/SecurityRulesRepository'
-import { SecurityRuleService } from './SecurityRuleService'
+import { SecurityRuleRepository } from '../../repositories/SecurityRuleRepository'
+import { AlarmService } from '../AlarmService'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { Contact } from '@common/domain/core/Contact'
-import { MeasureType } from '@common/domain/core/MeasureType'
-import { ObjectClass } from '@/domain/core/ObjectClass'
-import { AlarmEventsManager } from '@/infrastructure/events/AlarmEventsManager'
-import { Measurement } from '@common/domain/core/Measurement'
-import { Anomaly } from '@common/domain/core/Anomaly'
+import { Anomaly, Contact, Detection, Measure, Measurement, ObjectClass } from '@common/domain/core'
 
-export class SecurityRuleServiceImpl implements SecurityRuleService {
-  private repository: SecurityRulesRepository
-  private eventsManager: AlarmEventsManager
+export class AlarmServiceImpl implements AlarmService {
+  private repository: SecurityRuleRepository
 
-  constructor(repository: SecurityRulesRepository, eventsManager: AlarmEventsManager) {
+  constructor(repository: SecurityRuleRepository) {
     this.repository = repository
-    this.eventsManager = eventsManager
-
-    this.eventsManager.setNewMeasurementHandler(async (measurement: Measurement) => {
-      const rules: RangeRule[] = await this.getActiveRangeRules()
-      rules.forEach((rule: RangeRule): void => {
-        if (measurement.value < rule.min || measurement.value > rule.max) {
-          this.eventsManager.sendAnomalyDetection()
-        }
-      })
-    })
-
-    this.eventsManager.setNewDetectionHandler(async detection => {
-      const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
-      rules.forEach((rule: IntrusionRule): void => {
-        if (detection.objectClass === rule.objectClass) {
-          this.eventsManager.sendAnomalyDetection()
-        }
-      })
-    })
   }
 
   async getRangeRules(): Promise<RangeRule[]> {
@@ -60,7 +35,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     validUntil: Date,
     minValue: number,
     maxValue: number,
-    measure: MeasureType
+    measure: Measure
   ): Promise<SecurityRuleId> {
     const rule: RangeRule = SecurityRulesFactory.createRangeRule(
       SecurityRulesFactory.newId(),
@@ -155,6 +130,34 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     await this.repository.removeSecurityRule(id)
   }
 
+  async checkIntrusion(detection: Detection): Promise<boolean> {
+    const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
+    return rules.some(
+      rule =>
+        rule.activeOn === detection.id.value &&
+        rule.objectClass === detection.objectClass
+    )
+  }
+
+  async checkMeasurement(measurement: Measurement): Promise<boolean> {
+    const rules: RangeRule[] = await this.getActiveRangeRules()
+    return rules.some(
+      rule =>
+        rule.activeOn === measurement.id.value &&
+        rule.measure === measurement.measure &&
+        (measurement.value < rule.min || measurement.value > rule.max)
+    )
+  }
+
+  createIntrusion(detection: Detection): void {
+    throw new Error('Method not implemented.')
+  }
+
+  createOutlier(measurement: Measurement): void {
+    throw new Error('Method not implemented.')
+  }
+
+
   private async getActiveRules(): Promise<SecurityRule[]> {
     return this.repository
       .getSecurityRules()
@@ -186,7 +189,7 @@ export class SecurityRuleServiceImpl implements SecurityRuleService {
     return this.getActiveRules().then((rules: SecurityRule[]) =>
       rules.filter(
         rule =>
-          rule.activeOn === anomaly.deviceId &&
+          rule.activeOn === anomaly.id.value &&
           this.checkIfDateIsInRange(anomaly.timestamp, rule.validity.from, rule.validity.to)
         // && check measure or objectClass
       )

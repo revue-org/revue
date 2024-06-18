@@ -32,19 +32,24 @@
     "moduleResolution": "Node", /* Specify how TypeScript looks up a file from a given module specifier. */
     "paths": {
       "@domain/*": [
-        "./node_modules/domain/dist/domain/*"
-      ],
-      "@application/*": [
-        "./node_modules/domain/dist/application/*"
-      ],
-      "@storage/*": [
-        "./node_modules/domain/dist/storage/*"
-      ],
-      "@utils/*": [
-        "./node_modules/domain/dist/utils/*"
+        "./node_modules/domain/dist/domain/*",
       ],
       "@common/*": [
         "./node_modules/common/dist/*"
+      ],
+      "@application/*": [
+        "./node_modules/domain/dist/application/*",
+        "./node_modules/common/dist/application/*"
+      ],
+      "@storage/*": [
+        "./node_modules/domain/dist/storage/*" //TODO to remove
+      ],
+      "@infrastructure/*": [
+        "./node_modules/common/dist/infrastructure/*"
+      ],
+      "@utils/*": [
+        "./node_modules/domain/dist/utils/*",
+        "./node_modules/common/dist/utils/*"
       ],
       "@/*": [
         "./src/*"

@@ -1,5 +1,6 @@
 import { DomainEventId } from '../core/DomainEventId'
 import { Detection } from '../core/Detection'
+import { ObjectClass } from '../core/ObjectClass'
 
 export class DetectionFactory {
   static newId(): DomainEventId {
@@ -16,7 +17,7 @@ export class DetectionFactory {
     id: DomainEventId,
     timestamp: Date,
     sourceDeviceId: string,
-    objectClass: string
+    objectClass: ObjectClass
   ): Detection {
     return {
       id,

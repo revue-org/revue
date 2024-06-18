@@ -1,5 +1,5 @@
-import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
 import { SecurityRule } from './SecurityRule.js'
+import { Measure } from '@common/domain/core'
 
 export interface RangeRule extends SecurityRule {
   readonly type: 'range'
@@ -8,5 +8,5 @@ export interface RangeRule extends SecurityRule {
 
   readonly max: number
 
-  readonly measure: MeasureType
+  readonly measure: Measure
 }

@@ -6,7 +6,8 @@ import KafkaProducer from '@common/infrastructure/events/KafkaProducer'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { AxiosResponse } from 'axios'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { detectionSchema, measurementSchema } from '@/presentation/events/schemas/MessageSchemas'
+import { AnomalyMessage } from '@/presentation/events/schemas/MessageSchemas'
+import { AnomaliesAdapter, DetectionsAdapter, MeasurementsAdapter } from '@/presentation/events/MessageAdapters'
 
 export class KafkaEventsService implements EventsService {
   private measurementsConsumer: KafkaConsumer
@@ -28,7 +29,8 @@ export class KafkaEventsService implements EventsService {
   }
 
   publishAnomaly(anomaly: Anomaly): void {
-    this.anomalyProducer.produce('anomalies', anomaly)
+    const anomalyMessage: AnomalyMessage = AnomaliesAdapter.asMessage(anomaly)
+    this.anomalyProducer.produce('anomalies', anomalyMessage)
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
@@ -39,7 +41,7 @@ export class KafkaEventsService implements EventsService {
       .startConsuming(topics, false, (message: KafkaMessage) => {
         if (message.value) {
           try {
-            const measurement: Measurement = measurementSchema.parse(message.value)
+            const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
             handler(measurement)
           } catch (e) {
             console.log('Error parsing measurement, message ignored because is not compliant to the schema')
@@ -59,7 +61,7 @@ export class KafkaEventsService implements EventsService {
       .startConsuming(topics, false, (message: KafkaMessage) => {
         if (message.value) {
           try {
-            const detection: Detection = detectionSchema.parse(message.value)
+            const detection: Detection = DetectionsAdapter.asDomainEvent(message.value)
             handler(detection)
           } catch (e) {
             console.log('Error parsing measurement, message ignored because is not compliant to the schema')

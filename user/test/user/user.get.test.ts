@@ -5,7 +5,7 @@ import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('GET /users/', (): void => {
+describe('GET /', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateUsers()
@@ -13,13 +13,13 @@ describe('GET /users/', (): void => {
 
   it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
-    const users: Response = await userService.get('/users/')
+    const users: Response = await userService.get('/')
     expect(users.status).toBe(HttpStatusCode.FORBIDDEN)
   })
 
   it('responds with the users otherwise', async (): Promise<void> => {
     // @ts-ignore
-    const users: Response = await userService.get('/users/').set('Authorization', `Bearer ${TOKEN}`)
+    const users: Response = await userService.get('/').set('Authorization', `Bearer ${TOKEN}`)
     expect(users.status).toBe(HttpStatusCode.OK)
     expect(users.type).toBe('application/json')
     expect(users.body.length).toBeGreaterThan(0)

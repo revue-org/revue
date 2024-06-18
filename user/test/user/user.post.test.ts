@@ -5,14 +5,14 @@ import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('POST /users/', (): void => {
+describe('POST /', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateUsers()
   })
   it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
-    const creation: Response = await userService.post('/users/')
+    const creation: Response = await userService.post('/')
     expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
   })
 
@@ -20,18 +20,18 @@ describe('POST /users/', (): void => {
     const newUser = {
       name: 'test-name-1',
       surname: 'test-surname-1',
-      mail: 'test@teest.test-1',
+      mail: 'test@test.test-1',
       contacts: [
         {
           value: '3333333333',
-          type: 'SMS'
+          type: 'sms'
         }
       ]
     }
 
     // @ts-ignore
     const creation: Response = await userService
-      .post('/users/')
+      .post('/')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newUser)
 

@@ -6,13 +6,9 @@ import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBS
 import { Contact } from '@common/domain/core/Contact'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { ObjectClass } from '@/domain/core/ObjectClass'
+import { Measure, ObjectClass } from '@common/domain/core'
 
 const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository())
-type MeasureType = {
-  type: string
-  unit: string
-}
 
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
@@ -31,7 +27,7 @@ export const securityRuleController = {
     deviceId: string,
     creatorId: string,
     description: string,
-    measure: MeasureType,
+    measure: Measure,
     minValue: number,
     maxValue: number,
     from: Date,
@@ -67,7 +63,7 @@ export const securityRuleController = {
       contacts,
       from,
       to,
-      ObjectClass.PERSON
+      ObjectClass[objectClass as keyof typeof ObjectClass]
     )
   },
 
@@ -105,7 +101,7 @@ export const securityRuleController = {
       contacts,
       from,
       to,
-      ObjectClass.PERSON
+      ObjectClass[objectClass as keyof typeof ObjectClass]
     )
   },
 

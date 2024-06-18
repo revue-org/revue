@@ -3,9 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateUsers } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
-const TOKEN = process.env.DEV_API_KEY
-
-describe('POST /newToken/', (): void => {
+describe('POST /refresh/', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateUsers()
@@ -15,12 +13,12 @@ describe('POST /newToken/', (): void => {
     // @ts-ignore
     const login: Response = await authService
       .post('/login')
-      .send({ username: 'paga16', password: 'passwordprova' })
+      .send({ username: 'test-username', password: 'test' })
 
     // @ts-ignore
     const newToken: Response = await authService
-      .post('/newToken')
-      .send({ username: 'paga16', refreshToken: login.body.refreshToken })
+      .post('/refresh')
+      .send({ refreshToken: login.body.refreshToken })
     expect(newToken.status).toBe(HttpStatusCode.OK)
     expect(newToken.type).toBe('application/json')
     expect(newToken.body).toHaveProperty('accessToken')

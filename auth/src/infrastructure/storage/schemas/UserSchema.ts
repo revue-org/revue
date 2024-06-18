@@ -17,7 +17,8 @@ export const userSchema = new Schema({
   },
   refreshToken: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   permissions: {
     type: [String],

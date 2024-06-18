@@ -4,8 +4,9 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
 import { mongoConnect } from '@utils/connection.js'
-import { userAccessRouter } from './routes/userAccess.js'
-import { userRouter } from './routes/user.js'
+import { userAccess } from '@/infrastructure/api/users/userAccess.js'
+import { userRegistry } from '@/infrastructure/api/users/userRegistry.js'
+import { userPermission } from '@/infrastructure/api/users/userPermission.js'
 import { jwtManager } from './utils/JWTManager.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 
@@ -23,7 +24,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const token = authHeader && authHeader.split(' ')[1]
 
   if (token === process.env.DEV_API_KEY) return next()
-  if ((req.url === '/login' || req.url === '/newToken') && req.method === 'POST') {
+  if ((req.url === '/login' || req.url === '/refresh') && req.method === 'POST') {
     return next()
   }
   if (token === undefined)
@@ -34,8 +35,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use('/', userAccessRouter)
-app.use('/users', userRouter)
+app.use('/', userAccess)
+app.use('/users', userRegistry)
+app.use('/permissions', userPermission)
 
 const username: string = process.env.AUTH_DB_USERNAME || 'admin'
 const password: string = process.env.AUTH_DB_PASSWORD || 'admin'

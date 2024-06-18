@@ -1,7 +1,4 @@
-import { DomainEventId } from '../core/DomainEventId'
-import { Intrusion } from '../core/Intrusion'
-import { Outlier } from '../core/Outlier'
-import { AnomalyType } from '../core/AnomalyType'
+import { AnomalyType, DomainEventId, Intrusion, Outlier } from '../core'
 
 export class AnomalyFactory {
   static newId(): DomainEventId {

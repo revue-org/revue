@@ -1,9 +1,5 @@
-import { Anomaly } from '@common/domain/core/Anomaly'
-import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory.js'
-import { Outlier } from '@common/domain/core/Outlier'
-import { Intrusion } from '@common/domain/core/Intrusion'
-import { AnomalyType } from 'common/dist/domain/core/AnomalyType'
-import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
+import { Anomaly, AnomalyType, Intrusion, Outlier } from '@common/domain/core'
+import { AnomalyFactory, MeasurementFactory } from '@common/domain/factories'
 
 export interface AnomalyDBEntity {
   id: string

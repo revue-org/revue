@@ -1,38 +1,56 @@
 import { AnomalyMessage, anomalySchema, detectionSchema, measurementSchema } from './schemas/MessageSchemas'
 import { Anomaly, AnomalyType, Detection, Intrusion, Measurement, Outlier } from '../../domain/core'
+import { AnomalyFactory } from '../../domain/factories'
 
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {
     const anomalyMessage: AnomalyMessage = anomalySchema.parse(anomalyObj)
     if (anomalyMessage.type === AnomalyType.INTRUSION) {
-      return {
-        ...anomalyMessage,
-        detectionId: anomalyMessage.data.detectionId,
-        intrusionRuleId: anomalyMessage.data.intrusionRuleId
-      } as Intrusion
+      return AnomalyFactory.createIntrusion(
+        AnomalyFactory.idOf(anomalyMessage.id),
+        anomalyMessage.timestamp,
+        AnomalyFactory.idOf(anomalyMessage.data.detectionId!),
+        anomalyMessage.data.intrusionRuleId!
+      )
     } else if (anomalyMessage.type === AnomalyType.OUTLIER) {
-      return {
-        ...anomalyMessage,
-        measurementId: anomalyMessage.data.measurementId,
-        rangeRuleId: anomalyMessage.data.rangeRuleId
-      } as Outlier
+      return AnomalyFactory.createOutlier(
+        AnomalyFactory.idOf(anomalyMessage.id),
+        anomalyMessage.timestamp,
+        AnomalyFactory.idOf(anomalyMessage.data.measurementId!),
+        anomalyMessage.data.rangeRuleId!
+      )
     } else {
-      return anomalyMessage
+      throw new Error('Anomaly type not supported')
     }
   }
 
   static asMessage(anomaly: Anomaly): AnomalyMessage {
-    return {
-      ...anomaly,
-      data: {
-        detectionId: (anomaly as Intrusion).detectionId,
-        intrusionRuleId: (anomaly as Intrusion).intrusionRuleId,
-        measurementId: (anomaly as Outlier).measurementId,
-        rangeRuleId: (anomaly as Outlier).rangeRuleId
+    if (anomaly.type == AnomalyType.OUTLIER) {
+      const outlier: Outlier = anomaly as Outlier
+      return {
+        id: outlier.id.value,
+        type: AnomalyType.OUTLIER,
+        timestamp: outlier.timestamp,
+        data: {
+          measurementId: outlier.measurementId.value,
+          rangeRuleId: outlier.rangeRuleId
+        }
       }
-    } as AnomalyMessage
+    } else {
+      const intrusion: Intrusion = anomaly as Intrusion
+      return {
+        id: intrusion.id.value,
+        type: AnomalyType.INTRUSION,
+        timestamp: intrusion.timestamp,
+        data: {
+          detectionId: intrusion.detectionId.value,
+          intrusionRuleId: intrusion.intrusionRuleId
+        }
+      }
+    }
   }
+
 }
 
 export class DetectionsAdapter {

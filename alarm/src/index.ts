@@ -6,11 +6,11 @@ import { mongoConnect } from '@utils/connection.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
-import { alarmService, eventsService } from '@/init'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { securityRulesRouter } from '@/infrastructure/api/routes/securityRulesRouter'
+import { alarmService, eventsService } from '@/setup'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -55,14 +55,14 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-const detectionsHandler = async (detection: Detection) => {
+const detectionsHandler = async (detection: Detection): Promise<void> => {
   const intrusionRule: IntrusionRule | undefined = await alarmService.checkIntrusion(detection)
   if (intrusionRule) {
     const anomaly: Anomaly = alarmService.createIntrusion(detection, intrusionRule)
     eventsService.publishAnomaly(anomaly)
   }
 }
-const measurementsHandlers = async (measurement: Measurement) => {
+const measurementsHandlers = async (measurement: Measurement): Promise<void> => {
   const rangeRule: RangeRule | undefined = await alarmService.checkMeasurement(measurement)
   if (rangeRule) {
     const anomaly: Anomaly = alarmService.createOutlier(measurement, rangeRule)

@@ -2,7 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
 import { exceedingRuleSample } from '../resources/exceedingRuleSample.js'
 import { intrusionRuleSample } from '../resources/intrusionRuleSample.js'
-import { exceedingModel, intrusionModel, exceedingRuleModel, intrusionRuleModel } from '../../src/init.js'
+import { exceedingModel, intrusionModel, exceedingRuleModel, intrusionRuleModel } from '@/setup.js'
 import { exceedingSample } from '../resources/exceedingSample.js'
 import { intrusionSample } from '../resources/intrusionSample.js'
 

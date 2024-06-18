@@ -2,21 +2,27 @@ import { z, ZodType } from 'zod'
 import { AnomalyType, Detection, Measurement, MeasureType, MeasureUnit, ObjectClass } from '../../../domain/core'
 
 export type AnomalyMessage = {
-  id: {
-    value: string
-  }
+  id: string
   type: AnomalyType
   timestamp: Date
-  data: any
+  data: {
+    measurementId?: string
+    detectionId?: string
+    intrusionRuleId?: string
+    rangeRuleId?: string
+  }
 }
 
 export const anomalySchema: ZodType<AnomalyMessage> = z.object({
-  id: z.object({
-    value: z.string()
-  }),
+  id: z.string(),
   type: z.nativeEnum(AnomalyType),
   timestamp: z.date(),
-  data: z.object({})
+  data: z.object({
+    measurementId: z.string().optional(),
+    detectionId: z.string().optional(),
+    intrusionRuleId: z.string().optional(),
+    rangeRuleId: z.string().optional()
+  })
 })
 
 export const measurementSchema: ZodType<Measurement> = z.object({

@@ -8,7 +8,7 @@ import RequestHelper, {
 } from '../../src/utils/RequestHelper.js'
 import { AxiosResponse } from 'axios'
 import mongoose from 'mongoose'
-import { exceedingModel, intrusionModel } from '../../src/init'
+import { exceedingModel, intrusionModel } from '@/setup'
 import { AnomalyRepository } from 'domain/dist/domain/alarm-system/repositories'
 import { AnomalyRepositoryImpl } from 'domain/dist/storage/alarm-system/MongoDBAnomalyRepository'
 import { AnomalyService } from 'domain/dist/application/alarm-system/AnomalyService'

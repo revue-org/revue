@@ -1,10 +1,6 @@
-import { Anomaly, AnomalyType, Detection, Intrusion, Measurement, Outlier } from '@common/domain/core'
-import {
-  AnomalyMessage,
-  anomalySchema,
-  detectionSchema,
-  measurementSchema
-} from '@/presentation/events/schemas/MessageSchemas'
+import { AnomalyMessage, anomalySchema, detectionSchema, measurementSchema } from './schemas/MessageSchemas'
+import { Anomaly, AnomalyType, Detection, Intrusion, Measurement, Outlier } from '../../domain/core'
+
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {

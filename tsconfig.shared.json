@@ -41,8 +41,8 @@
         "./node_modules/domain/dist/application/*",
         "./node_modules/common/dist/application/*"
       ],
-      "@storage/*": [
-        "./node_modules/domain/dist/storage/*" //TODO to remove
+      "@presentation/*": [
+        "./node_modules/common/dist/presentation/*"
       ],
       "@infrastructure/*": [
         "./node_modules/common/dist/infrastructure/*"

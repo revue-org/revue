@@ -1,12 +1,5 @@
 import { z, ZodType } from 'zod'
-import {
-  AnomalyType,
-  Detection,
-  Measurement,
-  MeasureType,
-  MeasureUnit,
-  ObjectClass
-} from '@common/domain/core'
+import { AnomalyType, Detection, Measurement, MeasureType, MeasureUnit, ObjectClass } from '../../../domain/core'
 
 export type AnomalyMessage = {
   id: {

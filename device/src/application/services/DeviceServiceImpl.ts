@@ -14,42 +14,45 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
-    // returned by the device itself
-    const device = await this._repository.getDeviceById(deviceId)
+    const device: Device = await this._repository.getDeviceById(deviceId)
     return device.capabilities
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {
-    const device = await this._repository.getDeviceById(deviceId)
+    const device: Device = await this._repository.getDeviceById(deviceId)
     return device.locationId
   }
 
-  getDevice(deviceId: DeviceId): Promise<Device> {
-    return this._repository.getDeviceById(deviceId)
+  async getDeviceById(deviceId: DeviceId): Promise<Device> {
+    return await this._repository.getDeviceById(deviceId)
   }
 
-  getDevices(): Promise<Device[]> {
-    return this._repository.getDevices()
+  async getDevices(): Promise<Device[]> {
+    return await this._repository.getDevices()
   }
 
-  createDevice(
+  async getActiveDevices(): Promise<Device[]> {
+    return await this._repository.getActiveDevices()
+  }
+
+  async createDevice(
     description: string,
     endpoint: DeviceEndpoint,
     locationId: string,
     enabled: boolean,
     capabilities: DeviceCapability[]
-  ): Promise<void> {
-    return this._repository.saveDevice(
-      DeviceFactory.newDevice(
-        DeviceFactory.idOf(''),
-        description,
-        endpoint.ipAddress,
-        endpoint.port,
-        locationId,
-        capabilities,
-        enabled
-      )
+  ): Promise<DeviceId> {
+    const device: Device = DeviceFactory.newDevice(
+      DeviceFactory.newId(),
+      description,
+      endpoint.ipAddress,
+      endpoint.port,
+      locationId,
+      capabilities,
+      enabled
     )
+    await this._repository.saveDevice(device)
+    return device.deviceId
   }
 
   updateDevice(
@@ -73,16 +76,16 @@ export class DeviceServiceImpl implements DeviceService {
     )
   }
 
-  deleteDevice(deviceId: DeviceId): Promise<void> {
-    return this._repository.removeDevice(deviceId)
+  async deleteDevice(deviceId: DeviceId): Promise<void> {
+    return await this._repository.removeDevice(deviceId)
   }
 
-  enableDevice(deviceId: DeviceId): Promise<void> {
-    return this.toggleDevice(deviceId, true)
+  async enableDevice(deviceId: DeviceId): Promise<void> {
+    return await this.toggleDevice(deviceId, true)
   }
 
-  disableDevice(deviceId: DeviceId): Promise<void> {
-    return this.toggleDevice(deviceId, false)
+  async disableDevice(deviceId: DeviceId): Promise<void> {
+    return await this.toggleDevice(deviceId, false)
   }
 
   private async toggleDevice(deviceId: DeviceId, enabled: boolean): Promise<void> {

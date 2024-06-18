@@ -40,4 +40,11 @@ export class MongoDBDeviceRepository implements DeviceRepository {
   async removeDevice(deviceId: DeviceId): Promise<void> {
     await this._model.deleteOne({ deviceId: deviceId.value })
   }
+
+  async getActiveDevices(): Promise<Device[]> {
+    return this._model
+      .find({ enabled: true })
+      .lean()
+      .then(devices => devices.map(device => DeviceDBAdapter.toDomainEntity(device)))
+  }
 }

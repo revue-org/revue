@@ -6,6 +6,8 @@ export interface DeviceRepository {
 
   getDevices(): Promise<Device[]>
 
+  getActiveDevices(): Promise<Device[]>
+
   getDevice(deviceId: DeviceId): Promise<Device>
 
   saveDevice(device: Device): Promise<void>

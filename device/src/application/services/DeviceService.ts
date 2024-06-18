@@ -4,13 +4,11 @@ import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint'
 import { DeviceId } from '@/domain/core/DeviceId'
 
 export interface DeviceService {
-  getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]>
-
-  getDeviceLocation(deviceId: DeviceId): Promise<string>
-
-  getDevice(deviceId: DeviceId): Promise<Device>
-
   getDevices(): Promise<Device[]>
+
+  getActiveDevices(): Promise<Device[]>
+
+  getDeviceById(deviceId: DeviceId): Promise<Device>
 
   createDevice(
     description: string,
@@ -18,7 +16,7 @@ export interface DeviceService {
     locationId: string,
     enabled: boolean,
     capabilities: DeviceCapability[]
-  ): Promise<void>
+  ): Promise<DeviceId>
 
   updateDevice(
     deviceId: DeviceId,
@@ -30,6 +28,10 @@ export interface DeviceService {
   ): Promise<void>
 
   deleteDevice(deviceId: DeviceId): Promise<void>
+
+  getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]>
+
+  getDeviceLocation(deviceId: DeviceId): Promise<string>
 
   enableDevice(deviceId: DeviceId): Promise<void>
 

@@ -1,3 +1,5 @@
+import { CapabilityType } from "@/domain/core/capabilities/CapabilityType";
+
 export interface DeviceCapability {
-  readonly type: 'sensor' | 'camera'
+  readonly type: CapabilityType
 }

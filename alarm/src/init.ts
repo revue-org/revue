@@ -9,6 +9,7 @@ import { KafkaEventsService } from '@/infrastructure/events/KafkaEventsService'
 import { KafkaOptions } from 'common/dist/infrastructure/events/KafkaOptions'
 import { SecurityRuleRepository } from '@/application/repositories/SecurityRuleRepository'
 import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
+import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 
 let kafkaHost: string = process.env.KAFKA_HOST!
 let kafkaPort: string = process.env.KAFKA_PORT!

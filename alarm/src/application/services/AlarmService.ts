@@ -1,8 +1,16 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
-import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { Contact, Detection, Measure, Measurement, ObjectClass } from '@common/domain/core'
+import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
+import {
+  Contact,
+  Detection,
+  Intrusion,
+  Measure,
+  Measurement,
+  ObjectClass,
+  Outlier
+} from '@common/domain/core'
 
 export interface AlarmService {
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
@@ -58,11 +66,11 @@ export interface AlarmService {
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
 
-  checkIntrusion(detection: Detection): Promise<boolean>
+  checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined>
 
-  checkMeasurement(measurement: Measurement): Promise<boolean>
+  checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined>
 
-  createIntrusion(detection: Detection): void
+  createIntrusion(detection: Detection, intrusionRule: IntrusionRule): Intrusion
 
-  createOutlier(measurement: Measurement): void
+  createOutlier(measurement: Measurement, rangeRule: RangeRule): Outlier
 }

@@ -1,10 +1,10 @@
 export type KafkaOptions = {
-  clientId: string,
+  clientId: string
   brokers: [
     {
-      host: string,
+      host: string
       port: string
     }
-  ],
-  groupId?: string,
+  ]
+  groupId?: string
 }

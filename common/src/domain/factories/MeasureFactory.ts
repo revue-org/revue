@@ -3,7 +3,6 @@ import { MeasureType } from '../core/MeasureType'
 import { MeasureUnit } from '../core/MeasureUnit'
 
 export class MeasureFactory {
-
   static createTemperatureMeasure(unit: MeasureUnit): Measure {
     checkMeasureUnit(unit, [MeasureUnit.CELSIUS, MeasureUnit.FAHRENHEIT])
     return {
@@ -27,7 +26,6 @@ export class MeasureFactory {
       unit: unit
     }
   }
-
 }
 
 function checkMeasureUnit(unit: MeasureUnit, validUnits: MeasureUnit[]): void {

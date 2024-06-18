@@ -3,17 +3,14 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import { mongoConnect } from '@utils/connection.js'
-import { anomalyRouter } from './routes/anomaly.js'
-import { securityRuleRouter } from './routes/securityRule.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
 import { alarmService, eventsService } from '@/init'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { Detection } from 'common/dist/domain/core/Detection'
-import { Intrusion } from 'common/dist/domain/core/Intrusion'
-import { Measurement } from 'common/dist/domain/core/Measurement'
+import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
+import { securityRulesRouter } from '@/infrastructure/api/routes/securityRulesRouter'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -37,8 +34,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     jwtManager.authenticate(req, res, next)
   }
 })
-app.use('/anomalies', anomalyRouter)
-app.use('/security-rules', securityRuleRouter)
+app.use('/security-rules', securityRulesRouter)
 
 const username: string = process.env.ALARM_DB_USERNAME || 'admin'
 const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
@@ -54,15 +50,22 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    eventsService.subscribeToDetections(async (detection: Detection) => {
-      if (await alarmService.checkIntrusion(detection)) {
-        alarmService.createIntrusion(detection)
-      }
-    })
-    eventsService.subscribeToMeasurements(async (measurement: Measurement) => {
-      if (await alarmService.checkMeasurement(measurement)) {
-        alarmService.createOutlier(measurement)
-      }
-    })
+    eventsService.subscribeToDetections(detectionsHandler)
+    eventsService.subscribeToMeasurements(measurementsHandlers)
   })
+}
+
+const detectionsHandler = async (detection: Detection) => {
+  const intrusionRule: IntrusionRule | undefined = await alarmService.checkIntrusion(detection)
+  if (intrusionRule) {
+    const anomaly: Anomaly = alarmService.createIntrusion(detection, intrusionRule)
+    eventsService.publishAnomaly(anomaly)
+  }
+}
+const measurementsHandlers = async (measurement: Measurement) => {
+  const rangeRule: RangeRule | undefined = await alarmService.checkMeasurement(measurement)
+  if (rangeRule) {
+    const anomaly: Anomaly = alarmService.createOutlier(measurement, rangeRule)
+    eventsService.publishAnomaly(anomaly)
+  }
 }

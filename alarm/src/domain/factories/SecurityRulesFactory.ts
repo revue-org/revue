@@ -8,12 +8,12 @@ import { Measure, ObjectClass } from '@common/domain/core'
 export class SecurityRulesFactory {
   static newId(): SecurityRuleId {
     return {
-      id: 'test'
+      value: 'test'
     }
   }
 
   static idOf(id: string): SecurityRuleId {
-    return { id }
+    return { value: id }
   }
 
   static createIntrusionRule(

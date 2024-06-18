@@ -33,15 +33,14 @@ export interface SecurityRuleDBEntity {
 }
 
 export class SecurityRuleDBAdapter {
-
   static asDomainEntity(securityRule: SecurityRuleDBEntity): SecurityRule {
     const contacts: Contact[] = []
-    securityRule.contacts.forEach(contactObj =>{
-        if (contactObj.type == 'email') {
-          contacts.push(ContactFactory.createMailContact(contactObj.value))
-        } else if (contactObj.type == 'sms') {
-          contacts.push(ContactFactory.createSmsContact(contactObj.value))
-        }
+    securityRule.contacts.forEach(contactObj => {
+      if (contactObj.type == 'email') {
+        contacts.push(ContactFactory.createMailContact(contactObj.value))
+      } else if (contactObj.type == 'sms') {
+        contacts.push(ContactFactory.createSmsContact(contactObj.value))
+      }
     })
     if (securityRule.type == 'range') {
       return SecurityRulesFactory.createRangeRule(
@@ -80,7 +79,7 @@ export class SecurityRuleDBAdapter {
     if (securityRule.type == 'range') {
       const rule = securityRule as RangeRule
       return {
-        id: rule.id.id,
+        id: rule.id.value,
         type: 'range',
         creatorId: rule.creatorId,
         activeOn: rule.activeOn,
@@ -100,7 +99,7 @@ export class SecurityRuleDBAdapter {
     } else {
       const rule = securityRule as IntrusionRule
       return {
-        id: rule.id.id,
+        id: rule.id.value,
         type: 'intrusion',
         creatorId: rule.creatorId,
         activeOn: rule.activeOn,

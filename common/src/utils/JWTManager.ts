@@ -41,18 +41,17 @@ class JWTManager {
     return new Promise((resolve, reject): void => {
       this.jwt.verify(token, this.refreshSecret, async (err: Error, user: any): Promise<void> => {
         if (err) {
-          return reject(new Error('Error verifying token'));
+          return reject(new Error('Error verifying token'))
         }
         try {
-          const verified: any = await callback(err, user);
-          resolve(verified);
+          const verified: any = await callback(err, user)
+          resolve(verified)
         } catch (callbackErr) {
-          reject(callbackErr);
+          reject(callbackErr)
         }
-      });
-    });
+      })
+    })
   }
-
 }
 
 export const jwtManager: JWTManager = new JWTManager()

@@ -3,5 +3,5 @@ export enum MeasureUnit {
   FAHRENHEIT = 'fahrenheit',
   PERCENTAGE = 'percentage',
   PASCAL = 'pascal',
-  BAR = 'bar',
+  BAR = 'bar'
 }

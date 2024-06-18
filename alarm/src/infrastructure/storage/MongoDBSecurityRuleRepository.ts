@@ -34,7 +34,7 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   async getSecurityRuleById(securityRuleId: SecurityRuleId): Promise<SecurityRule> {
     const rule = await this._model
       .findOne({
-        id: securityRuleId.id
+        id: securityRuleId.value
       })
       .lean()
     if (!rule) {
@@ -58,20 +58,20 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
 
   async updateSecurityRule(securityRule: SecurityRule): Promise<void> {
     await this._model.findOneAndUpdate(
-      { id: securityRule.id.id },
+      { id: securityRule.id.value },
       SecurityRuleDBAdapter.asDBEntity(securityRule)
     )
   }
 
   async enableSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
-    await this._model.findOneAndUpdate({ id: securityRuleId.id }, { enabled: true })
+    await this._model.findOneAndUpdate({ id: securityRuleId.value }, { enabled: true })
   }
 
   async disableSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
-    await this._model.findOneAndUpdate({ id: securityRuleId.id }, { enabled: false })
+    await this._model.findOneAndUpdate({ id: securityRuleId.value }, { enabled: false })
   }
 
   async removeSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
-    await this._model.deleteOne({ id: securityRuleId.id })
+    await this._model.deleteOne({ id: securityRuleId.value })
   }
 }

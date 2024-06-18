@@ -24,14 +24,14 @@ export default class KafkaProducer {
 
   public produce(topic: string, message: object): void {
     try {
-      this.producer.send({
-        topic: topic,
-        messages: [
-          { value: JSON.stringify(message) }
-        ]
-      }).then(() => {
-        console.log('Message sent to topic: ', topic)
-      })
+      this.producer
+        .send({
+          topic: topic,
+          messages: [{ value: JSON.stringify(message) }]
+        })
+        .then(() => {
+          console.log('Message sent to topic: ', topic)
+        })
     } catch (error) {
       console.log('Error producing message: ', error)
     }

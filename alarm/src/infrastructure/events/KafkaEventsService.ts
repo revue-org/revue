@@ -1,7 +1,5 @@
 import { EventsService } from '@/application/services/EventsService'
-import { Anomaly } from '@common/domain/core/Anomaly'
-import { Detection } from '@common/domain/core/Detection'
-import { Measurement } from '@common/domain/core/Measurement'
+import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer'

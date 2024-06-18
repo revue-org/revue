@@ -37,7 +37,6 @@ export class AnomaliesAdapter {
       }
     } as AnomalyMessage
   }
-
 }
 
 export class DetectionsAdapter {

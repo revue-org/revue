@@ -5,7 +5,16 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { Anomaly, Contact, Detection, Measure, Measurement, ObjectClass } from '@common/domain/core'
+import {
+  Anomaly,
+  Contact,
+  Detection,
+  Intrusion,
+  Measure,
+  Measurement,
+  ObjectClass,
+  Outlier
+} from '@common/domain/core'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
@@ -130,18 +139,16 @@ export class AlarmServiceImpl implements AlarmService {
     await this.repository.removeSecurityRule(id)
   }
 
-  async checkIntrusion(detection: Detection): Promise<boolean> {
+  async checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined> {
     const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
-    return rules.some(
-      rule =>
-        rule.activeOn === detection.id.value &&
-        rule.objectClass === detection.objectClass
+    return rules.find(
+      rule => rule.activeOn === detection.id.value && rule.objectClass === detection.objectClass
     )
   }
 
-  async checkMeasurement(measurement: Measurement): Promise<boolean> {
+  async checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined> {
     const rules: RangeRule[] = await this.getActiveRangeRules()
-    return rules.some(
+    return rules.find(
       rule =>
         rule.activeOn === measurement.id.value &&
         rule.measure === measurement.measure &&
@@ -149,14 +156,23 @@ export class AlarmServiceImpl implements AlarmService {
     )
   }
 
-  createIntrusion(detection: Detection): void {
-    throw new Error('Method not implemented.')
+  createIntrusion(detection: Detection, intrusionRule: IntrusionRule): Intrusion {
+    return {
+      id: SecurityRulesFactory.newId(),
+      timestamp: detection.timestamp,
+      detectionId: detection.id,
+      intrusionRuleId: intrusionRule.id.value
+    } as Intrusion
   }
 
-  createOutlier(measurement: Measurement): void {
-    throw new Error('Method not implemented.')
+  createOutlier(measurement: Measurement, rangeRule: RangeRule): Outlier {
+    return {
+      id: SecurityRulesFactory.newId(),
+      timestamp: measurement.timestamp,
+      measurementId: measurement.id,
+      rangeRuleId: rangeRule.id.value
+    } as Outlier
   }
-
 
   private async getActiveRules(): Promise<SecurityRule[]> {
     return this.repository

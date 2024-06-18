@@ -4,7 +4,7 @@ import { AlarmService } from '../AlarmService'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory.js'
 import {
   Anomaly,
   Contact,

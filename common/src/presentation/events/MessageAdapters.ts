@@ -1,5 +1,7 @@
-import { AnomalyMessage, anomalySchema, detectionSchema, measurementSchema } from './schemas/MessageSchemas'
-import { Anomaly, AnomalyType, Detection, Intrusion, Measurement, Outlier } from '../../domain/core'
+import { anomalySchema, detectionSchema, measurementSchema } from './schemas/MessageSchemas.js'
+import {AnomalyMessage } from './schemas/MessageSchemas.js'
+import { Anomaly, Detection, Intrusion, Measurement, Outlier } from '../../domain/core'
+import { AnomalyType } from '../../domain/core'
 import { AnomalyFactory } from '../../domain/factories'
 
 

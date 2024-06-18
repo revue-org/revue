@@ -6,11 +6,11 @@ import { mongoConnect } from '@utils/connection.js'
 import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
-import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
+import { IntrusionRule } from '@/domain/core/rules/IntrusionRule.js'
 import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
-import { securityRulesRouter } from '@/infrastructure/api/routes/securityRulesRouter'
-import { alarmService, eventsService } from '@/setup'
+import { securityRulesRouter } from '@/infrastructure/api/routes/securityRulesRouter.js'
+import { alarmService, eventsService } from '@/setup.js'
 
 config({ path: process.cwd() + '/../.env' })
 

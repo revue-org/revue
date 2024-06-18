@@ -2,13 +2,11 @@ import mongoose from 'mongoose'
 import { SecurityRuleRepository } from '@/application/repositories/SecurityRuleRepository.js'
 import { RangeRule } from '@/domain/core/rules/RangeRule.js'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule.js'
-import { securityRuleSchema } from './schemas/SecurityRuleSchema'
+import { securityRuleSchema } from './schemas/SecurityRuleSchema.js'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
-import {
-  SecurityRuleDBAdapter,
-  SecurityRuleDBEntity
-} from '@/infrastructure/storage/models/SecurityRuleModel'
+import { SecurityRuleDBAdapter } from '@/infrastructure/storage/models/SecurityRuleModel.js'
+import {SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
 
 export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   private _model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema)

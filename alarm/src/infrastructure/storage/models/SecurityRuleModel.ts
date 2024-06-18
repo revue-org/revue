@@ -1,10 +1,10 @@
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
-import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { Contact } from '@common/domain/core/Contact'
-import { ContactFactory } from '@common/domain/factories/ContactFactory'
-import { Measure, ObjectClass } from 'common/dist/domain/core'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory.js'
+import { ContactFactory } from '@common/domain/factories/ContactFactory.js'
+import { Contact, Measure } from '@common/domain/core'
+import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 
 export interface SecurityRuleDBEntity {
   id: string

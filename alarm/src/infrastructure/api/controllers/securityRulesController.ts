@@ -1,12 +1,13 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { AlarmService } from '@/application/services/AlarmService'
-import { AlarmServiceImpl } from '@/application/services/impl/AlarmServiceImpl'
-import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository'
+import { AlarmServiceImpl } from '@/application/services/impl/AlarmServiceImpl.js'
+import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory.js'
+import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository.js'
 import { Contact } from '@common/domain/core/Contact'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { Measure, ObjectClass } from '@common/domain/core'
+import { Measure } from '@common/domain/core'
+import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 
 const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository())
 

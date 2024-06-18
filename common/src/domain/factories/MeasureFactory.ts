@@ -26,6 +26,23 @@ export class MeasureFactory {
       unit: unit
     }
   }
+
+  static createMeasure(type: MeasureType, unit: MeasureUnit): Measure {
+    switch (type) {
+      case MeasureType.TEMPERATURE:
+        checkMeasureUnit(unit, [MeasureUnit.PERCENTAGE])
+        return MeasureFactory.createTemperatureMeasure(unit)
+      case MeasureType.HUMIDITY:
+        checkMeasureUnit(unit, [MeasureUnit.PERCENTAGE])
+        return MeasureFactory.createHumidityMeasure(unit)
+      case MeasureType.PRESSURE:
+        checkMeasureUnit(unit, [MeasureUnit.PASCAL, MeasureUnit.BAR])
+        return MeasureFactory.createPressureMeasure(unit)
+      default:
+        throw new Error('Invalid measure type')
+    }
+  }
+
 }
 
 function checkMeasureUnit(unit: MeasureUnit, validUnits: MeasureUnit[]): void {

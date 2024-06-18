@@ -23,7 +23,7 @@ export class NumericMeasurementDBAdapter {
 
   static asDBEntity(measurement: Measurement): NumericMeasurementDBEntity {
     return {
-      id: measurement.id.id,
+      id: measurement.id.value,
       timestamp: measurement.timestamp,
       sourceDeviceId: measurement.sourceDeviceId,
       measureType: measurement.measureType,

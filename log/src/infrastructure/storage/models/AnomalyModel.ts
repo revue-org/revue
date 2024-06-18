@@ -36,22 +36,22 @@ export class AnomalyDBAdapter {
     if (anomaly.type == AnomalyType.OUTLIER) {
       const outlier: Outlier = anomaly as Outlier
       return {
-        id: outlier.id.id,
+        id: outlier.id.value,
         type: AnomalyType.OUTLIER,
         timestamp: outlier.timestamp,
         data: {
-          measurementId: outlier.measurementId.id,
+          measurementId: outlier.measurementId.value,
           rangeRuleId: outlier.rangeRuleId
         }
       }
     } else {
       const intrusion: Intrusion = anomaly as Intrusion
       return {
-        id: intrusion.id.id,
+        id: intrusion.id.value,
         type: AnomalyType.INTRUSION,
         timestamp: intrusion.timestamp,
         data: {
-          detectionId: intrusion.detectionId.id,
+          detectionId: intrusion.detectionId.value,
           intrusionRuleId: intrusion.intrusionRuleId
         }
       }

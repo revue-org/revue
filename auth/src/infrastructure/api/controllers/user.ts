@@ -3,6 +3,7 @@ import { UserServiceImpl } from '@/application/services/UserServiceImpl.js'
 import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository.js'
 import { User } from '@/domain/core/User.js'
 import { UserId } from '@/domain/core/UserId.js'
+import { UserFactory } from "@/domain/factories/UserFactory";
 
 const service: UserService = new UserServiceImpl(new MongoDBUserRepository())
 
@@ -27,8 +28,8 @@ export const controller = {
     return await service.getPermissions()
   },
 
-  getUserById: async (userId: UserId): Promise<User> => {
-    return await service.getUserById(userId)
+  getUserById: async (id: string): Promise<User> => {
+    return await service.getUserById(UserFactory.idOf(id))
   },
 
   getUserByUsername: async (username: string): Promise<User> => {
@@ -43,11 +44,11 @@ export const controller = {
     return await service.createUser(username, password, permissions)
   },
 
-  updateUser: async (id: UserId, permissions: string[]): Promise<void> => {
-    return service.updateUser(id, permissions)
+  updateUser: async (id: string, permissions: string[]): Promise<void> => {
+    return service.updateUser(UserFactory.idOf(id), permissions)
   },
 
-  deleteUser: async (userId: UserId): Promise<void> => {
-    return service.deleteUser(userId)
+  deleteUser: async (id: string): Promise<void> => {
+    return service.deleteUser(UserFactory.idOf(id))
   }
 }

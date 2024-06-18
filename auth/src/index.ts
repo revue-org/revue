@@ -3,12 +3,12 @@ import express from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
-import { mongoConnect } from '@utils/connection.js'
-import { userAccess } from '@/infrastructure/api/users/userAccess.js'
-import { userRegistry } from '@/infrastructure/api/users/userRegistry.js'
-import { userPermission } from '@/infrastructure/api/users/userPermission.js'
+import { mongoConnect } from '@common/utils/connection.js'
+import { userAccess } from '@/infrastructure/api/routes/userAccess.js'
+import { userRegistry } from '@/infrastructure/api/routes/userRegistry.js'
+import { userPermission } from '@/infrastructure/api/routes/userPermission.js'
 import { jwtManager } from './utils/JWTManager.js'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 config({ path: process.cwd() + '/../.env' })
 

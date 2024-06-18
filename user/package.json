@@ -1,9 +1,9 @@
 {
   "type": "module",
-  "name": "auth",
+  "name": "user",
   "version": "0.1.0",
   "private": true,
-  "description": "Authentication microservice",
+  "description": "User microservice",
   "main": "dist/src/index.js",
   "scripts": {
     "serve": "node .",
@@ -29,7 +29,6 @@
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "domain": "file:../domain",
     "common": "file:../common",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

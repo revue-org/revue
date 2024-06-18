@@ -1,7 +1,8 @@
+import mongoose, { model, Model } from "mongoose";
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import mongoose from 'mongoose'
-import { userModel } from '../../src/init.js'
 import { userSample } from '../resources/userSample.js'
+import { userSchema } from "@/infrastructure/storage/schemas/UserSchema";
+import { User } from "@/domain/core/User";
 
 let mongoMock: any = null
 
@@ -20,6 +21,6 @@ export const disconnectFromMock = async (): Promise<void> => {
 }
 
 export const populateUsers = async (): Promise<void> => {
-  await userModel.createCollection()
+  const userModel: Model<User> = model<User>('User', userSchema, 'user')
   await userModel.create(userSample)
 }

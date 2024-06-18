@@ -1,9 +1,9 @@
 import { UserService } from './UserService.js'
 import { UserRepository } from '../repositories/UserRepository.js'
-import { UserId } from '@/domain/core/UserId'
-import { User } from '@/domain/core/User'
-import { Contact } from '@common/domain/core/Contact'
-import { UserFactory } from '@/domain/factories/UserFactory'
+import { UserId } from '@/domain/core/UserId.js'
+import { User } from '@/domain/core/User.js'
+import { Contact } from '@common/domain/core/Contact.js'
+import { UserFactory } from '@/domain/factories/UserFactory.js'
 
 export class UserServiceImpl implements UserService {
   private repository: UserRepository

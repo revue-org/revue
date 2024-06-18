@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
-import { userSchema } from "./UserSchema";
-import { UserDBAdapter, UserDBEntity } from "@/infrastructure/storage/models/UserModel";
-import { UserRepository } from "@/application/repositories/UserRepository";
-import { UserId } from "@/domain/core/UserId";
-import { User } from "@/domain/core/User";
+import { userSchema } from "./schemas/UserSchema.js";
+import { UserDBAdapter, UserDBEntity } from "@/infrastructure/storage/models/UserModel.js";
+import { UserRepository } from "@/application/repositories/UserRepository.js";
+import { UserId } from "@/domain/core/UserId.js";
+import { User } from "@/domain/core/User.js";
 
 export class MongoDBUserRepository implements UserRepository {
-  private _model = mongoose.model<UserDBEntity>("UserSchema", userSchema);
+  private _model = mongoose.model<UserDBEntity>("UserSchema", userSchema, "user");
 
   async getUsers(): Promise<User[]> {
     return this._model.find().lean().then((users) => {

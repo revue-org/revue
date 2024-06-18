@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { app } from '../src/index.js'
 
-const auth = supertest(app)
+const user = supertest(app)
 // @ts-ignore
-globalThis.authService = auth
+globalThis.userService = user

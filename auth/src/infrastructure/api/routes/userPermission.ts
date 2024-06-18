@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { controller } from '@/infrastructure/api/controller/user.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
+import { controller } from '@/infrastructure/api/controllers/user.js'
 
 export const userPermission: Router = express.Router()
 

@@ -1,5 +1,17 @@
 import { Schema } from 'mongoose'
-import { contactSchema } from './ContactSchema.js'
+import { ContactType } from "common/dist/domain/core/ContactType.js";
+
+const contactSchema = new Schema({
+  type: {
+    type: String,
+    enum: Object.values(ContactType),
+    required: true
+  },
+  value: {
+    type: String,
+    required: true
+  }
+});
 
 export const userSchema = new Schema({
   id: {

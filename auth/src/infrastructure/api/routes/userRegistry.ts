@@ -1,7 +1,6 @@
 import express, { Request, Response, Router } from 'express'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { controller } from '@/infrastructure/api/controller/user.js'
-import { UserFactory } from '@/domain/factories/UserFactory.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
+import { controller } from '@/infrastructure/api/controllers/user.js'
 import { User } from '@/domain/core/User.js'
 import { UserId } from '@/domain/core/UserId.js'
 
@@ -20,7 +19,7 @@ userRegistry.route('/').get((req: Request, res: Response): void => {
 
 userRegistry.route('/:id').get((req: Request, res: Response): void => {
   controller
-    .getUserById(UserFactory.idOf(req.params.id))
+    .getUserById(req.params.id)
     .then((user: User): void => {
       res.status(HttpStatusCode.OK).send(user)
     })
@@ -42,7 +41,7 @@ userRegistry.route('/').post((req: Request, res: Response): void => {
 
 userRegistry.route('/').put((req: Request, res: Response): void => {
   controller
-    .updateUser(UserFactory.idOf(req.body.id), req.body.permissions)
+    .updateUser(req.body.id, req.body.permissions)
     .then((): void => {
       res.status(HttpStatusCode.OK).send('User updated')
     })
@@ -53,7 +52,7 @@ userRegistry.route('/').put((req: Request, res: Response): void => {
 
 userRegistry.route('/:id').delete((req: Request, res: Response): void => {
   controller
-    .deleteUser(UserFactory.idOf(req.params.id))
+    .deleteUser(req.params.id)
     .then((): void => {
       res.status(HttpStatusCode.OK).send("User deleted")
     })

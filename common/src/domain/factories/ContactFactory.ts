@@ -1,5 +1,5 @@
-import { Contact } from '../core/Contact'
-import { ContactType } from '../core/ContactType'
+import { Contact } from '../core/Contact.js'
+import { ContactType } from '../core/ContactType.js'
 
 export class ContactFactory {
   static createSmsContact(value: string): Contact {

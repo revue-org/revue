@@ -1,5 +1,5 @@
-import { User } from "@/domain/core/User"
-import { UserId } from "@/domain/core/UserId";
+import { User } from '@/domain/core/User'
+import { UserId } from '@/domain/core/UserId'
 
 export interface UserRepository {
   getUserById(userId: UserId): Promise<User>

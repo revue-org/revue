@@ -1,8 +1,7 @@
 import express, { Request, Response, Router } from 'express'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
-import { controller } from "@/infrastructure/api/controller/user.js";
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
+import { controller } from "@/infrastructure/api/controllers/user.js";
 import { User } from "@/domain/core/User";
-import * as console from "node:console";
 
 export const userAccess: Router = express.Router()
 

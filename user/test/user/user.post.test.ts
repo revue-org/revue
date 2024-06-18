@@ -1,7 +1,7 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateUsers } from '../storage/MongoDBMock.js'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
@@ -12,41 +12,25 @@ describe('POST /users/', (): void => {
   })
   it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
-    const creation: Response = await authService.post('/users/')
+    const creation: Response = await userService.post('/users/')
     expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
   })
 
   it('should create a new user', async (): Promise<void> => {
     const newUser = {
-      name: 'Alberto',
-      surname: 'Paga',
-      username: 'differentUsernameFromTheOthers',
-      password: 'passwordprova',
-      token: '',
-      refreshToken: '',
+      name: 'test-name-1',
+      surname: 'test-surname-1',
+      mail: 'test@teest.test-1',
       contacts: [
         {
-          _id: '65841da0306d94b61b329571',
           value: '3333333333',
           type: 'SMS'
-        }
-      ],
-      deviceIds: [
-        {
-          _id: '65841da0306d94b61b329572',
-          type: 'CAMERA',
-          code: 'cam-01'
-        },
-        {
-          _id: '65841da0306d94b61b329573',
-          type: 'SENSOR',
-          code: 'sen-01'
         }
       ]
     }
 
     // @ts-ignore
-    const creation: Response = await authService
+    const creation: Response = await userService
       .post('/users/')
       .set('Authorization', `Bearer ${TOKEN}`)
       .send(newUser)

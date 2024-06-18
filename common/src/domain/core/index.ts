@@ -13,4 +13,5 @@ export * from './MeasureType';
 export * from './MeasureUnit';
 export * from './Measurement';
 export * from './NumericMeasurment';
+export * from './ObjectClass';
 export * from './Outlier';

@@ -2,9 +2,8 @@ import { TimeSlot } from '../core/rules/TimeSlot.js'
 import { IntrusionRule } from '../core/rules/IntrusionRule.js'
 import { RangeRule } from '../core/rules/RangeRule.js'
 import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
-import { ObjectClass } from '../core/ObjectClass.js'
 import { Contact } from 'common/dist/domain/core/Contact.js'
-import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
+import { Measure, ObjectClass } from '@common/domain/core'
 
 export class SecurityRulesFactory {
   static newId(): SecurityRuleId {
@@ -49,7 +48,7 @@ export class SecurityRulesFactory {
     validity: TimeSlot,
     min: number,
     max: number,
-    measure: MeasureType,
+    measure: Measure,
     enabled: boolean
   ): RangeRule {
     return {
@@ -68,6 +67,9 @@ export class SecurityRulesFactory {
   }
 
   static newTimeSlot(from: Date, to: Date): TimeSlot {
+    if (from >= to) {
+      throw new Error('Invalid time slot')
+    }
     return {
       from,
       to

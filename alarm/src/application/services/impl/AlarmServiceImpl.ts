@@ -5,14 +5,7 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
-import { Contact } from 'common/dist/domain/core/Contact'
-import { MeasureType } from 'common/dist/domain/core/MeasureType'
-import { ObjectClass } from '@/domain/core/ObjectClass'
-import { Anomaly } from 'common/dist/domain/core/Anomaly'
-import { Detection } from 'common/dist/domain/core/Detection'
-import { Measurement } from 'common/dist/domain/core/Measurement'
-import { eventsService } from '@/init'
-import { Intrusion } from 'common/dist/domain/core/Intrusion'
+import { Anomaly, Contact, Detection, Measure, Measurement, ObjectClass } from '@common/domain/core'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
@@ -42,7 +35,7 @@ export class AlarmServiceImpl implements AlarmService {
     validUntil: Date,
     minValue: number,
     maxValue: number,
-    measure: MeasureType
+    measure: Measure
   ): Promise<SecurityRuleId> {
     const rule: RangeRule = SecurityRulesFactory.createRangeRule(
       SecurityRulesFactory.newId(),
@@ -151,7 +144,7 @@ export class AlarmServiceImpl implements AlarmService {
     return rules.some(
       rule =>
         rule.activeOn === measurement.id.value &&
-        rule.measure === measurement.measureType &&
+        rule.measure === measurement.measure &&
         (measurement.value < rule.min || measurement.value > rule.max)
     )
   }

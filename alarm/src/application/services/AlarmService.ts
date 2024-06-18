@@ -1,12 +1,8 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
-import { Contact } from 'common/dist/domain/core/Contact'
-import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { ObjectClass } from '@/domain/core/ObjectClass'
-import { Detection } from 'common/dist/domain/core/Detection'
-import { Measurement } from 'common/dist/domain/core/Measurement'
+import { Contact, Detection, Measure, Measurement, ObjectClass } from '@common/domain/core'
 
 export interface AlarmService {
   getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
@@ -24,7 +20,7 @@ export interface AlarmService {
     validUntil: Date,
     minValue: number,
     maxValue: number,
-    measure: MeasureType
+    measure: Measure
   ): Promise<SecurityRuleId>
 
   createIntrusionRule(

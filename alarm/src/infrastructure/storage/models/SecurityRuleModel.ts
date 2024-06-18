@@ -4,6 +4,7 @@ import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory'
 import { Contact } from '@common/domain/core/Contact'
 import { ContactFactory } from '@common/domain/factories/ContactFactory'
+import { Measure, ObjectClass } from 'common/dist/domain/core'
 
 export interface SecurityRuleDBEntity {
   id: string
@@ -22,18 +23,26 @@ export interface SecurityRuleDBEntity {
   data: {
     min?: number
     max?: number
-    measure?: string
+    measure?: {
+      type: string
+      unit: string
+    }
     objectClass?: string
   }
   enabled: boolean
 }
 
 export class SecurityRuleDBAdapter {
+
   static asDomainEntity(securityRule: SecurityRuleDBEntity): SecurityRule {
     const contacts: Contact[] = []
-    securityRule.contacts.forEach(contact =>
-      contacts.push(ContactFactory.create(contact.type, contact.value))
-    )
+    securityRule.contacts.forEach(contactObj =>{
+        if (contactObj.type == 'email') {
+          contacts.push(ContactFactory.createMailContact(contactObj.value))
+        } else if (contactObj.type == 'sms') {
+          contacts.push(ContactFactory.createSmsContact(contactObj.value))
+        }
+    })
     if (securityRule.type == 'range') {
       return SecurityRulesFactory.createRangeRule(
         SecurityRulesFactory.idOf(securityRule.id),
@@ -41,10 +50,10 @@ export class SecurityRuleDBAdapter {
         securityRule.creatorId,
         contacts,
         securityRule.description,
-        TimeSlotFactory.create(securityRule.validity),
+        SecurityRulesFactory.newTimeSlot(securityRule.validity.from, securityRule.validity.to),
         securityRule.data.min as number,
         securityRule.data.max as number,
-        securityRule.data.measure as MeasureType,
+        securityRule.data.measure as Measure,
         securityRule.enabled
       )
     } else {
@@ -52,10 +61,10 @@ export class SecurityRuleDBAdapter {
         SecurityRulesFactory.idOf(securityRule.id),
         securityRule.activeOn,
         securityRule.creatorId,
-        securityRule.data.objectClass,
+        ObjectClass[securityRule.data.objectClass as keyof typeof ObjectClass],
         contacts,
         securityRule.description,
-        TimeSlotFactory.create(securityRule.validity),
+        SecurityRulesFactory.newTimeSlot(securityRule.validity.from, securityRule.validity.to),
         securityRule.enabled
       )
     }

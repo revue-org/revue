@@ -66,11 +66,4 @@ export interface AlarmService {
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
 
-  checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined>
-
-  checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined>
-
-  createIntrusion(detection: Detection, intrusionRule: IntrusionRule): Intrusion
-
-  createOutlier(measurement: Measurement, rangeRule: RangeRule): Outlier
 }

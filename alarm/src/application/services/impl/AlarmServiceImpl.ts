@@ -15,12 +15,105 @@ import {
   ObjectClass,
   Outlier
 } from '@common/domain/core'
+import { EventsService } from '../EventsService'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
+  private events: EventsService
 
-  constructor(repository: SecurityRuleRepository) {
+  constructor(repository: SecurityRuleRepository, events: EventsService) {
     this.repository = repository
+    this.events = events
+    this.configureEvents()
+  }
+
+  private configureEvents() {
+    this.events.subscribeToDetections((detection: Detection) => {
+      this.checkIntrusion(detection).then(intrusionRule => {
+        if (intrusionRule) {
+          this.events.publishAnomaly(this.createIntrusion(detection, intrusionRule))
+        }
+      })
+    })
+
+    this.events.subscribeToMeasurements((measurement: Measurement) => {
+      this.checkMeasurement(measurement).then(rangeRule => {
+        if (rangeRule) {
+          this.events.publishAnomaly(this.createOutlier(measurement, rangeRule))
+        }
+      })
+    })
+  }
+
+  private createIntrusion(detection: Detection, intrusionRule: IntrusionRule): Intrusion {
+    return {
+      id: SecurityRulesFactory.newId(),
+      timestamp: detection.timestamp,
+      detectionId: detection.id,
+      intrusionRuleId: intrusionRule.id.value
+    } as Intrusion
+  }
+
+  private createOutlier(measurement: Measurement, rangeRule: RangeRule): Outlier {
+    return {
+      id: SecurityRulesFactory.newId(),
+      timestamp: measurement.timestamp,
+      measurementId: measurement.id,
+      rangeRuleId: rangeRule.id.value
+    } as Outlier
+  }
+
+  private async checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined> {
+    return this.getActiveIntrusionRules()
+      .then(rules =>
+        rules.find(rule => rule.activeOn === detection.id.value && rule.objectClass === detection.objectClass)
+      )
+  }
+
+  private async checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined> {
+    return this.getActiveRangeRules()
+      .then(rules =>
+        rules.find(rule =>
+          rule.activeOn === measurement.id.value &&
+          rule.measure === measurement.measure &&
+          (measurement.value < rule.min || measurement.value > rule.max))
+      )
+  }
+
+  private async getActiveRules(): Promise<SecurityRule[]> {
+    return this.repository
+      .getSecurityRules()
+      .then((rules: SecurityRule[]) =>
+        rules
+          .filter(rule => this.isEnabled(rule))
+          .filter(rule => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
+      )
+  }
+
+  private isEnabled(rule: SecurityRule): boolean {
+    return rule.enabled
+  }
+
+  private async getActiveRangeRules(): Promise<RangeRule[]> {
+    return this.getActiveRules().then(
+      (rules: SecurityRule[]) => rules.filter(rule => rule.type === 'range') as RangeRule[]
+    )
+  }
+
+  private async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
+    return this.getActiveRules().then(
+      (rules: SecurityRule[]) => rules.filter(rule => rule.type === 'intrusion') as IntrusionRule[]
+    )
+  }
+
+  private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {
+    date.setHours(date.getHours() + 1) // correction due to timezone
+    return (
+      (date.getHours() > from.getHours() ||
+        (date.getHours() === from.getHours() && date.getMinutes() >= from.getMinutes())) &&
+      (date.getHours() < to.getHours() ||
+        (date.getHours() === to.getHours() && date.getMinutes() <= to.getMinutes()))
+    )
   }
 
   async getRangeRules(): Promise<RangeRule[]> {
@@ -139,90 +232,7 @@ export class AlarmServiceImpl implements AlarmService {
     await this.repository.removeSecurityRule(id)
   }
 
-  async checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined> {
-    const rules: IntrusionRule[] = await this.getActiveIntrusionRules()
-    return rules.find(
-      rule => rule.activeOn === detection.id.value && rule.objectClass === detection.objectClass
-    )
-  }
-
-  async checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined> {
-    const rules: RangeRule[] = await this.getActiveRangeRules()
-    return rules.find(
-      rule =>
-        rule.activeOn === measurement.id.value &&
-        rule.measure === measurement.measure &&
-        (measurement.value < rule.min || measurement.value > rule.max)
-    )
-  }
-
-  createIntrusion(detection: Detection, intrusionRule: IntrusionRule): Intrusion {
-    return {
-      id: SecurityRulesFactory.newId(),
-      timestamp: detection.timestamp,
-      detectionId: detection.id,
-      intrusionRuleId: intrusionRule.id.value
-    } as Intrusion
-  }
-
-  createOutlier(measurement: Measurement, rangeRule: RangeRule): Outlier {
-    return {
-      id: SecurityRulesFactory.newId(),
-      timestamp: measurement.timestamp,
-      measurementId: measurement.id,
-      rangeRuleId: rangeRule.id.value
-    } as Outlier
-  }
-
-  private async getActiveRules(): Promise<SecurityRule[]> {
-    return this.repository
-      .getSecurityRules()
-      .then((rules: SecurityRule[]) =>
-        rules
-          .filter(rule => this.isEnabled(rule))
-          .filter(rule => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
-      )
-  }
-
-  private isEnabled(rule: SecurityRule): boolean {
-    return rule.enabled
-  }
-
-  private async getActiveRangeRules(): Promise<RangeRule[]> {
-    return this.getActiveRules().then(
-      (rules: SecurityRule[]) => rules.filter(rule => rule.type === 'range') as RangeRule[]
-    )
-  }
-
-  private async getActiveIntrusionRules(): Promise<IntrusionRule[]> {
-    return this.getActiveRules().then(
-      (rules: SecurityRule[]) => rules.filter(rule => rule.type === 'intrusion') as IntrusionRule[]
-    )
-  }
-
-  private triggeredRulesFor(anomaly: Anomaly): Promise<SecurityRule[]> {
-    // For Measurement or ObjectClass
-    return this.getActiveRules().then((rules: SecurityRule[]) =>
-      rules.filter(
-        rule =>
-          rule.activeOn === anomaly.id.value &&
-          this.checkIfDateIsInRange(anomaly.timestamp, rule.validity.from, rule.validity.to)
-        // && check measure or objectClass
-      )
-    )
-  }
-
   private extractContactsFrom(rules: SecurityRule[]): Contact[] {
     return [...new Set(rules.flatMap((rule: SecurityRule) => rule.contacts))]
-  }
-
-  private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {
-    date.setHours(date.getHours() + 1) // correction due to timezone
-    return (
-      (date.getHours() > from.getHours() ||
-        (date.getHours() === from.getHours() && date.getMinutes() >= from.getMinutes())) &&
-      (date.getHours() < to.getHours() ||
-        (date.getHours() === to.getHours() && date.getMinutes() <= to.getMinutes()))
-    )
   }
 }

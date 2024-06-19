@@ -4,12 +4,8 @@ import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import {
   Contact,
-  Detection,
-  Intrusion,
   Measure,
-  Measurement,
   ObjectClass,
-  Outlier
 } from '@common/domain/core'
 
 export interface AlarmService {
@@ -65,5 +61,7 @@ export interface AlarmService {
   disableSecurityRule(id: SecurityRuleId): Promise<void>
 
   deleteSecurityRule(id: SecurityRuleId): Promise<void>
+
+  getSecurityRuleContacts(id: SecurityRuleId): Promise<Contact[]>
 
 }

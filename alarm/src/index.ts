@@ -9,7 +9,7 @@ import http, { Server as HttpServer } from 'http'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule.js'
 import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
-import { securityRulesRouter } from '@/infrastructure/api/routes/securityRulesRouter.js'
+import { router } from '@/infrastructure/api/routes/securityRulesRouter.js'
 import { alarmService, eventsService } from '@/setup.js'
 
 config({ path: process.cwd() + '/../.env' })
@@ -34,7 +34,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     jwtManager.authenticate(req, res, next)
   }
 })
-app.use('/security-rules', securityRulesRouter)
+app.use('/security-rules', router)
 
 const username: string = process.env.ALARM_DB_USERNAME || 'admin'
 const password: string = process.env.ALARM_DB_PASSWORD || 'admin'

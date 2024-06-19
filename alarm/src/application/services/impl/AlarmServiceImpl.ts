@@ -6,7 +6,6 @@ import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory.js'
 import {
-  Anomaly,
   Contact,
   Detection,
   Intrusion,
@@ -234,5 +233,9 @@ export class AlarmServiceImpl implements AlarmService {
 
   private extractContactsFrom(rules: SecurityRule[]): Contact[] {
     return [...new Set(rules.flatMap((rule: SecurityRule) => rule.contacts))]
+  }
+
+  getSecurityRuleContacts(id: SecurityRuleId): Promise<Contact[]> {
+    return this.getSecurityRuleById(id).then((rule: SecurityRule) => this.extractContactsFrom([rule]))
   }
 }

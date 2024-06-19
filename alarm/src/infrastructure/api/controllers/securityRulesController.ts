@@ -13,7 +13,15 @@ const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleReposi
 
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
-    return await service.getSecurityRuleById(SecurityRulesFactory.idOf(id))
+    return service.getSecurityRuleById(SecurityRulesFactory.idOf(id))
+  },
+
+  getRangeRuleById: (id: string): Promise<RangeRule> => {
+    return service.getSecurityRuleById(SecurityRulesFactory.idOf(id)).then(rule => rule as RangeRule)
+  },
+
+  getIntrusionRuleById: (id: string): Promise<IntrusionRule> => {
+    return service.getSecurityRuleById(SecurityRulesFactory.idOf(id)).then(rule => rule as IntrusionRule)
   },
 
   getRangeRules: async (): Promise<RangeRule[]> => {
@@ -108,5 +116,9 @@ export const securityRuleController = {
 
   deleteSecurityRule: async (id: string): Promise<void> => {
     await service.deleteSecurityRule(SecurityRulesFactory.idOf(id))
+  },
+
+  getSecurityRuleContacts: async (id: string): Promise<Contact[]> => {
+    return service.getSecurityRuleContacts(SecurityRulesFactory.idOf(id))
   }
 }

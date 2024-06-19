@@ -53,7 +53,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
         )
   })
   deviceController
-    .createDevice(req.body.description, req.body.address, req.body.port, req.body.locationId, capabilities)
+    .createDevice(req.body.description, req.body.ipAddress, req.body.port, req.body.locationId, capabilities)
     .then((id: DeviceId): void => {
       res.status(HttpStatusCode.CREATED).send({ success: id })
     })
@@ -62,7 +62,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
     })
 })
 
-deviceRouter.route('/').put((req: Request, res: Response): void => {
+deviceRouter.route('/:id').put((req: Request, res: Response): void => {
   const capabilities: DeviceCapability[] = req.body.capabilities.map((capability: any): DeviceCapability => {
     return capability.type === CapabilityType.VIDEO
       ? CapabilityFactory.videoStreamingCapabilityOf(capability.resolution)
@@ -72,7 +72,7 @@ deviceRouter.route('/').put((req: Request, res: Response): void => {
       )
   })
   deviceController
-    .updateDevice(req.body.id, req.body.description, req.body.address, req.body.port, req.body.locationId, req.body.enabled, capabilities)
+    .updateDevice(req.params.id, req.body.description, req.body.address, req.body.port, req.body.locationId, req.body.enabled, capabilities)
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Device correctly updated' })
     })

@@ -31,14 +31,13 @@
     /* Specify the root folder within your source files. */
     "moduleResolution": "Node", /* Specify how TypeScript looks up a file from a given module specifier. */
     "paths": {
-      "@domain/*": [
-        "./node_modules/domain/dist/domain/*",
-      ],
       "@common/*": [
         "./node_modules/common/dist/*"
       ],
+      "@domain/*": [
+        "./node_modules/common/dist/domain/*",
+      ],
       "@application/*": [
-        "./node_modules/domain/dist/application/*",
         "./node_modules/common/dist/application/*"
       ],
       "@presentation/*": [
@@ -48,7 +47,6 @@
         "./node_modules/common/dist/infrastructure/*"
       ],
       "@utils/*": [
-        "./node_modules/domain/dist/utils/*",
         "./node_modules/common/dist/utils/*"
       ],
       "@/*": [

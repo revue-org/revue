@@ -34,7 +34,8 @@ export class NotificationServiceImpl implements NotificationService {
     message: string
   ): Promise<void> {
     await this.repository.saveNotification(NotificationFactory.createNotification(id, type, event, message))
-    //send the notification to the contacts
+
+    //TODO send the notification to the contacts
   }
 
   sendMailNotification(notification: Notification, contacts: Contact[]): void {

@@ -47,14 +47,14 @@ userRouter.route('/').post(async (req: Request, res: Response): Promise<void> =>
     })
 })
 
-userRouter.route('/').put((req: Request, res: Response): void => {
+userRouter.route('/:id').put((req: Request, res: Response): void => {
   const contacts: Contact[] = req.body.contacts.map((contact: { type: string; value: string }): Contact => {
     return contact.type === ContactType.EMAIL
       ? ContactFactory.createMailContact(contact.value)
       : ContactFactory.createSmsContact(contact.value)
   })
   controller
-    .updateUser(req.body.id, req.body.name, req.body.surname, contacts)
+    .updateUser(req.params.id, req.body.name, req.body.surname, contacts)
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'User correctly updated' })
     })

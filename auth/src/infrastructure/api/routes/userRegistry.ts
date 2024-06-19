@@ -39,9 +39,9 @@ userRegistry.route('/').post((req: Request, res: Response): void => {
     })
 })
 
-userRegistry.route('/').put((req: Request, res: Response): void => {
+userRegistry.route('/:id').put((req: Request, res: Response): void => {
   controller
-    .updateUser(req.body.id, req.body.permissions)
+    .updateUser(req.params.id, req.body.permissions)
     .then((): void => {
       res.status(HttpStatusCode.OK).send('User updated')
     })

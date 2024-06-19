@@ -9,7 +9,7 @@ components:
         Device:
             type: object
             properties:
-                ip:
+                ipAddress:
                     type: string
                     description: The ip address of the device
                 port:
@@ -18,3 +18,38 @@ components:
                 locationId:
                     type: string
                     description: The location in which the sensor is placed
+                description:
+                    type: string
+                    description: The description of the device
+                capabilities:
+                    type: array
+                    items:
+                        type: string
+                    description: The capabilities of the device
+
+        DeviceUpdate:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: The unique identifier of the device
+                ipAddress:
+                    type: string
+                    description: The ip address of the device
+                port:
+                    type: integer
+                    description: The port of the device
+                locationId:
+                    type: string
+                    description: The location in which the sensor is placed
+                description:
+                    type: string
+                    description: The description of the device
+                enabled:
+                    type: boolean
+                    description: The status of the device
+                capabilities:
+                    type: array
+                    items:
+                        type: string
+                    description: The capabilities of the device

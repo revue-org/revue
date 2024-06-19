@@ -32,3 +32,15 @@ components:
             items:
                 type: string
                 description: a list of room location ids
+
+        User:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+                permissions:
+                    $ref: "#/components/schemas/Permissions"

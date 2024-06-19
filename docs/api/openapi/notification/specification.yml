@@ -5,7 +5,7 @@ info:
     version: 1.0.0
 tags:
     - name: Notifications
-      description: Notification relatated operations
+      description: Notification related operations
 
 paths:
     /notifications:
@@ -15,20 +15,6 @@ paths:
             responses:
                 200:
                     description: The user notifications
-                403:
-                    description: User not authorized
-        post:
-            description: Add a new notification
-            tags: [Notifications]
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "./schemas.yml#/components/schemas/Notification"
-            responses:
-                201:
-                    description: The notification is correctly created
                 403:
                     description: User not authorized
 
@@ -53,35 +39,15 @@ paths:
                     description: User not authorized
                 404:
                     description: Notification not found
-
-    /notifications/email: # This is not really necessary, but just in case...
-        post:
-            description: Send email notifications
-            tags: [Notifications]
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "./schemas.yml#/components/schemas/Email"
+    /notifications/types/{type}:
+        get:
+            description: Get all user's notifications by type
+            tags: [Notification]
             responses:
                 200:
-                    description: The email notification has been sent
+                    description: The user notifications
                 403:
                     description: User not authorized
+                404:
+                    description: Notification not found
 
-    /notifications/sms: # This is not really necessary, but just in case...
-        post:
-            description: Send sms notifications
-            tags: [Notifications]
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "./schemas.yml#/components/schemas/Sms"
-            responses:
-                200:
-                    description: The sms notification has been sent
-                403:
-                    description: User not authorized

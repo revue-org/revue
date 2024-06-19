@@ -33,12 +33,12 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
-    /users/{userId}:
+    /users/{id}:
         get:
             summary: Get a user by ID
-            tags: [Users]
+            tags: [ Users ]
             parameters:
-                - name: userId
+                - name: id
                   in: path
                   required: true
                   description: The ID of the user to retrieve
@@ -57,9 +57,9 @@ paths:
                     description: User not authorized
         put:
             summary: Update a user by ID
-            tags: [Users]
+            tags: [ Users ]
             parameters:
-                - name: userId
+                - name: id
                   in: path
                   required: true
                   description: The ID of the user to update
@@ -70,7 +70,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "./schemas.yml#/components/schemas/User"
+                            $ref: "./schemas.yml#/components/schemas/UserUpdate"
             responses:
                 200:
                     description: The user was updated
@@ -82,9 +82,9 @@ paths:
                     description: User not authorized
         delete:
             summary: Delete a user by ID
-            tags: [Users]
+            tags: [ Users ]
             parameters:
-                - name: userId
+                - name: id
                   in: path
                   required: true
                   description: The ID of the user to delete

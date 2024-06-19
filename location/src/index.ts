@@ -4,8 +4,10 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
-import { router } from './src/infrastructure/api/routes/locationRouter'
+import { router } from './infrastructure/api/routes/locationRouter'
 import { jwtManager } from '@common/utils/JWTManager'
+import { mongoConnect } from '@common/utils/connection'
+
 config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()

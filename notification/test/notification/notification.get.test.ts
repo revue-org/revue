@@ -13,7 +13,7 @@ describe('GET /notifications/', (): void => {
 
   it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
     // @ts-ignore
-    const notifications: Response = await notificationService.get('/notifications/exceedings')
+    const notifications: Response = await notificationService.get('/notifications/')
     expect(notifications.status).toBe(HttpStatusCode.FORBIDDEN)
   })
 
@@ -25,6 +25,34 @@ describe('GET /notifications/', (): void => {
     expect(notifications.status).toBe(HttpStatusCode.OK)
     expect(notifications.type).toBe('application/json')
   })
+
+  it('retrieve the notification with the current id', async (): Promise<void> => {
+    // @ts-ignore
+    const notifications: Response = await notificationService
+      .get('/notifications/outlier-test-id')
+      .set('Authorization', `Bearer ${TOKEN}`)
+    expect(notifications.status).toBe(HttpStatusCode.OK)
+    expect(notifications.type).toBe('application/json')
+  })
+
+  it('responds with the outliers notifications', async (): Promise<void> => {
+    // @ts-ignore
+    const notifications: Response = await notificationService
+      .get('/notifications/types/outlier')
+      .set('Authorization', `Bearer ${TOKEN}`)
+    expect(notifications.status).toBe(HttpStatusCode.OK)
+    expect(notifications.type).toBe('application/json')
+  })
+
+  it('responds with the intrusion notifications', async (): Promise<void> => {
+    // @ts-ignore
+    const notifications: Response = await notificationService
+      .get('/notifications/types/intrusion')
+      .set('Authorization', `Bearer ${TOKEN}`)
+    expect(notifications.status).toBe(HttpStatusCode.OK)
+    expect(notifications.type).toBe('application/json')
+  })
+
   afterAll(async (): Promise<void> => {
     await disconnectFromMock()
   })

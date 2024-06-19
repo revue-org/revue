@@ -6,6 +6,8 @@ export interface NotificationRepository {
 
   getNotificationById(notificationId: NotificationId): Promise<Notification>
 
+  getNotificationsByType(type: string): Promise<Notification[]>
+
   saveNotification(notification: Notification): Promise<void>
 
   removeNotification(notificationId: NotificationId): Promise<void>

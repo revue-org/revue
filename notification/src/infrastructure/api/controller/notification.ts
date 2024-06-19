@@ -3,41 +3,22 @@ import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBN
 import { NotificationService } from '@/application/services/NotificationService'
 import { NotificationServiceImpl } from '@/application/services/NotificationServiceImpl'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory'
-import { NotificationId } from '@/domain/core/NotificationId'
-import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
-import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
-import { io } from '@/index'
+import { DomainEventType } from 'common/dist/domain/core'
 
 const service: NotificationService = new NotificationServiceImpl(new MongoDBNotificationRepository())
 export const notificationController = {
-  getNotificationById: async (id: string): Promise<Notification> => {
-    return await service.getNotificationById(NotificationFactory.idOf(id))
-  },
   getNotifications: async (): Promise<Notification[]> => {
     return await service.getNotifications()
   },
-  createExceedingNotification: async (
-    id: NotificationId,
-    type: DomainEventType,
-    event: DomainEvent,
-    message: string
-  ): Promise<void> => {
-    await service.createNotification(id, type, event, message)
-    //TODO: NOTIFY THE USER
-    //service.sendMail(notification, contacts)
-    io.emit('notification', { type: 'EXCEEDING' })
+  getNotificationById: async (id: string): Promise<Notification> => {
+    return await service.getNotificationById(NotificationFactory.idOf(id))
   },
-  createIntrusionNotification: async (
-    id: NotificationId,
-    type: DomainEventType,
-    event: DomainEvent,
-    message: string
-  ): Promise<void> => {
-    await service.createNotification(id, type, event, message)
-    //service.sendMail(notification, contacts)
-    io.emit('notification', { type: 'INTRUSION' })
+  getNotificationsByType: async (type: string): Promise<Notification[]> => {
+    return await service.getNotificationsByType(
+      type === 'outlier' ? DomainEventType.OUTLIER : DomainEventType.INTRUSION
+    )
   },
-  deleteNotification: async (id: NotificationId): Promise<void> => {
-    return service.deleteNotification(id)
+  deleteNotification: async (id: string): Promise<void> => {
+    return service.deleteNotification(NotificationFactory.idOf(id))
   }
 }

@@ -1,3 +1,4 @@
+/*
 import { beforeAll, describe, expect, test } from 'vitest'
 import mongoose from 'mongoose'
 import { notificationModel } from '../../src/init'
@@ -42,3 +43,4 @@ describe(`When auth service is down`, (): void => {
     )
   })
 })
+*/

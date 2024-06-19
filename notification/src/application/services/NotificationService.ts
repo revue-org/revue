@@ -8,6 +8,8 @@ export interface NotificationService {
 
   getNotificationById(id: NotificationId): Promise<Notification>
 
+  getNotificationsByType(type: DomainEventType): Promise<Notification[]>
+
   createNotification(
     id: NotificationId,
     type: DomainEventType,

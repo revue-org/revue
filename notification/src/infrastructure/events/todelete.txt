@@ -1,0 +1,3 @@
+da aggiungere:
+
+consumer di anomaly. che usa service.createNotification che si occuperà anche di inviare la notifica al consumer

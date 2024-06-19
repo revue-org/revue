@@ -1,16 +1,9 @@
 import { notificationController } from '@/infrastructure/api/controller/notification.js'
 import express, { Request, Response, Router } from 'express'
-import { Notification } from 'domain/dist/domain/notification/core/Notification.js'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
-import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
-import { ObjectClassConverter } from 'domain/dist/utils/ObjectClassConverter.js'
-import HttpStatusCode from 'domain/dist/utils/HttpStatusCode.js'
-import { ContactTypeConverter } from 'domain/dist/utils/ContactTypeConverter.js'
-import { Contact } from 'domain/dist/domain/monitoring/core/Contact.js'
+import { Notification } from '@/domain/core/Notification'
+import HttpStatusCode from '@utils/HttpStatusCode'
 
 export const notificationRouter: Router = express.Router()
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
 
 notificationRouter.route('/').get((req: Request, res: Response): void => {
   notificationController
@@ -34,49 +27,14 @@ notificationRouter.route('/:id').get((req: Request, res: Response): void => {
     })
 })
 
-notificationRouter.route('/exceedings').post((req: Request, res: Response): void => {
+notificationRouter.route('/types/:type').get((req: Request, res: Response): void => {
   notificationController
-    .createExceedingNotification(
-      req.body.anomalyId,
-      deviceIdFactory.createSensorId(req.body.deviceId.code),
-      MeasureConverter.convertToMeasure(req.body.measure),
-      req.body.value,
-      req.body.contacts.map((contact: any): Contact => {
-        return {
-          type: ContactTypeConverter.convertToContactType(contact.type),
-          value: contact.value
-        }
-      })
-    )
-    .then((): void => {
-      res.status(HttpStatusCode.CREATED).send({ success: 'Notification created' })
+    .getNotificationsByType(req.params.type)
+    .then((notifications: Notification[]): void => {
+      res.status(HttpStatusCode.OK).send(notifications)
     })
     .catch((): void => {
-      res.send({ error: 'Notification not created' })
-    })
-})
-
-notificationRouter.route('/intrusions').post((req: Request, res: Response): void => {
-  console.log(req.body)
-  notificationController
-    .createIntrusionNotification(
-      req.body.anomalyId,
-      deviceIdFactory.createCameraId(req.body.deviceId.code),
-      ObjectClassConverter.convertToObjectClass(req.body.intrusionObject),
-      req.body.contacts.map((contact: any): Contact => {
-        return {
-          type: ContactTypeConverter.convertToContactType(contact.type),
-          value: contact.value
-        }
-      })
-    )
-    .then((): void => {
-      console.log('Notification created')
-      res.status(HttpStatusCode.CREATED).send({ success: 'Notification created' })
-    })
-    .catch((e): void => {
-      console.log(e)
-      res.send({ error: 'Notification not created' })
+      res.send({ error: 'No notifications found' })
     })
 })
 

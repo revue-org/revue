@@ -23,6 +23,10 @@ export class NotificationServiceImpl implements NotificationService {
     return await this.repository.getNotificationById(id)
   }
 
+  async getNotificationsByType(type: DomainEventType): Promise<Notification[]> {
+    return await this.repository.getNotificationsByType(type)
+  }
+
   async createNotification(
     id: NotificationId,
     type: DomainEventType,
@@ -30,6 +34,7 @@ export class NotificationServiceImpl implements NotificationService {
     message: string
   ): Promise<void> {
     await this.repository.saveNotification(NotificationFactory.createNotification(id, type, event, message))
+    //send the notification to the contacts
   }
 
   sendMailNotification(notification: Notification, contacts: Contact[]): void {

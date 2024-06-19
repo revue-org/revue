@@ -1,9 +1,5 @@
 import ffmpeg from 'fluent-ffmpeg'
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
-import { ResolutionFactoryImpl } from '@domain/device/factories/impl/ResolutionFactoryImpl.js'
-import type { Camera } from '@domain/device/core/Camera.js'
 import RequestHelper, {
   mediaServerHost,
   mediaServerRtspPort,
@@ -20,27 +16,6 @@ const CAMERA_CODE = process.env.CAMERA_CODE
 if (CAMERA_CODE === undefined) {
   console.log('No camera code provided')
   process.exit(1)
-}
-
-let sourceCamera: Camera
-
-export const getCameraInfo = async (): Promise<void> => {
-  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
-  console.log('Monitoring URL:', monitoringUrl)
-  try {
-    const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/cameras/${CAMERA_CODE}`)
-    console.log('Response:', res.data)
-    sourceCamera = new DeviceFactoryImpl().createCamera(
-      new DeviceIdFactoryImpl().createCameraId(res.data._id.code),
-      false,
-      res.data.ipAddress,
-      new ResolutionFactoryImpl().createResolution(res.data.resolution.width, res.data.resolution.height)
-    )
-    console.log(sourceCamera)
-  } catch (e) {
-    console.log(e)
-    throw new Error('Error while getting camera info')
-  }
 }
 
 const inputFilePath: string = 'video.mp4'

@@ -5,7 +5,7 @@ import { jwtManager } from './utils/JWTManager.js'
 import cors from 'cors'
 import process from 'process'
 
-import { getCameraInfo, produce } from './producer.js'
+import { produce } from './producer.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -31,7 +31,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Camera server listening on ${PORT}`)
-    await getCameraInfo()
     await produce()
   })
 }

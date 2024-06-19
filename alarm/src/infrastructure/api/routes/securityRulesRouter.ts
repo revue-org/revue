@@ -3,18 +3,17 @@ import { securityRuleController as controller } from '../controllers/securityRul
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { HttpStatusCode } from 'axios'
 import { Contact } from 'common/dist/domain/core/Contact.js'
+import HttpStatusCode from 'common/dist/utils/HttpStatusCode.js'
 
 export const router: Router = express.Router()
 
-
-router.route(':id')
+router.route('/:id')
   .get((req: Request, res: Response): void => {
     controller
       .getSecurityRuleById(req.params.id)
       .then((securityRule: SecurityRule): void => {
-        res.status(HttpStatusCode.Ok).send(securityRule)
+        res.status(HttpStatusCode.OK).send(securityRule)
       })
       .catch((): void => {
         res.send({ error: 'No security rule found' })
@@ -22,30 +21,30 @@ router.route(':id')
   })
   .delete((req: Request, res: Response): void => {
     controller.deleteSecurityRule(req.params.id).then(() => {
-      res.status(HttpStatusCode.Ok).send({ success: 'Security rule correctly deleted' })
+      res.status(HttpStatusCode.OK).send({ success: 'Security rule correctly deleted' })
     }).catch(() => {
       res.send({ error: 'Security rule not deleted' })
     })
   })
 
-router.route(':id/contacts')
+router.route('/:id/contacts')
   .get((req: Request, res: Response): void => {
     controller
       .getSecurityRuleContacts(req.params.id)
       .then((contacts: Contact[]): void => {
-        res.status(HttpStatusCode.Ok).send(contacts)
+        res.status(HttpStatusCode.OK).send(contacts)
       })
       .catch((): void => {
         res.send({ error: 'No contacts found' })
       })
   })
 
-router.route('ranges')
+router.route('/ranges')
   .get((req: Request, res: Response): void => {
     controller
       .getRangeRules()
       .then((rangeRules: RangeRule[]): void => {
-        res.status(HttpStatusCode.Ok).send(rangeRules)
+        res.status(HttpStatusCode.OK).send(rangeRules)
       })
       .catch((): void => {
         res.send({ error: 'No range rules found' })
@@ -54,7 +53,7 @@ router.route('ranges')
   .post((req: Request, res: Response): void => {
     controller
       .createRangeRule(
-        req.body.deviceId,
+        req.body.activeOn,
         req.body.creatorId,
         req.body.description,
         req.body.measure,
@@ -65,19 +64,19 @@ router.route('ranges')
         req.body.contacts
       )
       .then((): void => {
-        res.status(HttpStatusCode.Created).send({ success: 'Range rule created' })
+        res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })
       })
-      .catch((): void => {
+      .catch((e): void => {
         res.send({ error: 'Range rule not created' })
       })
   })
 
-router.route('ranges/:id')
+router.route('/ranges/:id')
   .get((req: Request, res: Response): void => {
     controller
       .getRangeRuleById(req.params.id)
       .then((securityRule: SecurityRule): void => {
-        res.status(HttpStatusCode.Ok).send(securityRule)
+        res.status(HttpStatusCode.OK).send(securityRule)
       })
       .catch((): void => {
         res.send({ error: 'No security rule found' })
@@ -85,7 +84,7 @@ router.route('ranges/:id')
   })
   .put((req: Request, res: Response): void => {
     controller.updateRangeRule(
-      req.body.id,
+      req.params.id,
       req.body.description,
       req.body.min,
       req.body.max,
@@ -93,18 +92,18 @@ router.route('ranges/:id')
       new Date(req.body.to),
       req.body.contacts
     ).then(() => {
-      res.status(HttpStatusCode.Ok).send({ success: 'Range rule updated' })
+      res.status(HttpStatusCode.OK).send({ success: 'Range rule updated' })
     }).catch(() => {
       res.send({ error: 'Range rule not updated' })
     })
   })
 
-router.route('intrusions')
+router.route('/intrusions')
   .get((req: Request, res: Response): void => {
     controller
       .getIntrusionRules()
       .then((intrusionRules: IntrusionRule[]): void => {
-        res.status(HttpStatusCode.Ok).send(intrusionRules)
+        res.status(HttpStatusCode.OK).send(intrusionRules)
       })
       .catch((): void => {
         res.send({ error: 'No intrusion rules found' })
@@ -113,7 +112,7 @@ router.route('intrusions')
   .post((req: Request, res: Response): void => {
     controller
       .createIntrusionRule(
-        req.body.deviceId,
+        req.body.activeOn,
         req.body.creatorId,
         req.body.description,
         req.body.objectClass,
@@ -122,20 +121,19 @@ router.route('intrusions')
         req.body.contacts
       )
       .then((): void => {
-        res.status(HttpStatusCode.Created).send({ success: 'Intrusion rule created' })
+        res.status(HttpStatusCode.CREATED).send({ success: 'Intrusion rule created' })
       })
       .catch((err): void => {
-        console.log(err)
         res.send({ error: 'Intrusion rule not created' })
       })
   })
 
-router.route('intrusions/:id')
+router.route('/intrusions/:id')
   .get((req: Request, res: Response): void => {
     controller
       .getIntrusionRuleById(req.params.id)
       .then((securityRule: SecurityRule): void => {
-        res.status(HttpStatusCode.Ok).send(securityRule)
+        res.status(HttpStatusCode.OK).send(securityRule)
       })
       .catch((): void => {
         res.send({ error: 'No security rule found' })
@@ -143,14 +141,14 @@ router.route('intrusions/:id')
   })
   .put((req: Request, res: Response): void => {
     controller.updateIntrusionRule(
-      req.body.id,
+      req.params.id,
       req.body.description,
       req.body.objectClass,
       new Date(req.body.from),
       new Date(req.body.to),
       req.body.contacts
     ).then(() => {
-      res.status(HttpStatusCode.Ok).send({ success: 'Intrusion rule updated' })
+      res.status(HttpStatusCode.OK).send({ success: 'Intrusion rule updated' })
     }).catch(() => {
       res.send({ error: 'Intrusion rule not updated' })
     })

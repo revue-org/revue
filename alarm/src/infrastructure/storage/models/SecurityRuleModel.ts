@@ -110,7 +110,7 @@ export class SecurityRuleDBAdapter {
         },
         contacts: contacts,
         data: {
-          objectClass: rule.objectClass.toString()
+          objectClass: 'person'
         },
         enabled: rule.enabled
       }

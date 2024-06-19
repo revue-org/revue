@@ -6,7 +6,7 @@ import { securityRuleSchema } from './schemas/SecurityRuleSchema.js'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { SecurityRuleId } from '@/domain/core/rules/SecurityRuleId'
 import { SecurityRuleDBAdapter } from '@/infrastructure/storage/models/SecurityRuleModel.js'
-import {SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
+import { SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
 
 export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   private _model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema)
@@ -51,7 +51,8 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   }
 
   async saveSecurityRule(securityRule: SecurityRule): Promise<void> {
-    await this._model.create(SecurityRuleDBAdapter.asDBEntity(securityRule))
+    await this._model
+      .create(SecurityRuleDBAdapter.asDBEntity(securityRule))
   }
 
   async updateSecurityRule(securityRule: SecurityRule): Promise<void> {

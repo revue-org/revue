@@ -63,20 +63,20 @@ export class AlarmServiceImpl implements AlarmService {
   }
 
   private async checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined> {
-    return this.getActiveIntrusionRules()
-      .then(rules =>
-        rules.find(rule => rule.activeOn === detection.id.value && rule.objectClass === detection.objectClass)
-      )
+    return this.getActiveIntrusionRules().then(rules =>
+      rules.find(rule => rule.activeOn === detection.id.value && rule.objectClass === detection.objectClass)
+    )
   }
 
   private async checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined> {
-    return this.getActiveRangeRules()
-      .then(rules =>
-        rules.find(rule =>
+    return this.getActiveRangeRules().then(rules =>
+      rules.find(
+        rule =>
           rule.activeOn === measurement.id.value &&
           rule.measure === measurement.measure &&
-          (measurement.value < rule.min || measurement.value > rule.max))
+          (measurement.value < rule.min || measurement.value > rule.max)
       )
+    )
   }
 
   private async getActiveRules(): Promise<SecurityRule[]> {

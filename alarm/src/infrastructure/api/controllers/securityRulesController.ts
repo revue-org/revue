@@ -11,9 +11,7 @@ import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 import { KafkaEventsService } from '@/infrastructure/events/KafkaEventsService'
 import { Kafka } from 'kafkajs'
 
-const service: AlarmService = new AlarmServiceImpl(
-  new MongoDBSecurityRuleRepository()
-)
+const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository())
 
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {

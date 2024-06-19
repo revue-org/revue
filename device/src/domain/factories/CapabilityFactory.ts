@@ -1,13 +1,9 @@
-import { CapabilityType } from "@/domain/core/capabilities/CapabilityType";
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
 import { Measure } from '@common/domain/core/Measure'
-import { SensoringCapability } from "@/domain/core/capabilities/SensoringCapability";
+import { SensoringCapability } from '@/domain/core/capabilities/SensoringCapability'
 
 export class CapabilityFactory {
-
-  static sensoringCapabilityOf(
-    capturingInterval: number,
-    measure: Measure
-  ): SensoringCapability {
+  static sensoringCapabilityOf(capturingInterval: number, measure: Measure): SensoringCapability {
     return {
       type: CapabilityType.SENSOR,
       capturingInterval,
@@ -15,13 +11,10 @@ export class CapabilityFactory {
     }
   }
 
-  static videoStreamingCapabilityOf(
-    resolution: '720p' | '1080p' | '4k'
-  ) {
+  static videoStreamingCapabilityOf(resolution: '720p' | '1080p' | '4k') {
     return {
       type: CapabilityType.VIDEO,
       resolution
     }
   }
-
 }

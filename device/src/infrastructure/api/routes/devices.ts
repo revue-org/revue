@@ -6,7 +6,7 @@ import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
 import { CapabilityFactory } from '@/domain/factories/CapabilityFactory'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory'
 import HttpStatusCode from '@common/utils/HttpStatusCode'
-import { DeviceId } from "@/domain/core/DeviceId";
+import { DeviceId } from '@/domain/core/DeviceId'
 
 export const deviceRouter: Router = express.Router()
 
@@ -67,12 +67,20 @@ deviceRouter.route('/:id').put((req: Request, res: Response): void => {
     return capability.type === CapabilityType.VIDEO
       ? CapabilityFactory.videoStreamingCapabilityOf(capability.resolution)
       : CapabilityFactory.sensoringCapabilityOf(
-        capability.capturingInterval,
-        MeasureFactory.createMeasure(capability.measure.type, capability.measure.unit)
-      )
+          capability.capturingInterval,
+          MeasureFactory.createMeasure(capability.measure.type, capability.measure.unit)
+        )
   })
   deviceController
-    .updateDevice(req.params.id, req.body.description, req.body.address, req.body.port, req.body.locationId, req.body.enabled, capabilities)
+    .updateDevice(
+      req.params.id,
+      req.body.description,
+      req.body.address,
+      req.body.port,
+      req.body.locationId,
+      req.body.enabled,
+      capabilities
+    )
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Device correctly updated' })
     })

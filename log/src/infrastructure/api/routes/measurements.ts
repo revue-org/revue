@@ -1,17 +1,30 @@
 import express, { Request, Response, Router } from 'express'
 import { measurementController } from '../controller/measurements.js'
-import { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
+import { Measurement } from 'common/dist/domain/core'
 
-export const environmentDataRouter: Router = express.Router()
+export const measurementRouter: Router = express.Router()
 
-environmentDataRouter.route('/').get((_req: Request, res: Response): void => {
+measurementRouter.route('/').get((req: Request, res: Response): void => {
+  const limit: number = parseInt(req.query.limit as string) || 200
   measurementController
-    .getMeasurements()
-    .then((environmentData: EnvironmentData[]): void => {
-      res.status(HttpStatusCode.OK).send(environmentData)
+    .getMeasurements(limit)
+    .then((measurements: Measurement[]): void => {
+      res.status(HttpStatusCode.OK).send(measurements)
     })
     .catch((): void => {
-      res.send({ error: 'No data found' })
+      res.send({ error: 'No measurements found' })
+    })
+})
+
+measurementRouter.route('/:deviceId').get((req: Request, res: Response): void => {
+  const limit: number = parseInt(req.query.limit as string) || 200
+  measurementController
+    .getMeasurementsBySourceDeviceId(req.params.deviceId, limit)
+    .then((measurements: Measurement[]): void => {
+      res.status(HttpStatusCode.OK).send(measurements)
+    })
+    .catch((): void => {
+      res.send({ error: 'No measurements found' })
     })
 })

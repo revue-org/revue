@@ -1,14 +1,13 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
-import { mongoConnect } from '@utils/connection.js'
+import mongoose from 'mongoose'
 import cors from 'cors'
 import { config } from 'dotenv'
-import { environmentDataRouter } from './routes/environmentData.js'
-import { sensorRouter } from './routes/sensor.js'
+import { mongoConnect } from '@utils/connection.js'
 import { jwtManager } from './utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
-import { setupConsumers } from './consumer.js'
-import mongoose from 'mongoose'
+import { anomalyRouter } from '@/infrastructure/api/routes/anomalies.js'
+import { measurementRouter } from '@/infrastructure/api/routes/measurements'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -33,8 +32,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use('/environment-data', environmentDataRouter)
-app.use('/sensors', sensorRouter)
+app.use('/measurements', measurementRouter)
+app.use('/anomalies', anomalyRouter)
 
 const username: string = process.env.LOG_DB_USERNAME || 'admin'
 const password: string = process.env.LOG_DB_PASSWORD || 'admin'
@@ -49,6 +48,5 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Log server listening on ${process.env.LOG_PORT}`)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    await setupConsumers()
   })
 }

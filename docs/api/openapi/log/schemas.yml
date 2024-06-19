@@ -14,18 +14,6 @@ components:
           type: string
           description: The id of the measurement
 
-    Detection:
-      type: object
-      properties:
-        deviceId:
-          $ref: "../device/schemas.yml#/components/schemas/DeviceId"
-        timestamp:
-          type: string
-          description: The timestamp of the detection
-        objectClass:
-          type: string
-          description: The class of the object detected
-
     Measurement:
       type: object
       properties:
@@ -34,18 +22,18 @@ components:
           description: the timestamp of the measure
         deviceId:
           $ref: "../device/schemas.yml#/components/schemas/DeviceId"
-        measureType:
-          $ref: "#/components/schemas/MeasureType"
+        measure:
+          $ref: "#/components/schemas/Measure"
         value:
           type: number
           description: the value of the measure
 
-    MeasureType:
+    Measure:
       type: object
       properties:
-        type:
+        measureType:
           type: string
           description: the type of the measure, e.g. temperature, humidity, etc.
         unit:
           type: string
-          description: the unit of the measure, e.g. °C, %, etc.
+          description: the unit of the measure, e.g. celsius, fahrenheit, etc.

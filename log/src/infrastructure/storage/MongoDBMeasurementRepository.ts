@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { numericMeasurementSchema } from '@/infrastructure/storage/NumericMeasurementSchema'
 import { Measurement } from 'common/dist/domain/core/Measurement'
 import { MeasurementRepository } from '@/application/repositories/MeasurementRepository'
 import { DomainEventId } from 'common/dist/domain/core/DomainEventId'
@@ -7,11 +6,13 @@ import {
   NumericMeasurementDBAdapter,
   NumericMeasurementDBEntity
 } from '@/infrastructure/storage/models/NumericMeasurementModel'
+import { numericMeasurementSchema } from '@/infrastructure/storage/schemas/NumericMeasurementSchema'
 
 export class MongoDBMeasurementRepository implements MeasurementRepository {
   private _model = mongoose.model<NumericMeasurementDBEntity>(
     'NumericMeasurementSchema',
-    numericMeasurementSchema
+    numericMeasurementSchema,
+    'numericMeasurements'
   )
 
   async getMeasurements(): Promise<Measurement[]> {
@@ -36,13 +37,13 @@ export class MongoDBMeasurementRepository implements MeasurementRepository {
   async updateMeasurement(measurement: Measurement): Promise<void> {
     await this._model.updateOne(
       {
-        id: measurement.id.id
+        id: measurement.id.value
       },
       NumericMeasurementDBAdapter.asDBEntity(measurement)
     )
   }
 
   async removeMeasurement(measurementId: DomainEventId): Promise<void> {
-    await this._model.deleteOne({ id: measurementId.id })
+    await this._model.deleteOne({ id: measurementId.value })
   }
 }

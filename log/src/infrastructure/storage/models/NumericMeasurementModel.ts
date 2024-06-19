@@ -1,12 +1,12 @@
 import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
-import { MeasureType } from '@common/domain/core/MeasureType'
 import { Measurement } from '@common/domain/core/Measurement'
+import { Measure } from 'common/dist/domain/core'
 
 export interface NumericMeasurementDBEntity {
   id: string
   timestamp: Date
   sourceDeviceId: string
-  measureType: MeasureType
+  measure: Measure
   value: number
 }
 
@@ -16,7 +16,7 @@ export class NumericMeasurementDBAdapter {
       MeasurementFactory.idOf(measurement.id),
       measurement.timestamp,
       measurement.sourceDeviceId,
-      measurement.measureType,
+      measurement.measure,
       measurement.value
     )
   }
@@ -26,7 +26,10 @@ export class NumericMeasurementDBAdapter {
       id: measurement.id.value,
       timestamp: measurement.timestamp,
       sourceDeviceId: measurement.sourceDeviceId,
-      measureType: measurement.measureType,
+      measure: {
+        type: measurement.measure.type,
+        unit: measurement.measure.unit
+      },
       value: measurement.value
     }
   }

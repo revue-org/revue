@@ -1,4 +1,4 @@
-import { CapabilityType } from "@/domain/core/capabilities/CapabilityType";
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
 
 export interface VideoStreamingCapability {
   readonly type: CapabilityType.VIDEO

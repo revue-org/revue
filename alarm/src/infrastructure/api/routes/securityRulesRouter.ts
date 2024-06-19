@@ -8,7 +8,8 @@ import HttpStatusCode from 'common/dist/utils/HttpStatusCode.js'
 
 export const router: Router = express.Router()
 
-router.route('/:id')
+router
+  .route('/:id')
   .get((req: Request, res: Response): void => {
     controller
       .getSecurityRuleById(req.params.id)
@@ -20,26 +21,29 @@ router.route('/:id')
       })
   })
   .delete((req: Request, res: Response): void => {
-    controller.deleteSecurityRule(req.params.id).then(() => {
-      res.status(HttpStatusCode.OK).send({ success: 'Security rule correctly deleted' })
-    }).catch(() => {
-      res.send({ error: 'Security rule not deleted' })
-    })
-  })
-
-router.route('/:id/contacts')
-  .get((req: Request, res: Response): void => {
     controller
-      .getSecurityRuleContacts(req.params.id)
-      .then((contacts: Contact[]): void => {
-        res.status(HttpStatusCode.OK).send(contacts)
+      .deleteSecurityRule(req.params.id)
+      .then(() => {
+        res.status(HttpStatusCode.OK).send({ success: 'Security rule correctly deleted' })
       })
-      .catch((): void => {
-        res.send({ error: 'No contacts found' })
+      .catch(() => {
+        res.send({ error: 'Security rule not deleted' })
       })
   })
 
-router.route('/ranges')
+router.route('/:id/contacts').get((req: Request, res: Response): void => {
+  controller
+    .getSecurityRuleContacts(req.params.id)
+    .then((contacts: Contact[]): void => {
+      res.status(HttpStatusCode.OK).send(contacts)
+    })
+    .catch((): void => {
+      res.send({ error: 'No contacts found' })
+    })
+})
+
+router
+  .route('/ranges')
   .get((req: Request, res: Response): void => {
     controller
       .getRangeRules()
@@ -71,7 +75,8 @@ router.route('/ranges')
       })
   })
 
-router.route('/ranges/:id')
+router
+  .route('/ranges/:id')
   .get((req: Request, res: Response): void => {
     controller
       .getRangeRuleById(req.params.id)
@@ -83,22 +88,26 @@ router.route('/ranges/:id')
       })
   })
   .put((req: Request, res: Response): void => {
-    controller.updateRangeRule(
-      req.params.id,
-      req.body.description,
-      req.body.min,
-      req.body.max,
-      new Date(req.body.from),
-      new Date(req.body.to),
-      req.body.contacts
-    ).then(() => {
-      res.status(HttpStatusCode.OK).send({ success: 'Range rule updated' })
-    }).catch(() => {
-      res.send({ error: 'Range rule not updated' })
-    })
+    controller
+      .updateRangeRule(
+        req.params.id,
+        req.body.description,
+        req.body.min,
+        req.body.max,
+        new Date(req.body.from),
+        new Date(req.body.to),
+        req.body.contacts
+      )
+      .then(() => {
+        res.status(HttpStatusCode.OK).send({ success: 'Range rule updated' })
+      })
+      .catch(() => {
+        res.send({ error: 'Range rule not updated' })
+      })
   })
 
-router.route('/intrusions')
+router
+  .route('/intrusions')
   .get((req: Request, res: Response): void => {
     controller
       .getIntrusionRules()
@@ -128,7 +137,8 @@ router.route('/intrusions')
       })
   })
 
-router.route('/intrusions/:id')
+router
+  .route('/intrusions/:id')
   .get((req: Request, res: Response): void => {
     controller
       .getIntrusionRuleById(req.params.id)
@@ -140,16 +150,19 @@ router.route('/intrusions/:id')
       })
   })
   .put((req: Request, res: Response): void => {
-    controller.updateIntrusionRule(
-      req.params.id,
-      req.body.description,
-      req.body.objectClass,
-      new Date(req.body.from),
-      new Date(req.body.to),
-      req.body.contacts
-    ).then(() => {
-      res.status(HttpStatusCode.OK).send({ success: 'Intrusion rule updated' })
-    }).catch(() => {
-      res.send({ error: 'Intrusion rule not updated' })
-    })
+    controller
+      .updateIntrusionRule(
+        req.params.id,
+        req.body.description,
+        req.body.objectClass,
+        new Date(req.body.from),
+        new Date(req.body.to),
+        req.body.contacts
+      )
+      .then(() => {
+        res.status(HttpStatusCode.OK).send({ success: 'Intrusion rule updated' })
+      })
+      .catch(() => {
+        res.send({ error: 'Intrusion rule not updated' })
+      })
   })

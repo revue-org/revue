@@ -51,8 +51,7 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   }
 
   async saveSecurityRule(securityRule: SecurityRule): Promise<void> {
-    await this._model
-      .create(SecurityRuleDBAdapter.asDBEntity(securityRule))
+    await this._model.create(SecurityRuleDBAdapter.asDBEntity(securityRule))
   }
 
   async updateSecurityRule(securityRule: SecurityRule): Promise<void> {

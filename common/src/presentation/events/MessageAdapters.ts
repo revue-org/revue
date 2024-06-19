@@ -1,9 +1,8 @@
 import { anomalySchema, detectionSchema, measurementSchema } from './schemas/MessageSchemas.js'
-import {AnomalyMessage } from './schemas/MessageSchemas.js'
+import { AnomalyMessage } from './schemas/MessageSchemas.js'
 import { Anomaly, Detection, Intrusion, Measurement, Outlier } from '../../domain/core'
 import { AnomalyType } from '../../domain/core'
 import { AnomalyFactory } from '../../domain/factories'
-
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {
@@ -52,7 +51,6 @@ export class AnomaliesAdapter {
       }
     }
   }
-
 }
 
 export class DetectionsAdapter {

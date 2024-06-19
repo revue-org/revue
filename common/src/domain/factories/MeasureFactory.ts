@@ -42,7 +42,6 @@ export class MeasureFactory {
         throw new Error('Invalid measure type')
     }
   }
-
 }
 
 function checkMeasureUnit(unit: MeasureUnit, validUnits: MeasureUnit[]): void {

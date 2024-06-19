@@ -19,20 +19,6 @@ export const anomalyController = {
   getIntrusions: async (): Promise<Intrusion[]> => {
     return await service.getIntrusions()
   },
-  createOutlier: async (
-    timestamp: Date,
-    measurementId: DomainEventId,
-    rangeRuleId: string
-  ): Promise<void> => {
-    await service.createOutlier(timestamp, measurementId, rangeRuleId)
-  },
-  createIntrusion: async (
-    timestamp: Date,
-    detectionId: DomainEventId,
-    intrusionRuleId: string
-  ): Promise<void> => {
-    await service.createIntrusion(timestamp, detectionId, intrusionRuleId)
-  },
   deleteAnomaly: async (id: DomainEventId): Promise<void> => {
     await service.deleteAnomaly(id)
   }

@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { Connect } from 'vite'
 import NextFunction = Connect.NextFunction
 import { config } from 'dotenv'
-import { User } from "@/domain/core/User";
+import { User } from '@/domain/core/User'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -61,18 +61,17 @@ class JWTManager {
     return new Promise((resolve, reject): void => {
       this.jwt.verify(token, this.refreshSecret, async (err: Error, user: User): Promise<void> => {
         if (err) {
-          return reject(new Error('Error verifying token'));
+          return reject(new Error('Error verifying token'))
         }
         try {
-          const verified: User = await callback(err, user);
-          resolve(verified);
+          const verified: User = await callback(err, user)
+          resolve(verified)
         } catch (callbackErr) {
-          reject(callbackErr);
+          reject(callbackErr)
         }
-      });
-    });
+      })
+    })
   }
-
 }
 
 export const jwtManager: JWTManager = new JWTManager()

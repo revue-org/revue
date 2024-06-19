@@ -4,11 +4,11 @@ import { AnomalyDBAdapter, AnomalyDBEntity } from '@/infrastructure/storage/mode
 import { Outlier } from '@common/domain/core/Outlier'
 import { Intrusion } from '@common/domain/core/Intrusion'
 import { DomainEventId } from '@common/domain/core/DomainEventId'
-import { anomalySchema } from '@/infrastructure/storage/AnomalySchema'
 import { Anomaly } from '@common/domain/core/Anomaly'
+import { anomalySchema } from '@/infrastructure/storage/schemas/AnomalySchema'
 
 export class MongoDBAnomalyRepository implements AnomalyRepository {
-  private _model = mongoose.model<AnomalyDBEntity>('AnomalySchema', anomalySchema)
+  private _model = mongoose.model<AnomalyDBEntity>('AnomalySchema', anomalySchema, 'anomaly')
 
   async getOutliers(): Promise<Outlier[]> {
     const outliers = await this._model
@@ -31,7 +31,7 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   async getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly> {
     const anomaly = await this._model
       .findOne({
-        id: anomalyId.id
+        id: anomalyId.value
       })
       .lean()
     if (!anomaly) {
@@ -56,13 +56,13 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   async updateAnomaly(anomaly: Anomaly): Promise<void> {
     await this._model.updateOne(
       {
-        id: anomaly.id.id
+        id: anomaly.id.value
       },
       AnomalyDBAdapter.asDBEntity(anomaly)
     )
   }
 
   async removeAnomaly(anomalyId: DomainEventId): Promise<void> {
-    await this._model.deleteOne({ id: anomalyId.id })
+    await this._model.deleteOne({ id: anomalyId.value })
   }
 }

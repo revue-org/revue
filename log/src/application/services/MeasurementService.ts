@@ -1,16 +1,16 @@
 import { Measurement } from '@common/domain/core/Measurement.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
-import { MeasureType } from 'common/dist/domain/core/MeasureType'
+import { Measure } from 'common/dist/domain/core'
 
 export interface MeasurementService {
-  getMeasurements(): Promise<Measurement[]>
+  getMeasurements(limit: number): Promise<Measurement[]>
 
-  getMeasurementsBySourceDeviceId(deviceId: string, quantity: number): Promise<Measurement[]>
+  getMeasurementsBySourceDeviceId(deviceId: string, limit: number): Promise<Measurement[]>
 
   createNumericMeasurement(
     timestamp: Date,
     sourceDeviceId: string,
-    measureType: MeasureType,
+    measure: Measure,
     value: number
   ): Promise<void>
 

@@ -1,3 +1,4 @@
+/*
 import { Consumer, Kafka } from 'kafkajs'
 
 class KafkaManager {
@@ -26,3 +27,4 @@ if (process.env.NODE_ENV == 'develop') {
 
 const kafkaManager: KafkaManager = new KafkaManager(kafkaHost, kafkaPort)
 export default kafkaManager
+*/

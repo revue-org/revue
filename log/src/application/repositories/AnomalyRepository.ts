@@ -14,7 +14,5 @@ export interface AnomalyRepository {
 
   saveAnomaly(anomaly: Anomaly): Promise<void>
 
-  updateAnomaly(anomaly: Anomaly): Promise<void>
-
   removeAnomaly(anomalyId: DomainEventId): Promise<void>
 }

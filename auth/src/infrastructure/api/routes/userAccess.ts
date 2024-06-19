@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
-import { accessController } from "@/infrastructure/api/controllers/userAccess.js";
-import { User } from "@/domain/core/User";
+import { accessController } from '@/infrastructure/api/controllers/userAccess.js'
+import { User } from '@/domain/core/User'
 
 export const userAccess: Router = express.Router()
 
@@ -42,4 +42,3 @@ userAccess.route('/refresh').post((req: Request, res: Response): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
-

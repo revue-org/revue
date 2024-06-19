@@ -10,8 +10,17 @@ export const numericMeasurementSchema = new Schema({
     type: String,
     required: true
   },
-  measureType: {
-    type: String,
+  measure: {
+    type: {
+      type: {
+        type: String,
+        required: true
+      },
+      unit: {
+        type: String,
+        required: true
+      }
+    },
     required: true
   },
   value: {

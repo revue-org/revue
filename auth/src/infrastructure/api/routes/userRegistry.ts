@@ -54,7 +54,7 @@ userRegistry.route('/:id').delete((req: Request, res: Response): void => {
   registryController
     .deleteUser(req.params.id)
     .then((): void => {
-      res.status(HttpStatusCode.OK).send("User deleted")
+      res.status(HttpStatusCode.OK).send('User deleted')
     })
     .catch((err: Error): void => {
       res.status(HttpStatusCode.BAD_REQUEST).send(err)

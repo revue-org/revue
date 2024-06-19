@@ -21,7 +21,11 @@ export const disconnectFromMock = async (): Promise<void> => {
 }
 
 export const populateSecurityRules = async (): Promise<void> => {
-  const model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema, 'securityRules')
+  const model = mongoose.model<SecurityRuleDBEntity>(
+    'SecurityRuleSchema',
+    securityRuleSchema,
+    'securityRules'
+  )
   await model.create(rangeRuleSample)
   await model.create(intrusionRuleSample)
 }

@@ -1,3 +1,4 @@
+/*
 import { Consumer } from 'kafkajs'
 import { environmentDataController } from '@/controller/environmentData.js'
 import { DeviceIdFactory } from 'domain/dist/domain/device/factories/DeviceIdFactory.js'
@@ -53,3 +54,4 @@ export const getTopics = async (): Promise<string[]> => {
     throw new Error('Error while getting devices infos')
   }
 }
+*/

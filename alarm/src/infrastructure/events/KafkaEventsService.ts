@@ -7,7 +7,11 @@ import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { AxiosResponse } from 'axios'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
 import { AnomalyMessage } from '@presentation/events/schemas/MessageSchemas'
-import { AnomaliesAdapter, DetectionsAdapter, MeasurementsAdapter } from '@presentation/events/MessageAdapters.js'
+import {
+  AnomaliesAdapter,
+  DetectionsAdapter,
+  MeasurementsAdapter
+} from '@presentation/events/MessageAdapters.js'
 
 export class KafkaEventsService implements EventsService {
   private measurementsConsumer: KafkaConsumer

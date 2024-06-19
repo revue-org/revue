@@ -58,5 +58,3 @@ userPermission.route('/:userId').delete((req: Request, res: Response): void => {
       res.status(HttpStatusCode.UNAUTHORIZED).send(err)
     })
 })
-
-

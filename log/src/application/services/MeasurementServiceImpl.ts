@@ -2,8 +2,8 @@ import { MeasurementService } from '@/application/services/MeasurementService'
 import { MeasurementRepository } from '@/application/repositories/MeasurementRepository'
 import { Measurement } from '@common/domain/core/Measurement.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
-import { MeasureType } from 'common/dist/domain/core/MeasureType'
 import { MeasurementFactory } from 'common/dist/domain/factories/MeasurementFactory'
+import { Measure } from 'common/dist/domain/core'
 
 export class MeasurementServiceImpl implements MeasurementService {
   private repository: MeasurementRepository
@@ -23,7 +23,7 @@ export class MeasurementServiceImpl implements MeasurementService {
   async createNumericMeasurement(
     timestamp: Date,
     sourceDeviceId: string,
-    measureType: MeasureType,
+    measure: Measure,
     value: number
   ): Promise<void> {
     await this.repository.saveMeasurement(
@@ -31,7 +31,7 @@ export class MeasurementServiceImpl implements MeasurementService {
         MeasurementFactory.newId(),
         timestamp,
         sourceDeviceId,
-        measureType,
+        measure,
         value
       )
     )

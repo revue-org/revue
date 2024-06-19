@@ -1,4 +1,4 @@
 export enum CapabilityType {
-  VIDEO = "video",
-  SENSOR = "sensor"
+  VIDEO = 'video',
+  SENSOR = 'sensor'
 }

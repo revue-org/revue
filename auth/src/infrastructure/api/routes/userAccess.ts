@@ -1,12 +1,12 @@
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
-import { controller } from "@/infrastructure/api/controllers/user.js";
+import { accessController } from "@/infrastructure/api/controllers/userAccess.js";
 import { User } from "@/domain/core/User";
 
 export const userAccess: Router = express.Router()
 
 userAccess.route('/login').post((req: Request, res: Response): void => {
-  controller
+  accessController
     .login(req.body.username, req.body.password)
     .then((user: User): void => {
       res.status(HttpStatusCode.OK).send(user)
@@ -22,7 +22,7 @@ userAccess.route('/logout').post((req: Request, res: Response): void => {
     res.status(HttpStatusCode.UNAUTHORIZED).send('No authentication token')
   const token: string =
     req.headers['authorization'] === undefined ? '' : req.headers['authorization'].split(' ')[1]
-  controller
+  accessController
     .logout(token, req.body.username)
     .then((): void => {
       res.status(HttpStatusCode.OK).send('User logged out')
@@ -33,7 +33,7 @@ userAccess.route('/logout').post((req: Request, res: Response): void => {
 })
 
 userAccess.route('/refresh').post((req: Request, res: Response): void => {
-  controller
+  accessController
     .refreshToken(req.body.refreshToken)
     .then((user: User): void => {
       res.status(HttpStatusCode.OK).send(user)

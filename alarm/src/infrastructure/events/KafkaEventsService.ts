@@ -1,4 +1,4 @@
-import { EventsService } from '@/application/services/EventsService'
+import { EventsHub } from '@/application/services/EventsHub'
 import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
@@ -6,14 +6,14 @@ import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { AxiosResponse } from 'axios'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
-import { AnomalyMessage } from '@presentation/events/schemas/MessageSchemas'
+import { AnomalyMessage } from '@presentation/events/schemas/AnomalySchema'
 import {
   AnomaliesAdapter,
   DetectionsAdapter,
   MeasurementsAdapter
 } from '@presentation/events/MessageAdapters.js'
 
-export class KafkaEventsService implements EventsService {
+export class KafkaEventsService implements EventsHub {
   private measurementsConsumer: KafkaConsumer
   private detectionsConsumer: KafkaConsumer
   private anomalyProducer: KafkaProducer

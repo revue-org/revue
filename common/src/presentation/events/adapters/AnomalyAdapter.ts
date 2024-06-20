@@ -1,8 +1,6 @@
-import { anomalySchema, detectionSchema, measurementSchema } from './schemas/MessageSchemas.js'
-import { AnomalyMessage } from './schemas/MessageSchemas.js'
-import { Anomaly, Detection, Intrusion, Measurement, Outlier } from '../../domain/core'
-import { AnomalyType } from '../../domain/core'
-import { AnomalyFactory } from '../../domain/factories'
+import { Anomaly, AnomalyType, Intrusion, Outlier } from '../../../domain/core'
+import { AnomalyFactory } from '../../../domain/factories'
+import { AnomalyMessage, anomalySchema } from '../schemas/AnomalySchema'
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {
@@ -50,25 +48,5 @@ export class AnomaliesAdapter {
         }
       }
     }
-  }
-}
-
-export class DetectionsAdapter {
-  static asDomainEvent(detectionObj: object): Detection {
-    return detectionSchema.parse(detectionObj)
-  }
-
-  static asMessage(detection: Detection): object {
-    return { ...detection }
-  }
-}
-
-export class MeasurementsAdapter {
-  static asDomainEvent(measurementObj: object): Measurement {
-    return measurementSchema.parse(measurementObj)
-  }
-
-  static asMessage(measurement: Measurement): object {
-    return { ...measurement }
   }
 }

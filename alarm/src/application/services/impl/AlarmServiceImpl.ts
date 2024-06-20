@@ -14,15 +14,15 @@ import {
   ObjectClass,
   Outlier
 } from '@common/domain/core'
-import { EventsService } from '../EventsService'
+import { EventsHub } from '../EventsHub'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
-  private events: EventsService
+  private events: EventsHub
 
   constructor(repository: SecurityRuleRepository) {
     this.repository = repository
-    this.events = {} as EventsService
+    this.events = {} as EventsHub
     // this.configureEvents()
   }
 

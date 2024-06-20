@@ -1,9 +1,6 @@
 import ffmpeg from 'fluent-ffmpeg'
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg'
-import {
-  mediaServerHost,
-  mediaServerRtspPort,
-} from '@/utils/RequestHelper.js'
+import { mediaServerHost, mediaServerRtspPort } from '@/utils/RequestHelper.js'
 import path from 'path'
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path)

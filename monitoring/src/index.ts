@@ -1,12 +1,12 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
-import { mongoConnect } from 'domain/dist/utils/connection.js'
 import cors from 'cors'
 import { config } from 'dotenv'
 import { jwtManager } from 'common/dist/utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
 import { setupConsumers } from './consumer.js'
+import { mongoConnect } from 'common/dist/utils/connection.js'
 import mongoose from 'mongoose'
 
 config({ path: process.cwd() + '/../.env' })

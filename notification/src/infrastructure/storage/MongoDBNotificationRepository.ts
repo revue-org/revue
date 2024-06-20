@@ -9,7 +9,11 @@ import {
 } from '@/infrastructure/storage/models/NotificationModel'
 
 export class MongoDBNotificationRepository implements NotificationRepository {
-  private _model = mongoose.model<NotificationDBEntity>('NotificationSchema', notificationSchema, 'notification')
+  private _model = mongoose.model<NotificationDBEntity>(
+    'NotificationSchema',
+    notificationSchema,
+    'notification'
+  )
 
   async getNotifications(): Promise<Notification[]> {
     return this._model

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { intrusionSample, outlierSample } from "../resources/notificationSample.js";
+import { intrusionSample, outlierSample } from '../resources/notificationSample.js'
 import { NotificationDBEntity } from '@/infrastructure/storage/models/NotificationModel'
 import { notificationSchema } from '@/infrastructure/storage/schemas/NotificationSchema'
 

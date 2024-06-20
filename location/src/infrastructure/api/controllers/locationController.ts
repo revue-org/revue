@@ -35,4 +35,3 @@ export const locationsController = {
     return service.getBuildingRooms(LocationFactory.idOf(buildingId))
   }
 }
-

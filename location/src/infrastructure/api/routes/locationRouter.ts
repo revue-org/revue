@@ -4,7 +4,8 @@ import { locationsController } from '../controllers/locationController'
 
 export const router: Router = express.Router()
 
-router.route('/:id')
+router
+  .route('/:id')
   .get((req: Request, res: Response) => {
     try {
       const location = locationsController.getLocationById(req.params.id)
@@ -22,7 +23,8 @@ router.route('/:id')
     }
   })
 
-router.route('/rooms')
+router
+  .route('/rooms')
   .get(async (req: Request, res: Response) => {
     try {
       const rooms = await locationsController.getRooms()
@@ -40,17 +42,17 @@ router.route('/rooms')
     }
   })
 
-router.route('/rooms/:id')
-  .put(async (req: Request, res: Response) => {
-    try {
-      await locationsController.updateRoom(req.params.id, req.body.description)
-      res.status(HttpStatusCode.OK).json()
-    } catch (error) {
-      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: 'error' })
-    }
-  })
+router.route('/rooms/:id').put(async (req: Request, res: Response) => {
+  try {
+    await locationsController.updateRoom(req.params.id, req.body.description)
+    res.status(HttpStatusCode.OK).json()
+  } catch (error) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: 'error' })
+  }
+})
 
-router.route('/buildings')
+router
+  .route('/buildings')
   .get(async (req: Request, res: Response) => {
     try {
       const buildings = await locationsController.getBuildings()
@@ -68,22 +70,25 @@ router.route('/buildings')
     }
   })
 
-router.route('/buildings/:id')
-  .put(async (req: Request, res: Response) => {
-    try {
-      await locationsController.updateBuilding(req.params.id, req.body.description, req.body.address, req.body.external)
-      res.status(HttpStatusCode.OK).json()
-    } catch (error) {
-      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: 'error' })
-    }
-  })
+router.route('/buildings/:id').put(async (req: Request, res: Response) => {
+  try {
+    await locationsController.updateBuilding(
+      req.params.id,
+      req.body.description,
+      req.body.address,
+      req.body.external
+    )
+    res.status(HttpStatusCode.OK).json()
+  } catch (error) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: 'error' })
+  }
+})
 
-router.route('/buildings/:buildingId/rooms')
-  .get(async (req: Request, res: Response) => {
-    try {
-      const rooms = await locationsController.getBuildingRooms(req.params.buildingId)
-      res.status(HttpStatusCode.OK).json(rooms)
-    } catch (error) {
-      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: 'error' })
-    }
-  })
+router.route('/buildings/:buildingId/rooms').get(async (req: Request, res: Response) => {
+  try {
+    const rooms = await locationsController.getBuildingRooms(req.params.buildingId)
+    res.status(HttpStatusCode.OK).json(rooms)
+  } catch (error) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: 'error' })
+  }
+})

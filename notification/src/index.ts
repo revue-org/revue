@@ -25,13 +25,16 @@ export const io: SocketIOServer = new SocketIOServer(server, {
   }
 })
 
-io.use(async function(socket, next): Promise<void> {
+io.use(async function (socket, next): Promise<void> {
   //TODO NB, to test
   if (socket.handshake.query && socket.handshake.query.token) {
     console.log('middleware socket validation: ' + socket.handshake.query.token)
-    if (await jwtManager.verify(socket.handshake.query.token as string, async (err: any): Promise<boolean> => {
-      return !err
-    })) next()
+    if (
+      await jwtManager.verify(socket.handshake.query.token as string, async (err: any): Promise<boolean> => {
+        return !err
+      })
+    )
+      next()
   } else {
     next(new Error('Authentication error'))
   }

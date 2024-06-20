@@ -70,7 +70,7 @@ router
       .then((): void => {
         res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })
       })
-      .catch((e): void => {
+      .catch((): void => {
         res.send({ error: 'Range rule not created' })
       })
   })
@@ -132,7 +132,7 @@ router
       .then((): void => {
         res.status(HttpStatusCode.CREATED).send({ success: 'Intrusion rule created' })
       })
-      .catch((err): void => {
+      .catch((): void => {
         res.send({ error: 'Intrusion rule not created' })
       })
   })

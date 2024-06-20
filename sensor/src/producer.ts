@@ -1,7 +1,3 @@
-import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
-import { Kafka, Partitioners, Producer } from 'kafkajs'
-import { AxiosResponse } from 'axios'
-
 const SENSOR_CODE = process.env.SENSOR_CODE
 
 if (SENSOR_CODE === undefined) {
@@ -31,19 +27,19 @@ export const getSensorInfo = async (): Promise<void> => {
   }*/
 }
 
-let kafkaHost: string = process.env.KAFKA_HOST || 'revue-kafka'
+/*let kafkaHost: string = process.env.KAFKA_HOST || 'revue-kafka'
 let kafkaPort: string = process.env.KAFKA_PORT || '9092'
 
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
   kafkaHost = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
   kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
-}
+}*/
 
-const kafka: Kafka = new Kafka({
+/*const kafka: Kafka = new Kafka({
   clientId: `SENSOR_${SENSOR_CODE}`,
   brokers: [`${kafkaHost}:${kafkaPort}`]
-})
+})*/
 
 /*const environmentDataFactory = new EnvironmentDataFactoryImpl()
 

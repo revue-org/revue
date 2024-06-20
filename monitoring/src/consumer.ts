@@ -61,7 +61,7 @@ export const setupConsumers = async (): Promise<void> => {
       }
     })
 
-    socket.on('subscribe', async (topics: string[]): Promise<void> => {
+    socket.on('subscribe', async (_: string[]): Promise<void> => {
       /*console.log('Subscribing to topics', topics)
       console.log('Consumers:', consumers)
       let consumer: Consumer | undefined = getConsumerById(socket.id)

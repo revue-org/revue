@@ -2,7 +2,6 @@ import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
-import { getSensorInfo } from './producer.js'
 
 config({ path: process.cwd() + '/../.env' })
 

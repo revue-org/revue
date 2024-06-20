@@ -9,7 +9,6 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": path.resolve(__dirname, "src/"),
         "@common": path.resolve(__dirname, "node_modules/common/dist/"),
-        "@domain": path.resolve(__dirname, "node_modules/common/dist/domain/"),
         "@application": path.resolve(__dirname, "node_modules/common/dist/application/"),
         "@infrastructure": path.resolve(__dirname, "node_modules/common/dist/infrastructure/"),
         "@utils": path.resolve(__dirname, "node_modules/common/dist/utils/"),

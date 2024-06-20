@@ -37,8 +37,7 @@ rootProject.name = "revue"
 
 include(
     "location",
-    "device",
-    "domain", 
+    "device", 
     "common", 
     "monitoring", 
     //"frontend", 

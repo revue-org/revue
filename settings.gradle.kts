@@ -41,7 +41,7 @@ include(
     "domain", 
     "common", 
     "monitoring", 
-    "frontend", 
+    //"frontend", 
     "auth", 
     "alarm", 
     "notification", 

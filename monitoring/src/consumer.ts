@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io'
 import { Consumer } from 'kafkajs'
 import { io } from './index.js'
-import kafkaManager from './utils/KafkaManager.js'
+// import kafkaManager from './utils/KafkaManager.js'
 
 const consumers: { id: string; consumer: Consumer }[] = []
 
@@ -62,7 +62,7 @@ export const setupConsumers = async (): Promise<void> => {
     })
 
     socket.on('subscribe', async (topics: string[]): Promise<void> => {
-      console.log('Subscribing to topics', topics)
+      /*console.log('Subscribing to topics', topics)
       console.log('Consumers:', consumers)
       let consumer: Consumer | undefined = getConsumerById(socket.id)
       if (consumer === undefined) {
@@ -74,7 +74,7 @@ export const setupConsumers = async (): Promise<void> => {
 
       consumers.push({ id: socket.id, consumer })
       console.log('Consumers', consumers)
-      socket.emit('subscribed')
+      socket.emit('subscribed')*/
     })
   })
 }

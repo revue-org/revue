@@ -7,7 +7,7 @@ import { notificationRouter } from '@/infrastructure/api/routes/notification.js'
 import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
-import { jwtManager } from '@utils/jwtManager.js'
+import { jwtManager } from '@utils/JWTManager.js'
 
 config({ path: process.cwd() + '/../.env' })
 

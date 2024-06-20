@@ -12,8 +12,8 @@ export class MeasurementServiceImpl implements MeasurementService {
     this.repository = repository
   }
 
-  async getMeasurements(): Promise<Measurement[]> {
-    return this.repository.getMeasurements()
+  async getMeasurements(limit: number): Promise<Measurement[]> {
+    return this.repository.getMeasurements(limit)
   }
 
   async getMeasurementsBySourceDeviceId(deviceId: string, quantity: number): Promise<Measurement[]> {

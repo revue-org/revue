@@ -1,10 +1,9 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
-import { mongoConnect } from '@utils/connection.js'
+import { mongoConnect } from 'domain/dist/utils/connection.js'
 import cors from 'cors'
 import { config } from 'dotenv'
-import { deviceRouter } from './routes/device.js'
-import { jwtManager } from './utils/JWTManager.js'
+import { jwtManager } from 'common/dist/utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
 import { setupConsumers } from './consumer.js'
@@ -26,7 +25,7 @@ export const io: SocketIOServer = new SocketIOServer(server, {
 io.use(function (socket, next): void {
   if (socket.handshake.query && socket.handshake.query.token) {
     console.log('middleware socket validation: ' + socket.handshake.query.token)
-    if (jwtManager.verify(socket.handshake.query.token as string)) next()
+    // if (jwtManager.verify(socket.handshake.query.token as string)) next()
   } else {
     next(new Error('Authentication error'))
   }
@@ -40,7 +39,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = (authHeader && authHeader.split(' ')[1]) || ''
 
-  if (jwtManager.admittedTokens().includes(token)) return next()
+  // if (jwtManager.admittedTokens().includes(token)) return next()
   if (token === undefined || token === '') return res.status(403).send({ error: 'No authentication token' })
   else {
     console.log('Authentication token: ' + token)
@@ -48,7 +47,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use('/devices', deviceRouter)
+// app.use('/devices', deviceRouter)
 
 const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
 const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'

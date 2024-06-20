@@ -168,3 +168,5 @@ docs/**/*.gz
 docs/**/*.bbl
 docs/**/*.blg
 
+.vscode/
+

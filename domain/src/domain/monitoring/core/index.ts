@@ -1,5 +1,0 @@
-export * from './Contact'
-export * from './User'
-export * from './impl/ContactImpl'
-export * from './impl/UserImpl'
-export * from './impl/enum/ContactType'

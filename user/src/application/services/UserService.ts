@@ -1,6 +1,6 @@
 import { User } from '@/domain/core/User.js'
-import { UserId } from "@/domain/core/UserId.js";
-import { Contact } from "@common/domain/core/Contact.js";
+import { UserId } from '@/domain/core/UserId.js'
+import { Contact } from '@common/domain/core/Contact.js'
 
 export interface UserService {
   getUsers(): Promise<User[]>

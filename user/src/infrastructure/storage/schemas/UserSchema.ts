@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { ContactType } from "common/dist/domain/core/ContactType.js";
+import { ContactType } from 'common/dist/domain/core/ContactType.js'
 
 const contactSchema = new Schema({
   type: {
@@ -11,7 +11,7 @@ const contactSchema = new Schema({
     type: String,
     required: true
   }
-});
+})
 
 export const userSchema = new Schema({
   id: {

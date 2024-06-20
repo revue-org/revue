@@ -1,7 +1,7 @@
 import { z, ZodType } from 'zod'
 import { Detection, Measurement } from '../../../domain/core'
 import { AnomalyType, MeasureType, MeasureUnit, ObjectClass } from '../../../domain/core'
-// import { AnomalyType } from '../../../domain/core/AnomalyType.js'
+
 export type AnomalyMessage = {
   id: string
   type: AnomalyType

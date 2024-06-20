@@ -34,9 +34,6 @@
       "@common/*": [
         "./node_modules/common/dist/*"
       ],
-      "@domain/*": [
-        "./node_modules/common/dist/domain/*",
-      ],
       "@application/*": [
         "./node_modules/common/dist/application/*"
       ],

@@ -1,11 +1,3 @@
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure.js'
-import { MeasureUnit } from 'domain/dist/domain/device/core/impl/enum/MeasureUnit.js'
-import type { Sensor } from 'domain/dist/domain/device/core/Sensor.js'
-import type { EnvironmentData } from 'domain/dist/domain/device/core/EnvironmentData.js'
-import { DeviceFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceFactoryImpl.js'
-import { DeviceIdFactoryImpl } from 'domain/dist/domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
-import { MeasureConverter } from 'domain/dist/utils/MeasureConverter.js'
 import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { AxiosResponse } from 'axios'
@@ -17,10 +9,10 @@ if (SENSOR_CODE === undefined) {
   process.exit(1)
 }
 
-let sourceSensor: Sensor
+// let sourceSensor: Sensor
 
 export const getSensorInfo = async (): Promise<void> => {
-  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  /*const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
   try {
     const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
     sourceSensor = new DeviceFactoryImpl().createSensor(
@@ -36,7 +28,7 @@ export const getSensorInfo = async (): Promise<void> => {
   } catch (e) {
     console.log(e)
     throw new Error('Error while getting sensor info')
-  }
+  }*/
 }
 
 let kafkaHost: string = process.env.KAFKA_HOST || 'revue-kafka'
@@ -53,7 +45,7 @@ const kafka: Kafka = new Kafka({
   brokers: [`${kafkaHost}:${kafkaPort}`]
 })
 
-const environmentDataFactory = new EnvironmentDataFactoryImpl()
+/*const environmentDataFactory = new EnvironmentDataFactoryImpl()
 
 export const produce = async (): Promise<void> => {
   const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
@@ -107,4 +99,4 @@ const generateRandomValue = (measure: Measure): number => {
     default:
       throw new Error('Measure unit not found')
   }
-}
+}*/

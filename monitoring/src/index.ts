@@ -1,13 +1,12 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
+import mongoose from 'mongoose'
 import cors from 'cors'
 import { config } from 'dotenv'
-import { jwtManager } from 'common/dist/utils/JWTManager.js'
+import { jwtManager } from '@utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
-import { setupConsumers } from './consumer.js'
 import { mongoConnect } from 'common/dist/utils/connection.js'
-import mongoose from 'mongoose'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -21,11 +20,16 @@ export const io: SocketIOServer = new SocketIOServer(server, {
     origin: '*'
   }
 })
-
-io.use(function (socket, next): void {
+io.use(async function (socket, next): Promise<void> {
+  //TODO NB, to test
   if (socket.handshake.query && socket.handshake.query.token) {
     console.log('middleware socket validation: ' + socket.handshake.query.token)
-    // if (jwtManager.verify(socket.handshake.query.token as string)) next()
+    if (
+      await jwtManager.verify(socket.handshake.query.token as string, async (err: any): Promise<boolean> => {
+        return !err
+      })
+    )
+      next()
   } else {
     next(new Error('Authentication error'))
   }
@@ -37,17 +41,14 @@ const PORT: number = Number(process.env.MONITORING_PORT) || 4000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
-  const token = (authHeader && authHeader.split(' ')[1]) || ''
-
-  // if (jwtManager.admittedTokens().includes(token)) return next()
+  const token: string = (authHeader && authHeader.split(' ')[1]) || ''
+  if (token === process.env.DEV_API_KEY) return next()
   if (token === undefined || token === '') return res.status(403).send({ error: 'No authentication token' })
   else {
     console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)
   }
 })
-
-// app.use('/devices', deviceRouter)
 
 const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
 const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
@@ -63,6 +64,6 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    await setupConsumers()
+    //TODO: here or where we want we have to trigger the broker client to start consuming and sending to the user the measurements
   })
 }

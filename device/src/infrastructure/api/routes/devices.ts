@@ -10,7 +10,12 @@ import { DeviceId } from '@/domain/core/DeviceId'
 
 export const deviceRouter: Router = express.Router()
 
-deviceRouter.route('/').get((_req: Request, res: Response): void => {
+deviceRouter.route('/').get((req: Request, res: Response): void => {
+  // get capabilities from the request in query params
+  console.log(req.query.capabilities)
+  const capabilities: CapabilityType[] = req.query.capabilities as CapabilityType[]
+  //TODO WIP
+
   deviceController
     .getDevices()
     .then((devices: Device[]): void => {

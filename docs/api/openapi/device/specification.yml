@@ -12,6 +12,15 @@ paths:
         get:
             summary: Get all devices
             tags: [ Devices ]
+            parameters:
+                -   in: query
+                    name: capabilities
+                    required: false
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    description: The capabilities that the devices must have
             responses:
                 200:
                     description: The list of all devices to which the user has access

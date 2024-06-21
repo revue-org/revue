@@ -5,12 +5,22 @@ import { Intrusion } from '@common/domain/core/Intrusion.js'
 import { Outlier } from '@common/domain/core/Outlier.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 import { AnomalyFactory } from 'common/dist/domain/factories/AnomalyFactory'
+import { LogEventsHub } from '@/application/services/LogEventsHub'
 
 export class AnomalyServiceImpl implements AnomalyService {
   private repository: AnomalyRepository
+  private readonly events: LogEventsHub
 
-  constructor(repository: AnomalyRepository) {
+  constructor(repository: AnomalyRepository, events: LogEventsHub) {
     this.repository = repository
+    this.events = events
+    this.configureEvents()
+  }
+
+  private configureEvents(): void {
+    this.events.subscribeToAnomalies((anomaly: Anomaly): void => {
+      this.repository.saveAnomaly(anomaly)
+    })
   }
 
   async getAnomalies(): Promise<Anomaly[]> {

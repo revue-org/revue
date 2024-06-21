@@ -4,12 +4,22 @@ import { Measurement } from '@common/domain/core/Measurement.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 import { MeasurementFactory } from 'common/dist/domain/factories/MeasurementFactory'
 import { Measure } from 'common/dist/domain/core'
+import { LogEventsHub } from '@/application/services/LogEventsHub'
 
 export class MeasurementServiceImpl implements MeasurementService {
   private repository: MeasurementRepository
+  private events: LogEventsHub
 
-  constructor(repository: MeasurementRepository) {
+  constructor(repository: MeasurementRepository, events: LogEventsHub) {
     this.repository = repository
+    this.events = events
+    // this.configureEvents()
+  }
+
+  private configureEvents(): void {
+    this.events.subscribeToMeasurements((measurement: Measurement): void => {
+      this.repository.saveMeasurement(measurement)
+    })
   }
 
   async getMeasurements(limit: number): Promise<Measurement[]> {

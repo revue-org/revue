@@ -1,4 +1,4 @@
-import { EventsHub } from '@/application/services/EventsHub'
+import { AlarmEventsHub } from '@/application/services/AlarmEventsHub'
 import { Anomaly, Detection, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
@@ -11,7 +11,7 @@ import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter'
 import { DetectionsAdapter } from '@presentation/events/adapters/DetectionAdapter'
 import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter'
 
-export class KafkaEventsService implements EventsHub {
+export class KafkaAlarmEventsService implements AlarmEventsHub {
   private measurementsConsumer: KafkaConsumer
   private detectionsConsumer: KafkaConsumer
   private anomalyProducer: KafkaProducer

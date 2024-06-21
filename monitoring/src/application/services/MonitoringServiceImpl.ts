@@ -14,6 +14,7 @@ export class MonitoringServiceImpl implements MonitoringService {
         origin: '*'
       }
     })
+    // this.configureEvents()
   }
 
   private configureEvents(): void {

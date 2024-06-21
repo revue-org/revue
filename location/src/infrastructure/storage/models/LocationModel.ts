@@ -2,6 +2,7 @@ import { Location } from '@/domain/core/Location'
 import { LocationFactory } from '@/domain/factories/LocationFactory'
 
 export interface LocationDBEntity {
+  locationId: string
   description: string
   address?: string
   external?: boolean
@@ -12,13 +13,23 @@ export interface LocationDBEntity {
 export class LocationDBAdapter {
   static asDomainEntity(location: LocationDBEntity): Location {
     if (location.isRoom) {
-      return LocationFactory.newRoom(location.description, LocationFactory.idOf(location.buildingId!))
+      return LocationFactory.roomFrom(
+          LocationFactory.idOf(location.locationId),
+          location.description,
+          LocationFactory.idOf(location.buildingId!)
+      )
     }
-    return LocationFactory.newBuilding(location.description, location.address!, location.external!)
+    return LocationFactory.buildingFrom(
+        LocationFactory.idOf(location.locationId),
+        location.description,
+        location.address!,
+        location.external!
+    )
   }
 
   static asDBEntity(location: Location): LocationDBEntity {
     return {
+      locationId: location.locationId.value,
       description: location.description,
       address: location.address,
       external: location.isExternal,

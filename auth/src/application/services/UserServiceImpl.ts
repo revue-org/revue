@@ -20,7 +20,7 @@ export class UserServiceImpl implements UserService {
     if (!match) throw new Error('Wrong password')
     const accessToken: string = jwtManager.generateAccessToken(user)
     const refreshToken: string = jwtManager.generateRefreshToken(user)
-    const update: User = UserFactory.createUser(
+    const update: User = UserFactory.userFrom(
       user.id,
       user.username,
       user.password,
@@ -36,7 +36,7 @@ export class UserServiceImpl implements UserService {
     const user: User = await this.repository.getUserByUsername(username)
     if (!user) throw new Error('User not found')
     return await this.repository.updateUser(
-      UserFactory.createUser(user.id, user.username, user.password, user.permissions, '', '')
+      UserFactory.userFrom(user.id, user.username, user.password, user.permissions, '', '')
     )
   }
 
@@ -44,7 +44,7 @@ export class UserServiceImpl implements UserService {
     if (refreshToken == null || refreshToken === '') throw new Error('Refresh token not valid')
     return await jwtManager.verify(refreshToken, async (err: Error, user: User): Promise<User> => {
       if (err) throw new Error('Error verifying token')
-      const update: User = UserFactory.createUser(
+      const update: User = UserFactory.userFrom(
         user.id,
         user.username,
         user.password,
@@ -79,7 +79,7 @@ export class UserServiceImpl implements UserService {
 
   async createUser(username: string, password: string, permissions: string[]): Promise<UserId> {
     const hashedPassword: string = await bcrypt.hash(password, 10)
-    const user: User = UserFactory.createUser(
+    const user: User = UserFactory.userFrom(
       UserFactory.newId(),
       username,
       hashedPassword,

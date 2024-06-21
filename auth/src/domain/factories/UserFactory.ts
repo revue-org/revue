@@ -10,7 +10,7 @@ export class UserFactory {
     return { value }
   }
 
-  static createUser(
+  static userFrom(
     id: UserId,
     username: string,
     password: string,
@@ -26,5 +26,15 @@ export class UserFactory {
       accessToken,
       refreshToken
     }
+  }
+
+  static createUser(
+    username: string,
+    password: string,
+    permissions: string[],
+    accessToken: string,
+    refreshToken: string
+  ): User {
+    return this.userFrom(this.newId(), username, password, permissions, accessToken, refreshToken)
   }
 }

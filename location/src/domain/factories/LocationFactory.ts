@@ -10,22 +10,30 @@ export class LocationFactory {
     return { value: id }
   }
 
-  static newRoom(description: string, buildingId: LocationId): Location {
-    return {
-      locationId: this.newId(),
+  static roomFrom(id: LocationId, description: string, buildingId: LocationId): Location {
+      return {
+      locationId: id,
       description,
       buildingId,
       isRoom: true
-    }
+      }
   }
 
-  static newBuilding(description: string, address: string, isExternal: boolean): Location {
+  static createRoom(description: string, buildingId: LocationId): Location {
+    return this.roomFrom(this.newId(), description, buildingId)
+  }
+
+  static buildingFrom(id: LocationId, description: string, address: string, isExternal: boolean): Location {
     return {
-      locationId: this.newId(),
+      locationId: id,
       description,
       address,
       isExternal,
       isRoom: false
     }
+  }
+
+  static createBuilding(description: string, address: string, isExternal: boolean): Location {
+    return this.buildingFrom(this.newId(), description, address, isExternal)
   }
 }

@@ -12,11 +12,11 @@ export class LocationServiceImpl implements LocationService {
   }
 
   async createRoom(description: string, buildingId: LocationId): Promise<void> {
-    return this._repository.saveLocation(LocationFactory.newRoom(description, buildingId))
+    return this._repository.saveLocation(LocationFactory.createRoom(description, buildingId))
   }
 
   async createBuilding(description: string, address: string, external: boolean): Promise<void> {
-    return this._repository.saveLocation(LocationFactory.newBuilding(description, address, external))
+    return this._repository.saveLocation(LocationFactory.createBuilding(description, address, external))
   }
 
   async getLocationById(locationId: LocationId): Promise<Location> {

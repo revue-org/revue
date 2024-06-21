@@ -19,13 +19,23 @@ export class MeasurementFactory {
     measure: Measure,
     value: number
   ): NumericMeasurement {
-    return {
-      id: this.newId(),
+    return this.numericMeasurementFrom(this.newId(), timestamp, sourceDeviceId, measure, value)
+  }
+
+  static numericMeasurementFrom(
+      id: DomainEventId,
+      timestamp: Date,
+      sourceDeviceId: string,
+      measure: Measure,
+      value: number
+  ): NumericMeasurement {
+      return {
+      id,
       timestamp,
       type: 'measurement',
       sourceDeviceId,
       measure: measure,
       value
-    }
+      }
   }
 }

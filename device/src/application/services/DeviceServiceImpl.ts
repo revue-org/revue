@@ -66,7 +66,7 @@ export class DeviceServiceImpl implements DeviceService {
     enabled: boolean,
     capabilities: DeviceCapability[]
   ): Promise<DeviceId> {
-    const device: Device = DeviceFactory.newDevice(
+    const device: Device = DeviceFactory.deviceFrom(
       DeviceFactory.newId(),
       description,
       endpoint.ipAddress,
@@ -88,7 +88,7 @@ export class DeviceServiceImpl implements DeviceService {
     capabilities: DeviceCapability[]
   ): Promise<void> {
     return this._repository.updateDevice(
-      DeviceFactory.newDevice(
+      DeviceFactory.deviceFrom(
         deviceId,
         description,
         endpoint.ipAddress,

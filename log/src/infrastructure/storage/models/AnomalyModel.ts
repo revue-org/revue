@@ -15,14 +15,16 @@ export interface AnomalyDBEntity {
 
 export class AnomalyDBAdapter {
   static asDomainEntity(anomaly: AnomalyDBEntity): Anomaly {
-    if (anomaly.type == 'outlier') {
-      return AnomalyFactory.createOutlier(
+    if (anomaly.type == "outlier") {
+      return AnomalyFactory.outlierFrom(
+        AnomalyFactory.idOf(anomaly.id),
         anomaly.timestamp,
         MeasurementFactory.idOf(anomaly.data.measurementId!),
         anomaly.data.rangeRuleId!
       )
     } else {
-      return AnomalyFactory.createIntrusion(
+      return AnomalyFactory.intrusionFrom(
+        AnomalyFactory.idOf(anomaly.id),
         anomaly.timestamp,
         MeasurementFactory.idOf(anomaly.data.detectionId!),
         anomaly.data.intrusionRuleId!

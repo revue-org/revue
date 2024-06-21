@@ -11,7 +11,7 @@ export interface UserDBEntity {
 
 export class UserDBAdapter {
   static asDomainEntity(user: UserDBEntity): User {
-    return UserFactory.createUser(
+    return UserFactory.userFrom(
       UserFactory.idOf(user.id),
       user.username,
       user.password,

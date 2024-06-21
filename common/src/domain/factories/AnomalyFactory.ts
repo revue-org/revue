@@ -14,8 +14,12 @@ export class AnomalyFactory {
   }
 
   static createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Outlier {
+    return this.outlierFrom(this.newId(), timestamp, measurementId, rangeRuleId)
+  }
+
+  static outlierFrom(id: DomainEventId, timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Outlier {
     return {
-      id: this.newId(),
+      id,
       type: 'outlier',
       timestamp,
       measurementId,
@@ -24,12 +28,16 @@ export class AnomalyFactory {
   }
 
   static createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Intrusion {
-    return {
-      id: this.newId(),
+    return this.intrusionFrom(this.newId(), timestamp, detectionId, intrusionRuleId)
+  }
+
+  static intrusionFrom(id: DomainEventId, timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Intrusion {
+      return {
+      id,
       type: 'intrusion',
       timestamp,
       detectionId,
       intrusionRuleId
-    }
+      }
   }
 }

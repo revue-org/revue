@@ -11,7 +11,7 @@ export class UserFactory {
     return { value }
   }
 
-  static createUser(id: UserId, name: string, surname: string, mail: string, contacts: Contact[]): User {
+  static userFrom(id: UserId, name: string, surname: string, mail: string, contacts: Contact[]): User {
     return {
       id,
       name,
@@ -19,5 +19,9 @@ export class UserFactory {
       mail,
       contacts
     }
+  }
+
+  static createUser(name: string, surname: string, mail: string, contacts: Contact[]): User {
+      return this.userFrom(this.newId(), name, surname, mail, contacts)
   }
 }

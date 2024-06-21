@@ -21,7 +21,7 @@ export class DeviceFactory {
     }
   }
 
-  static newDevice(
+  static deviceFrom(
     id: DeviceId,
     description: string,
     ipAddress: string,
@@ -38,5 +38,16 @@ export class DeviceFactory {
       locationId: locationId,
       capabilities: capabilities
     }
+  }
+
+  static createDevice(
+      description: string,
+      ipAddress: string,
+      port: number,
+      locationId: string,
+      capabilities: DeviceCapability[],
+      enabled: boolean
+  ): Device {
+      return this.deviceFrom(this.newId(), description, ipAddress, port, locationId, capabilities, enabled)
   }
 }

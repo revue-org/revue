@@ -11,8 +11,12 @@ export class NotificationFactory {
   }
 
   static createNotification(event: DomainEvent, message: string): Notification {
+    return this.notificationFrom(this.newId(), event, message)
+  }
+
+  static notificationFrom(id: NotificationId, event: DomainEvent, message: string): Notification {
     return {
-      id: NotificationFactory.newId(),
+      id,
       event,
       message
     }

@@ -21,7 +21,8 @@ export interface NotificationDBEntity {
 export class NotificationDBAdapter {
   static asDomainEntity(notification: NotificationDBEntity): Notification {
     if (notification.type === 'outlier') {
-      return NotificationFactory.createNotification(
+      return NotificationFactory.notificationFrom(
+        NotificationFactory.idOf(notification.id),
         AnomalyFactory.createOutlier(
           notification.timestamp,
           AnomalyFactory.idOf(notification.event.measurementId!),
@@ -30,7 +31,8 @@ export class NotificationDBAdapter {
         notification.message
       )
     } else {
-      return NotificationFactory.createNotification(
+      return NotificationFactory.notificationFrom(
+        NotificationFactory.idOf(notification.id),
         AnomalyFactory.createIntrusion(
           notification.timestamp,
           AnomalyFactory.idOf(notification.event.detectionId!),

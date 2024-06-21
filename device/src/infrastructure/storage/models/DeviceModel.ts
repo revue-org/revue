@@ -14,7 +14,7 @@ export interface DeviceDBEntity {
 
 export class DeviceDBAdapter {
   static toDomainEntity(device: DeviceDBEntity): Device {
-    return DeviceFactory.newDevice(
+    return DeviceFactory.deviceFrom(
       DeviceFactory.idOf(device.id),
       device.description,
       device.endpoint.ipAddress,

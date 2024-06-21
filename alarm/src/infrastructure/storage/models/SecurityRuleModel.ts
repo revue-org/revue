@@ -43,7 +43,7 @@ export class SecurityRuleDBAdapter {
       }
     })
     if (securityRule.type == 'range') {
-      return SecurityRulesFactory.createRangeRule(
+      return SecurityRulesFactory.rangeRuleOf(
         SecurityRulesFactory.idOf(securityRule.id),
         securityRule.activeOn,
         securityRule.creatorId,
@@ -56,7 +56,7 @@ export class SecurityRuleDBAdapter {
         securityRule.enabled
       )
     } else {
-      return SecurityRulesFactory.createIntrusionRule(
+      return SecurityRulesFactory.intrusionRuleOf(
         SecurityRulesFactory.idOf(securityRule.id),
         securityRule.activeOn,
         securityRule.creatorId,

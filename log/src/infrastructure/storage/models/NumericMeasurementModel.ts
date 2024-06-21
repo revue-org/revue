@@ -12,7 +12,8 @@ export interface NumericMeasurementDBEntity {
 
 export class NumericMeasurementDBAdapter {
   static asDomainEntity(measurement: NumericMeasurementDBEntity): Measurement {
-    return MeasurementFactory.createNumericMeasurement(
+    return MeasurementFactory.numericMeasurementFrom(
+      MeasurementFactory.idOf(measurement.id),
       measurement.timestamp,
       measurement.sourceDeviceId,
       measurement.measure,

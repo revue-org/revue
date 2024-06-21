@@ -16,15 +16,15 @@ export class SecurityRulesFactory {
     return { value: id }
   }
 
-  static createIntrusionRule(
-    id: SecurityRuleId,
-    activeOn: string,
-    creatorId: string,
-    objectClass: ObjectClass,
-    contacts: Contact[],
-    description: string,
-    validity: TimeSlot,
-    enabled: boolean
+  static intrusionRuleOf(
+      id: SecurityRuleId,
+      activeOn: string,
+      creatorId: string,
+      objectClass: ObjectClass,
+      contacts: Contact[],
+      description: string,
+      validity: TimeSlot,
+      enabled: boolean
   ): IntrusionRule {
     return {
       id,
@@ -39,8 +39,20 @@ export class SecurityRulesFactory {
     }
   }
 
-  static createRangeRule(
-    id: SecurityRuleId | string,
+  static createIntrusionRule(
+    activeOn: string,
+    creatorId: string,
+    objectClass: ObjectClass,
+    contacts: Contact[],
+    description: string,
+    validity: TimeSlot,
+    enabled: boolean
+  ): IntrusionRule {
+    return this.intrusionRuleOf(this.newId(), activeOn, creatorId, objectClass, contacts, description, validity, enabled)
+  }
+
+  static rangeRuleOf(
+    id: SecurityRuleId,
     activeOn: string,
     creatorId: string,
     contacts: Contact[],
@@ -52,7 +64,7 @@ export class SecurityRulesFactory {
     enabled: boolean
   ): RangeRule {
     return {
-      id: typeof id === 'string' ? SecurityRulesFactory.idOf(id) : id,
+      id: id,
       type: 'range',
       activeOn,
       creatorId,
@@ -66,13 +78,24 @@ export class SecurityRulesFactory {
     }
   }
 
+  static createRangeRule(
+      activeOn: string,
+      creatorId: string,
+      contacts: Contact[],
+      description: string,
+      validity: TimeSlot,
+      min: number,
+      max: number,
+      measure: Measure,
+      enabled: boolean
+  ): RangeRule {
+      return this.rangeRuleOf(this.newId(), activeOn, creatorId, contacts, description, validity, min, max, measure, enabled)
+  }
+
   static newTimeSlot(from: Date, to: Date): TimeSlot {
     if (from >= to) {
       throw new Error('Invalid time slot')
     }
-    return {
-      from,
-      to
-    }
+    return { from, to }
   }
 }

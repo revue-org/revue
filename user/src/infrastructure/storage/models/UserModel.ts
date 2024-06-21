@@ -25,7 +25,7 @@ export class UserDBAdapter {
           : ContactFactory.createSmsContact(contact.value)
       )
     )
-    return UserFactory.createUser(UserFactory.idOf(user.id), user.name, user.surname, user.mail, contacts)
+    return UserFactory.userFrom(UserFactory.idOf(user.id), user.name, user.surname, user.mail, contacts)
   }
 
   static asDBEntity(user: User): UserDBEntity {

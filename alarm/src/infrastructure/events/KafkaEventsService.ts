@@ -11,7 +11,7 @@ import {
   AnomaliesAdapter,
   DetectionsAdapter,
   MeasurementsAdapter
-} from '@presentation/events/MessageAdapters.js'
+} from '@presentation/events/MessageAdapters'
 
 export class KafkaEventsService implements EventsHub {
   private measurementsConsumer: KafkaConsumer

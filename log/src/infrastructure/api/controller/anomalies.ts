@@ -6,7 +6,7 @@ import { Outlier } from '@common/domain/core/Outlier'
 import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory'
 import { Intrusion } from '@common/domain/core/Intrusion'
 import { DomainEventId } from '@common/domain/core/DomainEventId'
-import { LogEventsHub } from "@/application/services/LogEventsHub";
+import { LogEventsHub } from '@/application/services/LogEventsHub'
 
 const service: AnomalyService = new AnomalyServiceImpl(new MongoDBAnomalyRepository(), {} as LogEventsHub)
 

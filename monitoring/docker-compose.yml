@@ -10,30 +10,9 @@ services:
     ports:
       - ${MONITORING_PORT}:${MONITORING_PORT}
     depends_on:
-      - revue-monitoring-db
       - ${KAFKA_HOST}
     networks:
       - my-net
-
-  revue-monitoring-db:
-    image: mongo
-    container_name: ${MONITORING_DB_HOST}
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONITORING_DB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONITORING_DB_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONITORING_DB_NAME}
-    ports:
-      - ${MONITORING_DB_PORT}:27017
-    volumes:
-      - monitoring_data:/data/db
-      - ./monitoring/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
-    networks:
-      - my-net
-
-volumes:
-  monitoring_data:
-    driver: local
 
 networks:
   my-net:

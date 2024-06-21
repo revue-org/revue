@@ -1,12 +1,10 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
-import mongoose from 'mongoose'
 import cors from 'cors'
 import { config } from 'dotenv'
 import { jwtManager } from '@utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
-import { mongoConnect } from 'common/dist/utils/connection.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -18,20 +16,6 @@ const server: HttpServer = http.createServer(app)
 export const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
     origin: '*'
-  }
-})
-io.use(async function (socket, next): Promise<void> {
-  //TODO NB, to test
-  if (socket.handshake.query && socket.handshake.query.token) {
-    console.log('middleware socket validation: ' + socket.handshake.query.token)
-    if (
-      await jwtManager.verify(socket.handshake.query.token as string, async (err: any): Promise<boolean> => {
-        return !err
-      })
-    )
-      next()
-  } else {
-    next(new Error('Authentication error'))
   }
 })
 
@@ -50,20 +34,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-const username: string = process.env.MONITORING_DB_USERNAME || 'admin'
-const password: string = process.env.MONITORING_DB_PASSWORD || 'admin'
-const host: string =
-  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.MONITORING_DB_HOST || 'localhost'
-const dbPort: string =
-  process.env.NODE_ENV === 'develop'
-    ? process.env.MONITORING_DB_PORT || '27017'
-    : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.MONITORING_DB_NAME || 'monitoring'
-
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
-    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
     //TODO: here or where we want we have to trigger the broker client to start consuming and sending to the user the measurements
   })
 }

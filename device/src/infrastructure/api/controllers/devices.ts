@@ -5,6 +5,7 @@ import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
+import { CapabilityType } from "@/domain/core/capabilities/CapabilityType";
 
 const service: DeviceService = new DeviceServiceImpl(new MongoDBDeviceRepository())
 
@@ -12,8 +13,8 @@ export const deviceController = {
   getDeviceById: async (id: string): Promise<Device> => {
     return service.getDeviceById(DeviceFactory.idOf(id))
   },
-  getDevices: async (): Promise<Device[]> => {
-    return await service.getDevices()
+  getDevices: async (capabilities: CapabilityType[]): Promise<Device[]> => {
+    return await service.getDevices(capabilities)
   },
   getActiveDevices: async (): Promise<Device[]> => {
     return await service.getActiveDevices()

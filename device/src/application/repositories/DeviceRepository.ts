@@ -1,5 +1,6 @@
-import { Device } from '@/domain/core/Device'
-import { DeviceId } from '@/domain/core/DeviceId'
+import { Device } from '@/domain/core/Device.js'
+import { DeviceId } from '@/domain/core/DeviceId.js'
+import { CapabilityType } from "@/domain/core/capabilities/CapabilityType.js";
 
 export interface DeviceRepository {
   getDeviceById(deviceId: DeviceId): Promise<Device>

@@ -5,6 +5,8 @@ import { DeviceId } from '@/domain/core/DeviceId.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint.js'
 import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
+import RequestHelper from '@utils/RequestHelper.js'
 
 export class DeviceServiceImpl implements DeviceService {
   private _repository: DeviceRepository
@@ -27,8 +29,30 @@ export class DeviceServiceImpl implements DeviceService {
     return await this._repository.getDeviceById(deviceId)
   }
 
-  async getDevices(): Promise<Device[]> {
+  async getDevices(capabilities: CapabilityType[] = []): Promise<Device[]> {
+    if (capabilities.length > 0) return await this.getDeviceWithCapabilities(capabilities)
     return await this._repository.getDevices()
+  }
+
+  private async getDeviceWithCapabilities(capabilities: CapabilityType[]): Promise<Device[]> {
+    const devices: Device[] = await this._repository.getDevices()
+    const admittedDevices: Device[] = []
+
+    devices.forEach((device: Device): void => {
+      RequestHelper.get(device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities').then(
+        (res: any): void => {
+          if (
+            res.data.capabilities.forEach((capability: string): boolean =>
+              capabilities.includes(capability as CapabilityType)
+            )
+          ) {
+            admittedDevices.push(device)
+          }
+        }
+      )
+    })
+
+    return admittedDevices
   }
 
   async getActiveDevices(): Promise<Device[]> {

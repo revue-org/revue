@@ -11,14 +11,21 @@ import { DeviceId } from '@/domain/core/DeviceId.js'
 export const deviceRouter: Router = express.Router()
 
 deviceRouter.route('/').get((req: Request, res: Response): void => {
-  // get capabilities from the request in query params
-  console.log(req.query.capabilities)
-  const capabilities: CapabilityType[] = req.query.capabilities as CapabilityType[]
-  //TODO WIP
-  console.log(capabilities)
+  const capabilities: CapabilityType[] = req.query.capabilities
+    ? req.query.capabilities
+        .toString()
+        .split(',')
+        .map((capability: string): CapabilityType => {
+          if (Object.values(CapabilityType).includes(capability as CapabilityType)) {
+            return capability as CapabilityType
+          } else {
+            throw new Error('Invalid capability')
+          }
+        })
+    : []
 
   deviceController
-    .getDevices()
+    .getDevices(capabilities)
     .then((devices: Device[]): void => {
       res.status(HttpStatusCode.OK).send(devices)
     })

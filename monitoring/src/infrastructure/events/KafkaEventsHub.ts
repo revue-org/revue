@@ -1,11 +1,12 @@
-import { EventsHub } from '@/application/services/EventsHub'
+import { MonitoringEventsHub } from '@/application/services/MonitoringEventsHub'
 import { Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
-import { MeasurementsAdapter } from '@presentation/events/MessageAdapters.js'
+import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
+import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
 
-export class KafkaEventsService implements EventsHub {
+export class KafkaEventsHub implements MonitoringEventsHub {
   private measurementsConsumer: KafkaConsumer
 
   constructor(kafkaOptions: KafkaOptions) {
@@ -13,11 +14,9 @@ export class KafkaEventsService implements EventsHub {
   }
 
   private async getTopics(): Promise<string[]> {
-    //TODO: Pass from the device microservice to ask which are the devices
-    // with certain capabilities, in this case the SENSING capability (grafico nel quaderno)
-
-    //.map(device => `measurements.${device.id.value}`)
-    return [];
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=sensor`).then(
+      (res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`)
+    )
   }
 
   async subscribeToMeasurements(handler: (_measurement: Measurement) => void): Promise<void> {

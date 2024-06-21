@@ -1,5 +1,5 @@
 import { Measurement } from '@common/domain/core/Measurement'
 
-export interface EventsHub {
+export interface MonitoringEventsHub {
   subscribeToMeasurements(handler: (measurement: Measurement) => void): void
 }

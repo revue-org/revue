@@ -5,6 +5,7 @@ export const measurementSchema: ZodType<Measurement> = z.object({
   id: z.object({
     value: z.string()
   }),
+  type: z.literal('measurement'),
   sourceDeviceId: z.string(),
   timestamp: z.date(),
   measure: z.object({

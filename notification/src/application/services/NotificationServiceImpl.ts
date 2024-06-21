@@ -1,18 +1,27 @@
 import { Notification } from '@/domain/core/Notification'
-import { Contact } from 'common/dist/domain/core/Contact'
-import { ContactType } from 'common/dist/domain/core/ContactType'
 import { NotificationRepository } from '@/application/repositories/NotificationRepository'
 import { NotificationService } from '@/application/services/NotificationService'
 import { NotificationId } from '@/domain/core/NotificationId'
 import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory'
+import {NotificationEventsHub} from "@/application/services/NotificationEventsHub";
+import {Anomaly} from "common/dist/domain/core";
 
 export class NotificationServiceImpl implements NotificationService {
   private repository: NotificationRepository
+  private eventsHub: NotificationEventsHub
 
-  constructor(notificationRepository: NotificationRepository) {
+  constructor(notificationRepository: NotificationRepository, eventsHub: NotificationEventsHub) {
     this.repository = notificationRepository
+    this.eventsHub = eventsHub
+    this.setEventHub()
+  }
+
+  private setEventHub() {
+    this.eventsHub.subscribeToAnomalies((anomaly: Anomaly) => {
+      this.createNotification(anomaly, "Anomaly detected")
+    })
   }
 
   async getNotifications(): Promise<Notification[]> {
@@ -24,25 +33,20 @@ export class NotificationServiceImpl implements NotificationService {
   }
 
   async getNotificationsByType(type: DomainEventType): Promise<Notification[]> {
-    return await this.repository.getNotificationsByType(type)
+    return await this.repository.getNotificationsByType(type.type)
   }
 
   async createNotification(
-    id: NotificationId,
-    type: DomainEventType,
     event: DomainEvent,
     message: string
   ): Promise<void> {
-    await this.repository.saveNotification(NotificationFactory.createNotification(id, type, event, message))
-
-    //TODO send the notification to the contacts
+    await this.repository.saveNotification(NotificationFactory.createNotification(event, message))
+    // TODO: check if we need to send email notifications
   }
 
-  sendMailNotification(notification: Notification, contacts: Contact[]): void {
-    contacts
-      .filter((contact: Contact): boolean => contact.type === ContactType.EMAIL)
-      .forEach((contact: Contact): void => {
-        console.log(`Sending email to ${contact.value}`)
+  sendMailNotification(notification: Notification, emails: string[]): void {
+    emails.forEach((email: string): void => {
+        console.log(`Sending email to ${email}`)
         //this.mailService.sendMail(contact.value, notification)
       })
   }

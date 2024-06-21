@@ -11,8 +11,6 @@ export interface NotificationService {
   getNotificationsByType(type: DomainEventType): Promise<Notification[]>
 
   createNotification(
-    id: NotificationId,
-    type: DomainEventType,
     event: DomainEvent,
     message: string
   ): Promise<void>

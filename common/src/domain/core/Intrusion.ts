@@ -1,9 +1,8 @@
 import { Anomaly } from './Anomaly.js'
 import { DomainEventId } from './DomainEventId'
-import { AnomalyType } from './AnomalyType'
 
 export interface Intrusion extends Anomaly {
-  readonly type: AnomalyType.INTRUSION
+  readonly type: "intrusion"
 
   readonly detectionId: DomainEventId
 

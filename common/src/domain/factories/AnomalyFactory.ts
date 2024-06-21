@@ -1,4 +1,7 @@
-import { AnomalyType, DomainEventId, Intrusion, Outlier } from '../core'
+import {DomainEventId} from "../core/DomainEventId";
+import {Outlier} from "../core/Outlier";
+import {Intrusion} from "../core/Intrusion";
+
 
 export class AnomalyFactory {
   static newId(): DomainEventId {
@@ -12,14 +15,13 @@ export class AnomalyFactory {
   }
 
   static createOutlier(
-    id: DomainEventId,
     timestamp: Date,
     measurementId: DomainEventId,
     rangeRuleId: string
   ): Outlier {
     return {
-      id,
-      type: AnomalyType.OUTLIER,
+      id: this.newId(),
+      type: "outlier",
       timestamp,
       measurementId,
       rangeRuleId
@@ -27,14 +29,13 @@ export class AnomalyFactory {
   }
 
   static createIntrusion(
-    id: DomainEventId,
     timestamp: Date,
     detectionId: DomainEventId,
     intrusionRuleId: string
   ): Intrusion {
     return {
-      id,
-      type: AnomalyType.INTRUSION,
+      id: this.newId(),
+      type: "intrusion",
       timestamp,
       detectionId,
       intrusionRuleId

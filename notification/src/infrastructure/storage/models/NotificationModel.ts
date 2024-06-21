@@ -1,6 +1,5 @@
 import { Notification } from '@/domain/core/Notification'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory'
-import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 import { AnomalyFactory } from 'common/dist/domain/factories/AnomalyFactory'
 import { Outlier } from 'common/dist/domain/core/Outlier'
 import { Intrusion } from 'common/dist/domain/core/Intrusion'
@@ -21,12 +20,9 @@ export interface NotificationDBEntity {
 
 export class NotificationDBAdapter {
   static asDomainEntity(notification: NotificationDBEntity): Notification {
-    if (notification.type === DomainEventType.OUTLIER) {
+    if (notification.type === "outlier") {
       return NotificationFactory.createNotification(
-        NotificationFactory.idOf(notification.id),
-        DomainEventType.OUTLIER,
         AnomalyFactory.createOutlier(
-          AnomalyFactory.idOf(notification.event.id),
           notification.timestamp,
           AnomalyFactory.idOf(notification.event.measurementId!),
           notification.event.rangeRuleId!
@@ -35,10 +31,7 @@ export class NotificationDBAdapter {
       )
     } else {
       return NotificationFactory.createNotification(
-        NotificationFactory.idOf(notification.id),
-        DomainEventType.INTRUSION,
         AnomalyFactory.createIntrusion(
-          AnomalyFactory.idOf(notification.event.id),
           notification.timestamp,
           AnomalyFactory.idOf(notification.event.detectionId!),
           notification.event.intrusionRuleId!
@@ -49,11 +42,11 @@ export class NotificationDBAdapter {
   }
 
   static asDBEntity(notification: Notification): NotificationDBEntity {
-    if (notification.type === DomainEventType.OUTLIER) {
+    if (notification.event.type === "outlier") {
       const outlier: Outlier = notification.event as Outlier
       return {
         id: notification.id.value,
-        type: notification.type,
+        type: notification.event.type,
         timestamp: notification.event.timestamp,
         event: {
           id: notification.event.id.value,
@@ -66,7 +59,7 @@ export class NotificationDBAdapter {
       const intrusion: Intrusion = notification.event as Intrusion
       return {
         id: notification.id.value,
-        type: notification.type,
+        type: notification.event.type,
         timestamp: notification.event.timestamp,
         event: {
           id: notification.event.id.value,

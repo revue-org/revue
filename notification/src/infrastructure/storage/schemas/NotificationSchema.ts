@@ -1,5 +1,4 @@
 import { Schema } from 'mongoose'
-import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 
 export const notificationSchema = new Schema({
   id: {
@@ -8,7 +7,7 @@ export const notificationSchema = new Schema({
   },
   type: {
     type: String,
-    enum: Object.values(DomainEventType),
+    enum: Object.values(["outlier", "intrusion"]),
     required: true
   },
   timestamp: {

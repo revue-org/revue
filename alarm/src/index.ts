@@ -46,22 +46,5 @@ if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
     await mongoConnect(mongoose, username, password, host, dbPort, dbName)
-    //eventsService.subscribeToDetections(detectionsHandler)
-    //eventsService.subscribeToMeasurements(measurementsHandlers)
   })
 }
-
-/*const detectionsHandler = async (detection: Detection): Promise<void> => {
-  const intrusionRule: IntrusionRule | undefined = await alarmService.checkIntrusion(detection)
-  if (intrusionRule) {
-    const anomaly: Anomaly = alarmService.createIntrusion(detection, intrusionRule)
-    eventsService.publishAnomaly(anomaly)
-  }
-}
-const measurementsHandlers = async (measurement: Measurement): Promise<void> => {
-  const rangeRule: RangeRule | undefined = await alarmService.checkMeasurement(measurement)
-  if (rangeRule) {
-    const anomaly: Anomaly = alarmService.createOutlier(measurement, rangeRule)
-    eventsService.publishAnomaly(anomaly)
-  }
-}*/

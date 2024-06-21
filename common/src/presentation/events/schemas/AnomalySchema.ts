@@ -1,9 +1,8 @@
-import { AnomalyType } from '../../../domain/core'
 import { z, ZodType } from 'zod'
 
 export type AnomalyMessage = {
   id: string
-  type: AnomalyType
+  type: "outlier" | "intrusion"
   timestamp: Date
   data: {
     measurementId?: string
@@ -15,7 +14,7 @@ export type AnomalyMessage = {
 
 export const anomalySchema: ZodType<AnomalyMessage> = z.object({
   id: z.string(),
-  type: z.nativeEnum(AnomalyType),
+  type: z.enum(["outlier", "intrusion"]),
   timestamp: z.date(),
   data: z.object({
     measurementId: z.string().optional(),

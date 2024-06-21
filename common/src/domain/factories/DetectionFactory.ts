@@ -14,14 +14,14 @@ export class DetectionFactory {
   }
 
   static createDetection(
-    id: DomainEventId,
     timestamp: Date,
     sourceDeviceId: string,
     objectClass: ObjectClass
   ): Detection {
     return {
-      id,
+      id: this.newId(),
       timestamp,
+      type: "detection",
       sourceDeviceId,
       objectClass
     }

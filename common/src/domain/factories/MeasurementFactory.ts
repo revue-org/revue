@@ -1,6 +1,4 @@
-import { NumericMeasurement } from '../core/NumericMeasurment'
-import { DomainEventId } from '../core/DomainEventId'
-import { Measure } from '../core/Measure'
+import { NumericMeasurement, DomainEventId, Measure } from '../core'
 
 export class MeasurementFactory {
   static newId(): DomainEventId {
@@ -16,15 +14,15 @@ export class MeasurementFactory {
   }
 
   static createNumericMeasurement(
-    id: DomainEventId,
     timestamp: Date,
     sourceDeviceId: string,
     measure: Measure,
     value: number
   ): NumericMeasurement {
     return {
-      id,
+      id: this.newId(),
       timestamp,
+      type: 'measurement',
       sourceDeviceId,
       measure: measure,
       value

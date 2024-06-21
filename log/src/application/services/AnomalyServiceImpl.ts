@@ -30,15 +30,11 @@ export class AnomalyServiceImpl implements AnomalyService {
   }
 
   async createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Promise<void> {
-    await this.repository.saveAnomaly(
-      AnomalyFactory.createIntrusion(timestamp, detectionId, intrusionRuleId)
-    )
+    await this.repository.saveAnomaly(AnomalyFactory.createIntrusion(timestamp, detectionId, intrusionRuleId))
   }
 
   async createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Promise<void> {
-    await this.repository.saveAnomaly(
-      AnomalyFactory.createOutlier(timestamp, measurementId, rangeRuleId)
-    )
+    await this.repository.saveAnomaly(AnomalyFactory.createOutlier(timestamp, measurementId, rangeRuleId))
   }
 
   async deleteAnomaly(anomalyId: DomainEventId): Promise<void> {

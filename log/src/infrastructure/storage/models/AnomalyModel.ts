@@ -15,7 +15,7 @@ export interface AnomalyDBEntity {
 
 export class AnomalyDBAdapter {
   static asDomainEntity(anomaly: AnomalyDBEntity): Anomaly {
-    if (anomaly.type == "outlier") {
+    if (anomaly.type == 'outlier') {
       return AnomalyFactory.createOutlier(
         anomaly.timestamp,
         MeasurementFactory.idOf(anomaly.data.measurementId!),
@@ -31,11 +31,11 @@ export class AnomalyDBAdapter {
   }
 
   static asDBEntity(anomaly: Anomaly): AnomalyDBEntity {
-    if (anomaly.type == "outlier") {
+    if (anomaly.type == 'outlier') {
       const outlier: Outlier = anomaly as Outlier
       return {
         id: outlier.id.value,
-        type: "outlier",
+        type: 'outlier',
         timestamp: outlier.timestamp,
         data: {
           measurementId: outlier.measurementId.value,
@@ -46,7 +46,7 @@ export class AnomalyDBAdapter {
       const intrusion: Intrusion = anomaly as Intrusion
       return {
         id: intrusion.id.value,
-        type: "intrusion",
+        type: 'intrusion',
         timestamp: intrusion.timestamp,
         data: {
           detectionId: intrusion.detectionId.value,

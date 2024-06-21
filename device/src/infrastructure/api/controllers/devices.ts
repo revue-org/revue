@@ -5,7 +5,7 @@ import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
-import { CapabilityType } from "@/domain/core/capabilities/CapabilityType";
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
 
 const service: DeviceService = new DeviceServiceImpl(new MongoDBDeviceRepository())
 

@@ -1,10 +1,10 @@
-import { MongoDBDeviceRepository } from '@/infrastructure/storage/MongoDBDeviceRepository'
-import { DeviceServiceImpl } from '@/application/services/DeviceServiceImpl'
-import { DeviceService } from '@/application/services/DeviceService'
-import { DeviceFactory } from '@/domain/factories/DeviceFactory'
-import { Device } from '@/domain/core/Device'
-import { DeviceId } from '@/domain/core/DeviceId'
-import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
+import { MongoDBDeviceRepository } from '@/infrastructure/storage/MongoDBDeviceRepository.js'
+import { DeviceServiceImpl } from '@/application/services/DeviceServiceImpl.js'
+import { DeviceService } from '@/application/services/DeviceService.js'
+import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
+import { Device } from '@/domain/core/Device.js'
+import { DeviceId } from '@/domain/core/DeviceId.js'
+import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
 
 const service: DeviceService = new DeviceServiceImpl(new MongoDBDeviceRepository())
 

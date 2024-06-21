@@ -1,6 +1,6 @@
-import { DomainEventId } from '../core/DomainEventId'
-import { Detection } from '../core/Detection'
-import { ObjectClass } from '../core/ObjectClass'
+import { DomainEventId } from '../core/DomainEventId.js'
+import { Detection } from '../core/Detection.js'
+import { ObjectClass } from '../core/ObjectClass.js'
 
 export class DetectionFactory {
   static newId(): DomainEventId {

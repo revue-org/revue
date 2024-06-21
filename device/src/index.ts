@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import { mongoConnect } from '@common/utils/connection.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { jwtManager } from '@common/utils/JWTManager.js'
-import { deviceRouter } from '@/infrastructure/api/routes/devices'
+import { deviceRouter } from '@/infrastructure/api/routes/devices.js'
 
 config({ path: process.cwd() + '/../.env' })
 

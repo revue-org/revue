@@ -1,10 +1,10 @@
-import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
-import { DeviceRepository } from '../repositories/DeviceRepository'
-import { DeviceService } from './DeviceService'
-import { DeviceId } from '@/domain/core/DeviceId'
-import { Device } from '@/domain/core/Device'
-import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint'
-import { DeviceFactory } from '@/domain/factories/DeviceFactory'
+import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
+import { DeviceRepository } from '../repositories/DeviceRepository.js'
+import { DeviceService } from './DeviceService.js'
+import { DeviceId } from '@/domain/core/DeviceId.js'
+import { Device } from '@/domain/core/Device.js'
+import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint.js'
+import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 
 export class DeviceServiceImpl implements DeviceService {
   private _repository: DeviceRepository

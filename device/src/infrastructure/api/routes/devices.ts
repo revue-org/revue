@@ -1,12 +1,12 @@
 import express, { Request, Response, Router } from 'express'
-import { deviceController } from '@/infrastructure/api/controllers/devices'
-import { Device } from '@/domain/core/Device'
-import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
-import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
-import { CapabilityFactory } from '@/domain/factories/CapabilityFactory'
-import { MeasureFactory } from '@common/domain/factories/MeasureFactory'
-import HttpStatusCode from '@common/utils/HttpStatusCode'
-import { DeviceId } from '@/domain/core/DeviceId'
+import { deviceController } from '@/infrastructure/api/controllers/devices.js'
+import { Device } from '@/domain/core/Device.js'
+import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
+import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
+import { DeviceId } from '@/domain/core/DeviceId.js'
 
 export const deviceRouter: Router = express.Router()
 
@@ -15,6 +15,7 @@ deviceRouter.route('/').get((req: Request, res: Response): void => {
   console.log(req.query.capabilities)
   const capabilities: CapabilityType[] = req.query.capabilities as CapabilityType[]
   //TODO WIP
+  console.log(capabilities)
 
   deviceController
     .getDevices()

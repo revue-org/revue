@@ -1,6 +1,6 @@
-import { Measure } from '../core/Measure'
-import { MeasureType } from '../core/MeasureType'
-import { MeasureUnit } from '../core/MeasureUnit'
+import { Measure } from '../core/Measure.js'
+import { MeasureType } from '../core/MeasureType.js'
+import { MeasureUnit } from '../core/MeasureUnit.js'
 
 export class MeasureFactory {
   static createTemperatureMeasure(unit: MeasureUnit): Measure {

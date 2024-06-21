@@ -1,6 +1,6 @@
-import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
-import { Measure } from '@common/domain/core/Measure'
-import { SensoringCapability } from '@/domain/core/capabilities/SensoringCapability'
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
+import { Measure } from '@common/domain/core/Measure.js'
+import { SensoringCapability } from '@/domain/core/capabilities/SensoringCapability.js'
 
 export class CapabilityFactory {
   static sensoringCapabilityOf(capturingInterval: number, measure: Measure): SensoringCapability {

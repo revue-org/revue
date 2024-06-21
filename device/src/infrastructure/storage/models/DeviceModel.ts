@@ -1,5 +1,5 @@
-import { Device } from '@/domain/core/Device'
-import { DeviceFactory } from '@/domain/factories/DeviceFactory'
+import { Device } from '@/domain/core/Device.js'
+import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 
 export interface DeviceDBEntity {
   readonly id: string

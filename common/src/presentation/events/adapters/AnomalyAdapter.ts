@@ -5,13 +5,13 @@ import { AnomalyMessage, anomalySchema } from '../schemas/AnomalySchema'
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {
     const anomalyMessage: AnomalyMessage = anomalySchema.parse(anomalyObj)
-    if (anomalyMessage.type === "intrusion") {
+    if (anomalyMessage.type === 'intrusion') {
       return AnomalyFactory.createIntrusion(
         anomalyMessage.timestamp,
         AnomalyFactory.idOf(anomalyMessage.data.detectionId!),
         anomalyMessage.data.intrusionRuleId!
       )
-    } else if (anomalyMessage.type === "outlier") {
+    } else if (anomalyMessage.type === 'outlier') {
       return AnomalyFactory.createOutlier(
         anomalyMessage.timestamp,
         AnomalyFactory.idOf(anomalyMessage.data.measurementId!),
@@ -23,11 +23,11 @@ export class AnomaliesAdapter {
   }
 
   static asMessage(anomaly: Anomaly): AnomalyMessage {
-    if (anomaly.type == "outlier") {
+    if (anomaly.type == 'outlier') {
       const outlier: Outlier = anomaly as Outlier
       return {
         id: outlier.id.value,
-        type: "outlier",
+        type: 'outlier',
         timestamp: outlier.timestamp,
         data: {
           measurementId: outlier.measurementId.value,
@@ -38,7 +38,7 @@ export class AnomaliesAdapter {
       const intrusion: Intrusion = anomaly as Intrusion
       return {
         id: intrusion.id.value,
-        type: "intrusion",
+        type: 'intrusion',
         timestamp: intrusion.timestamp,
         data: {
           detectionId: intrusion.detectionId.value,

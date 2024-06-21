@@ -17,10 +17,12 @@ export const devicePort = process.env.DEVICE_PORT
 export const monitoringHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.MONITORING_HOST
 export const monitoringPort = process.env.MONITORING_PORT
 export const mediaServerHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.MEDIA_SERVER_HOST
-export const mediaServerRtspPort = process.env.NODE_ENV == 'develop' ? '8554' : process.env.MEDIA_SERVER_RTSP_PORT
+export const mediaServerRtspPort =
+  process.env.NODE_ENV == 'develop' ? '8554' : process.env.MEDIA_SERVER_RTSP_PORT
 export const alarmHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.ALARM_HOST
 export const alarmPort = process.env.ALARM_PORT
-export const notificationHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.NOTIFICATION_HOST
+export const notificationHost =
+  process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.NOTIFICATION_HOST
 export const notificationPort = process.env.NOTIFICATION_PORT
 
 export default class RequestHelper {

@@ -13,15 +13,11 @@ export class DetectionFactory {
     return { value }
   }
 
-  static createDetection(
-    timestamp: Date,
-    sourceDeviceId: string,
-    objectClass: ObjectClass
-  ): Detection {
+  static createDetection(timestamp: Date, sourceDeviceId: string, objectClass: ObjectClass): Detection {
     return {
       id: this.newId(),
       timestamp,
-      type: "detection",
+      type: 'detection',
       sourceDeviceId,
       objectClass
     }

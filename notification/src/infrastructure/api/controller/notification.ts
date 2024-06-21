@@ -3,10 +3,12 @@ import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBN
 import { NotificationService } from '@/application/services/NotificationService'
 import { NotificationServiceImpl } from '@/application/services/NotificationServiceImpl'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory'
-import {NotificationEventsHub} from "@/application/services/NotificationEventsHub";
+import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
 
-
-const service: NotificationService = new NotificationServiceImpl(new MongoDBNotificationRepository(), {} as NotificationEventsHub)
+const service: NotificationService = new NotificationServiceImpl(
+  new MongoDBNotificationRepository(),
+  {} as NotificationEventsHub
+)
 export const notificationController = {
   getNotifications: async (): Promise<Notification[]> => {
     return await service.getNotifications()
@@ -16,7 +18,7 @@ export const notificationController = {
   },
   getNotificationsByType: async (type: string): Promise<Notification[]> => {
     return await service.getNotificationsByType(
-      type === 'outlier' ? { type: "outlier" } : { type: "intrusion" }
+      type === 'outlier' ? { type: 'outlier' } : { type: 'intrusion' }
     )
   },
   deleteNotification: async (id: string): Promise<void> => {

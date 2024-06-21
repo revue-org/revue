@@ -5,8 +5,8 @@ import { NotificationId } from '@/domain/core/NotificationId'
 import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory'
-import {NotificationEventsHub} from "@/application/services/NotificationEventsHub";
-import {Anomaly} from "common/dist/domain/core";
+import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
+import { Anomaly } from 'common/dist/domain/core'
 
 export class NotificationServiceImpl implements NotificationService {
   private repository: NotificationRepository
@@ -20,7 +20,7 @@ export class NotificationServiceImpl implements NotificationService {
 
   private setEventHub() {
     this.eventsHub.subscribeToAnomalies((anomaly: Anomaly) => {
-      this.createNotification(anomaly, "Anomaly detected")
+      this.createNotification(anomaly, 'Anomaly detected')
     })
   }
 
@@ -36,19 +36,16 @@ export class NotificationServiceImpl implements NotificationService {
     return await this.repository.getNotificationsByType(type.type)
   }
 
-  async createNotification(
-    event: DomainEvent,
-    message: string
-  ): Promise<void> {
+  async createNotification(event: DomainEvent, message: string): Promise<void> {
     await this.repository.saveNotification(NotificationFactory.createNotification(event, message))
     // TODO: check if we need to send email notifications
   }
 
   sendMailNotification(notification: Notification, emails: string[]): void {
     emails.forEach((email: string): void => {
-        console.log(`Sending email to ${email}`)
-        //this.mailService.sendMail(contact.value, notification)
-      })
+      console.log(`Sending email to ${email}`)
+      //this.mailService.sendMail(contact.value, notification)
+    })
   }
 
   async deleteNotification(id: NotificationId): Promise<void> {

@@ -7,7 +7,7 @@ export const notificationSchema = new Schema({
   },
   type: {
     type: String,
-    enum: Object.values(["outlier", "intrusion"]),
+    enum: Object.values(['outlier', 'intrusion']),
     required: true
   },
   timestamp: {

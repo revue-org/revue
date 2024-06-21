@@ -1,5 +1,5 @@
-import { Anomaly } from "@common/domain/core";
+import { Anomaly } from '@common/domain/core'
 
 export interface NotificationEventsHub {
-    subscribeToAnomalies(handler: (anomaly: Anomaly) => void): void
+  subscribeToAnomalies(handler: (anomaly: Anomaly) => void): void
 }

@@ -9,8 +9,8 @@ export class MailServiceImpl implements MailService {
   }
 
   sendMail(to: string, notification: Notification): void {
-    const subject: string = notification.event.type === "outlier" ? 'Outlier' : 'Intrusion'
-    const body: string = "TODO"
+    const subject: string = notification.event.type === 'outlier' ? 'Outlier' : 'Intrusion'
+    const body: string = 'TODO'
     const mailOptions = {
       from: 'revue.noreply@gmail.com',
       to: to,

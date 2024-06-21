@@ -10,10 +10,7 @@ export class NotificationFactory {
     return { value }
   }
 
-  static createNotification(
-    event: DomainEvent,
-    message: string
-  ): Notification {
+  static createNotification(event: DomainEvent, message: string): Notification {
     return {
       id: NotificationFactory.newId(),
       event,

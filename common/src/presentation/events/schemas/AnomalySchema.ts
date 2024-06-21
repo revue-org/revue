@@ -2,7 +2,7 @@ import { z, ZodType } from 'zod'
 
 export type AnomalyMessage = {
   id: string
-  type: "outlier" | "intrusion"
+  type: 'outlier' | 'intrusion'
   timestamp: Date
   data: {
     measurementId?: string
@@ -14,7 +14,7 @@ export type AnomalyMessage = {
 
 export const anomalySchema: ZodType<AnomalyMessage> = z.object({
   id: z.string(),
-  type: z.enum(["outlier", "intrusion"]),
+  type: z.enum(['outlier', 'intrusion']),
   timestamp: z.date(),
   data: z.object({
     measurementId: z.string().optional(),

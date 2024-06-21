@@ -20,7 +20,7 @@ export interface NotificationDBEntity {
 
 export class NotificationDBAdapter {
   static asDomainEntity(notification: NotificationDBEntity): Notification {
-    if (notification.type === "outlier") {
+    if (notification.type === 'outlier') {
       return NotificationFactory.createNotification(
         AnomalyFactory.createOutlier(
           notification.timestamp,
@@ -42,7 +42,7 @@ export class NotificationDBAdapter {
   }
 
   static asDBEntity(notification: Notification): NotificationDBEntity {
-    if (notification.event.type === "outlier") {
+    if (notification.event.type === 'outlier') {
       const outlier: Outlier = notification.event as Outlier
       return {
         id: notification.id.value,

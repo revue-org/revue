@@ -138,8 +138,7 @@ export class AlarmServiceImpl implements AlarmService {
     maxValue: number,
     measure: Measure
   ): Promise<SecurityRuleId> {
-    const rule: RangeRule = SecurityRulesFactory.rangeRuleOf(
-      SecurityRulesFactory.newId(),
+    const rule: RangeRule = SecurityRulesFactory.createRangeRule(
       activeOn,
       creatorId,
       contacts,
@@ -164,7 +163,6 @@ export class AlarmServiceImpl implements AlarmService {
     intrusionObject: ObjectClass
   ): Promise<SecurityRuleId> {
     const rule: IntrusionRule = SecurityRulesFactory.createIntrusionRule(
-      SecurityRulesFactory.newId(),
       activeOn,
       creatorId,
       intrusionObject,

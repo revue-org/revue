@@ -4,7 +4,6 @@ import { deviceSchema } from './schemas/DeviceSchema.js'
 import { DeviceRepository } from '@/application/repositories/DeviceRepository.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
-import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
 
 export class MongoDBDeviceRepository implements DeviceRepository {
   private _model = mongoose.model<DeviceDBEntity>('Device', deviceSchema)

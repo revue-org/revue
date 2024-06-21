@@ -1,6 +1,5 @@
 import { NotificationId } from '@/domain/core/NotificationId'
 import { Notification } from '@/domain/core/Notification'
-import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
 
 export interface NotificationService {
@@ -8,7 +7,7 @@ export interface NotificationService {
 
   getNotificationById(id: NotificationId): Promise<Notification>
 
-  getNotificationsByType(type: DomainEventType): Promise<Notification[]>
+  getNotificationsByType(type: any): Promise<Notification[]>
 
   createNotification(event: DomainEvent, message: string): Promise<void>
 

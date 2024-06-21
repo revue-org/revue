@@ -28,7 +28,6 @@ export class MeasurementServiceImpl implements MeasurementService {
   ): Promise<void> {
     await this.repository.saveMeasurement(
       MeasurementFactory.createNumericMeasurement(
-        MeasurementFactory.newId(),
         timestamp,
         sourceDeviceId,
         measure,

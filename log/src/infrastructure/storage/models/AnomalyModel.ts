@@ -1,4 +1,4 @@
-import { Anomaly, AnomalyType, Intrusion, Outlier } from '@common/domain/core'
+import { Anomaly, Intrusion, Outlier } from '@common/domain/core'
 import { AnomalyFactory, MeasurementFactory } from '@common/domain/factories'
 
 export interface AnomalyDBEntity {
@@ -15,16 +15,14 @@ export interface AnomalyDBEntity {
 
 export class AnomalyDBAdapter {
   static asDomainEntity(anomaly: AnomalyDBEntity): Anomaly {
-    if (anomaly.type == AnomalyType.OUTLIER) {
+    if (anomaly.type == "outlier") {
       return AnomalyFactory.createOutlier(
-        AnomalyFactory.idOf(anomaly.id),
         anomaly.timestamp,
         MeasurementFactory.idOf(anomaly.data.measurementId!),
         anomaly.data.rangeRuleId!
       )
     } else {
       return AnomalyFactory.createIntrusion(
-        AnomalyFactory.idOf(anomaly.id),
         anomaly.timestamp,
         MeasurementFactory.idOf(anomaly.data.detectionId!),
         anomaly.data.intrusionRuleId!
@@ -33,11 +31,11 @@ export class AnomalyDBAdapter {
   }
 
   static asDBEntity(anomaly: Anomaly): AnomalyDBEntity {
-    if (anomaly.type == AnomalyType.OUTLIER) {
+    if (anomaly.type == "outlier") {
       const outlier: Outlier = anomaly as Outlier
       return {
         id: outlier.id.value,
-        type: AnomalyType.OUTLIER,
+        type: "outlier",
         timestamp: outlier.timestamp,
         data: {
           measurementId: outlier.measurementId.value,
@@ -48,7 +46,7 @@ export class AnomalyDBAdapter {
       const intrusion: Intrusion = anomaly as Intrusion
       return {
         id: intrusion.id.value,
-        type: AnomalyType.INTRUSION,
+        type: "intrusion",
         timestamp: intrusion.timestamp,
         data: {
           detectionId: intrusion.detectionId.value,

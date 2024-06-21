@@ -2,7 +2,6 @@ import { Notification } from '@/domain/core/Notification'
 import { NotificationRepository } from '@/application/repositories/NotificationRepository'
 import { NotificationService } from '@/application/services/NotificationService'
 import { NotificationId } from '@/domain/core/NotificationId'
-import { DomainEventType } from 'common/dist/domain/core/DomainEventType'
 import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory'
 import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
@@ -32,8 +31,8 @@ export class NotificationServiceImpl implements NotificationService {
     return await this.repository.getNotificationById(id)
   }
 
-  async getNotificationsByType(type: DomainEventType): Promise<Notification[]> {
-    return await this.repository.getNotificationsByType(type.type)
+  async getNotificationsByType(type: any): Promise<Notification[]> {
+    return await this.repository.getNotificationsByType(type)
   }
 
   async createNotification(event: DomainEvent, message: string): Promise<void> {

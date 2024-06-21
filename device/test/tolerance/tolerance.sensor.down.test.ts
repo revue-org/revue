@@ -1,5 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest'
-import { Consumer } from 'kafkajs'
+import { beforeAll, describe, it } from 'vitest'
 import mongoose from 'mongoose'
 import { mongoConnect } from 'common/dist/utils/connection'
 import { MongoDBDeviceRepository } from '@/infrastructure/storage/MongoDBDeviceRepository'

@@ -1,7 +1,4 @@
-import { beforeAll, describe, expect, test } from 'vitest'
-import RequestHelper, { logHost, logPort } from '../utils/RequestHelper.js'
-import { AxiosResponse } from 'axios'
-import { Consumer } from 'kafkajs'
+import { beforeAll, describe, test } from 'vitest'
 import mongoose from 'mongoose'
 import { mongoConnect } from 'common/dist/utils/connection.js'
 import { MongoDBDeviceRepository } from '@/infrastructure/storage/MongoDBDeviceRepository.js'
@@ -28,7 +25,7 @@ describe(`When log service is down`, (): void => {
   })
 
   test('sensor should continue producing data but not storing them', async (): Promise<void> => {
-    const sensors: Device[] = await deviceService.getDevices()
+    const sensors: Device[] = await deviceService.getDevices([])
     const intervals: number[] = sensors.map((sensor: any): number => sensor.intervalMillis)
     const collectedData: string[] = []
     /*const consumer: Consumer = kafkaManager.createConsumer('test-consumer-log')

@@ -13,7 +13,12 @@ export class DetectionFactory {
     return { value }
   }
 
-  static detectionFrom(id: DomainEventId, timestamp: Date, sourceDeviceId: string, objectClass: ObjectClass): Detection {
+  static detectionFrom(
+    id: DomainEventId,
+    timestamp: Date,
+    sourceDeviceId: string,
+    objectClass: ObjectClass
+  ): Detection {
     return {
       id,
       type: 'detection',

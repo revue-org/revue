@@ -14,16 +14,16 @@ export class LocationDBAdapter {
   static asDomainEntity(location: LocationDBEntity): Location {
     if (location.isRoom) {
       return LocationFactory.roomFrom(
-          LocationFactory.idOf(location.locationId),
-          location.description,
-          LocationFactory.idOf(location.buildingId!)
+        LocationFactory.idOf(location.locationId),
+        location.description,
+        LocationFactory.idOf(location.buildingId!)
       )
     }
     return LocationFactory.buildingFrom(
-        LocationFactory.idOf(location.locationId),
-        location.description,
-        location.address!,
-        location.external!
+      LocationFactory.idOf(location.locationId),
+      location.description,
+      location.address!,
+      location.external!
     )
   }
 

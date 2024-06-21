@@ -11,12 +11,12 @@ export class LocationFactory {
   }
 
   static roomFrom(id: LocationId, description: string, buildingId: LocationId): Location {
-      return {
+    return {
       locationId: id,
       description,
       buildingId,
       isRoom: true
-      }
+    }
   }
 
   static createRoom(description: string, buildingId: LocationId): Location {

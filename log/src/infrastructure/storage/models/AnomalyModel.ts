@@ -15,7 +15,7 @@ export interface AnomalyDBEntity {
 
 export class AnomalyDBAdapter {
   static asDomainEntity(anomaly: AnomalyDBEntity): Anomaly {
-    if (anomaly.type == "outlier") {
+    if (anomaly.type == 'outlier') {
       return AnomalyFactory.outlierFrom(
         AnomalyFactory.idOf(anomaly.id),
         anomaly.timestamp,

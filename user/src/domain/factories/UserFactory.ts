@@ -22,6 +22,6 @@ export class UserFactory {
   }
 
   static createUser(name: string, surname: string, mail: string, contacts: Contact[]): User {
-      return this.userFrom(this.newId(), name, surname, mail, contacts)
+    return this.userFrom(this.newId(), name, surname, mail, contacts)
   }
 }

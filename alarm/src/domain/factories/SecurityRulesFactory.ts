@@ -17,14 +17,14 @@ export class SecurityRulesFactory {
   }
 
   static intrusionRuleOf(
-      id: SecurityRuleId,
-      activeOn: string,
-      creatorId: string,
-      objectClass: ObjectClass,
-      contacts: Contact[],
-      description: string,
-      validity: TimeSlot,
-      enabled: boolean
+    id: SecurityRuleId,
+    activeOn: string,
+    creatorId: string,
+    objectClass: ObjectClass,
+    contacts: Contact[],
+    description: string,
+    validity: TimeSlot,
+    enabled: boolean
   ): IntrusionRule {
     return {
       id,
@@ -48,7 +48,16 @@ export class SecurityRulesFactory {
     validity: TimeSlot,
     enabled: boolean
   ): IntrusionRule {
-    return this.intrusionRuleOf(this.newId(), activeOn, creatorId, objectClass, contacts, description, validity, enabled)
+    return this.intrusionRuleOf(
+      this.newId(),
+      activeOn,
+      creatorId,
+      objectClass,
+      contacts,
+      description,
+      validity,
+      enabled
+    )
   }
 
   static rangeRuleOf(
@@ -79,17 +88,28 @@ export class SecurityRulesFactory {
   }
 
   static createRangeRule(
-      activeOn: string,
-      creatorId: string,
-      contacts: Contact[],
-      description: string,
-      validity: TimeSlot,
-      min: number,
-      max: number,
-      measure: Measure,
-      enabled: boolean
+    activeOn: string,
+    creatorId: string,
+    contacts: Contact[],
+    description: string,
+    validity: TimeSlot,
+    min: number,
+    max: number,
+    measure: Measure,
+    enabled: boolean
   ): RangeRule {
-      return this.rangeRuleOf(this.newId(), activeOn, creatorId, contacts, description, validity, min, max, measure, enabled)
+    return this.rangeRuleOf(
+      this.newId(),
+      activeOn,
+      creatorId,
+      contacts,
+      description,
+      validity,
+      min,
+      max,
+      measure,
+      enabled
+    )
   }
 
   static newTimeSlot(from: Date, to: Date): TimeSlot {

@@ -23,19 +23,19 @@ export class MeasurementFactory {
   }
 
   static numericMeasurementFrom(
-      id: DomainEventId,
-      timestamp: Date,
-      sourceDeviceId: string,
-      measure: Measure,
-      value: number
+    id: DomainEventId,
+    timestamp: Date,
+    sourceDeviceId: string,
+    measure: Measure,
+    value: number
   ): NumericMeasurement {
-      return {
+    return {
       id,
       timestamp,
       type: 'measurement',
       sourceDeviceId,
       measure: measure,
       value
-      }
+    }
   }
 }

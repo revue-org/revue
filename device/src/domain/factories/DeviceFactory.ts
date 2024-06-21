@@ -41,13 +41,13 @@ export class DeviceFactory {
   }
 
   static createDevice(
-      description: string,
-      ipAddress: string,
-      port: number,
-      locationId: string,
-      capabilities: DeviceCapability[],
-      enabled: boolean
+    description: string,
+    ipAddress: string,
+    port: number,
+    locationId: string,
+    capabilities: DeviceCapability[],
+    enabled: boolean
   ): Device {
-      return this.deviceFrom(this.newId(), description, ipAddress, port, locationId, capabilities, enabled)
+    return this.deviceFrom(this.newId(), description, ipAddress, port, locationId, capabilities, enabled)
   }
 }

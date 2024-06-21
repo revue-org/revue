@@ -4,7 +4,6 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import { jwtManager } from '@utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
-import { Server as SocketIOServer } from 'socket.io'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -12,12 +11,6 @@ export const app: Express = express()
 app.use(cors())
 
 const server: HttpServer = http.createServer(app)
-
-export const io: SocketIOServer = new SocketIOServer(server, {
-  cors: {
-    origin: '*'
-  }
-})
 
 app.use(express.json())
 

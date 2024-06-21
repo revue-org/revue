@@ -27,7 +27,7 @@ export class AlarmServiceImpl implements AlarmService {
   }
 
   private configureEvents() {
-    this.events.subscribeToDetections((detection: Detection) => {
+    this.events.subscribeToDetections((detection: Detection): void => {
       this.checkIntrusion(detection).then(intrusionRule => {
         if (intrusionRule) {
           this.events.publishAnomaly(this.createIntrusion(detection, intrusionRule))
@@ -35,7 +35,7 @@ export class AlarmServiceImpl implements AlarmService {
       })
     })
 
-    this.events.subscribeToMeasurements((measurement: Measurement) => {
+    this.events.subscribeToMeasurements((measurement: Measurement): void => {
       this.checkMeasurement(measurement).then(rangeRule => {
         if (rangeRule) {
           this.events.publishAnomaly(this.createOutlier(measurement, rangeRule))

@@ -1,4 +1,4 @@
-import { MonitoringEventsHub } from '@/application/services/MonitoringEventsHub'
+import { LogEventsHub } from '@/application/services/LogEventsHub'
 import { Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
@@ -6,7 +6,7 @@ import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
 
-export class KafkaEventsHub implements MonitoringEventsHub {
+export class KafkaLogEventsHub implements LogEventsHub {
   private measurementsConsumer: KafkaConsumer
 
   constructor(kafkaOptions: KafkaOptions) {

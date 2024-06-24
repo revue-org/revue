@@ -1,4 +1,4 @@
-import { Admin, Kafka, Partitioners, Producer } from "kafkajs";
+import { Admin, Kafka, Partitioners, Producer } from 'kafkajs'
 import { KafkaOptions } from './KafkaOptions'
 
 export default class KafkaProducer {

@@ -84,8 +84,10 @@ export class AlarmServiceImpl implements AlarmService {
       .getSecurityRules()
       .then((rules: SecurityRule[]) =>
         rules
-          .filter((rule:SecurityRule) => this.isEnabled(rule))
-          .filter((rule: SecurityRule) => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
+          .filter((rule: SecurityRule) => this.isEnabled(rule))
+          .filter((rule: SecurityRule) =>
+            this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to)
+          )
       )
   }
 

@@ -3,7 +3,7 @@ import { MeasurementRepository } from '@/application/repositories/MeasurementRep
 import { Measurement } from '@common/domain/core/Measurement.js'
 import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 import { MeasurementFactory } from 'common/dist/domain/factories/MeasurementFactory'
-import { Measure } from 'common/dist/domain/core'
+import { DeviceEvent, Measure } from 'common/dist/domain/core'
 import { LogEventsHub } from '@/application/services/LogEventsHub'
 
 export class MeasurementServiceImpl implements MeasurementService {
@@ -19,6 +19,16 @@ export class MeasurementServiceImpl implements MeasurementService {
   private configureEvents(): void {
     this.events.subscribeToMeasurements((measurement: Measurement): void => {
       this.repository.saveMeasurement(measurement)
+    })
+
+    this.events.subscribeToDevices((event: DeviceEvent): void => {
+      if (event.type === 'addition') {
+        // if the device event is an addition, resubscribe to the measurements to save measurements of the new device.
+        // the subscribe method will be called again, and new topics will be added to the consumer
+        this.events.subscribeToMeasurements((measurement: Measurement): void => {
+          this.repository.saveMeasurement(measurement)
+        })
+      }
     })
   }
 

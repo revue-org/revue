@@ -11,7 +11,7 @@ import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter'
 import { DetectionsAdapter } from '@presentation/events/adapters/DetectionAdapter'
 import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter'
 
-export class KafkaAlarmEventsService implements AlarmEventsHub {
+export class KafkaAlarmEventsHub implements AlarmEventsHub {
   private measurementsConsumer: KafkaConsumer
   private detectionsConsumer: KafkaConsumer
   private anomalyProducer: KafkaProducer
@@ -25,7 +25,7 @@ export class KafkaAlarmEventsService implements AlarmEventsHub {
   }
 
   private getDevices(): void {
-    RequestHelper.get(`${monitoringHost}:${monitoringPort}/devices`).then((res: AxiosResponse) => {
+    RequestHelper.get(`${monitoringHost}:${monitoringPort}/devices`).then((res: AxiosResponse): void => {
       this.devices = res.data
     })
   }
@@ -40,7 +40,7 @@ export class KafkaAlarmEventsService implements AlarmEventsHub {
       .filter((device: any) => device.type === 'CAMERA')
       .map((device: any) => `measurements.${device.id.code}`)
     this.measurementsConsumer
-      .startConsuming(topics, false, (message: KafkaMessage) => {
+      .startConsuming(topics, false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
             const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)

@@ -71,7 +71,7 @@ export class AlarmServiceImpl implements AlarmService {
   private async checkMeasurement(measurement: Measurement): Promise<RangeRule | undefined> {
     return this.getActiveRangeRules().then(rules =>
       rules.find(
-        rule =>
+        (rule: RangeRule) =>
           rule.activeOn === measurement.id.value &&
           rule.measure === measurement.measure &&
           (measurement.value < rule.min || measurement.value > rule.max)
@@ -84,8 +84,8 @@ export class AlarmServiceImpl implements AlarmService {
       .getSecurityRules()
       .then((rules: SecurityRule[]) =>
         rules
-          .filter(rule => this.isEnabled(rule))
-          .filter(rule => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
+          .filter((rule:SecurityRule) => this.isEnabled(rule))
+          .filter((rule: SecurityRule) => this.checkIfDateIsInRange(new Date(), rule.validity.from, rule.validity.to))
       )
   }
 
@@ -106,6 +106,7 @@ export class AlarmServiceImpl implements AlarmService {
   }
 
   private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {
+    // TODO: unit testing this function could be a good idea :D
     date.setHours(date.getHours() + 1) // correction due to timezone
     return (
       (date.getHours() > from.getHours() ||

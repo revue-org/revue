@@ -1,62 +1,65 @@
-import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
-import { DeviceRepository } from '../repositories/DeviceRepository.js'
-import { DeviceService } from './DeviceService.js'
-import { DeviceId } from '@/domain/core/DeviceId.js'
-import { Device } from '@/domain/core/Device.js'
-import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint.js'
-import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
-import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
-import RequestHelper from '@utils/RequestHelper.js'
+import { DeviceCapability } from "@/domain/core/capabilities/DeviceCapability.js";
+import { DeviceRepository } from "../repositories/DeviceRepository.js";
+import { DeviceService } from "./DeviceService.js";
+import { DeviceId } from "@/domain/core/DeviceId.js";
+import { Device } from "@/domain/core/Device.js";
+import { DeviceEndpoint } from "@/domain/core/DeviceEndpoint.js";
+import { DeviceFactory } from "@/domain/factories/DeviceFactory.js";
+import { CapabilityType } from "@/domain/core/capabilities/CapabilityType";
+import RequestHelper from "@utils/RequestHelper.js";
+import { DeviceEventsHub } from "@/application/services/DeviceEventsHub";
+import { DeviceEventFactory } from "common/dist/domain/factories/DeviceEventFactory";
 
 export class DeviceServiceImpl implements DeviceService {
-  private _repository: DeviceRepository
+  private _repository: DeviceRepository;
+  private _events: DeviceEventsHub;
 
   constructor(repository: DeviceRepository) {
-    this._repository = repository
+    this._repository = repository;
+    this._events = {} as DeviceEventsHub;
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
-    const device: Device = await this._repository.getDeviceById(deviceId)
-    return device.capabilities
+    const device: Device = await this._repository.getDeviceById(deviceId);
+    return device.capabilities;
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {
-    const device: Device = await this._repository.getDeviceById(deviceId)
-    return device.locationId
+    const device: Device = await this._repository.getDeviceById(deviceId);
+    return device.locationId;
   }
 
   async getDeviceById(deviceId: DeviceId): Promise<Device> {
-    return await this._repository.getDeviceById(deviceId)
+    return await this._repository.getDeviceById(deviceId);
   }
 
   async getDevices(capabilities: CapabilityType[] = []): Promise<Device[]> {
-    if (capabilities.length > 0) return await this.getDeviceWithCapabilities(capabilities)
-    return await this._repository.getDevices()
+    if (capabilities.length > 0) return await this.getDeviceWithCapabilities(capabilities);
+    return await this._repository.getDevices();
   }
 
   private async getDeviceWithCapabilities(capabilities: CapabilityType[]): Promise<Device[]> {
-    const devices: Device[] = await this._repository.getDevices()
-    const admittedDevices: Device[] = []
+    const devices: Device[] = await this._repository.getDevices();
+    const admittedDevices: Device[] = [];
 
     devices.forEach((device: Device): void => {
-      RequestHelper.get(device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities').then(
+      RequestHelper.get("http://" + device.endpoint.ipAddress + ":" + device.endpoint.port + "/capabilities").then(
         (res: any): void => {
           if (
             res.data.capabilities.forEach((capability: string): boolean =>
               capabilities.includes(capability as CapabilityType)
             )
           ) {
-            admittedDevices.push(device)
+            admittedDevices.push(device);
           }
         }
-      )
-    })
-
-    return admittedDevices
+      );
+    });
+    return admittedDevices;
   }
 
   async getActiveDevices(): Promise<Device[]> {
-    return await this._repository.getActiveDevices()
+    return await this._repository.getActiveDevices();
   }
 
   async createDevice(
@@ -74,9 +77,10 @@ export class DeviceServiceImpl implements DeviceService {
       locationId,
       capabilities,
       enabled
-    )
-    await this._repository.saveDevice(device)
-    return device.deviceId
+    );
+    await this._repository.saveDevice(device);
+    this._events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
+    return device.deviceId;
   }
 
   updateDevice(
@@ -97,23 +101,25 @@ export class DeviceServiceImpl implements DeviceService {
         capabilities,
         enabled
       )
-    )
+    );
   }
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
-    return await this._repository.removeDevice(deviceId)
+    await this._repository.removeDevice(deviceId);
+    this._events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
   }
 
   async enableDevice(deviceId: DeviceId): Promise<void> {
-    return await this.toggleDevice(deviceId, true)
+    return await this.toggleDevice(deviceId, true);
   }
 
   async disableDevice(deviceId: DeviceId): Promise<void> {
-    return await this.toggleDevice(deviceId, false)
+    return await this.toggleDevice(deviceId, false);
   }
 
   private async toggleDevice(deviceId: DeviceId, enabled: boolean): Promise<void> {
-    const device: Device = await this._repository.getDeviceById(deviceId)
-    await this._repository.updateDevice({ ...device, isEnabled: enabled })
+    const device: Device = await this._repository.getDeviceById(deviceId);
+    await this._repository.updateDevice({ ...device, isEnabled: enabled });
   }
+
 }

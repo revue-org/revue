@@ -2,7 +2,7 @@ import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { AlarmService } from '@/application/services/AlarmService'
 import { AlarmEventsHub } from '@/application/services/AlarmEventsHub'
 import { AlarmServiceImpl } from '@/application/services/impl/AlarmServiceImpl.js'
-import { KafkaAlarmEventsService } from '@/infrastructure/events/KafkaAlarmEventsService.js'
+import { KafkaAlarmEventsHub } from '@/infrastructure/events/KafkaAlarmEventsHub.js'
 import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository.js'
 
 let kafkaHost: string = process.env.KAFKA_HOST!
@@ -20,4 +20,4 @@ const kafkaOptions: KafkaOptions = {
 }
 
 export const alarmService: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository())
-export const eventsService: AlarmEventsHub = new KafkaAlarmEventsService(kafkaOptions)
+export const eventsService: AlarmEventsHub = new KafkaAlarmEventsHub(kafkaOptions)

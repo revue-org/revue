@@ -5,57 +5,30 @@ import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('POST /devices/', (): void => {
+describe('POST /', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
   })
-  describe('POST /devices/sensors', (): void => {
+  describe('POST /', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const creation: Response = await monitoringService.post('/devices/sensors')
+      const creation: Response = await deviceService.post('/')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
-    it('should create a new sensor', async (): Promise<void> => {
-      const newSensor = {
-        code: 'sen-2',
-        ipAddress: '192.168.1.1',
-        intervalMillis: 2000,
-        measures: ['TEMPERATURE', 'PRESSURE']
+    it('should create a new device', async (): Promise<void> => {
+      const newDevice = {
+        description: 'test-description-1',
+        ipAddress: 'test-ip-address-1',
+        port: 0,
+        locationId: 'test-location-id-1'
       }
 
       // @ts-ignore
-      const creation: Response = await monitoringService
-        .post('/devices/sensors')
+      const creation: Response = await deviceService
+        .post('/')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newSensor)
-
-      expect(creation.status).toBe(HttpStatusCode.CREATED)
-      expect(creation.type).toBe('application/json')
-    })
-  })
-
-  describe('POST /devices/cameras', (): void => {
-    it('responds with a forbidden status if not authorized', async (): Promise<void> => {
-      // @ts-ignore
-      const creation: Response = await monitoringService.post('/devices/cameras')
-      expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
-    })
-
-    it('should create a new camera', async (): Promise<void> => {
-      const newCamera = {
-        code: 'cam-2',
-        ipAddress: '192.168.1.1',
-        resolution: {
-          width: 200,
-          height: 200
-        }
-      }
-      // @ts-ignore
-      const creation: Response = await monitoringService
-        .post('/devices/cameras')
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newCamera)
+        .send(newDevice)
 
       expect(creation.status).toBe(HttpStatusCode.CREATED)
       expect(creation.type).toBe('application/json')

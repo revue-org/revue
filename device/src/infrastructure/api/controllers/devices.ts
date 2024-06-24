@@ -23,15 +23,14 @@ export const deviceController = {
     description: string,
     address: string,
     port: number,
-    locationId: string,
-    capabilities: DeviceCapability[]
+    locationId: string
   ): Promise<DeviceId> => {
     return await service.createDevice(
       description,
       DeviceFactory.endpointOf(address, port),
       locationId,
       true,
-      capabilities
+      []
     )
   },
   updateDevice: async (
@@ -40,8 +39,7 @@ export const deviceController = {
     address: string,
     port: number,
     locationId: string,
-    enabled: boolean,
-    capabilities: DeviceCapability[]
+    enabled: boolean
   ): Promise<void> => {
     return await service.updateDevice(
       DeviceFactory.idOf(id),
@@ -49,7 +47,7 @@ export const deviceController = {
       DeviceFactory.endpointOf(address, port),
       locationId,
       enabled,
-      capabilities
+      []
     )
   },
   deleteDevice: async (id: string): Promise<void> => {

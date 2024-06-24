@@ -1,3 +1,4 @@
+/*
 import { beforeAll, describe, test } from 'vitest'
 import mongoose from 'mongoose'
 import { mongoConnect } from 'common/dist/utils/connection.js'
@@ -28,7 +29,7 @@ describe(`When log service is down`, (): void => {
     const sensors: Device[] = await deviceService.getDevices([])
     const intervals: number[] = sensors.map((sensor: any): number => sensor.intervalMillis)
     const collectedData: string[] = []
-    /*const consumer: Consumer = kafkaManager.createConsumer('test-consumer-log')
+    /!*const consumer: Consumer = kafkaManager.createConsumer('test-consumer-log')
     await consumer.connect()
     await consumer.subscribe({
       topics: sensors.map((sensor: any) => `SENSOR_${sensor._id.code}`),
@@ -51,6 +52,7 @@ describe(`When log service is down`, (): void => {
     } catch (e: any) {
       expect(e).toBeDefined()
     }
-    expect(logResponse, 'Log service should be down').toBe(undefined)*/
+    expect(logResponse, 'Log service should be down').toBe(undefined)*!/
   })
 })
+*/

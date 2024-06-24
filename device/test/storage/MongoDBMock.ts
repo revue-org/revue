@@ -1,7 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { sensorSample } from '../resources/sensorSample.js'
-import { cameraSample } from '../resources/cameraSample.js'
+import { deviceSample, deviceSample1 } from "../resources/deviceSample.js";
 import { DeviceDBEntity } from "@/infrastructure/storage/models/DeviceModel";
 import { deviceSchema } from "@/infrastructure/storage/schemas/DeviceSchema";
 
@@ -23,6 +22,6 @@ export const disconnectFromMock = async (): Promise<void> => {
 
 export const populateDevices = async (): Promise<void> => {
   const _model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
-  await _model.create(cameraSample)
-  await _model.create(sensorSample)
+  await _model.create(deviceSample)
+  await _model.create(deviceSample1)
 }

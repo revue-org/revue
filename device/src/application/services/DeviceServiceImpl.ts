@@ -79,7 +79,7 @@ export class DeviceServiceImpl implements DeviceService {
       enabled
     );
     await this._repository.saveDevice(device);
-    this._events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
+    //this._events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
     return device.deviceId;
   }
 
@@ -106,7 +106,7 @@ export class DeviceServiceImpl implements DeviceService {
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
     await this._repository.removeDevice(deviceId);
-    this._events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
+    //this._events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
   }
 
   async enableDevice(deviceId: DeviceId): Promise<void> {

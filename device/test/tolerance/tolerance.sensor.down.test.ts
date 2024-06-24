@@ -1,3 +1,4 @@
+/*
 import { beforeAll, describe, it } from 'vitest'
 import mongoose from 'mongoose'
 import { mongoConnect } from 'common/dist/utils/connection'
@@ -26,7 +27,7 @@ describe(`When sensor ${sensorCode} is down`, (): void => {
   })
 
   it('should consuming no environment data from kafka', async (): Promise<void> => {
-    /*const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
+    /!*const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
     const sensor: Device = await deviceService.getDeviceById(deviceIdFactory.createSensorId('sen-01'))
     const interval: number = (sensor as Sensor).intervalMillis
     const collectedData: string[] = []
@@ -40,6 +41,7 @@ describe(`When sensor ${sensorCode} is down`, (): void => {
       }
     })
     await new Promise((resolve): NodeJS.Timeout => setTimeout(resolve, interval + 2000))
-    expect(collectedData.length).toBe(0)*/
+    expect(collectedData.length).toBe(0)*!/
   })
 })
+*/

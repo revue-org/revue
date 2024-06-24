@@ -4,8 +4,7 @@ import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
-import { AxiosResponse } from 'axios'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper.js'
+import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
 import { AnomalyMessage } from '@presentation/events/schemas/AnomalySchema'
 import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter'
 import { DetectionsAdapter } from '@presentation/events/adapters/DetectionAdapter'
@@ -15,19 +14,23 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   private measurementsConsumer: KafkaConsumer
   private detectionsConsumer: KafkaConsumer
   private anomalyProducer: KafkaProducer
-  private devices: any[] = []
 
   constructor(kafkaOptions: KafkaOptions) {
     this.measurementsConsumer = new KafkaConsumer(kafkaOptions)
     this.detectionsConsumer = new KafkaConsumer(kafkaOptions)
     this.anomalyProducer = new KafkaProducer(kafkaOptions)
-    this.getDevices()
   }
 
-  private getDevices(): void {
-    RequestHelper.get(`${monitoringHost}:${monitoringPort}/devices`).then((res: AxiosResponse): void => {
-      this.devices = res.data
-    })
+  private async getMeasurementTopics(): Promise<string[]> {
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=sensor`).then(
+      (res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`)
+    )
+  }
+
+  private async getDetectionsTopics(): Promise<string[]> {
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=video`).then(
+      (res: any): string[] => res.data.map((device: any): string => `detections.${device.id}`)
+    )
   }
 
   publishAnomaly(anomaly: Anomaly): void {
@@ -35,12 +38,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
     this.anomalyProducer.produce('anomalies', anomalyMessage)
   }
 
-  subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
-    const topics: string[] = this.devices
-      .filter((device: any) => device.type === 'CAMERA')
-      .map((device: any) => `measurements.${device.id.code}`)
+  async subscribeToMeasurements(handler: (_measurement: Measurement) => void): Promise<void> {
     this.measurementsConsumer
-      .startConsuming(topics, false, (message: KafkaMessage): void => {
+      .startConsuming(await this.getMeasurementTopics(), false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
             const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
@@ -55,12 +55,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
       })
   }
 
-  subscribeToDetections(handler: (_detection: Detection) => void): void {
-    const topics: string[] = this.devices
-      .filter((device: any) => device.type === 'SENSOR')
-      .map((device: any) => `detections.${device.id.code}`)
+  async subscribeToDetections(handler: (_detection: Detection) => void): Promise<void> {
     this.detectionsConsumer
-      .startConsuming(topics, false, (message: KafkaMessage) => {
+      .startConsuming(await this.getDetectionsTopics(), false, (message: KafkaMessage) => {
         if (message.value) {
           try {
             const detection: Detection = DetectionsAdapter.asDomainEvent(message.value)

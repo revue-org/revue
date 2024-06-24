@@ -26,7 +26,7 @@ export class AlarmServiceImpl implements AlarmService {
     // this.configureEvents()
   }
 
-  private configureEvents() {
+  private configureEvents(): void {
     this.events.subscribeToDetections((detection: Detection): void => {
       this.checkIntrusion(detection).then(intrusionRule => {
         if (intrusionRule) {

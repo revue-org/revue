@@ -57,7 +57,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
 
   async subscribeToDetections(handler: (_detection: Detection) => void): Promise<void> {
     this.detectionsConsumer
-      .startConsuming(await this.getDetectionsTopics(), false, (message: KafkaMessage) => {
+      .startConsuming(await this.getDetectionsTopics(), false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
             const detection: Detection = DetectionsAdapter.asDomainEvent(message.value)

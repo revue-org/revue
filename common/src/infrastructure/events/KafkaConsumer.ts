@@ -1,4 +1,4 @@
-import { Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
+import { Admin, Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
 import { KafkaOptions } from './KafkaOptions'
 
 export default class KafkaConsumer {
@@ -37,6 +37,19 @@ export default class KafkaConsumer {
 
   public async shutdown(): Promise<void> {
     await this.kafkaConsumer.disconnect()
+  }
+
+  public deleteTopics(topics: string[]): void {
+    const kafka: Kafka = new Kafka({
+      clientId: this.kafkaOptions.clientId,
+      brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`)
+    })
+    const admin: Admin = kafka.admin()
+    admin.connect().then((): void => {
+      admin.deleteTopics({ topics: topics }).then(() => {
+        console.log('Topics deleted: ', topics)
+      })
+    })
   }
 
   private createConsumer(): Consumer {

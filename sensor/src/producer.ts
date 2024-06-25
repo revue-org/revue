@@ -1,11 +1,10 @@
 import RequestHelper, { deviceHost, devicePort } from '@common/utils/RequestHelper.js'
-import { AxiosResponse } from 'axios'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
 import { Measurement } from '@common/domain/core/Measurement.js'
+import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
-import { Measure } from '@common/domain/core/Measure.js'
-import { MeasureType } from '@common/domain/core/MeasureType.js'
 import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 
 const SENSOR_CODE = process.env.SENSOR_CODE
@@ -15,6 +14,8 @@ if (SENSOR_CODE === undefined) {
   process.exit(1)
 }
 
+let sensor: any
+
 export const getSensorInfo = async (): Promise<void> => {
   const deviceUrl: string = `http://${deviceHost}:${devicePort}`
   try {
@@ -22,15 +23,7 @@ export const getSensorInfo = async (): Promise<void> => {
     const res = await RequestHelper.get(`${deviceUrl}/${SENSOR_CODE}`)
     console.log('INFO: SENSOR INFO RETRIEVED')
     console.log(res.data)
-    // sourceSensor = new DeviceFactoryImpl().createSensor(
-    //   new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
-    //   false,
-    //   res.data.ipAddress,
-    //   res.data.intervalMillis,
-    //   res.data.measures.map((measure: any) => {
-    //     return MeasureConverter.convertToMeasure(measure)
-    //   })
-    // )
+    sensor = res.data
     // console.log('INFO: SENSOR INFO RETRIEVED')
   } catch (e) {
     console.log(e)
@@ -52,27 +45,20 @@ const kafkaOptions: KafkaOptions = {
   brokers: [{ host: kafkaHost, port: kafkaPort }]
 }
 
-// export const produce = async (): Promise<void> => {
-//   const producer: KafkaProducer = new KafkaProducer(kafkaOptions)
-//   await producer.start()
-//   let values: Measurement[] = []
-//   setInterval(async (): Promise<void> => {
-//     values = []
-//     for (const measure of sourceSensor.measures) {
-//       values.push(
-//         environmentDataFactory.createEnvironmentData(
-//           sourceSensor.deviceId,
-//           generateRandomValue(measure),
-//           measure,
-//           getMeasureUnit(measure),
-//           new Date()
-//         )
-//       )
-//     }
-//     producer.produce(`measurements.${sourceSensor.deviceId.code}`, values)
-//   }, sourceSensor.intervalMillis)
-// }
-//
+export const produce = async (): Promise<void> => {
+  const producer: KafkaProducer = new KafkaProducer(kafkaOptions)
+  await producer.start()
+  setInterval(async (): Promise<void> => {
+    const measurement: Measurement = MeasurementFactory.createNumericMeasurement(
+      new Date(),
+      sensor.deviceId.value,
+      MeasureFactory.createTemperatureMeasure(MeasureUnit.CELSIUS),
+      25
+    )
+    producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
+  }, 2000)
+}
+
 // const getMeasureUnit = (measure: Measure): MeasureUnit => {
 //   switch (measure) {
 //     case MeasureType.TEMPERATURE:

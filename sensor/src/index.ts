@@ -2,7 +2,7 @@ import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import { config } from 'dotenv'
 import { jwtManager } from './utils/JWTManager.js'
-import { getSensorInfo } from '@/producer.js'
+import { getSensorInfo, produce } from '@/producer.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -28,6 +28,6 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Sensor server listening on ${PORT}`)
     await getSensorInfo()
-    // await produce()
+    await produce()
   })
 }

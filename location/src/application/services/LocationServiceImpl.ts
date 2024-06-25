@@ -5,50 +5,50 @@ import { LocationFactory } from '@/domain/factories/LocationFactory'
 import { Location } from '@/domain/core/Location'
 
 export class LocationServiceImpl implements LocationService {
-  private _repository: LocationRepository
+  private repository: LocationRepository
 
   constructor(locationRepository: LocationRepository) {
-    this._repository = locationRepository
+    this.repository = locationRepository
   }
 
   async createRoom(description: string, buildingId: LocationId): Promise<void> {
-    return this._repository.saveLocation(LocationFactory.createRoom(description, buildingId))
+    return this.repository.saveLocation(LocationFactory.createRoom(description, buildingId))
   }
 
   async createBuilding(description: string, address: string, external: boolean): Promise<void> {
-    return this._repository.saveLocation(LocationFactory.createBuilding(description, address, external))
+    return this.repository.saveLocation(LocationFactory.createBuilding(description, address, external))
   }
 
   async getLocationById(locationId: LocationId): Promise<Location> {
-    return this._repository.getLocationById(locationId)
+    return this.repository.getLocationById(locationId)
   }
 
   async getBuildings(): Promise<Location[]> {
-    return this._repository.getBuildings()
+    return this.repository.getBuildings()
   }
 
   async getExternalBuildings(): Promise<Location[]> {
-    return this._repository.getExternalBuildings()
+    return this.repository.getExternalBuildings()
   }
 
   async getBuildingRooms(buildingId: LocationId): Promise<Location[]> {
-    return this._repository.getBuildingRooms(buildingId)
+    return this.repository.getBuildingRooms(buildingId)
   }
 
   async getRooms(): Promise<Location[]> {
-    return this._repository.getRooms()
+    return this.repository.getRooms()
   }
 
   async getExternalRooms(): Promise<Location[]> {
-    return this._repository.getExternalRooms()
+    return this.repository.getExternalRooms()
   }
 
   private async updateLocation(location: Location): Promise<void> {
-    return this._repository.updateLocation(location)
+    return this.repository.updateLocation(location)
   }
 
   async deleteLocation(locationId: LocationId): Promise<void> {
-    return this._repository.removeLocation(locationId)
+    return this.repository.removeLocation(locationId)
   }
 
   updateRoom(id: LocationId, description: string): Promise<void> {

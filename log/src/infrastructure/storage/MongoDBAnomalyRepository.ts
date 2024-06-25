@@ -9,10 +9,10 @@ import { Anomaly } from '@common/domain/core/Anomaly'
 import { anomalySchema } from '@/infrastructure/storage/schemas/AnomalySchema.js'
 
 export class MongoDBAnomalyRepository implements AnomalyRepository {
-  private _model = mongoose.model<AnomalyDBEntity>('AnomalySchema', anomalySchema, 'anomaly')
+  private model = mongoose.model<AnomalyDBEntity>('AnomalySchema', anomalySchema, 'anomaly')
 
   async getOutliers(): Promise<Outlier[]> {
-    const outliers = await this._model
+    const outliers = await this.model
       .find({
         type: 'outlier'
       })
@@ -21,7 +21,7 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   }
 
   async getIntrusions(): Promise<Intrusion[]> {
-    const intrusions = await this._model
+    const intrusions = await this.model
       .find({
         type: 'intrusion'
       })
@@ -30,7 +30,7 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   }
 
   async getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly> {
-    const anomaly = await this._model
+    const anomaly = await this.model
       .findOne({
         id: anomalyId.value
       })
@@ -42,7 +42,7 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   }
 
   async getAnomalies(): Promise<Anomaly[]> {
-    return this._model
+    return this.model
       .find()
       .lean()
       .then(anomalies => {
@@ -51,11 +51,11 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   }
 
   async saveAnomaly(anomaly: Anomaly): Promise<void> {
-    await this._model.create(AnomalyDBAdapter.asDBEntity(anomaly))
+    await this.model.create(AnomalyDBAdapter.asDBEntity(anomaly))
   }
 
   async updateAnomaly(anomaly: Anomaly): Promise<void> {
-    await this._model.updateOne(
+    await this.model.updateOne(
       {
         id: anomaly.id.value
       },
@@ -64,6 +64,6 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
   }
 
   async removeAnomaly(anomalyId: DomainEventId): Promise<void> {
-    await this._model.deleteOne({ id: anomalyId.value })
+    await this.model.deleteOne({ id: anomalyId.value })
   }
 }

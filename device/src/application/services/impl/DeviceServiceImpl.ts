@@ -13,16 +13,16 @@ import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 import { DeviceEventFactory } from '@common/domain/factories/DeviceEventFactory.js'
 
 export class DeviceServiceImpl implements DeviceService {
-  private readonly _repository: DeviceRepository
-  private readonly _events: DeviceEventsHub
+  private readonly repository: DeviceRepository
+  private readonly events: DeviceEventsHub
 
   constructor(repository: DeviceRepository, events: DeviceEventsHub) {
-    this._repository = repository
-    this._events = events
+    this.repository = repository
+    this.events = events
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
-    const device: Device = await this._repository.getDeviceById(deviceId)
+    const device: Device = await this.repository.getDeviceById(deviceId)
     return RequestHelper.get(
       'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
     ).then((res: any): DeviceCapability[] => {
@@ -47,21 +47,21 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {
-    const device: Device = await this._repository.getDeviceById(deviceId)
+    const device: Device = await this.repository.getDeviceById(deviceId)
     return device.locationId
   }
 
   async getDeviceById(deviceId: DeviceId): Promise<Device> {
-    return await this._repository.getDeviceById(deviceId)
+    return await this.repository.getDeviceById(deviceId)
   }
 
   async getDevices(capabilities: CapabilityType[] = []): Promise<Device[]> {
     if (capabilities.length > 0) return await this.getDeviceWithCapabilities(capabilities)
-    return await this._repository.getDevices()
+    return await this.repository.getDevices()
   }
 
   private async getDeviceWithCapabilities(capabilities: CapabilityType[]): Promise<Device[]> {
-    const devices: Device[] = await this._repository.getDevices()
+    const devices: Device[] = await this.repository.getDevices()
     const admittedDevices: Device[] = []
 
     devices.forEach((device: Device): void => {
@@ -81,7 +81,7 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   async getActiveDevices(): Promise<Device[]> {
-    return await this._repository.getActiveDevices()
+    return await this.repository.getActiveDevices()
   }
 
   async createDevice(
@@ -100,8 +100,8 @@ export class DeviceServiceImpl implements DeviceService {
       capabilities,
       enabled
     )
-    await this._repository.saveDevice(device)
-    this._events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
+    await this.repository.saveDevice(device)
+    this.events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
     return device.deviceId
   }
 
@@ -113,7 +113,7 @@ export class DeviceServiceImpl implements DeviceService {
     enabled: boolean,
     capabilities: DeviceCapability[]
   ): Promise<void> {
-    return this._repository.updateDevice(
+    return this.repository.updateDevice(
       DeviceFactory.deviceFrom(
         deviceId,
         description,
@@ -127,8 +127,8 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
-    await this._repository.removeDevice(deviceId)
-    this._events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
+    await this.repository.removeDevice(deviceId)
+    this.events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
   }
 
   async enableDevice(deviceId: DeviceId): Promise<void> {
@@ -140,7 +140,7 @@ export class DeviceServiceImpl implements DeviceService {
   }
 
   private async toggleDevice(deviceId: DeviceId, enabled: boolean): Promise<void> {
-    const device: Device = await this._repository.getDeviceById(deviceId)
-    await this._repository.updateDevice({ ...device, isEnabled: enabled })
+    const device: Device = await this.repository.getDeviceById(deviceId)
+    await this.repository.updateDevice({ ...device, isEnabled: enabled })
   }
 }

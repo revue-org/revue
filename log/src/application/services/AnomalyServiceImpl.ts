@@ -8,46 +8,46 @@ import { AnomalyFactory } from 'common/dist/domain/factories/AnomalyFactory.js'
 import { LogEventsHub } from '@/application/services/LogEventsHub'
 
 export class AnomalyServiceImpl implements AnomalyService {
-  private readonly _repository: AnomalyRepository
-  private readonly _events: LogEventsHub
+  private readonly repository: AnomalyRepository
+  private readonly events: LogEventsHub
 
   constructor(repository: AnomalyRepository, events: LogEventsHub) {
-    this._repository = repository
-    this._events = events
+    this.repository = repository
+    this.events = events
     this.configureEvents()
   }
 
   private configureEvents(): void {
-    this._events.subscribeToAnomalies((anomaly: Anomaly): void => {
-      this._repository.saveAnomaly(anomaly)
+    this.events.subscribeToAnomalies((anomaly: Anomaly): void => {
+      this.repository.saveAnomaly(anomaly)
     })
   }
 
   async getAnomalies(): Promise<Anomaly[]> {
-    return this._repository.getAnomalies()
+    return this.repository.getAnomalies()
   }
 
   async getIntrusions(): Promise<Intrusion[]> {
-    return this._repository.getIntrusions()
+    return this.repository.getIntrusions()
   }
 
   async getOutliers(): Promise<Outlier[]> {
-    return this._repository.getOutliers()
+    return this.repository.getOutliers()
   }
 
   async getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly> {
-    return this._repository.getAnomalyById(anomalyId)
+    return this.repository.getAnomalyById(anomalyId)
   }
 
   async createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Promise<void> {
-    await this._repository.saveAnomaly(AnomalyFactory.createIntrusion(timestamp, detectionId, intrusionRuleId))
+    await this.repository.saveAnomaly(AnomalyFactory.createIntrusion(timestamp, detectionId, intrusionRuleId))
   }
 
   async createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Promise<void> {
-    await this._repository.saveAnomaly(AnomalyFactory.createOutlier(timestamp, measurementId, rangeRuleId))
+    await this.repository.saveAnomaly(AnomalyFactory.createOutlier(timestamp, measurementId, rangeRuleId))
   }
 
   async deleteAnomaly(anomalyId: DomainEventId): Promise<void> {
-    await this._repository.removeAnomaly(anomalyId)
+    await this.repository.removeAnomaly(anomalyId)
   }
 }

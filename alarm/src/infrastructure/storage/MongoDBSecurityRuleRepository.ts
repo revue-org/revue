@@ -9,10 +9,10 @@ import { SecurityRuleDBAdapter } from '@/infrastructure/storage/models/SecurityR
 import { SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
 
 export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
-  private _model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema)
+  private model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema)
 
   async getRangeRules(): Promise<RangeRule[]> {
-    const rules = await this._model
+    const rules = await this.model
       .find({
         type: 'range'
       })
@@ -21,7 +21,7 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
-    const rules = await this._model
+    const rules = await this.model
       .find({
         type: 'intrusion'
       })
@@ -30,7 +30,7 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   }
 
   async getSecurityRuleById(securityRuleId: SecurityRuleId): Promise<SecurityRule> {
-    const rule = await this._model
+    const rule = await this.model
       .findOne({
         id: securityRuleId.value
       })
@@ -42,7 +42,7 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   }
 
   async getSecurityRules(): Promise<SecurityRule[]> {
-    return this._model
+    return this.model
       .find()
       .lean()
       .then(rules => {
@@ -51,25 +51,25 @@ export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
   }
 
   async saveSecurityRule(securityRule: SecurityRule): Promise<void> {
-    await this._model.create(SecurityRuleDBAdapter.asDBEntity(securityRule))
+    await this.model.create(SecurityRuleDBAdapter.asDBEntity(securityRule))
   }
 
   async updateSecurityRule(securityRule: SecurityRule): Promise<void> {
-    await this._model.findOneAndUpdate(
+    await this.model.findOneAndUpdate(
       { id: securityRule.id.value },
       SecurityRuleDBAdapter.asDBEntity(securityRule)
     )
   }
 
   async enableSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
-    await this._model.findOneAndUpdate({ id: securityRuleId.value }, { enabled: true })
+    await this.model.findOneAndUpdate({ id: securityRuleId.value }, { enabled: true })
   }
 
   async disableSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
-    await this._model.findOneAndUpdate({ id: securityRuleId.value }, { enabled: false })
+    await this.model.findOneAndUpdate({ id: securityRuleId.value }, { enabled: false })
   }
 
   async removeSecurityRule(securityRuleId: SecurityRuleId): Promise<void> {
-    await this._model.deleteOne({ id: securityRuleId.value })
+    await this.model.deleteOne({ id: securityRuleId.value })
   }
 }

@@ -6,11 +6,11 @@ import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 
 export class MongoDBDeviceRepository implements DeviceRepository {
-  private _model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
+  private model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
 
   getDeviceById(deviceId: DeviceId): Promise<Device> {
     console.log({ id: deviceId.value })
-    return this._model
+    return this.model
       .findOne({ id: deviceId.value })
       .lean()
       .then(device => {
@@ -20,33 +20,33 @@ export class MongoDBDeviceRepository implements DeviceRepository {
   }
 
   getDevices(): Promise<Device[]> {
-    return this._model
+    return this.model
       .find()
       .lean()
       .then(devices => devices.map(device => DeviceDBAdapter.toDomainEntity(device)))
   }
 
   getDevice(deviceId: DeviceId): Promise<Device> {
-    return this._model
+    return this.model
       .findOne({ id: deviceId.value })
       .lean()
       .then(device => DeviceDBAdapter.toDomainEntity(device as DeviceDBEntity))
   }
 
   async saveDevice(device: Device): Promise<void> {
-    await this._model.create(DeviceDBAdapter.toDBEntity(device))
+    await this.model.create(DeviceDBAdapter.toDBEntity(device))
   }
 
   async updateDevice(device: Device): Promise<void> {
-    await this._model.updateOne({ id: device.deviceId.value }, DeviceDBAdapter.toDBEntity(device))
+    await this.model.updateOne({ id: device.deviceId.value }, DeviceDBAdapter.toDBEntity(device))
   }
 
   async removeDevice(deviceId: DeviceId): Promise<void> {
-    await this._model.deleteOne({ id: deviceId.value })
+    await this.model.deleteOne({ id: deviceId.value })
   }
 
   async getActiveDevices(): Promise<Device[]> {
-    return this._model
+    return this.model
       .find({ isEnabled: true })
       .lean()
       .then(devices => devices.map(device => DeviceDBAdapter.toDomainEntity(device)))

@@ -7,19 +7,19 @@ import {NumericMeasurementDBAdapter} from '@/infrastructure/storage/models/Numer
 import { numericMeasurementSchema } from '@/infrastructure/storage/schemas/NumericMeasurementSchema.js'
 
 export class MongoDBMeasurementRepository implements MeasurementRepository {
-  private _model = mongoose.model<NumericMeasurementDBEntity>(
+  private model = mongoose.model<NumericMeasurementDBEntity>(
     'NumericMeasurementSchema',
     numericMeasurementSchema,
     'numericMeasurements'
   )
 
   async getMeasurements(): Promise<Measurement[]> {
-    const measurements = await this._model.find().lean()
+    const measurements = await this.model.find().lean()
     return measurements.map(measurement => NumericMeasurementDBAdapter.asDomainEntity(measurement))
   }
 
   async getMeasurementsBySourceDeviceId(deviceId: string, quantity: number): Promise<Measurement[]> {
-    const measurements = await this._model
+    const measurements = await this.model
       .find({
         sourceDeviceId: deviceId
       })
@@ -29,11 +29,11 @@ export class MongoDBMeasurementRepository implements MeasurementRepository {
   }
 
   async saveMeasurement(measurement: Measurement): Promise<void> {
-    await this._model.create(NumericMeasurementDBAdapter.asDBEntity(measurement))
+    await this.model.create(NumericMeasurementDBAdapter.asDBEntity(measurement))
   }
 
   async updateMeasurement(measurement: Measurement): Promise<void> {
-    await this._model.updateOne(
+    await this.model.updateOne(
       {
         id: measurement.id.value
       },
@@ -42,6 +42,6 @@ export class MongoDBMeasurementRepository implements MeasurementRepository {
   }
 
   async removeMeasurement(measurementId: DomainEventId): Promise<void> {
-    await this._model.deleteOne({ id: measurementId.value })
+    await this.model.deleteOne({ id: measurementId.value })
   }
 }

@@ -6,10 +6,10 @@ import { UserId } from '@/domain/core/UserId'
 import { User } from '@/domain/core/User'
 
 export class MongoDBUserRepository implements UserRepository {
-  private _model = mongoose.model<UserDBEntity>('UserSchema', userSchema, 'user')
+  private model = mongoose.model<UserDBEntity>('UserSchema', userSchema, 'user')
 
   async getUsers(): Promise<User[]> {
-    return this._model
+    return this.model
       .find()
       .lean()
       .then(users => {
@@ -18,7 +18,7 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async getPermissions(): Promise<string[]> {
-    return this._model
+    return this.model
       .find()
       .lean()
       .then(users => {
@@ -27,7 +27,7 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async getUserById(userId: UserId): Promise<User> {
-    const user = await this._model
+    const user = await this.model
       .findOne({
         id: userId.value
       })
@@ -39,7 +39,7 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async getUserByUsername(username: string): Promise<User> {
-    const user = await this._model
+    const user = await this.model
       .findOne({
         username: username
       })
@@ -55,11 +55,11 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async saveUser(user: User): Promise<void> {
-    await this._model.create(UserDBAdapter.asDBEntity(user))
+    await this.model.create(UserDBAdapter.asDBEntity(user))
   }
 
   async updateUser(user: User): Promise<void> {
-    await this._model.updateOne(
+    await this.model.updateOne(
       {
         id: user.id.value
       },
@@ -68,6 +68,6 @@ export class MongoDBUserRepository implements UserRepository {
   }
 
   async removeUser(userId: UserId): Promise<void> {
-    await this._model.deleteOne({ id: userId.value })
+    await this.model.deleteOne({ id: userId.value })
   }
 }

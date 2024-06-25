@@ -7,33 +7,33 @@ import { DeviceEvent, Measure } from 'common/dist/domain/core'
 import { LogEventsHub } from '@/application/services/LogEventsHub'
 
 export class MeasurementServiceImpl implements MeasurementService {
-  private readonly _repository: MeasurementRepository
-  private readonly _events: LogEventsHub
+  private readonly repository: MeasurementRepository
+  private readonly events: LogEventsHub
 
   constructor(repository: MeasurementRepository, events: LogEventsHub) {
-    this._repository = repository
-    this._events = events
+    this.repository = repository
+    this.events = events
     this.configureEvents()
   }
 
   private configureEvents(): void {
-    this._events.subscribeToMeasurements((measurement: Measurement): void => {
-      this._repository.saveMeasurement(measurement)
+    this.events.subscribeToMeasurements((measurement: Measurement): void => {
+      this.repository.saveMeasurement(measurement)
     })
 
-    this._events.subscribeToDevices((event: DeviceEvent): void => {
+    this.events.subscribeToDevices((event: DeviceEvent): void => {
       if (event.type === 'addition') {
-        this._events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+        this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
       }
     })
   }
 
   async getMeasurements(limit: number): Promise<Measurement[]> {
-    return this._repository.getMeasurements(limit)
+    return this.repository.getMeasurements(limit)
   }
 
   async getMeasurementsBySourceDeviceId(deviceId: string, quantity: number): Promise<Measurement[]> {
-    return this._repository.getMeasurementsBySourceDeviceId(deviceId, quantity)
+    return this.repository.getMeasurementsBySourceDeviceId(deviceId, quantity)
   }
 
   async createNumericMeasurement(
@@ -42,12 +42,12 @@ export class MeasurementServiceImpl implements MeasurementService {
     measure: Measure,
     value: number
   ): Promise<void> {
-    await this._repository.saveMeasurement(
+    await this.repository.saveMeasurement(
       MeasurementFactory.createNumericMeasurement(timestamp, sourceDeviceId, measure, value)
     )
   }
 
   async removeNumericMeasurement(measurementId: DomainEventId): Promise<void> {
-    await this._repository.removeMeasurement(measurementId)
+    await this.repository.removeMeasurement(measurementId)
   }
 }

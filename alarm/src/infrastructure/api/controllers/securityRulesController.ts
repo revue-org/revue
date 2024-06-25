@@ -1,52 +1,32 @@
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
-import { AlarmService } from '@/application/services/AlarmService'
-import { AlarmServiceImpl } from '@/application/services/impl/AlarmServiceImpl.js'
 import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory.js'
-import { MongoDBSecurityRuleRepository } from '@/infrastructure/storage/MongoDBSecurityRuleRepository.js'
 import { Contact } from '@common/domain/core/Contact'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Measure } from '@common/domain/core'
 import { ObjectClass } from '@common/domain/core/ObjectClass.js'
-import { KafkaAlarmEventsHub } from '@/infrastructure/events/KafkaAlarmEventsHub.js'
-import { KafkaOptions } from 'common/dist/infrastructure/events/KafkaOptions'
+import { alarmService } from '@/setup.js'
 
-const getKafkaOptions = (): KafkaOptions => {
-  let kafkaHost: string = process.env.KAFKA_HOST!
-  let kafkaPort: string = process.env.KAFKA_PORT!
-
-  if (process.env.NODE_ENV == 'develop') {
-    console.log('INFO: KAFKA DEVELOPMENT MODE')
-    kafkaHost = process.env.KAFKA_EXTERNAL_HOST!
-    kafkaPort = process.env.KAFKA_EXTERNAL_PORT!
-  }
-  return {
-    clientId: 'alarm',
-    brokers: [{ host: kafkaHost, port: kafkaPort }],
-    groupId: 'alarmConsumer'
-  } as KafkaOptions
-}
-const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository(), new KafkaAlarmEventsHub(getKafkaOptions()))
 
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
-    return service.getSecurityRuleById(SecurityRulesFactory.idOf(id))
+    return alarmService.getSecurityRuleById(SecurityRulesFactory.idOf(id))
   },
 
   getRangeRuleById: (id: string): Promise<RangeRule> => {
-    return service.getSecurityRuleById(SecurityRulesFactory.idOf(id)).then(rule => rule as RangeRule)
+    return alarmService.getSecurityRuleById(SecurityRulesFactory.idOf(id)).then(rule => rule as RangeRule)
   },
 
   getIntrusionRuleById: (id: string): Promise<IntrusionRule> => {
-    return service.getSecurityRuleById(SecurityRulesFactory.idOf(id)).then(rule => rule as IntrusionRule)
+    return alarmService.getSecurityRuleById(SecurityRulesFactory.idOf(id)).then(rule => rule as IntrusionRule)
   },
 
   getRangeRules: async (): Promise<RangeRule[]> => {
-    return await service.getRangeRules()
+    return await alarmService.getRangeRules()
   },
 
   getIntrusionRules: async (): Promise<IntrusionRule[]> => {
-    return await service.getIntrusionRules()
+    return await alarmService.getIntrusionRules()
   },
 
   createRangeRule: async (
@@ -60,7 +40,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await service.createRangeRule(
+    await alarmService.createRangeRule(
       creatorId,
       deviceId,
       description,
@@ -82,7 +62,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await service.createIntrusionRule(
+    await alarmService.createIntrusionRule(
       creatorId,
       deviceId,
       description,
@@ -102,7 +82,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await service.updateRangeRule(
+    await alarmService.updateRangeRule(
       SecurityRulesFactory.idOf(ruleId),
       description,
       contacts,
@@ -121,7 +101,7 @@ export const securityRuleController = {
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await service.updateIntrusionRule(
+    await alarmService.updateIntrusionRule(
       SecurityRulesFactory.idOf(ruleId),
       description,
       contacts,
@@ -132,10 +112,10 @@ export const securityRuleController = {
   },
 
   deleteSecurityRule: async (id: string): Promise<void> => {
-    await service.deleteSecurityRule(SecurityRulesFactory.idOf(id))
+    await alarmService.deleteSecurityRule(SecurityRulesFactory.idOf(id))
   },
 
   getSecurityRuleContacts: async (id: string): Promise<Contact[]> => {
-    return service.getSecurityRuleContacts(SecurityRulesFactory.idOf(id))
+    return alarmService.getSecurityRuleContacts(SecurityRulesFactory.idOf(id))
   }
 }

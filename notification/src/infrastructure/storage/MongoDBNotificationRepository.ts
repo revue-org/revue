@@ -1,12 +1,10 @@
 import mongoose from 'mongoose'
-import { notificationSchema } from './schemas/NotificationSchema'
+import { notificationSchema } from './schemas/NotificationSchema.js'
 import { NotificationId } from '@/domain/core/NotificationId'
 import { Notification } from '@/domain/core/Notification'
 import { NotificationRepository } from '@/application/repositories/NotificationRepository'
-import {
-  NotificationDBAdapter,
-  NotificationDBEntity
-} from '@/infrastructure/storage/models/NotificationModel'
+import { NotificationDBAdapter } from '@/infrastructure/storage/models/NotificationModel.js'
+import { NotificationDBEntity } from '@/infrastructure/storage/models/NotificationModel'
 
 export class MongoDBNotificationRepository implements NotificationRepository {
   private _model = mongoose.model<NotificationDBEntity>(

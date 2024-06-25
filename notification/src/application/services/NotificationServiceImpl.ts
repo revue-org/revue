@@ -2,10 +2,10 @@ import { Notification } from '@/domain/core/Notification'
 import { NotificationRepository } from '@/application/repositories/NotificationRepository'
 import { NotificationService } from '@/application/services/NotificationService'
 import { NotificationId } from '@/domain/core/NotificationId'
-import { DomainEvent } from 'common/dist/domain/core/DomainEvent'
-import { NotificationFactory } from '@/domain/factories/NotificationFactory'
+import { DomainEvent } from '@common/domain/core/DomainEvent'
+import { NotificationFactory } from '@/domain/factories/NotificationFactory.js'
 import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
-import { Anomaly } from 'common/dist/domain/core'
+import { Anomaly } from '@common/domain/core'
 
 export class NotificationServiceImpl implements NotificationService {
   private repository: NotificationRepository

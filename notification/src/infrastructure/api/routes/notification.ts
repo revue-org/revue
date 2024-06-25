@@ -1,7 +1,7 @@
 import { notificationController } from '@/infrastructure/api/controller/notification.js'
 import express, { Request, Response, Router } from 'express'
 import { Notification } from '@/domain/core/Notification'
-import HttpStatusCode from '@utils/HttpStatusCode'
+import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 export const notificationRouter: Router = express.Router()
 

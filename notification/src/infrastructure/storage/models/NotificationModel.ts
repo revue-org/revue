@@ -1,8 +1,8 @@
 import { Notification } from '@/domain/core/Notification'
-import { NotificationFactory } from '@/domain/factories/NotificationFactory'
-import { AnomalyFactory } from 'common/dist/domain/factories/AnomalyFactory'
-import { Outlier } from 'common/dist/domain/core/Outlier'
-import { Intrusion } from 'common/dist/domain/core/Intrusion'
+import { NotificationFactory } from '@/domain/factories/NotificationFactory.js'
+import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory.js'
+import { Outlier } from '@common/domain/core/Outlier'
+import { Intrusion } from '@common/domain/core/Intrusion'
 
 export interface NotificationDBEntity {
   id: string

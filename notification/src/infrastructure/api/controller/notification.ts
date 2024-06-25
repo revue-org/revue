@@ -1,8 +1,8 @@
 import { Notification } from '@/domain/core/Notification'
-import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBNotificationRepository'
+import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBNotificationRepository.js'
 import { NotificationService } from '@/application/services/NotificationService'
-import { NotificationServiceImpl } from '@/application/services/NotificationServiceImpl'
-import { NotificationFactory } from '@/domain/factories/NotificationFactory'
+import { NotificationServiceImpl } from '@/application/services/NotificationServiceImpl.js'
+import { NotificationFactory } from '@/domain/factories/NotificationFactory.js'
 import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
 
 const service: NotificationService = new NotificationServiceImpl(

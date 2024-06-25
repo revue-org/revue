@@ -25,28 +25,27 @@ export class KafkaLogEventsHub implements LogEventsHub {
     )
   }
 
-  async subscribeToMeasurements(handler: (_measurement: Measurement) => void): Promise<void> {
-    this.measurementsConsumer
-      .startConsuming(await this.getMeasurementTopics(), false, (message: KafkaMessage): void => {
-        if (message.value) {
-          try {
-            const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
-            handler(measurement)
-          } catch (e) {
-            console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+  subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
+    this.getMeasurementTopics().then((topics: string[]): void => {
+      this.measurementsConsumer
+        .startConsuming(topics, false, (message: KafkaMessage): void => {
+          if (message.value) {
+            try {
+              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
+              handler(measurement)
+            } catch (e) {
+              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+            }
           }
-        }
-      })
-      .then((): void => {
-        console.log('Consumer started')
-      })
+        }).then((): void => console.log('Consumer started'))
+    })
   }
 
-  async addMeasurementTopics(topics: string[]): Promise<void> {
+  addMeasurementTopics(topics: string[]): void {
     this.measurementsConsumer.addTopics(topics)
   }
 
-  async subscribeToAnomalies(handler: (anomaly: Anomaly) => void): Promise<void> {
+  subscribeToAnomalies(handler: (anomaly: Anomaly) => void): void {
     this.anomaliesConsumer
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
@@ -57,13 +56,10 @@ export class KafkaLogEventsHub implements LogEventsHub {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
-      })
-      .then((): void => {
-        console.log('Consumer started')
-      })
+      }).then((): void => console.log('Consumer started'))
   }
 
-  async subscribeToDevices(handler: (event: DeviceEvent) => void): Promise<void> {
+  subscribeToDevices(handler: (event: DeviceEvent) => void): void {
     this.deviceConsumer
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
@@ -74,9 +70,6 @@ export class KafkaLogEventsHub implements LogEventsHub {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
-      })
-      .then((): void => {
-        console.log('Consumer started')
-      })
+      }).then((): void => console.log('Consumer started'))
   }
 }

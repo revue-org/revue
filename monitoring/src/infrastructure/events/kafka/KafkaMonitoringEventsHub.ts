@@ -21,21 +21,20 @@ export class KafkaMonitoringEventsHub {
     )
   }
 
-  async subscribeToMeasurements(handler: (_measurement: Measurement) => void): Promise<void> {
-    this.measurementsConsumer
-      .startConsuming(await this.getTopics(), false, (message: KafkaMessage): void => {
-        if (message.value) {
-          try {
-            const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
-            handler(measurement)
-          } catch (e) {
-            console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+  subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
+    this.getTopics().then((topics: string[]): void => {
+      this.measurementsConsumer
+        .startConsuming(topics, false, (message: KafkaMessage): void => {
+          if (message.value) {
+            try {
+              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
+              handler(measurement)
+            } catch (e) {
+              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+            }
           }
-        }
-      })
-      .then((): void => {
-        console.log('Consumer started')
-      })
+        }).then((): void => console.log('Consumer started'))
+    })
   }
 
   addMeasurementTopics(topics: string[]): void {

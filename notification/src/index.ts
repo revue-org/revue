@@ -70,8 +70,6 @@ const dbPort: string =
     : process.env.DEFAULT_DB_PORT || '27017'
 const dbName: string = process.env.NOTIFICATION_DB_NAME || 'notification'
 
-
-
 const brokers: KafkaBroker[] = getBrokersFromEnv()
 
 const kafkaOptions: KafkaOptions = {
@@ -82,8 +80,14 @@ const kafkaOptions: KafkaOptions = {
 
 const kafkaNotification = new KafkaNotificationEventsHub(kafkaOptions)
 const socketNotification = new SocketNotificationEventsHub(io)
-const notificationEventsHub: NotificationEventsHub = new NotificationEventsHubImpl(kafkaNotification, socketNotification)
-export const notificationService: NotificationService = new NotificationServiceImpl(new MongoDBNotificationRepository(), notificationEventsHub)
+const notificationEventsHub: NotificationEventsHub = new NotificationEventsHubImpl(
+  kafkaNotification,
+  socketNotification
+)
+export const notificationService: NotificationService = new NotificationServiceImpl(
+  new MongoDBNotificationRepository(),
+  notificationEventsHub
+)
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {

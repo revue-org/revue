@@ -52,5 +52,4 @@ export class NotificationServiceImpl implements NotificationService {
       //this.mailService.sendMail(contact.value, notification)
     })
   }
-
 }

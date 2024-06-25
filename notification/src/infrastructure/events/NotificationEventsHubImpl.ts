@@ -8,7 +8,10 @@ export class NotificationEventsHubImpl implements NotificationEventsHub {
   private readonly kafkaEvents: KafkaNotificationEventsHub
   private readonly socketEvents: SocketNotificationEventsHub
 
-  constructor(kafkaNotification: KafkaNotificationEventsHub, socketNotification: SocketNotificationEventsHub) {
+  constructor(
+    kafkaNotification: KafkaNotificationEventsHub,
+    socketNotification: SocketNotificationEventsHub
+  ) {
     this.kafkaEvents = kafkaNotification
     this.socketEvents = socketNotification
   }

@@ -16,7 +16,7 @@ export class KafkaNotificationEventsHub {
     this.notificationProducer.start().then(_r => console.log('Producer started'))
   }
 
-  async subscribeToAnomalies(handler: (_anomaly: Anomaly) => void): Promise<void> {
+  subscribeToAnomalies(handler: (_anomaly: Anomaly) => void): void {
     this.anomaliesConsumer
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
@@ -27,10 +27,7 @@ export class KafkaNotificationEventsHub {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
-      })
-      .then((): void => {
-        console.log('Consumer started')
-      })
+      }).then((): void => console.log('Consumer started'))
   }
 
   publishNotification(notification: Notification) {

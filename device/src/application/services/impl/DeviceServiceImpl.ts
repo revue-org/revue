@@ -1,24 +1,24 @@
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
-import { DeviceRepository } from '../repositories/DeviceRepository.js'
-import { DeviceService } from './DeviceService.js'
+import { DeviceRepository } from '../../repositories/DeviceRepository.js'
+import { DeviceService } from '../DeviceService.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint.js'
 import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
-import RequestHelper from '@utils/RequestHelper.js'
+import RequestHelper from '@common/utils/RequestHelper.js'
 import { DeviceEventsHub } from '@/application/services/DeviceEventsHub.js'
 import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
+import { DeviceEventFactory } from '@common/domain/factories/DeviceEventFactory.js'
 
 export class DeviceServiceImpl implements DeviceService {
   private _repository: DeviceRepository
-  // TODO decomment publishers
   private _events: DeviceEventsHub
 
-  constructor(repository: DeviceRepository) {
+  constructor(repository: DeviceRepository, events: DeviceEventsHub) {
     this._repository = repository
-    this._events = {} as DeviceEventsHub
+    this._events = events
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
@@ -101,7 +101,7 @@ export class DeviceServiceImpl implements DeviceService {
       enabled
     )
     await this._repository.saveDevice(device)
-    //this._events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
+    this._events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
     return device.deviceId
   }
 
@@ -128,7 +128,7 @@ export class DeviceServiceImpl implements DeviceService {
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
     await this._repository.removeDevice(deviceId)
-    //this._events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
+    this._events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
   }
 
   async enableDevice(deviceId: DeviceId): Promise<void> {

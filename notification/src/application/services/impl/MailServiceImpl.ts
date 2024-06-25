@@ -1,4 +1,4 @@
-import { MailService } from './MailService.js'
+import { MailService } from '../MailService.js'
 import { Notification } from '@/domain/core/Notification'
 
 export class MailServiceImpl implements MailService {

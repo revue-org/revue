@@ -7,14 +7,14 @@ import { NotificationDBAdapter } from '@/infrastructure/storage/models/Notificat
 import { NotificationDBEntity } from '@/infrastructure/storage/models/NotificationModel'
 
 export class MongoDBNotificationRepository implements NotificationRepository {
-  private _model = mongoose.model<NotificationDBEntity>(
+  private model = mongoose.model<NotificationDBEntity>(
     'NotificationSchema',
     notificationSchema,
     'notification'
   )
 
   async getNotifications(): Promise<Notification[]> {
-    return this._model
+    return this.model
       .find()
       .lean()
       .then(notifications => {
@@ -23,7 +23,7 @@ export class MongoDBNotificationRepository implements NotificationRepository {
   }
 
   async getNotificationById(notificationId: NotificationId): Promise<Notification> {
-    const notification = await this._model
+    const notification = await this.model
       .findOne({
         id: notificationId.value
       })
@@ -35,7 +35,7 @@ export class MongoDBNotificationRepository implements NotificationRepository {
   }
 
   async getNotificationsByType(type: string): Promise<Notification[]> {
-    const notifications = await this._model
+    const notifications = await this.model
       .find({
         type: type
       })
@@ -43,11 +43,12 @@ export class MongoDBNotificationRepository implements NotificationRepository {
     return notifications.map(notification => NotificationDBAdapter.asDomainEntity(notification))
   }
 
-  async saveNotification(notification: Notification): Promise<void> {
-    await this._model.create(NotificationDBAdapter.asDBEntity(notification))
+  async saveNotification(notification: Notification): Promise<NotificationId> {
+    await this.model.create(NotificationDBAdapter.asDBEntity(notification))
+    return notification.id
   }
 
   async removeNotification(notificationId: NotificationId): Promise<void> {
-    await this._model.deleteOne({ id: notificationId.value })
+    await this.model.deleteOne({ id: notificationId.value })
   }
 }

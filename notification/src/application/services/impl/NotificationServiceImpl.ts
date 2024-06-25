@@ -9,17 +9,20 @@ import { Anomaly } from '@common/domain/core'
 
 export class NotificationServiceImpl implements NotificationService {
   private repository: NotificationRepository
-  private eventsHub: NotificationEventsHub
+  private events: NotificationEventsHub
 
   constructor(notificationRepository: NotificationRepository, eventsHub: NotificationEventsHub) {
     this.repository = notificationRepository
-    this.eventsHub = eventsHub
-    this.setEventHub()
+    this.events = eventsHub
+    this.configureEvents()
   }
 
-  private setEventHub() {
-    this.eventsHub.subscribeToAnomalies((anomaly: Anomaly) => {
-      this.createNotification(anomaly, 'Anomaly detected')
+  private configureEvents() {
+    this.events.subscribeToAnomalies(async (anomaly: Anomaly) => {
+      const notificationId: NotificationId = await this.createNotification(anomaly, 'Anomaly detected')
+      this.getNotificationById(notificationId).then((notification: Notification) => {
+        this.events.publishNotification(notification)
+      })
     })
   }
 
@@ -35,9 +38,12 @@ export class NotificationServiceImpl implements NotificationService {
     return await this.repository.getNotificationsByType(type)
   }
 
-  async createNotification(event: DomainEvent, message: string): Promise<void> {
-    await this.repository.saveNotification(NotificationFactory.createNotification(event, message))
-    // TODO: check if we need to send email notifications
+  async createNotification(event: DomainEvent, message: string): Promise<NotificationId> {
+    return await this.repository.saveNotification(NotificationFactory.createNotification(event, message))
+  }
+
+  async deleteNotification(id: NotificationId): Promise<void> {
+    await this.repository.removeNotification(id)
   }
 
   sendMailNotification(notification: Notification, emails: string[]): void {
@@ -47,7 +53,4 @@ export class NotificationServiceImpl implements NotificationService {
     })
   }
 
-  async deleteNotification(id: NotificationId): Promise<void> {
-    await this.repository.removeNotification(id)
-  }
 }

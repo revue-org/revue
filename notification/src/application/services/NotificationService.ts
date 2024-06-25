@@ -9,7 +9,7 @@ export interface NotificationService {
 
   getNotificationsByType(type: any): Promise<Notification[]>
 
-  createNotification(event: DomainEvent, message: string): Promise<void>
+  createNotification(event: DomainEvent, message: string): Promise<NotificationId>
 
   deleteNotification(id: NotificationId): Promise<void>
 }

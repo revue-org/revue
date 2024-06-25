@@ -8,6 +8,14 @@ import cors from 'cors'
 import { Server as SocketIOServer } from 'socket.io'
 import http, { Server as HttpServer } from 'http'
 import { jwtManager } from '@utils/JWTManager.js'
+import { getBrokersFromEnv, KafkaBroker, KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
+import { KafkaNotificationEventsHub } from '@/infrastructure/events/kafka/KafkaNotificationEventsHub.js'
+import { SocketNotificationEventsHub } from '@/infrastructure/events/socket/SocketNotificationEventsHub.js'
+import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
+import { NotificationServiceImpl } from '@/application/services/impl/NotificationServiceImpl.js'
+import { NotificationEventsHubImpl } from '@/infrastructure/events/NotificationEventsHubImpl.js'
+import { NotificationService } from '@/application/services/NotificationService'
+import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBNotificationRepository.js'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -19,7 +27,7 @@ const PORT: number = Number(process.env.NOTIFICATION_PORT)
 
 const server: HttpServer = http.createServer(app)
 
-export const io: SocketIOServer = new SocketIOServer(server, {
+const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
     origin: '*'
   }
@@ -61,6 +69,21 @@ const dbPort: string =
     ? process.env.NOTIFICATION_DB_PORT || '27017'
     : process.env.DEFAULT_DB_PORT || '27017'
 const dbName: string = process.env.NOTIFICATION_DB_NAME || 'notification'
+
+
+
+const brokers: KafkaBroker[] = getBrokersFromEnv()
+
+const kafkaOptions: KafkaOptions = {
+  clientId: 'notification',
+  brokers: brokers,
+  groupId: 'notificationConsumer'
+}
+
+const kafkaNotification = new KafkaNotificationEventsHub(kafkaOptions)
+const socketNotification = new SocketNotificationEventsHub(io)
+const notificationEventsHub: NotificationEventsHub = new NotificationEventsHubImpl(kafkaNotification, socketNotification)
+export const notificationService: NotificationService = new NotificationServiceImpl(new MongoDBNotificationRepository(), notificationEventsHub)
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {

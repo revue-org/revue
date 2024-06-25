@@ -8,7 +8,7 @@ export interface NotificationRepository {
 
   getNotificationsByType(type: string): Promise<Notification[]>
 
-  saveNotification(notification: Notification): Promise<void>
+  saveNotification(notification: Notification): Promise<NotificationId>
 
   removeNotification(notificationId: NotificationId): Promise<void>
 }

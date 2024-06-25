@@ -1,19 +1,14 @@
 import { Measurement } from '@common/domain/core'
-import { Server as HttpServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
 
 export class SocketMonitoringEventsHub {
-  private readonly _io: SocketIOServer
+  private readonly io: SocketIOServer
 
-  constructor(server: HttpServer) {
-    this._io = new SocketIOServer(server, {
-      cors: {
-        origin: '*'
-      }
-    })
+  constructor(server: SocketIOServer) {
+    this.io = server
   }
 
   public publishMeasurement(measurement: Measurement): void {
-    this._io.emit('measurement', { measurement: measurement })
+    this.io.emit('measurements', { measurement: measurement })
   }
 }

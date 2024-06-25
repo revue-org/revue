@@ -7,8 +7,8 @@ import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
 import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
 
 export class KafkaMonitoringEventsHub {
-  private measurementsConsumer: KafkaConsumer
-  private deviceConsumer: KafkaConsumer
+  private readonly measurementsConsumer: KafkaConsumer
+  private readonly deviceConsumer: KafkaConsumer
 
   constructor(kafkaOptions: KafkaOptions) {
     this.measurementsConsumer = new KafkaConsumer(kafkaOptions)

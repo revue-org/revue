@@ -8,6 +8,7 @@ import { SecurityRulesFactory } from '@/domain/factories/SecurityRulesFactory.js
 import {
   Contact,
   Detection,
+  DeviceEvent,
   Intrusion,
   Measure,
   Measurement,
@@ -15,6 +16,8 @@ import {
   Outlier
 } from '@common/domain/core'
 import { AlarmEventsHub } from '../AlarmEventsHub'
+import RequestHelper from '@/utils/RequestHelper'
+import { deviceHost, devicePort } from 'common/dist/utils/RequestHelper'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
@@ -41,6 +44,20 @@ export class AlarmServiceImpl implements AlarmService {
           this.events.publishAnomaly(this.createOutlier(measurement, rangeRule))
         }
       })
+    })
+
+    this.events.subscribeToDevices((event: DeviceEvent): void => {
+      if (event.type === 'addition') {
+        RequestHelper.get(`http://${deviceHost}:${devicePort}/${event.sourceDeviceId}/capabilities`).then(
+          (res: any): void => {
+            res.data.capabilities.forEach((capability: any): void => {
+              if (capability.type === 'sensor') {
+                this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+              }
+            })
+          }
+        )
+      }
     })
   }
 

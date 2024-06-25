@@ -8,10 +8,12 @@ import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
 import RequestHelper from '@utils/RequestHelper.js'
 import { DeviceEventsHub } from '@/application/services/DeviceEventsHub'
-import { DeviceEventFactory } from 'common/dist/domain/factories/DeviceEventFactory'
+import { CapabilityFactory } from '@/domain/factories/CapabilityFactory'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 
 export class DeviceServiceImpl implements DeviceService {
   private _repository: DeviceRepository
+  // TODO decomment publishers
   private _events: DeviceEventsHub
 
   constructor(repository: DeviceRepository) {
@@ -21,7 +23,27 @@ export class DeviceServiceImpl implements DeviceService {
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
     const device: Device = await this._repository.getDeviceById(deviceId)
-    return device.capabilities
+    return RequestHelper.get(
+      'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
+    ).then((res: any): DeviceCapability[] => {
+      const capabilities: DeviceCapability[] = []
+      for (let i: number = 0; i < res.data.capabilities; i++) {
+        if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
+          capabilities.push(
+            CapabilityFactory.sensoringCapabilityOf(
+              res.data.capabilities[i].capturingInterval,
+              MeasureFactory.createMeasure(
+                res.data.capabilities[i].measure.type,
+                res.data.capabilities[i].measure.unit
+              )
+            )
+          )
+        } else if (res.data.capabilities[i].type == CapabilityType.VIDEO) {
+          capabilities.push(CapabilityFactory.videoStreamingCapabilityOf(res.data.capabilities[i].resolution))
+        }
+      }
+      return capabilities
+    })
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {

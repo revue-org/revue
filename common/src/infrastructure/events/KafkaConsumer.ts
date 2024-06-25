@@ -35,21 +35,12 @@ export default class KafkaConsumer {
     }
   }
 
-  public async shutdown(): Promise<void> {
-    await this.kafkaConsumer.disconnect()
+  public addTopics(topics: string[]): void {
+    this.kafkaConsumer.subscribe({ topics: topics })
   }
 
-  public deleteTopics(topics: string[]): void {
-    const kafka: Kafka = new Kafka({
-      clientId: this.kafkaOptions.clientId,
-      brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`)
-    })
-    const admin: Admin = kafka.admin()
-    admin.connect().then((): void => {
-      admin.deleteTopics({ topics: topics }).then(() => {
-        console.log('Topics deleted: ', topics)
-      })
-    })
+  public async shutdown(): Promise<void> {
+    await this.kafkaConsumer.disconnect()
   }
 
   private createConsumer(): Consumer {

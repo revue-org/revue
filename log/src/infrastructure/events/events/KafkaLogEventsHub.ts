@@ -42,6 +42,10 @@ export class KafkaLogEventsHub implements LogEventsHub {
       })
   }
 
+  async addMeasurementTopics(topics: string[]): Promise<void> {
+    this.measurementsConsumer.addTopics(topics)
+  }
+
   async subscribeToAnomalies(handler: (anomaly: Anomaly) => void): Promise<void> {
     this.anomaliesConsumer
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {

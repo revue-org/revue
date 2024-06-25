@@ -23,11 +23,7 @@ export class MeasurementServiceImpl implements MeasurementService {
 
     this.events.subscribeToDevices((event: DeviceEvent): void => {
       if (event.type === 'addition') {
-        // if the device event is an addition, resubscribe to the measurements to save measurements of the new device.
-        // the subscribe method will be called again, and new topics will be added to the consumer
-        this.events.subscribeToMeasurements((measurement: Measurement): void => {
-          this.repository.saveMeasurement(measurement)
-        })
+        this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
       }
     })
   }

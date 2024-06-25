@@ -1,16 +1,19 @@
 import { MonitoringEventsHub } from '@/application/services/MonitoringEventsHub'
-import { Measurement } from '@common/domain/core'
+import { DeviceEvent, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
 import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
+import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
 
 export class KafkaMonitoringEventsHub implements MonitoringEventsHub {
   private measurementsConsumer: KafkaConsumer
+  private deviceConsumer: KafkaConsumer
 
   constructor(kafkaOptions: KafkaOptions) {
     this.measurementsConsumer = new KafkaConsumer(kafkaOptions)
+    this.deviceConsumer = new KafkaConsumer(kafkaOptions)
   }
 
   private async getTopics(): Promise<string[]> {
@@ -28,6 +31,27 @@ export class KafkaMonitoringEventsHub implements MonitoringEventsHub {
             handler(measurement)
           } catch (e) {
             console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+          }
+        }
+      })
+      .then((): void => {
+        console.log('Consumer started')
+      })
+  }
+
+  addMeasurementTopics(topics: string[]): void {
+    this.measurementsConsumer.addTopics(topics)
+  }
+
+  async subscribeToDevices(handler: (event: DeviceEvent) => void): Promise<void> {
+    this.deviceConsumer
+      .startConsuming(['devices'], false, (message: KafkaMessage): void => {
+        if (message.value) {
+          try {
+            const event: DeviceEvent = DevicesAdapter.asDomainEvent(message.value)
+            handler(event)
+          } catch (e) {
+            console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
       })

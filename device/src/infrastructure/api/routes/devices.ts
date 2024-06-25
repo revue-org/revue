@@ -4,6 +4,7 @@ import { Device } from '@/domain/core/Device.js'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
+import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
 
 export const deviceRouter: Router = express.Router()
 
@@ -36,6 +37,17 @@ deviceRouter.route('/:id').get((req: Request, res: Response): void => {
     .getDeviceById(req.params.id)
     .then((device: Device): void => {
       res.status(HttpStatusCode.OK).send(device)
+    })
+    .catch((): void => {
+      res.send({ error: 'No device found' })
+    })
+})
+
+deviceRouter.route('/:id/capabilities').get((req: Request, res: Response): void => {
+  deviceController
+    .getDeviceCapabilities(req.params.id)
+    .then((capabilities: DeviceCapability[]): void => {
+      res.status(HttpStatusCode.OK).send(capabilities)
     })
     .catch((): void => {
       res.send({ error: 'No device found' })

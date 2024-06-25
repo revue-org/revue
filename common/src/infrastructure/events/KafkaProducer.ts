@@ -1,4 +1,4 @@
-import { Admin, Kafka, Partitioners, Producer } from 'kafkajs'
+import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { KafkaOptions } from './KafkaOptions'
 
 export default class KafkaProducer {
@@ -35,19 +35,6 @@ export default class KafkaProducer {
     } catch (error) {
       console.log('Error producing message: ', error)
     }
-  }
-
-  public deleteTopics(topics: string[]): void {
-    const kafka: Kafka = new Kafka({
-      clientId: this.kafkaOptions.clientId,
-      brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`)
-    })
-    const admin: Admin = kafka.admin()
-    admin.connect().then((): void => {
-      admin.deleteTopics({ topics: topics }).then(() => {
-        console.log('Topics deleted: ', topics)
-      })
-    })
   }
 
   private createProducer(): Producer {

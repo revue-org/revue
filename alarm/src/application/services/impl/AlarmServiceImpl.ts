@@ -19,41 +19,41 @@ import { AlarmEventsHub } from '../AlarmEventsHub'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper.js'
 
 export class AlarmServiceImpl implements AlarmService {
-  private repository: SecurityRuleRepository
-  private events: AlarmEventsHub
+  private readonly _repository: SecurityRuleRepository
+  private readonly _events: AlarmEventsHub
 
   constructor(repository: SecurityRuleRepository, events: AlarmEventsHub) {
-    this.repository = repository
-    this.events = events
+    this._repository = repository
+    this._events = events
     this.configureEvents()
   }
 
   private configureEvents(): void {
-    this.events.subscribeToDetections((detection: Detection): void => {
+    this._events.subscribeToDetections((detection: Detection): void => {
       this.checkIntrusion(detection).then(intrusionRule => {
         if (intrusionRule) {
-          this.events.publishAnomaly(this.createIntrusion(detection, intrusionRule))
+          this._events.publishAnomaly(this.createIntrusion(detection, intrusionRule))
         }
       })
     })
 
-    this.events.subscribeToMeasurements((measurement: Measurement): void => {
+    this._events.subscribeToMeasurements((measurement: Measurement): void => {
       console.log('measurement', measurement)
       console.log('CHECK MEASUREMENT')
       this.checkMeasurement(measurement).then(rangeRule => {
         if (rangeRule) {
-          this.events.publishAnomaly(this.createOutlier(measurement, rangeRule))
+          this._events.publishAnomaly(this.createOutlier(measurement, rangeRule))
         }
       })
     })
 
-    this.events.subscribeToDevices((event: DeviceEvent): void => {
+    this._events.subscribeToDevices((event: DeviceEvent): void => {
       if (event.type === 'addition') {
         RequestHelper.get(`http://${deviceHost}:${devicePort}/${event.sourceDeviceId}/capabilities`).then(
           (res: any): void => {
             res.data.capabilities.forEach((capability: any): void => {
               if (capability.type === 'sensor') {
-                this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+                this._events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
               }
             })
           }
@@ -98,7 +98,7 @@ export class AlarmServiceImpl implements AlarmService {
   }
 
   private async getActiveRules(): Promise<SecurityRule[]> {
-    return this.repository
+    return this._repository
       .getSecurityRules()
       .then((rules: SecurityRule[]) =>
         rules
@@ -137,15 +137,15 @@ export class AlarmServiceImpl implements AlarmService {
   }
 
   async getRangeRules(): Promise<RangeRule[]> {
-    return await this.repository.getRangeRules()
+    return await this._repository.getRangeRules()
   }
 
   async getIntrusionRules(): Promise<IntrusionRule[]> {
-    return await this.repository.getIntrusionRules()
+    return await this._repository.getIntrusionRules()
   }
 
   async getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule> {
-    return this.repository.getSecurityRuleById(id)
+    return this._repository.getSecurityRuleById(id)
   }
 
   async createRangeRule(
@@ -170,7 +170,7 @@ export class AlarmServiceImpl implements AlarmService {
       measure,
       true
     )
-    await this.repository.saveSecurityRule(rule)
+    await this._repository.saveSecurityRule(rule)
     return rule.id
   }
 
@@ -192,7 +192,7 @@ export class AlarmServiceImpl implements AlarmService {
       SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
       true
     )
-    await this.repository.saveSecurityRule(rule)
+    await this._repository.saveSecurityRule(rule)
     return rule.id
   }
 
@@ -205,7 +205,7 @@ export class AlarmServiceImpl implements AlarmService {
     minValue: number,
     maxValue: number
   ): Promise<void> {
-    return this.repository.getSecurityRuleById(rangeRuleId).then((rule: SecurityRule) => {
+    return this._repository.getSecurityRuleById(rangeRuleId).then((rule: SecurityRule) => {
       const update = {
         ...(rule as RangeRule),
         description,
@@ -214,7 +214,7 @@ export class AlarmServiceImpl implements AlarmService {
         min: minValue,
         max: maxValue
       }
-      this.repository.updateSecurityRule(update)
+      this._repository.updateSecurityRule(update)
     })
   }
 
@@ -226,7 +226,7 @@ export class AlarmServiceImpl implements AlarmService {
     validUntil: Date,
     intrusionObject: ObjectClass
   ): Promise<void> {
-    return this.repository.getSecurityRuleById(intrusionRuleId).then((rule: SecurityRule) => {
+    return this._repository.getSecurityRuleById(intrusionRuleId).then((rule: SecurityRule) => {
       const update = {
         ...(rule as IntrusionRule),
         description,
@@ -234,20 +234,20 @@ export class AlarmServiceImpl implements AlarmService {
         validity: SecurityRulesFactory.newTimeSlot(validFrom, validUntil),
         objectClass: intrusionObject
       }
-      this.repository.updateSecurityRule(update)
+      this._repository.updateSecurityRule(update)
     })
   }
 
   async enableSecurityRule(id: SecurityRuleId): Promise<void> {
-    await this.repository.enableSecurityRule(id)
+    await this._repository.enableSecurityRule(id)
   }
 
   async disableSecurityRule(id: SecurityRuleId): Promise<void> {
-    await this.repository.disableSecurityRule(id)
+    await this._repository.disableSecurityRule(id)
   }
 
   async deleteSecurityRule(id: SecurityRuleId): Promise<void> {
-    await this.repository.removeSecurityRule(id)
+    await this._repository.removeSecurityRule(id)
   }
 
   private extractContactsFrom(rules: SecurityRule[]): Contact[] {

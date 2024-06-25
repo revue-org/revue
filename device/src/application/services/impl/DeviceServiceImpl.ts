@@ -13,8 +13,8 @@ import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 import { DeviceEventFactory } from '@common/domain/factories/DeviceEventFactory.js'
 
 export class DeviceServiceImpl implements DeviceService {
-  private _repository: DeviceRepository
-  private _events: DeviceEventsHub
+  private readonly _repository: DeviceRepository
+  private readonly _events: DeviceEventsHub
 
   constructor(repository: DeviceRepository, events: DeviceEventsHub) {
     this._repository = repository

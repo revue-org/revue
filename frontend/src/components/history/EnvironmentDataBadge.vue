@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { getMeasureColor } from '@/utils/MeasureUtils'
 import { type EnvironmentData, Measure } from 'domain/dist/domain/device/core'
@@ -86,3 +87,4 @@ li {
   }
 }
 </style>
+-->

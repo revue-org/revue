@@ -1,10 +1,6 @@
+<!--
 <script setup lang="ts">
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
-import { type Camera, DeviceType, type Sensor } from '@domain/device/core'
-import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
-import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
-import { MeasureConverter } from 'domain/dist/utils'
 
 const emit = defineEmits<{
   (_e: 'insert-camera', _camera: Camera): void
@@ -122,3 +118,4 @@ div.resolution {
   }
 }
 </style>
+-->

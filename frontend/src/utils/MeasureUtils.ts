@@ -1,3 +1,4 @@
+/*
 import { MeasureUnit } from '@domain/device/core/impl/enum/MeasureUnit'
 import { Measure } from '@domain/device/core/impl/enum/Measure'
 
@@ -27,3 +28,4 @@ export const getMeasureAcronym = (unit: MeasureUnit) => {
       return '%'
   }
 }
+*/

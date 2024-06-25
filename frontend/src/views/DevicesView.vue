@@ -1,13 +1,11 @@
+<!--
 <script lang="ts"></script>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import DeviceBadge from '@/components/devices/DeviceBadge.vue'
-import type { Camera, Device, Sensor } from '@domain/device/core'
-import { Measure } from '@domain/device/core'
 import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
 import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { DeviceTypeConverter, MeasureConverter } from '@utils/index'
 import { useQuasar } from 'quasar'
 import { composeCamera, composeSensor } from '@/scripts/presentation/device/ComposeDevice'
 
@@ -159,3 +157,4 @@ div.cameras-container {
   gap: 1rem;
 }
 </style>
+-->

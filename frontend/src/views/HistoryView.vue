@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { onMounted, type Ref, ref } from 'vue'
 import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
@@ -11,7 +12,7 @@ function getEnvironmentData() {
   RequestHelper.get(`http://${logHost}:${logPort}/environment-data`)
     .then(async (res: any) => {
       sensorData.value = []
-      for (let i = res.data.length - 1; i >= 0; i--) {
+      for (let i = res.data.length - 1; i >= 0; i&#45;&#45;) {
         sensorData.value.push(composeEnvironmentData(res.data[i]))
       }
     })
@@ -34,13 +35,13 @@ onMounted(() => {
       :environmentData="environmentData"
     />
   </div>
-  <!--  <div>
+  &lt;!&ndash;  <div>
     <intrusion-badge
       v-for="(intrusion, index) in cameraIntrusions"
       :key="index"
       :intrusion="intrusion"
     />
-  </div>-->
+  </div>&ndash;&gt;
 </template>
 
 <style scoped lang="scss">
@@ -52,3 +53,4 @@ onMounted(() => {
   margin-top: 20px;
 }
 </style>
+-->

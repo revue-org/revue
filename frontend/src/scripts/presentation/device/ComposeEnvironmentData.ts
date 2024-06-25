@@ -1,3 +1,4 @@
+/*
 import { type EnvironmentData } from 'domain/dist/domain/device/core'
 import {
   type DeviceIdFactory,
@@ -19,3 +20,4 @@ export const composeEnvironmentData = (environmentData: any): EnvironmentData =>
     new Date(environmentData.timestamp)
   )
 }
+*/

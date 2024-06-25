@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { ref } from 'vue'
 import RequestHelper, { mediaServerHost, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
@@ -59,3 +60,4 @@ div.container {
 @include responsive-font-size(576px, 2);
 @include responsive-font-size(992px, 3);
 </style>
+-->

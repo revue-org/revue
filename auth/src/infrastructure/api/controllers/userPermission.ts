@@ -2,8 +2,8 @@ import { UserService } from '@/application/services/UserService.js'
 import { UserServiceImpl } from '@/application/services/UserServiceImpl.js'
 import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository.js'
 import { UserFactory } from '@/domain/factories/UserFactory.js'
-import { User } from '@/domain/core/User'
-import { UserId } from '@/domain/core/UserId'
+import { User } from '@/domain/core/User.js'
+import { UserId } from '@/domain/core/UserId.js'
 
 const service: UserService = new UserServiceImpl(new MongoDBUserRepository())
 

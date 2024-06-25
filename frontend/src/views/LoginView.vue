@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { useQuasar } from 'quasar'
 import { popNegative } from '@/scripts/Popups'
 import { setupSocketServers } from '@/socket'
+import { type Contact, ContactType } from 'common/dist/domain/core'
+import { ContactFactory } from 'common/dist/domain/factories/ContactFactory'
 
 const username = ref('')
 const password = ref('')
@@ -19,13 +21,29 @@ const login = () => {
     password: password.value
   })
     .then((res: any) => {
-      userStore.username = username.value
-      userStore.userId = res.data.userId
+      userStore.isLoggedIn = true
+      userStore.id = res.data.id.value
+      userStore.username = res.data.username
+      userStore.password = res.data.password
       userStore.accessToken = res.data.accessToken
       userStore.refreshToken = res.data.refreshToken
-      userStore.isLoggedIn = true
-      setupSocketServers(userStore.accessToken)
-      router.push('/home')
+      userStore.permissions = res.data.permissions
+      RequestHelper.get(`http://${userHost}:${userPort}/${userStore.id}`).then((res: any) => {
+        const contacts: Contact[] = []
+        for (let i = 0; i < res.data.contacts.length; i++) {
+          if (res.data.contacts[i].type === ContactType.EMAIL) {
+            contacts.push(ContactFactory.createMailContact(res.data.contacts[i].value))
+          } else if (res.data.contacts[i].type === ContactType.SMS) {
+            contacts.push(ContactFactory.createSmsContact(res.data.contacts[i].value))
+          }
+        }
+        userStore.name = res.data.name
+        userStore.surname = res.data.surname
+        userStore.mail = res.data.mail
+        userStore.contacts = contacts
+        setupSocketServers(userStore.accessToken)
+        router.push('/home')
+      })
     })
     .catch(() => {
       popNegative($q, 'Login failed')

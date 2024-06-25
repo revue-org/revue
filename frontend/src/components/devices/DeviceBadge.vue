@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import type { Camera, Device, Sensor } from '@domain/device/core'
 import { DeviceType, Measure } from '@domain/device/core'
@@ -246,3 +247,4 @@ ul {
   }
 }
 </style>
+-->

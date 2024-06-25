@@ -1,3 +1,4 @@
+/*
 import { type Camera, Measure, type Sensor } from 'domain/dist/domain/device/core'
 import { MeasureConverter } from 'domain/dist/utils'
 import {
@@ -37,3 +38,4 @@ export function composeMeasure(measures: any): Measure[] {
     return MeasureConverter.convertToMeasure(measure)
   })
 }
+*/

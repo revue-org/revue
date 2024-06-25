@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import type { Notification } from 'domain/dist/domain/notification/core/Notification'
 import { getMeasureColor } from '@/utils/MeasureUtils'
@@ -113,3 +114,4 @@ li {
   }
 }
 </style>
+-->

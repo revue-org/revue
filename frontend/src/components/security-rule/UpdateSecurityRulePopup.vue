@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { onMounted, ref, toRaw } from 'vue'
@@ -198,3 +199,4 @@ div.resolution {
   }
 }
 </style>
+-->

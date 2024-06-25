@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { DeviceType, Measure } from '@domain/device/core'
 import { getMeasureColor } from '@/utils/MeasureUtils'
@@ -237,3 +238,4 @@ ul {
   }
 }
 </style>
+-->

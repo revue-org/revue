@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import SensorData from '@/components/devices/SensorData.vue'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { onBeforeMount, onBeforeUnmount } from 'vue'
 import { monitoringSocket, notificationSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
 import { useTopicsStore } from '@/stores/topics'
 import { useUserStore } from '@/stores/user'
-import { type AxiosResponse, HttpStatusCode } from 'axios'
-import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
 
 const topicsStore = useTopicsStore()
 const userStore = useUserStore()
@@ -51,7 +47,8 @@ onBeforeUnmount(() => {
   )
 })
 
-monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
+monitoringSocket?.on('measurement', (data: { topic: string; data: string }) => {
+  console.log(data)
   /*const rawValues = JSON.parse(data.data)
   const newValues: EnvironmentData[] = []
   for (const rawValue of rawValues) {
@@ -106,7 +103,7 @@ const showNotification = (message: string) => {
 }
 </script>
 <template>
-  <h2>Environment data</h2>
+  <h2>Measurements</h2>
   <div>
     <!-- <sensor-data v-for="(item, index) in [] sensors.filter(elem => elem.sensor.isCapturing)" :key="index"
       :sensor="item.sensor" :last-data="item.lastData" /> -->

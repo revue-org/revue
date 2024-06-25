@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/alarm-system/core'
@@ -180,3 +181,4 @@ div.intrusion-rules-container {
   gap: 1rem;
 }
 </style>
+-->

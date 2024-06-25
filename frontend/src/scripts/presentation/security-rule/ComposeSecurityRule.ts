@@ -1,3 +1,4 @@
+/*
 import type { ExceedingRule, IntrusionRule } from 'domain/dist/domain/alarm-system/core'
 import type { Contact } from 'domain/dist/domain/monitoring/core'
 import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/alarm-system/factories'
@@ -49,3 +50,4 @@ function composeContacts(contacts: any): Contact[] {
     return contactFactory.createContact(contact.value, contact.type)
   })
 }
+*/

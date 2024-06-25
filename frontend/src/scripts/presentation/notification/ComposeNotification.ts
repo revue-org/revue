@@ -1,3 +1,4 @@
+/*
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import { DeviceType } from 'domain/dist/domain/device/core'
@@ -52,3 +53,4 @@ function composeExceeding(exceeding: any): Exceeding {
     exceeding._id
   )
 }
+*/

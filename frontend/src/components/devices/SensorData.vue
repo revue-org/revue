@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
 import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
@@ -302,3 +303,4 @@ li {
   }
 }
 </style>
+-->

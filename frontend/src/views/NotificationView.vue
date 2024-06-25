@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import type { Notification } from 'domain/dist/domain/notification/core/Notification.js'
@@ -14,7 +15,7 @@ async function getNotifications() {
   await RequestHelper.get(`http://${notificationHost}:${notificationPort}/notifications`)
     .then(async (res: any) => {
       notifications.value = []
-      for (let i = res.data.length - 1; i >= 0; i--) {
+      for (let i = res.data.length - 1; i >= 0; i&#45;&#45;) {
         notifications.value.push(await composeNotification(res.data[i]))
       }
     })
@@ -55,3 +56,4 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss"></style>
+-->

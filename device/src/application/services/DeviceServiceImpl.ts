@@ -5,10 +5,10 @@ import { DeviceId } from '@/domain/core/DeviceId.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint.js'
 import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
-import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
+import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 import RequestHelper from '@utils/RequestHelper.js'
-import { DeviceEventsHub } from '@/application/services/DeviceEventsHub'
-import { CapabilityFactory } from '@/domain/factories/CapabilityFactory'
+import { DeviceEventsHub } from '@/application/services/DeviceEventsHub.js'
+import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 
 export class DeviceServiceImpl implements DeviceService {

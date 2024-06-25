@@ -1,5 +1,5 @@
 import { Measurement } from '../../../domain/core'
-import { measurementSchema } from '../schemas/MeasurementSchema'
+import { measurementSchema } from '../schemas/MeasurementSchema.js'
 
 export class MeasurementsAdapter {
   static asDomainEvent(measurementObj: object): Measurement {

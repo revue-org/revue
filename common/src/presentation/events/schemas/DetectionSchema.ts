@@ -1,5 +1,6 @@
 import { z, ZodType } from 'zod'
-import { Detection, ObjectClass } from '../../../domain/core'
+import { Detection } from '../../../domain/core'
+import { ObjectClass } from '../../../domain/core/ObjectClass.js'
 
 export const detectionSchema: ZodType<Detection> = z.object({
   id: z.object({

@@ -1,6 +1,6 @@
 import { Anomaly, Intrusion, Outlier } from '../../../domain/core'
-import { AnomalyFactory } from '../../../domain/factories'
-import { AnomalyMessage, anomalySchema } from '../schemas/AnomalySchema'
+import { AnomalyFactory } from '../../../domain/factories/AnomalyFactory.js'
+import { AnomalyMessage, anomalySchema } from '../schemas/AnomalySchema.js'
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {

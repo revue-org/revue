@@ -1,5 +1,7 @@
 import { z, ZodType } from 'zod'
-import { Measurement, MeasureType, MeasureUnit } from '../../../domain/core'
+import { Measurement } from '../../../domain/core'
+import { MeasureType } from '../../../domain/core/MeasureType.js'
+import { MeasureUnit } from '../../../domain/core/MeasureUnit.js'
 
 export const measurementSchema: ZodType<Measurement> = z.object({
   id: z.object({

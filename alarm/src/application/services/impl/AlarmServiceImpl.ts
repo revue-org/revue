@@ -16,17 +16,16 @@ import {
   Outlier
 } from '@common/domain/core'
 import { AlarmEventsHub } from '../AlarmEventsHub'
-import RequestHelper from '@/utils/RequestHelper'
-import { deviceHost, devicePort } from 'common/dist/utils/RequestHelper'
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper.js'
 
 export class AlarmServiceImpl implements AlarmService {
   private repository: SecurityRuleRepository
   private events: AlarmEventsHub
 
-  constructor(repository: SecurityRuleRepository) {
+  constructor(repository: SecurityRuleRepository, events: AlarmEventsHub) {
     this.repository = repository
-    this.events = {} as AlarmEventsHub
-    // this.configureEvents()
+    this.events = events
+    this.configureEvents()
   }
 
   private configureEvents(): void {
@@ -39,6 +38,8 @@ export class AlarmServiceImpl implements AlarmService {
     })
 
     this.events.subscribeToMeasurements((measurement: Measurement): void => {
+      console.log('measurement', measurement)
+      console.log('CHECK MEASUREMENT')
       this.checkMeasurement(measurement).then(rangeRule => {
         if (rangeRule) {
           this.events.publishAnomaly(this.createOutlier(measurement, rangeRule))

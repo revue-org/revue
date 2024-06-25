@@ -1,6 +1,6 @@
 import { DeviceEvent } from '../../../domain/core'
-import { DeviceMessage, deviceSchema } from '../schemas/DeviceSchema'
-import { DeviceEventFactory } from '../../../domain/factories/DeviceEventFactory'
+import { DeviceMessage, deviceSchema } from '../schemas/DeviceSchema.js'
+import { DeviceEventFactory } from '../../../domain/factories/DeviceEventFactory.js'
 
 export class DevicesAdapter {
   static asDomainEvent(deviceObj: object): DeviceEvent {

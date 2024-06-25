@@ -3,7 +3,7 @@ import { Anomaly, Detection, DeviceEvent, Measurement } from '@common/domain/cor
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
-import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
+import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
 import { AnomalyMessage } from '@presentation/events/schemas/AnomalySchema.js'
 import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter.js'

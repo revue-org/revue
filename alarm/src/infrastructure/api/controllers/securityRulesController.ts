@@ -8,8 +8,25 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Measure } from '@common/domain/core'
 import { ObjectClass } from '@common/domain/core/ObjectClass.js'
+import { KafkaAlarmEventsHub } from '@/infrastructure/events/KafkaAlarmEventsHub.js'
+import { KafkaOptions } from 'common/dist/infrastructure/events/KafkaOptions'
 
-const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository())
+const getKafkaOptions = (): KafkaOptions => {
+  let kafkaHost: string = process.env.KAFKA_HOST!
+  let kafkaPort: string = process.env.KAFKA_PORT!
+
+  if (process.env.NODE_ENV == 'develop') {
+    console.log('INFO: KAFKA DEVELOPMENT MODE')
+    kafkaHost = process.env.KAFKA_EXTERNAL_HOST!
+    kafkaPort = process.env.KAFKA_EXTERNAL_PORT!
+  }
+  return {
+    clientId: 'alarm',
+    brokers: [{ host: kafkaHost, port: kafkaPort }],
+    groupId: 'alarmConsumer'
+  } as KafkaOptions
+}
+const service: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository(), new KafkaAlarmEventsHub(getKafkaOptions()))
 
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {

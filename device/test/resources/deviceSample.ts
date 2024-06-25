@@ -6,7 +6,7 @@ export const deviceSample = {
     ipAddress: 'test-ip-address',
     port: 0
   },
-  enabled: true
+  isEnabled: true
 }
 
 export const deviceSample1 = {
@@ -17,5 +17,5 @@ export const deviceSample1 = {
     ipAddress: 'test-ip-address-1',
     port: 0
   },
-  enabled: true
+  isEnabled: true
 }

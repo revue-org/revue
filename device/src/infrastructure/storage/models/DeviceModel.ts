@@ -9,7 +9,7 @@ export interface DeviceDBEntity {
     readonly ipAddress: string
     readonly port: number
   }
-  readonly enabled: boolean
+  readonly isEnabled: boolean
 }
 
 export class DeviceDBAdapter {
@@ -21,7 +21,7 @@ export class DeviceDBAdapter {
       device.endpoint.port,
       device.locationId,
       [],
-      device.enabled
+      device.isEnabled
     )
   }
 
@@ -34,7 +34,7 @@ export class DeviceDBAdapter {
         ipAddress: device.endpoint.ipAddress,
         port: device.endpoint.port
       },
-      enabled: device.isEnabled
+      isEnabled: device.isEnabled
     }
   }
 }

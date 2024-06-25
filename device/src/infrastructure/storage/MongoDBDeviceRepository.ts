@@ -6,13 +6,17 @@ import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 
 export class MongoDBDeviceRepository implements DeviceRepository {
-  private _model = mongoose.model<DeviceDBEntity>('Device', deviceSchema)
+  private _model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
 
   getDeviceById(deviceId: DeviceId): Promise<Device> {
+    console.log({ id: deviceId.value })
     return this._model
-      .findOne({ deviceId: deviceId.value })
+      .findOne({ id: deviceId.value })
       .lean()
-      .then(device => DeviceDBAdapter.toDomainEntity(device as DeviceDBEntity))
+      .then(device => {
+        console.log(device)
+        return DeviceDBAdapter.toDomainEntity(device as DeviceDBEntity)
+      })
   }
 
   getDevices(): Promise<Device[]> {
@@ -24,7 +28,7 @@ export class MongoDBDeviceRepository implements DeviceRepository {
 
   getDevice(deviceId: DeviceId): Promise<Device> {
     return this._model
-      .findOne({ deviceId: deviceId.value })
+      .findOne({ id: deviceId.value })
       .lean()
       .then(device => DeviceDBAdapter.toDomainEntity(device as DeviceDBEntity))
   }
@@ -34,16 +38,16 @@ export class MongoDBDeviceRepository implements DeviceRepository {
   }
 
   async updateDevice(device: Device): Promise<void> {
-    await this._model.updateOne({ deviceId: device.deviceId.value }, DeviceDBAdapter.toDBEntity(device))
+    await this._model.updateOne({ id: device.deviceId.value }, DeviceDBAdapter.toDBEntity(device))
   }
 
   async removeDevice(deviceId: DeviceId): Promise<void> {
-    await this._model.deleteOne({ deviceId: deviceId.value })
+    await this._model.deleteOne({ id: deviceId.value })
   }
 
   async getActiveDevices(): Promise<Device[]> {
     return this._model
-      .find({ enabled: true })
+      .find({ isEnabled: true })
       .lean()
       .then(devices => devices.map(device => DeviceDBAdapter.toDomainEntity(device)))
   }

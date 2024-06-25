@@ -1,26 +1,21 @@
-import { MongoDBAnomalyRepository } from '@/infrastructure/storage/MongoDBAnomalyRepository'
-import { AnomalyServiceImpl } from '@/application/services/AnomalyServiceImpl'
-import { AnomalyService } from '@/application/services/AnomalyService'
 import { Anomaly } from '@common/domain/core/Anomaly'
 import { Outlier } from '@common/domain/core/Outlier'
-import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory'
+import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory.js'
 import { Intrusion } from '@common/domain/core/Intrusion'
 import { DomainEventId } from '@common/domain/core/DomainEventId'
-import { LogEventsHub } from '@/application/services/LogEventsHub'
-
-const service: AnomalyService = new AnomalyServiceImpl(new MongoDBAnomalyRepository(), {} as LogEventsHub)
+import { anomalyService } from '@/setup.js'
 
 export const anomalyController = {
   getAnomalyById: async (id: string): Promise<Anomaly> => {
-    return service.getAnomalyById(AnomalyFactory.idOf(id))
+    return anomalyService.getAnomalyById(AnomalyFactory.idOf(id))
   },
   getOutliers: async (): Promise<Outlier[]> => {
-    return await service.getOutliers()
+    return await anomalyService.getOutliers()
   },
   getIntrusions: async (): Promise<Intrusion[]> => {
-    return await service.getIntrusions()
+    return await anomalyService.getIntrusions()
   },
   deleteAnomaly: async (id: DomainEventId): Promise<void> => {
-    await service.deleteAnomaly(id)
+    await anomalyService.deleteAnomaly(id)
   }
 }

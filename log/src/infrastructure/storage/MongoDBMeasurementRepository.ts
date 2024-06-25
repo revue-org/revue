@@ -2,11 +2,9 @@ import mongoose from 'mongoose'
 import { Measurement } from 'common/dist/domain/core/Measurement'
 import { MeasurementRepository } from '@/application/repositories/MeasurementRepository'
 import { DomainEventId } from 'common/dist/domain/core/DomainEventId'
-import {
-  NumericMeasurementDBAdapter,
-  NumericMeasurementDBEntity
-} from '@/infrastructure/storage/models/NumericMeasurementModel'
-import { numericMeasurementSchema } from '@/infrastructure/storage/schemas/NumericMeasurementSchema'
+import { NumericMeasurementDBEntity } from '@/infrastructure/storage/models/NumericMeasurementModel'
+import {NumericMeasurementDBAdapter} from '@/infrastructure/storage/models/NumericMeasurementModel.js'
+import { numericMeasurementSchema } from '@/infrastructure/storage/schemas/NumericMeasurementSchema.js'
 
 export class MongoDBMeasurementRepository implements MeasurementRepository {
   private _model = mongoose.model<NumericMeasurementDBEntity>(

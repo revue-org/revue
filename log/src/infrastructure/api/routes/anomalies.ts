@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
 import { Anomaly, Intrusion, Outlier } from 'common/dist/domain/core'
-import { anomalyController } from '@/infrastructure/api/controller/anomalies'
+import { anomalyController } from '@/infrastructure/api/controller/anomalies.js'
 
 export const anomalyRouter: Router = express.Router()
 

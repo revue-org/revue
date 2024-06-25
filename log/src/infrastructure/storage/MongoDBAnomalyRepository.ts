@@ -1,11 +1,12 @@
 import mongoose from 'mongoose'
 import { AnomalyRepository } from '@/application/repositories/AnomalyRepository'
-import { AnomalyDBAdapter, AnomalyDBEntity } from '@/infrastructure/storage/models/AnomalyModel'
+import { AnomalyDBEntity } from '@/infrastructure/storage/models/AnomalyModel'
+import { AnomalyDBAdapter } from '@/infrastructure/storage/models/AnomalyModel.js'
 import { Outlier } from '@common/domain/core/Outlier'
 import { Intrusion } from '@common/domain/core/Intrusion'
 import { DomainEventId } from '@common/domain/core/DomainEventId'
 import { Anomaly } from '@common/domain/core/Anomaly'
-import { anomalySchema } from '@/infrastructure/storage/schemas/AnomalySchema'
+import { anomalySchema } from '@/infrastructure/storage/schemas/AnomalySchema.js'
 
 export class MongoDBAnomalyRepository implements AnomalyRepository {
   private _model = mongoose.model<AnomalyDBEntity>('AnomalySchema', anomalySchema, 'anomaly')

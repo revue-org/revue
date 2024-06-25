@@ -1,5 +1,5 @@
 import { Measurement } from '@common/domain/core/Measurement.js'
-import { DomainEventId } from 'common/dist/domain/core/DomainEventId'
+import { DomainEventId } from 'common/dist/domain/core/DomainEventId.js'
 
 export interface MeasurementRepository {
   getMeasurements(quantity: number): Promise<Measurement[]>

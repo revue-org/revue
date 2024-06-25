@@ -3,10 +3,10 @@ import { Anomaly, DeviceEvent, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
-import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
-import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
-import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter.js'
-import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
+import { MeasurementsAdapter } from '@common/presentation/events/adapters/MeasurementAdapter.js'
+import RequestHelper, { deviceHost, devicePort } from '@common/utils/RequestHelper.js'
+import { AnomaliesAdapter } from '@common/presentation/events/adapters/AnomalyAdapter.js'
+import { DevicesAdapter } from '@common/presentation/events/adapters/DeviceAdapter.js'
 
 export class KafkaLogEventsHub implements LogEventsHub {
   private measurementsConsumer: KafkaConsumer

@@ -7,7 +7,7 @@ import { mongoConnect } from '@utils/connection.js'
 import { jwtManager } from './utils/JWTManager.js'
 import http, { Server as HttpServer } from 'http'
 import { anomalyRouter } from '@/infrastructure/api/routes/anomalies.js'
-import { measurementRouter } from '@/infrastructure/api/routes/measurements'
+import { measurementRouter } from '@/infrastructure/api/routes/measurements.js'
 
 config({ path: process.cwd() + '/../.env' })
 

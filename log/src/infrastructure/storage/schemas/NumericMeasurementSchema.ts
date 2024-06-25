@@ -3,7 +3,6 @@ import { Schema } from 'mongoose'
 export const numericMeasurementSchema = new Schema({
   id: {
     type: String,
-    required: true,
     unique: true
   },
   sourceDeviceId: {
@@ -12,16 +11,13 @@ export const numericMeasurementSchema = new Schema({
   },
   measure: {
     type: {
-      type: {
-        type: String,
-        required: true
-      },
-      unit: {
-        type: String,
-        required: true
-      }
+      type: String,
+      required: true
     },
-    required: true
+    unit: {
+      type: String,
+      required: true
+    }
   },
   value: {
     type: Number,

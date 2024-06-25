@@ -2,7 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose, { model, Model } from "mongoose";
 import { userSample } from '../resources/userSample.js'
 import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository'
-import { UserFactory } from '@/domain/factories/UserFactory'
+import { UserFactory } from '@/domain/factories/UserFactory.js'
 import { userSchema } from "@/infrastructure/storage/schemas/UserSchema";
 import { User } from "@/domain/core/User";
 

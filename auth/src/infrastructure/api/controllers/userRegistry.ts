@@ -3,7 +3,7 @@ import { UserServiceImpl } from '@/application/services/UserServiceImpl.js'
 import { MongoDBUserRepository } from '@/infrastructure/storage/MongoDBUserRepository.js'
 import { User } from '@/domain/core/User.js'
 import { UserId } from '@/domain/core/UserId.js'
-import { UserFactory } from '@/domain/factories/UserFactory'
+import { UserFactory } from '@/domain/factories/UserFactory.js'
 
 const service: UserService = new UserServiceImpl(new MongoDBUserRepository())
 

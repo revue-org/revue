@@ -1,4 +1,6 @@
 import { DeviceEvent, Measurement } from '@common/domain/core'
+import { MeasureType } from '@common/domain/core/MeasureType.js'
+import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
@@ -11,8 +13,10 @@ export class KafkaMonitoringEventsHub {
   private readonly deviceConsumer: KafkaConsumer
 
   constructor(kafkaOptions: KafkaOptions) {
-    this.measurementsConsumer = new KafkaConsumer(kafkaOptions)
-    this.deviceConsumer = new KafkaConsumer(kafkaOptions)
+    const measurementsOptions = { ...kafkaOptions, groupId: 'monitoring-measurements' }
+    const deviceOptions = { ...kafkaOptions, groupId: 'monitoring-devices' }
+    this.measurementsConsumer = new KafkaConsumer(measurementsOptions)
+    this.deviceConsumer = new KafkaConsumer(deviceOptions)
   }
 
   private async getTopics(): Promise<string[]> {
@@ -35,14 +39,13 @@ export class KafkaMonitoringEventsHub {
           if (message.value) {
             try {
               console.log('Message received')
-              const msg = message.value as object
-              // @ts-ignore
-              msg.timestamp = new Date(msg.timestamp)
-              console.log(msg)
-              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(msg)
+              const messageValue = JSON.parse(message.value?.toString())
+              messageValue.timestamp = new Date(messageValue.timestamp)
+              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(messageValue)
               handler(measurement)
             } catch (e) {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+              console.log(e)
             }
           }
         })

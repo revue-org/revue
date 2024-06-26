@@ -9,7 +9,6 @@ export class MongoDBDeviceRepository implements DeviceRepository {
   private model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
 
   getDeviceById(deviceId: DeviceId): Promise<Device> {
-    console.log({ id: deviceId.value })
     return this.model
       .findOne({ id: deviceId.value })
       .lean()

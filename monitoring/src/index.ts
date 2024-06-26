@@ -26,7 +26,7 @@ const io: SocketIOServer = new SocketIOServer(server, {
   }
 })
 
-io.use(async function (socket, next): Promise<void> {
+/*io.use(async function (socket, next): Promise<void> {
   //TODO NB, to test
   if (socket.handshake.query && socket.handshake.query.token) {
     console.log('middleware socket validation: ' + socket.handshake.query.token)
@@ -39,7 +39,7 @@ io.use(async function (socket, next): Promise<void> {
   } else {
     next(new Error('Authentication error'))
   }
-})
+})*/
 
 app.use(express.json())
 
@@ -64,8 +64,8 @@ const kafkaOptions: KafkaOptions = {
   groupId: 'monitoringConsumer'
 }
 
-const kafkaMonitoring = new KafkaMonitoringEventsHub(kafkaOptions)
-const socketMonitoring = new SocketMonitoringEventsHub(io)
+const kafkaMonitoring: KafkaMonitoringEventsHub = new KafkaMonitoringEventsHub(kafkaOptions)
+const socketMonitoring: SocketMonitoringEventsHub = new SocketMonitoringEventsHub(io)
 const monitoringEventsHub: MonitoringEventsHub = new MonitoringEventsHubImpl(kafkaMonitoring, socketMonitoring)
 const monitoringService: MonitoringService = new MonitoringServiceImpl(monitoringEventsHub)
 

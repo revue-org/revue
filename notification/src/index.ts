@@ -33,7 +33,7 @@ const io: SocketIOServer = new SocketIOServer(server, {
   }
 })
 
-io.use(async function (socket, next): Promise<void> {
+/*io.use(async function (socket, next): Promise<void> {
   //TODO NB, to test
   if (socket.handshake.query && socket.handshake.query.token) {
     console.log('middleware socket validation: ' + socket.handshake.query.token)
@@ -46,7 +46,7 @@ io.use(async function (socket, next): Promise<void> {
   } else {
     next(new Error('Authentication error'))
   }
-})
+})*/
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
@@ -78,7 +78,7 @@ const kafkaOptions: KafkaOptions = {
   groupId: 'notificationConsumer'
 }
 
-const kafkaNotification = new KafkaNotificationEventsHub(kafkaOptions)
+const kafkaNotification: KafkaNotificationEventsHub = new KafkaNotificationEventsHub(kafkaOptions)
 const socketNotification = new SocketNotificationEventsHub(io)
 const notificationEventsHub: NotificationEventsHub = new NotificationEventsHubImpl(
   kafkaNotification,

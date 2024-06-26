@@ -47,7 +47,7 @@ onBeforeUnmount(() => {
   )
 })
 
-monitoringSocket?.on('measurement', (data: { topic: string; data: string }) => {
+monitoringSocket?.on('measurements', (data: { topic: string; data: string }) => {
   console.log(data)
   /*const rawValues = JSON.parse(data.data)
   const newValues: EnvironmentData[] = []

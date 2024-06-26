@@ -1,7 +1,7 @@
 import type { Express, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import { config } from 'dotenv'
-import { jwtManager } from './utils/JWTManager.js'
+import { jwtManager } from '@utils/JWTManager.js'
 import { getSensorInfo, produce } from '@/producer.js'
 
 config({ path: process.cwd() + '/../.env' })
@@ -9,6 +9,18 @@ config({ path: process.cwd() + '/../.env' })
 export const app: Express = express()
 
 app.use(express.json())
+
+app.route('/capabilities').get((req: Request, res: Response): void => {
+  const capability = {
+    type: 'sensor',
+    capturingInterval: 1000,
+    measure: {
+      type: 'temperature',
+      unit: 'celsius'
+    }
+  }
+  res.send({ capabilities: [capability] })
+})
 
 const PORT: number = Number(process.env.SENSOR_PORT)
 

@@ -8,10 +8,10 @@ db.device.insert([
     description: 'sensor 1 description',
     locationId: 'loc-01',
     endpoint: {
-      ipAddress: '192.168.1.12',
-      port: 9999
+      ipAddress: 'localhost',
+      port: 6001
     },
-    enabled: true,
+    isEnabled: true,
     __v: 0
   },
   {
@@ -19,10 +19,10 @@ db.device.insert([
     description: 'camera 1 description',
     locationId: 'loc-01',
     endpoint: {
-      ipAddress: '192.168.1.13',
-      port: 10000
+      ipAddress: 'localhost',
+      port: 5001
     },
-    enabled: true,
+    isEnabled: false,
     __v: 0
   },
   {
@@ -30,21 +30,21 @@ db.device.insert([
     description: 'sensor 2 description',
     locationId: 'loc-02',
     endpoint: {
-      ipAddress: '192.168.1.14',
-      port: 10001
+      ipAddress: 'localhost',
+      port: 6002
     },
-    enabled: true,
+    isEnabled: false,
     __v: 0
   },
   {
-    id: 'cam-01',
+    id: 'cam-02',
     description: 'camera 2 description',
     locationId: 'loc-02',
     endpoint: {
-      ipAddress: '192.168.1.16',
-      port: 10002
+      ipAddress: 'localhost',
+      port: 5002
     },
-    enabled: true,
+    isEnabled: false,
     __v: 0
   },
 ])

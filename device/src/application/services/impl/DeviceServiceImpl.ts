@@ -25,25 +25,29 @@ export class DeviceServiceImpl implements DeviceService {
     const device: Device = await this.repository.getDeviceById(deviceId)
     return RequestHelper.get(
       'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
-    ).then((res: any): DeviceCapability[] => {
-      const capabilities: DeviceCapability[] = []
-      for (let i: number = 0; i < res.data.capabilities; i++) {
-        if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
-          capabilities.push(
-            CapabilityFactory.sensoringCapabilityOf(
-              res.data.capabilities[i].capturingInterval,
-              MeasureFactory.createMeasure(
-                res.data.capabilities[i].measure.type,
-                res.data.capabilities[i].measure.unit
+    )
+      .then((res: any): DeviceCapability[] => {
+        const capabilities: DeviceCapability[] = []
+        for (let i: number = 0; i < res.data.capabilities; i++) {
+          if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
+            capabilities.push(
+              CapabilityFactory.sensoringCapabilityOf(
+                res.data.capabilities[i].capturingInterval,
+                MeasureFactory.createMeasure(
+                  res.data.capabilities[i].measure.type,
+                  res.data.capabilities[i].measure.unit
+                )
               )
             )
-          )
-        } else if (res.data.capabilities[i].type == CapabilityType.VIDEO) {
-          capabilities.push(CapabilityFactory.videoStreamingCapabilityOf(res.data.capabilities[i].resolution))
+          } else if (res.data.capabilities[i].type == CapabilityType.VIDEO) {
+            capabilities.push(
+              CapabilityFactory.videoStreamingCapabilityOf(res.data.capabilities[i].resolution)
+            )
+          }
         }
-      }
-      return capabilities
-    })
+        return capabilities
+      })
+      .catch()
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {
@@ -60,23 +64,33 @@ export class DeviceServiceImpl implements DeviceService {
     return await this.repository.getDevices()
   }
 
-  private async getDeviceWithCapabilities(capabilities: CapabilityType[]): Promise<Device[]> {
+  private async getDeviceWithCapabilities(requiredCapabilities: CapabilityType[]): Promise<Device[]> {
     const devices: Device[] = await this.repository.getDevices()
     const admittedDevices: Device[] = []
-
-    devices.forEach((device: Device): void => {
-      RequestHelper.get(
-        'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
-      ).then((res: any): void => {
-        if (
-          res.data.capabilities.forEach((capability: string): boolean =>
-            capabilities.includes(capability as CapabilityType)
+    for (const device of devices) {
+      if (device.isEnabled) {
+        try {
+          const res = await RequestHelper.get(
+            `http://${device.endpoint.ipAddress}:${device.endpoint.port}/capabilities`
           )
-        ) {
-          admittedDevices.push(device)
+          const deviceCapabilityTypes: CapabilityType[] = res.data.capabilities.map(
+            (capability: any): CapabilityType => {
+              if (Object.values(CapabilityType).includes(capability.type as CapabilityType)) {
+                return capability.type as CapabilityType
+              } else {
+                throw new Error('Invalid capability')
+              }
+            }
+          )
+
+          if (requiredCapabilities.every(capability => deviceCapabilityTypes.includes(capability))) {
+            admittedDevices.push(device)
+          }
+        } catch (error) {
+          console.log(`Error while fetching capabilities from ${device.deviceId.value}: ${error}`)
         }
-      })
-    })
+      }
+    }
     return admittedDevices
   }
 
@@ -101,7 +115,7 @@ export class DeviceServiceImpl implements DeviceService {
       enabled
     )
     await this.repository.saveDevice(device)
-    this.events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value));
+    this.events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value))
     return device.deviceId
   }
 
@@ -128,7 +142,7 @@ export class DeviceServiceImpl implements DeviceService {
 
   async deleteDevice(deviceId: DeviceId): Promise<void> {
     await this.repository.removeDevice(deviceId)
-    this.events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value));
+    this.events.publishDeviceRemoved(DeviceEventFactory.createRemoval(new Date(), deviceId.value))
   }
 
   async enableDevice(deviceId: DeviceId): Promise<void> {

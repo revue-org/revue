@@ -7,10 +7,10 @@ import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
 import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 
-const SENSOR_CODE = process.env.SENSOR_CODE
+const SENSOR_ID = process.env.SENSOR_ID_1
 
-if (SENSOR_CODE === undefined) {
-  console.log('No sensor code provided')
+if (SENSOR_ID === undefined) {
+  console.log('No devicee id provided')
   process.exit(1)
 }
 
@@ -19,8 +19,7 @@ let sensor: any
 export const getSensorInfo = async (): Promise<void> => {
   const deviceUrl: string = `http://${deviceHost}:${devicePort}`
   try {
-    console.log(`${deviceUrl}/${SENSOR_CODE}`)
-    const res = await RequestHelper.get(`${deviceUrl}/${SENSOR_CODE}`)
+    const res = await RequestHelper.get(`${deviceUrl}/${SENSOR_ID}`)
     console.log('INFO: SENSOR INFO RETRIEVED')
     console.log(res.data)
     sensor = res.data
@@ -58,29 +57,3 @@ export const produce = async (): Promise<void> => {
     producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
   }, 2000)
 }
-
-// const getMeasureUnit = (measure: Measure): MeasureUnit => {
-//   switch (measure) {
-//     case MeasureType.TEMPERATURE:
-//       return MeasureUnit.CELSIUS
-//     case MeasureType.HUMIDITY:
-//       return MeasureUnit.PERCENTAGE
-//     case MeasureType.PRESSURE:
-//       return MeasureUnit.BAR
-//     default:
-//       throw new Error('Measure unit not found')
-//   }
-// }
-//
-// const generateRandomValue = (measure: Measure): number => {
-//   switch (measure) {
-//     case MeasureType.TEMPERATURE:
-//       return parseFloat((Math.random() * (24.5 - 24) + 24).toFixed(2))
-//     case MeasureType.HUMIDITY:
-//       return parseFloat((Math.random() * (56 - 55) + 55).toFixed(2))
-//     case MeasureType.PRESSURE:
-//       return parseFloat((Math.random() * (1000 - 980) + 980).toFixed(2))
-//     default:
-//       throw new Error('Measure unit not found')
-//   }
-// }

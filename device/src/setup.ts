@@ -13,4 +13,4 @@ const kafkaOptions: KafkaOptions = {
   groupId: 'deviceConsumer'
 }
 
-export const alarmService: DeviceService = new DeviceServiceImpl(new MongoDBDeviceRepository(), new KafkaDeviceEventsHub(kafkaOptions))
+export const deviceService: DeviceService = new DeviceServiceImpl(new MongoDBDeviceRepository(), new KafkaDeviceEventsHub(kafkaOptions))

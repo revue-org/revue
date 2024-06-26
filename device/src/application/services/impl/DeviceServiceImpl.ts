@@ -55,6 +55,10 @@ export class DeviceServiceImpl implements DeviceService {
     return device.locationId
   }
 
+  async getDevicesByLocationId(locationId: string): Promise<Device[]> {
+    return await this.repository.getDevicesByLocationId(locationId)
+  }
+
   async getDeviceById(deviceId: DeviceId): Promise<Device> {
     return await this.repository.getDeviceById(deviceId)
   }

@@ -1,3 +1,16 @@
+import type { Sensor } from '@/domain/core/Sensor'
+
+export const composeSensor = (sensor: any): Sensor => {
+  return {
+    deviceId: sensor.deviceId.value,
+    description: sensor.description,
+    endpoint: sensor.endpoint.ipAddress + ':' + sensor.endpoint.port,
+    isEnabled: sensor.isEnabled,
+    locationId: sensor.locationId
+  }
+}
+
+
 /*
 import { type Camera, Measure, type Sensor } from 'domain/dist/domain/device/core'
 import { MeasureConverter } from 'domain/dist/utils'

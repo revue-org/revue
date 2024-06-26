@@ -1,77 +1,68 @@
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount } from 'vue'
+import { type Ref, ref } from 'vue'
 import { monitoringSocket, notificationSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
-import { useTopicsStore } from '@/stores/topics'
 import { useUserStore } from '@/stores/user'
+import HttpStatusCode from '@utils/HttpStatusCode'
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import { type Measurement } from "common/dist/domain/core";
+import type { Sensor } from '@/domain/core/Sensor'
+import { composeSensor } from '@/presentation/ComposeDevice'
+import { composeMeasurement } from '@/presentation/ComposeMeasurement'
+import SensorData from "@/components/devices/SensorData.vue";
 
-const topicsStore = useTopicsStore()
 const userStore = useUserStore()
 const $q = useQuasar()
-
-// const sensors: Ref<{ sensor: Sensor; lastData: EnvironmentData[] }[]> = ref([])
+const sensors: Ref<{ sensor: Sensor; data: Measurement[] }[]> = ref([])
 
 if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
 }
 
-/* RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then(
-  async (res: AxiosResponse) => {
-    if (res.status == HttpStatusCode.Ok) {
-      for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].isCapturing) {
-          const sensor = composeSensor(res.data[i])
-          sensors.value.push({ sensor: sensor, lastData: [] })
+const getDevices = async () => {
+  useUserStore().permissions.forEach((location: string) => {
+    RequestHelper.get(`http://${deviceHost}:${devicePort}/locations/${location}/devices`)
+      .then(async (res: any) => {
+        if (res.status == HttpStatusCode.OK) {
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].isEnabled) {
+              const sensor = composeSensor(res.data[i])
+              sensors.value.push({ sensor: sensor, data: [] })
+              registerMeasurementsHandler(sensor.deviceId, measurementHandler)
+            }
+          }
         }
-      }
-    }
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  })
+}
+
+const measurementHandler = (measurement: Measurement) => {
+  const sensor = sensors.value.find(sensor => sensor.sensor.deviceId === measurement.sourceDeviceId)
+  if (sensor) {
+    sensor.data.push(measurement)
+    console.log(sensor.data.length)
   }
-)*/
+}
 
-onBeforeMount(() => {
-  monitoringSocket?.emit(
-    'resume',
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith("sensor") // TODO: change to sensor
-    )
-  )
-})
+const registerMeasurementsHandler = (deviceId: string, handler: (measurement: Measurement) => void) => {
+  monitoringSocket?.on(`measurements.${deviceId}`, (data: { measurement: any }) => {
+    handler(composeMeasurement(data.measurement))
+  })
+}
 
-onBeforeUnmount(() => {
-  monitoringSocket?.emit(
-    'pause',
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith("sensor") // TODO: change to sensor
-    )
-  )
-})
-
-monitoringSocket?.on('measurements', (data: { topic: string; data: string }) => {
-  console.log(data)
-  /*const rawValues = JSON.parse(data.data)
-  const newValues: EnvironmentData[] = []
-  for (const rawValue of rawValues) {
-    const envData = environmentDataFactory.createEnvironmentData(
-      deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
-      rawValue._value,
-      rawValue._measure,
-      rawValue._measureUnit,
-      new Date(rawValue._timestamp)
-    )
-    newValues.push(envData)
-  }
-  sensors.value.find(sensor => sensor.sensor.deviceId.code === newValues[0].sourceDeviceId.code)!.lastData =
-    newValues*/
-})
+await getDevices()
 
 if (notificationSocket?.listeners('notification').length === 0) {
   notificationSocket?.on('notification', (anomaly: { type: string }) => {
     switch (anomaly.type) {
-      case "range":
+      case 'range':
         showNotification('Exceeding notification')
         break
-      case "intrusion":
+      case 'intrusion':
         showNotification('Intrusion notification')
         break
       default:
@@ -89,7 +80,7 @@ const showNotification = (message: string) => {
       {
         label: 'Dismiss',
         color: 'white',
-        handler: () => { }
+        handler: () => {}
       },
       {
         label: 'Read',
@@ -103,10 +94,16 @@ const showNotification = (message: string) => {
 }
 </script>
 <template>
-  <h2>Measurements</h2>
   <div>
-    <!-- <sensor-data v-for="(item, index) in [] sensors.filter(elem => elem.sensor.isCapturing)" :key="index"
-      :sensor="item.sensor" :last-data="item.lastData" /> -->
+    <h2>Monitoring:</h2>
+    <div>
+      <sensor-data
+        v-for="(sensor, index) in sensors.filter(s => s.sensor.isEnabled)"
+        :key="index"
+        :data="sensor.data"
+        :sensor="sensor.sensor"
+      />
+    </div>
   </div>
 </template>
 

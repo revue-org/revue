@@ -55,6 +55,9 @@ export const deviceController = {
   getDeviceLocation: async (id: string): Promise<string> => {
     return await deviceService.getDeviceLocation(DeviceFactory.idOf(id))
   },
+  getDevicesByLocationId: async (locationId: string): Promise<Device[]> => {
+    return await deviceService.getDevicesByLocationId(locationId)
+  },
   enableDevice: async (id: string): Promise<void> => {
     return await deviceService.enableDevice(DeviceFactory.idOf(id))
   },

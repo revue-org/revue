@@ -1,9 +1,10 @@
-import mongoose from 'mongoose'
+import mongoose, { Promise } from 'mongoose'
 import { DeviceDBAdapter, DeviceDBEntity } from './models/DeviceModel.js'
 import { deviceSchema } from './schemas/DeviceSchema.js'
 import { DeviceRepository } from '@/application/repositories/DeviceRepository.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
+import * as console from 'node:console'
 
 export class MongoDBDeviceRepository implements DeviceRepository {
   private model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
@@ -47,6 +48,13 @@ export class MongoDBDeviceRepository implements DeviceRepository {
   async getActiveDevices(): Promise<Device[]> {
     return this.model
       .find({ isEnabled: true })
+      .lean()
+      .then(devices => devices.map(device => DeviceDBAdapter.toDomainEntity(device)))
+  }
+
+  async getDevicesByLocationId(locationId: string): Promise<Device[]> {
+    return this.model
+      .find({ locationId: locationId })
       .lean()
       .then(devices => devices.map(device => DeviceDBAdapter.toDomainEntity(device)))
   }

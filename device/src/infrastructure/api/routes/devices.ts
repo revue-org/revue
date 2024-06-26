@@ -65,6 +65,17 @@ deviceRouter.route('/actives').get((_req: Request, res: Response): void => {
     })
 })
 
+deviceRouter.route('/locations/:id/devices').get((_req: Request, res: Response): void => {
+  deviceController
+    .getDevicesByLocationId(_req.params.id)
+    .then((devices: Device[]): void => {
+      res.status(HttpStatusCode.OK).send(devices)
+    })
+    .catch((): void => {
+      res.send({ error: 'No devices found for location' })
+    })
+})
+
 deviceRouter.route('/').post((req: Request, res: Response): void => {
   deviceController
     .createDevice(req.body.description, req.body.ip, req.body.port, req.body.locationId)

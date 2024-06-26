@@ -6,7 +6,7 @@ db.device.insert([
   {
     id: 'sen-01',
     description: 'sensor 1 description',
-    locationId: 'loc-01',
+    locationId: 'room-1',
     endpoint: {
       ipAddress: 'localhost',
       port: 6001
@@ -17,7 +17,7 @@ db.device.insert([
   {
     id: 'cam-01',
     description: 'camera 1 description',
-    locationId: 'loc-01',
+    locationId: 'room-2',
     endpoint: {
       ipAddress: 'localhost',
       port: 5001

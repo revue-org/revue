@@ -30,7 +30,7 @@ export class MeasureFactory {
   static createMeasure(type: MeasureType, unit: MeasureUnit): Measure {
     switch (type) {
       case MeasureType.TEMPERATURE:
-        checkMeasureUnit(unit, [MeasureUnit.PERCENTAGE])
+        checkMeasureUnit(unit, [MeasureUnit.CELSIUS, MeasureUnit.FAHRENHEIT])
         return MeasureFactory.createTemperatureMeasure(unit)
       case MeasureType.HUMIDITY:
         checkMeasureUnit(unit, [MeasureUnit.PERCENTAGE])

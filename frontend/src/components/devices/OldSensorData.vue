@@ -1,17 +1,69 @@
-<!--<script setup lang="ts">
+<!--
+<script setup lang="ts">
+import { type EnvironmentData, Measure, type Sensor } from '@domain/device/core'
+import { getMeasureAcronym, getMeasureColor } from '@/utils/MeasureUtils'
 import LineChart from '@/components/charts/LineChart.vue'
-import { type Measurement, MeasureType } from "common/dist/domain/core";
-import { ref } from "vue";
-import type { Sensor } from "@/domain/core/Sensor";
+import { onMounted, ref, toRaw, watch } from 'vue'
+import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
+import { HttpStatusCode } from 'axios'
+import { MeasureConverter, MeasureUnitConverter } from 'domain/dist/utils'
+import { EnvironmentDataFactoryImpl } from 'domain/dist/domain/device/factories'
 
 const props = defineProps<{
   sensor: Sensor
-  data: Measurement[]
+  lastData: EnvironmentData[]
 }>()
 
-const currentMeasure = ref<MeasureType>(MeasureType.TEMPERATURE)
+let bufferLength: number
+const temperatureBuffer: { value: number; timestamp: string }[] = []
+const humidityBuffer: { value: number; timestamp: string }[] = []
+const pressureBuffer: { value: number; timestamp: string }[] = []
 
-/*
+const environmentData = ref<EnvironmentData[]>([])
+const currentMeasure = ref<Measure>(Measure.TEMPERATURE)
+
+const environmentDataFactory = new EnvironmentDataFactoryImpl()
+
+const getSensorData = async () => {
+  const quantity: number = bufferLength * 3
+  const response = await RequestHelper.get(
+    `http://${logHost}:${logPort}/sensors/${props.sensor.deviceId.code}/environment-data/latest?quantity=${quantity}`
+  )
+  if (response.status == HttpStatusCode.Ok) {
+    for (let j = 0; j < response.data.length; j++) {
+      const envData = environmentDataFactory.createEnvironmentData(
+        props.sensor.deviceId,
+        response.data[j].value,
+        MeasureConverter.convertToMeasure(response.data[j].measure),
+        MeasureUnitConverter.convertToMeasureUnit(response.data[j].measureUnit),
+        new Date(response.data[j].timestamp)
+      )
+      environmentData.value.push(envData)
+      addMeasureValue(envData.measure, envData.value, envData.timestamp)
+    }
+  }
+}
+
+onMounted(() => {
+  getSensorData()
+  window.addEventListener('resize', handleResize)
+})
+
+watch(
+  () => props.lastData,
+  () => {
+    for (const envData of props.lastData) {
+      addMeasureValue(envData.measure, envData.value, envData.timestamp)
+    }
+  }
+)
+
+const removeIfFull = (buffer: any[]): void => {
+  while (buffer.length > bufferLength) {
+    buffer.shift()
+  }
+}
+
 const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
   const timestampStr = timestamp.toLocaleString().split(' ')[1]
   switch (measure) {
@@ -29,9 +81,9 @@ const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
       break
   }
   renderValues()
-}*/
+}
 
-/*const renderValues = () => {
+const renderValues = () => {
   temperatureData.value = {
     labels: toRaw(temperatureBuffer.map(obj => obj.timestamp)) as never[],
     datasets: [
@@ -62,7 +114,7 @@ const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
       }
     ]
   }
-}*/
+}
 
 const temperatureData = ref({
   labels: [],
@@ -95,73 +147,7 @@ const pressureData = ref({
       data: []
     }
   ]
-})-->
-<script setup lang="ts">
-import LineChart from '@/components/charts/LineChart.vue'
-import { type Measurement, MeasureType } from 'common/dist/domain/core'
-import { ref } from 'vue'
-import type { Sensor } from '@/domain/core/Sensor'
-
-defineProps<{
-  sensor: Sensor
-  data: Measurement[]
-}>()
-
-defineEmits(['addMeasureValue']);
-
-const currentMeasure = ref<MeasureType>(MeasureType.TEMPERATURE)
-
-const measureData = ref<Record<string, any>>({
-  [MeasureType.TEMPERATURE]: {
-    data: [],
-    options: {
-      label: 'Temperature',
-      borderColor: 'red'
-    }
-  },
-  [MeasureType.HUMIDITY]: {
-    data: [],
-    options: {
-      label: 'Humidity',
-      borderColor: 'teal'
-    }
-  },
-  [MeasureType.PRESSURE]: {
-    data: [],
-    options: {
-      label: 'Pressure',
-      borderColor: 'orange'
-    }
-  }
 })
-
-//TODO: to use when we want to add historical data to the current data
-const addMeasureValue = (measure: MeasureType, value: number, timestamp: Date) => {
-  const timestampStr = timestamp.toLocaleString().split(' ')[1]
-  const buffer = measureData.value[measure].data
-  removeIfFull(buffer)
-  buffer.push({ value, timestamp: timestampStr })
-  renderValues()
-}
-
-const removeIfFull = (buffer: any[]) => {
-  if (buffer.length >= 10) buffer.shift()
-}
-
-const renderValues = () => {
-  for (const measure in measureData.value) {
-    measureData.value[measure].chartData = {
-      labels: measureData.value[measure].data.map((obj: any) => obj.timestamp),
-      datasets: [
-        {
-          label: measureData.value[measure].options.label,
-          borderColor: measureData.value[measure].options.borderColor,
-          data: measureData.value[measure].data.map((obj: any) => obj.value)
-        }
-      ]
-    }
-  }
-}
 
 const chartOptions = ref({
   responsive: true,
@@ -189,32 +175,62 @@ const chartOptions = ref({
   }
 })
 
+const handleResize = () => {
+  if (window.innerWidth < 576) {
+    bufferLength = 80
+  } else if (window.innerWidth < 768) {
+    bufferLength = 120
+  } else if (window.innerWidth < 992) {
+    bufferLength = 150
+  } else if (window.innerWidth < 1200) {
+    bufferLength = 170
+  } else {
+    bufferLength = 200
+  }
+  removeIfFull(temperatureBuffer)
+  removeIfFull(humidityBuffer)
+  removeIfFull(pressureBuffer)
+}
+handleResize()
 </script>
 
 <template>
   <li>
     <h3>
-      {{ sensor.deviceId }}
+      {{ sensor.deviceId.code }}
     </h3>
     <div class="measures">
-      <div class="measure" v-for="(measurement, index) in data" :key="index">
-        <q-radio dense v-model="currentMeasure" :val="measurement.measure.type" label="" />
+      <div class="measure" v-for="(envData, index) in lastData" :key="index">
+        <q-radio dense v-model="currentMeasure" :val="envData.measure" label="" />
         <div>
           <span>
-            <i>{{ measurement.measure.type }}</i>
+            <i
+              :style="{
+                color: getMeasureColor(envData.measure)
+              }"
+              >{{ Measure[envData.measure] }}</i
+            >
             :
-            {{ measurement.value }}{{ measurement.measure.unit }}</span
+            {{ envData.value }}{{ getMeasureAcronym(envData.measureUnit) }}</span
           >
-          <span class="timestamp">{{ measurement.timestamp.toLocaleString().split(' ')[1] }}</span>
+          <span class="timestamp">{{ envData.timestamp.toLocaleString().split(' ')[1] }}</span>
         </div>
       </div>
     </div>
     <div class="chart-container">
       <line-chart
-        v-for="(measure, type) in measureData"
-        v-show="currentMeasure == type"
-        :key="type"
-        :chart-data="measure.chartData"
+        v-show="currentMeasure == Measure.TEMPERATURE"
+        :chart-data="temperatureData"
+        :chart-options="chartOptions"
+      />
+      <line-chart
+        v-show="currentMeasure == Measure.HUMIDITY"
+        :chart-data="humidityData"
+        :chart-options="chartOptions"
+      />
+      <line-chart
+        v-show="currentMeasure == Measure.PRESSURE"
+        :chart-data="pressureData"
         :chart-options="chartOptions"
       />
     </div>
@@ -287,3 +303,4 @@ li {
   }
 }
 </style>
+-->

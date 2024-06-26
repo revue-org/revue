@@ -38,7 +38,7 @@ const logout = () => {
     <router-link to="/monitoring" :class="routeName == 'Monitoring' ? 'selected' : ''"
       >Monitoring
     </router-link>
-    <router-link to="/devices" :class="routeName == 'Devices' ? 'selected' : ''">Devices </router-link>
+    <router-link to="/devices" :class="routeName == 'Devices' ? 'selected' : ''">Devices</router-link>
     <router-link to="/alarms" :class="routeName == 'Alarms' ? 'selected' : ''">Alarms</router-link>
     <router-link to="/notifications" :class="routeName == 'Notifications' ? 'selected' : ''"
       >Notifications

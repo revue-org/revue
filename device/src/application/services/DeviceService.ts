@@ -34,6 +34,8 @@ export interface DeviceService {
 
   getDeviceLocation(deviceId: DeviceId): Promise<string>
 
+  getDevicesByLocationId(locationId: string): Promise<Device[]>
+
   enableDevice(deviceId: DeviceId): Promise<void>
 
   disableDevice(deviceId: DeviceId): Promise<void>

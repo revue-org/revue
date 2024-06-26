@@ -16,28 +16,37 @@ export class KafkaMonitoringEventsHub {
   }
 
   private async getTopics(): Promise<string[]> {
-    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=sensor`).then(
-      (res: any): string[] => res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
-    ).catch((e: any): string[] => {
-      console.log("Error getting topics from device service")
-      setTimeout(() => this.getTopics(), 10000)
-      return []
-    })
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=sensor`)
+      .then((res: any): string[] =>
+        res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
+      )
+      .catch((e: any): string[] => {
+        console.log('Error getting topics from device service')
+        setTimeout(() => this.getTopics(), 10000)
+        return []
+      })
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
     this.getTopics().then((topics: string[]): void => {
+      console.log(topics)
       this.measurementsConsumer
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
+              console.log('Message received')
+              const msg = message.value as object
+              // @ts-ignore
+              msg.timestamp = new Date(msg.timestamp)
+              console.log(msg)
+              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(msg)
               handler(measurement)
             } catch (e) {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
             }
           }
-        }).then((): void => console.log('Consumer started'))
+        })
+        .then((): void => console.log('Measurements consumer started'))
     })
   }
 
@@ -58,7 +67,7 @@ export class KafkaMonitoringEventsHub {
         }
       })
       .then((): void => {
-        console.log('Consumer started')
+        console.log('Device event consumer started')
       })
   }
 }

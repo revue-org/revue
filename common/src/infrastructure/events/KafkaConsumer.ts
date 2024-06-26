@@ -1,4 +1,4 @@
-import { Admin, Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
+import { Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
 import { KafkaOptions } from './KafkaOptions'
 
 export default class KafkaConsumer {

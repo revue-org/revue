@@ -14,7 +14,5 @@ export const measurementSchema: ZodType<Measurement> = z.object({
     type: z.nativeEnum(MeasureType),
     unit: z.nativeEnum(MeasureUnit)
   }),
-  value: z.object({
-    value: z.any()
-  })
+  value: z.number()
 })

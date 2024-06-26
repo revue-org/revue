@@ -3,8 +3,8 @@ import { securityRuleController as controller } from '../controllers/securityRul
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
-import { Contact } from 'common/dist/domain/core/Contact.js'
-import HttpStatusCode from 'common/dist/utils/HttpStatusCode.js'
+import { Contact } from '@common/domain/core/Contact.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 export const router: Router = express.Router()
 

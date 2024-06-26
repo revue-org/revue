@@ -1,12 +1,15 @@
 import { z } from 'zod'
-// import { ObjectClass } from '@/domain/core/ObjectClass'
+import { MeasureType } from '@common/domain/core/MeasureType.js'
+import { ContactType } from '@common/domain/core/ContactType.js'
+import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
+import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 
 export const rangeRuleSchema = z.object({
   description: z.string(),
-  deviceId: z.string(),
+  activeOn: z.string(),
   contacts: z.array(
     z.object({
-      contactType: z.enum(['sms', 'email']),
+      contactType: z.nativeEnum(ContactType),
       value: z.string().min(5)
     })
   ),
@@ -14,7 +17,10 @@ export const rangeRuleSchema = z.object({
   validityStart: z.date(),
   validityEnd: z.date(),
   rule: z.object({
-    measureType: z.enum(['temperature', 'humidity', 'pressure']), // TODO: replace with enum values MeasureType
+    measure: z.object({
+      type: z.nativeEnum(MeasureType),
+      unit: z.nativeEnum(MeasureUnit)
+    }),
     minValue: z.number(),
     maxValue: z.number()
   })
@@ -22,15 +28,15 @@ export const rangeRuleSchema = z.object({
 
 export const intrusionRuleSchema = z.object({
   description: z.string(),
-  deviceId: z.string(),
+  activeOn: z.string(),
   contacts: z.array(
     z.object({
-      contactType: z.enum(['sms', 'email']),
+      contactType: z.nativeEnum(ContactType),
       value: z.string().min(5)
     })
   ),
   author: z.string(),
   validityStart: z.date(),
   validityEnd: z.date(),
-  objectClass: z.enum(['person', 'animal', 'vehicle']) // TODO: Object.keys(ObjectClass)
+  objectClass: z.nativeEnum(ObjectClass)
 })

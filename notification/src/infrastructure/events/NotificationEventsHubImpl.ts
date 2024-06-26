@@ -22,6 +22,5 @@ export class NotificationEventsHubImpl implements NotificationEventsHub {
 
   publishNotification(notification: Notification): void {
     this.socketEvents.publishNotification(notification)
-    this.kafkaEvents.publishNotification(notification)
   }
 }

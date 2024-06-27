@@ -3,7 +3,7 @@ export const deviceSample = {
   description: 'camera description',
   locationId: 'test-location-id',
   endpoint: {
-    ipAddress: 'test-ip-address',
+    ipAddress: '192.168.1.20',
     port: 0
   },
   isEnabled: true
@@ -14,7 +14,7 @@ export const deviceSample1 = {
   description: 'camera description',
   locationId: 'test-location-id-1',
   endpoint: {
-    ipAddress: 'test-ip-address-1',
+    ipAddress: '192.168.1.21',
     port: 0
   },
   isEnabled: true

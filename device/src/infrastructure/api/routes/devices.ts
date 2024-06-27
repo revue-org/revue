@@ -5,32 +5,36 @@ import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
-import { deviceInsertionSchema, deviceUpdateSchema } from '@/presentation/api/schemas/DeviceSchemas.js'
+import { DevicePresenter } from '@/presentation/api/DevicePresenter'
+import { ZodDevicePresenter } from '@/presentation/api/impl/ZodDevicePresenter.js'
 
 export const deviceRouter: Router = express.Router()
+const devicePresenter: DevicePresenter = new ZodDevicePresenter()
 
 deviceRouter.route('/').get((req: Request, res: Response): void => {
   const capabilities: CapabilityType[] = req.query.capabilities
     ? req.query.capabilities
-      .toString()
-      .split(',')
-      .map((capability: string): CapabilityType => {
-        if (Object.values(CapabilityType).includes(capability as CapabilityType)) {
-          return capability as CapabilityType
-        } else {
-          throw new Error('Invalid capability')
-        }
-      })
+        .toString()
+        .split(',')
+        .map((capability: string): CapabilityType => {
+          if (Object.values(CapabilityType).includes(capability as CapabilityType)) {
+            return capability as CapabilityType
+          } else {
+            throw new Error('Invalid capability')
+          }
+        })
     : []
 
   deviceController
     .getDevices(capabilities)
     .then((devices: Device[]): void => {
-
+      devices.forEach((device: Device): void => {
+        devicePresenter.parse(device)
+      })
       res.status(HttpStatusCode.OK).send(devices)
     })
     .catch((): void => {
-      res.send({ error: 'No devices found' })
+      res.status(HttpStatusCode.BAD_REQUEST).send({ error: 'Bad request' })
     })
 })
 
@@ -80,9 +84,14 @@ deviceRouter.route('/locations/:id/devices').get((_req: Request, res: Response):
 
 deviceRouter.route('/').post((req: Request, res: Response): void => {
   try {
-    const message = deviceInsertionSchema.parse(req.body)
+    const message = devicePresenter.parseInsertion(req.body)
     deviceController
-      .createDevice(message.description, message.endpoint.ipAddress, message.endpoint.port, message.locationId)
+      .createDevice(
+        message.description,
+        message.endpoint.ipAddress,
+        message.endpoint.port,
+        message.locationId
+      )
       .then((id: DeviceId): void => {
         res.status(HttpStatusCode.CREATED).send({ success: id })
       })
@@ -93,7 +102,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
 
 deviceRouter.route('/:id').put((req: Request, res: Response): void => {
   try {
-    const message = deviceUpdateSchema.parse(req.body)
+    const message = devicePresenter.parseUpdate(req.body)
     deviceController
       .updateDevice(
         req.params.id,

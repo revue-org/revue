@@ -6,15 +6,13 @@ import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import HttpStatusCode from '@utils/HttpStatusCode'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
-import { type Measurement } from "common/dist/domain/core";
 import type { Sensor } from '@/domain/core/Sensor'
 import { composeSensor } from '@/presentation/ComposeDevice'
-import { composeMeasurement } from '@/presentation/ComposeMeasurement'
 import SensorData from "@/components/devices/SensorData.vue";
 
 const userStore = useUserStore()
 const $q = useQuasar()
-const sensors: Ref<{ sensor: Sensor; data: Measurement[] }[]> = ref([])
+const sensors: Ref<{ sensor: Sensor }[]> = ref([])
 
 if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
@@ -28,8 +26,7 @@ const getDevices = async () => {
           for (let i = 0; i < res.data.length; i++) {
             if (res.data[i].isEnabled) {
               const sensor = composeSensor(res.data[i])
-              sensors.value.push({ sensor: sensor, data: [] })
-              registerMeasurementsHandler(sensor.deviceId, measurementHandler)
+              sensors.value.push({ sensor: sensor })
             }
           }
         }
@@ -40,21 +37,7 @@ const getDevices = async () => {
   })
 }
 
-const measurementHandler = (measurement: Measurement) => {
-  const sensor = sensors.value.find(sensor => sensor.sensor.deviceId === measurement.sourceDeviceId)
-  if (sensor) {
-    sensor.data.push(measurement)
-    console.log(sensor.data.length)
-  }
-}
-
-const registerMeasurementsHandler = (deviceId: string, handler: (measurement: Measurement) => void) => {
-  monitoringSocket?.on(`measurements.${deviceId}`, (data: { measurement: any }) => {
-    handler(composeMeasurement(data.measurement))
-  })
-}
-
-await getDevices()
+getDevices()
 
 if (notificationSocket?.listeners('notification').length === 0) {
   notificationSocket?.on('notification', (anomaly: { type: string }) => {
@@ -100,7 +83,6 @@ const showNotification = (message: string) => {
       <sensor-data
         v-for="(sensor, index) in sensors.filter(s => s.sensor.isEnabled)"
         :key="index"
-        :data="sensor.data"
         :sensor="sensor.sensor"
       />
     </div>

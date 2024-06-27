@@ -1,225 +1,87 @@
-<!--<script setup lang="ts">
+<script setup lang="ts">
 import LineChart from '@/components/charts/LineChart.vue'
-import { type Measurement, MeasureType } from "common/dist/domain/core";
+import { MeasureType } from 'common/dist/domain/core'
 import { ref } from "vue";
-import type { Sensor } from "@/domain/core/Sensor";
+import type { Sensor } from '@/domain/core/Sensor'
+import { monitoringSocket } from "@/socket";
+import { composeMeasurement } from "@/presentation/ComposeMeasurement";
+import { chartOptions } from "@/components/charts/chartOptions";
 
 const props = defineProps<{
   sensor: Sensor
-  data: Measurement[]
 }>()
 
 const currentMeasure = ref<MeasureType>(MeasureType.TEMPERATURE)
+const bufferLength = 50
 
-/*
-const addMeasureValue = (measure: Measure, value: number, timestamp: Date) => {
+const colorMap = {
+  [MeasureType.TEMPERATURE]: 'red',
+  [MeasureType.HUMIDITY]: 'teal',
+  [MeasureType.PRESSURE]: 'orange'
+}
+
+const measureData = ref<Record<MeasureType, { buffer: { value: number, timestamp: string }[] }>>(
+  Object.fromEntries(Object.values(MeasureType).map(type => [type, { buffer: [] }]))
+)
+
+const removeIfFull = (buffer: any[]): void => {
+  while (buffer.length > bufferLength) {
+    buffer.shift()
+  }
+}
+
+const addMeasureValue = (measureType: MeasureType, value: number, timestamp: Date) => {
   const timestampStr = timestamp.toLocaleString().split(' ')[1]
-  switch (measure) {
-    case Measure.TEMPERATURE:
-      removeIfFull(temperatureBuffer)
-      temperatureBuffer.push({ value: value, timestamp: timestampStr })
-      break
-    case Measure.HUMIDITY:
-      removeIfFull(humidityBuffer)
-      humidityBuffer.push({ value: value, timestamp: timestampStr })
-      break
-    case Measure.PRESSURE:
-      removeIfFull(pressureBuffer)
-      pressureBuffer.push({ value: value, timestamp: timestampStr })
-      break
-  }
-  renderValues()
-}*/
+  const measure = measureData.value[measureType]
+  removeIfFull(measure.buffer)
+  measure.buffer.push({ value, timestamp: timestampStr })
+}
 
-/*const renderValues = () => {
-  temperatureData.value = {
-    labels: toRaw(temperatureBuffer.map(obj => obj.timestamp)) as never[],
+const getChartData = (measureType: MeasureType) => {
+  const measure = measureData.value[measureType]
+  return {
+    labels: measure.buffer.map(obj => obj.timestamp),
     datasets: [
       {
-        label: 'Temperature',
-        borderColor: 'red',
-        data: toRaw(temperatureBuffer.map(obj => obj.value)) as never[]
+        label: measureType.charAt(0) + measureType.slice(1).toLowerCase(),
+        borderColor: colorMap[measureType],
+        data: measure.buffer.map(obj => obj.value)
       }
     ]
   }
-  humidityData.value = {
-    labels: toRaw(humidityBuffer.map(obj => obj.timestamp)) as never[],
-    datasets: [
-      {
-        label: 'Humidity',
-        borderColor: 'teal',
-        data: toRaw(humidityBuffer.map(obj => obj.value)) as never[]
-      }
-    ]
-  }
-  pressureData.value = {
-    labels: toRaw(pressureBuffer.map(obj => obj.timestamp)) as never[],
-    datasets: [
-      {
-        label: 'Pressure',
-        borderColor: 'orange',
-        data: toRaw(pressureBuffer.map(obj => obj.value)) as never[]
-      }
-    ]
-  }
-}*/
-
-const temperatureData = ref({
-  labels: [],
-  datasets: [
-    {
-      label: 'Temperature',
-      borderColor: 'red',
-      data: []
-    }
-  ]
-})
-
-const humidityData = ref({
-  labels: [],
-  datasets: [
-    {
-      label: 'Humidity',
-      borderColor: 'teal',
-      data: []
-    }
-  ]
-})
-
-const pressureData = ref({
-  labels: [],
-  datasets: [
-    {
-      label: 'Pressure',
-      borderColor: 'orange',
-      data: []
-    }
-  ]
-})-->
-<script setup lang="ts">
-import LineChart from '@/components/charts/LineChart.vue'
-import { type Measurement, MeasureType } from 'common/dist/domain/core'
-import { ref } from 'vue'
-import type { Sensor } from '@/domain/core/Sensor'
-
-defineProps<{
-  sensor: Sensor
-  data: Measurement[]
-}>()
-
-defineEmits(['addMeasureValue']);
-
-const currentMeasure = ref<MeasureType>(MeasureType.TEMPERATURE)
-
-const measureData = ref<Record<string, any>>({
-  [MeasureType.TEMPERATURE]: {
-    data: [],
-    options: {
-      label: 'Temperature',
-      borderColor: 'red'
-    }
-  },
-  [MeasureType.HUMIDITY]: {
-    data: [],
-    options: {
-      label: 'Humidity',
-      borderColor: 'teal'
-    }
-  },
-  [MeasureType.PRESSURE]: {
-    data: [],
-    options: {
-      label: 'Pressure',
-      borderColor: 'orange'
-    }
-  }
-})
-
-//TODO: to use when we want to add historical data to the current data
-const addMeasureValue = (measure: MeasureType, value: number, timestamp: Date) => {
-  const timestampStr = timestamp.toLocaleString().split(' ')[1]
-  const buffer = measureData.value[measure].data
-  removeIfFull(buffer)
-  buffer.push({ value, timestamp: timestampStr })
-  renderValues()
 }
 
-const removeIfFull = (buffer: any[]) => {
-  if (buffer.length >= 10) buffer.shift()
-}
-
-const renderValues = () => {
-  for (const measure in measureData.value) {
-    measureData.value[measure].chartData = {
-      labels: measureData.value[measure].data.map((obj: any) => obj.timestamp),
-      datasets: [
-        {
-          label: measureData.value[measure].options.label,
-          borderColor: measureData.value[measure].options.borderColor,
-          data: measureData.value[measure].data.map((obj: any) => obj.value)
-        }
-      ]
-    }
-  }
-}
-
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  elements: {
-    line: {
-      borderWidth: 1.5
-    },
-    point: {
-      radius: 0
-    }
-  },
-  scales: {
-    x: {
-      display: false,
-      grid: {
-        display: false
-      }
-    },
-    y: {
-      grid: {
-        display: false
-      }
-    }
-  }
+monitoringSocket?.on(`measurements.${props.sensor.deviceId}`, (data: { measurement: any }) => {
+  const measurement = composeMeasurement(data.measurement)
+  addMeasureValue(measurement.measure.type, measurement.value, measurement.timestamp)
 })
+
+
+const measureTypes = ref<MeasureType[]>(Object.values(MeasureType))
 
 </script>
 
 <template>
   <li>
-    <h3>
-      {{ sensor.deviceId }}
-    </h3>
+    <h3>{{ sensor.deviceId }}</h3>
     <div class="measures">
-      <div class="measure" v-for="(measurement, index) in data" :key="index">
-        <q-radio dense v-model="currentMeasure" :val="measurement.measure.type" label="" />
-        <div>
-          <span>
-            <i>{{ measurement.measure.type }}</i>
-            :
-            {{ measurement.value }}{{ measurement.measure.unit }}</span
-          >
-          <span class="timestamp">{{ measurement.timestamp.toLocaleString().split(' ')[1] }}</span>
-        </div>
+      <div class="measure" v-for="(type, index) in measureTypes" :key="index">
+        <q-radio dense v-model="currentMeasure" :val="type" :label="type" />
       </div>
     </div>
     <div class="chart-container">
       <line-chart
-        v-for="(measure, type) in measureData"
-        v-show="currentMeasure == type"
+        v-for="type in measureTypes"
+        v-show="currentMeasure === type"
         :key="type"
-        :chart-data="measure.chartData"
+        :chart-data="getChartData(type)"
         :chart-options="chartOptions"
       />
     </div>
   </li>
 </template>
+
+
 
 <style scoped lang="scss">
 li {

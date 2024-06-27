@@ -21,13 +21,13 @@ API OPERATIONS:
 | Term                   | Meaning                                                                     | Synonyms                      |
 | ---------------------- | --------------------------------------------------------------------------- | ----------------------------- |
 | Camera                 | Device that records an environment and transmit the stream to the system    | Video Camera                  |
-| Sensor                 | Device sensing data from an environment (e.g. temperature)                  | -                             |
-| Device                 | Either a Camera or a Sensor                                                 | -                             |
-| Sensor/Camera settings | User-modifiable configuration of data relative to a specific device         | -                             |
+| Device                 | Device sensing data from an environment (e.g. temperature)                  | -                             |
+| Device                 | Either a Camera or a Device                                                 | -                             |
+| Device/Camera settings | User-modifiable configuration of data relative to a specific device         | -                             |
 | Transmission interval  | The amount of time between to consecutive measurement transmission          | -                             |
 | Capability             | What a sensor is able to perceive and transmit                              | -                             |
 | Video Stream           | Stream of video data produced by a camera                                   | Stream, Transmission          |
-| Measurement            | Data produced by a sensor                                                   | Environment data, Sensor data |
+| Measurement            | Data produced by a sensor                                                   | Environment data, Device data |
 | Numerical measurment   | A `Measurement` with a single numerical value and a `Measurement Type`      | -                             |
 | Measurement Type       | A physical dimension with its unit of measure (e.g. temperature in Celsius) | -                             |
 

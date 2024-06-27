@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
 import { ref } from 'vue'
-import { type Camera, type Device, DeviceType, type Sensor } from '@domain/device/core'
+import { type Camera, type Device, DeviceType, type Device } from '@domain/device/core'
 import type { DeviceFactory, DeviceIdFactory, ResolutionFactory } from '@domain/device/factories'
 import { DeviceFactoryImpl, DeviceIdFactoryImpl, ResolutionFactoryImpl } from '@domain/device/factories'
 
@@ -12,7 +12,7 @@ const { device } = defineProps<{
 
 const emit = defineEmits<{
   (_e: 'update-camera', _camera: Camera): void
-  (_e: 'update-sensor', _sensor: Sensor): void
+  (_e: 'update-sensor', _sensor: Device): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -22,7 +22,7 @@ const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
 const measures: ref<Measure[]> = ref([])
 
 if (device.deviceId.type == DeviceType.SENSOR) {
-  measures.value = (device as Sensor).measures
+  measures.value = (device as Device).measures
 }
 
 const options = ref([
@@ -42,11 +42,11 @@ const options = ref([
 
 const updateDevice = () => {
   if (device.deviceId.type == DeviceType.SENSOR) {
-    const updatedSensor: Sensor = deviceFactory.createSensor(
+    const updatedSensor: Device = deviceFactory.createSensor(
       deviceIdFactory.createSensorId(device.deviceId.code),
       device.isCapturing,
       device.ipAddress,
-      (device as Sensor).intervalMillis,
+      (device as Device).intervalMillis,
       measures.value
     )
     emit('update-sensor', updatedSensor)
@@ -91,7 +91,7 @@ const updateDevice = () => {
       <div v-if="device.deviceId.type == DeviceType.SENSOR">
         <q-card-section class="q-pt-none">
           <label>Acquisition rate (ms)</label>
-          <q-input type="number" v-model="(device as Sensor).intervalMillis" value="2" />
+          <q-input type="number" v-model="(device as Device).intervalMillis" value="2" />
         </q-card-section>
         <q-option-group style="display: flex" v-model="measures" :options="options" type="checkbox" />
       </div>

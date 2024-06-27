@@ -2,13 +2,13 @@
 import LineChart from '@/components/charts/LineChart.vue'
 import { type Measurement, MeasureType } from "common/dist/domain/core";
 import { ref } from "vue";
-import type { Sensor } from '@/domain/core/Sensor'
+import type { Device } from '@/domain/core/Device'
 import { monitoringSocket } from "@/socket";
 import { composeMeasurement } from "@/presentation/ComposeMeasurement";
 import { chartOptions } from "@/components/charts/chartOptions";
 
 const props = defineProps<{
-  sensor: Sensor
+  sensor: Device
 }>()
 
 const currentMeasure = ref<MeasureType>(MeasureType.TEMPERATURE)

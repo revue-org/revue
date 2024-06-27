@@ -189,7 +189,7 @@ onMounted(async () => {
       <div v-if="anomalyType == AnomalyType.EXCEEDING">
         <q-card-section class="q-pt-none">
           <label>Code</label>
-          <q-select v-model="code" :options="optionsSensorCodes" label="Sensor code" />
+          <q-select v-model="code" :options="optionsSensorCodes" label="Device code" />
         </q-card-section>
         <q-option-group
           style="display: flex; flex-direction: column"

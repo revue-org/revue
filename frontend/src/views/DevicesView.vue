@@ -1,44 +1,37 @@
-<!--
 <script lang="ts"></script>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { type Ref,onMounted, ref } from 'vue'
 import DeviceBadge from '@/components/devices/DeviceBadge.vue'
-import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost, devicePort } from "@/utils/RequestHelper";
 import { useQuasar } from 'quasar'
-import { composeCamera, composeSensor } from '@/scripts/presentation/device/ComposeDevice'
+import { composeDevice } from '@/presentation/ComposeDevice'
+import type { Device } from "@/domain/core/Device";
+import { useUserStore } from "@/stores/user";
+import HttpStatusCode from "common/dist/utils/HttpStatusCode";
 
-const sensors: ref<Sensor[]> = ref([])
-const cameras: ref<Camera[]> = ref([])
+const devices: Ref<Device[]> = ref([])
 const $q = useQuasar()
 
-const getSensors = () => {
-  RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`)
-    .then((res: any) => {
-      sensors.value = []
-      for (let i = 0; i < res.data.length; i++) {
-        sensors.value.push(composeSensor(res.data[i]))
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-const getCameras = () => {
-  RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
-    .then((res: any) => {
-      cameras.value = []
-      for (let i = 0; i < res.data.length; i++) {
-        cameras.value.push(composeCamera(res.data[i]))
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
+const getDevices = async () => {
+  useUserStore().permissions.forEach((location: string) => {
+    RequestHelper.get(`http://${deviceHost}:${devicePort}/locations/${location}/devices`)
+      .then(async (res: any) => {
+        if (res.status == HttpStatusCode.OK) {
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].isEnabled) {
+              devices.value.push(composeDevice(res.data[i]))
+            }
+          }
+        }
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  })
 }
 
-const insertSensor = async (sensor: Sensor) => {
+/*const insertSensor = async (sensor: Sensor) => {
   await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
     code: sensor.deviceId.code,
     ipAddress: sensor.ipAddress,
@@ -48,16 +41,16 @@ const insertSensor = async (sensor: Sensor) => {
     })
   })
     .then((res: any) => {
-      popPositive($q, 'Sensor added successfully')
+      popPositive($q, 'Device added successfully')
       getSensors()
     })
     .catch(error => {
       popNegative($q, 'Error while deleting sensor')
       console.log(error)
     })
-}
+}*/
 
-const insertCamera = async (camera: Camera) => {
+/*const insertCamera = async (camera: Camera) => {
   await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
     code: camera.deviceId.code,
     ipAddress: camera.ipAddress,
@@ -74,27 +67,21 @@ const insertCamera = async (camera: Camera) => {
       popNegative($q, 'Error while deleting camera')
       console.log(error)
     })
-}
+}*/
 
 const deleteDevice = async (device: Device) => {
-  await RequestHelper.delete(
-    `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s/` +
-      device.deviceId.code
-  )
+  await RequestHelper.delete(`http://${deviceHost}:${devicePort}/${device.deviceId}/`)
     .then((res: any) => {
-      getSensors()
-      getCameras()
+      getDevices()
       popPositive($q, 'Device deleted successfully')
     })
-    .catch(error => {
+    .catch(() => {
       popNegative($q, 'Error while deleting device')
-      console.log(error)
     })
 }
 
 onMounted(async () => {
-  getSensors()
-  getCameras()
+  await getDevices()
 })
 
 const newPopupVisible = ref<boolean>(false)
@@ -105,34 +92,22 @@ const newPopupVisible = ref<boolean>(false)
     <q-btn label="Add a device" color="primary" @click="newPopupVisible = true" />
   </div>
 
-  <h2>Sensors</h2>
+  <h2>Devices:</h2>
 
   <div class="sensors-container">
     <device-badge
-      v-for="sensor in sensors"
-      :key="sensor.deviceId"
-      :device="sensor"
-      @delete-device="deleteDevice(sensor)"
-      @get-sensors="getSensors"
+      v-for="device in devices"
+      :key="device.deviceId"
+      :device="device"
+      @delete-device="deleteDevice(device)"
+      @get-devices="getDevices"
     />
   </div>
 
-  <h2>Cameras</h2>
-  <div class="cameras-container">
-    <device-badge
-      v-for="camera in cameras"
-      :key="camera.deviceId"
-      :device="camera"
-      @delete-device="deleteDevice(camera)"
-      @get-cameras="getCameras"
-    />
-  </div>
-
-  <new-device-popup
+<!--  <new-device-popup
     v-model="newPopupVisible"
-    @insert-sensor="insertSensor"
-    @insert-camera="insertCamera"
-  ></new-device-popup>
+    @insert-device="insertDevice"
+  ></new-device-popup>-->
 </template>
 
 <style scoped lang="scss">
@@ -157,4 +132,3 @@ div.cameras-container {
   gap: 1rem;
 }
 </style>
--->

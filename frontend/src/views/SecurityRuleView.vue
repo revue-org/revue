@@ -130,7 +130,7 @@ const popupVisible = ref<boolean>(false)
     <q-btn label="Add a security rule" color="primary" @click="popupVisible = true" />
   </div>
 
-  <h2>Sensor alarms:</h2>
+  <h2>Device alarms:</h2>
   <div class="exceeding-rules-container">
     <security-rule-badge
       v-for="exceedingRule in exceedingsSecurityRules"

@@ -1,4 +1,4 @@
-export interface Sensor {
+export interface Device {
   readonly deviceId: string
   readonly description: string
   readonly endpoint: string

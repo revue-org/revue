@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { type Ref, ref } from 'vue'
+import { onMounted, type Ref, ref } from "vue";
 import { monitoringSocket, notificationSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import HttpStatusCode from '@utils/HttpStatusCode'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
-import type { Sensor } from '@/domain/core/Sensor'
-import { composeSensor } from '@/presentation/ComposeDevice'
-import SensorData from "@/components/devices/SensorData.vue";
+import type { Device } from '@/domain/core/Device'
+import { composeDevice } from '@/presentation/ComposeDevice'
+import SensorData from '@/components/devices/SensorData.vue'
 
 const userStore = useUserStore()
 const $q = useQuasar()
-const sensors: Ref<{ sensor: Sensor }[]> = ref([])
+const sensingDevices: Ref<Device[]> = ref([])
 
 if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
@@ -25,8 +25,7 @@ const getDevices = async () => {
         if (res.status == HttpStatusCode.OK) {
           for (let i = 0; i < res.data.length; i++) {
             if (res.data[i].isEnabled) {
-              const sensor = composeSensor(res.data[i])
-              sensors.value.push({ sensor: sensor })
+              sensingDevices.value.push(composeDevice(res.data[i]))
             }
           }
         }
@@ -37,7 +36,9 @@ const getDevices = async () => {
   })
 }
 
-getDevices()
+onMounted(async () => {
+  await getDevices()
+})
 
 if (notificationSocket?.listeners('notification').length === 0) {
   notificationSocket?.on('notification', (anomaly: { type: string }) => {
@@ -81,9 +82,9 @@ const showNotification = (message: string) => {
     <h2>Monitoring:</h2>
     <div>
       <sensor-data
-        v-for="(sensor, index) in sensors.filter(s => s.sensor.isEnabled)"
+        v-for="(sensor, index) in sensingDevices.filter(s => s.isEnabled)"
         :key="index"
-        :sensor="sensor.sensor"
+        :sensor="sensor"
       />
     </div>
   </div>

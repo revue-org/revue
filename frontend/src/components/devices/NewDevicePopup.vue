@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 const emit = defineEmits<{
   (_e: 'insert-camera', _camera: Camera): void
-  (_e: 'insert-sensor', _sensor: Sensor): void
+  (_e: 'insert-sensor', _sensor: Device): void
 }>()
 
 const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
@@ -42,7 +42,7 @@ const optionMeasures = ref(
 
 const addNewDevice = () => {
   if (deviceType.value == DeviceType.SENSOR) {
-    const newSensor: Sensor = deviceFactory.createSensor(
+    const newSensor: Device = deviceFactory.createSensor(
       deviceIdFactory.createSensorId(code.value!),
       false,
       ipAddress.value!,
@@ -70,7 +70,7 @@ const addNewDevice = () => {
         <h3 class="text-h5">Add a Device</h3>
       </q-card-section>
       <q-card-section class="q-gutter-md">
-        <q-radio dense v-model="deviceType" :val="DeviceType.SENSOR" label="Sensor" />
+        <q-radio dense v-model="deviceType" :val="DeviceType.SENSOR" label="Device" />
         <q-radio dense v-model="deviceType" :val="DeviceType.CAMERA" label="Camera" />
       </q-card-section>
       <q-card-section class="q-pt-none">

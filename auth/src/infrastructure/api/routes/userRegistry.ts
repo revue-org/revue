@@ -3,7 +3,7 @@ import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { registryController } from '@/infrastructure/api/controllers/userRegistry.js'
 import { User } from '@/domain/core/User.js'
 import { UserId } from '@/domain/core/UserId.js'
-import { userMessageSchema } from '@/presentation/api/schemas/UserMessageSchema'
+import { userInsertSchema, userPermissionsSchema } from '@/presentation/api/schemas/UserMessageSchemas.js'
 
 export const userRegistry: Router = express.Router()
 
@@ -31,7 +31,7 @@ userRegistry.route('/:id').get((req: Request, res: Response): void => {
 
 userRegistry.route('/').post((req: Request, res: Response): void => {
   try {
-    const userMsg = userMessageSchema.parse(req.body)
+    const userMsg = userInsertSchema.parse(req.body)
     registryController
       .createUser(userMsg.username, userMsg.password, userMsg.permissions)
       .then((userId: UserId): void => {
@@ -43,14 +43,16 @@ userRegistry.route('/').post((req: Request, res: Response): void => {
 })
 
 userRegistry.route('/:id').put((req: Request, res: Response): void => {
-  registryController
-    .updateUser(req.params.id, req.body.permissions)
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send('User updated')
-    })
-    .catch((err: Error): void => {
-      res.status(HttpStatusCode.BAD_REQUEST).send(err)
-    })
+  try {
+    const userMsg = userPermissionsSchema.parse(req.body)
+    registryController
+      .updateUser(req.params.id, userMsg.permissions)
+      .then((): void => {
+        res.status(HttpStatusCode.OK).send('User updated')
+      })
+  } catch (err) {
+    res.status(HttpStatusCode.BAD_REQUEST).send(err)
+  }
 })
 
 userRegistry.route('/:id').delete((req: Request, res: Response): void => {

@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { permissionController } from '@/infrastructure/api/controllers/userPermission.js'
+import { userPermissionsSchema } from '@/presentation/api/schemas/UserMessageSchemas'
 
 export const userPermission: Router = express.Router()
 
@@ -27,34 +28,40 @@ userPermission.route('/:userId').get((req: Request, res: Response): void => {
 })
 
 userPermission.route('/:userId').post((req: Request, res: Response): void => {
-  permissionController
-    .addPermissions(req.params.userId, req.body.permissions)
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send('Permission added')
-    })
-    .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
-    })
+  try {
+    const userMsg = userPermissionsSchema.parse(req.body)
+    permissionController
+      .addPermissions(req.params.userId, userMsg.permissions)
+      .then((): void => {
+        res.status(HttpStatusCode.OK).send('Permission added')
+      })
+  } catch (err) {
+    res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+  }
 })
 
 userPermission.route('/:userId').put((req: Request, res: Response): void => {
-  permissionController
-    .updatePermissions(req.params.userId, req.body.permissions)
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send('Permissions updated')
-    })
-    .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
-    })
+  try {
+    const userMsg = userPermissionsSchema.parse(req.body)
+    permissionController
+      .updatePermissions(req.params.userId, userMsg.permissions)
+      .then((): void => {
+        res.status(HttpStatusCode.OK).send('Permissions updated')
+      })
+  } catch (err) {
+    res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+  }
 })
 
 userPermission.route('/:userId').delete((req: Request, res: Response): void => {
-  permissionController
-    .deletePermissions(req.params.userId, req.body.permissions)
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send('Permission deleted')
-    })
-    .catch((err: Error): void => {
-      res.status(HttpStatusCode.UNAUTHORIZED).send(err)
-    })
+  try {
+    const userMsg = userPermissionsSchema.parse(req.body)
+    permissionController
+      .deletePermissions(req.params.userId, userMsg.permissions)
+      .then((): void => {
+        res.status(HttpStatusCode.OK).send('Permission deleted')
+      })
+  } catch (err) {
+    res.status(HttpStatusCode.UNAUTHORIZED).send(err)
+  }
 })

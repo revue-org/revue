@@ -1,9 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import { Connect } from 'vite'
-import NextFunction = Connect.NextFunction
 import { config } from 'dotenv'
 import { User } from '@/domain/core/User'
+import NextFunction = Connect.NextFunction
 
 config({ path: process.cwd() + '/../.env' })
 

@@ -22,6 +22,14 @@ app.route('/capabilities').get((req: Request, res: Response): void => {
   res.send({ capabilities: [capability] })
 })
 
+app.route('/enable').get((req: Request, res: Response): void => {
+  res.send({ message: 'Sensor enabled' })
+})
+
+app.route('/disable').get((req: Request, res: Response): void => {
+  res.send({ message: 'Sensor disabled' })
+})
+
 const PORT: number = Number(process.env.SENSOR_PORT)
 
 app.use((req: Request, res: Response, next: NextFunction) => {

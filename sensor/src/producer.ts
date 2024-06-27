@@ -10,7 +10,7 @@ import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 const SENSOR_ID = process.env.SENSOR_ID_1
 
 if (SENSOR_ID === undefined) {
-  console.log('No devicee id provided')
+  console.log('No device id provided')
   process.exit(1)
 }
 
@@ -77,4 +77,9 @@ export const produce = async (): Promise<void> => {
     )
     producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
   }, 2000)*/
+}
+
+export const stopProduce = async (): Promise<void> => {
+  console.log('INFO: STOPPING PRODUCER')
+  process.exit(0)
 }

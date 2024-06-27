@@ -6,6 +6,8 @@ import type { Device } from '@/domain/core/Device'
 import { monitoringSocket } from "@/socket";
 import { composeMeasurement } from "@/presentation/ComposeMeasurement";
 import { chartOptions } from "@/components/charts/chartOptions";
+import { colorMap} from "@/utils/MeasureUtils";
+
 
 const props = defineProps<{
   sensor: Device
@@ -13,12 +15,6 @@ const props = defineProps<{
 
 const currentMeasure = ref<MeasureType>(MeasureType.TEMPERATURE)
 const bufferLength = 50
-
-const colorMap = {
-  [MeasureType.TEMPERATURE]: 'red',
-  [MeasureType.HUMIDITY]: 'teal',
-  [MeasureType.PRESSURE]: 'orange'
-}
 
 const measureData = ref<Record<MeasureType, { buffer: { value: number, timestamp: string, unit: string }[] }>>(
   Object.fromEntries(Object.values(MeasureType).map(type => [type, { buffer: [] }]))

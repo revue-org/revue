@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from "vue";
 import RequestHelper, { deviceHost, devicePort} from "@/utils/RequestHelper";
 import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import type { Device } from "@/domain/core/Device";
+import { colorMap} from "@/utils/MeasureUtils";
+import { MeasureType } from "common/dist/domain/core";
+import { MeasureFactory } from "common/dist/domain/factories";
 
 const { device } = defineProps<{
   device: Device
@@ -13,6 +16,24 @@ const emit = defineEmits<{
   (_e: 'delete-device'): void
   (_e: 'get-devices'): void
 }>()
+
+const capabilities = ref<Capability[]>([])
+
+type Capability = SensoringCapability | VideoStreamingCapability
+
+type SensoringCapability = {
+  type: 'sensor'
+  capturingInterval: string
+  measure: {
+    type: MeasureType
+    unit: string
+  }
+}
+
+type VideoStreamingCapability = {
+  type: 'video'
+  resolution: string
+}
 
 const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
@@ -36,6 +57,35 @@ const updateDevice = (sensor: Device) => {
     })
 }
 
+const getCapabilities = () => {
+  RequestHelper.get(`http://${deviceHost}:${devicePort}/${device.deviceId}/capabilities`)
+    .then(async (res: any) => {
+      for (let i = 0; i < res.data.length; i++) {
+        const capability = res.data[i]
+        if (capability.type === 'sensor') {
+          const sensorCapability: SensoringCapability = {
+            type: 'sensor',
+            capturingInterval: capability.capturingInterval,
+            measure: {
+              type: MeasureType[capability.measure.type as keyof typeof MeasureType],
+              unit: capability.measure.unit
+            }
+          }
+          capabilities.value.push(sensorCapability)
+        } else if (capability.type === 'video') {
+          const videoCapability: VideoStreamingCapability = {
+            type: 'video',
+            resolution: capability.resolution
+          }
+          capabilities.value.push(videoCapability)
+        }
+      }
+    })
+    .catch(_error => {
+      popNegative($q, 'Error while getting capabilities')
+    })
+}
+
 /*const updateCamera = (camera: Camera) => {
   RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
     code: camera.deviceId.code,
@@ -56,40 +106,19 @@ const updateDevice = (sensor: Device) => {
 }*/
 
 const enableDevice = async () => {
-  /*const bodyRequest =
-    device.deviceId.type == DeviceType.SENSOR
-      ? {
-          code: device.deviceId.code,
-          ipAddress: device.ipAddress,
-          isCapturing: !device.isCapturing,
-          intervalMillis: (device as Device).intervalMillis,
-          measures: (device as Device).measures.map((m: Measure) => {
-            return MeasureConverter.convertToString(m)
-          })
-        }
-      : {
-          code: device.deviceId.code,
-          ipAddress: device.ipAddress,
-          isCapturing: !device.isCapturing,
-          resolution: {
-            width: parseInt((device as Camera).resolution.width.toString()),
-            height: parseInt((device as Camera).resolution.height.toString())
-          }
-        }
-  await RequestHelper.put(
-    `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s`,
-    bodyRequest
-  )
+  //TODO TO TEST
+ /* RequestHelper.put(`http://${deviceHost}:${devicePort}/${device.deviceId}/enable`, {})
     .then(async (_res: any) => {
-      popPositive($q, device.isCapturing ? 'Device disabled successfully' : 'Device enabled successfully')
-      device.isCapturing ? device.stopCapturing() : device.stopCapturing()
-      emit('get-cameras')
-      emit('get-sensors')
+      emit('get-devices')
     })
     .catch(_error => {
       popNegative($q, 'Error while enabling device')
     })*/
 }
+
+onMounted(() => {
+  getCapabilities()
+})
 
 const deleteDevice = () => {
   popDelete($q, 'Are you sure you want to delete this device?', () => emit('delete-device'))
@@ -107,20 +136,20 @@ const deleteDevice = () => {
         {{ device.deviceId }}
       </h3>
     </header>
-    <ul class="sensor"> <!--TODO TO CHANGE-->
+    <ul>
       <li><i>IP Address: </i>{{ device.endpoint }}</li>
-<!--      <li v-if="device.deviceId.type == DeviceType.SENSOR" class="measures">
+      <li><i>Location: </i>{{ device.locationId }}</li>
+      <li><i>Description: </i>{{ device.description }}</li>
+      <li>
         <q-badge
-          v-for="measure in (device as Device).measures.values()"
-          outline
+          v-for="capability in capabilities"
+          :key="capability.type"
           :style="{
-            color: getMeasureColor(measure)
-          }"
-          :key="measure"
-        >
-          {{ Measure[measure] }}
+            backgroundColor: capability.type === 'sensor' ? colorMap[(capability as SensoringCapability).measure.type] : 'blue'
+          }">
+          {{ capability.type.toUpperCase() }}
         </q-badge>
-      </li>-->
+      </li>
       <li class="actions">
         <div>
           <q-btn
@@ -184,12 +213,8 @@ button {
 
 ul {
   @media (min-width: 576px) {
-    &.sensor {
+    &.device {
       height: 150px;
-    }
-
-    &.camera {
-      height: 110px;
     }
   }
   display: flex;

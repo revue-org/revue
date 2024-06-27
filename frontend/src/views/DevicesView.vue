@@ -9,6 +9,7 @@ import { composeDevice } from '@/presentation/ComposeDevice'
 import type { Device } from "@/domain/core/Device";
 import { useUserStore } from "@/stores/user";
 import HttpStatusCode from "common/dist/utils/HttpStatusCode";
+import NewDevicePopup from "@/components/devices/NewDevicePopup.vue";
 
 const devices: Ref<Device[]> = ref([])
 const $q = useQuasar()
@@ -104,10 +105,9 @@ const newPopupVisible = ref<boolean>(false)
     />
   </div>
 
-<!--  <new-device-popup
+  <new-device-popup
     v-model="newPopupVisible"
-    @insert-device="insertDevice"
-  ></new-device-popup>-->
+  ></new-device-popup>
 </template>
 
 <style scoped lang="scss">

@@ -1,64 +1,77 @@
-<!--
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Capability, SensoringCapability } from "@/domain/core/Capability";
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import { popNegative, popPositive } from '@/scripts/Popups'
+import { useQuasar } from 'quasar'
+import { MeasureType } from 'common/dist/domain/core'
+import { colorMap } from "@/utils/MeasureUtils";
 
-const emit = defineEmits<{
-  (_e: 'insert-camera', _camera: Camera): void
-  (_e: 'insert-sensor', _sensor: Device): void
-}>()
-
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const deviceFactory: DeviceFactory = new DeviceFactoryImpl()
-const resolutionFactory: ResolutionFactory = new ResolutionFactoryImpl()
+const $q = useQuasar()
 
 const resetFields = () => {
-  deviceType.value = DeviceType.SENSOR
-  code.value = undefined
-  ipAddress.value = undefined
-  width.value = undefined
-  height.value = undefined
-  intervalMillis.value = undefined
-  measures.value = [Measure.TEMPERATURE]
+  description.value = ''
+  ip.value = ''
+  port.value = 0
+  locationId.value = ''
+  capabilities.value = []
 }
 
-const deviceType = ref<DeviceType>(DeviceType.SENSOR)
-const code = ref<string>()
-const ipAddress = ref<string>()
-const width = ref<number>()
-const height = ref<number>()
-const intervalMillis = ref<number>()
-const measures = ref([Measure.TEMPERATURE])
+const description = ref<string>()
+const ip = ref<string>()
+const port = ref<number>()
+const locationId = ref<string>()
+const capabilities = ref<Capability[]>([])
 
-const optionMeasures = ref(
-  Object.keys(Measure)
-    .filter(key => isNaN(Number(key)))
-    .map(value => {
-      return {
-        label: value,
-        value: MeasureConverter.convertToMeasure(value)
+const retrieveThingInfos = () => {
+  RequestHelper.get(`http://${ip.value}:${port.value}/infos`)
+    .then(async (res: any) => {
+      console.log(res.data)
+      locationId.value = res.data.locationId
+      for (let i = 0; i < res.data.capabilities.length; i++) {
+        const capability = res.data.capabilities[i]
+        if (capability.type === 'sensor') {
+          capabilities.value.push({
+            type: 'sensor',
+            capturingInterval: capability.capturingInterval,
+            measure: {
+              type: MeasureType[capability.measure.type as keyof typeof MeasureType],
+              unit: capability.measure.unit
+            }
+          })
+        } else if (capability.type === 'video') {
+          capabilities.value.push({
+            type: 'video',
+            resolution: capability.resolution
+          })
+        }
       }
+      popPositive($q, 'Thing info retrieved successfully')
     })
-)
+    .catch(_error => {
+      popNegative($q, 'Error while retrieving device info')
+    })
+}
 
 const addNewDevice = () => {
-  if (deviceType.value == DeviceType.SENSOR) {
-    const newSensor: Device = deviceFactory.createSensor(
-      deviceIdFactory.createSensorId(code.value!),
-      false,
-      ipAddress.value!,
-      intervalMillis.value!,
-      measures.value
-    )
-    emit('insert-sensor', newSensor)
-  } else if (deviceType.value == DeviceType.CAMERA) {
-    const newCamera: Camera = deviceFactory.createCamera(
-      deviceIdFactory.createCameraId(code.value!),
-      false,
-      ipAddress.value!,
-      resolutionFactory.createResolution(width.value!, height.value!)
-    )
-    emit('insert-camera', newCamera)
+  if(!ip.value || !port.value) {
+    popNegative($q, 'Please fill all fields')
+    return
+  } else {
+    retrieveThingInfos()
   }
+  RequestHelper.post(`http://${deviceHost}:${devicePort}/`, {
+    description: description.value,
+    ip: ip.value,
+    port: port.value,
+    locationId: locationId.value
+  })
+    .then(async (res: any) => {
+      popPositive($q, 'Device added successfully')
+    })
+    .catch(_error => {
+      console.error('Error while adding device')
+    })
   resetFields()
 }
 </script>
@@ -69,34 +82,42 @@ const addNewDevice = () => {
       <q-card-section>
         <h3 class="text-h5">Add a Device</h3>
       </q-card-section>
-      <q-card-section class="q-gutter-md">
-        <q-radio dense v-model="deviceType" :val="DeviceType.SENSOR" label="Device" />
-        <q-radio dense v-model="deviceType" :val="DeviceType.CAMERA" label="Camera" />
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        <label>Code</label>
-        <q-input dense v-model="code" autofocus />
-      </q-card-section>
       <q-card-section class="q-pt-none">
         <label>IP Address</label>
-        <q-input dense v-model="ipAddress" />
+        <q-input dense v-model="ip" />
       </q-card-section>
-      <div v-if="deviceType == DeviceType.CAMERA">
-        <q-card-section class="q-pt-none resolution">
-          <label>Resolution</label>
-          <q-input type="number" v-model="width" placeholder="Width" />
-          <span>x</span>
-          <q-input type="number" v-model="height" placeholder="Height" />
-        </q-card-section>
-      </div>
-
-      <div v-if="deviceType == DeviceType.SENSOR">
-        <q-card-section class="q-pt-none">
-          <label>Acquisition rate (ms)</label>
-          <q-input type="number" v-model="intervalMillis" />
-        </q-card-section>
-        <q-option-group style="display: flex" v-model="measures" :options="optionMeasures" type="checkbox" />
-      </div>
+      <q-card-section class="q-pt-none">
+        <label>Port</label>
+        <q-input dense v-model="port" />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <label>Ping</label>
+        <q-btn
+          flat
+          label="Retrieve info"
+          class="bg-white text-teal"
+          @click="retrieveThingInfos"
+        />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <label>Location</label>
+        <q-input disable dense v-model="locationId" autofocus />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <label>Description</label>
+        <q-input dense v-model="description" />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        Capabilities:
+        <q-badge
+          v-for="capability in capabilities"
+          :key="capability.type"
+          :style="{
+            backgroundColor: capability.type === 'sensor' ? colorMap[(capability as SensoringCapability).measure.type] : 'blue'
+          }">
+          {{ capability.type.toUpperCase() }}
+        </q-badge>
+      </q-card-section>
 
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
@@ -107,15 +128,5 @@ const addNewDevice = () => {
 </template>
 
 <style scoped lang="scss">
-div.resolution {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 15px;
 
-  input {
-    height: 50px !important;
-  }
-}
 </style>
--->

@@ -3,12 +3,15 @@ import express from 'express'
 import { config } from 'dotenv'
 import { jwtManager } from '@utils/JWTManager.js'
 import { getSensorInfo, produce } from '@/producer.js'
+import cors from 'cors'
 
 config({ path: process.cwd() + '/../.env' })
 
 export const app: Express = express()
 
 app.use(express.json())
+app.use(cors({origin: '*'}));
+
 
 app.route('/capabilities').get((req: Request, res: Response): void => {
   const capability = {
@@ -28,6 +31,22 @@ app.route('/enable').get((req: Request, res: Response): void => {
 
 app.route('/disable').get((req: Request, res: Response): void => {
   res.send({ message: 'Sensor disabled' })
+})
+
+app.route('/infos').get((req: Request, res: Response): void => {
+  const infos = {
+    id: process.env.SENSOR_ID,
+    locationId: "room-1",
+    capabilities: [{
+      type: 'sensor',
+      capturingInterval: 1000,
+      measure: {
+        type: 'temperature',
+        unit: 'celsius'
+      }
+    }]
+  }
+  res.send(infos)
 })
 
 const PORT: number = Number(process.env.SENSOR_PORT)

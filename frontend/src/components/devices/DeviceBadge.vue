@@ -6,7 +6,7 @@ import { useQuasar } from 'quasar'
 import type { Device } from "@/domain/core/Device";
 import { colorMap} from "@/utils/MeasureUtils";
 import { MeasureType } from "common/dist/domain/core";
-import { MeasureFactory } from "common/dist/domain/factories";
+import type { Capability, SensoringCapability, VideoStreamingCapability } from "@/domain/core/Capability";
 
 const { device } = defineProps<{
   device: Device
@@ -18,23 +18,6 @@ const emit = defineEmits<{
 }>()
 
 const capabilities = ref<Capability[]>([])
-
-type Capability = SensoringCapability | VideoStreamingCapability
-
-type SensoringCapability = {
-  type: 'sensor'
-  capturingInterval: string
-  measure: {
-    type: MeasureType
-    unit: string
-  }
-}
-
-type VideoStreamingCapability = {
-  type: 'video'
-  resolution: string
-}
-
 const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 

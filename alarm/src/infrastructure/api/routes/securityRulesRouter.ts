@@ -56,27 +56,28 @@ router
       })
   })
   .post((req: Request, res: Response): void => {
-    req.body.validityStart = new Date(req.body.validityStart)
-    req.body.validityEnd = new Date(req.body.validityEnd)
-    const msg = rangeRuleSchema.parse(req.body)
-    controller
-      .createRangeRule(
-        msg.activeOn,
-        msg.author,
-        msg.description,
-        msg.rule.measure,
-        msg.rule.minValue,
-        msg.rule.maxValue,
-        msg.validityStart,
-        msg.validityEnd,
-        msg.contacts,
-      )
-      .then((): void => {
-        res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })
-      })
-      .catch((): void => {
-        res.send({ error: 'Range rule not created' })
-      })
+    try {
+      req.body.validityStart = new Date(req.body.validityStart)
+      req.body.validityEnd = new Date(req.body.validityEnd)
+      const msg = rangeRuleSchema.parse(req.body)
+      controller
+        .createRangeRule(
+          msg.activeOn,
+          msg.author,
+          msg.description,
+          msg.rule.measure,
+          msg.rule.minValue,
+          msg.rule.maxValue,
+          msg.validityStart,
+          msg.validityEnd,
+          msg.contacts,
+        )
+        .then((): void => {
+          res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })
+        })
+    } catch (err) {
+      res.status(HttpStatusCode.BAD_REQUEST).send({ error: 'Range rule not created' })
+    }
   })
 
 router

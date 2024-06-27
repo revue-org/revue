@@ -3,6 +3,7 @@ import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { registryController } from '@/infrastructure/api/controllers/userRegistry.js'
 import { User } from '@/domain/core/User.js'
 import { UserId } from '@/domain/core/UserId.js'
+import { userMessageSchema } from '@/presentation/api/schemas/UserMessageSchema'
 
 export const userRegistry: Router = express.Router()
 
@@ -29,14 +30,16 @@ userRegistry.route('/:id').get((req: Request, res: Response): void => {
 })
 
 userRegistry.route('/').post((req: Request, res: Response): void => {
-  registryController
-    .createUser(req.body.username, req.body.password, req.body.permissions)
-    .then((userId: UserId): void => {
-      res.status(HttpStatusCode.CREATED).send(userId)
-    })
-    .catch((err: Error): void => {
-      res.status(HttpStatusCode.BAD_REQUEST).send(err)
-    })
+  try {
+    const userMsg = userMessageSchema.parse(req.body)
+    registryController
+      .createUser(userMsg.username, userMsg.password, userMsg.permissions)
+      .then((userId: UserId): void => {
+        res.status(HttpStatusCode.CREATED).send(userId)
+      })
+  } catch (err) {
+    res.status(HttpStatusCode.BAD_REQUEST).send(err)
+  }
 })
 
 userRegistry.route('/:id').put((req: Request, res: Response): void => {

@@ -18,10 +18,8 @@ describe('POST /users/', (): void => {
 
   it('should create a new user', async (): Promise<void> => {
     const newUser = {
-      id: 'test-id-1',
       username: 'test-username-1',
       password: 'test', // password: test
-      refreshToken: '',
       permissions: ['test-permission-1']
     }
 

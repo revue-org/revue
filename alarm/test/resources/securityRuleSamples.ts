@@ -1,5 +1,3 @@
-import { Types } from 'mongoose'
-
 export const rangeRuleSample = {
   id: 'first-range-rule',
   type: 'range',

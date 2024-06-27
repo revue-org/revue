@@ -13,7 +13,6 @@ export class KafkaNotificationEventsHub {
   constructor(kafkaOptions: KafkaOptions) {
     this.anomaliesConsumer = new KafkaConsumer(kafkaOptions)
     this.notificationProducer = new KafkaProducer(kafkaOptions)
-    this.notificationProducer.start().then(_r => console.log('Producer started'))
   }
 
   subscribeToAnomalies(handler: (_anomaly: Anomaly) => void): void {

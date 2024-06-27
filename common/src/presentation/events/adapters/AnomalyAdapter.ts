@@ -4,7 +4,7 @@ import { AnomalyMessage, anomalySchema } from '../schemas/AnomalySchema.js'
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {
-    const anomalyMessage: AnomalyMessage = securityRuleSchema.parse(anomalyObj)
+    const anomalyMessage: AnomalyMessage = anomalySchema.parse(anomalyObj)
     if (anomalyMessage.type === 'intrusion') {
       return AnomalyFactory.createIntrusion(
         anomalyMessage.timestamp,

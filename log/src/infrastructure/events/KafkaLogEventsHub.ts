@@ -14,9 +14,12 @@ export class KafkaLogEventsHub implements LogEventsHub {
   private deviceConsumer: KafkaConsumer
 
   constructor(kafkaOptions: KafkaOptions) {
-    this.measurementsConsumer = new KafkaConsumer(kafkaOptions)
-    this.anomaliesConsumer = new KafkaConsumer(kafkaOptions)
-    this.deviceConsumer = new KafkaConsumer(kafkaOptions)
+    const measurementsOptions = { ...kafkaOptions, groupId: 'log-measurements' }
+    const anomaliesOptions = { ...kafkaOptions, groupId: 'log-anomalies' }
+    const deviceOptions = { ...kafkaOptions, groupId: 'log-devices' }
+    this.measurementsConsumer = new KafkaConsumer(measurementsOptions)
+    this.anomaliesConsumer = new KafkaConsumer(anomaliesOptions)
+    this.deviceConsumer = new KafkaConsumer(deviceOptions)
   }
 
   private async getMeasurementTopics(): Promise<string[]> {

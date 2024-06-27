@@ -6,7 +6,7 @@
   "description": "Authentication microservice",
   "main": "dist/src/index.js",
   "scripts": {
-    "serve": "node .",
+    "serve": "NODE_ENV=production node .",
     "dev": "npm run build && NODE_ENV=develop node .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon --experimental-specifier-resolution=node .",

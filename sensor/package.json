@@ -6,7 +6,7 @@
   "description": "Sensor producer",
   "main": "dist/src/index.js",
   "scripts": {
-    "serve": "node .",
+    "serve": "NODE_ENV=production node .",
     "dev": "npm run build && NODE_ENV=develop SENSOR_ID=sen-01 SENSOR_PORT=6001 node .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",

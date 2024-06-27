@@ -1,5 +1,5 @@
 import { Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
-import { KafkaOptions } from './KafkaOptions'
+import { getLogLevel, KafkaOptions } from './KafkaOptions.js'
 
 export default class KafkaConsumer {
   private readonly kafkaConsumer: Consumer
@@ -46,7 +46,8 @@ export default class KafkaConsumer {
   private createConsumer(): Consumer {
     const kafka: Kafka = new Kafka({
       clientId: this.kafkaOptions.clientId,
-      brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`)
+      brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`),
+      logLevel: getLogLevel(),
     })
     return kafka.consumer({ groupId: this.kafkaOptions.groupId! })
   }

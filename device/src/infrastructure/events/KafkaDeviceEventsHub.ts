@@ -11,7 +11,6 @@ export class KafkaDeviceEventsHub implements DeviceEventsHub {
 
   constructor(kafkaOptions: KafkaOptions) {
     this.deviceProducer = new KafkaProducer(kafkaOptions)
-    this.deviceProducer.start().then(_r => console.log('Kafka producer started'))
   }
 
   publishDeviceAdded(addition: DeviceAdded): void {

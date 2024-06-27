@@ -1,3 +1,5 @@
+import { logLevel } from 'kafkajs'
+
 export type KafkaBroker = {
   host: string
   port: string
@@ -36,4 +38,18 @@ export const getBrokersFromEnv = (): KafkaBroker[] => {
   return brokerHosts.map((host: string, index: number): KafkaBroker => {
     return { host: host, port: brokerPorts[index] }
   })
+}
+
+/**
+ * Returns the log level based on the environment configuration
+ * @return logLevel
+ */
+export const getLogLevel = (): logLevel => {
+  let level: logLevel = logLevel.INFO
+  if (process.env.NODE_ENV == 'test' || process.env.NODE_ENV == 'production') {
+    level = logLevel.WARN
+  } else if (process.env.NODE_ENV == 'develop') {
+    level = logLevel.DEBUG
+  }
+  return level
 }

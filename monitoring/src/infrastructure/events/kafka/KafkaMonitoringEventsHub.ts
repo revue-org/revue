@@ -1,6 +1,4 @@
 import { DeviceEvent, Measurement } from '@common/domain/core'
-import { MeasureType } from '@common/domain/core/MeasureType.js'
-import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'

@@ -46,7 +46,6 @@ const kafkaOptions: KafkaOptions = {
 
 export const produce = async (): Promise<void> => {
   const producer: KafkaProducer = new KafkaProducer(kafkaOptions)
-  await producer.start()
   setInterval(async (): Promise<void> => {
     const measurement: Measurement = MeasurementFactory.createNumericMeasurement(
       new Date(),

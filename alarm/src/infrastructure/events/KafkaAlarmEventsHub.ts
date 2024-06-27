@@ -18,11 +18,13 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   private anomalyProducer: KafkaProducer
 
   constructor(kafkaOptions: KafkaOptions) {
-    this.measurementsConsumer = new KafkaConsumer(kafkaOptions)
-    this.detectionsConsumer = new KafkaConsumer(kafkaOptions)
-    this.deviceConsumer = new KafkaConsumer(kafkaOptions)
+    const measurementsOptions = { ...kafkaOptions, groupId: 'alarm-measurements' }
+    const detectionsOptions = { ...kafkaOptions, groupId: 'alarm-detections' }
+    const deviceOptions = { ...kafkaOptions, groupId: 'alarm-devices' }
+    this.measurementsConsumer = new KafkaConsumer(measurementsOptions)
+    this.detectionsConsumer = new KafkaConsumer(detectionsOptions)
+    this.deviceConsumer = new KafkaConsumer(deviceOptions)
     this.anomalyProducer = new KafkaProducer(kafkaOptions)
-    this.anomalyProducer.start().then(_r => console.log('Kafka producer started'))
   }
 
   private async getMeasurementTopics(): Promise<string[]> {

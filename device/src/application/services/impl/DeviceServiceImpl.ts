@@ -28,7 +28,7 @@ export class DeviceServiceImpl implements DeviceService {
     )
       .then((res: any): DeviceCapability[] => {
         const capabilities: DeviceCapability[] = []
-        for (let i: number = 0; i < res.data.capabilities; i++) {
+        for (let i: number = 0; i < res.data.capabilities.length; i++) {
           if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
             capabilities.push(
               CapabilityFactory.sensoringCapabilityOf(

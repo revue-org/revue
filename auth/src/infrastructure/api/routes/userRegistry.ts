@@ -3,9 +3,12 @@ import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { registryController } from '@/infrastructure/api/controllers/userRegistry.js'
 import { User } from '@/domain/core/User.js'
 import { UserId } from '@/domain/core/UserId.js'
-import { userInsertionSchema, userPermissionsSchema } from '@/presentation/api/schemas/UserMessageSchemas.js'
+import { ZodUserPresenter } from '@/presentation/api/impl/ZodUserPresenter.js'
+import { UserPresenter } from '@/presentation/api/UserPresenter'
+import { UserInsertion, UserUpdate } from '@/presentation/api/schemas/UserSchemas'
 
 export const userRegistry: Router = express.Router()
+const userPresenter: UserPresenter = new ZodUserPresenter()
 
 userRegistry.route('/').get((req: Request, res: Response): void => {
   registryController
@@ -31,7 +34,7 @@ userRegistry.route('/:id').get((req: Request, res: Response): void => {
 
 userRegistry.route('/').post((req: Request, res: Response): void => {
   try {
-    const userMsg = userInsertionSchema.parse(req.body)
+    const userMsg: UserInsertion = userPresenter.parseInsertion(req.body)
     registryController
       .createUser(userMsg.username, userMsg.password, userMsg.permissions)
       .then((userId: UserId): void => {
@@ -44,12 +47,10 @@ userRegistry.route('/').post((req: Request, res: Response): void => {
 
 userRegistry.route('/:id').put((req: Request, res: Response): void => {
   try {
-    const userMsg = userPermissionsSchema.parse(req.body)
-    registryController
-      .updateUser(req.params.id, userMsg.permissions)
-      .then((): void => {
-        res.status(HttpStatusCode.OK).send('User updated')
-      })
+    const userMsg: UserUpdate = userPresenter.parseUpdate(req.body)
+    registryController.updateUser(req.params.id, userMsg.permissions).then((): void => {
+      res.status(HttpStatusCode.OK).send('User updated')
+    })
   } catch (err) {
     res.status(HttpStatusCode.BAD_REQUEST).send(err)
   }

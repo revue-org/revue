@@ -19,7 +19,10 @@ describe('POST /', (): void => {
     it('should create a new device', async (): Promise<void> => {
       const newDevice = {
         description: 'test-description-1',
-        ipAddress: 'test-ip-address-1',
+        address: {
+          ip: '192.168.1.10',
+          port: 6900
+        },
         port: 0,
         locationId: 'test-location-id-1'
       }

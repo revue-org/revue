@@ -18,8 +18,10 @@ describe('PUT /', (): void => {
 
     it('should update the device', async (): Promise<void> => {
       const newDevice = {
-        ip: '192.168.1.1',
-        port: 1000,
+        address: {
+          ip: '192.168.1.1',
+          port: 1000,
+        },
         description: 'updated description',
         locationId: 'updated locationId',
         enabled: false

@@ -5,21 +5,22 @@ import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
+import { deviceInsertionSchema, deviceUpdateSchema } from '@/presentation/api/schemas/DeviceSchemas.js'
 
 export const deviceRouter: Router = express.Router()
 
 deviceRouter.route('/').get((req: Request, res: Response): void => {
   const capabilities: CapabilityType[] = req.query.capabilities
     ? req.query.capabilities
-        .toString()
-        .split(',')
-        .map((capability: string): CapabilityType => {
-          if (Object.values(CapabilityType).includes(capability as CapabilityType)) {
-            return capability as CapabilityType
-          } else {
-            throw new Error('Invalid capability')
-          }
-        })
+      .toString()
+      .split(',')
+      .map((capability: string): CapabilityType => {
+        if (Object.values(CapabilityType).includes(capability as CapabilityType)) {
+          return capability as CapabilityType
+        } else {
+          throw new Error('Invalid capability')
+        }
+      })
     : []
 
   deviceController
@@ -77,33 +78,36 @@ deviceRouter.route('/locations/:id/devices').get((_req: Request, res: Response):
 })
 
 deviceRouter.route('/').post((req: Request, res: Response): void => {
-  deviceController
-    .createDevice(req.body.description, req.body.ip, req.body.port, req.body.locationId)
-    .then((id: DeviceId): void => {
-      res.status(HttpStatusCode.CREATED).send({ success: id })
-    })
-    .catch((e): void => {
-      console.log(e)
-      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not created' })
-    })
+  try {
+    const message = deviceInsertionSchema.parse(req.body)
+    deviceController
+      .createDevice(message.description, message.address.ip, message.address.port, message.locationId)
+      .then((id: DeviceId): void => {
+        res.status(HttpStatusCode.CREATED).send({ success: id })
+      })
+  } catch (e) {
+    res.status(HttpStatusCode.BAD_REQUEST).send({ error: 'Device not created' })
+  }
 })
 
 deviceRouter.route('/:id').put((req: Request, res: Response): void => {
-  deviceController
-    .updateDevice(
-      req.params.id,
-      req.body.description,
-      req.body.ip,
-      req.body.port,
-      req.body.locationId,
-      req.body.enabled
-    )
-    .then((): void => {
-      res.status(HttpStatusCode.OK).send({ success: 'Device correctly updated' })
-    })
-    .catch((): void => {
-      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not updated' })
-    })
+  try {
+    const message = deviceUpdateSchema.parse(req.body)
+    deviceController
+      .updateDevice(
+        req.params.id,
+        message.description,
+        message.address.ip,
+        message.address.port,
+        message.locationId,
+        message.enabled
+      )
+      .then((): void => {
+        res.status(HttpStatusCode.OK).send({ success: 'Device correctly updated' })
+      })
+  } catch (e) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not updated' })
+  }
 })
 
 deviceRouter.route('/:id').delete((req: Request, res: Response): void => {

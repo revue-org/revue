@@ -66,4 +66,15 @@ export const produce = async (): Promise<void> => {
     )
     producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
   }, 2000)
+
+  /*setInterval(async (): Promise<void> => {
+    const measurement: Measurement = MeasurementFactory.createNumericMeasurement(
+      new Date(),
+      sensor.deviceId.value,
+      MeasureFactory.createPressureMeasure(MeasureUnit.BAR),
+      Math.floor(Math.random() * 20)
+
+    )
+    producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
+  }, 2000)*/
 }

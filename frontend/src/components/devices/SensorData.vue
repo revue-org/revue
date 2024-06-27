@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LineChart from '@/components/charts/LineChart.vue'
-import { MeasureType } from 'common/dist/domain/core'
+import { type Measurement, MeasureType } from "common/dist/domain/core";
 import { ref } from "vue";
 import type { Sensor } from '@/domain/core/Sensor'
 import { monitoringSocket } from "@/socket";
@@ -20,7 +20,7 @@ const colorMap = {
   [MeasureType.PRESSURE]: 'orange'
 }
 
-const measureData = ref<Record<MeasureType, { buffer: { value: number, timestamp: string }[] }>>(
+const measureData = ref<Record<MeasureType, { buffer: { value: number, timestamp: string, unit: string }[] }>>(
   Object.fromEntries(Object.values(MeasureType).map(type => [type, { buffer: [] }]))
 )
 
@@ -30,11 +30,10 @@ const removeIfFull = (buffer: any[]): void => {
   }
 }
 
-const addMeasureValue = (measureType: MeasureType, value: number, timestamp: Date) => {
-  const timestampStr = timestamp.toLocaleString().split(' ')[1]
-  const measure = measureData.value[measureType]
+const addMeasureValue = (measurement: Measurement) => {
+  const measure = measureData.value[measurement.measure.type]
   removeIfFull(measure.buffer)
-  measure.buffer.push({ value, timestamp: timestampStr })
+  measure.buffer.push({ value: measurement.value, timestamp: measurement.timestamp.toLocaleString().split(' ')[1], unit: measurement.measure.unit  })
 }
 
 const getChartData = (measureType: MeasureType) => {
@@ -53,7 +52,7 @@ const getChartData = (measureType: MeasureType) => {
 
 monitoringSocket?.on(`measurements.${props.sensor.deviceId}`, (data: { measurement: any }) => {
   const measurement = composeMeasurement(data.measurement)
-  addMeasureValue(measurement.measure.type, measurement.value, measurement.timestamp)
+  addMeasureValue(measurement)
 })
 
 
@@ -66,7 +65,12 @@ const measureTypes = ref<MeasureType[]>(Object.values(MeasureType))
     <h3>{{ sensor.deviceId }}</h3>
     <div class="measures">
       <div class="measure" v-for="(type, index) in measureTypes" :key="index">
-        <q-radio dense v-model="currentMeasure" :val="type" :label="type" />
+        <q-radio dense v-model="currentMeasure" :val="type" :label="type.toUpperCase()" :style="{ color: colorMap[type] }" v-show="measureData[type].buffer.length > 0" />
+      </div>
+      <div class="lastUpdate">
+        Last update: {{ measureData[currentMeasure].buffer[measureData[currentMeasure].buffer.length - 1].value }}
+        {{ measureData[currentMeasure].buffer[measureData[currentMeasure].buffer.length - 1].unit }}
+        at: {{ measureData[currentMeasure].buffer[measureData[currentMeasure].buffer.length - 1].timestamp }}
       </div>
     </div>
     <div class="chart-container">
@@ -117,7 +121,7 @@ li {
 
     div.measure {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       gap: 10px;
     }
@@ -145,6 +149,11 @@ li {
     .timestamp {
       font-size: 0.7rem;
       color: gray;
+    }
+
+    .lastUpdate {
+      font-size: 0.8rem;
+      color: black;
     }
   }
 }

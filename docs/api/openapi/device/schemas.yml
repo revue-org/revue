@@ -9,12 +9,41 @@ components:
         Device:
             type: object
             properties:
-                ipAddress:
+                endpoint:
+                    type: object
+                    properties:
+                        ip:
+                            type: string
+                            description: The ip address of the device
+                        port:
+                            type: integer
+                            description: The port of the device
+                locationId:
                     type: string
-                    description: The ip address of the device
-                port:
-                    type: integer
-                    description: The port of the device
+                    description: The location in which the sensor is placed
+                description:
+                    type: string
+                    description: The description of the device
+                isEnabled:
+                    type: boolean
+                    description: The status of the device
+                capabilities:
+                    type: array
+                    items:
+                        type: string
+                    description: The capabilities of the device
+        DeviceInsert:
+            type: object
+            properties:
+                endpoint:
+                    type: object
+                    properties:
+                        ip:
+                            type: string
+                            description: The ip address of the device
+                        port:
+                            type: integer
+                            description: The port of the device
                 locationId:
                     type: string
                     description: The location in which the sensor is placed
@@ -24,9 +53,9 @@ components:
 
         DeviceUpdate:
             allOf:
-                - $ref: '#/components/schemas/Device'
+                - $ref: '#/components/schemas/DeviceInsert'
                 - type: object
                 - properties:
-                    enabled:
+                    isEnabled:
                         type: boolean
                         description: The status of the device

@@ -26,6 +26,7 @@ deviceRouter.route('/').get((req: Request, res: Response): void => {
   deviceController
     .getDevices(capabilities)
     .then((devices: Device[]): void => {
+
       res.status(HttpStatusCode.OK).send(devices)
     })
     .catch((): void => {
@@ -81,7 +82,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
   try {
     const message = deviceInsertionSchema.parse(req.body)
     deviceController
-      .createDevice(message.description, message.address.ip, message.address.port, message.locationId)
+      .createDevice(message.description, message.endpoint.ipAddress, message.endpoint.port, message.locationId)
       .then((id: DeviceId): void => {
         res.status(HttpStatusCode.CREATED).send({ success: id })
       })
@@ -97,10 +98,10 @@ deviceRouter.route('/:id').put((req: Request, res: Response): void => {
       .updateDevice(
         req.params.id,
         message.description,
-        message.address.ip,
-        message.address.port,
+        message.endpoint.ipAddress,
+        message.endpoint.port,
         message.locationId,
-        message.enabled
+        message.isEnabled
       )
       .then((): void => {
         res.status(HttpStatusCode.OK).send({ success: 'Device correctly updated' })

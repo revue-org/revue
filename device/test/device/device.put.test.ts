@@ -18,13 +18,13 @@ describe('PUT /', (): void => {
 
     it('should update the device', async (): Promise<void> => {
       const newDevice = {
-        address: {
-          ip: '192.168.1.1',
+        endpoint: {
+          ipAddress: '192.168.1.1',
           port: 1000,
         },
         description: 'updated description',
         locationId: 'updated locationId',
-        enabled: false
+        isEnabled: false
       }
 
       // @ts-ignore

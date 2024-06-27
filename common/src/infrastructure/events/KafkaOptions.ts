@@ -49,7 +49,7 @@ export const getLogLevel = (): logLevel => {
   if (process.env.NODE_ENV == 'test' || process.env.NODE_ENV == 'production') {
     level = logLevel.WARN
   } else if (process.env.NODE_ENV == 'develop') {
-    level = logLevel.DEBUG
+    level = logLevel.INFO
   }
   return level
 }

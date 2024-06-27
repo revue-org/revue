@@ -40,7 +40,7 @@ include(
     "device", 
     "common", 
     "monitoring", 
-    //"frontend", 
+    "frontend",
     "auth", 
     "alarm", 
     "notification", 

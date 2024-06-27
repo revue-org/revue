@@ -9,7 +9,7 @@ export class RangeRuleAdapter {
     const rangeRuleMessage = rangeRuleSchema.parse(rangeRule)
     const contacts: Contact[] = rangeRuleMessage.contacts.map((contact: any) => {
       return {
-        type: contact.contactType,
+        type: contact.type,
         value: contact.value
       }
     })

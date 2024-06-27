@@ -9,7 +9,7 @@ export const rangeRuleSchema = z.object({
   activeOn: z.string(),
   contacts: z.array(
     z.object({
-      contactType: z.nativeEnum(ContactType),
+      type: z.nativeEnum(ContactType),
       value: z.string().min(5)
     })
   ),

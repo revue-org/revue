@@ -1,10 +1,11 @@
-import express, { Router, Request, Response } from 'express'
+import express, { Request, Response, Router } from 'express'
 import { securityRuleController as controller } from '../controllers/securityRulesController.js'
 import { SecurityRule } from '@/domain/core/rules/SecurityRule'
 import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Contact } from '@common/domain/core/Contact.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
+import { rangeRuleSchema } from '@/presentation/api/schemas/SecurityRuleSchema.js'
 
 export const router: Router = express.Router()
 
@@ -55,17 +56,20 @@ router
       })
   })
   .post((req: Request, res: Response): void => {
+    req.body.validityStart = new Date(req.body.validityStart)
+    req.body.validityEnd = new Date(req.body.validityEnd)
+    const msg = rangeRuleSchema.parse(req.body)
     controller
       .createRangeRule(
-        req.body.activeOn,
-        req.body.creatorId,
-        req.body.description,
-        req.body.measure,
-        req.body.min,
-        req.body.max,
-        new Date(req.body.from),
-        new Date(req.body.to),
-        req.body.contacts
+        msg.activeOn,
+        msg.author,
+        msg.description,
+        msg.rule.measure,
+        msg.rule.minValue,
+        msg.rule.maxValue,
+        msg.validityStart,
+        msg.validityEnd,
+        msg.contacts,
       )
       .then((): void => {
         res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })

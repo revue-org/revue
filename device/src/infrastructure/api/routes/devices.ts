@@ -7,7 +7,7 @@ import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
 import { DevicePresenter } from '@/presentation/api/DevicePresenter'
 import { ZodDevicePresenter } from '@/presentation/api/impl/ZodDevicePresenter.js'
-import { DeviceInsertion } from "@/presentation/api/schemas/DeviceSchemas";
+import { DeviceInsertion, DeviceUpdate } from "@/presentation/api/schemas/DeviceSchemas";
 
 export const deviceRouter: Router = express.Router()
 const devicePresenter: DevicePresenter = new ZodDevicePresenter()
@@ -105,7 +105,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
 
 deviceRouter.route('/:id').put((req: Request, res: Response): void => {
   try {
-    const message = devicePresenter.parseUpdate(req.body)
+    const message: DeviceUpdate = devicePresenter.parseUpdate(req.body)
     deviceController
       .updateDevice(
         req.params.id,

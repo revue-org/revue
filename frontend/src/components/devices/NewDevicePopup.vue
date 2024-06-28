@@ -82,7 +82,7 @@ const addNewDevice = () => {
   <q-dialog>
     <q-card style="width: 700px; max-width: 80vw">
       <q-card-section>
-        <h3 class="text-h5">Add a Device</h3>
+        <h3 class="text-h5">Add device</h3>
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>IP Address</label>

@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
-import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
+import { popDelete, popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import type { Device } from '@/domain/core/Device'
 import { colorMap } from '@/utils/MeasureUtils'
 import { MeasureType } from 'common/dist/domain/core'
-import type { Capability, SensoringCapability, VideoStreamingCapability } from '@/domain/core/Capability'
+import {
+  type Capability,
+  CapabilityType,
+  type SensoringCapability,
+  type VideoStreamingCapability
+} from "@/domain/core/Capability";
+import UpdateDevicePopup from "@/components/devices/UpdateDevicePopup.vue";
+import CapabilityPopup from "@/components/devices/CapabilityPopup.vue";
 
 const { device } = defineProps<{
   device: Device
@@ -19,45 +26,28 @@ const emit = defineEmits<{
 
 const capabilities = ref<Capability[]>([])
 const updatePopupVisible = ref<boolean>(false)
+const capabilityPopupVisible = ref<boolean>(false)
 const $q = useQuasar()
-
-const updateDevice = (sensor: Device) => {
-  RequestHelper.put(`http://${deviceHost}:${devicePort}/`, {
-    /*code: sensor.deviceId.code,
-    isCapturing: sensor.isCapturing,
-    ipAddress: sensor.ipAddress,
-    intervalMillis: sensor.intervalMillis,
-    measures: sensor.measures.map((m: Measure) => {
-      return MeasureConverter.convertToString(m)
-    })*/
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Device updated successfully')
-      emit('get-devices')
-    })
-    .catch(_error => {
-      popNegative($q, 'Error while updating sensor')
-    })
-}
 
 const getCapabilities = () => {
   RequestHelper.get(`http://${deviceHost}:${devicePort}/${device.deviceId}/capabilities`)
     .then(async (res: any) => {
       for (let i = 0; i < res.data.length; i++) {
         const capability = res.data[i]
-        if (capability.type === 'sensor') {
+        console.log(capability)
+        if (capability.type === CapabilityType.SENSOR) {
           const sensorCapability: SensoringCapability = {
-            type: 'sensor',
+            type: CapabilityType.SENSOR,
             capturingInterval: capability.capturingInterval,
             measure: {
-              type: MeasureType[capability.measure.type as keyof typeof MeasureType],
+              type: capability.measure.type,
               unit: capability.measure.unit
             }
           }
           capabilities.value.push(sensorCapability)
-        } else if (capability.type === 'video') {
+        } else if (capability.type === CapabilityType.VIDEO) {
           const videoCapability: VideoStreamingCapability = {
-            type: 'video',
+            type: CapabilityType.VIDEO,
             resolution: capability.resolution
           }
           capabilities.value.push(videoCapability)
@@ -68,25 +58,6 @@ const getCapabilities = () => {
       popNegative($q, 'Error while getting capabilities')
     })
 }
-
-/*const updateCamera = (camera: Camera) => {
-  RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
-    code: camera.deviceId.code,
-    isCapturing: camera.isCapturing,
-    ipAddress: camera.ipAddress,
-    resolution: {
-      width: parseInt(camera.resolution.width.toString()),
-      height: parseInt(camera.resolution.height.toString())
-    }
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Camera updated successfully')
-      emit('get-cameras')
-    })
-    .catch(_error => {
-      popNegative($q, 'Error while updating camera')
-    })
-}*/
 
 const enableDevice = async () => {
   //TODO TO TEST
@@ -127,6 +98,8 @@ const deleteDevice = () => {
         <q-badge
           v-for="capability in capabilities"
           :key="capability.type"
+          @click="capabilityPopupVisible = true"
+          @mouseover="console.log(capability)"
           :style="{
             backgroundColor:
               capability.type === 'sensor'
@@ -135,6 +108,10 @@ const deleteDevice = () => {
           }"
         >
           {{ capability.type.toUpperCase() }}
+          <capability-popup
+            v-model="capabilityPopupVisible"
+            :capability="capability"
+          ></capability-popup>
         </q-badge>
       </li>
       <li class="actions">
@@ -157,11 +134,11 @@ const deleteDevice = () => {
       </li>
     </ul>
   </div>
-  <!--  <update-device-popup
+  <update-device-popup
       v-model="updatePopupVisible"
       :device="device"
-      @update-device="updateDevice"
-    ></update-device-popup>-->
+      @get-devices="emit('get-devices')"
+    ></update-device-popup>
 </template>
 
 <style scoped lang="scss">

@@ -33,44 +33,6 @@ const getDevices = async () => {
   })
 }
 
-/*const insertSensor = async (sensor: Sensor) => {
-  await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
-    code: sensor.deviceId.code,
-    ipAddress: sensor.ipAddress,
-    intervalMillis: sensor.intervalMillis,
-    measures: sensor.measures.map((m: Measure) => {
-      return MeasureConverter.convertToString(m)
-    })
-  })
-    .then((res: any) => {
-      popPositive($q, 'Device added successfully')
-      getSensors()
-    })
-    .catch(error => {
-      popNegative($q, 'Error while deleting sensor')
-      console.log(error)
-    })
-}*/
-
-/*const insertCamera = async (camera: Camera) => {
-  await RequestHelper.post(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
-    code: camera.deviceId.code,
-    ipAddress: camera.ipAddress,
-    resolution: {
-      width: camera.resolution.width,
-      height: camera.resolution.height
-    }
-  })
-    .then((res: any) => {
-      getCameras()
-      popPositive($q, 'Camera added successfully')
-    })
-    .catch(error => {
-      popNegative($q, 'Error while deleting camera')
-      console.log(error)
-    })
-}*/
-
 const deleteDevice = async (device: Device) => {
   await RequestHelper.delete(`http://${deviceHost}:${devicePort}/${device.deviceId}/`)
     .then((res: any) => {

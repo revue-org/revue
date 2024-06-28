@@ -1,9 +1,14 @@
 import { MeasureType } from "common/dist/domain/core";
 
+export enum CapabilityType {
+  SENSOR = 'sensor',
+  VIDEO = 'video'
+}
+
 export type Capability = SensoringCapability | VideoStreamingCapability
 
 export type SensoringCapability = {
-  type: 'sensor'
+  type: CapabilityType.SENSOR
   capturingInterval: string
   measure: {
     type: MeasureType
@@ -12,6 +17,6 @@ export type SensoringCapability = {
 }
 
 export type VideoStreamingCapability = {
-  type: 'video'
+  type: CapabilityType.VIDEO
   resolution: string
 }

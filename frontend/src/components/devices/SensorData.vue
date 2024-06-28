@@ -71,7 +71,7 @@ const measureTypes = ref<MeasureType[]>(Object.values(MeasureType))
           v-show="measureData[type].buffer.length > 0"
         />
       </div>
-      <div class="lastUpdate">
+      <div class="lastUpdate" v-if="measureData[currentMeasure].buffer.length > 0">
         Last update:
         {{ measureData[currentMeasure].buffer[measureData[currentMeasure].buffer.length - 1].value }}
         {{ measureData[currentMeasure].buffer[measureData[currentMeasure].buffer.length - 1].unit }}

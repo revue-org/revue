@@ -15,6 +15,7 @@ const devices: Ref<Device[]> = ref([])
 const $q = useQuasar()
 
 const getDevices = async () => {
+  devices.value = []
   useUserStore().permissions.forEach((location: string) => {
     RequestHelper.get(`http://${deviceHost}:${devicePort}/locations/${location}/devices`)
       .then(async (res: any) => {
@@ -107,6 +108,7 @@ const newPopupVisible = ref<boolean>(false)
 
   <new-device-popup
     v-model="newPopupVisible"
+    @get-devices="getDevices"
   ></new-device-popup>
 </template>
 

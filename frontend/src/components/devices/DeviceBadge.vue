@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import RequestHelper, { deviceHost, devicePort} from "@/utils/RequestHelper";
+import { onMounted, ref } from 'vue'
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
 import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
-import type { Device } from "@/domain/core/Device";
-import { colorMap} from "@/utils/MeasureUtils";
-import { MeasureType } from "common/dist/domain/core";
-import type { Capability, SensoringCapability, VideoStreamingCapability } from "@/domain/core/Capability";
+import type { Device } from '@/domain/core/Device'
+import { colorMap } from '@/utils/MeasureUtils'
+import { MeasureType } from 'common/dist/domain/core'
+import type { Capability, SensoringCapability, VideoStreamingCapability } from '@/domain/core/Capability'
 
 const { device } = defineProps<{
   device: Device
@@ -90,13 +90,13 @@ const getCapabilities = () => {
 
 const enableDevice = async () => {
   //TODO TO TEST
- /* RequestHelper.put(`http://${deviceHost}:${devicePort}/${device.deviceId}/enable`, {})
-    .then(async (_res: any) => {
-      emit('get-devices')
-    })
-    .catch(_error => {
-      popNegative($q, 'Error while enabling device')
-    })*/
+  /* RequestHelper.put(`http://${deviceHost}:${devicePort}/${device.deviceId}/enable`, {})
+     .then(async (_res: any) => {
+       emit('get-devices')
+     })
+     .catch(_error => {
+       popNegative($q, 'Error while enabling device')
+     })*/
 }
 
 onMounted(() => {
@@ -120,7 +120,7 @@ const deleteDevice = () => {
       </h3>
     </header>
     <ul>
-      <li><i>IP Address: </i>{{ device.endpoint }}</li>
+      <li><i>IP Address: </i>{{ device.endpoint.ipAddress + ':' + device.endpoint.port }}</li>
       <li><i>Location: </i>{{ device.locationId }}</li>
       <li><i>Description: </i>{{ device.description }}</li>
       <li>
@@ -128,8 +128,12 @@ const deleteDevice = () => {
           v-for="capability in capabilities"
           :key="capability.type"
           :style="{
-            backgroundColor: capability.type === 'sensor' ? colorMap[(capability as SensoringCapability).measure.type] : 'blue'
-          }">
+            backgroundColor:
+              capability.type === 'sensor'
+                ? colorMap[(capability as SensoringCapability).measure.type]
+                : 'blue'
+          }"
+        >
           {{ capability.type.toUpperCase() }}
         </q-badge>
       </li>
@@ -153,11 +157,11 @@ const deleteDevice = () => {
       </li>
     </ul>
   </div>
-<!--  <update-device-popup
-    v-model="updatePopupVisible"
-    :device="device"
-    @update-device="updateDevice"
-  ></update-device-popup>-->
+  <!--  <update-device-popup
+      v-model="updatePopupVisible"
+      :device="device"
+      @update-device="updateDevice"
+    ></update-device-popup>-->
 </template>
 
 <style scoped lang="scss">
@@ -240,4 +244,3 @@ ul {
   }
 }
 </style>
-

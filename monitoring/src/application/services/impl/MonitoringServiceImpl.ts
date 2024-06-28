@@ -12,7 +12,6 @@ export class MonitoringServiceImpl implements MonitoringService {
 
   private configureEvents(): void {
     this.events.subscribeToMeasurements((measurement: Measurement): void => {
-      //TODO: to check how to handle the measurement in the frontend
       this.sendMeasurementToUser(measurement)
     })
 

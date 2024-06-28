@@ -7,6 +7,7 @@ import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
 import { DevicePresenter } from '@/presentation/api/DevicePresenter'
 import { ZodDevicePresenter } from '@/presentation/api/impl/ZodDevicePresenter.js'
+import { DeviceInsertion } from "@/presentation/api/schemas/DeviceSchemas";
 
 export const deviceRouter: Router = express.Router()
 const devicePresenter: DevicePresenter = new ZodDevicePresenter()
@@ -84,7 +85,8 @@ deviceRouter.route('/locations/:id/devices').get((_req: Request, res: Response):
 
 deviceRouter.route('/').post((req: Request, res: Response): void => {
   try {
-    const message = devicePresenter.parseInsertion(req.body)
+    req.body.endpoint.port = parseInt(req.body.endpoint.port)
+    const message: DeviceInsertion = devicePresenter.parseInsertion(req.body)
     deviceController
       .createDevice(
         message.description,
@@ -96,6 +98,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
         res.status(HttpStatusCode.CREATED).send({ success: id })
       })
   } catch (e) {
+    console.log(e)
     res.status(HttpStatusCode.BAD_REQUEST).send({ error: 'Device not created' })
   }
 })

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Capability, SensoringCapability } from "@/domain/core/Capability";
+import type { Capability, SensoringCapability } from '@/domain/core/Capability'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import { MeasureType } from 'common/dist/domain/core'
-import { colorMap } from "@/utils/MeasureUtils";
+import { colorMap } from '@/utils/MeasureUtils'
 
 const $q = useQuasar()
+const emit = defineEmits(['get-devices'])
 
 const resetFields = () => {
   description.value = ''
@@ -54,20 +55,21 @@ const retrieveThingInfos = () => {
 }
 
 const addNewDevice = () => {
-  if(!ip.value || !port.value) {
+  if(!ip.value || !port.value || !locationId.value) {
     popNegative($q, 'Please fill all fields')
     return
-  } else {
-    retrieveThingInfos()
   }
   RequestHelper.post(`http://${deviceHost}:${devicePort}/`, {
     description: description.value,
-    ip: ip.value,
-    port: port.value,
+    endpoint: {
+      ipAddress: ip.value,
+      port: port.value
+    },
     locationId: locationId.value
   })
     .then(async (res: any) => {
       popPositive($q, 'Device added successfully')
+      emit('get-devices')
     })
     .catch(_error => {
       console.error('Error while adding device')
@@ -91,13 +93,7 @@ const addNewDevice = () => {
         <q-input dense v-model="port" />
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <label>Ping</label>
-        <q-btn
-          flat
-          label="Retrieve info"
-          class="bg-white text-teal"
-          @click="retrieveThingInfos"
-        />
+        <q-btn label="Retrieve info" color="primary" @click="retrieveThingInfos" />
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>Location</label>
@@ -113,8 +109,12 @@ const addNewDevice = () => {
           v-for="capability in capabilities"
           :key="capability.type"
           :style="{
-            backgroundColor: capability.type === 'sensor' ? colorMap[(capability as SensoringCapability).measure.type] : 'blue'
-          }">
+            backgroundColor:
+              capability.type === 'sensor'
+                ? colorMap[(capability as SensoringCapability).measure.type]
+                : 'blue'
+          }"
+        >
           {{ capability.type.toUpperCase() }}
         </q-badge>
       </q-card-section>
@@ -127,6 +127,4 @@ const addNewDevice = () => {
   </q-dialog>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

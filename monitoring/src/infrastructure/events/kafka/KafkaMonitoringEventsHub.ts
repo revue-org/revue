@@ -23,9 +23,7 @@ export class KafkaMonitoringEventsHub {
         res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
       )
       .catch((e: any): string[] => {
-        console.log('Error getting topics from device service')
-        setTimeout(() => this.getTopics(), 10000)
-        return []
+        throw new Error('Error getting topics from device service')
       })
   }
 
@@ -48,6 +46,9 @@ export class KafkaMonitoringEventsHub {
           }
         })
         .then((): void => console.log('Measurements consumer started'))
+    }).catch((e: any): void => {
+      console.log('Error getting topics, retrying in 10 seconds')
+      setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
     })
   }
 

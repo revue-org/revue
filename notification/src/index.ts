@@ -79,7 +79,7 @@ const kafkaOptions: KafkaOptions = {
 }
 
 const kafkaNotification: KafkaNotificationEventsHub = new KafkaNotificationEventsHub(kafkaOptions)
-const socketNotification = new SocketNotificationEventsHub(io)
+const socketNotification: SocketNotificationEventsHub = new SocketNotificationEventsHub(io)
 const notificationEventsHub: NotificationEventsHub = new NotificationEventsHubImpl(
   kafkaNotification,
   socketNotification

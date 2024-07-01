@@ -1,10 +1,4 @@
-<!--
 <script setup lang="ts">
-import type { Notification } from 'domain/dist/domain/notification/core/Notification'
-import { getMeasureColor } from '@/utils/MeasureUtils'
-import { DeviceType, Measure } from 'domain/dist/domain/device/core'
-import type { Exceeding, Intrusion } from 'domain/dist/domain/alarm-system/core'
-import { ObjectClass } from 'domain/dist/domain/alarm-system/core'
 import { popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 
@@ -24,7 +18,8 @@ const deleteNotification = () => {
 </script>
 
 <template>
-  <li>
+  <p>ciao</p>
+<!--  <li>
     <q-icon
       v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA"
       size="28px"
@@ -58,7 +53,7 @@ const deleteNotification = () => {
       >Detection hour: {{ notification.anomaly.timestamp.toLocaleString().split(' ')[1] }}</span
     >
     <q-icon size="20px" name="delete" @click="deleteNotification" />
-  </li>
+  </li>-->
 </template>
 
 <style scoped lang="scss">
@@ -114,4 +109,3 @@ li {
   }
 }
 </style>
--->

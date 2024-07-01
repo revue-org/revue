@@ -38,8 +38,6 @@ export class AlarmServiceImpl implements AlarmService {
     })
 
     this.events.subscribeToMeasurements((measurement: Measurement): void => {
-      console.log('measurement', measurement)
-      console.log('CHECK MEASUREMENT')
       this.checkMeasurement(measurement).then(rangeRule => {
         if (rangeRule) {
           this.events.publishAnomaly(this.createOutlier(measurement, rangeRule))

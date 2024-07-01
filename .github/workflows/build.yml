@@ -1,26 +1,19 @@
-name: Revue Build
+name: Revue CI
 
 on:
   push:
     branches: [ '**', '!main' ]
-
   workflow_dispatch:
-
 defaults:
   run:
     shell: bash
 
 jobs:
-
   build:
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
-    # run on ubuntu, windows and macOS
-    runs-on: ${{ matrix.os }}
+        os: ['ubuntu', 'macos', 'windows']
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -31,9 +24,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      - name: Run build
+      - name: Build
         run: ./gradlew build --info
-      - name: Run tests
+      - name: Test
         run: ./gradlew auth:test user:test alarm:test --info || ./gradlew monitoring:test recognition:test --info
 
   style:
@@ -45,9 +38,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
       - name: Check format
         run: ./gradlew format --info
       - name: Check lint

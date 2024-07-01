@@ -1,11 +1,11 @@
 import { Device } from '@/domain/core/Device.js'
 import { DevicePresenter } from '@/presentation/api/DevicePresenter.js'
 import { DeviceInsertion, DeviceUpdate } from '@/presentation/api/schemas/DeviceSchemas.js'
-import { z } from 'zod'
+import { z, ZodType } from 'zod'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 
 export class ZodDevicePresenter implements DevicePresenter {
-  private readonly deviceSchema
+  private readonly deviceSchema: ZodType<Device>
   private readonly deviceInsertionSchema
   private readonly deviceUpdateSchema
 

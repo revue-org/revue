@@ -1,11 +1,10 @@
 const config = require('semantic-release-preconfigured-conventional-commits')
 config.plugins.push(
-  // [
-  //   '@semantic-release/exec',
-  //   {
-  //     prepareCmd: './update-version.sh ${nextRelease.version}'
-  //   }
-  // ],
+  [
+    '@semantic-release/exec', {
+      publishCmd: 'echo "not releasing yet" /' +
+          'cat CHANGELOG.md /'
+  }],
   '@semantic-release/github',
   '@semantic-release/git'
 )

@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import RequestHelper, { notificationHost, notificationPort } from '@/utils/RequestHelper'
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 import { useQuasar } from 'quasar'
-import { popNegative, popPositive } from "@/scripts/Popups";
+import { popNegative, popPositive } from '@/scripts/Popups'
 
 const $q = useQuasar()
 const notifications: ref<Notification[]> = ref([])
@@ -24,7 +24,7 @@ async function getNotifications() {
 
 const deleteNotification = async (notification: Notification) => {
   await RequestHelper.delete(
-    `http://${notificationHost}:${notificationPort}/notifications/`//${notification.notificationId}
+    `http://${notificationHost}:${notificationPort}/notifications/` //${notification.notificationId}
   )
     .then((_res: any) => {
       getNotifications()

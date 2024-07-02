@@ -40,7 +40,8 @@ export class KafkaLogEventsHub implements LogEventsHub {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
             }
           }
-        }).then((): void => console.log('Consumer started'))
+        })
+        .then((): void => console.log('Consumer started'))
     })
   }
 
@@ -59,7 +60,8 @@ export class KafkaLogEventsHub implements LogEventsHub {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
-      }).then((): void => console.log('Consumer started'))
+      })
+      .then((): void => console.log('Consumer started'))
   }
 
   subscribeToDevices(handler: (event: DeviceEvent) => void): void {
@@ -73,6 +75,7 @@ export class KafkaLogEventsHub implements LogEventsHub {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
-      }).then((): void => console.log('Consumer started'))
+      })
+      .then((): void => console.log('Consumer started'))
   }
 }

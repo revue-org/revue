@@ -1,11 +1,10 @@
-import { MeasureType } from "common/dist/domain/core";
-
+import { MeasureType } from 'common/dist/domain/core'
 
 export const colorMap = {
   [MeasureType.TEMPERATURE]: 'red',
   [MeasureType.HUMIDITY]: 'teal',
   [MeasureType.PRESSURE]: 'orange'
-}/*
+} /*
 import { MeasureUnit } from '@domain/device/core/impl/enum/MeasureUnit'
 import { Measure } from '@domain/device/core/impl/enum/Measure'
 

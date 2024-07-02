@@ -1,6 +1,7 @@
-import { DomainEventId } from '../core/DomainEventId'
-import { Outlier } from '../core/Outlier'
-import { Intrusion } from '../core/Intrusion'
+import { DomainEventId } from '../core/DomainEventId.js'
+import { Outlier } from '../core/Outlier.js'
+import { Intrusion } from '../core/Intrusion.js'
+import { DomainEvent } from '../core'
 
 export class AnomalyFactory {
   static newId(): DomainEventId {
@@ -13,40 +14,40 @@ export class AnomalyFactory {
     return { value }
   }
 
-  static createOutlier(timestamp: Date, measurementId: DomainEventId, rangeRuleId: string): Outlier {
-    return this.outlierFrom(this.newId(), timestamp, measurementId, rangeRuleId)
+  static createOutlier(timestamp: Date, measurement: DomainEvent, rangeRuleId: string): Outlier {
+    return this.outlierFrom(this.newId(), timestamp, measurement, rangeRuleId)
   }
 
   static outlierFrom(
     id: DomainEventId,
     timestamp: Date,
-    measurementId: DomainEventId,
+    measurement: DomainEvent,
     rangeRuleId: string
   ): Outlier {
     return {
       id,
       type: 'outlier',
       timestamp,
-      measurementId,
+      measurement,
       rangeRuleId
     }
   }
 
-  static createIntrusion(timestamp: Date, detectionId: DomainEventId, intrusionRuleId: string): Intrusion {
-    return this.intrusionFrom(this.newId(), timestamp, detectionId, intrusionRuleId)
+  static createIntrusion(timestamp: Date, detection: DomainEvent, intrusionRuleId: string): Intrusion {
+    return this.intrusionFrom(this.newId(), timestamp, detection, intrusionRuleId)
   }
 
   static intrusionFrom(
     id: DomainEventId,
     timestamp: Date,
-    detectionId: DomainEventId,
+    detection: DomainEvent,
     intrusionRuleId: string
   ): Intrusion {
     return {
       id,
       type: 'intrusion',
       timestamp,
-      detectionId,
+      detection,
       intrusionRuleId
     }
   }

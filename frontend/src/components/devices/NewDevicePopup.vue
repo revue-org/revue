@@ -55,7 +55,7 @@ const retrieveThingInfos = () => {
 }
 
 const addNewDevice = () => {
-  if(!ip.value || !port.value || !locationId.value) {
+  if (!ip.value || !port.value || !locationId.value) {
     popNegative($q, 'Please fill all fields')
     return
   }

@@ -9,7 +9,6 @@ export class ZodLocationPresenter implements LocationPresenter {
   private readonly roomUpdateSchema
   private readonly roomInsertionSchema
 
-
   constructor() {
     this.buildingSchema = z.object({
       description: z.string(),

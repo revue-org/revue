@@ -4,7 +4,6 @@ import { IntrusionRule, RangeRule, TimeSlot } from '@/domain/core'
 import { Contact, Measure } from 'common/dist/domain/core'
 
 export class RangeRuleAdapter {
-
   static asDomainEvent(rangeRule: object): RangeRule {
     const rangeRuleMessage = rangeRuleSchema.parse(rangeRule)
     const contacts: Contact[] = rangeRuleMessage.contacts.map((contact: any) => {
@@ -36,7 +35,6 @@ export class RangeRuleAdapter {
 }
 
 export class IntrusionRuleAdapter {
-
   static asDomainEvent(intrusionRule: object): IntrusionRule {
     const intrusionRuleMessage = intrusionRuleSchema.parse(intrusionRule)
     const contacts: Contact[] = intrusionRuleMessage.contacts.map((contact: any) => {

@@ -7,7 +7,6 @@ import { Measure } from '@common/domain/core'
 import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 import { alarmService } from '@/setup.js'
 
-
 export const securityRuleController = {
   getSecurityRuleById: async (id: string): Promise<SecurityRule> => {
     return alarmService.getSecurityRuleById(SecurityRulesFactory.idOf(id))

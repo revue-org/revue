@@ -47,7 +47,7 @@ export default class KafkaConsumer {
     const kafka: Kafka = new Kafka({
       clientId: this.kafkaOptions.clientId,
       brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`),
-      logLevel: getLogLevel(),
+      logLevel: getLogLevel()
     })
     return kafka.consumer({ groupId: this.kafkaOptions.groupId! })
   }

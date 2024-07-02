@@ -26,7 +26,8 @@ export class KafkaNotificationEventsHub {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
-      }).then((): void => console.log('Consumer started'))
+      })
+      .then((): void => console.log('Consumer started'))
   }
 
   publishNotification(notification: Notification) {

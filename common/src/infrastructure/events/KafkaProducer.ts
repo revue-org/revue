@@ -22,8 +22,8 @@ export default class KafkaProducer {
   }
 
   public async shutdown(): Promise<void> {
-      await this.producer.disconnect()
-      this.producerStarted = false
+    await this.producer.disconnect()
+    this.producerStarted = false
   }
 
   public produce(topic: string, message: object): void {
@@ -52,7 +52,7 @@ export default class KafkaProducer {
     const kafka: Kafka = new Kafka({
       clientId: this.kafkaOptions.clientId,
       brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`),
-      logLevel: getLogLevel(),
+      logLevel: getLogLevel()
     })
     return kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
   }

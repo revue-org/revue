@@ -13,4 +13,7 @@ const kafkaOptions: KafkaOptions = {
   groupId: 'alarmConsumer'
 }
 
-export const alarmService: AlarmService = new AlarmServiceImpl(new MongoDBSecurityRuleRepository(), new KafkaAlarmEventsHub(kafkaOptions))
+export const alarmService: AlarmService = new AlarmServiceImpl(
+  new MongoDBSecurityRuleRepository(),
+  new KafkaAlarmEventsHub(kafkaOptions)
+)

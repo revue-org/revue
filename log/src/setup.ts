@@ -18,5 +18,11 @@ const kafkaOptions: KafkaOptions = {
 }
 
 const logEventsHub: LogEventsHub = new KafkaLogEventsHub(kafkaOptions)
-export const anomalyService: AnomalyService = new AnomalyServiceImpl(new MongoDBAnomalyRepository(), logEventsHub)
-export const measurementService: MeasurementService = new MeasurementServiceImpl(new MongoDBMeasurementRepository(), logEventsHub)
+export const anomalyService: AnomalyService = new AnomalyServiceImpl(
+  new MongoDBAnomalyRepository(),
+  logEventsHub
+)
+export const measurementService: MeasurementService = new MeasurementServiceImpl(
+  new MongoDBMeasurementRepository(),
+  logEventsHub
+)

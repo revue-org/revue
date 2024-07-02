@@ -63,7 +63,7 @@ router
   .get(async (req: Request, res: Response) => {
     try {
       const buildings = await locationsController.getBuildings()
-      buildings.forEach((building) => {
+      buildings.forEach(building => {
         locationPresenter.parse(building)
       })
       res.status(HttpStatusCode.OK).json(buildings)
@@ -84,12 +84,7 @@ router
 router.route('/buildings/:id').put(async (req: Request, res: Response) => {
   try {
     const msg: BuildingInsertion = locationPresenter.parseBuildingInsertion(req.body)
-    await locationsController.updateBuilding(
-      req.params.id,
-      msg.description,
-      msg.address,
-      msg.external
-    )
+    await locationsController.updateBuilding(req.params.id, msg.description, msg.address, msg.external)
     res.status(HttpStatusCode.OK).json()
   } catch (error) {
     res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
@@ -99,7 +94,7 @@ router.route('/buildings/:id').put(async (req: Request, res: Response) => {
 router.route('/buildings/:buildingId/rooms').get(async (req: Request, res: Response) => {
   try {
     const rooms = await locationsController.getBuildingRooms(req.params.buildingId)
-    rooms.forEach((room) => {
+    rooms.forEach(room => {
       locationPresenter.parse(room)
     })
     res.status(HttpStatusCode.OK).json(rooms)

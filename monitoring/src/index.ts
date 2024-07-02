@@ -66,7 +66,10 @@ const kafkaOptions: KafkaOptions = {
 
 const kafkaMonitoring: KafkaMonitoringEventsHub = new KafkaMonitoringEventsHub(kafkaOptions)
 const socketMonitoring: SocketMonitoringEventsHub = new SocketMonitoringEventsHub(io)
-const monitoringEventsHub: MonitoringEventsHub = new MonitoringEventsHubImpl(kafkaMonitoring, socketMonitoring)
+const monitoringEventsHub: MonitoringEventsHub = new MonitoringEventsHubImpl(
+  kafkaMonitoring,
+  socketMonitoring
+)
 const monitoringService: MonitoringService = new MonitoringServiceImpl(monitoringEventsHub)
 
 if (process.env.NODE_ENV !== 'test') {

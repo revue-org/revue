@@ -63,8 +63,9 @@ export class AlarmServiceImpl implements AlarmService {
   private createIntrusion(detection: Detection, intrusionRule: IntrusionRule): Intrusion {
     return {
       id: SecurityRulesFactory.newId(),
+      type: 'intrusion',
       timestamp: detection.timestamp,
-      detectionId: detection.id,
+      detection: detection,
       intrusionRuleId: intrusionRule.id.value
     } as Intrusion
   }
@@ -72,8 +73,9 @@ export class AlarmServiceImpl implements AlarmService {
   private createOutlier(measurement: Measurement, rangeRule: RangeRule): Outlier {
     return {
       id: SecurityRulesFactory.newId(),
+      type: 'outlier',
       timestamp: measurement.timestamp,
-      measurementId: measurement.id,
+      measurement: measurement,
       rangeRuleId: rangeRule.id.value
     } as Outlier
   }

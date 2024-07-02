@@ -1,15 +1,15 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { type Ref,onMounted, ref } from 'vue'
+import { type Ref, onMounted, ref } from 'vue'
 import DeviceBadge from '@/components/devices/DeviceBadge.vue'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
-import RequestHelper, { deviceHost, devicePort } from "@/utils/RequestHelper";
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
 import { useQuasar } from 'quasar'
 import { composeDevice } from '@/presentation/ComposeDevice'
-import type { Device } from "@/domain/core/Device";
-import { useUserStore } from "@/stores/user";
-import HttpStatusCode from "common/dist/utils/HttpStatusCode";
-import NewDevicePopup from "@/components/devices/NewDevicePopup.vue";
+import type { Device } from '@/domain/core/Device'
+import { useUserStore } from '@/stores/user'
+import HttpStatusCode from 'common/dist/utils/HttpStatusCode'
+import NewDevicePopup from '@/components/devices/NewDevicePopup.vue'
 
 const devices: Ref<Device[]> = ref([])
 const $q = useQuasar()
@@ -68,10 +68,7 @@ const newPopupVisible = ref<boolean>(false)
     />
   </div>
 
-  <new-device-popup
-    v-model="newPopupVisible"
-    @get-devices="getDevices"
-  ></new-device-popup>
+  <new-device-popup v-model="newPopupVisible" @get-devices="getDevices"></new-device-popup>
 </template>
 
 <style scoped lang="scss">

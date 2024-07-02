@@ -11,9 +11,9 @@ import {
   CapabilityType,
   type SensoringCapability,
   type VideoStreamingCapability
-} from "@/domain/core/Capability";
-import UpdateDevicePopup from "@/components/devices/UpdateDevicePopup.vue";
-import CapabilityPopup from "@/components/devices/CapabilityPopup.vue";
+} from '@/domain/core/Capability'
+import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
+import CapabilityPopup from '@/components/devices/CapabilityPopup.vue'
 
 const { device } = defineProps<{
   device: Device
@@ -108,10 +108,7 @@ const deleteDevice = () => {
           }"
         >
           {{ capability.type.toUpperCase() }}
-          <capability-popup
-            v-model="capabilityPopupVisible"
-            :capability="capability"
-          ></capability-popup>
+          <capability-popup v-model="capabilityPopupVisible" :capability="capability"></capability-popup>
         </q-badge>
       </li>
       <li class="actions">
@@ -135,10 +132,10 @@ const deleteDevice = () => {
     </ul>
   </div>
   <update-device-popup
-      v-model="updatePopupVisible"
-      :device="device"
-      @get-devices="emit('get-devices')"
-    ></update-device-popup>
+    v-model="updatePopupVisible"
+    :device="device"
+    @get-devices="emit('get-devices')"
+  ></update-device-popup>
 </template>
 
 <style scoped lang="scss">

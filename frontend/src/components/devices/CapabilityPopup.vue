@@ -4,7 +4,7 @@ import {
   CapabilityType,
   type SensoringCapability,
   type VideoStreamingCapability
-} from "@/domain/core/Capability";
+} from '@/domain/core/Capability'
 
 defineProps<{
   capability: Capability
@@ -35,7 +35,7 @@ defineProps<{
         <q-input disable dense v-model="(capability as VideoStreamingCapability).resolution" />
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn flat label="OK" v-close-popup class="bg-white text-teal"/>
+        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" />
       </q-card-actions>
     </q-card>
   </q-dialog>

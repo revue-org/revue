@@ -3,7 +3,7 @@ import { Measurement } from 'common/dist/domain/core/Measurement'
 import { MeasurementRepository } from '@/application/repositories/MeasurementRepository'
 import { DomainEventId } from 'common/dist/domain/core/DomainEventId'
 import { NumericMeasurementDBEntity } from '@/infrastructure/storage/models/NumericMeasurementModel'
-import {NumericMeasurementDBAdapter} from '@/infrastructure/storage/models/NumericMeasurementModel.js'
+import { NumericMeasurementDBAdapter } from '@/infrastructure/storage/models/NumericMeasurementModel.js'
 import { numericMeasurementSchema } from '@/infrastructure/storage/schemas/NumericMeasurementSchema.js'
 
 export class MongoDBMeasurementRepository implements MeasurementRepository {

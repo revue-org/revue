@@ -19,7 +19,7 @@ const deleteNotification = () => {
 
 <template>
   <p>ciao</p>
-<!--  <li>
+  <!--  <li>
     <q-icon
       v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA"
       size="28px"

@@ -70,7 +70,7 @@ router
           msg.rule.maxValue,
           msg.validityStart,
           msg.validityEnd,
-          msg.contacts,
+          msg.contacts
         )
         .then((): void => {
           res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })

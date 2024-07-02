@@ -28,28 +28,32 @@ export class KafkaMonitoringEventsHub {
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
-    this.getTopics().then((topics: string[]): void => {
-      console.log(topics)
-      this.measurementsConsumer
-        .startConsuming(topics, false, (message: KafkaMessage): void => {
-          if (message.value) {
-            try {
-              console.log('Message received')
-              const messageValue = JSON.parse(message.value?.toString())
-              messageValue.timestamp = new Date(messageValue.timestamp)
-              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(messageValue)
-              handler(measurement)
-            } catch (e) {
-              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
-              console.log(e)
+    this.getTopics()
+      .then((topics: string[]): void => {
+        console.log(topics)
+        this.measurementsConsumer
+          .startConsuming(topics, false, (message: KafkaMessage): void => {
+            if (message.value) {
+              try {
+                console.log('Message received')
+                const messageValue = JSON.parse(message.value?.toString())
+                messageValue.timestamp = new Date(messageValue.timestamp)
+                const measurement: Measurement = MeasurementsAdapter.asDomainEvent(messageValue)
+                handler(measurement)
+              } catch (e) {
+                console.log(
+                  'Error parsing measurement, message ignored because is not compliant to the schema'
+                )
+                console.log(e)
+              }
             }
-          }
-        })
-        .then((): void => console.log('Measurements consumer started'))
-    }).catch((e: any): void => {
-      console.log('Error getting topics, retrying in 10 seconds')
-      setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
-    })
+          })
+          .then((): void => console.log('Measurements consumer started'))
+      })
+      .catch((e: any): void => {
+        console.log('Error getting topics, retrying in 10 seconds')
+        setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
+      })
   }
 
   addMeasurementTopics(topics: string[]): void {

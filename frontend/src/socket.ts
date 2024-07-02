@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { io, Socket } from 'socket.io-client'
-import { monitoringHost, monitoringPort, notificationHost, notificationPort } from "@/utils/RequestHelper";
+import { monitoringHost, monitoringPort, notificationHost, notificationPort } from '@/utils/RequestHelper'
 
 export const monitoringSocketState = reactive({
   connected: false

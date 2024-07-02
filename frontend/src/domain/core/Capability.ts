@@ -1,4 +1,4 @@
-import { MeasureType } from "common/dist/domain/core";
+import { MeasureType } from 'common/dist/domain/core'
 
 export enum CapabilityType {
   SENSOR = 'sensor',

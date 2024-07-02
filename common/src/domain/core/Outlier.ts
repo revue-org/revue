@@ -1,10 +1,10 @@
 import { Anomaly } from './Anomaly.js'
-import { DomainEventId } from './DomainEventId'
+import { DomainEvent } from './DomainEvent.js'
 
 export interface Outlier extends Anomaly {
   readonly type: 'outlier'
 
-  readonly measurementId: DomainEventId
+  readonly measurement: DomainEvent
 
   readonly rangeRuleId: string
 }

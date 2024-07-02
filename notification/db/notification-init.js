@@ -3,25 +3,35 @@ db.createCollection('notification')
 
 db.notification.insertMany([
   {
-    id: 'test-outlier-notification-id',
+    id: 'test-range-notification-id',
     type: 'outlier',
     timestamp: new Date(),
     event: {
-      id: 'test-event-id',
-      rangeRuleId: 'test-range-rule-id',
-      measurementId: 'test-measurement-id'
+      type: 'measurement',
+      timestamp: new Date(),
+      sourceDeviceId: 'test-source-device-id',
+      measurementId: 'test-measurement-id',
+      measure: {
+        type: 'temperature',
+        unit: 'celsius'
+      },
+      value: 20,
+      rangeRuleId: 'test-range-rule-id'
     },
-    message: 'test-message'
+    message: 'test-range-message'
   },
   {
     id: 'test-intrusion-notification-id',
     type: 'intrusion',
     timestamp: new Date(),
     event: {
-      id: 'test-event-id',
-      intrusionRuleId: 'test-intrusion-rule-id',
-      detectionId: 'test-detection-id'
+      type: 'detection',
+      timestamp: new Date(),
+      sourceDeviceId: 'test-source-device-id',
+      detectionId: 'test-detection-id',
+      objectClass: 'person',
+      intrusionRuleId: 'test-intrusion-rule-id'
     },
-    message: 'test-message'
+    message: 'test-intrusion-message'
   }
 ])

@@ -1,10 +1,16 @@
 import { Notification } from '@/domain/core/Notification'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory.js'
 import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory.js'
-import { Outlier } from '@common/domain/core/Outlier'
-import { Intrusion } from '@common/domain/core/Intrusion'
-import { DetectionFactory, MeasureFactory, MeasurementFactory } from 'common/dist/domain/factories'
-import { Detection, Measurement, MeasureType, MeasureUnit, ObjectClass } from 'common/dist/domain/core'
+import { Outlier } from '@common/domain/core/Outlier.js'
+import { Intrusion } from '@common/domain/core/Intrusion.js'
+import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
+import { DetectionFactory } from '@common/domain/factories/DetectionFactory.js'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
+import { Detection } from "@common/domain/core/Detection.js";
+import { MeasureType } from "@common/domain/core/MeasureType.js";
+import { MeasureUnit } from "@common/domain/core/MeasureUnit.js";
+import { ObjectClass } from "@common/domain/core/ObjectClass.js";
+import { Measurement } from "@common/domain/core/Measurement.js";
 
 export interface NotificationDBEntity {
   id: string
@@ -40,8 +46,8 @@ export class NotificationDBAdapter {
             notification.event.timestamp,
             notification.event.sourceDeviceId,
             MeasureFactory.createMeasure(
-              MeasureType[notification.event.measure!.type as keyof typeof MeasureType],
-              MeasureUnit[notification.event.measure!.unit as keyof typeof MeasureUnit]
+              notification.event.measure!.type as MeasureType,
+              notification.event.measure!.unit as MeasureUnit
             ),
             notification.event.value!
           ),

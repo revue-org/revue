@@ -4,8 +4,7 @@ plugins {
 }
 
 rootProject.name = "revue"
-
-include(
+val subprojects = listOf(
     "common",
     "alarm",
     "auth",
@@ -18,6 +17,7 @@ include(
     "recognition",
     "frontend",
 )
+subprojects.forEach { include(":$it") }
 
 if (File(System.getProperty("user.dir") + "/.git").exists()) {
     gitHooks {

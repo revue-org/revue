@@ -12,8 +12,11 @@ jobs:
   build:
     strategy:
       matrix:
-        os: ['ubuntu', 'macos', 'windows']
-    runs-on: ${{ matrix.os }}-latest
+        os:
+          - ubuntu-22.04
+          - macos
+          - windows-2022
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17

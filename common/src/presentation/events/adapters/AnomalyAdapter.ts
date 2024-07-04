@@ -5,16 +5,16 @@ import { Detection } from '../../../domain/core/Detection.js'
 import { MeasureType } from '../../../domain/core/MeasureType.js'
 import { MeasureUnit } from '../../../domain/core/MeasureUnit.js'
 import { ObjectClass } from '../../../domain/core/ObjectClass.js'
-import { AnomalyFactory} from "../../../domain/factories/AnomalyFactory.js";
-import { DetectionFactory } from "../../../domain/factories/DetectionFactory.js";
-import { MeasurementFactory } from "../../../domain/factories/MeasurementFactory.js";
-import { MeasureFactory } from "../../../domain/factories/MeasureFactory.js";
-import { AnomalyMessage, anomalySchema } from '../schemas/AnomalySchema.js'
-import { NumericMeasurement } from "../../../domain/core/NumericMeasurement.js";
+import { AnomalyFactory } from '../../../domain/factories/AnomalyFactory.js'
+import { DetectionFactory } from '../../../domain/factories/DetectionFactory.js'
+import { MeasurementFactory } from '../../../domain/factories/MeasurementFactory.js'
+import { MeasureFactory } from '../../../domain/factories/MeasureFactory.js'
+import { AnomalySchema, anomalySchema } from '../../schemas/AnomalySchema.js'
+import { NumericMeasurement } from '../../../domain/core/NumericMeasurement.js'
 
 export class AnomaliesAdapter {
   static asDomainEvent(anomalyObj: object): Anomaly {
-    const anomalyMessage: AnomalyMessage = anomalySchema.parse(anomalyObj)
+    const anomalyMessage: AnomalySchema = anomalySchema.parse(anomalyObj)
     if (anomalyMessage.type === 'intrusion') {
       return AnomalyFactory.createIntrusion(
         anomalyMessage.timestamp,
@@ -46,7 +46,7 @@ export class AnomaliesAdapter {
     }
   }
 
-  static asMessage(anomaly: Anomaly): AnomalyMessage {
+  static asMessage(anomaly: Anomaly): AnomalySchema {
     if (anomaly.type == 'outlier') {
       const outlier: Outlier = anomaly as Outlier
       const measurement: NumericMeasurement = outlier.measurement as NumericMeasurement

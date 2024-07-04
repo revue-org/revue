@@ -1,5 +1,5 @@
 import { DeviceEvent } from '../../../domain/core'
-import { DeviceMessage, deviceSchema } from '../schemas/DeviceSchema.js'
+import { DeviceMessage, deviceSchema } from '../../schemas/DeviceSchema.js'
 import { DeviceEventFactory } from '../../../domain/factories/DeviceEventFactory.js'
 
 export class DevicesAdapter {

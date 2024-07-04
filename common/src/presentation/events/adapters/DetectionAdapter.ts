@@ -1,4 +1,4 @@
-import { detectionSchema } from '../schemas/DetectionSchema.js'
+import { detectionSchema } from '../../schemas/DetectionSchema.js'
 import { Detection } from '../../../domain/core'
 
 export class DetectionsAdapter {

@@ -5,11 +5,11 @@ import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
-import { AnomalyMessage } from '@presentation/events/schemas/AnomalySchema.js'
 import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter.js'
 import { DetectionsAdapter } from '@presentation/events/adapters/DetectionAdapter.js'
 import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
 import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
+import { AnomalySchema } from '@common/presentation/schemas/AnomalySchema'
 
 export class KafkaAlarmEventsHub implements AlarmEventsHub {
   private measurementsConsumer: KafkaConsumer
@@ -40,7 +40,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   }
 
   publishAnomaly(anomaly: Anomaly): void {
-    const anomalyMessage: AnomalyMessage = AnomaliesAdapter.asMessage(anomaly)
+    const anomalyMessage: AnomalySchema = AnomaliesAdapter.asMessage(anomaly)
     this.anomalyProducer.produce('anomalies', anomalyMessage)
   }
 

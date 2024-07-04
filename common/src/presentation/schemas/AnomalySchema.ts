@@ -1,6 +1,6 @@
 import { z, ZodType } from 'zod'
 
-export type AnomalyMessage = {
+export type AnomalySchema = {
   id: string
   type: 'outlier' | 'intrusion'
   timestamp: Date
@@ -21,7 +21,7 @@ export type AnomalyMessage = {
   }
 }
 
-export const anomalySchema: ZodType<AnomalyMessage> = z.object({
+export const anomalySchema: ZodType<AnomalySchema> = z.object({
   id: z.string(),
   type: z.enum(['outlier', 'intrusion']),
   timestamp: z.date(),

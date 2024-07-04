@@ -1,10 +1,10 @@
 import { DeviceEventsHub } from '@/application/services/DeviceEventsHub'
-import { DeviceAdded } from 'common/dist/domain/core/DeviceAdded'
-import { DeviceRemoved } from 'common/dist/domain/core/DeviceRemoved'
+import { DeviceAdded } from '@common/domain/core/DeviceAdded'
+import { DeviceRemoved } from '@common/domain/core/DeviceRemoved'
 import { KafkaOptions } from '@infrastructure/events/KafkaOptions'
 import KafkaProducer from '@infrastructure/events/KafkaProducer.js'
-import { DeviceMessage } from '@presentation/events/schemas/DeviceSchema'
 import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
+import { DeviceMessage } from '@common/presentation/schemas/DeviceSchema'
 
 export class KafkaDeviceEventsHub implements DeviceEventsHub {
   private deviceProducer: KafkaProducer

@@ -2,9 +2,9 @@ import { DeviceEvent, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
-import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
+import { MeasurementPresenter } from '@presentation/MeasurementPresenter.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
-import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
+import { DevicePresenter } from '@presentation/DevicePresenter.js'
 
 export class KafkaMonitoringEventsHub {
   private readonly measurementsConsumer: KafkaConsumer
@@ -38,7 +38,7 @@ export class KafkaMonitoringEventsHub {
                 console.log('Message received')
                 const messageValue = JSON.parse(message.value?.toString())
                 messageValue.timestamp = new Date(messageValue.timestamp)
-                const measurement: Measurement = MeasurementsAdapter.asDomainEvent(messageValue)
+                const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
                 handler(measurement)
               } catch (e) {
                 console.log(
@@ -65,7 +65,7 @@ export class KafkaMonitoringEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const event: DeviceEvent = DevicesAdapter.asDomainEvent(message.value)
+            const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
             handler(event)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')

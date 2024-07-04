@@ -5,10 +5,10 @@ import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
-import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter.js'
-import { DetectionsAdapter } from '@presentation/events/adapters/DetectionAdapter.js'
-import { MeasurementsAdapter } from '@presentation/events/adapters/MeasurementAdapter.js'
-import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
+import { AnomalyPresenter } from '@presentation/AnomalyPresenter.js'
+import { DetectionPresenter } from '@presentation/DetectionPresenter.js'
+import { MeasurementPresenter } from '@presentation/MeasurementPresenter.js'
+import { DevicePresenter } from '@presentation/DevicePresenter.js'
 import { AnomalySchema } from '@common/presentation/schemas/AnomalySchema'
 
 export class KafkaAlarmEventsHub implements AlarmEventsHub {
@@ -40,7 +40,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   }
 
   publishAnomaly(anomaly: Anomaly): void {
-    const anomalyMessage: AnomalySchema = AnomaliesAdapter.asMessage(anomaly)
+    const anomalyMessage: AnomalySchema = AnomalyPresenter.asMessage(anomaly)
     this.anomalyProducer.produce('anomalies', anomalyMessage)
   }
 
@@ -50,7 +50,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
+              const measurement: Measurement = MeasurementPresenter.asDomainEvent(message.value)
               handler(measurement)
             } catch (e) {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
@@ -71,7 +71,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const detection: Detection = DetectionsAdapter.asDomainEvent(message.value)
+              const detection: Detection = DetectionPresenter.asDomainEvent(message.value)
               handler(detection)
             } catch (e) {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
@@ -87,7 +87,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const event: DeviceEvent = DevicesAdapter.asDomainEvent(message.value)
+            const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
             handler(event)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')

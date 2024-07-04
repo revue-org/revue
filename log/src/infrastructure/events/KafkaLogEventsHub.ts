@@ -3,10 +3,10 @@ import { Anomaly, DeviceEvent, Measurement } from '@common/domain/core'
 import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
-import { MeasurementsAdapter } from '@common/presentation/events/adapters/MeasurementAdapter.js'
+import { MeasurementPresenter } from '@common/presentation/MeasurementPresenter.js'
 import RequestHelper, { deviceHost, devicePort } from '@common/utils/RequestHelper.js'
-import { AnomaliesAdapter } from '@common/presentation/events/adapters/AnomalyAdapter.js'
-import { DevicesAdapter } from '@common/presentation/events/adapters/DeviceAdapter.js'
+import { AnomalyPresenter } from '@common/presentation/AnomalyPresenter.js'
+import { DevicePresenter } from '@common/presentation/DevicePresenter.js'
 
 export class KafkaLogEventsHub implements LogEventsHub {
   private measurementsConsumer: KafkaConsumer
@@ -34,7 +34,7 @@ export class KafkaLogEventsHub implements LogEventsHub {
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const measurement: Measurement = MeasurementsAdapter.asDomainEvent(message.value)
+              const measurement: Measurement = MeasurementPresenter.asDomainEvent(message.value)
               handler(measurement)
             } catch (e) {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
@@ -54,7 +54,7 @@ export class KafkaLogEventsHub implements LogEventsHub {
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const anomaly: Anomaly = AnomaliesAdapter.asDomainEvent(message.value)
+            const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(message.value)
             handler(anomaly)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
@@ -69,7 +69,7 @@ export class KafkaLogEventsHub implements LogEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const event: DeviceEvent = DevicesAdapter.asDomainEvent(message.value)
+            const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
             handler(event)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')

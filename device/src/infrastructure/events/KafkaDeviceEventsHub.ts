@@ -3,7 +3,7 @@ import { DeviceAdded } from '@common/domain/core/DeviceAdded'
 import { DeviceRemoved } from '@common/domain/core/DeviceRemoved'
 import { KafkaOptions } from '@infrastructure/events/KafkaOptions'
 import KafkaProducer from '@infrastructure/events/KafkaProducer.js'
-import { DevicesAdapter } from '@presentation/events/adapters/DeviceAdapter.js'
+import { DevicePresenter } from '@presentation/DevicePresenter.js'
 import { DeviceMessage } from '@common/presentation/schemas/DeviceSchema'
 
 export class KafkaDeviceEventsHub implements DeviceEventsHub {
@@ -15,13 +15,13 @@ export class KafkaDeviceEventsHub implements DeviceEventsHub {
 
   publishDeviceAdded(addition: DeviceAdded): void {
     console.log(addition)
-    const additionMessage: DeviceMessage = DevicesAdapter.asMessage(addition)
+    const additionMessage: DeviceMessage = DevicePresenter.asMessage(addition)
     this.deviceProducer.produce('devices', additionMessage)
   }
 
   publishDeviceRemoved(removal: DeviceRemoved): void {
     console.log(removal)
-    const removalMessage: DeviceMessage = DevicesAdapter.asMessage(removal)
+    const removalMessage: DeviceMessage = DevicePresenter.asMessage(removal)
     this.deviceProducer.produce('devices', removalMessage)
   }
 }

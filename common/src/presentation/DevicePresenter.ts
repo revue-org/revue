@@ -1,8 +1,8 @@
-import { DeviceEvent } from '../../../domain/core'
-import { DeviceMessage, deviceSchema } from '../../schemas/DeviceSchema.js'
-import { DeviceEventFactory } from '../../../domain/factories/DeviceEventFactory.js'
+import { DeviceEvent } from '../domain/core'
+import { DeviceMessage, deviceSchema } from './schemas/DeviceSchema.js'
+import { DeviceEventFactory } from '../domain/factories/DeviceEventFactory.js'
 
-export class DevicesAdapter {
+export class DevicePresenter {
   static asDomainEvent(deviceObj: object): DeviceEvent {
     const deviceMessage: DeviceMessage = deviceSchema.parse(deviceObj)
     if (deviceMessage.type === 'addition') {

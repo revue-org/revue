@@ -3,7 +3,7 @@ import { KafkaMessage } from 'kafkajs'
 import KafkaConsumer from '@common/infrastructure/events/KafkaConsumer.js'
 import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
 import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions'
-import { AnomaliesAdapter } from '@presentation/events/adapters/AnomalyAdapter.js'
+import { AnomalyPresenter } from '@presentation/AnomalyPresenter.js'
 import { Notification } from '@/domain/core/Notification'
 
 export class KafkaNotificationEventsHub {
@@ -20,7 +20,7 @@ export class KafkaNotificationEventsHub {
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const anomaly: Anomaly = AnomaliesAdapter.asDomainEvent(message.value)
+            const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(message.value)
             handler(anomaly)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')

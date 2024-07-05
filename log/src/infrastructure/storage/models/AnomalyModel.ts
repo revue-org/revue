@@ -7,7 +7,6 @@ import { MeasureType } from '@common/domain/core/MeasureType.js'
 import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 
-
 export interface AnomalyDBEntity {
   id: string
   type: string

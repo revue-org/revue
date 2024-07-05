@@ -13,7 +13,9 @@ export class MeasurementServiceImpl implements MeasurementService {
   constructor(repository: MeasurementRepository, events: LogEventsHub) {
     this.repository = repository
     this.events = events
-    this.configureEvents()
+    if (process.env.NODE_ENV !== 'test') {
+      this.configureEvents()
+    }
   }
 
   private configureEvents(): void {

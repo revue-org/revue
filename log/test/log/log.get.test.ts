@@ -31,7 +31,7 @@ describe('GET /anomalies/', (): void => {
     it('retrieve the intrusion with the current id', async (): Promise<void> => {
       // @ts-ignore
       const intrusions: Response = await logService
-        .get('/anomalies/intrusions/intrusion-test-id')
+        .get('/anomalies/test-id-1')
         .set('Authorization', `Bearer ${TOKEN}`)
       expect(intrusions.status).toBe(HttpStatusCode.OK)
       expect(intrusions.type).toBe('application/json')
@@ -56,10 +56,10 @@ describe('GET /anomalies/', (): void => {
       expect(outliers.type).toBe('application/json')
     })
 
-    it('retrieve the intrusion with the current id', async (): Promise<void> => {
+    it('retrieve the outlier with the current id', async (): Promise<void> => {
       // @ts-ignore
       const outliers: Response = await logService
-        .get('/anomalies/outliers/outlier-test-id')
+        .get('/anomalies/test-id-2')
         .set('Authorization', `Bearer ${TOKEN}`)
       expect(outliers.status).toBe(HttpStatusCode.OK)
       expect(outliers.type).toBe('application/json')

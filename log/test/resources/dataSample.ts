@@ -10,8 +10,8 @@ export const measurementSample = {
 }
 
 export const intrusionSample = {
-  id: 'test-id',
-  type: 'test-type',
+  id: 'test-id-1',
+  type: 'intrusion',
   timestamp: '2021-09-01T21:00:00.000Z',
   data: {
     detectionId: 'test-detection-id',
@@ -20,8 +20,8 @@ export const intrusionSample = {
 }
 
 export const outlierSample = {
-  id: 'test-id',
-  type: 'test-type',
+  id: 'test-id-2',
+  type: 'outlier',
   timestamp: '2021-09-01T21:00:00.000Z',
   data: {
     measurementId: 'test-measurement-id',

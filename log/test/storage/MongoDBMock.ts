@@ -22,7 +22,7 @@ export const disconnectFromMock = async (): Promise<void> => {
   }
 }
 
-export const populateDevices = async (): Promise<void> => {
+export const populateLog = async (): Promise<void> => {
   const modelAnomalies = mongoose.model<AnomalyDBEntity>('AnomalySchema', anomalySchema, 'anomaly')
   const modelMeasurements = mongoose.model<NumericMeasurementDBEntity>(
     'NumericMeasurementSchema',

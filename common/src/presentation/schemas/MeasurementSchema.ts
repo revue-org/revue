@@ -2,7 +2,7 @@ import { z, ZodType } from 'zod'
 import { Measurement } from '../../domain/core'
 import { MeasureType } from '../../domain/core/MeasureType.js'
 import { MeasureUnit } from '../../domain/core/MeasureUnit.js'
-import { deviceEventSchema } from './DeviceEventSchema'
+import { deviceEventSchema } from './DeviceEventSchema.js'
 
 export const measurementSchema: ZodType<Measurement> = deviceEventSchema.extend({
   type: z.literal('measurement'),

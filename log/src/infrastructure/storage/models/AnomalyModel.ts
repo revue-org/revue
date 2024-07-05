@@ -1,16 +1,12 @@
-import {
-  Anomaly,
-  Detection,
-  Intrusion,
-  Measurement,
-  MeasureType,
-  MeasureUnit,
-  ObjectClass,
-  Outlier
-} from '@common/domain/core'
+import { Anomaly, Detection, Intrusion, Measurement, Outlier } from '@common/domain/core'
 import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory.js'
 import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
-import { DetectionFactory, MeasureFactory } from 'common/dist/domain/factories'
+import { DetectionFactory } from '@common/domain/factories/DetectionFactory.js'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
+import { MeasureType } from '@common/domain/core/MeasureType.js'
+import { ObjectClass } from '@common/domain/core/ObjectClass.js'
+import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
+
 
 export interface AnomalyDBEntity {
   id: string

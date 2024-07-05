@@ -19,5 +19,4 @@ export class ZodNotificationPresenter implements NotificationPresenter {
   parse(obj: object): Notification {
     return this.notificationSchema.parse(obj)
   }
-
 }

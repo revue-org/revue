@@ -8,7 +8,7 @@ export const outlierSample = {
     timestamp: '2020-01-01T10:00:00.000Z',
     measure: {
       type: 'temperature',
-      unit: 'celsius',
+      unit: 'celsius'
     },
     sourceDeviceId: 'source-device-test-id',
     rangeRuleId: 'range-rule-test-id',

@@ -34,33 +34,32 @@ describe('GET /notifications/', (): void => {
     expect(notification.status).toBe(HttpStatusCode.OK)
     expect(notification.type).toBe('application/json')
     expect(notification.body).toStrictEqual({
-        event: {
-          id: {
-            value: 'test'
-          },
-          measurement: {
-            id: {
-              value: 'measurement-test-id'
-            },
-            measure: {
-              type: 'temperature',
-              unit: 'celsius'
-            },
-            sourceDeviceId: 'source-device-test-id',
-            timestamp: '2020-01-01T10:00:00.000Z',
-            type: 'measurement',
-            value: 10
-          },
-          rangeRuleId: 'range-rule-test-id',
-          timestamp: '2020-01-01T10:00:00.000Z',
-          type: 'outlier'
-        },
+      event: {
         id: {
-          value: 'outlier-test-id'
+          value: 'test'
         },
-        message: 'outlier-test-message'
-      }
-    )
+        measurement: {
+          id: {
+            value: 'measurement-test-id'
+          },
+          measure: {
+            type: 'temperature',
+            unit: 'celsius'
+          },
+          sourceDeviceId: 'source-device-test-id',
+          timestamp: '2020-01-01T10:00:00.000Z',
+          type: 'measurement',
+          value: 10
+        },
+        rangeRuleId: 'range-rule-test-id',
+        timestamp: '2020-01-01T10:00:00.000Z',
+        type: 'outlier'
+      },
+      id: {
+        value: 'outlier-test-id'
+      },
+      message: 'outlier-test-message'
+    })
   })
 
   it('responds with the outliers notifications', async (): Promise<void> => {

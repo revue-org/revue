@@ -6,6 +6,7 @@ import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Contact } from '@common/domain/core/Contact.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { rangeRuleSchema } from '@/presentation/api/schemas/SecurityRuleSchema.js'
+import * as console from 'node:console'
 
 export const router: Router = express.Router()
 
@@ -127,11 +128,11 @@ router
     controller
       .createIntrusionRule(
         req.body.activeOn,
-        req.body.creatorId,
+        req.body.author,
         req.body.description,
         req.body.objectClass,
-        new Date(req.body.from),
-        new Date(req.body.to),
+        new Date(req.body.validityStart),
+        new Date(req.body.validityEnd),
         req.body.contacts
       )
       .then((): void => {

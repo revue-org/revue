@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export class NotificationFactory {
   static newId(): NotificationId {
-    return { value: uuidv4()  }
+    return { value: uuidv4() }
   }
   static idOf(value: string): NotificationId {
     return { value }

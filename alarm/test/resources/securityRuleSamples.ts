@@ -1,7 +1,7 @@
 export const rangeRuleSample = {
   id: 'first-range-rule',
   type: 'range',
-  creatorId: 'test-creator-id', // 24 chars like an ObjectId
+  author: 'test-creator-id',
   activeOn: 'cam-01',
   description: 'This is a sample range rule description',
   validity: {
@@ -32,7 +32,7 @@ export const rangeRuleSample = {
 export const intrusionRuleSample = {
   id: 'first-intrusion-rule',
   type: 'intrusion',
-  creatorId: 'test-user-id',
+  author: 'test-user-id',
   activeOn: 'test-device-id',
   description: 'This is a sample intrusion rule description',
   validity: {

@@ -13,7 +13,13 @@ const kafkaOptions: KafkaOptions = {
   groupId: 'alarmConsumer'
 }
 
+let eventsHub
+
+if (process.env.NODE_ENV !== 'test') {
+  eventsHub = new KafkaAlarmEventsHub(kafkaOptions)
+}
+
 export const alarmService: AlarmService = new AlarmServiceImpl(
   new MongoDBSecurityRuleRepository(),
-  new KafkaAlarmEventsHub(kafkaOptions)
+  eventsHub as KafkaAlarmEventsHub
 )

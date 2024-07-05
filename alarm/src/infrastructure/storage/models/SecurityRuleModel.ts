@@ -9,7 +9,7 @@ import { ObjectClass } from '@common/domain/core/ObjectClass.js'
 export interface SecurityRuleDBEntity {
   id: string
   type: string
-  creatorId: string
+  author: string
   activeOn: string
   description: string
   validity: {
@@ -46,7 +46,7 @@ export class SecurityRuleDBAdapter {
       return SecurityRulesFactory.rangeRuleOf(
         SecurityRulesFactory.idOf(securityRule.id),
         securityRule.activeOn,
-        securityRule.creatorId,
+        securityRule.author,
         contacts,
         securityRule.description,
         SecurityRulesFactory.newTimeSlot(securityRule.validity.from, securityRule.validity.to),
@@ -59,7 +59,7 @@ export class SecurityRuleDBAdapter {
       return SecurityRulesFactory.intrusionRuleOf(
         SecurityRulesFactory.idOf(securityRule.id),
         securityRule.activeOn,
-        securityRule.creatorId,
+        securityRule.author,
         ObjectClass[securityRule.data.objectClass as keyof typeof ObjectClass],
         contacts,
         securityRule.description,
@@ -81,7 +81,7 @@ export class SecurityRuleDBAdapter {
       return {
         id: rule.id.value,
         type: 'range',
-        creatorId: rule.creatorId,
+        author: rule.creatorId,
         activeOn: rule.activeOn,
         description: rule.description,
         validity: {
@@ -101,7 +101,7 @@ export class SecurityRuleDBAdapter {
       return {
         id: rule.id.value,
         type: 'intrusion',
-        creatorId: rule.creatorId,
+        author: rule.creatorId,
         activeOn: rule.activeOn,
         description: rule.description,
         validity: {

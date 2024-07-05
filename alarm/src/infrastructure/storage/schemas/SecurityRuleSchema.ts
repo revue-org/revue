@@ -27,7 +27,7 @@ export const securityRuleSchema = new Schema({
     enum: ['intrusion', 'range'],
     required: true
   },
-  creatorId: {
+  author: {
     type: String,
     required: true
   },

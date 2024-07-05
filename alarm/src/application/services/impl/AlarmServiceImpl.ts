@@ -25,7 +25,7 @@ export class AlarmServiceImpl implements AlarmService {
   constructor(repository: SecurityRuleRepository, events: AlarmEventsHub) {
     this.repository = repository
     this.events = events
-    this.configureEvents()
+    //this.configureEvents()
   }
 
   private configureEvents(): void {

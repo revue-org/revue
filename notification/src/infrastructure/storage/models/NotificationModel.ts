@@ -6,11 +6,11 @@ import { Intrusion } from '@common/domain/core/Intrusion.js'
 import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
 import { DetectionFactory } from '@common/domain/factories/DetectionFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
-import { Detection } from "@common/domain/core/Detection.js";
-import { MeasureType } from "@common/domain/core/MeasureType.js";
-import { MeasureUnit } from "@common/domain/core/MeasureUnit.js";
-import { ObjectClass } from "@common/domain/core/ObjectClass.js";
-import { Measurement } from "@common/domain/core/Measurement.js";
+import { Detection } from '@common/domain/core/Detection.js'
+import { MeasureType } from '@common/domain/core/MeasureType.js'
+import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
+import { ObjectClass } from '@common/domain/core/ObjectClass.js'
+import { Measurement } from '@common/domain/core/Measurement.js'
 
 export interface NotificationDBEntity {
   id: string

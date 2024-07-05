@@ -5,7 +5,7 @@ import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('POST /security-rules', (): void => {
+describe('POST /rules', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateSecurityRules()
@@ -21,11 +21,11 @@ describe('POST /security-rules', (): void => {
       const newRangeRule = {
         id: 'post-range-rule',
         type: 'range',
-        creatorId: 'test-creator-id',
+        author: 'test-creator-id',
         activeOn: 'cam-01',
         description: 'This is the description of a range rule',
-        from: '2020-01-01',
-        to: '2020-01-02',
+        validityStart: '2020-01-01',
+        validityEnd: '2020-01-02',
         contacts: [
           {
             type: 'sms',
@@ -36,11 +36,13 @@ describe('POST /security-rules', (): void => {
             value: 'testmail@gmail.com'
           }
         ],
-        min: 2,
-        max: 15,
-        measure: {
-          type: 'temperature',
-          unit: 'celsius'
+        rule: {
+          minValue: 1,
+          maxValue: 10,
+          measure: {
+            type: 'temperature',
+            unit: 'celsius'
+          }
         },
         enabled: true
       }
@@ -67,11 +69,11 @@ describe('POST /security-rules', (): void => {
       const newIntrusionSecurityRule = {
         id: 'post-intrusion-rule',
         type: 'intrusion',
-        creatorId: 'test-user-id',
+        author: 'test-user-id',
         activeOn: 'test-device-id',
         description: 'This is the description of an intrusion rule',
-        from: '2020-01-01',
-        to: '2020-01-02',
+        validityStart: '2020-01-01',
+        validityEnd: '2020-01-02',
         contacts: [
           {
             type: 'sms',
@@ -82,9 +84,7 @@ describe('POST /security-rules', (): void => {
             value: 'testmail@gmail.com'
           }
         ],
-        data: {
-          objectClass: 'car'
-        },
+        objectClass: 'person',
         enabled: true
       }
       // @ts-ignore

@@ -1,9 +1,9 @@
 export const measurementSample = {
-  id: 'test-id',
+  id: 'test-measurement-id',
   sourceDeviceId: 'test-source-device-id',
   measure: {
-    type: 'test-type',
-    unit: 'test-unit'
+    type: 'temperature',
+    unit: 'celsius'
   },
   value: 10,
   timestamp: '2021-09-01T20:00:00.000Z'

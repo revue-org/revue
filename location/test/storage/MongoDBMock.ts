@@ -21,7 +21,7 @@ export const disconnectFromMock = async (): Promise<void> => {
 }
 
 export const populateLocations = async (): Promise<void> => {
-  const _model = mongoose.model<LocationDBEntity>('Location', locationSchema, 'device')
+  const _model = mongoose.model<LocationDBEntity>('Location', locationSchema, 'location')
   await _model.create(locationSample)
   await _model.create(locationSample1)
 }

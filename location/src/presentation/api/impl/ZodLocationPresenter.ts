@@ -16,7 +16,7 @@ export class ZodLocationPresenter implements LocationPresenter {
       external: z.boolean()
     })
     this.locationSchema = this.buildingSchema.extend({
-      locationId: z.object({
+      id: z.object({
         value: z.string()
       }),
       buildingId: z.object({

@@ -1,8 +1,8 @@
 import { LocationService } from '@/application/services/LocationService'
-import { LocationServiceImpl } from '@/application/services/LocationServiceImpl'
-import { MongoDBLocationRepository } from '@/infrastructure/storage/MongoDBLocationRepository'
+import { LocationServiceImpl } from '@/application/services/LocationServiceImpl.js'
+import { MongoDBLocationRepository } from '@/infrastructure/storage/MongoDBLocationRepository.js'
 import { Location } from '@/domain/core/Location'
-import { LocationFactory } from '@/domain/factories/LocationFactory'
+import { LocationFactory } from '@/domain/factories/LocationFactory.js'
 
 const service: LocationService = new LocationServiceImpl(new MongoDBLocationRepository())
 

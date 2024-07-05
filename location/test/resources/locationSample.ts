@@ -1,5 +1,5 @@
 export const locationSample = {
-  locationId: 'test-location-id',
+  id: 'test-location-id',
   description: 'location description',
   address: 'location address',
   external: true,
@@ -9,7 +9,7 @@ export const locationSample = {
 
 
 export const locationSample1 = {
-  locationId: 'test-location-id-1',
+  id: 'test-location-id-1',
   description: 'location description',
   address: 'location address',
   external: true,

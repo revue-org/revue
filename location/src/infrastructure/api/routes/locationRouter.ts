@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
-import { locationsController } from '../controllers/locationController'
+import { locationsController } from '../controllers/locationController.js'
 import { LocationPresenter } from '@/presentation/api/LocationPresenter'
 import { ZodLocationPresenter } from '@/presentation/api/impl/ZodLocationPresenter.js'
 import { BuildingInsertion, RoomInsertion, RoomUpdate } from '@/presentation/api/schemas/LocationSchemas'
@@ -8,6 +8,7 @@ import { Location } from '@/domain/core/Location'
 
 export const router: Router = express.Router()
 const locationPresenter: LocationPresenter = new ZodLocationPresenter()
+
 
 router
   .route('/:id')

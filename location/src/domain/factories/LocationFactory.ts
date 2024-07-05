@@ -12,7 +12,7 @@ export class LocationFactory {
 
   static roomFrom(id: LocationId, description: string, buildingId: LocationId): Location {
     return {
-      locationId: id,
+      id: id,
       description,
       buildingId,
       isRoom: true
@@ -25,7 +25,7 @@ export class LocationFactory {
 
   static buildingFrom(id: LocationId, description: string, address: string, isExternal: boolean): Location {
     return {
-      locationId: id,
+      id: id,
       description,
       address,
       isExternal,

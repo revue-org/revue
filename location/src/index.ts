@@ -4,9 +4,9 @@ import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import cors from 'cors'
 import http, { Server as HttpServer } from 'http'
-import { router } from './infrastructure/api/routes/locationRouter'
-import { jwtManager } from '@common/utils/JWTManager'
-import { mongoConnect } from '@common/utils/connection'
+import { router } from './infrastructure/api/routes/locationRouter.js'
+import { jwtManager } from '@common/utils/JWTManager.js'
+import { mongoConnect } from '@common/utils/connection.js'
 
 config({ path: process.cwd() + '/../.env' })
 

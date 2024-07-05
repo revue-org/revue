@@ -1,7 +1,7 @@
 import { LocationId } from './LocationId'
 
 export interface Location {
-  readonly locationId: LocationId
+  readonly id: LocationId
 
   readonly description: string
 

@@ -1,7 +1,7 @@
 import { LocationId } from '@/domain/core/LocationId'
 import { LocationRepository } from '../repositories/LocationRepository'
 import { LocationService } from './LocationService'
-import { LocationFactory } from '@/domain/factories/LocationFactory'
+import { LocationFactory } from '@/domain/factories/LocationFactory.js'
 import { Location } from '@/domain/core/Location'
 
 export class LocationServiceImpl implements LocationService {

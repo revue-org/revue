@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
-import { locationSchema } from './schemas/LocationSchema'
-import { LocationDBAdapter, LocationDBEntity } from './models/LocationModel'
+import { locationSchema } from './schemas/LocationSchema.js'
+import { LocationDBEntity } from './models/LocationModel'
+import { LocationDBAdapter } from './models/LocationModel.js'
 import { LocationRepository } from '@/application/repositories/LocationRepository'
 import { Location } from '@/domain/core/Location'
 import { LocationId } from '@/domain/core/LocationId'
@@ -17,7 +18,7 @@ export class MongoDBLocationRepository implements LocationRepository {
   }
 
   async updateLocation(location: Location): Promise<void> {
-    await this.model.updateOne({ id: location.locationId.value }, LocationDBAdapter.asDBEntity(location))
+    await this.model.updateOne({ id: location.id.value }, LocationDBAdapter.asDBEntity(location))
   }
 
   getLocationById(locationId: LocationId): Promise<Location> {

@@ -49,15 +49,15 @@ export class AlarmServiceImpl implements AlarmService {
 
     this.events.subscribeToDevices((event: DeviceEvent): void => {
       if (event.type === 'addition') {
-        RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/${event.sourceDeviceId}/capabilities`).then(
-          (res: any): void => {
-            res.data.capabilities.forEach((capability: any): void => {
-              if (capability.type === 'sensor') {
-                this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
-              }
-            })
-          }
-        )
+        RequestHelper.get(
+          `http://${deviceHost}:${devicePort}/devices/${event.sourceDeviceId}/capabilities`
+        ).then((res: any): void => {
+          res.data.capabilities.forEach((capability: any): void => {
+            if (capability.type === 'sensor') {
+              this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+            }
+          })
+        })
       }
     })
   }

@@ -72,7 +72,7 @@ deviceRouter.route('/actives').get((_req: Request, res: Response): void => {
     })
 })
 
-deviceRouter.route('/locations/:id/devices').get((_req: Request, res: Response): void => {
+deviceRouter.route('/locations/:id').get((_req: Request, res: Response): void => {
   deviceController
     .getDevicesByLocationId(_req.params.id)
     .then((devices: Device[]): void => {

@@ -59,7 +59,7 @@ const addNewDevice = () => {
     popNegative($q, 'Please fill all fields')
     return
   }
-  RequestHelper.post(`http://${deviceHost}:${devicePort}/`, {
+  RequestHelper.post(`http://${deviceHost}:${devicePort}/devices`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,

@@ -17,7 +17,7 @@ if (SENSOR_ID === undefined) {
 let sensor: any
 
 export const getSensorInfo = async (): Promise<void> => {
-  const deviceUrl: string = `http://${deviceHost}:${devicePort}`
+  const deviceUrl: string = `http://${deviceHost}:${devicePort}/devices`
   try {
     const res = await RequestHelper.get(`${deviceUrl}/${SENSOR_ID}`)
     console.log('INFO: SENSOR INFO RETRIEVED')
@@ -62,7 +62,6 @@ export const produce = async (): Promise<void> => {
       sensor.deviceId.value,
       MeasureFactory.createHumidityMeasure(MeasureUnit.PERCENTAGE),
       Math.floor(Math.random() * 100)
-
     )
     producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
   }, 2000)
@@ -73,7 +72,6 @@ export const produce = async (): Promise<void> => {
       sensor.deviceId.value,
       MeasureFactory.createPressureMeasure(MeasureUnit.BAR),
       Math.floor(Math.random() * 20)
-
     )
     producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
   }, 2000)

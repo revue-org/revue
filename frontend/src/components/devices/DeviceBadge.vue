@@ -30,7 +30,7 @@ const capabilityPopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
 const getCapabilities = () => {
-  RequestHelper.get(`http://${deviceHost}:${devicePort}/${device.deviceId}/capabilities`)
+  RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/capabilities`)
     .then(async (res: any) => {
       for (let i = 0; i < res.data.length; i++) {
         const capability = res.data[i]
@@ -61,7 +61,7 @@ const getCapabilities = () => {
 
 const enableDevice = async () => {
   //TODO TO TEST
-  /* RequestHelper.put(`http://${deviceHost}:${devicePort}/${device.deviceId}/enable`, {})
+  /* RequestHelper.put(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/enable`, {})
      .then(async (_res: any) => {
        emit('get-devices')
      })

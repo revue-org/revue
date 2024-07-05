@@ -18,7 +18,7 @@ const server: HttpServer = http.createServer(app)
 
 app.use(express.json())
 
-const PORT: number = Number(process.env.LOG_PORT) || 4000
+const PORT: number = Number(process.env.LOG_PORT)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

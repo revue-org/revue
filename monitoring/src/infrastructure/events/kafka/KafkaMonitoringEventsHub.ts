@@ -18,7 +18,7 @@ export class KafkaMonitoringEventsHub {
   }
 
   private async getTopics(): Promise<string[]> {
-    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=sensor`)
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
       .then((res: any): string[] =>
         res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
       )

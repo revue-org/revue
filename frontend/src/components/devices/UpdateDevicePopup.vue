@@ -69,7 +69,7 @@ const updateDevice = () => {
     console.log('Error while retrieving thing infos')
   }
 
-  RequestHelper.put(`http://${deviceHost}:${devicePort}/${device.deviceId}`, {
+  RequestHelper.put(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,

@@ -30,7 +30,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-app.use('/', deviceRouter)
+app.use('/devices', deviceRouter)
 
 const username: string = process.env.DEVICE_DB_USERNAME || 'admin'
 const password: string = process.env.DEVICE_DB_PASSWORD || 'admin'

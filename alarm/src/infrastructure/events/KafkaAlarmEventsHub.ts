@@ -28,13 +28,13 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   }
 
   private async getMeasurementTopics(): Promise<string[]> {
-    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=sensor`).then(
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`).then(
       (res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`)
     )
   }
 
   private async getDetectionsTopics(): Promise<string[]> {
-    return await RequestHelper.get(`http://${deviceHost}:${devicePort}?capabilities=video`).then(
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=video`).then(
       (res: any): string[] => res.data.map((device: any): string => `detections.${device.id}`)
     )
   }

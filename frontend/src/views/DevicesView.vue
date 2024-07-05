@@ -17,7 +17,7 @@ const $q = useQuasar()
 const getDevices = async () => {
   devices.value = []
   useUserStore().permissions.forEach((location: string) => {
-    RequestHelper.get(`http://${deviceHost}:${devicePort}/locations/${location}/devices`)
+    RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/locations/${location}`)
       .then(async (res: any) => {
         if (res.status == HttpStatusCode.OK) {
           for (let i = 0; i < res.data.length; i++) {
@@ -34,7 +34,7 @@ const getDevices = async () => {
 }
 
 const deleteDevice = async (device: Device) => {
-  await RequestHelper.delete(`http://${deviceHost}:${devicePort}/${device.deviceId}/`)
+  await RequestHelper.delete(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/`)
     .then((res: any) => {
       getDevices()
       popPositive($q, 'Device deleted successfully')

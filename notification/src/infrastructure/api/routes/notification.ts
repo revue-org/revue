@@ -2,13 +2,17 @@ import { notificationController } from '@/infrastructure/api/controller/notifica
 import express, { Request, Response, Router } from 'express'
 import { Notification } from '@/domain/core/Notification'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
+import { NotificationPresenter } from '@/presentation/api/NotificationPresenter'
+import { ZodNotificationPresenter } from '@/presentation/api/impl/ZodNotificationPresenter.js'
 
 export const notificationRouter: Router = express.Router()
+const notificationPresenter: NotificationPresenter = new ZodNotificationPresenter()
 
 notificationRouter.route('/').get((req: Request, res: Response): void => {
   notificationController
     .getNotifications()
     .then((notifications: Notification[]): void => {
+      notifications.forEach(notification => notificationPresenter.parse(notification))
       res.status(HttpStatusCode.OK).send(notifications)
     })
     .catch((e): void => {
@@ -21,6 +25,7 @@ notificationRouter.route('/:id').get((req: Request, res: Response): void => {
   notificationController
     .getNotificationById(req.params.id)
     .then((notification: Notification): void => {
+      notificationPresenter.parse(notification)
       res.status(HttpStatusCode.OK).status(HttpStatusCode.OK).send(notification)
     })
     .catch((): void => {
@@ -32,6 +37,7 @@ notificationRouter.route('/types/:type').get((req: Request, res: Response): void
   notificationController
     .getNotificationsByType(req.params.type)
     .then((notifications: Notification[]): void => {
+      notifications.forEach(notification => notificationPresenter.parse(notification))
       res.status(HttpStatusCode.OK).send(notifications)
     })
     .catch((): void => {

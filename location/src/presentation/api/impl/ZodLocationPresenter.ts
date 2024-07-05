@@ -19,9 +19,11 @@ export class ZodLocationPresenter implements LocationPresenter {
       id: z.object({
         value: z.string()
       }),
-      buildingId: z.object({
-        value: z.string()
-      }),
+      buildingId: z
+        .object({
+          value: z.string()
+        })
+        .optional(),
       isRoom: z.boolean()
     })
     this.roomUpdateSchema = z.object({

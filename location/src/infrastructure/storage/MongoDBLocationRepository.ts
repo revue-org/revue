@@ -7,7 +7,7 @@ import { Location } from '@/domain/core/Location'
 import { LocationId } from '@/domain/core/LocationId'
 
 export class MongoDBLocationRepository implements LocationRepository {
-  private model = mongoose.model<LocationDBEntity>('Location', locationSchema)
+  private model = mongoose.model<LocationDBEntity>('Location', locationSchema, 'location')
 
   async saveLocation(location: Location): Promise<void> {
     await this.model.create(LocationDBAdapter.asDBEntity(location))
@@ -23,7 +23,7 @@ export class MongoDBLocationRepository implements LocationRepository {
 
   getLocationById(locationId: LocationId): Promise<Location> {
     return this.model
-      .findOne({ locationId: locationId.value })
+      .findOne({ id: locationId.value })
       .lean()
       .then(location => LocationDBAdapter.asDomainEntity(location as LocationDBEntity))
   }

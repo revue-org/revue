@@ -1,34 +1,18 @@
-import express, { Router, Request, Response } from 'express'
+import express, { Request, Response, Router } from 'express'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { locationsController } from '../controllers/locationController.js'
 import { LocationPresenter } from '@/presentation/api/LocationPresenter'
 import { ZodLocationPresenter } from '@/presentation/api/impl/ZodLocationPresenter.js'
-import { BuildingInsertion, RoomInsertion, RoomUpdate } from '@/presentation/api/schemas/LocationSchemas'
+import {
+  BuildingInsertion,
+  BuildingUpdate,
+  RoomInsertion,
+  RoomUpdate
+} from '@/presentation/api/schemas/LocationSchemas'
 import { Location } from '@/domain/core/Location'
 
 export const router: Router = express.Router()
 const locationPresenter: LocationPresenter = new ZodLocationPresenter()
-
-
-router
-  .route('/:id')
-  .get(async (req: Request, res: Response) => {
-    try {
-      const location: Location = await locationsController.getLocationById(req.params.id)
-      locationPresenter.parse(location)
-      res.status(HttpStatusCode.OK).json(location)
-    } catch (e) {
-      res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
-    }
-  })
-  .delete(async (req: Request, res: Response) => {
-    try {
-      await locationsController.deleteLocation(req.params.id)
-      res.status(HttpStatusCode.OK).json()
-    } catch (error) {
-      res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
-    }
-  })
 
 router
   .route('/rooms')
@@ -66,10 +50,12 @@ router
     try {
       const buildings: Location[] = await locationsController.getBuildings()
       buildings.forEach(building => {
+        console.log(building)
         locationPresenter.parse(building)
       })
       res.status(HttpStatusCode.OK).json(buildings)
     } catch (error) {
+      console.log(error)
       res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
     }
   })
@@ -85,10 +71,11 @@ router
 
 router.route('/buildings/:id').put(async (req: Request, res: Response) => {
   try {
-    const msg: BuildingInsertion = locationPresenter.parseBuildingInsertion(req.body)
+    const msg: BuildingUpdate = locationPresenter.parseBuildingUpdate(req.body)
     await locationsController.updateBuilding(req.params.id, msg.description, msg.address, msg.external)
     res.status(HttpStatusCode.OK).json()
   } catch (error) {
+    console.log(error)
     res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
   }
 })
@@ -104,3 +91,23 @@ router.route('/buildings/:buildingId/rooms').get(async (req: Request, res: Respo
     res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
   }
 })
+
+router
+  .route('/:id')
+  .get(async (req: Request, res: Response) => {
+    try {
+      const location: Location = await locationsController.getLocationById(req.params.id)
+      locationPresenter.parse(location)
+      res.status(HttpStatusCode.OK).json(location)
+    } catch (e) {
+      res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
+    }
+  })
+  .delete(async (req: Request, res: Response) => {
+    try {
+      await locationsController.deleteLocation(req.params.id)
+      res.status(HttpStatusCode.OK).json()
+    } catch (error) {
+      res.status(HttpStatusCode.BAD_REQUEST).json({ message: 'error' })
+    }
+  })

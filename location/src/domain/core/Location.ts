@@ -9,7 +9,7 @@ export interface Location {
 
   readonly address?: string
 
-  readonly isExternal?: boolean
+  readonly external?: boolean
 
   readonly isRoom: boolean
 }

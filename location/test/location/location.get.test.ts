@@ -12,20 +12,20 @@ describe('GET /locations', (): void => {
   })
 
   describe('GET /locations/buildings', (): void => {
-
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const locations: Response = await locationService.get('/locations/buildings')
       expect(locations.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
-    it('responds with the locations otherwise', async (): Promise<void> => {
+    it('responds with the buildings locations otherwise', async (): Promise<void> => {
       // @ts-ignore
-      const locations: Response = await locationService.get('/locations/buildings').set('Authorization', `Bearer ${TOKEN}`)
+      const locations: Response = await locationService
+        .get('/locations/buildings')
+        .set('Authorization', `Bearer ${TOKEN}`)
       expect(locations.status).toBe(HttpStatusCode.OK)
       expect(locations.type).toBe('application/json')
     })
-
   })
 
   afterAll(async (): Promise<void> => {

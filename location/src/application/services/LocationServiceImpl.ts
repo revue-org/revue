@@ -56,9 +56,10 @@ export class LocationServiceImpl implements LocationService {
       return this.updateLocation({ ...location, description })
     })
   }
+
   updateBuilding(id: LocationId, description: string, address: string, external: boolean): Promise<void> {
     return this.getLocationById(id).then((location: Location) => {
-      return this.updateLocation({ ...location, description, address, isExternal: external })
+      return this.updateLocation({ ...location, description, address, external: external })
     })
   }
 }

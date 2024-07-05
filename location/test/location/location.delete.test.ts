@@ -20,7 +20,7 @@ describe('DELETE /', (): void => {
     it('responds with an ok http status code if the location is correctly deleted', async (): Promise<void> => {
       // @ts-ignore
       const deletion: Response = await locationService
-        .delete('/test-location-id-1')
+        .delete('/locations/test-location-id-1')
         .set('Authorization', `Bearer ${TOKEN}`)
       expect(deletion.status).toBe(HttpStatusCode.OK)
       expect(deletion.type).toBe('application/json')

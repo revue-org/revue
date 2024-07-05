@@ -28,13 +28,20 @@ export class LocationDBAdapter {
   }
 
   static asDBEntity(location: Location): LocationDBEntity {
+    if (location.isRoom) {
+      return {
+        id: location.id.value,
+        description: location.description,
+        isRoom: true,
+        buildingId: location.buildingId?.value
+      }
+    }
     return {
       id: location.id.value,
       description: location.description,
       address: location.address,
-      external: location.isExternal,
-      isRoom: location.isRoom,
-      buildingId: location.buildingId?.value
+      external: location.external,
+      isRoom: false
     }
   }
 }

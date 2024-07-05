@@ -7,7 +7,6 @@ export const locationSample = {
   buildingId: 'test-building-id'
 }
 
-
 export const locationSample1 = {
   id: 'test-location-id-1',
   description: 'location description',

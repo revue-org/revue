@@ -23,17 +23,17 @@ export class LocationFactory {
     return this.roomFrom(this.newId(), description, buildingId)
   }
 
-  static buildingFrom(id: LocationId, description: string, address: string, isExternal: boolean): Location {
+  static buildingFrom(id: LocationId, description: string, address: string, external: boolean): Location {
     return {
       id: id,
       description,
       address,
-      isExternal,
+      external: external,
       isRoom: false
     }
   }
 
-  static createBuilding(description: string, address: string, isExternal: boolean): Location {
-    return this.buildingFrom(this.newId(), description, address, isExternal)
+  static createBuilding(description: string, address: string, external: boolean): Location {
+    return this.buildingFrom(this.newId(), description, address, external)
   }
 }

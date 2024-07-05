@@ -1,8 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { locationSample, locationSample1 } from "../resources/locationSample.js";
-import { LocationDBEntity } from "@/infrastructure/storage/models/LocationModel";
-import { locationSchema } from "@/infrastructure/storage/schemas/LocationSchema.js";
+import { locationSample, locationSample1 } from '../resources/locationSample.js'
+import { LocationDBEntity } from '@/infrastructure/storage/models/LocationModel'
+import { locationSchema } from '@/infrastructure/storage/schemas/LocationSchema.js'
 
 let mongoMock: any = null
 

@@ -17,20 +17,17 @@ describe('POST /', (): void => {
     })
 
     it('should create a new location', async (): Promise<void> => {
-      const newDevice = {
-        description: 'test-description-1',
-        endpoint: {
-          ipAddress: '192.168.1.10',
-          port: 6900
-        },
-        locationId: 'test-location-id-1'
+      const newLocation = {
+        description: 'test-description',
+        address: 'test-address',
+        external: true
       }
 
       // @ts-ignore
       const creation: Response = await locationService
-        .post('/')
+        .post('/locations/buildings')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newDevice)
+        .send(newLocation)
 
       expect(creation.status).toBe(HttpStatusCode.CREATED)
       expect(creation.type).toBe('application/json')

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 
 export const locationSchema = new Schema({
-  locationId: String,
+  id: String,
   description: String,
   address: String,
   external: Boolean,

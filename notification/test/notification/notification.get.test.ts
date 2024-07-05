@@ -28,12 +28,12 @@ describe('GET /notifications/', (): void => {
 
   it('retrieve the notification with the current id', async (): Promise<void> => {
     // @ts-ignore
-    const notifications: Response = await notificationService
+    const notification: Response = await notificationService
       .get('/notifications/outlier-test-id')
       .set('Authorization', `Bearer ${TOKEN}`)
-    expect(notifications.status).toBe(HttpStatusCode.OK)
-    expect(notifications.type).toBe('application/json')
-    expect(notifications.body).toStrictEqual({
+    expect(notification.status).toBe(HttpStatusCode.OK)
+    expect(notification.type).toBe('application/json')
+    expect(notification.body).toStrictEqual({
         event: {
           id: {
             value: 'test'

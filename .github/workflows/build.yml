@@ -45,3 +45,17 @@ jobs:
         run: ./gradlew format --info
       - name: Check lint
         run: ./gradlew lint --info
+
+  pre-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pre-compute the next version
+        id: compute-next-version
+        uses: nicolasfara/precompute-semantic-release-version-action@1.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use the next version
+        run: |
+          echo "Will release: ${{ steps.compute-next-version.outputs.will-release }}"
+          echo "The next version is ${{ steps.compute-next-version.outputs.next-version }}"

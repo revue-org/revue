@@ -50,9 +50,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.15'
+          node-version: 20
       - name: Pre-compute the next version
         id: compute-next-version
         uses: nicolasfara/precompute-semantic-release-version-action@1.0.0

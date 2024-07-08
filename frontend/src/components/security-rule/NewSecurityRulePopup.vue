@@ -1,10 +1,11 @@
-<script setup lang="ts">
-import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+<!--<script setup lang="ts">-->
+<!--import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 import type { SecurityRule } from '@/domain/core/SecurityRule'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'-->
+<!--
 
-const insertRule = async (rule: SecurityRule) => {}
+const insertRule = async (rule: SecurityRule) => {}*/
 /*
 const resetFields = () => {
   type.value = "outlier"
@@ -151,12 +152,13 @@ const getContacts = async () => {
   resetFields()
 }*/
 
-onMounted(async () => {
-  /*  await getCameraCodes()
-  await getSensorCodes()*/
+/*onMounted(async () => {
+    await getCameraCodes()
+  await getSensorCodes()
   //await getContacts()
-})
+})*/
 </script>
+-->
 
 <template>
   <a>ciao</a>

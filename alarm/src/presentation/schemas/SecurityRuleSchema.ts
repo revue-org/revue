@@ -1,8 +1,12 @@
 import { z } from 'zod'
-import { MeasureType } from '@common/domain/core/MeasureType.js'
-import { ContactType } from '@common/domain/core/ContactType.js'
-import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
-import { ObjectClass } from '@common/domain/core/ObjectClass.js'
+import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
+import { ContactType } from 'common/dist/domain/core/ContactType.js'
+import { MeasureUnit } from 'common/dist/domain/core/MeasureUnit.js'
+import { ObjectClass } from 'common/dist/domain/core/ObjectClass.js'
+
+export type RangeRuleInsertion = {
+
+}
 
 export const rangeRuleSchema = z.object({
   description: z.string(),

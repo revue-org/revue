@@ -5,7 +5,7 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Contact } from '@common/domain/core/Contact.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
-import { rangeRuleSchema } from '@/presentation/api/schemas/SecurityRuleSchema.js'
+import { rangeRuleSchema } from '@/presentation/schemas/SecurityRuleSchema.js'
 
 export const router: Router = express.Router()
 

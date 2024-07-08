@@ -10,7 +10,7 @@ import { useUserStore } from '@/stores/user'
 const $q = useQuasar()
 
 const emit = defineEmits<{
-  (_e: 'get-ranges-rules'): void
+  (_e: 'get-range-rules'): void
   (_e: 'get-intrusion-rules'): void
 }>()
 

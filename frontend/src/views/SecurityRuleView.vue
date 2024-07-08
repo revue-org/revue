@@ -70,6 +70,8 @@ const popupVisible = ref<boolean>(false)
       v-for="(rule, index) in rangeRules"
       :rule="rule"
       @delete-rule="deleteRule(rule)"
+      @get-range-rules="getRangeRules"
+      @get-intrusion-rules="getIntrusionRules"
       :key="index"
     />
   </div>
@@ -80,8 +82,8 @@ const popupVisible = ref<boolean>(false)
       v-for="(rule, index) in intrusionRules"
       :rule="rule"
       @delete-rule="deleteRule(rule)"
-      @get-range-rules="getRangeRules()"
-      @get-intrusion-rules="getIntrusionRules()"
+      @get-range-rules="getRangeRules"
+      @get-intrusion-rules="getIntrusionRules"
       :key="index"
     />
   </div>

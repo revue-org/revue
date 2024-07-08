@@ -1,34 +1,21 @@
-<!--
 <script setup lang="ts">
-import { DeviceType, Measure } from '@domain/device/core'
-import { getMeasureColor } from '@/utils/MeasureUtils'
-import {
-  type ExceedingRule,
-  type IntrusionRule,
-  ObjectClass,
-  type SecurityRule
-} from '@domain/alarm-system/core'
-import UpdateSecurityRulePopup from './UpdateSecurityRulePopup.vue'
-import { ref } from 'vue'
-import { DeviceTypeConverter, MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
-import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
-import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
+import { popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+import type { IntrusionRule, RangeRule, SecurityRule } from '@/domain/core/SecurityRule'
 
-const { securityRule } = defineProps<{
-  securityRule: SecurityRule
+const { rule } = defineProps<{
+  rule: SecurityRule
 }>()
 
 const emit = defineEmits<{
-  (_e: 'delete-security-rule'): void
-  (_e: 'get-exceeding-rules'): void
-  (_e: 'get-intrusion-rules'): void
+  (_e: 'delete-rule'): void
 }>()
 
 const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
-const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
+/*const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
   await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
     id: exceedingRule.securityRuleId,
     deviceId: {
@@ -74,10 +61,10 @@ const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
       popNegative($q, 'Error while updating intrusion rule')
       console.log(error)
     })
-}
+}*/
 
-const deleteSecurityRule = () => {
-  popDelete($q, 'Are you sure you want to delete this security rule?', () => emit('delete-security-rule'))
+const deleteRule = () => {
+  popDelete($q, 'Are you sure you want to delete this security rule?', () => emit('delete-rule'))
 }
 </script>
 
@@ -86,51 +73,32 @@ const deleteSecurityRule = () => {
     <header>
       <div>
         <q-icon
-          v-if="
-            new Date(
-              `1970-01-01T${securityRule.from.getHours() < 10 ? '0' + securityRule.from.getHours() : securityRule.from.getHours()}:${securityRule.from.getMinutes() < 10 ? '0' + securityRule.from.getMinutes() : securityRule.from.getMinutes()}:00.000`
-            ).getTime() <=
-              new Date(
-                `1970-01-01T${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:00.000`
-              ).getTime() &&
-            new Date(
-              `1970-01-01T${securityRule.to.getHours() < 10 ? '0' + securityRule.to.getHours() : securityRule.to.getHours()}:${securityRule.to.getMinutes() < 10 ? '0' + securityRule.to.getMinutes() : securityRule.to.getMinutes()}:00.000`
-            ).getTime() >=
-              new Date(
-                `1970-01-01T${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:00.000`
-              ).getTime()
-          "
+          v-if="rule.validity.from < new Date() && rule.validity.to > new Date()"
           name="circle"
           color="green"
           size="2em"
         />
         <q-icon v-else name="circle" color="red" size="2em" />
       </div>
-      <span v-if="securityRule.deviceId.type == DeviceType.SENSOR">
-        <i>{{ securityRule.deviceId.code }} -</i>
-        <i
-          :style="{
-            color: getMeasureColor((securityRule as ExceedingRule).measure)
-          }"
-          >{{ Measure[(securityRule as ExceedingRule).measure] }}</i
-        >
+      <span>{{ rule.activeOn }} -</span>
+      <span v-if="rule.type == 'range'">
+        {{ (rule as RangeRule).measure.type.toUpperCase() }}
       </span>
       <span v-else>
-        <i>{{ securityRule.deviceId.code }} -</i
-        >{{ ObjectClass[(securityRule as IntrusionRule).objectClass] }}
+        {{ (rule as IntrusionRule).objectClass.toUpperCase() }}
       </span>
     </header>
-    <ul :class="DeviceType[securityRule.deviceId.type].toLowerCase()">
-      <li v-if="securityRule.deviceId.type == DeviceType.SENSOR">
-        <i>min val: </i>{{ (securityRule as ExceedingRule).min }} <i>max val: </i
-        >{{ (securityRule as ExceedingRule).max }}
+    <ul :class="rule.type">
+      <li v-if="rule.type == 'outlier'">
+        <span>min val: </span>{{ (rule as RangeRule).min }} <span>max val: </span
+        >{{ (rule as RangeRule).max }}
       </li>
 
       <li>
-        <i>Active from: </i>{{ securityRule.from.toLocaleString().split(' ')[1] }} <i>to: </i
-        >{{ securityRule.to.toLocaleString().split(' ')[1] }}
+        <i>Active from: </i>{{ rule.validity.from.toLocaleString().split(' ')[1] }} <i>to: </i
+        >{{ rule.validity.to.toLocaleString().split(' ')[1] }}
       </li>
-      <li>{{ securityRule.description }}</li>
+      <li>{{ rule.description }}</li>
 
       <li class="actions">
         <div>
@@ -138,18 +106,18 @@ const deleteSecurityRule = () => {
           <q-tooltip :offset="[0, 8]">Edit</q-tooltip>
         </div>
         <div>
-          <q-btn color="negative" icon="delete" @click="deleteSecurityRule" />
+          <q-btn color="negative" icon="delete" @click="deleteRule" />
           <q-tooltip :offset="[0, 8]">Delete</q-tooltip>
         </div>
       </li>
     </ul>
   </div>
-  <update-security-rule-popup
-    v-model="updatePopupVisible"
-    :security-rule="securityRule"
-    @update-exceeding-rule="updateExceedingRule"
-    @update-intrusion-rule="updateIntrusionRule"
-  ></update-security-rule-popup>
+  <!--  <update-security-rule-popup
+      v-model="updatePopupVisible"
+      :security-rule="securityRule"
+      @update-exceeding-rule="updateExceedingRule"
+      @update-intrusion-rule="updateIntrusionRule"
+    ></update-security-rule-popup>-->
 </template>
 
 <style scoped lang="scss">
@@ -189,11 +157,11 @@ button {
 
 ul {
   @media (min-width: 576px) {
-    &.sensor {
+    &.outlier {
       height: 150px;
     }
 
-    &.camera {
+    &.intrusion {
       height: 130px;
     }
   }
@@ -238,4 +206,3 @@ ul {
   }
 }
 </style>
--->

@@ -1,31 +1,15 @@
-<!--
 <script setup lang="ts">
-import { Measure } from 'domain/dist/domain/device/core/impl/enum/Measure'
-import { onMounted, ref, toRaw } from 'vue'
-import type { DeviceIdFactory } from '@domain/device/factories'
-import { DeviceIdFactoryImpl } from '@domain/device/factories'
-import {
-  AnomalyType,
-  type ExceedingRule,
-  type IntrusionRule,
-  ObjectClass
-} from 'domain/dist/domain/alarm-system/core'
-import { type SecurityRuleFactory, SecurityRuleFactoryImpl } from 'domain/dist/domain/alarm-system/factories'
-import type { Contact } from 'domain/dist/domain/monitoring/core'
-import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
 import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
+import type { SecurityRule } from "@/domain/core/SecurityRule";
+import { onMounted, ref } from "vue";
 
-const emit = defineEmits<{
-  (_e: 'insert-exceeding-rule', _exceedingRule: ExceedingRule): void
-  (_e: 'insert-intrusion-rule', _intrusionRule: IntrusionRule): void
-}>()
+const insertRule = async (rule: SecurityRule) => {
 
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const securityRuleFactory: SecurityRuleFactory = new SecurityRuleFactoryImpl()
+}
 
 const resetFields = () => {
-  anomalyType.value = AnomalyType.EXCEEDING
+  ruleType.value = "outlier"
   min.value = undefined
   max.value = undefined
   code.value = undefined
@@ -37,7 +21,7 @@ const resetFields = () => {
   objectClass.value = ObjectClass.PERSON
 }
 
-const anomalyType = ref<AnomalyType>(AnomalyType.EXCEEDING)
+const ruleType = ref<string>("outlier")
 const min = ref<number>()
 const max = ref<number>()
 const code = ref<string>()
@@ -128,8 +112,8 @@ const getContacts = async () => {
     })
 }
 
-const addNewSecurityRule = () => {
-  if (anomalyType.value == AnomalyType.EXCEEDING) {
+/*const addNewSecurityRule = () => {
+  if (ruleType.value == AnomalyType.EXCEEDING) {
     const newExceedingRule: ExceedingRule = securityRuleFactory.createExceedingRule(
       min.value!,
       max.value!,
@@ -148,7 +132,7 @@ const addNewSecurityRule = () => {
       new Date('2030-01-01T' + to.value!.slice(0, 5) + ':00.000Z') //to.value.includes(' ') ? to.value.split(' ')[0] :
     )
     emit('insert-exceeding-rule', newExceedingRule)
-  } else if (anomalyType.value == AnomalyType.INTRUSION) {
+  } else if (ruleType.value == AnomalyType.INTRUSION) {
     const newIntrusionRule: IntrusionRule = securityRuleFactory.createIntrusionRule(
       objectClass.value,
       '',
@@ -167,11 +151,11 @@ const addNewSecurityRule = () => {
     emit('insert-intrusion-rule', newIntrusionRule)
   }
   resetFields()
-}
+}*/
 
 onMounted(async () => {
-  await getCameraCodes()
-  await getSensorCodes()
+/*  await getCameraCodes()
+  await getSensorCodes()*/
   await getContacts()
 })
 </script>
@@ -183,10 +167,10 @@ onMounted(async () => {
         <h3 class="text-h5">Add a Security Rule</h3>
       </q-card-section>
       <q-card-section class="q-gutter-md">
-        <q-radio dense v-model="anomalyType" :val="AnomalyType.EXCEEDING" label="Exceeding" />
-        <q-radio dense v-model="anomalyType" :val="AnomalyType.INTRUSION" label="Intrusion" />
+        <q-radio dense v-model="ruleType" :val="outlier" label="Outlier" />
+        <q-radio dense v-model="ruleType" :val="intrusion" label="Intrusion" />
       </q-card-section>
-      <div v-if="anomalyType == AnomalyType.EXCEEDING">
+      <div v-if="ruleType == AnomalyType.EXCEEDING">
         <q-card-section class="q-pt-none">
           <label>Code</label>
           <q-select v-model="code" :options="optionsSensorCodes" label="Device code" />
@@ -204,7 +188,7 @@ onMounted(async () => {
           <q-input type="number" v-model="max" />
         </q-card-section>
       </div>
-      <div v-if="anomalyType == AnomalyType.INTRUSION">
+      <div v-if="ruleType == AnomalyType.INTRUSION">
         <q-card-section class="q-pt-none">
           <label>Code</label>
           <q-select v-model="code" :options="optionsCameraCodes" label="Camera code" />
@@ -248,4 +232,3 @@ onMounted(async () => {
     </q-card>
   </q-dialog>
 </template>
--->

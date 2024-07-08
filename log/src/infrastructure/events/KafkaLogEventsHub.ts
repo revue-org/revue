@@ -23,9 +23,11 @@ export class KafkaLogEventsHub implements LogEventsHub {
   }
 
   private async getMeasurementTopics(): Promise<string[]> {
-    return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`).then(
-      (res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`)
-    )
+    return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
+      .then((res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`))
+      .catch((e: any): string[] => {
+        throw new Error('Error fetching devices')
+      })
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {

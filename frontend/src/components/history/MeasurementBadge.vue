@@ -9,9 +9,7 @@ defineProps<{
   <li>
     <q-icon size="28px" name="timeline" />
     <span> {{ measurement.timestamp.toLocaleString().split(',')[0] }} </span>
-    <span>
-      Source: {{ measurement.sourceDeviceId }}
-    </span>
+    <span> Source: {{ measurement.sourceDeviceId }} </span>
     <i>
       Value:
       {{ measurement.value }}
@@ -23,9 +21,7 @@ defineProps<{
       </i>
     </span>
 
-    <span class="timestamp"
-      >Detection hour: {{ measurement.timestamp.toLocaleString().split(' ')[1] }}</span
-    >
+    <span class="timestamp">Detection hour: {{ measurement.timestamp.toLocaleString().split(' ')[1] }}</span>
   </li>
 </template>
 

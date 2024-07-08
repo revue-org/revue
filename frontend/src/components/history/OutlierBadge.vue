@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Outlier } from "common/dist/domain/core";
+import type { Outlier } from 'common/dist/domain/core'
 
 defineProps<{
   outlier: Outlier

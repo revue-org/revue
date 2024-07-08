@@ -11,11 +11,10 @@ import { MeasurementFactory } from '../domain/factories/MeasurementFactory.js'
 import { MeasureFactory } from '../domain/factories/MeasureFactory.js'
 import { AnomalySchema, anomalySchema } from './schemas/AnomalySchema.js'
 import { NumericMeasurement } from '../domain/core/NumericMeasurement.js'
-import { outlierSchema } from "./schemas/OutlierSchema.js";
-import { intrusionSchema } from "./schemas/IntrusionSchema.js";
+import { outlierSchema } from './schemas/OutlierSchema.js'
+import { intrusionSchema } from './schemas/IntrusionSchema.js'
 
 export class AnomalyPresenter {
-
   static asOutlierDomainEvent(outlierObj: object): Outlier {
     return outlierSchema.parse(outlierObj)
   }

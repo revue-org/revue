@@ -8,11 +8,9 @@ defineProps<{
 
 <template>
   <li>
-        <q-icon size="28px" name="sensor_occupied" />
-        <span> {{ intrusion.timestamp.toLocaleString().split(',')[0] }} </span>
-    <span>
-      Source: {{ intrusion.detection.sourceDeviceId }}
-    </span>
+    <q-icon size="28px" name="sensor_occupied" />
+    <span> {{ intrusion.timestamp.toLocaleString().split(',')[0] }} </span>
+    <span> Source: {{ intrusion.detection.sourceDeviceId }} </span>
     <i>
       Class:
       {{ intrusion.detection.objectClass }}
@@ -23,7 +21,7 @@ defineProps<{
         {{ intrusion.intrusionRuleId }}
       </i>
     </span>
-        <span class="timestamp">Detection hour: {{ intrusion.timestamp.toLocaleString().split(' ')[1] }}</span>
+    <span class="timestamp">Detection hour: {{ intrusion.timestamp.toLocaleString().split(' ')[1] }}</span>
   </li>
 </template>
 

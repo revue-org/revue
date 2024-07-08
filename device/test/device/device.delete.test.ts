@@ -5,22 +5,22 @@ import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('DELETE /', (): void => {
+describe('DELETE /devices', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
   })
 
-  describe('DELETE /', (): void => {
+  describe('DELETE /devices', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const sensors: Response = await deviceService.delete('/')
+      const sensors: Response = await deviceService.delete('/devices')
       expect(sensors.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
     it('responds with an ok http status code if the device is correctly deleted', async (): Promise<void> => {
       // @ts-ignore
       const deletion: Response = await deviceService
-        .delete('/test-device-id-1')
+        .delete('/devices/test-device-id-1')
         .set('Authorization', `Bearer ${TOKEN}`)
       expect(deletion.status).toBe(HttpStatusCode.OK)
       expect(deletion.type).toBe('application/json')

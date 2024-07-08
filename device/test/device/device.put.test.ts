@@ -5,14 +5,14 @@ import HttpStatusCode from '@utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('PUT /', (): void => {
+describe('PUT /devices', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
   })
-  describe('PUT /', (): void => {
+  describe('PUT /devices', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const update: Response = await deviceService.put('/')
+      const update: Response = await deviceService.put('/devices')
       expect(update.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
@@ -20,7 +20,7 @@ describe('PUT /', (): void => {
       const newDevice = {
         endpoint: {
           ipAddress: '192.168.1.1',
-          port: 1000,
+          port: 1000
         },
         description: 'updated description',
         locationId: 'updated locationId',
@@ -29,7 +29,7 @@ describe('PUT /', (): void => {
 
       // @ts-ignore
       const update: Response = await deviceService
-        .put('/test-device-id')
+        .put('/devices/test-device-id')
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(newDevice)
 

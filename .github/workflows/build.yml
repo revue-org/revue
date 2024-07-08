@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: ./gradlew build --info
       - name: Test
-        run: ./gradlew auth:test user:test alarm:test --info || ./gradlew monitoring:test recognition:test --info
+        run: ./gradlew auth:test user:test alarm:test device:test log:test notification:test location:test --info
 
   style:
     runs-on: ubuntu-latest

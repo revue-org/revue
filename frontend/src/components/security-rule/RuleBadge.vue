@@ -3,6 +3,7 @@ import { popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import type { IntrusionRule, RangeRule, SecurityRule } from '@/domain/core/SecurityRule'
+import UpdateRulePopup from "@/components/security-rule/UpdateRulePopup.vue";
 
 const { rule } = defineProps<{
   rule: SecurityRule
@@ -14,54 +15,6 @@ const emit = defineEmits<{
 
 const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
-
-/*const updateExceedingRule = async (exceedingRule: ExceedingRule) => {
-  await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
-    id: exceedingRule.securityRuleId,
-    deviceId: {
-      type: DeviceTypeConverter.convertToString(exceedingRule.deviceId.type),
-      code: exceedingRule.deviceId.code
-    },
-    description: exceedingRule.description,
-    min: exceedingRule.min,
-    max: exceedingRule.max,
-    measure: MeasureConverter.convertToString(exceedingRule.measure),
-    from: exceedingRule.from.toISOString(),
-    to: exceedingRule.to.toISOString(),
-    contacts: exceedingRule.contactsToNotify
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Exceeding rule updated successfully')
-      emit('get-exceeding-rules')
-    })
-    .catch(error => {
-      popNegative($q, 'Error while updating exceeding rule')
-      console.log(error)
-    })
-}
-
-const updateIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  await RequestHelper.put(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
-    id: intrusionRule.securityRuleId,
-    deviceId: {
-      type: DeviceTypeConverter.convertToString(intrusionRule.deviceId.type),
-      code: intrusionRule.deviceId.code
-    },
-    description: intrusionRule.description,
-    objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
-    from: intrusionRule.from.toISOString(),
-    to: intrusionRule.to.toISOString(),
-    contacts: intrusionRule.contactsToNotify
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Intrusion rule updated successfully')
-      emit('get-intrusion-rules')
-    })
-    .catch(error => {
-      popNegative($q, 'Error while updating intrusion rule')
-      console.log(error)
-    })
-}*/
 
 const deleteRule = () => {
   popDelete($q, 'Are you sure you want to delete this security rule?', () => emit('delete-rule'))
@@ -89,7 +42,7 @@ const deleteRule = () => {
       </span>
     </header>
     <ul :class="rule.type">
-      <li v-if="rule.type == 'outlier'">
+      <li v-if="rule.type == 'range'">
         <span>min val: </span>{{ (rule as RangeRule).min }} <span>max val: </span
         >{{ (rule as RangeRule).max }}
       </li>
@@ -112,12 +65,7 @@ const deleteRule = () => {
       </li>
     </ul>
   </div>
-  <!--  <update-security-rule-popup
-      v-model="updatePopupVisible"
-      :security-rule="securityRule"
-      @update-exceeding-rule="updateExceedingRule"
-      @update-intrusion-rule="updateIntrusionRule"
-    ></update-security-rule-popup>-->
+  <update-rule-popup v-model="updatePopupVisible" :rule="rule"></update-rule-popup>
 </template>
 
 <style scoped lang="scss">
@@ -157,7 +105,7 @@ button {
 
 ul {
   @media (min-width: 576px) {
-    &.outlier {
+    &.range {
       height: 150px;
     }
 

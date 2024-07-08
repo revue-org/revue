@@ -64,8 +64,8 @@ const popupVisible = ref<boolean>(false)
     <q-btn label="Add a security rule" color="primary" @click="popupVisible = true" />
   </div>
 
-  <h2>Outliers alarms:</h2>
-  <div class="outlier-container">
+  <h2>Ranges alarms:</h2>
+  <div class="range-container">
     <rule-badge
       v-for="(rule, index) in rangeRules"
       :rule="rule"
@@ -97,7 +97,7 @@ h2 {
   margin: 0.5rem 1rem;
 }
 
-div.outlier-container {
+div.range-container {
   margin: 0.5rem 1rem;
   display: flex;
   gap: 1rem;

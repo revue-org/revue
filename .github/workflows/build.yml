@@ -56,6 +56,7 @@ jobs:
           cache: 'npm'
       - name: Run semantic release dry run
         run: |
+          npm i
           npx semantic-release --dry-run --no-ci
 #      - name: Pre-compute the next version
 #        id: compute-next-version

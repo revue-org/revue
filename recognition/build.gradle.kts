@@ -6,14 +6,17 @@ class Task(
 val setup = tasks.register<Exec>("setup") {
     commandLine = listOf("pip", "install", "-r", "requirements.txt")
 }
-tasks.register<Exec>("install") {
+
+val install = tasks.register<Exec>("install") {
     dependsOn(setup)
     commandLine = listOf("poetry", "install", "--no-root")
 }
+
 val build = tasks.register<Exec>("build") {
-    dependsOn(setup)
+    dependsOn(install)
     commandLine = listOf("poetry", "build")
 }
+
 listOf(
     Task("test", listOf("poetry", "run", "python", "run_tests.py")),
     Task("format", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),

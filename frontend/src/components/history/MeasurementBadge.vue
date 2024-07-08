@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Measurement, MeasureType } from 'common/dist/domain/core'
+import { type Measurement } from 'common/dist/domain/core'
 
 defineProps<{
   measurement: Measurement

@@ -67,7 +67,7 @@ const addNewDevice = () => {
     },
     locationId: locationId.value
   })
-    .then(async (res: any) => {
+    .then(async (_res: any) => {
       popPositive($q, 'Device added successfully')
       emit('get-devices')
     })

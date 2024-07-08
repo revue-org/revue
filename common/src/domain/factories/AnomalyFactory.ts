@@ -1,7 +1,7 @@
 import { DomainEventId } from '../core/DomainEventId.js'
 import { Outlier } from '../core/Outlier.js'
 import { Intrusion } from '../core/Intrusion.js'
-import { Detection, DomainEvent, Measurement } from '../core'
+import { Detection, Measurement } from '../core'
 
 export class AnomalyFactory {
   static newId(): DomainEventId {

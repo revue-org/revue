@@ -10,7 +10,6 @@ import { SocketMonitoringEventsHub } from '@/infrastructure/events/socket/Socket
 import { MonitoringEventsHub } from '@/application/services/MonitoringEventsHub'
 import { MonitoringEventsHubImpl } from '@/infrastructure/events/MonitoringEventsHubImpl.js'
 import { getBrokersFromEnv, KafkaBroker, KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
-import { MonitoringService } from '@/application/services/MonitoringService'
 import { MonitoringServiceImpl } from '@/application/services/impl/MonitoringServiceImpl.js'
 
 config({ path: process.cwd() + '/../.env' })
@@ -70,7 +69,7 @@ const monitoringEventsHub: MonitoringEventsHub = new MonitoringEventsHubImpl(
   kafkaMonitoring,
   socketMonitoring
 )
-const monitoringService: MonitoringService = new MonitoringServiceImpl(monitoringEventsHub)
+new MonitoringServiceImpl(monitoringEventsHub)
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {

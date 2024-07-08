@@ -5,7 +5,7 @@ import { popDelete, popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import type { Device } from '@/domain/core/Device'
 import { colorMap } from '@/utils/MeasureUtils'
-import { MeasureType } from 'common/dist/domain/core'
+
 import {
   type Capability,
   CapabilityType,

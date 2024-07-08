@@ -11,7 +11,10 @@ const { rule } = defineProps<{
 
 const emit = defineEmits<{
   (_e: 'delete-rule'): void
+  (_e: 'get-range-rules'): void
+  (_e: 'get-intrusion-rules'): void
 }>()
+/*  */
 
 const updatePopupVisible = ref<boolean>(false)
 const $q = useQuasar()
@@ -65,9 +68,14 @@ const deleteRule = () => {
       </li>
     </ul>
   </div>
-  <update-rule-popup v-model="updatePopupVisible" :rule="rule"></update-rule-popup>
+  <update-rule-popup
+    v-model="updatePopupVisible"
+    :rule="rule"
+    @get-range-rules="emit('get-range-rules')"
+    @get-intrusion-rules="emit('get-intrusion-rules')"
+  ></update-rule-popup>
 </template>
-
+<!---->
 <style scoped lang="scss">
 @import 'src/assets/variables';
 @import 'src/assets/quasar-variables';

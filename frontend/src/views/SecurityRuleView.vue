@@ -80,9 +80,13 @@ const popupVisible = ref<boolean>(false)
       v-for="(rule, index) in intrusionRules"
       :rule="rule"
       @delete-rule="deleteRule(rule)"
+      @get-range-rules="getRangeRules()"
+      @get-intrusion-rules="getIntrusionRules()"
       :key="index"
     />
   </div>
+  <!--  /*
+    */-->
 
   <new-security-rule-popup v-model="popupVisible"></new-security-rule-popup>
 </template>

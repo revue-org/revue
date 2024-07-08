@@ -9,10 +9,10 @@ import { useUserStore } from '@/stores/user'
 
 const $q = useQuasar()
 
-/*const emit = defineEmits<{
-  (_e: 'get-ranges-rule'): void,
-  (_e: 'get-intrusions-rule'): void
-}>()*/
+const emit = defineEmits<{
+  (_e: 'get-ranges-rules'): void
+  (_e: 'get-intrusion-rules'): void
+}>()
 
 const { rule } = defineProps<{
   rule: SecurityRule
@@ -28,7 +28,6 @@ const updateRule = async (rule: SecurityRule) => {
   let url: string = `http://${alarmHost}:${alarmPort}/rules/`
   let body: any
   let updatedContacts = contacts.value.map((contact: any) => {
-    console.log(contact)
     return {
       type: contact.label.split(':')[0],
       value: contact.value
@@ -54,10 +53,9 @@ const updateRule = async (rule: SecurityRule) => {
       objectClass: (rule as IntrusionRule).objectClass
     }
   }
-  console.log(url, body)
   await RequestHelper.put(url, body)
     .then(async (_res: any) => {
-      //rule.type === 'range' ? emit('get-ranges-rule') : emit('get-intrusions-rule')
+      rule.type === 'range' ? emit('get-range-rules') : emit('get-intrusion-rules')
       popPositive($q, 'Rule updated successfully')
     })
     .catch(error => {

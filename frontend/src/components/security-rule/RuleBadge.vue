@@ -80,7 +80,7 @@ const deleteRule = () => {
         />
         <q-icon v-else name="circle" color="red" size="2em" />
       </div>
-      <span>{{ rule.activeOn }} -</span>
+      <i>{{ rule.activeOn }} - </i>
       <span v-if="rule.type == 'range'">
         {{ (rule as RangeRule).measure.type.toUpperCase() }}
       </span>
@@ -95,7 +95,7 @@ const deleteRule = () => {
       </li>
 
       <li>
-        <i>Active from: </i>{{ rule.validity.from.toLocaleString().split(' ')[1] }} <i>to: </i
+        <span>Active from: </span>{{ rule.validity.from.toLocaleString().split(' ')[1] }} <span>to: </span
         >{{ rule.validity.to.toLocaleString().split(' ')[1] }}
       </li>
       <li>{{ rule.description }}</li>

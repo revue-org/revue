@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RequestHelper, { authHost, authPort, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 import type { SecurityRule } from "@/domain/core/SecurityRule";
 import { onMounted, ref } from "vue";
@@ -7,9 +7,9 @@ import { onMounted, ref } from "vue";
 const insertRule = async (rule: SecurityRule) => {
 
 }
-
+/*
 const resetFields = () => {
-  ruleType.value = "outlier"
+  type.value = "outlier"
   min.value = undefined
   max.value = undefined
   code.value = undefined
@@ -21,7 +21,7 @@ const resetFields = () => {
   objectClass.value = ObjectClass.PERSON
 }
 
-const ruleType = ref<string>("outlier")
+const type = ref<string>("outlier")
 const min = ref<number>()
 const max = ref<number>()
 const code = ref<string>()
@@ -30,9 +30,9 @@ const description = ref<string>()
 const from = ref<string>()
 const to = ref<string>()
 const measure = ref<Measure>(Measure.TEMPERATURE)
-const objectClass = ref<ObjectClass>(ObjectClass.PERSON)
+const objectClass = ref<ObjectClass>(ObjectClass.PERSON)*/
 
-const optionsObjectClass = ref(
+/*const optionsObjectClass = ref(
   Object.keys(ObjectClass)
     .filter(key => isNaN(Number(key)))
     .filter(
@@ -47,9 +47,9 @@ const optionsObjectClass = ref(
         value: ObjectClassConverter.convertToObjectClass(value)
       }
     })
-)
+)*/
 
-const optionsMeasure = ref(
+/*const optionsMeasure = ref(
   Object.keys(Measure)
     .filter(key => isNaN(Number(key)))
     .map(value => {
@@ -58,9 +58,9 @@ const optionsMeasure = ref(
         value: MeasureConverter.convertToMeasure(value)
       }
     })
-)
+)*/
 
-const optionsCameraCodes: ref<{ label: string; value: string }> = ref([])
+/*const optionsCameraCodes: ref<{ label: string; value: string }> = ref([])
 const getCameraCodes = async () => {
   await RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`)
     .then((res: any) => {
@@ -92,12 +92,12 @@ const getSensorCodes = async () => {
     .catch(error => {
       console.log(error)
     })
-}
+}*/
 
-const optionsContacts = ref<{ label: string; value: string }[]>([])
+/*const optionsContacts = ref<{ label: string; value: string }[]>([])
 
 const getContacts = async () => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/users/${useUserStore().userId}`)
+  await RequestHelper.get(`http://${authHost}:${authPort}/users/${useUserStore().id}`)
     .then((res: any) => {
       optionsContacts.value = []
       for (let i = 0; i < res.data.contacts.length; i++) {
@@ -110,7 +110,7 @@ const getContacts = async () => {
     .catch(error => {
       console.log(error)
     })
-}
+}*/
 
 /*const addNewSecurityRule = () => {
   if (ruleType.value == AnomalyType.EXCEEDING) {
@@ -156,21 +156,22 @@ const getContacts = async () => {
 onMounted(async () => {
 /*  await getCameraCodes()
   await getSensorCodes()*/
-  await getContacts()
+  //await getContacts()
 })
 </script>
 
 <template>
-  <q-dialog>
+  <a>ciao</a>
+<!--  <q-dialog>
     <q-card style="width: 700px; max-width: 80vw">
       <q-card-section>
         <h3 class="text-h5">Add a Security Rule</h3>
       </q-card-section>
       <q-card-section class="q-gutter-md">
-        <q-radio dense v-model="ruleType" :val="outlier" label="Outlier" />
-        <q-radio dense v-model="ruleType" :val="intrusion" label="Intrusion" />
+        <q-radio dense v-model="type" :val="outlier" label="Outlier" />
+        <q-radio dense v-model="type" :val="intrusion" label="Intrusion" />
       </q-card-section>
-      <div v-if="ruleType == AnomalyType.EXCEEDING">
+      <div v-if="type == AnomalyType.EXCEEDING">
         <q-card-section class="q-pt-none">
           <label>Code</label>
           <q-select v-model="code" :options="optionsSensorCodes" label="Device code" />
@@ -188,7 +189,7 @@ onMounted(async () => {
           <q-input type="number" v-model="max" />
         </q-card-section>
       </div>
-      <div v-if="ruleType == AnomalyType.INTRUSION">
+      <div v-if="type == AnomalyType.INTRUSION">
         <q-card-section class="q-pt-none">
           <label>Code</label>
           <q-select v-model="code" :options="optionsCameraCodes" label="Camera code" />
@@ -230,5 +231,5 @@ onMounted(async () => {
         <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="addNewSecurityRule" />
       </q-card-actions>
     </q-card>
-  </q-dialog>
+  </q-dialog>-->
 </template>

@@ -1,6 +1,6 @@
 import { type Contact, type Measure, ObjectClass } from 'common/dist/domain/core'
 
-interface TimeSlot {
+export interface TimeSlot {
   readonly from: Date
 
   readonly to: Date

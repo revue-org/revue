@@ -1,4 +1,4 @@
-import type { IntrusionRule, RangeRule } from '@/domain/core/SecurityRule'
+import type { IntrusionRule, RangeRule, TimeSlot } from "@/domain/core/SecurityRule";
 
 export function composeRangeRule(rangeRule: any): RangeRule {
   return {
@@ -9,10 +9,10 @@ export function composeRangeRule(rangeRule: any): RangeRule {
     description: rangeRule.description,
     contacts: rangeRule.contacts,
     enabled: rangeRule.enabled,
-    validity: rangeRule.validity,
-    min: rangeRule.data.min,
-    max: rangeRule.data.max,
-    measure: rangeRule.data.measure
+    validity: composeValidity(rangeRule.validity),
+    min: rangeRule.min,
+    max: rangeRule.max,
+    measure: rangeRule.measure
   }
 }
 
@@ -25,7 +25,14 @@ export function composeIntrusionRule(intrusionRule: any): IntrusionRule {
     description: intrusionRule.description,
     contacts: intrusionRule.contacts,
     enabled: intrusionRule.enabled,
-    validity: intrusionRule.validity,
-    objectClass: intrusionRule.data.objectClass
+    validity: composeValidity(intrusionRule.validity),
+    objectClass: intrusionRule.objectClass
+  }
+}
+
+export function composeValidity(validity: any): TimeSlot {
+  return {
+    from: new Date(validity.from),
+    to: new Date(validity.to)
   }
 }

@@ -1,4 +1,4 @@
-import config from 'semantic-release-preconfigured-conventional-commits';
+import config from 'semantic-release-preconfigured-conventional-commits' assert { type: "json" };
 const publishCmd = `
 echo "not releasing yet";
 cat CHANGELOG.md'

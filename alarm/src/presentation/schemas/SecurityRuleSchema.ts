@@ -1,14 +1,38 @@
-import { z } from 'zod'
-import { MeasureType } from 'common/dist/domain/core/MeasureType.js'
-import { ContactType } from 'common/dist/domain/core/ContactType.js'
-import { MeasureUnit } from 'common/dist/domain/core/MeasureUnit.js'
-import { ObjectClass } from 'common/dist/domain/core/ObjectClass.js'
+import { z, ZodType } from 'zod'
+import { MeasureType } from '@common/domain/core/MeasureType.js'
+import { ContactType } from '@common/domain/core/ContactType.js'
+import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
+import { ObjectClass } from '@common/domain/core/ObjectClass.js'
+import { Contact } from '@common/domain/core'
 
 export type RangeRuleInsertion = {
-
+  description: string
+  activeOn: string
+  contacts: Contact[]
+  author: string
+  validityStart: Date
+  validityEnd: Date
+  rule: {
+    measure: {
+      type: MeasureType
+      unit: MeasureUnit
+    }
+    minValue: number
+    maxValue: number
+  }
 }
 
-export const rangeRuleSchema = z.object({
+export type IntrusionRuleInsertion = {
+  description: string
+  activeOn: string
+  contacts: Contact[]
+  author: string
+  validityStart: Date
+  validityEnd: Date
+  objectClass: ObjectClass
+}
+
+export const rangeRuleInsertionSchema: ZodType<RangeRuleInsertion> = z.object({
   description: z.string(),
   activeOn: z.string(),
   contacts: z.array(
@@ -30,12 +54,12 @@ export const rangeRuleSchema = z.object({
   })
 })
 
-export const intrusionRuleSchema = z.object({
+export const intrusionRuleInsertionSchema: ZodType<IntrusionRuleInsertion> = z.object({
   description: z.string(),
   activeOn: z.string(),
   contacts: z.array(
     z.object({
-      contactType: z.nativeEnum(ContactType),
+      type: z.nativeEnum(ContactType),
       value: z.string().min(5)
     })
   ),

@@ -5,9 +5,12 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Contact } from '@common/domain/core/Contact.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
-import { rangeRuleSchema } from '@/presentation/schemas/SecurityRuleSchema.js'
+import { IntrusionRuleInsertion, RangeRuleInsertion } from '@/presentation/schemas/SecurityRuleSchema.js'
+import { SecurityRulePresenter } from '@/presentation/SecurityRulePresenter'
+import { SecurityRulePresenterImpl } from '@/presentation/impl/SecurityRulePresenterImpl.js'
 
 export const router: Router = express.Router()
+const securityRulePresenter: SecurityRulePresenter = new SecurityRulePresenterImpl()
 
 router.route('/:id/contacts').get((req: Request, res: Response): void => {
   controller
@@ -37,7 +40,7 @@ router
     try {
       req.body.validityStart = new Date(req.body.validityStart)
       req.body.validityEnd = new Date(req.body.validityEnd)
-      const msg = rangeRuleSchema.parse(req.body)
+      const msg: RangeRuleInsertion = securityRulePresenter.parseRangeRuleInsertion(req.body)
       controller
         .createRangeRule(
           msg.activeOn,
@@ -102,15 +105,16 @@ router
       })
   })
   .post((req: Request, res: Response): void => {
+    const msg: IntrusionRuleInsertion = securityRulePresenter.parseIntrusionRuleInsertion(req.body)
     controller
       .createIntrusionRule(
-        req.body.activeOn,
-        req.body.author,
-        req.body.description,
-        req.body.objectClass,
-        new Date(req.body.validityStart),
-        new Date(req.body.validityEnd),
-        req.body.contacts
+        msg.activeOn,
+        msg.author,
+        msg.description,
+        msg.objectClass,
+        new Date(msg.validityStart),
+        new Date(msg.validityEnd),
+        msg.contacts
       )
       .then((): void => {
         res.status(HttpStatusCode.CREATED).send({ success: 'Intrusion rule created' })

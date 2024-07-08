@@ -1,8 +1,7 @@
-import { IntrusionRule, RangeRule } from '@/domain/core'
+import { IntrusionRuleInsertion, RangeRuleInsertion } from '@/presentation/schemas/SecurityRuleSchema'
 
 export interface SecurityRulePresenter {
+  parseIntrusionRuleInsertion(obj: object): IntrusionRuleInsertion
 
-  parseIntrusionRule(obj: object): IntrusionRule
-
-  parseRangeRule(obf: object): RangeRule
+  parseRangeRuleInsertion(obf: object): RangeRuleInsertion
 }

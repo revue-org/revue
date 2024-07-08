@@ -1,13 +1,17 @@
-import { IntrusionRule, RangeRule } from '@/domain/core'
 import { SecurityRulePresenter } from '@/presentation/SecurityRulePresenter'
-import { intrusionRuleSchema } from '@/presentation/schemas/SecurityRuleSchema'
+import {
+  IntrusionRuleInsertion,
+  intrusionRuleInsertionSchema,
+  RangeRuleInsertion,
+  rangeRuleInsertionSchema
+} from '@/presentation/schemas/SecurityRuleSchema.js'
 
-class SecurityRulePresenterImpl implements SecurityRulePresenter {
-  parseIntrusionRule(obj: object): IntrusionRule {
-   return intrusionRuleSchema.parse(obj)
+export class SecurityRulePresenterImpl implements SecurityRulePresenter {
+  parseIntrusionRuleInsertion(obj: object): IntrusionRuleInsertion {
+    return intrusionRuleInsertionSchema.parse(obj)
   }
 
-  parseRangeRule(obf: object): RangeRule {
-    return undefined
+  parseRangeRuleInsertion(obj: object): RangeRuleInsertion {
+    return rangeRuleInsertionSchema.parse(obj)
   }
 }

@@ -80,8 +80,8 @@ router
         req.body.description,
         req.body.min,
         req.body.max,
-        new Date(req.body.from),
-        new Date(req.body.to),
+        req.body.from,
+        req.body.to,
         req.body.contacts
       )
       .then(() => {
@@ -105,6 +105,8 @@ router
       })
   })
   .post((req: Request, res: Response): void => {
+    req.body.validityStart = new Date(req.body.validityStart)
+    req.body.validityEnd = new Date(req.body.validityEnd)
     const msg: IntrusionRuleInsertion = securityRulePresenter.parseIntrusionRuleInsertion(req.body)
     controller
       .createIntrusionRule(
@@ -112,14 +114,15 @@ router
         msg.author,
         msg.description,
         msg.objectClass,
-        new Date(msg.validityStart),
-        new Date(msg.validityEnd),
+        msg.validityStart,
+        msg.validityEnd,
         msg.contacts
       )
       .then((): void => {
         res.status(HttpStatusCode.CREATED).send({ success: 'Intrusion rule created' })
       })
-      .catch((): void => {
+      .catch((e): void => {
+        console.error(e)
         res.send({ error: 'Intrusion rule not created' })
       })
   })

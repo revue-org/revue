@@ -2,6 +2,8 @@ import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateSecurityRules } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
+import { z } from 'zod'
+import { ContactType, ObjectClass } from 'common/dist/domain/core'
 
 const TOKEN = process.env.DEV_API_KEY
 
@@ -19,8 +21,6 @@ describe('POST /rules', (): void => {
 
     it('should create a new range security rule', async (): Promise<void> => {
       const newRangeRule = {
-        id: 'post-range-rule',
-        type: 'range',
         author: 'test-creator-id',
         activeOn: 'cam-01',
         description: 'This is the description of a range rule',
@@ -67,8 +67,6 @@ describe('POST /rules', (): void => {
 
     it('should create a new intrusion security rule', async (): Promise<void> => {
       const newIntrusionSecurityRule = {
-        id: 'post-intrusion-rule',
-        type: 'intrusion',
         author: 'test-user-id',
         activeOn: 'test-device-id',
         description: 'This is the description of an intrusion rule',

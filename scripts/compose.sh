@@ -1,6 +1,7 @@
 docker compose \
     --project-name revue \
     --project-directory . \
+    -f gateway/docker-compose.yml \
     -f auth/docker-compose.yml \
     -f user/docker-compose.yml \
     -f kafka/docker-compose.yml \

@@ -1,0 +1,29 @@
+services:
+
+  revue-gateway:
+    # The official v3 Traefik docker image
+    image: traefik:v3.0
+    container_name: revue-gateway
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --certificatesresolvers.myresolver.acme.httpchallenge=true
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.myresolver.acme.email=postmaster@example.com
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.jsonù
+      # These are only for test purpose
+      - --log.level=DEBUG
+      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+    ports:
+      - "80:80"
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8081:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro

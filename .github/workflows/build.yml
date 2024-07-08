@@ -50,15 +50,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Pre-compute the next version
-        id: compute-next-version
-        uses: nicolasfara/precompute-semantic-release-version-action@2.0.1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Use the next version
+      - name: Run semantic release dry run
         run: |
-          echo "Will release: ${{ steps.compute-next-version.outputs.will-release }}"
-          echo "The next version is ${{ steps.compute-next-version.outputs.next-version }}"
+          npx semantic-release --dry-run --no-ci
+#      - name: Pre-compute the next version
+#        id: compute-next-version
+#        uses: nicolasfara/precompute-semantic-release-version-action@2.0.1
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Use the next version
+#        run: |
+#          echo "Will release: ${{ steps.compute-next-version.outputs.will-release }}"
+#          echo "The next version is ${{ steps.compute-next-version.outputs.next-version }}"

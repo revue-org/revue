@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { IntrusionRule, RangeRule, SecurityRule } from "@/domain/core/SecurityRule";
-import RequestHelper, { alarmHost, alarmPort } from "@/utils/RequestHelper";
-import { onMounted, ref } from "vue";
-import { popNegative, popPositive } from "@/scripts/Popups";
-import { useQuasar } from "quasar";
-import { type Contact, type Measure, ObjectClass } from "common/dist/domain/core";
-import { useUserStore } from "@/stores/user";
+import type { IntrusionRule, RangeRule, SecurityRule } from '@/domain/core/SecurityRule'
+import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
+import { onMounted, ref } from 'vue'
+import { popNegative, popPositive } from '@/scripts/Popups'
+import { useQuasar } from 'quasar'
+import { type Contact } from 'common/dist/domain/core'
+import { useUserStore } from '@/stores/user'
 
 const $q = useQuasar()
 
@@ -26,7 +26,7 @@ const max = ref<number>((rule as RangeRule).max)
 
 const updateRule = async (rule: SecurityRule) => {
   let url: string = `http://${alarmHost}:${alarmPort}/rules/`
-  let body: any;
+  let body: any
   let updatedContacts = contacts.value.map((contact: any) => {
     console.log(contact)
     return {
@@ -34,13 +34,13 @@ const updateRule = async (rule: SecurityRule) => {
       value: contact.value
     }
   })
-  const commonBody : any = {
+  const commonBody: any = {
     description: description.value,
     from: new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'),
     to: new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z'),
     contacts: updatedContacts
   }
-  if(rule.type === 'range') {
+  if (rule.type === 'range') {
     url = url + 'ranges/' + rule.id
     body = {
       ...commonBody,
@@ -66,13 +66,14 @@ const updateRule = async (rule: SecurityRule) => {
     })
 }
 
-const optionsContacts: ref<{ label: string; value: string }> = ref(rule.contacts
-  .map(contact => {
+const optionsContacts: ref<{ label: string; value: string }> = ref(
+  rule.contacts.map(contact => {
     return {
       label: contact.type + ': ' + contact.value,
       value: contact.value
     }
-  }))
+  })
+)
 const getContacts = async () => {
   useUserStore().contacts.forEach((contact: Contact) => {
     optionsContacts.value.push({
@@ -82,13 +83,14 @@ const getContacts = async () => {
   })
 }
 
-const contacts: ref<Contact[]> = ref(rule.contacts
-  .map(contact => {
+const contacts: ref<Contact[]> = ref(
+  rule.contacts.map(contact => {
     return {
       label: contact.type + ': ' + contact.value,
       value: contact.value
     }
-  }))
+  })
+)
 
 onMounted(async () => {
   await getContacts()

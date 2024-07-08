@@ -3,7 +3,7 @@ import { popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import type { IntrusionRule, RangeRule, SecurityRule } from '@/domain/core/SecurityRule'
-import UpdateRulePopup from "@/components/security-rule/UpdateRulePopup.vue";
+import UpdateRulePopup from '@/components/security-rule/UpdateRulePopup.vue'
 
 const { rule } = defineProps<{
   rule: SecurityRule

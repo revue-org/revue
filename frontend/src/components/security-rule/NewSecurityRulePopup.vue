@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
-import type { SecurityRule } from "@/domain/core/SecurityRule";
-import { onMounted, ref } from "vue";
+import type { SecurityRule } from '@/domain/core/SecurityRule'
+import { onMounted, ref } from 'vue'
 
-const insertRule = async (rule: SecurityRule) => {
-
-}
+const insertRule = async (rule: SecurityRule) => {}
 /*
 const resetFields = () => {
   type.value = "outlier"
@@ -154,7 +152,7 @@ const getContacts = async () => {
 }*/
 
 onMounted(async () => {
-/*  await getCameraCodes()
+  /*  await getCameraCodes()
   await getSensorCodes()*/
   //await getContacts()
 })
@@ -162,7 +160,7 @@ onMounted(async () => {
 
 <template>
   <a>ciao</a>
-<!--  <q-dialog>
+  <!--  <q-dialog>
     <q-card style="width: 700px; max-width: 80vw">
       <q-card-section>
         <h3 class="text-h5">Add a Security Rule</h3>

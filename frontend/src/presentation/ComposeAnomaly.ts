@@ -4,7 +4,7 @@ import {
   MeasureFactory,
   MeasurementFactory
 } from 'common/dist/domain/factories'
-import type { Intrusion, Outlier } from "common/dist/domain/core";
+import type { Intrusion, Outlier } from 'common/dist/domain/core'
 
 export const composeOutlier = (outlier: any): Outlier => {
   return AnomalyFactory.outlierFrom(

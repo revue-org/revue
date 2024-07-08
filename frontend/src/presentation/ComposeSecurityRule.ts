@@ -1,4 +1,4 @@
-import type { IntrusionRule, RangeRule, TimeSlot } from "@/domain/core/SecurityRule";
+import type { IntrusionRule, RangeRule, TimeSlot } from '@/domain/core/SecurityRule'
 
 export function composeRangeRule(rangeRule: any): RangeRule {
   return {

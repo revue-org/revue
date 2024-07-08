@@ -14,10 +14,11 @@ services:
       - ${KAFKA_HOST}
     networks:
       - my-net
-
     labels:
       - traefik.enable=true
-      - traefik.http.routers.device.rule=Host(`localhost:${DEVICE_PORT}`)
+      - traefik.http.routers.device.rule=Host(`device.localhost`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
 
   revue-device-db:
     image: mongo

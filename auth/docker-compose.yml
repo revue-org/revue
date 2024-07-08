@@ -13,6 +13,11 @@ services:
       - revue-auth-db
     networks:
       - my-net
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.auth.rule=Host(`auth.localhost`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
 
   revue-auth-db:
     image: mongo

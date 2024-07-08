@@ -13,11 +13,11 @@ services:
       - --entryPoints.websecure.address=:443
       - --certificatesresolvers.myresolver.acme.httpchallenge=true
       - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.myresolver.acme.email=postmaster@example.com
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.jsonù
+      - --certificatesresolvers.myresolver.acme.email=letsdothis.shared@gmail.com
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
       # These are only for test purpose
       - --log.level=DEBUG
-      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+#      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
     ports:
       - "80:80"
       - "443:443"
@@ -27,3 +27,11 @@ services:
       # So that Traefik can listen to the Docker events
       - ./letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    networks:
+      - my-net
+
+networks:
+  my-net:
+    name: revue-network
+    external: true

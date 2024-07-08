@@ -14,9 +14,9 @@ services:
 
     labels:
       - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`localhost:${FRONTEND_PORT}`)
-      - traefik.http.routers.whoami.entrypoints=websecure
-      - traefik.http.routers.whoami.tls.certresolver=myresolver
+      - traefik.http.routers.frontend.rule=Host(`frontend.localhost`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
 
 networks:
   my-net:

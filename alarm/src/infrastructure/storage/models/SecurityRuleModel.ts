@@ -60,7 +60,7 @@ export class SecurityRuleDBAdapter {
         SecurityRulesFactory.idOf(securityRule.id),
         securityRule.activeOn,
         securityRule.author,
-        ObjectClass[securityRule.data.objectClass as keyof typeof ObjectClass],
+        securityRule.data.objectClass as ObjectClass,
         contacts,
         securityRule.description,
         SecurityRulesFactory.newTimeSlot(securityRule.validity.from, securityRule.validity.to),
@@ -77,7 +77,7 @@ export class SecurityRuleDBAdapter {
       }
     })
     if (securityRule.type == 'range') {
-      const rule = securityRule as RangeRule
+      const rule: RangeRule = securityRule as RangeRule
       return {
         id: rule.id.value,
         type: 'range',
@@ -97,7 +97,7 @@ export class SecurityRuleDBAdapter {
         enabled: rule.enabled
       }
     } else {
-      const rule = securityRule as IntrusionRule
+      const rule: IntrusionRule = securityRule as IntrusionRule
       return {
         id: rule.id.value,
         type: 'intrusion',
@@ -110,7 +110,7 @@ export class SecurityRuleDBAdapter {
         },
         contacts: contacts,
         data: {
-          objectClass: 'person'
+          objectClass: rule.objectClass
         },
         enabled: rule.enabled
       }

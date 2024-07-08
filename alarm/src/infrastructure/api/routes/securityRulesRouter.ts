@@ -9,29 +9,6 @@ import { rangeRuleSchema } from '@/presentation/api/schemas/SecurityRuleSchema.j
 
 export const router: Router = express.Router()
 
-router
-  .route('/:id')
-  .get((req: Request, res: Response): void => {
-    controller
-      .getSecurityRuleById(req.params.id)
-      .then((securityRule: SecurityRule): void => {
-        res.status(HttpStatusCode.OK).send(securityRule)
-      })
-      .catch((): void => {
-        res.send({ error: 'No security rule found' })
-      })
-  })
-  .delete((req: Request, res: Response): void => {
-    controller
-      .deleteSecurityRule(req.params.id)
-      .then(() => {
-        res.status(HttpStatusCode.OK).send({ success: 'Security rule correctly deleted' })
-      })
-      .catch(() => {
-        res.send({ error: 'Security rule not deleted' })
-      })
-  })
-
 router.route('/:id/contacts').get((req: Request, res: Response): void => {
   controller
     .getSecurityRuleContacts(req.params.id)
@@ -51,7 +28,8 @@ router
       .then((rangeRules: RangeRule[]): void => {
         res.status(HttpStatusCode.OK).send(rangeRules)
       })
-      .catch((): void => {
+      .catch((e): void => {
+        console.log(e)
         res.send({ error: 'No range rules found' })
       })
   })
@@ -169,5 +147,28 @@ router
       })
       .catch(() => {
         res.send({ error: 'Intrusion rule not updated' })
+      })
+  })
+
+router
+  .route('/:id')
+  .get((req: Request, res: Response): void => {
+    controller
+      .getSecurityRuleById(req.params.id)
+      .then((securityRule: SecurityRule): void => {
+        res.status(HttpStatusCode.OK).send(securityRule)
+      })
+      .catch((): void => {
+        res.send({ error: 'No security rule found' })
+      })
+  })
+  .delete((req: Request, res: Response): void => {
+    controller
+      .deleteSecurityRule(req.params.id)
+      .then(() => {
+        res.status(HttpStatusCode.OK).send({ success: 'Security rule correctly deleted' })
+      })
+      .catch(() => {
+        res.send({ error: 'Security rule not deleted' })
       })
   })

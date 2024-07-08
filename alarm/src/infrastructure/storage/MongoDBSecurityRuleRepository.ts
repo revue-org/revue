@@ -9,7 +9,7 @@ import { SecurityRuleDBAdapter } from '@/infrastructure/storage/models/SecurityR
 import { SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
 
 export class MongoDBSecurityRuleRepository implements SecurityRuleRepository {
-  private model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema)
+  private model = mongoose.model<SecurityRuleDBEntity>('SecurityRuleSchema', securityRuleSchema, "securityRule")
 
   async getRangeRules(): Promise<RangeRule[]> {
     const rules = await this.model

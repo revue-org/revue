@@ -55,7 +55,7 @@ jobs:
           node-version: 20
       - name: Pre-compute the next version
         id: compute-next-version
-        uses: nicolasfara/precompute-semantic-release-version-action@2.0.0
+        uses: nicolasfara/precompute-semantic-release-version-action@2.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Use the next version

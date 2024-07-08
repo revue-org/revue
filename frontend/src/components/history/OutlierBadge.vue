@@ -1,29 +1,35 @@
 <script setup lang="ts">
-import type { Intrusion } from 'common/dist/domain/core'
+import type { Outlier } from "common/dist/domain/core";
 
 defineProps<{
-  intrusion: Intrusion
+  outlier: Outlier
 }>()
 </script>
 
 <template>
   <li>
-        <q-icon size="28px" name="sensor_occupied" />
-        <span> {{ intrusion.timestamp.toLocaleString().split(',')[0] }} </span>
+    <q-icon size="28px" name="timeline" />
+    <span> {{ outlier.timestamp.toLocaleString().split(',')[0] }} </span>
     <span>
-      Source: {{ intrusion.detection.sourceDeviceId }}
+      {{ outlier.measurement.sourceDeviceId }}
     </span>
     <i>
-      Class:
-      {{ intrusion.detection.objectClass }}
+      Value:
+      {{ outlier.measurement.value }}
     </i>
     <span>
       <i>
-        Broken rule:
-        {{ intrusion.intrusionRuleId }}
+        Measure:
+        {{ outlier.measurement.measure.type }} in {{ outlier.measurement.measure.unit }}
       </i>
     </span>
-        <span class="timestamp">Detection hour: {{ intrusion.timestamp.toLocaleString().split(' ')[1] }}</span>
+    <span>
+      <i>
+        Broken rule:
+        {{ outlier.rangeRuleId }}
+      </i>
+    </span>
+    <span class="timestamp">Detection hour: {{ outlier.timestamp.toLocaleString().split(' ')[1] }}</span>
   </li>
 </template>
 

@@ -26,7 +26,8 @@ export class KafkaLogEventsHub implements LogEventsHub {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
       .then((res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`))
       .catch((e: any): string[] => {
-        throw new Error('Error fetching devices')
+        console.log('Error fetching devices, error: ' + e)
+        return []
       })
   }
 

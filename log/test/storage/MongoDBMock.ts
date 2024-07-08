@@ -27,7 +27,7 @@ export const populateLog = async (): Promise<void> => {
   const modelMeasurements = mongoose.model<NumericMeasurementDBEntity>(
     'NumericMeasurementSchema',
     numericMeasurementSchema,
-    'numericMeasurements'
+    'numericMeasurement'
   )
   await modelAnomalies.create(intrusionSample)
   await modelAnomalies.create(outlierSample)

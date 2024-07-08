@@ -2,9 +2,9 @@ import { createRouter, createWebHistory, type Router } from 'vue-router'
 import EmptyLayout from '@/layouts/EmptyLayout.vue'
 import BasicLayout from '@/layouts/BasicLayout.vue'
 /*import MonitoringView from '@/views/MonitoringView.vue'
-import NotFoundView from '@/views/NotFoundView.vue'
 import NotificationView from '@/views/NotificationView.vue'
 import SecurityRuleView from '@/views/SecurityRuleView.vue'*/
+import HistoryView from '@/views/HistoryView.vue'
 import HomeView from '@/views/HomeView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import DevicesView from '@/views/DevicesView.vue'
@@ -35,6 +35,11 @@ const router: Router = createRouter({
           path: 'notifications',
           name: 'Notifications',
           component: NotificationView
+        },
+        {
+          path: 'history',
+          name: 'History',
+          component: HistoryView
         }
         /*{
           path: 'monitoring',
@@ -49,7 +54,7 @@ const router: Router = createRouter({
         {
           path: 'history',
           name: 'History',
-          component: LogView
+          component: HistoryView
         }*/
       ]
     },

@@ -3,7 +3,7 @@ import HttpStatusCode from '@utils/HttpStatusCode.js'
 import { Anomaly, Intrusion, Outlier } from 'common/dist/domain/core'
 import { anomalyController } from '@/infrastructure/api/controller/anomalies.js'
 import { AnomalyPresenter } from 'common/dist/presentation/AnomalyPresenter.js'
-import { AnomalySchema } from 'common/dist/presentation/schemas/AnomalySchema'
+import { AnomalySchema } from 'common/dist/presentation/schemas/AnomalySchema.js'
 
 export const anomalyRouter: Router = express.Router()
 
@@ -12,7 +12,7 @@ anomalyRouter.route('/intrusions').get((req: Request, res: Response): void => {
     .getIntrusions()
     .then((intrusions: Intrusion[]): void => {
       intrusions.forEach(intrusion => {
-        AnomalyPresenter.asDomainEvent(intrusion)
+        AnomalyPresenter.asIntrusionDomainEvent(intrusion)
       })
       res.status(HttpStatusCode.OK).send(intrusions)
     })
@@ -25,13 +25,13 @@ anomalyRouter.route('/outliers').get((req: Request, res: Response): void => {
   anomalyController
     .getOutliers()
     .then((outliers: Outlier[]): void => {
-      outliers.forEach(outlier => {
-        AnomalyPresenter.asDomainEvent(outlier)
+      outliers.forEach((outlier: Outlier): void => {
+        AnomalyPresenter.asOutlierDomainEvent(outlier)
       })
       res.status(HttpStatusCode.OK).send(outliers)
     })
     .catch((): void => {
-      res.send({ error: 'No exceedings found' })
+      res.send({ error: 'No outliers found' })
     })
 })
 

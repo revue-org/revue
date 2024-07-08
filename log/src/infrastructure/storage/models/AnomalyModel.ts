@@ -1,11 +1,8 @@
-import { Anomaly, Detection, Intrusion, Measurement, Outlier } from '@common/domain/core'
+import { Anomaly, Detection, Intrusion, Measure, Measurement, Outlier } from '@common/domain/core'
 import { AnomalyFactory } from '@common/domain/factories/AnomalyFactory.js'
 import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
 import { DetectionFactory } from '@common/domain/factories/DetectionFactory.js'
-import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
-import { MeasureType } from '@common/domain/core/MeasureType.js'
 import { ObjectClass } from '@common/domain/core/ObjectClass.js'
-import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 
 export interface AnomalyDBEntity {
   id: string
@@ -38,10 +35,7 @@ export class AnomalyDBAdapter {
           MeasurementFactory.idOf(anomaly.data.measurementId!),
           anomaly.data.timestamp,
           anomaly.data.sourceDeviceId,
-          MeasureFactory.createMeasure(
-            MeasureType[anomaly.data.measure!.type as keyof typeof MeasureType],
-            MeasureUnit[anomaly.data.measure!.unit as keyof typeof MeasureUnit]
-          ),
+          anomaly.data.measure! as Measure,
           anomaly.data.value!
         ),
         anomaly.data.rangeRuleId!
@@ -54,7 +48,7 @@ export class AnomalyDBAdapter {
           DetectionFactory.idOf(anomaly.data.detectionId!),
           anomaly.data.timestamp,
           anomaly.data.sourceDeviceId,
-          ObjectClass[anomaly.data.objectClass! as keyof typeof ObjectClass]
+          anomaly.data.objectClass! as ObjectClass
         ),
         anomaly.data.intrusionRuleId!
       )

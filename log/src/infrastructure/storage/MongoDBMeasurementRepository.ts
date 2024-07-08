@@ -10,7 +10,7 @@ export class MongoDBMeasurementRepository implements MeasurementRepository {
   private model = mongoose.model<NumericMeasurementDBEntity>(
     'NumericMeasurementSchema',
     numericMeasurementSchema,
-    'numericMeasurements'
+    'numericMeasurement'
   )
 
   async getMeasurements(): Promise<Measurement[]> {

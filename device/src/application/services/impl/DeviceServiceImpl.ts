@@ -47,7 +47,10 @@ export class DeviceServiceImpl implements DeviceService {
         }
         return capabilities
       })
-      .catch()
+      .catch((error: any): DeviceCapability[] => {
+        console.log('Error while fetching capabilities for device: ' + deviceId.value + 'error:' + error)
+        return []
+      })
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {

@@ -1,35 +1,30 @@
-<!--
 <script setup lang="ts">
-import { getMeasureColor } from '@/utils/MeasureUtils'
-import { type EnvironmentData, Measure } from 'domain/dist/domain/device/core'
-import { MeasureUnitConverter } from 'domain/dist/utils'
+import { type Measurement, MeasureType } from 'common/dist/domain/core'
 
 defineProps<{
-  environmentData: EnvironmentData
+  measurement: Measurement
 }>()
 </script>
 <template>
   <li>
     <q-icon size="28px" name="timeline" />
+    <span> {{ measurement.timestamp.toLocaleString().split(',')[0] }} </span>
     <span>
-      {{ environmentData.sourceDeviceId.code }}
+      Source: {{ measurement.sourceDeviceId }}
     </span>
-    <span> {{ environmentData.timestamp.toLocaleString().split(',')[0] }} </span>
+    <i>
+      Value:
+      {{ measurement.value }}
+    </i>
     <span>
-      <i
-        :style="{
-          color: getMeasureColor(environmentData.measure)
-        }"
-        >{{ Measure[environmentData.measure] }}</i
-      >
       <i>
-        Measurement value:
-        {{ environmentData.value }} {{ MeasureUnitConverter.convertToString(environmentData.measureUnit) }}
+        Measure:
+        {{ measurement.measure.type }} in {{ measurement.measure.unit }}
       </i>
     </span>
 
     <span class="timestamp"
-      >Detection hour: {{ environmentData.timestamp.toLocaleString().split(' ')[1] }}</span
+      >Detection hour: {{ measurement.timestamp.toLocaleString().split(' ')[1] }}</span
     >
   </li>
 </template>
@@ -87,4 +82,3 @@ li {
   }
 }
 </style>
--->

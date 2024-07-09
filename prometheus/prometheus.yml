@@ -1,15 +1,7 @@
 global:
-  scrape_interval: 15s
+  scrape_interval: 5s # Scrape metrics from targets every 5 seconds, TODO: change for production
 
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['revue-prometheus:9090']
-
-  - job_name: 'revue'
-    static_configs:
-      - targets:
-          - 'revue-auth:4000'
-          - 'revue-alarm:4002'
-          - 'revue-monitoring:4001'
-          # Add more targets as needed
+      - targets: ['revue-prometheus:9090'] # Scrape Prometheus (itself) on http://revue-prometheus:9090/metrics

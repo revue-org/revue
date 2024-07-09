@@ -5,13 +5,24 @@ import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/R
 import type { User } from '@/domain/core/User'
 import UserListElement from '@/components/admin/UserListElement.vue'
 import { useUserStore } from '@/stores/user'
-import type { Contact } from "common/dist/domain/core";
+import type { Contact } from 'common/dist/domain/core'
+import { popNegative, popPositive } from '@/scripts/Popups'
 
 const $q = useQuasar()
 const users = ref<User[]>([])
 
+const name = ref('')
+const surname = ref('')
+const mail = ref('')
+const contacts = ref<Contact[]>([])
+const permissions = ref<string[]>([])
+const username = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+
 const getUsers = async (): Promise<void> => {
   await RequestHelper.get(`http://${authHost}:${authPort}/users`).then((access: any) => {
+    users.value = []
     for (let i = 0; i < access.data.length; i++) {
       console.log(access.data[i])
       RequestHelper.get(`http://${userHost}:${userPort}/${access.data[i].id.value}`).then((registry: any) => {
@@ -31,50 +42,48 @@ const getUsers = async (): Promise<void> => {
   })
 }
 
-/*const updateUsers = async () => {
-  users.value = []
-  const a: User[] = await getUsers()
-  for (const user of a) {
-    users.value.push(user)
-  }
-  console.log('users updated', users.value)
-}
-updateUsers()*/
-
-const name = ref('')
-const surname = ref('')
-const mail = ref('')
-//TODO TO MODIFY
-const contacts = ref('')
-const permissions = ref('')
-
-const username = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-
 const addNewUser = () => {
-  /*if (checkPasswordCorrectness()) {
-    RequestHelper.post(`${httpProtocol}://${backendHost}:${backendPort}/users`, {
-      name: name.value,
-      surname: surname.value,
-      role: role.value,
-      username: username.value,
-      phone: phone.value,
-      password: password.value
+  if (checkPasswordCorrectness()) {
+    let newPermissions: string[] = permissions.value.map((permission: any) => {
+      return permission.value
     })
-      .then((res: any) => {
-        console.log(res)
-        if (res.status === HttpStatusCode.Created) {
-          popPositive($q, 'Utente creato con successo')
-        }
-        updateUsers()
+    let newContacts: Contact[] = contacts.value.map((contact: any) => {
+      return {
+        type: contact.label.split(':')[0],
+        value: contact.value
+      }
+    })
+    RequestHelper.post(`http://${authHost}:${authPort}/users`, {
+      username: username.value,
+      password: password.value,
+      permissions: newPermissions
+    })
+      .then((userId: any) => {
+        console.log(userId.data)
+        RequestHelper.post(`http://${userHost}:${userPort}/`, {
+          id: userId.data.value,
+          name: name.value,
+          surname: surname.value,
+          mail: mail.value,
+          contacts: newContacts
+        })
+          .then((res: any) => {
+            console.log(res)
+            getUsers()
+            popPositive($q, 'User created successfully')
+          })
+          .catch(e => {
+            console.log(e)
+            popNegative($q, 'Error while creating user')
+          })
       })
-      .catch((e) => {
-        popNegative($q, "Errore durante la creazione dell'utente")
+      .catch(e => {
+        console.log(e)
+        popNegative($q, 'Error while creating user')
       })
   } else {
-    popNegative($q, 'Le password non corrispondono')
-  }*/
+    popNegative($q, 'Passwords mismatch')
+  }
 }
 
 const checkPasswordCorrectness = (): boolean => {
@@ -92,6 +101,16 @@ const getPermissions = async () => {
   }
 }
 
+const optionsContacts: ref<{ label: string; value: string }> = ref([])
+const getContacts = async () => {
+  useUserStore().contacts.forEach((contact: Contact) => {
+    optionsContacts.value.push({
+      label: contact.type + ': ' + contact.value,
+      value: contact.value
+    })
+  })
+}
+
 const onReset = () => {
   name.value = ''
   surname.value = ''
@@ -101,21 +120,28 @@ const onReset = () => {
 }
 
 const deleteUser = (user: User) => {
-  /*  RequestHelper.delete(`${httpProtocol}://${backendHost}:${backendPort}/users/${user.id}`)
-      .then((res: any) => {
-        if (res.status === 200) {
-          popPositive($q, 'Utente eliminato con successo')
-        }
-        updateUsers()
-      })
-      .catch((err: any) => {
-        console.log(err)
-      })*/
+  RequestHelper.delete(`http://${authHost}:${authPort}/users/${user.id}`)
+    .then((res: any) => {
+      RequestHelper.delete(`http://${userHost}:${userPort}/${user.id}`)
+        .then((res: any) => {
+          console.log(res)
+          getUsers()
+          popPositive($q, 'User deleted successfully')
+        })
+        .catch(() => {
+          popNegative($q, 'Error while deleting user')
+        })
+    })
+    .catch((err: any) => {
+      console.log(err)
+      popNegative($q, 'Error while deleting user')
+    })
 }
 
 onMounted(() => {
   getUsers()
   getPermissions()
+  getContacts()
 })
 </script>
 
@@ -156,6 +182,16 @@ onMounted(() => {
           :options="optionsPermissions"
           counter
           hint="Permissions"
+          style="width: 250px"
+        />
+        <label>Contacts</label>
+        <q-select
+          filled
+          v-model="contacts"
+          multiple
+          :options="optionsContacts"
+          counter
+          hint="Contacts"
           style="width: 250px"
         />
         <q-input

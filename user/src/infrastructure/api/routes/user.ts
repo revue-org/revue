@@ -6,6 +6,7 @@ import { ContactType } from '@common/domain/core/ContactType.js'
 import { User } from '@/domain/core/User.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { UserId } from '@/domain/core/UserId.js'
+import { UserFactory } from "@/domain/factories/UserFactory";
 
 export const userRouter: Router = express.Router()
 
@@ -38,7 +39,7 @@ userRouter.route('/').post(async (req: Request, res: Response): Promise<void> =>
       : ContactFactory.createSmsContact(contact.value)
   })
   controller
-    .createUser(req.body.name, req.body.surname, req.body.mail, contacts)
+    .createUser(req.body.id, req.body.name, req.body.surname, req.body.mail, contacts)
     .then((id: UserId): void => {
       res.status(HttpStatusCode.CREATED).send({ success: id })
     })

@@ -28,6 +28,7 @@ const getRangeRules = async () => {
 const getIntrusionRules = async () => {
   await RequestHelper.get(`http://${alarmHost}:${alarmPort}/rules/intrusions`)
     .then((res: any) => {
+      console.log(res.data)
       intrusionRules.value = []
       for (let i = 0; i < res.data.length; i++) {
         intrusionRules.value.push(composeIntrusionRule(res.data[i]))

@@ -101,7 +101,8 @@ router
       .then((intrusionRules: IntrusionRule[]): void => {
         res.status(HttpStatusCode.OK).send(intrusionRules)
       })
-      .catch((): void => {
+      .catch((e): void => {
+        console.log(e)
         res.send({ error: 'No intrusion rules found' })
       })
   })
@@ -122,8 +123,8 @@ router
       .then((): void => {
         res.status(HttpStatusCode.CREATED).send({ success: 'Intrusion rule created' })
       })
-      .catch((e): void => {
-        console.error(e)
+      .catch((err): void => {
+        console.log(err)
         res.send({ error: 'Intrusion rule not created' })
       })
   })

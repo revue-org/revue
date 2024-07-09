@@ -56,20 +56,12 @@ export const securityRuleController = {
     deviceId: string,
     creatorId: string,
     description: string,
-    objectClass: string,
+    objectClass: ObjectClass,
     from: Date,
     to: Date,
     contacts: Contact[]
   ): Promise<void> => {
-    await alarmService.createIntrusionRule(
-      creatorId,
-      deviceId,
-      description,
-      contacts,
-      from,
-      to,
-      ObjectClass[objectClass as keyof typeof ObjectClass]
-    )
+    await alarmService.createIntrusionRule(creatorId, deviceId, description, contacts, from, to, objectClass)
   },
 
   updateRangeRule: async (

@@ -25,6 +25,7 @@ const login = () => {
       userStore.id = res.data.id.value
       userStore.username = res.data.username
       userStore.password = res.data.password
+      userStore.role = res.data.role
       userStore.accessToken = res.data.accessToken
       userStore.refreshToken = res.data.refreshToken
       userStore.permissions = res.data.permissions

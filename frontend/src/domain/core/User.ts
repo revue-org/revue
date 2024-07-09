@@ -7,6 +7,7 @@ export interface User {
   mail: string
   username: string
   password: string
+  role: string
   accessToken: string
   refreshToken: string
   contacts: Contact[]

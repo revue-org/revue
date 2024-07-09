@@ -34,6 +34,23 @@ services:
       - revue-zookeeper
     networks:
       - my-net
+
+  revue-kafka-ui:
+    container_name: revue-kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8082:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: revue-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: revue-kafka:9092
+    volumes:
+      - ./kafka/config.yml:/etc/kafkaui/dynamic_config.yaml
+    depends_on:
+      - revue-kafka
+    networks:
+      - my-net
+
 #volumes:
 #  kafka_data:
 #    driver: local

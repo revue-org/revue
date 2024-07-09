@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export class UserFactory {
   static newId(): UserId {
-    return { value:  uuidv4() }
+    return { value: uuidv4() }
   }
 
   static idOf(value: string): UserId {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {useQuasar} from 'quasar'
-import { popDelete } from "@/scripts/Popups";
-import { type Contact } from 'common/dist/domain/core';
+import { useQuasar } from 'quasar'
+import { popDelete } from '@/scripts/Popups'
+import { type Contact } from 'common/dist/domain/core'
 
 const $q = useQuasar()
 
@@ -23,7 +23,7 @@ const deleteContact = () => {
       <span class="type">{{ contact.type.toUpperCase() }}</span>
       <span class="value">{{ contact.value.toLowerCase() }}</span>
     </div>
-    <q-btn class="delete" round color="red" style="font-size: 5px" icon="remove" @click="deleteContact"/>
+    <q-btn class="delete" round color="red" style="font-size: 5px" icon="remove" @click="deleteContact" />
   </li>
 </template>
 

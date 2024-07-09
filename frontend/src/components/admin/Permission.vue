@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {useQuasar} from 'quasar'
-import { popDelete } from "@/scripts/Popups";
+import { useQuasar } from 'quasar'
+import { popDelete } from '@/scripts/Popups'
 
 const $q = useQuasar()
 
@@ -21,7 +21,7 @@ const deletePermission = () => {
     <div class="infos">
       <span class="type"><i>Room: </i>{{ permission }}</span>
     </div>
-    <q-btn class="delete" round color="red" style="font-size: 5px" icon="remove" @click="deletePermission"/>
+    <q-btn class="delete" round color="red" style="font-size: 5px" icon="remove" @click="deletePermission" />
   </li>
 </template>
 

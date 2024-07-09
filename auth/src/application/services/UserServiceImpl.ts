@@ -85,7 +85,7 @@ export class UserServiceImpl implements UserService {
       UserFactory.newId(),
       username,
       hashedPassword,
-      "guardian",
+      'guardian',
       permissions,
       '',
       ''

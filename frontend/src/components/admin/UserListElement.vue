@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {useQuasar} from 'quasar'
-import type { User } from "@/domain/core/User";
-import { popDelete } from "@/scripts/Popups";
-import Contact from "@/components/admin/Contact.vue";
-import Permission from "@/components/admin/Permission.vue";
+import { useQuasar } from 'quasar'
+import type { User } from '@/domain/core/User'
+import { popDelete } from '@/scripts/Popups'
+import Contact from '@/components/admin/Contact.vue'
+import Permission from '@/components/admin/Permission.vue'
 
 const $q = useQuasar()
 
@@ -22,8 +22,6 @@ const deleteUser = () => {
 const deleteContact = () => {
   popDelete($q, `Confirm contact deletion?`, () => emit('delete-contact'))
 }
-
-
 </script>
 
 <template>
@@ -35,14 +33,18 @@ const deleteContact = () => {
       <span class="mail"><i>Mail:</i> {{ user.mail }}</span>
       <span class="contacts">
         <i>Contacts:</i>
-        <contact v-for="(contact, index) in user.contacts" :key="index" :contact="contact" @delete-contact="deleteContact"/>
+        <contact
+          v-for="(contact, index) in user.contacts"
+          :key="index"
+          :contact="contact"
+          @delete-contact="deleteContact"
+        />
       </span>
       <span class="permissions">
         <i>Permissions:</i>
-        <permission v-for="(permission, index) in user.permissions" :key="index" :permission="permission"/>
+        <permission v-for="(permission, index) in user.permissions" :key="index" :permission="permission" />
       </span>
-      <q-btn color="red" style="font-size: 12px" icon="delete" @click="deleteUser"/>
-
+      <q-btn color="red" style="font-size: 12px" icon="delete" @click="deleteUser" />
     </div>
   </li>
 </template>
@@ -68,7 +70,5 @@ li {
     flex-direction: column;
     gap: 2px;
   }
-
-
 }
 </style>

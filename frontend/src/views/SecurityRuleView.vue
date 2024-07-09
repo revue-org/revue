@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
+import NewRulePopup from '@/components/security-rule/NewRulePopup.vue'
 import RuleBadge from '@/components/security-rule/RuleBadge.vue'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
 import { composeIntrusionRule, composeRangeRule } from '@/presentation/ComposeSecurityRule.js'
@@ -87,10 +87,11 @@ const popupVisible = ref<boolean>(false)
       :key="index"
     />
   </div>
-  <!--  /*
-    */-->
-
-  <new-security-rule-popup v-model="popupVisible"></new-security-rule-popup>
+  <new-rule-popup
+    v-model="popupVisible"
+    @get-range-rules="getRangeRules"
+    @get-intrusion-rules="getIntrusionRules"
+  ></new-rule-popup>
 </template>
 
 <style scoped lang="scss">

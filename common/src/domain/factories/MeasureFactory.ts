@@ -42,6 +42,19 @@ export class MeasureFactory {
         throw new Error('Invalid measure type')
     }
   }
+
+  static getValidUnits(type: MeasureType): MeasureUnit[] {
+    switch (type) {
+      case MeasureType.TEMPERATURE:
+        return [MeasureUnit.CELSIUS, MeasureUnit.FAHRENHEIT]
+      case MeasureType.HUMIDITY:
+        return [MeasureUnit.PERCENTAGE]
+      case MeasureType.PRESSURE:
+        return [MeasureUnit.PASCAL, MeasureUnit.BAR]
+      default:
+        throw new Error('Invalid measure type')
+    }
+  }
 }
 
 function checkMeasureUnit(unit: MeasureUnit, validUnits: MeasureUnit[]): void {

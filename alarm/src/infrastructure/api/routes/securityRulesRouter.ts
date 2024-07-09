@@ -57,6 +57,7 @@ router
           res.status(HttpStatusCode.CREATED).send({ success: 'Range rule created' })
         })
     } catch (err) {
+      console.log(err)
       res.status(HttpStatusCode.BAD_REQUEST).send({ error: 'Range rule not created' })
     }
   })

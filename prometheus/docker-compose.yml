@@ -1,6 +1,7 @@
 services:
   prometheus:
     image: prom/prometheus
+    container_name: revue-prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -11,12 +12,18 @@ services:
 
   grafana:
     image: grafana/grafana
+    container_name: revue-grafana
     ports:
-      - "3000:3000"
+      - "8083:3000"
     depends_on:
       - prometheus
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=password
+
+    volumes:
+      - ./prometheus/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./prometheus/grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./prometheus/grafana/dashboards:/var/lib/grafana/dashboards
 
 
 volumes:

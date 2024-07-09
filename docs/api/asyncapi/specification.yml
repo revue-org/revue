@@ -3,6 +3,15 @@ info:
     title: User Signup API
     version: 1.0.0
     description: The API notifies you whenever a new user signs up in the application.
+    tags:
+        - name: Anomalies
+          description: Events about anomalies detected in the system
+        - name: Measurements
+          description: Events about measurements detected in the system
+        - name: Detections
+          description: Events about object recognized in the system
+        - name: Notifications
+          description: Events about notifications sent to the users
 
 servers:
     firstKafkaServer:
@@ -13,30 +22,237 @@ servers:
         host: kafka-broker-2:8092
         description: Second instance of Kafka
         protocol: kafka
+    notificationSocketServer:
+        host: notification:4004
+        protocol: wss
+        description: WebSocket server for notifications
 
 operations:
-    onUserSignedUp:
-        action: receive
+    publishAnomalyDetected:
+        action: send
+        summary: Publish a message to the AnomalyDetected channel
         channel:
-            $ref: "#/channels/userSignedUp"
+            $ref: "#/channels/anomalies"
+    onAnomalyDetected:
+        action: receive
+        summary: Receive a message from the AnomalyDetected channel
+        channel:
+            $ref: "#/channels/anomalies"
+
+    publishMeasurementDetected:
+        action: send
+        summary: Publish a message to the MeasurementDetected channel
+        channel:
+            $ref: "#/channels/measurements.{sensorId}"
+    onMeasurementDetected:
+        action: receive
+        summary: Receive a message from the MeasurementDetected channel
+        channel:
+            $ref: "#/channels/measurements.{sensorId}"
+
+    publishDetectionDetected:
+        action: send
+        summary: Publish a message to the DetectionDetected channel
+        channel:
+            $ref: "#/channels/detections.{cameraId}"
+    onDetectionDetected:
+        action: receive
+        summary: Receive a message from the DetectionDetected channel
+        channel:
+            $ref: "#/channels/detections.{cameraId}"
+
+    publishNotificationSent:
+        action: send
+        summary: Publish a message to the NotificationSent channel
+        channel:
+            $ref: "#/channels/notifications"
+    onNotificationSent:
+        action: receive
+        summary: Receive a message from the NotificationSent channel
+        channel:
+            $ref: "#/channels/notifications"
 
 channels:
-    userSignedUp:
-        description: This channel contains a message per each user who signs up in our application.
-        address: user_signedup
+    anomalies:
+        tags:
+            - name: Anomalies
+        description: This channel contains a message per each anomaly detected in the system.
+        address: anomalies
         messages:
-            userSignedUp:
-                $ref: "#/components/messages/userSignedUp"
+            Anomaly:
+                $ref: "#/components/messages/Anomaly"
+        servers:
+            - $ref: "#/servers/firstKafkaServer"
+            - $ref: "#/servers/secondKafkaServer"
+
+    measurements.{sensorId}:
+        tags:
+            - name: Measurements
+        description: This channel contains a message per each measurement detected in the system for a specific device.
+        address: measurements.{sensorId}
+        messages:
+            Measurement:
+                $ref: "#/components/messages/Measurement"
+        servers:
+            - $ref: "#/servers/firstKafkaServer"
+            - $ref: "#/servers/secondKafkaServer"
+
+    detections.{cameraId}:
+        tags:
+            - name: Detections
+        description: This channel contains a message per each detection detected in the system for a specific device.
+        address: detections.{cameraId}
+        messages:
+            Detection:
+                $ref: "#/components/messages/Detection"
+        servers:
+            - $ref: "#/servers/firstKafkaServer"
+            - $ref: "#/servers/secondKafkaServer"
+
+    notifications:
+        tags:
+            - name: Notifications
+        description: This channel contains a message per each notification sent to the users.
+        address: notifications
+        messages:
+            Notification:
+                $ref: "#/components/messages/Notification"
+        servers:
+            - $ref: "#/servers/notificationSocketServer"
 
 components:
     messages:
-        userSignedUp:
+        Anomaly:
             payload:
-                type: object
-                properties:
-                    userId:
-                        type: integer
-                        description: This property describes the id of the user
-                    userEmail:
-                        type: string
-                        description: This property describes the email of the user
+                $ref: "#/components/schemas/Anomaly"
+
+        Measurement:
+            payload:
+                $ref: "#/components/schemas/Measurement"
+
+        Detection:
+            payload:
+                $ref: "#/components/schemas/Detection"
+
+        Notification:
+            payload:
+                $ref: "#/components/schemas/Notification"
+
+    schemas:
+        DeviceId:
+            additionalProperties: false
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique code of the device
+
+        AnomalyId:
+            additionalProperties: false
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique code of the anomaly
+
+        MeasurementId:
+            additionalProperties: false
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique code of the measurement
+
+        DetectionId:
+            additionalProperties: false
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique code of the detection
+
+        NotificationId:
+            additionalProperties: false
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique code of the notification
+
+        Anomaly:
+            additionalProperties: false
+            type: object
+            properties:
+                anomalyId:
+                    $ref: "#/components/schemas/AnomalyId"
+                timestamp:
+                    type: string
+                    format: date-time
+                data:
+                    type: object
+
+        MeasureType:
+            additionalProperties: false
+            type: object
+            properties:
+                type:
+                    type: string
+                    description: The type of the measure (Temperature, Humidity, etc.)
+                unit:
+                    type: string
+                    description: The unit of the measure (Celsius, Fahrenheit, etc.)
+
+        Measurement:
+            additionalProperties: false
+            type: object
+            properties:
+                measurementId:
+                    $ref: "#/components/schemas/MeasurementId"
+                sourceDeviceId:
+                    additionalProperties: false
+                    type: object
+                    properties:
+                        code:
+                            type: string
+                            description: The unique code of the device that generated the measurement
+                timestamp:
+                    type: string
+                    format: date-time
+                    description: The timestamp when the measurement was created
+                value:
+                    additionalProperties: false
+                    type: object
+                    description: The value of the measurement (Numerical, String, etc.)
+
+        Detection:
+            additionalProperties: false
+            type: object
+            properties:
+                detectionId:
+                    $ref: "#/components/schemas/DetectionId"
+                sourceDeviceId:
+                    $ref: "#/components/schemas/DeviceId"
+                timestamp:
+                    type: string
+                    format: date-time
+                    description: The timestamp when the detection was created
+                objectClass:
+                    type: string
+                    description: The class of the object detected (Person, Car, Dog, etc.)
+
+        Notification:
+            additionalProperties: false
+            type: object
+            properties:
+                notificationId:
+                    $ref: "#/components/schemas/NotificationId"
+                timestamp:
+                    type: string
+                    format: date-time
+                    description: The timestamp when the notification was created
+                message:
+                    type: string
+                    description: The message of the notification
+                data:
+                    type: object
+                    description: The data of the notification

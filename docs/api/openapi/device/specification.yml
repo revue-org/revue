@@ -4,23 +4,23 @@ info:
     description: Device management and monitoring microservice API
     version: 1.0.0
 tags:
-    -   name: Devices
-        description: Operations related to devices
+    - name: Devices
+      description: Operations related to devices
 
 paths:
     /devices:
         get:
             summary: Get all devices
-            tags: [ Devices ]
+            tags: [Devices]
             parameters:
-                -   in: query
-                    name: capabilities
-                    required: false
-                    schema:
-                        type: array
-                        items:
-                            type: string
-                    description: The capabilities that the devices must have
+                - in: query
+                  name: capabilities
+                  required: false
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                  description: The capabilities that the devices must have
             responses:
                 200:
                     description: The list of all devices to which the user has access
@@ -34,7 +34,7 @@ paths:
                     description: User not authorized
         post:
             summary: Join a new device to the system
-            tags: [ Devices ]
+            tags: [Devices]
             requestBody:
                 required: true
                 content:
@@ -51,7 +51,7 @@ paths:
     /devices/actives:
         get:
             summary: Get all active devices
-            tags: [ Devices ]
+            tags: [Devices]
             responses:
                 200:
                     description: The list of all active devices
@@ -66,13 +66,13 @@ paths:
     /devices/{id}:
         get:
             summary: Get a device by id
-            tags: [ Devices ]
+            tags: [Devices]
             parameters:
-                -   in: path
-                    name: id
-                    required: true
-                    schema:
-                        $ref: "./schemas.yml#/components/schemas/DeviceId"
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             responses:
                 200:
                     description: The device with the specified ID
@@ -87,13 +87,13 @@ paths:
 
         put:
             summary: Update a device
-            tags: [ Devices ]
+            tags: [Devices]
             parameters:
-                -   in: path
-                    name: id
-                    required: true
-                    schema:
-                        $ref: "./schemas.yml#/components/schemas/DeviceId"
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             requestBody:
                 required: true
                 content:
@@ -109,13 +109,13 @@ paths:
                     description: User not authorized
         delete:
             summary: Delete a device
-            tags: [ Devices ]
+            tags: [Devices]
             parameters:
-                -   in: path
-                    name: id
-                    required: true
-                    schema:
-                        $ref: "./schemas.yml#/components/schemas/Device"
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/Device"
             responses:
                 204:
                     description: The resource was deleted successfully

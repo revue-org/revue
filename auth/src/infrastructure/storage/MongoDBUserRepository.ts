@@ -24,7 +24,11 @@ export class MongoDBUserRepository implements UserRepository {
       .find()
       .lean()
       .then(users => {
-        return users.map(user => UserDBAdapter.asDomainEntity(user)).flatMap((user: User) => user.permissions)
+        return Array.from(
+          new Set(
+            users.map(user => UserDBAdapter.asDomainEntity(user)).flatMap((user: User) => user.permissions)
+          )
+        )
       })
   }
 

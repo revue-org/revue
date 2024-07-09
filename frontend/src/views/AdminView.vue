@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import {useQuasar} from 'quasar'
-import RequestHelper, { authHost, authPort, userHost, userPort } from "@/utils/RequestHelper";
-import type { User } from "@/domain/core/User";
-import UserListElement from "@/components/admin/UserListElement.vue";
+import { onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
+import type { User } from '@/domain/core/User'
+import UserListElement from '@/components/admin/UserListElement.vue'
+import { useUserStore } from '@/stores/user'
+import type { Contact } from "common/dist/domain/core";
 
 const $q = useQuasar()
 const users = ref<User[]>([])
@@ -79,6 +81,17 @@ const checkPasswordCorrectness = (): boolean => {
   return password.value === confirmPassword.value
 }
 
+const optionsPermissions: ref<{ label: string; value: string }> = ref([])
+const getPermissions = async () => {
+  const permissions = useUserStore().permissions
+  for (let i = 0; i < permissions.length; i++) {
+    optionsPermissions.value.push({
+      label: 'Room: ' + permissions[i],
+      value: permissions[i]
+    })
+  }
+}
+
 const onReset = () => {
   name.value = ''
   surname.value = ''
@@ -88,25 +101,26 @@ const onReset = () => {
 }
 
 const deleteUser = (user: User) => {
-/*  RequestHelper.delete(`${httpProtocol}://${backendHost}:${backendPort}/users/${user.id}`)
-    .then((res: any) => {
-      if (res.status === 200) {
-        popPositive($q, 'Utente eliminato con successo')
-      }
-      updateUsers()
-    })
-    .catch((err: any) => {
-      console.log(err)
-    })*/
+  /*  RequestHelper.delete(`${httpProtocol}://${backendHost}:${backendPort}/users/${user.id}`)
+      .then((res: any) => {
+        if (res.status === 200) {
+          popPositive($q, 'Utente eliminato con successo')
+        }
+        updateUsers()
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })*/
 }
 
 onMounted(() => {
   getUsers()
+  getPermissions()
 })
 </script>
 
 <template>
-  <div class="container-video">
+  <div class="container-insertion">
     <div class="new-user">
       <h2>Create new user</h2>
       <q-form @submit="addNewUser" @reset="onReset">
@@ -134,6 +148,16 @@ onMounted(() => {
           lazy-rules
           :rules="[(val: string) => (val && val.length > 0) || 'Phone required']"
         />
+        <label>Permissions</label>
+        <q-select
+          filled
+          v-model="permissions"
+          multiple
+          :options="optionsPermissions"
+          counter
+          hint="Permissions"
+          style="width: 250px"
+        />
         <q-input
           v-model="password"
           type="password"
@@ -151,8 +175,8 @@ onMounted(() => {
           :rules="[(val: string) => (val && val.length > 0) || 'Password confirmation required']"
         />
         <div class="buttons">
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"/>
-          <q-btn label="Create" type="submit" color="primary"/>
+          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn label="Create" type="submit" color="primary" />
         </div>
       </q-form>
     </div>
@@ -174,11 +198,10 @@ onMounted(() => {
 <style scoped lang="scss">
 @import 'src/assets/variables.scss';
 
-.container-video {
-  margin-top: 60px;
+.container-insertion {
+  margin-top: 30px;
   display: flex;
   justify-content: space-evenly;
-  //align-items: center;
   padding: 20px;
 
   @media (max-width: 768px) {

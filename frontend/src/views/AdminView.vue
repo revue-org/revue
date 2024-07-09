@@ -170,7 +170,7 @@ const deleteUser = (user: User) => {
 @import 'src/assets/variables.scss';
 
 .container-video {
-  margin-top: $navbar-height;
+  margin-top: 60px;
   display: flex;
   justify-content: space-evenly;
   //align-items: center;

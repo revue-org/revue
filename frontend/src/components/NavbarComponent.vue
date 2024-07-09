@@ -7,6 +7,7 @@ import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
 import { HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import { useUserStore } from '@/stores/user'
 import { closeSocketServers } from '@/socket'
+import { UserRole } from "@/domain/core/UserRole";
 
 const routeName = computed(() => router.currentRoute.value.name)
 const navbarExpanded = ref(false)

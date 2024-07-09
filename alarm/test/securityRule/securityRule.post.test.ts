@@ -2,89 +2,92 @@ import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateSecurityRules } from '../storage/MongoDBMock.js'
 import HttpStatusCode from '@utils/HttpStatusCode.js'
+import { z } from 'zod'
+import { ContactType, ObjectClass } from 'common/dist/domain/core'
 
 const TOKEN = process.env.DEV_API_KEY
 
-describe('POST /security-rules', (): void => {
+describe('POST /rules', (): void => {
   beforeAll(async (): Promise<void> => {
     await connectToMock()
     await populateSecurityRules()
   })
-  describe('POST /security-rules/exceedings', (): void => {
+  describe('POST /rules/ranges', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const creation: Response = await alarmService.post('/security-rules/exceedings')
+      const creation: Response = await alarmService.post('/rules/ranges')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
-    it('should create a new exceeding security rule', async (): Promise<void> => {
-      const newExceedingSecurityRule = {
-        deviceId: {
-          type: 'SENSOR',
-          code: 'sen-01'
-        },
-        creatorId: '6582b78ee645d6402a3be6e2',
-        description: 'descrizione regola di sicurezza',
-        min: 0,
-        max: 25,
-        measure: 'TEMPERATURE',
-        from: '2018-01-01T01:00:00.000Z',
-        to: '2020-01-01T01:00:00.000Z',
+    it('should create a new range security rule', async (): Promise<void> => {
+      const newRangeRule = {
+        author: 'test-creator-id',
+        activeOn: 'cam-01',
+        description: 'This is the description of a range rule',
+        validityStart: '2020-01-01',
+        validityEnd: '2020-01-02',
         contacts: [
           {
-            value: '3333333333',
-            type: 'SMS'
+            type: 'sms',
+            value: '3556333333'
           },
           {
-            value: 'email@gmail.com',
-            type: 'EMAIL'
+            type: 'email',
+            value: 'testmail@gmail.com'
           }
-        ]
+        ],
+        rule: {
+          minValue: 1,
+          maxValue: 10,
+          measure: {
+            type: 'temperature',
+            unit: 'celsius'
+          }
+        },
+        enabled: true
       }
 
       // @ts-ignore
       const creation: Response = await alarmService
-        .post('/security-rules/exceedings')
+        .post('/rules/ranges')
         .set('Authorization', `Bearer ${TOKEN}`)
-        .send(newExceedingSecurityRule)
+        .send(newRangeRule)
 
       expect(creation.status).toBe(HttpStatusCode.CREATED)
       expect(creation.type).toBe('application/json')
     })
   })
 
-  describe('POST /security-rules/intrusions', (): void => {
+  describe('POST /rules/intrusions', (): void => {
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
-      const creation: Response = await alarmService.post('/security-rules/intrusions')
+      const creation: Response = await alarmService.post('/rules/intrusions')
       expect(creation.status).toBe(HttpStatusCode.FORBIDDEN)
     })
 
     it('should create a new intrusion security rule', async (): Promise<void> => {
       const newIntrusionSecurityRule = {
-        deviceId: {
-          type: 'CAMERA',
-          code: 'cam-01'
-        },
-        creatorId: '6582b78ee645d6402a3be6e2',
-        description: 'descrizione regola di sicurezza',
-        objectClass: 'PERSON',
-        from: '2018-01-01T01:00:00.000Z',
-        to: '2020-01-01T01:00:00.000Z',
+        author: 'test-user-id',
+        activeOn: 'test-device-id',
+        description: 'This is the description of an intrusion rule',
+        validityStart: '2020-01-01',
+        validityEnd: '2020-01-02',
         contacts: [
           {
-            value: '3333333333',
-            type: 'SMS'
+            type: 'sms',
+            value: '33333334353'
           },
           {
-            value: 'email@gmail.com',
-            type: 'EMAIL'
+            type: 'email',
+            value: 'testmail@gmail.com'
           }
-        ]
+        ],
+        objectClass: 'person',
+        enabled: true
       }
       // @ts-ignore
       const creation: Response = await alarmService
-        .post('/security-rules/intrusions')
+        .post('/rules/intrusions')
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(newIntrusionSecurityRule)
 

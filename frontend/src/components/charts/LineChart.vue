@@ -12,7 +12,7 @@ import {
 } from 'chart.js'
 
 const { chartData, chartOptions } = defineProps<{
-  chartData: { labels: string[]; datasets: { data: number[] } }
+  chartData: { labels: string[]; datasets: { label: string; borderColor: string; data: number[] }[] }
   chartOptions: any
 }>()
 

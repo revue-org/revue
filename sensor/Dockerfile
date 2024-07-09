@@ -30,7 +30,7 @@ WORKDIR /home/revue
 
 COPY --from=build /home/revue/.env .env
 COPY --from=build /home/revue/sensor sensor
-COPY --from=build /home/revue/domain domain
+COPY --from=build /home/revue/common common
 
 RUN apk add dumb-init && apk add --update npm
 

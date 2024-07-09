@@ -1,9 +1,7 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateUsers } from '../storage/MongoDBMock.js'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
-
-const TOKEN = process.env.DEV_API_KEY
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 describe('POST /login/', (): void => {
   beforeAll(async (): Promise<void> => {
@@ -15,7 +13,7 @@ describe('POST /login/', (): void => {
     // @ts-ignore
     const login: Response = await authService
       .post('/login')
-      .send({ username: 'paga16', password: 'passwordprova' })
+      .send({ username: 'test-username', password: 'test' })
     expect(login.status).toBe(HttpStatusCode.OK)
     expect(login.type).toBe('application/json')
     expect(login.body).toHaveProperty('accessToken')

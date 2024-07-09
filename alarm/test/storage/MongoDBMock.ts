@@ -1,10 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { exceedingRuleSample } from '../resources/exceedingRuleSample.js'
-import { intrusionRuleSample } from '../resources/intrusionRuleSample.js'
-import { exceedingModel, intrusionModel, exceedingRuleModel, intrusionRuleModel } from '../../src/init.js'
-import { exceedingSample } from '../resources/exceedingSample.js'
-import { intrusionSample } from '../resources/intrusionSample.js'
+import { rangeRuleSample, intrusionRuleSample } from '../resources/securityRuleSamples.js'
+import { SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
+import { securityRuleSchema } from '@/infrastructure/storage/schemas/SecurityRuleSchema'
 
 let mongoMock: any = null
 
@@ -22,13 +20,12 @@ export const disconnectFromMock = async (): Promise<void> => {
   }
 }
 
-export const populateAnomalies = async (): Promise<void> => {
-  await exceedingModel.createCollection()
-  await exceedingModel.create(exceedingSample)
-  await intrusionModel.create(intrusionSample)
-}
 export const populateSecurityRules = async (): Promise<void> => {
-  await exceedingRuleModel.createCollection()
-  await exceedingRuleModel.create(exceedingRuleSample)
-  await intrusionRuleModel.create(intrusionRuleSample)
+  const model = mongoose.model<SecurityRuleDBEntity>(
+    'SecurityRuleSchema',
+    securityRuleSchema,
+    'securityRules'
+  )
+  await model.create(rangeRuleSample)
+  await model.create(intrusionRuleSample)
 }

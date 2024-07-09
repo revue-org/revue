@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+    title: User Service API
+    description: User management microservice API
+    version: 1.0.0
+tags:
+    - name: Users
+      description: Operations related to users
+
+paths:
+    /users:
+        get:
+            summary: Get all users
+            tags: [Users]
+            responses:
+                200:
+                    description: The list of all users
+                403:
+                    description: User not authorized
+        post:
+            summary: Register a new user
+            tags: [Users]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/User"
+            responses:
+                201:
+                    description: The user was created successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /users/{id}:
+        get:
+            summary: Get a user by ID
+            tags: [ Users ]
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: The ID of the user to retrieve
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: The user was found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/User"
+                404:
+                    description: User not found
+                403:
+                    description: User not authorized
+        put:
+            summary: Update a user by ID
+            tags: [ Users ]
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: The ID of the user to update
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/UserUpdate"
+            responses:
+                200:
+                    description: The user was updated
+                400:
+                    description: The request was invalid
+                404:
+                    description: User not found
+                403:
+                    description: User not authorized
+        delete:
+            summary: Delete a user by ID
+            tags: [ Users ]
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: The ID of the user to delete
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: The user was deleted
+                404:
+                    description: User not found
+                403:
+                    description: User not authorized

@@ -6,8 +6,8 @@ type Headers = {
   }
 }
 
-export const monitoringHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.MONITORING_HOST
-export const monitoringPort = process.env.NODE_ENV == 'develop' ? '4001' : process.env.MONITORING_PORT
+export const deviceHost = process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.DEVICE_HOST
+export const devicePort = process.env.NODE_ENV == 'develop' ? '4007' : process.env.DEVICE_PORT
 export const notificationHost =
   process.env.NODE_ENV == 'develop' ? 'localhost' : process.env.NOTIFICATION_HOST
 export const notificationPort = process.env.NODE_ENV == 'develop' ? '4004' : process.env.NOTIFICATION_PORT

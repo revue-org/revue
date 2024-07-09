@@ -1,0 +1,21 @@
+components:
+    schemas:
+        Notification:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: The unique identifier of the notification
+                userId:
+                    type: string
+                    description: The recipients of the notification
+                timestamp:
+                    type: string
+                    description: The timestamp of the notification
+                message:
+                    type: string
+                    description: The message of the notification
+                type:
+                    type: string
+                    enum: [outlier, intrusion]
+                    description: The type of the notification

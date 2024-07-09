@@ -1,87 +1,52 @@
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount, type Ref, ref } from 'vue'
-import { DeviceType, type EnvironmentData, type Sensor } from '@domain/device/core'
-import type { DeviceIdFactory } from '@domain/device/factories'
-import { DeviceIdFactoryImpl, EnvironmentDataFactoryImpl } from '@domain/device/factories'
-import SensorData from '@/components/devices/SensorData.vue'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
+import { onMounted, type Ref, ref } from 'vue'
 import { monitoringSocket, notificationSocket, setupSocketServers } from '@/socket'
 import { useQuasar } from 'quasar'
 import router from '@/router'
-import { AnomalyTypeConverter, DeviceTypeConverter } from 'domain/dist/utils'
-import { AnomalyType } from 'domain/dist/domain/alarm-system/core'
-import { useTopicsStore } from '@/stores/topics'
 import { useUserStore } from '@/stores/user'
-import { type AxiosResponse, HttpStatusCode } from 'axios'
-import { composeSensor } from '@/scripts/presentation/device/ComposeDevice'
+import HttpStatusCode from '@utils/HttpStatusCode'
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import type { Device } from '@/domain/core/Device'
+import { composeDevice } from '@/presentation/ComposeDevice'
+import SensorData from '@/components/devices/SensorData.vue'
 
-const topicsStore = useTopicsStore()
 const userStore = useUserStore()
 const $q = useQuasar()
-const deviceIdFactory: DeviceIdFactory = new DeviceIdFactoryImpl()
-const environmentDataFactory = new EnvironmentDataFactoryImpl()
-
-const sensors: Ref<{ sensor: Sensor; lastData: EnvironmentData[] }[]> = ref([])
+const sensingDevices: Ref<Device[]> = ref([])
 
 if (monitoringSocket == undefined || notificationSocket == undefined) {
   setupSocketServers(userStore.accessToken)
 }
 
-RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/sensors`).then(
-  async (res: AxiosResponse) => {
-    if (res.status == HttpStatusCode.Ok) {
-      for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].isCapturing) {
-          const sensor = composeSensor(res.data[i])
-          sensors.value.push({ sensor: sensor, lastData: [] })
+const getDevices = async () => {
+  useUserStore().permissions.forEach((location: string) => {
+    RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/locations/${location}`)
+      .then(async (res: any) => {
+        if (res.status == HttpStatusCode.OK) {
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].isEnabled) {
+              sensingDevices.value.push(composeDevice(res.data[i]))
+            }
+          }
         }
-      }
-    }
-  }
-)
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  })
+}
 
-onBeforeMount(() => {
-  monitoringSocket?.emit(
-    'resume',
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-    )
-  )
-})
-
-onBeforeUnmount(() => {
-  monitoringSocket?.emit(
-    'pause',
-    topicsStore.subscribedTopics.filter((topic: string) =>
-      topic.startsWith(DeviceTypeConverter.convertToString(DeviceType.SENSOR))
-    )
-  )
-})
-
-monitoringSocket?.on('env-data', (data: { topic: string; data: string }) => {
-  const rawValues = JSON.parse(data.data)
-  const newValues: EnvironmentData[] = []
-  for (const rawValue of rawValues) {
-    const envData = environmentDataFactory.createEnvironmentData(
-      deviceIdFactory.createSensorId(rawValue._sourceDeviceId._code),
-      rawValue._value,
-      rawValue._measure,
-      rawValue._measureUnit,
-      new Date(rawValue._timestamp)
-    )
-    newValues.push(envData)
-  }
-  sensors.value.find(sensor => sensor.sensor.deviceId.code === newValues[0].sourceDeviceId.code)!.lastData =
-    newValues
+onMounted(async () => {
+  await getDevices()
 })
 
 if (notificationSocket?.listeners('notification').length === 0) {
   notificationSocket?.on('notification', (anomaly: { type: string }) => {
-    switch (AnomalyTypeConverter.convertToAnomalyType(anomaly.type)) {
-      case AnomalyType.EXCEEDING:
+    switch (anomaly.type) {
+      case 'range':
         showNotification('Exceeding notification')
         break
-      case AnomalyType.INTRUSION:
+      case 'intrusion':
         showNotification('Intrusion notification')
         break
       default:
@@ -113,14 +78,15 @@ const showNotification = (message: string) => {
 }
 </script>
 <template>
-  <h2>Environment data</h2>
   <div>
-    <sensor-data
-      v-for="(item, index) in sensors.filter(elem => elem.sensor.isCapturing)"
-      :key="index"
-      :sensor="item.sensor"
-      :last-data="item.lastData"
-    />
+    <h2>Monitoring:</h2>
+    <div>
+      <sensor-data
+        v-for="(sensor, index) in sensingDevices.filter(s => s.isEnabled)"
+        :key="index"
+        :sensor="sensor"
+      />
+    </div>
   </div>
 </template>
 

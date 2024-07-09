@@ -1,0 +1,45 @@
+services:
+
+  revue-user:
+    image: letsdothisshared/revue-user
+    container_name: ${USER_HOST}
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    restart: on-failure
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    depends_on:
+      - revue-user-db
+    networks:
+      - my-net
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.user.rule=Host(`user.localhost`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
+
+  revue-user-db:
+    image: mongo
+    container_name: ${USER_DB_HOST}
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${USER_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${USER_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${USER_DB_NAME}
+    ports:
+      - ${USER_DB_PORT}:27017
+    volumes:
+      - user_data:/data/db
+      - ./user/db/user-init.js:/docker-entrypoint-initdb.d/user-init.js
+    networks:
+      - my-net
+
+volumes:
+  user_data:
+    driver: local
+
+networks:
+  my-net:
+    name: revue-network
+    external: true

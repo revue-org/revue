@@ -29,13 +29,13 @@ WORKDIR /home/revue
 
 COPY --from=build /home/revue/.env .env
 COPY --from=build /home/revue/auth auth
-COPY --from=build /home/revue/domain domain
+COPY --from=build /home/revue/common common
 
 RUN apk add dumb-init && apk add --update npm
 
 WORKDIR /home/revue/auth
 
-EXPOSE $MONITORING_PORT
+EXPOSE $AUTH_PORT
 
 # Run dumb-init as first process, which will have PID 1, then run node command to start the application
 CMD ["dumb-init", "npm", "run", "serve" ]

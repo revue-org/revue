@@ -1,7 +1,7 @@
 import { Response } from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { connectToMock, disconnectFromMock, populateUsers } from '../storage/MongoDBMock.js'
-import HttpStatusCode from '@utils/HttpStatusCode.js'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 
 const TOKEN = process.env.DEV_API_KEY
 
@@ -18,31 +18,9 @@ describe('POST /users/', (): void => {
 
   it('should create a new user', async (): Promise<void> => {
     const newUser = {
-      name: 'Alberto',
-      surname: 'Paga',
-      username: 'differentUsernameFromTheOthers',
-      password: 'passwordprova',
-      token: '',
-      refreshToken: '',
-      contacts: [
-        {
-          _id: '65841da0306d94b61b329571',
-          value: '3333333333',
-          type: 'SMS'
-        }
-      ],
-      deviceIds: [
-        {
-          _id: '65841da0306d94b61b329572',
-          type: 'CAMERA',
-          code: 'cam-01'
-        },
-        {
-          _id: '65841da0306d94b61b329573',
-          type: 'SENSOR',
-          code: 'sen-01'
-        }
-      ]
+      username: 'test-username-1',
+      password: 'test', // password: test
+      permissions: ['test-permission-1']
     }
 
     // @ts-ignore

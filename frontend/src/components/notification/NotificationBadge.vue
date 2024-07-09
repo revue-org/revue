@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import type { Notification } from 'domain/dist/domain/notification/core/Notification'
-import { getMeasureColor } from '@/utils/MeasureUtils'
-import { DeviceType, Measure } from 'domain/dist/domain/device/core'
-import type { Exceeding, Intrusion } from 'domain/dist/domain/alarm-system/core'
-import { ObjectClass } from 'domain/dist/domain/alarm-system/core'
 import { popDelete } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
+import { type Notification } from '@/domain/core/Notification.js'
 
 const { notification } = defineProps<{
   notification: Notification
@@ -24,37 +20,21 @@ const deleteNotification = () => {
 
 <template>
   <li>
-    <q-icon
-      v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA"
-      size="28px"
-      name="sensor_occupied"
-    />
+    <q-icon v-if="notification.event.type == 'outlier'" size="28px" name="sensor_occupied" />
     <q-icon v-else size="28px" name="timeline" />
     <span>
-      {{ notification.anomaly.deviceId.code }}
+      {{ notification.event.sourceDeviceId }}
     </span>
-    <span> {{ notification.timestamp.toLocaleString().split(',')[0] }} </span>
-    <span v-if="notification.anomaly.deviceId.type == DeviceType.SENSOR">
-      <i>It was detected a value out of range of </i>
-      <i
-        :style="{
-          color: getMeasureColor((notification.anomaly as Exceeding).measure)
-        }"
-        >{{ Measure[(notification.anomaly as Exceeding).measure] }}</i
-      >.
-      <br />
-      <i>
-        Value:
-        {{ (notification.anomaly as Exceeding).value }}
-      </i>
+    <span> {{ notification.event.timestamp.toLocaleString().split(',')[0] }} </span>
+    <span>
+      <i> {{ notification.message }} </i>
     </span>
 
-    <span v-if="notification.anomaly.deviceId.type == DeviceType.CAMERA">
-      <i style="color: royalblue">{{ ObjectClass[(notification.anomaly as Intrusion).intrusionObject] }}</i
-      ><i> intrusion was detected.</i>
+    <span v-if="notification.event.type == 'intrusion'">
+      <i style="color: royalblue">{{ notification.event.objectClass }}</i>
     </span>
     <span class="timestamp"
-      >Detection hour: {{ notification.anomaly.timestamp.toLocaleString().split(' ')[1] }}</span
+      >Detection hour: {{ notification.event.timestamp.toLocaleString().split(' ')[1] }}</span
     >
     <q-icon size="20px" name="delete" @click="deleteNotification" />
   </li>

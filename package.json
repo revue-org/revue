@@ -1,14 +1,8 @@
 {
   "name": "revue",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "release": {
-    "preset": "conventionalcommits",
-    "branches": [
-      "main"
-    ]
-  },
   "devDependencies": {
-    "semantic-release-preconfigured-conventional-commits": "latest"
+    "semantic-release-preconfigured-conventional-commits": "1.1.89"
   }
 }

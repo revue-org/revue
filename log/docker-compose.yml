@@ -14,6 +14,13 @@ services:
       - ${KAFKA_HOST}
     networks:
       - my-net
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.log.rule=Host(`log.localhost`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
 
   revue-log-db:
     image: mongo

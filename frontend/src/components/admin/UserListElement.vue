@@ -2,6 +2,8 @@
 import {useQuasar} from 'quasar'
 import type { User } from "@/domain/core/User";
 import { popDelete } from "@/scripts/Popups";
+import Contact from "@/components/admin/Contact.vue";
+import Permission from "@/components/admin/Permission.vue";
 
 const $q = useQuasar()
 
@@ -16,20 +18,33 @@ const emit = defineEmits<{
 const deleteUser = () => {
   popDelete($q, `Confirm user deletion?`, () => emit('delete-user'))
 }
+
+const deleteContact = () => {
+  popDelete($q, `Confirm contact deletion?`, () => emit('delete-contact'))
+}
+
+
 </script>
 
 <template>
-  <p>ciao</p>
-<!--  <li>
-    <q-badge v-if="user === 'admin'" outline color="red" label="Admin"/>
-    <q-badge v-else-if="user === 'expert'" outline color="orange" label="Perito"/>
+  <li>
     <div class="infos">
+      <q-badge outline color="orange" label="Guardian" style="width: 85px" />
       <span class="name">{{ user.name }} {{ user.surname }}</span>
       <span class="username"><i>Username:</i> {{ user.username }}</span>
-      <span class="phone"><i>Cellulare:</i> {{ user.phone }}</span>
+      <span class="mail"><i>Mail:</i> {{ user.mail }}</span>
+      <span class="contacts">
+        <i>Contacts:</i>
+        <contact v-for="(contact, index) in user.contacts" :key="index" :contact="contact" @delete-contact="deleteContact"/>
+      </span>
+      <span class="permissions">
+        <i>Permissions:</i>
+        <permission v-for="(permission, index) in user.permissions" :key="index" :permission="permission"/>
+      </span>
+      <q-btn color="red" style="font-size: 12px" icon="delete" @click="deleteUser"/>
+
     </div>
-    <q-btn class="delete" round color="red" style="font-size: 12px" icon="delete" @click="deleteUser"/>
-  </li>-->
+  </li>
 </template>
 
 <style scoped lang="scss">
@@ -54,8 +69,6 @@ li {
     gap: 2px;
   }
 
-  .delete {
-    margin-left: auto;
-  }
+
 }
 </style>

@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-import {popNegative, popPositive} from '@/scripts/Popups'
+import { onMounted, ref } from "vue";
 import {useQuasar} from 'quasar'
-import {HttpStatusCode} from "axios";
-import RequestHelper, { authHost, authPort } from "@/utils/RequestHelper";
+import RequestHelper, { authHost, authPort, userHost, userPort } from "@/utils/RequestHelper";
 import type { User } from "@/domain/core/User";
 import UserListElement from "@/components/admin/UserListElement.vue";
 
@@ -11,24 +9,27 @@ const $q = useQuasar()
 const users = ref<User[]>([])
 
 const getUsers = async (): Promise<void> => {
-  const res = await RequestHelper.get(`http://${authHost}:${authPort}/users`).then((res: any) => {
-    for (let i = 0; i < res.data.length; i++) {
-      console.log(res.data[i])
+  await RequestHelper.get(`http://${authHost}:${authPort}/users`).then((access: any) => {
+    for (let i = 0; i < access.data.length; i++) {
+      console.log(access.data[i])
+      RequestHelper.get(`http://${userHost}:${userPort}/${access.data[i].id.value}`).then((registry: any) => {
+        console.log(registry.data)
+        users.value.push({
+          id: registry.data.id.value,
+          username: access.data[i].username,
+          role: access.data[i].role,
+          permissions: access.data[i].permissions,
+          name: registry.data.name,
+          surname: registry.data.surname,
+          mail: registry.data.mail,
+          contacts: registry.data.contacts
+        })
+      })
     }
   })
-/*  return res.data.map((user: any) => {
-    return {
-      id: user._id,
-      name: user.name,
-      surname: user.surname,
-      role: user.role,
-      username: user.username,
-      phone: user.phone
-    }
-  })*/
 }
 
-const updateUsers = async () => {
+/*const updateUsers = async () => {
   users.value = []
   const a: User[] = await getUsers()
   for (const user of a) {
@@ -36,13 +37,16 @@ const updateUsers = async () => {
   }
   console.log('users updated', users.value)
 }
-updateUsers()
+updateUsers()*/
 
 const name = ref('')
 const surname = ref('')
-const role = ref('expert')
+const mail = ref('')
+//TODO TO MODIFY
+const contacts = ref('')
+const permissions = ref('')
+
 const username = ref('')
-const phone = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
@@ -78,9 +82,7 @@ const checkPasswordCorrectness = (): boolean => {
 const onReset = () => {
   name.value = ''
   surname.value = ''
-  role.value = 'expert'
   username.value = ''
-  phone.value = ''
   password.value = ''
   confirmPassword.value = ''
 }
@@ -97,6 +99,10 @@ const deleteUser = (user: User) => {
       console.log(err)
     })*/
 }
+
+onMounted(() => {
+  getUsers()
+})
 </script>
 
 <template>
@@ -123,9 +129,8 @@ const deleteUser = (user: User) => {
           :rules="[(val: string) => (val && val.length > 0) || 'Username required']"
         />
         <q-input
-          v-model="phone"
-          type="number"
-          label="Phone"
+          v-model="mail"
+          label="Mail"
           lazy-rules
           :rules="[(val: string) => (val && val.length > 0) || 'Phone required']"
         />

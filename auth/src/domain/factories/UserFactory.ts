@@ -14,6 +14,7 @@ export class UserFactory {
     id: UserId,
     username: string,
     password: string,
+    role: string,
     permissions: string[],
     accessToken: string,
     refreshToken: string
@@ -22,6 +23,7 @@ export class UserFactory {
       id,
       username,
       password,
+      role,
       permissions,
       accessToken,
       refreshToken
@@ -31,10 +33,11 @@ export class UserFactory {
   static createUser(
     username: string,
     password: string,
+    role: string,
     permissions: string[],
     accessToken: string,
     refreshToken: string
   ): User {
-    return this.userFrom(this.newId(), username, password, permissions, accessToken, refreshToken)
+    return this.userFrom(this.newId(), username, password, role, permissions, accessToken, refreshToken)
   }
 }

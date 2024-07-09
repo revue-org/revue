@@ -41,6 +41,9 @@ const login = () => {
         userStore.surname = res.data.surname
         userStore.mail = res.data.mail
         userStore.contacts = contacts
+        if(res.data.username === "admin") {
+          router.push('/admin')
+        }
         setupSocketServers(userStore.accessToken)
         router.push('/home')
       })

@@ -42,5 +42,8 @@ components:
                 password:
                     type: string
                     description: The password of the user
+                role:
+                    type: string
+                    description: The role of the user
                 permissions:
                     $ref: "#/components/schemas/Permissions"

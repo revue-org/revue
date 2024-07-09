@@ -10,7 +10,9 @@ export class MongoDBUserRepository implements UserRepository {
 
   async getUsers(): Promise<User[]> {
     return this.model
-      .find()
+      .find({
+        role: 'guardian'
+      })
       .lean()
       .then(users => {
         return users.map(user => UserDBAdapter.asDomainEntity(user))

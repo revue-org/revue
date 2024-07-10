@@ -100,5 +100,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            letsdothisshared/revue-${{ steps.compute-next-version.outputs.next-version }}
+            letsdothisshared/revue-${{ matrix.image }}:${{ steps.compute-next-version.outputs.next-version }}
             letsdothisshared/revue-${{ matrix.image }}:latest

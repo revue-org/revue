@@ -19,7 +19,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+    'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
     'vue/no-mutating-props': 'off',
   },

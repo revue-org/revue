@@ -1,0 +1,39 @@
+components:
+  schemas:
+    Intrusion:
+      type: object
+      properties:
+        detectionId:
+          type: string
+          description: The id of the detection
+
+    Outlier:
+      type: object
+      properties:
+        measurementId:
+          type: string
+          description: The id of the measurement
+
+    Measurement:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: the timestamp of the measure
+        deviceId:
+          $ref: "../device/schemas.yml#/components/schemas/DeviceId"
+        measure:
+          $ref: "#/components/schemas/Measure"
+        value:
+          type: number
+          description: the value of the measure
+
+    Measure:
+      type: object
+      properties:
+        measureType:
+          type: string
+          description: the type of the measure, e.g. temperature, humidity, etc.
+        unit:
+          type: string
+          description: the unit of the measure, e.g. celsius, fahrenheit, etc.

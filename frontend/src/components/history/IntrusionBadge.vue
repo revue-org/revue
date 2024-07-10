@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Intrusion } from 'domain/dist/domain/anomaly/core'
-import { ObjectClass } from 'domain/dist/domain/security-rule/core'
+import type { Intrusion } from 'common/dist/domain/core'
 
 defineProps<{
   intrusion: Intrusion
@@ -10,12 +9,17 @@ defineProps<{
 <template>
   <li>
     <q-icon size="28px" name="sensor_occupied" />
-    <span>
-      {{ intrusion.deviceId.code }}
-    </span>
     <span> {{ intrusion.timestamp.toLocaleString().split(',')[0] }} </span>
+    <span> Source: {{ intrusion.detection.sourceDeviceId }} </span>
+    <i>
+      Class:
+      {{ intrusion.detection.objectClass }}
+    </i>
     <span>
-      <i>A {{ ObjectClass[intrusion.intrusionObject] }} detected.</i>
+      <i>
+        Broken rule:
+        {{ intrusion.intrusionRuleId }}
+      </i>
     </span>
     <span class="timestamp">Detection hour: {{ intrusion.timestamp.toLocaleString().split(' ')[1] }}</span>
   </li>

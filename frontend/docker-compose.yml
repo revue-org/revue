@@ -15,6 +15,10 @@ services:
       kompose.service.type: nodeport
       kompose.controller.type: deployment
       # kompose.image-pull-policy: IfNotPresent
+      traefik.enable: true
+    #  - traefik.http.routers.frontend.rule=Host(`frontend.localhost`)
+    #  - traefik.http.routers.frontend.entrypoints=websecure
+    #  - traefik.http.routers.frontend.tls.certresolver=myresolver
 
 networks:
   my-net:

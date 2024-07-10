@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+    title: User Authentication and Authorization Service API
+    description: User authentication and user permissions microservice API
+    version: 1.0.0
+tags:
+    - name: UserAuth
+      description: Operations related to user authentication and user permissions
+
+paths:
+    /login:
+        post:
+            summary: Log into the application
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Credentials"
+            responses:
+                200:
+                    description: Login successful
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Authorization"
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /refresh:
+        post:
+            summary: Get a new token
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Token"
+            responses:
+                200:
+                    description: Token updated
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Token"
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+
+    /permissions:
+        get:
+            summary: Get the list of locations to which the user has access
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: The list of locations to which the user has access
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Permissions"
+                403:
+                    description: User not authorized
+
+    /permissions/{userId}:
+        get:
+            summary: Get the list of locations to which a user has access
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: The list of locations to which the user has access
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Permissions"
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        post:
+            summary: Set user permissions
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Permissions"
+            responses:
+                200:
+                    description: User's permissions updated
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        put:
+            summary: Add user permissions
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Permissions"
+            responses:
+                200:
+                    description: User's permissions updated
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        delete:
+            summary: Remove user permissions
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Permissions"
+            responses:
+                200:
+                    description: User's permissions updated
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+
+    /permissions/{userId}/{locationId}:
+        get:
+            summary: Check user permissions
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: User has access permissions
+                403:
+                    description: User not authorized
+        post:
+            summary: Add user permission
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: User have been correctly set
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        delete:
+            summary: Remove user permission
+            tags: [UserAuth]
+            responses:
+                200:
+                    description: User permission deleted
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found

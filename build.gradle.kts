@@ -11,59 +11,63 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.1"
 }
 
-class Task(val name: String, val args: List<String>, val dependencies: List<String> = listOf())
+class Task(
+    val name: String,
+    val command: List<String>
+)
 
+val Project.isNodeProject get() = file("package.json").exists()
+
+allprojects {
+    tasks.register<Delete>("clean") {
+        delete("dist", "node_modules/", "tsconfig.tsbuildinfo")
+    }
+}
 
 subprojects {
-
-    if (project.file("package.json").exists()) {
+    if (project.isNodeProject) {
         apply(plugin = "com.github.node-gradle.node")
 
         node {
             download = false
         }
 
+        val install = tasks.register<NpmTask>("install") {
+            args = listOf("install")
+        }
+
+        val build = tasks.register<NpmTask>("build") {
+            dependsOn(install)
+            mustRunAfter(install)
+            args = listOf("run", "build")
+            inputs.dir("src")
+            inputs.dir(fileTree("node_modules").exclude(".cache"))
+            outputs.dir("dist")
+        }
+
+        tasks.register<NpmTask>("test") {
+            dependsOn(build)
+            args = listOf("run", "test")
+        }
+
         listOf(
-            Task("install", listOf("install")),
-            Task("build", listOf("run", "build")),
-            Task("start", listOf("start")),
-            Task("test", listOf("run", "test")),
             Task("testArchitecture", listOf("run", "test:architecture")),
             Task("format", listOf("run", "format")),
-            Task("format-fix", listOf("run", "format:fix")),
             Task("lint", listOf("run", "lint")),
+            Task("format-fix", listOf("run", "format:fix")),
             Task("lint-fix", listOf("run", "lint:fix")),
         ).forEach { task ->
             tasks.register<NpmTask>(task.name) {
-                args = task.args
-                if (task.name != "install") dependsOn(":${project.name}:install")
-                if (project.name != "domain") dependsOn(":domain:build")
+                args = task.command
+                dependsOn(install)
             }
         }
+    }
 
-        // ordering task execution
-        if (project.name != "domain") {
-            tasks.findByPath(":${project.name}:install")?.mustRunAfter(":domain:build")
-        }
-        tasks.findByPath(":${project.name}:build")?.mustRunAfter(":${project.name}:install")
-
-        tasks.register("clean", Delete::class) {
-            delete("dist", "node_modules/domain", "tsconfig.tsbuildinfo")
-        }
-    } else if (project.file("pyproject.toml").exists()) {
-        listOf(
-            Task("setup", listOf("pip", "install", "-r", "requirements.txt")),
-            Task("install", listOf("poetry", "install", "--no-root"), listOf("setup")),
-            Task("build", listOf("poetry", "build")),
-            Task("test", listOf("poetry", "run", "python", "run_tests.py")),
-            Task("format", listOf("poetry", "run", "python", "-m", "black", ".", "--check")),
-            Task("format-fix", listOf("poetry", "run", "python", "-m", "black", ".")),
-        ).forEach { task ->
-            tasks.register(task.name, Exec::class) {
-                if (task.name != "install" && task.name != "setup") dependsOn(":${project.name}:install")
-                commandLine = listOf(*task.args.toTypedArray())
-                if (task.dependencies.isNotEmpty()) dependsOn(task.dependencies)
-            }
+    if (project.name != "common") {
+        tasks.forEach {
+            it.dependsOn(":common:build")
+            it.mustRunAfter(":common:build")
         }
     }
 }

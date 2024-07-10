@@ -14,6 +14,12 @@ type Headers = {
 
 export const authHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_AUTH_HOST
 export const authPort = import.meta.env.DEV ? '4000' : import.meta.env.VITE_AUTH_PORT
+export const userHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_USER_HOST
+export const userPort = import.meta.env.DEV ? '4006' : import.meta.env.VITE_USER_PORT
+export const locationHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_LOCATION_HOST
+export const locationPort = import.meta.env.DEV ? '4008' : import.meta.env.VITE_LOCATION_PORT
+export const deviceHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_DEVICE_HOST
+export const devicePort = import.meta.env.DEV ? '4007' : import.meta.env.VITE_DEVICE_PORT
 export const monitoringHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MONITORING_HOST
 export const monitoringPort = import.meta.env.DEV ? '4001' : import.meta.env.VITE_MONITORING_PORT
 export const alarmHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_ALARM_HOST

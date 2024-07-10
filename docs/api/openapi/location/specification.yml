@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+    title: Location Service API
+    description: Location management microservice API
+    version: 1.0.0
+tags:
+    - name: Locations
+      description: Operations related to locations
+
+paths:
+    /locations/{id}:
+        get:
+            summary: Get a location by id
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      description: ID of the location
+            responses:
+                200:
+                    description: The location with the specified ID
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+        delete:
+            summary: Delete a location
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      description: ID of location
+            responses:
+                200:
+                    description: The resource was deleted successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /rooms:
+        get:
+            summary: Get all rooms
+            tags: [Locations]
+            responses:
+                200:
+                    description: The list of all rooms to which the user has access
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Room"
+                403:
+                    description: User not authorized
+        post:
+            summary: Create a new room
+            tags: [Locations]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Room"
+            responses:
+                201:
+                    description: The room was created successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /rooms/{id}:
+        get:
+            summary: Get a room by id
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the room
+            responses:
+                200:
+                    description: The room with the specified ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Room"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+
+        put:
+            summary: Update a room
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the room
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Room"
+            responses:
+                200:
+                    description: The device was updated successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+        delete:
+            summary: Delete a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the device
+            responses:
+                200:
+                    description: The resource was deleted successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+
+    /buildings:
+        get:
+            summary: Get all buildings
+            tags: [Locations]
+            responses:
+                200:
+                    description: The list of all buildings to which the user has access
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Building"
+                403:
+                    description: User not authorized
+        post:
+            summary: Create a new building
+            tags: [Locations]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Building"
+            responses:
+                201:
+                    description: The building was created successfully
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+    /buildings/{id}:
+        get:
+            summary: Get a building by id
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            responses:
+                200:
+                    description: The building with the specified ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Building"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+
+        put:
+            summary: Update a building
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Building"
+            responses:
+                200:
+                    description: The building was updated successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+        delete:
+            summary: Delete a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            responses:
+                200:
+                    description: The resource was deleted successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /buildings/{id}/rooms:
+        get:
+            summary: Get all rooms in a building to which the user has access
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            responses:
+                200:
+                    description: The list of all rooms in the building
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Room"
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized

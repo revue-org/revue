@@ -31,8 +31,8 @@
   "dependencies": {
     "@quasar/extras": "^1.16.9",
     "axios": "^1.6.5",
+    "common": "file:../common",
     "chart.js": "^4.4.1",
-    "domain": "file:../domain",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "quasar": "^2.14.2",

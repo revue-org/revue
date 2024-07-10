@@ -1,21 +1,24 @@
 import { defineConfig } from "vitest/config";
 import path from "node:path";
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
   return {
     extensions: ["js", "ts"],
     testFiles: "test/**/*.test.ts",
     resolve: {
       alias: {
-        "@domain": path.resolve(__dirname, "node_modules/domain/dist/domain/"),
-        "@application": path.resolve(__dirname, "node_modules/domain/dist/application/"),
-        "@utils": path.resolve(__dirname, "node_modules/domain/dist/utils/"),
-        "@storage": path.resolve(__dirname, "node_modules/domain/dist/storage/")
+        "@": path.resolve(__dirname, "src/"),
+        "@common": path.resolve(__dirname, "node_modules/common/dist/"),
+        "@domain": path.resolve(__dirname, "node_modules/common/dist/domain/"),
+        "@application": path.resolve(__dirname, "node_modules/common/dist/application/"),
+        "@presentation": path.resolve(__dirname, "node_modules/common/dist/presentation/"),
+        "@infrastructure": path.resolve(__dirname, "node_modules/common/dist/infrastructure/"),
+        "@utils": path.resolve(__dirname, "node_modules/common/dist/utils/")
       }
     },
     test: {
       setupFiles: ["./test/setup.ts"],
       testTimeout: 30000
     }
-  }
+  };
 });

@@ -1,27 +1,23 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { type ExceedingRule, type IntrusionRule } from 'domain/dist/domain/alarm-system/core'
-import NewSecurityRulePopup from '@/components/security-rule/NewSecurityRulePopup.vue'
-import SecurityRuleBadge from '@/components/security-rule/SecurityRuleBadge.vue'
+import NewRulePopup from '@/components/security-rule/NewRulePopup.vue'
+import RuleBadge from '@/components/security-rule/RuleBadge.vue'
 import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
-import { MeasureConverter, ObjectClassConverter } from 'domain/dist/utils'
-import {
-  composeExceedingSecurityRule,
-  composeIntrusionSecurityRule
-} from '@/scripts/presentation/security-rule/ComposeSecurityRule'
+import { composeIntrusionRule, composeRangeRule } from '@/presentation/ComposeSecurityRule.js'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
 import { useQuasar } from 'quasar'
+import type { IntrusionRule, RangeRule, SecurityRule } from '@/domain/core/SecurityRule'
 
-const exceedingsSecurityRules: ref<ExceedingRule[]> = ref([])
-const intrusionsSecurityRules: ref<IntrusionRule[]> = ref([])
+const rangeRules: ref<RangeRule[]> = ref([])
+const intrusionRules: ref<IntrusionRule[]> = ref([])
 const $q = useQuasar()
 
-const getExceedingSecurityRules = async () => {
-  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`)
+const getRangeRules = async () => {
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/rules/ranges`)
     .then((res: any) => {
-      exceedingsSecurityRules.value = []
+      rangeRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        exceedingsSecurityRules.value.push(composeExceedingSecurityRule(res.data[i]))
+        rangeRules.value.push(composeRangeRule(res.data[i]))
       }
     })
     .catch(error => {
@@ -29,12 +25,13 @@ const getExceedingSecurityRules = async () => {
     })
 }
 
-const getIntrusionSecurityRules = async () => {
-  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`)
+const getIntrusionRules = async () => {
+  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/rules/intrusions`)
     .then((res: any) => {
-      intrusionsSecurityRules.value = []
+      console.log(res.data)
+      intrusionRules.value = []
       for (let i = 0; i < res.data.length; i++) {
-        intrusionsSecurityRules.value.push(composeIntrusionSecurityRule(res.data[i]))
+        intrusionRules.value.push(composeIntrusionRule(res.data[i]))
       }
     })
     .catch(error => {
@@ -42,124 +39,64 @@ const getIntrusionSecurityRules = async () => {
     })
 }
 
-const insertExceedingRule = async (exceedingRule: ExceedingRule) => {
-  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/security-rules/exceedings`, {
-    deviceId: {
-      code: exceedingRule.deviceId.code
-    },
-    creatorId: exceedingRule.creatorId,
-    description: exceedingRule.description,
-    measure: MeasureConverter.convertToString(exceedingRule.measure),
-    min: exceedingRule.min,
-    max: exceedingRule.max,
-    from: exceedingRule.from.toISOString(),
-    to: exceedingRule.to.toISOString(),
-    contacts: exceedingRule.contactsToNotify
-  })
+const deleteRule = async (rule: SecurityRule) => {
+  console.log(rule)
+  await RequestHelper.delete(`http://${alarmHost}:${alarmPort}/rules/` + rule.id)
     .then(async (_res: any) => {
-      popPositive($q, 'Exceeding rule added successfully')
-      await getExceedingSecurityRules()
+      popPositive($q, 'Rule deleted successfully')
+      rule.type === 'range' ? await getRangeRules() : await getIntrusionRules()
     })
     .catch(error => {
-      popNegative($q, 'Error while adding exceeding rule')
-      console.log(error)
-    })
-}
-
-const insertIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  await RequestHelper.post(`http://${alarmHost}:${alarmPort}/security-rules/intrusions`, {
-    deviceId: {
-      code: intrusionRule.deviceId.code
-    },
-    creatorId: intrusionRule.creatorId,
-    description: intrusionRule.description,
-    objectClass: ObjectClassConverter.convertToString(intrusionRule.objectClass),
-    from: intrusionRule.from.toISOString(),
-    to: intrusionRule.to.toISOString(),
-    contacts: intrusionRule.contactsToNotify
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Intrusion rule added successfully')
-      await getIntrusionSecurityRules()
-    })
-    .catch(error => {
-      popNegative($q, 'Error while adding intrusion rule')
-      console.log(error)
-    })
-}
-
-const deleteIntrusionRule = async (intrusionRule: IntrusionRule) => {
-  await RequestHelper.delete(
-    `http://${alarmHost}:${alarmPort}/security-rules/intrusions/` + intrusionRule.securityRuleId
-  )
-    .then(async (_res: any) => {
-      popPositive($q, 'Intrusion rule deleted successfully')
-      await getIntrusionSecurityRules()
-    })
-    .catch(error => {
-      popNegative($q, 'Error while deleting intrusion rule')
-      console.log(error)
-    })
-}
-
-const deleteExceedingRule = async (exceedingRule: ExceedingRule) => {
-  await RequestHelper.delete(
-    `http://${alarmHost}:${alarmPort}/security-rules/exceedings/` + exceedingRule.securityRuleId
-  )
-    .then(async (_res: any) => {
-      popPositive($q, 'Exceeding rule deleted successfully')
-      await getExceedingSecurityRules()
-    })
-    .catch(error => {
-      popNegative($q, 'Error while deleting exceeding rule')
+      popNegative($q, 'Error while deleting rule')
       console.log(error)
     })
 }
 
 onMounted(async () => {
-  await getExceedingSecurityRules()
-  await getIntrusionSecurityRules()
+  await getRangeRules()
+  await getIntrusionRules()
 })
 
 const popupVisible = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="new-security-rule">
+  <div class="new-rule">
     <q-btn label="Add a security rule" color="primary" @click="popupVisible = true" />
   </div>
 
-  <h2>Sensor alarms:</h2>
-  <div class="exceeding-rules-container">
-    <security-rule-badge
-      v-for="exceedingRule in exceedingsSecurityRules"
-      :security-rule="exceedingRule"
-      @delete-security-rule="deleteExceedingRule(exceedingRule)"
-      @get-exceeding-rules="getExceedingSecurityRules"
-      :key="exceedingRule.securityRuleId"
+  <h2>Ranges alarms:</h2>
+  <div class="range-container">
+    <rule-badge
+      v-for="(rule, index) in rangeRules"
+      :rule="rule"
+      @delete-rule="deleteRule(rule)"
+      @get-range-rules="getRangeRules"
+      @get-intrusion-rules="getIntrusionRules"
+      :key="index"
     />
   </div>
 
-  <h2>Camera alarms:</h2>
-  <div class="intrusion-rules-container">
-    <security-rule-badge
-      v-for="intrusionRule in intrusionsSecurityRules"
-      :security-rule="intrusionRule"
-      @delete-security-rule="deleteIntrusionRule(intrusionRule)"
-      @get-intrusion-rules="getIntrusionSecurityRules"
-      :key="intrusionRule.securityRuleId"
+  <h2>Intrusions alarms:</h2>
+  <div class="intrusion-container">
+    <rule-badge
+      v-for="(rule, index) in intrusionRules"
+      :rule="rule"
+      @delete-rule="deleteRule(rule)"
+      @get-range-rules="getRangeRules"
+      @get-intrusion-rules="getIntrusionRules"
+      :key="index"
     />
   </div>
-
-  <new-security-rule-popup
+  <new-rule-popup
     v-model="popupVisible"
-    @insert-exceeding-rule="insertExceedingRule"
-    @insert-intrusion-rule="insertIntrusionRule"
-  ></new-security-rule-popup>
+    @get-range-rules="getRangeRules"
+    @get-intrusion-rules="getIntrusionRules"
+  ></new-rule-popup>
 </template>
 
 <style scoped lang="scss">
-div.new-security-rule {
+div.new-rule {
   text-align: center;
   padding-top: 15px;
 }
@@ -168,13 +105,13 @@ h2 {
   margin: 0.5rem 1rem;
 }
 
-div.exceeding-rules-container {
+div.range-container {
   margin: 0.5rem 1rem;
   display: flex;
   gap: 1rem;
 }
 
-div.intrusion-rules-container {
+div.intrusion-container {
   margin: 0.5rem 1rem;
   display: flex;
   gap: 1rem;

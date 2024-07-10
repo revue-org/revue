@@ -1,110 +1,83 @@
-import { Measure } from '@domain/device/core/impl/enum/Measure.js'
-import { MeasureUnit } from '@domain/device/core/impl/enum/MeasureUnit.js'
-import type { Sensor } from '@domain/device/core/Sensor.js'
-import type { EnvironmentData } from '@domain/device/core/EnvironmentData.js'
-import { DeviceFactoryImpl } from '@domain/device/factories/impl/DeviceFactoryImpl.js'
-import { DeviceIdFactoryImpl } from '@domain/device/factories/impl/DeviceIdFactoryImpl.js'
-import { EnvironmentDataFactoryImpl } from '@domain/device/factories/impl/EnvironmentDataFactoryImpl.js'
-import { MeasureConverter } from '@utils/MeasureConverter.js'
-import RequestHelper, { monitoringHost, monitoringPort } from './utils/RequestHelper.js'
-import { Kafka, Partitioners, Producer } from 'kafkajs'
-import { AxiosResponse } from 'axios'
+import RequestHelper, { deviceHost, devicePort } from '@common/utils/RequestHelper.js'
+import KafkaProducer from '@common/infrastructure/events/KafkaProducer.js'
+import { Measurement } from '@common/domain/core/Measurement.js'
+import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 
-const SENSOR_CODE = process.env.SENSOR_CODE
+import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
+import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 
-if (SENSOR_CODE === undefined) {
-  console.log('No sensor code provided')
+const SENSOR_ID = process.env.SENSOR_ID_1
+
+if (SENSOR_ID === undefined) {
+  console.log('No device id provided')
   process.exit(1)
 }
 
-let sourceSensor: Sensor
+let sensor: any
 
 export const getSensorInfo = async (): Promise<void> => {
-  const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
+  const deviceUrl: string = `http://${deviceHost}:${devicePort}/devices`
   try {
-    const res: AxiosResponse = await RequestHelper.get(`${monitoringUrl}/devices/sensors/${SENSOR_CODE}`)
-    sourceSensor = new DeviceFactoryImpl().createSensor(
-      new DeviceIdFactoryImpl().createSensorId(res.data._id.code),
-      false,
-      res.data.ipAddress,
-      res.data.intervalMillis,
-      res.data.measures.map((measure: any) => {
-        return MeasureConverter.convertToMeasure(measure)
-      })
-    )
+    const res = await RequestHelper.get(`${deviceUrl}/${SENSOR_ID}`)
     console.log('INFO: SENSOR INFO RETRIEVED')
+    console.log(res.data)
+    sensor = res.data
+    // console.log('INFO: SENSOR INFO RETRIEVED')
   } catch (e) {
     console.log(e)
     throw new Error('Error while getting sensor info')
   }
 }
 
-let kafkaHost: string = process.env.KAFKA_HOST || 'revue-kafka'
-let kafkaPort: string = process.env.KAFKA_PORT || '9092'
+let kafkaHost: string = process.env.KAFKA_HOST!
+let kafkaPort: string = process.env.KAFKA_PORT!
 
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
-  kafkaHost = process.env.KAFKA_EXTERNAL_HOST || 'localhost'
-  kafkaPort = process.env.KAFKA_EXTERNAL_PORT || '9094'
+  kafkaHost = process.env.KAFKA_EXTERNAL_HOST!
+  kafkaPort = process.env.KAFKA_EXTERNAL_PORT!
 }
 
-const kafka: Kafka = new Kafka({
-  clientId: `SENSOR_${SENSOR_CODE}`,
-  brokers: [`${kafkaHost}:${kafkaPort}`]
-})
-
-const environmentDataFactory = new EnvironmentDataFactoryImpl()
+const kafkaOptions: KafkaOptions = {
+  clientId: 'sensor',
+  brokers: [{ host: kafkaHost, port: kafkaPort }]
+}
 
 export const produce = async (): Promise<void> => {
-  const producer: Producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
-  await producer.connect()
-  let values: EnvironmentData[] = []
+  const producer: KafkaProducer = new KafkaProducer(kafkaOptions)
   setInterval(async (): Promise<void> => {
-    values = []
-    for (const measure of sourceSensor.measures) {
-      values.push(
-        environmentDataFactory.createEnvironmentData(
-          sourceSensor.deviceId,
-          generateRandomValue(measure),
-          measure,
-          getMeasureUnit(measure),
-          new Date()
-        )
-      )
-    }
-    await producer.send({
-      topic: `SENSOR_${sourceSensor.deviceId.code}`,
-      messages: [
-        {
-          value: JSON.stringify(values)
-        }
-      ]
-    })
-  }, sourceSensor.intervalMillis)
+    const measurement: Measurement = MeasurementFactory.createNumericMeasurement(
+      new Date(),
+      sensor.deviceId.value,
+      MeasureFactory.createTemperatureMeasure(MeasureUnit.CELSIUS),
+      Math.floor(Math.random() * 30)
+    )
+    producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
+  }, 2000)
+
+  setInterval(async (): Promise<void> => {
+    const measurement: Measurement = MeasurementFactory.createNumericMeasurement(
+      new Date(),
+      sensor.deviceId.value,
+      MeasureFactory.createHumidityMeasure(MeasureUnit.PERCENTAGE),
+      Math.floor(Math.random() * 100)
+    )
+    producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
+  }, 2000)
+
+  setInterval(async (): Promise<void> => {
+    const measurement: Measurement = MeasurementFactory.createNumericMeasurement(
+      new Date(),
+      sensor.deviceId.value,
+      MeasureFactory.createPressureMeasure(MeasureUnit.BAR),
+      Math.floor(Math.random() * 20)
+    )
+    producer.produce(`measurements.${sensor.deviceId.value}`, measurement)
+  }, 2000)
 }
 
-const getMeasureUnit = (measure: Measure): MeasureUnit => {
-  switch (measure) {
-    case Measure.TEMPERATURE:
-      return MeasureUnit.CELSIUS
-    case Measure.HUMIDITY:
-      return MeasureUnit.PERCENTAGE
-    case Measure.PRESSURE:
-      return MeasureUnit.BAR
-    default:
-      throw new Error('Measure unit not found')
-  }
-}
-
-const generateRandomValue = (measure: Measure): number => {
-  switch (measure) {
-    case Measure.TEMPERATURE:
-      return parseFloat((Math.random() * (24.5 - 24) + 24).toFixed(2))
-    case Measure.HUMIDITY:
-      return parseFloat((Math.random() * (56 - 55) + 55).toFixed(2))
-    case Measure.PRESSURE:
-      return parseFloat((Math.random() * (1000 - 980) + 980).toFixed(2))
-    default:
-      throw new Error('Measure unit not found')
-  }
+export const stopProduce = async (): Promise<void> => {
+  console.log('INFO: STOPPING PRODUCER')
+  process.exit(0)
 }

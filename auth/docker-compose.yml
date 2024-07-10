@@ -17,6 +17,10 @@ services:
       kompose.service.type: nodeport
       kompose.controller.type: deployment
       # kompose.image-pull-policy: IfNotPresent
+      traefik.enable: true
+    ##  - traefik.http.routers.auth.rule=Host(`auth.localhost`)
+    #  - traefik.http.routers.auth.entrypoints=websecure
+    #  - traefik.http.routers.auth.tls.certresolver=myresolver
 
   revue-auth-db:
     image: mongo

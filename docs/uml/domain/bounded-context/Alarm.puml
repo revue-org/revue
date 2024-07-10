@@ -1,0 +1,116 @@
+@startuml
+!startsub SecurityRuleRoot
+
+interface AlarmService {
+    +getSecurityRuleById(id: string): Promise<SecurityRule>
+    +getSecurityRules(): Promise<SecurityRule[]>
+    +getContactsToNotify(anomaly: Anomaly): Promise<Contact[]>
+    +insertSecurityRule(securityRule: SecurityRule): void
+    +updateSecurityRule(securityRule: SecurityRule): void
+    +deleteSecurityRule(id: string): void
+    +checkIntrusion(cameraId: DeviceId, objectClass: ObjectClass, timestamp: Date): Promise<boolean>
+    +checkOutlier(sensorId: DeviceId, measure: Measure, value: Float, timestamp: Date): Promise<boolean>
+}
+!endsub SecurityRuleRoot
+AlarmService --> SecurityRuleRepository : uses
+AlarmService --> SecurityRuleFactory : uses
+
+interface SecurityRuleRepository {
+    +getSecurityRules(): Promise<SecurityRule[]>
+    +getSecurityRuleById(securityRuleId: string): Promise<SecurityRule>
+    +insertSecurityRule(securityRule: SecurityRule): Promise<SecurityRuleId>
+    +updateSecurityRule(securityRule: SecurityRule): Promise<void>
+    +deleteSecurityRule(securityRuleId: string): Promise<void>
+}
+SecurityRuleRepository o-- SecurityRule
+
+interface SecurityRuleId {
+  + getValue: String
+}
+
+interface SecurityRule {
+  + getSecurityRuleId: Int
+  + getDeviceId: DeviceId
+  + getCreatorId(): Int
+  + getContactsToNotify: Set<Contact>
+  + getDescription: String
+  + getTimeSlot: TimeSlot
+}
+note left of SecurityRule : Entity
+
+interface TimeSlot {
+  + getFrom: Date
+  + getTo: Date
+}
+note left of TimeSlot : Value Object
+
+interface SecurityRuleFactory {
+  + createIntrusionRule(...): IntrusionRule
+  + createRangeRule(...): RangeRule
+}
+'TODO: creates SecurityRule or IntrusionRule/RangeRule?
+SecurityRuleFactory -left-> SecurityRule : creates
+SecurityRule *-- SecurityRuleId
+
+interface IntrusionRule {
+  + objectClass: ObjectClass
+}
+IntrusionRule o-- ObjectClass
+
+interface RangeRule {
+  + min: Float
+  + max: Float
+  + measure: Measure
+}
+
+enum ObjectClass {
+  PERSON
+  BICYCLE
+  CAR
+  ...
+}
+
+SecurityRule <|-- RangeRule
+SecurityRule <|-- IntrusionRule
+SecurityRule *-- TimeSlot
+
+'------------ ANOMALIES ------------
+
+'interface DomainEvent {
+'  + getId(): DomainEventId
+'  + getTimestamp(): Date
+'}
+'
+'interface Anomaly
+'interface Measurement
+'interface Detection
+'
+'interface Outlier {
+'  + getMeasurement(): Measurement
+'  + getRangeRule(): RangeRule
+'}
+'
+'interface Intrusion {
+'  + getDetection(): Detection
+'  + getIntrusionRule(): IntrusionRule
+'}
+'
+'Anomaly <|-- Intrusion
+'Anomaly <|-- Outlier
+'
+'DomainEvent <|-- DeviceEvent
+'DeviceEvent <|-- Measurement
+'DeviceEvent <|-- Detection
+'
+'Intrusion o-- Detection
+'Outlier o-- Measurement
+'
+''interface AnomalyFactory {
+''  + createIntrusion(): Intrusion
+''  + createOutlier(): Outlier
+''}
+''AnomalyFactory -left-> Anomaly : creates
+'
+'DomainEvent <|-- Anomaly
+
+@enduml

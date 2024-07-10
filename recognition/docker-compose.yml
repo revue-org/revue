@@ -11,9 +11,9 @@ services:
       - ${RECOGNITION_PORT}:${RECOGNITION_PORT}
     environment:
       - RECOGNITION_PORT=${RECOGNITION_PORT}
-    depends_on:
-      - revue-camera-1
-      - revue-camera-2
+#    depends_on:
+#      - revue-camera-1
+#      - revue-camera-2
     networks:
       - my-net
     labels:

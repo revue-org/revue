@@ -7,7 +7,7 @@ module.exports = {
   },
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'eslint:recommended'
+    'plugin:@typescript-eslint/recommended'
   ],
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -16,7 +16,7 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
-    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+    'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }]
   },
   // exclude dist directory

@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import type { Camera, Device, Sensor } from '@domain/device/core'
-import { DeviceType, Measure } from '@domain/device/core'
-import { getMeasureColor } from '@/utils/MeasureUtils'
-import { ref } from 'vue'
-import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
-import RequestHelper, { monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { DeviceTypeConverter, MeasureConverter } from 'domain/dist/utils'
-import { popDelete, popNegative, popPositive } from '@/scripts/Popups'
+import { onMounted, ref } from 'vue'
+import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import { popDelete, popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
+import type { Device } from '@/domain/core/Device'
+import { colorMap } from '@/utils/MeasureUtils'
+
+import {
+  type Capability,
+  CapabilityType,
+  type SensoringCapability,
+  type VideoStreamingCapability
+} from '@/domain/core/Capability'
+import UpdateDevicePopup from '@/components/devices/UpdateDevicePopup.vue'
+import CapabilityPopup from '@/components/devices/CapabilityPopup.vue'
 
 const { device } = defineProps<{
   device: Device
@@ -15,86 +21,58 @@ const { device } = defineProps<{
 
 const emit = defineEmits<{
   (_e: 'delete-device'): void
-  (_e: 'get-sensors'): void
-  (_e: 'get-cameras'): void
+  (_e: 'get-devices'): void
 }>()
 
+const capabilities = ref<Capability[]>([])
 const updatePopupVisible = ref<boolean>(false)
+const capabilityPopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
-const updateSensor = (sensor: Sensor) => {
-  RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/sensors`, {
-    code: sensor.deviceId.code,
-    isCapturing: sensor.isCapturing,
-    ipAddress: sensor.ipAddress,
-    intervalMillis: sensor.intervalMillis,
-    measures: sensor.measures.map((m: Measure) => {
-      return MeasureConverter.convertToString(m)
-    })
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Sensor updated successfully')
-      emit('get-sensors')
-    })
-    .catch(_error => {
-      popNegative($q, 'Error while updating sensor')
-    })
-}
-
-const updateCamera = (camera: Camera) => {
-  RequestHelper.put(`http://${monitoringHost}:${monitoringPort}/devices/cameras`, {
-    code: camera.deviceId.code,
-    isCapturing: camera.isCapturing,
-    ipAddress: camera.ipAddress,
-    resolution: {
-      width: parseInt(camera.resolution.width.toString()),
-      height: parseInt(camera.resolution.height.toString())
-    }
-  })
-    .then(async (_res: any) => {
-      popPositive($q, 'Camera updated successfully')
-      emit('get-cameras')
+const getCapabilities = () => {
+  RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/capabilities`)
+    .then(async (res: any) => {
+      for (let i = 0; i < res.data.length; i++) {
+        const capability = res.data[i]
+        console.log(capability)
+        if (capability.type === CapabilityType.SENSOR) {
+          const sensorCapability: SensoringCapability = {
+            type: CapabilityType.SENSOR,
+            capturingInterval: capability.capturingInterval,
+            measure: {
+              type: capability.measure.type,
+              unit: capability.measure.unit
+            }
+          }
+          capabilities.value.push(sensorCapability)
+        } else if (capability.type === CapabilityType.VIDEO) {
+          const videoCapability: VideoStreamingCapability = {
+            type: CapabilityType.VIDEO,
+            resolution: capability.resolution
+          }
+          capabilities.value.push(videoCapability)
+        }
+      }
     })
     .catch(_error => {
-      popNegative($q, 'Error while updating camera')
+      popNegative($q, 'Error while getting capabilities')
     })
 }
 
 const enableDevice = async () => {
-  const bodyRequest =
-    device.deviceId.type == DeviceType.SENSOR
-      ? {
-          code: device.deviceId.code,
-          ipAddress: device.ipAddress,
-          isCapturing: !device.isCapturing,
-          intervalMillis: (device as Sensor).intervalMillis,
-          measures: (device as Sensor).measures.map((m: Measure) => {
-            return MeasureConverter.convertToString(m)
-          })
-        }
-      : {
-          code: device.deviceId.code,
-          ipAddress: device.ipAddress,
-          isCapturing: !device.isCapturing,
-          resolution: {
-            width: parseInt((device as Camera).resolution.width.toString()),
-            height: parseInt((device as Camera).resolution.height.toString())
-          }
-        }
-  await RequestHelper.put(
-    `http://${monitoringHost}:${monitoringPort}/devices/${DeviceTypeConverter.convertToString(device.deviceId.type).toLowerCase()}s`,
-    bodyRequest
-  )
-    .then(async (_res: any) => {
-      popPositive($q, device.isCapturing ? 'Device disabled successfully' : 'Device enabled successfully')
-      device.isCapturing ? device.stopCapturing() : device.stopCapturing()
-      emit('get-cameras')
-      emit('get-sensors')
-    })
-    .catch(_error => {
-      popNegative($q, 'Error while enabling device')
-    })
+  //TODO TO TEST
+  /* RequestHelper.put(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/enable`, {})
+     .then(async (_res: any) => {
+       emit('get-devices')
+     })
+     .catch(_error => {
+       popNegative($q, 'Error while enabling device')
+     })*/
 }
+
+onMounted(() => {
+  getCapabilities()
+})
 
 const deleteDevice = () => {
   popDelete($q, 'Are you sure you want to delete this device?', () => emit('delete-device'))
@@ -105,40 +83,39 @@ const deleteDevice = () => {
   <div class="device">
     <header>
       <div>
-        <q-spinner-rings v-if="device.isCapturing" color="primary" size="2em" />
+        <q-spinner-rings v-if="device.isEnabled" color="primary" size="2em" />
         <q-icon v-else name="circle" color="red" size="2em" />
       </div>
       <h3>
-        {{ device.deviceId.code }}
+        {{ device.deviceId }}
       </h3>
     </header>
-    <ul :class="DeviceType[device.deviceId.type].toLowerCase()">
-      <li><i>IP Address: </i>{{ device.ipAddress }}</li>
-      <li v-if="device.deviceId.type == DeviceType.SENSOR">
-        <i>Acquisition Rate: </i>{{ (device as Sensor).intervalMillis }}
-        ms
-      </li>
-      <li v-if="device.deviceId.type == DeviceType.CAMERA">
-        <i>Resolution: </i
-        >{{ (device as Camera).resolution.width + 'x' + (device as Camera).resolution.height }}
-      </li>
-      <li v-if="device.deviceId.type == DeviceType.SENSOR" class="measures">
+    <ul>
+      <li><i>IP Address: </i>{{ device.endpoint.ipAddress + ':' + device.endpoint.port }}</li>
+      <li><i>Location: </i>{{ device.locationId }}</li>
+      <li><i>Description: </i>{{ device.description }}</li>
+      <li>
         <q-badge
-          v-for="measure in (device as Sensor).measures.values()"
-          outline
+          v-for="capability in capabilities"
+          :key="capability.type"
+          @click="capabilityPopupVisible = true"
+          @mouseover="console.log(capability)"
           :style="{
-            color: getMeasureColor(measure)
+            backgroundColor:
+              capability.type === 'sensor'
+                ? colorMap[(capability as SensoringCapability).measure.type]
+                : 'blue'
           }"
-          :key="measure"
         >
-          {{ Measure[measure] }}
+          {{ capability.type.toUpperCase() }}
+          <capability-popup v-model="capabilityPopupVisible" :capability="capability"></capability-popup>
         </q-badge>
       </li>
       <li class="actions">
         <div>
           <q-btn
-            :name="device.isCapturing ? 'toggle_on' : 'toggle_off'"
-            :icon="device.isCapturing ? 'toggle_on' : 'toggle_off'"
+            :name="device.isEnabled ? 'toggle_on' : 'toggle_off'"
+            :icon="device.isEnabled ? 'toggle_on' : 'toggle_off'"
             @click="enableDevice"
           />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
@@ -157,8 +134,7 @@ const deleteDevice = () => {
   <update-device-popup
     v-model="updatePopupVisible"
     :device="device"
-    @update-sensor="updateSensor"
-    @update-camera="updateCamera"
+    @get-devices="emit('get-devices')"
   ></update-device-popup>
 </template>
 
@@ -198,12 +174,8 @@ button {
 
 ul {
   @media (min-width: 576px) {
-    &.sensor {
+    &.device {
       height: 150px;
-    }
-
-    &.camera {
-      height: 110px;
     }
   }
   display: flex;

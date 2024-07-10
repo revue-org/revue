@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory, type Router } from 'vue-router'
 import EmptyLayout from '@/layouts/EmptyLayout.vue'
-import BasicLayout from '@/layouts/BasicLayout.vue'
-import MonitoringView from '@/views/MonitoringView.vue'
-import DevicesView from '@/views/DevicesView.vue'
+import BasicLayout from '@/layouts/BasicLayout.vue' /*import MonitoringView from '@/views/MonitoringView.vue'*/
+import HistoryView from '@/views/HistoryView.vue'
+import HomeView from '@/views/HomeView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import DevicesView from '@/views/DevicesView.vue'
 import NotificationView from '@/views/NotificationView.vue'
 import SecurityRuleView from '@/views/SecurityRuleView.vue'
-import HomeView from '@/views/HomeView.vue'
-import LogView from '@/views/HistoryView.vue'
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,16 +30,6 @@ const router: Router = createRouter({
           component: DevicesView
         },
         {
-          path: 'monitoring',
-          name: 'Monitoring',
-          component: MonitoringView
-        },
-        {
-          path: 'alarms',
-          name: 'Alarms',
-          component: SecurityRuleView
-        },
-        {
           path: 'notifications',
           name: 'Notifications',
           component: NotificationView
@@ -48,8 +37,18 @@ const router: Router = createRouter({
         {
           path: 'history',
           name: 'History',
-          component: LogView
+          component: HistoryView
+        },
+        {
+          path: 'alarms',
+          name: 'Alarms',
+          component: SecurityRuleView
         }
+        /*{
+          path: 'monitoring',
+          name: 'Monitoring',
+          component: MonitoringView
+        }*/
       ]
     },
     {
@@ -59,9 +58,7 @@ const router: Router = createRouter({
         {
           path: '',
           name: 'Login',
-          // route level code-splitting
-          // this generates a separate chunk (About.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
+          // lazy-load
           component: () => import('../views/LoginView.vue')
         }
       ]

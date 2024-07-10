@@ -1,0 +1,58 @@
+asyncapi: "2.5.0"
+info:
+    title: Camera Object Recognition Event Producer
+    version: "1.0.0"
+    description: An API for a Kafka producer that sends object recognition events from cameras.
+
+servers:
+    production:
+        url: "${KAFKA_HOST}:${KAFKA_PORT}"
+        protocol: kafka
+        description: Production Kafka broker
+
+channels:
+    "{cameraId}":
+        description: Channel for recognized object events from a specific camera
+        parameters:
+            cameraId:
+                description: The ID of the camera
+                schema:
+                    type: string
+                    example: cam-01
+        publish:
+            summary: Publish recognized object events
+            operationId: onDetectionEvent
+            tags:
+                - name: Detection
+            message:
+                $ref: "#/components/messages/DetectionEvent"
+        subscribe:
+            summary: Detection Async Requests
+            operationId: doDetectionRequest
+            tags:
+                - name: Detection
+            message:
+                $ref: "#/components/messages/DetectionEvent"
+
+components:
+    messages:
+        DetectionEvent:
+            summary: Event triggered when an object is recognized by a camera
+            contentType: application/json
+            payload:
+                $ref: "#/components/schemas/RecognizedObject"
+
+    schemas:
+        RecognizedObject:
+            type: object
+            properties:
+                objectClass:
+                    type: string
+                    description: The class of the recognized object
+                timestamp:
+                    type: string
+                    format: date-time
+                    description: The time when the object was recognized
+            required:
+                - objectClass
+                - timestamp

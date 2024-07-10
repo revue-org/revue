@@ -1,0 +1,66 @@
+openapi: 3.0.0
+info:
+    title: Notification Service API
+    description: Notification microservice API
+    version: 1.0.0
+tags:
+    - name: Notifications
+      description: Notification relatated operations
+
+paths:
+    /notifications:
+        get:
+            description: Get all user's notifications
+            tags: [Notification]
+            responses:
+                200:
+                    description: The user notifications
+                403:
+                    description: User not authorized
+        post:
+            description: Add a new notification
+            tags: [Notifications]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/Notification"
+            responses:
+                201:
+                    description: The notification is correctly created
+                403:
+                    description: User not authorized
+
+    /notifications/{id}:
+        get:
+            description: Get a notification by Id
+            tags: [Notifications]
+            responses:
+                200:
+                    description: The list of the user notifications
+                403:
+                    description: User not authorized
+                404:
+                    description: Notification not found
+        delete:
+            description: Delete a notification
+            tags: [Notification]
+            responses:
+                200:
+                    description: The notification has deleted
+                403:
+                    description: User not authorized
+                404:
+                    description: Notification not found
+    /notifications/types/{type}:
+        get:
+            description: Get all user's notifications by type
+            tags: [Notification]
+            responses:
+                200:
+                    description: The user notifications
+                403:
+                    description: User not authorized
+                404:
+                    description: Notification not found

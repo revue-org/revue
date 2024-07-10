@@ -1,0 +1,61 @@
+@startuml
+
+interface UserService {
+  + getUsers(): Promise<User[]>
+  + getUser(taxCode: string): Promise<User>
+  + insertUser(user: User): void
+  + updateUser(user: User): void
+  + deleteUser(taxCode: string): void
+  + getContacts(taxCode: string): Promise<Contact[]>
+  + addContact(taxCode: string, contact: Contact): void
+  + removeContact(taxCode: string, contact: Contact): void
+}
+
+UserService --> UserRepository : uses
+UserService --> UserFactory : uses
+
+interface UserRepository {
+  + getUsers(): Promise<User[]>
+  + getUserById(userId: string): Promise<User>
+  + getUserByUsername(username: string): Promise<User>
+  + insertUser(user: User): Promise<void>
+  + updateUser(user: User): Promise<void>
+  + deleteUser(userId: string): Promise<void>
+}
+UserRepository o-- User
+
+interface UserFactory {
+      + createUser(): User
+}
+UserFactory -left-> User : creates
+
+
+interface User {
+ + getTaxId(): String
+ + getName(): String
+ + getSurname(): String
+ + getMail(): String
+ + getContacts(): List<Contact>
+}
+note bottom of User : Entity
+User o-left- Contact
+
+interface Contact {
+ + getValue(): String
+ + getContactType(): ContactType
+}
+note left of Contact : Value Object
+
+interface ContactFactory {
+ + createContact(): Contact
+}
+
+enum ContactType {
+  EMAIL
+  SMS
+}
+
+Contact o-- ContactType
+ContactFactory --> Contact : creates
+
+@enduml

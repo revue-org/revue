@@ -53,7 +53,7 @@ if [ ${#services[@]} -eq 0 ]; then
   usage
 fi
 
-compose_files=("-fkafka/docker-compose.yml")
+compose_files=("-fkafka/docker-compose.yml" "-fgateway/docker-compose.yml")
 for service in "${services[@]}"; do
   compose_files+=("-f$service/docker-compose.yml")
 done

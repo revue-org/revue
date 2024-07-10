@@ -31,7 +31,7 @@
     Alberto Paganelli \\ \emailaddr{alberto.paganelli3@studio.unibo.it}
 }
 
-\date{March 2023}
+\date{June 2024}
 
 \begin{document}
 
@@ -101,14 +101,14 @@
         \item \label{itm:non-func-3} The system should be usable, with a user-friendly and minimal interface.
     \end{enumerate}
 
-    \subsection{Implementation Requirements}\label{subsec:implementation-requirements}
-    \begin{enumerate}
-        \item \label{itm:impl-1} The recognition component of the system should be implemented in Python.
-        \item \label{itm:impl-2} The frontend of the system should be implemented using Vue 3 and Typescript.
-        \item \label{itm:impl-3} The storage of data should be implemented using a NoSQL database.
-        \item \label{itm:impl-4} The system should be implemented using a microservices architecture.
-        \item \label{itm:impl-5} The system should be deployed using Docker.
-    \end{enumerate}
+%    \subsection{Implementation Requirements}\label{subsec:implementation-requirements}
+%    \begin{enumerate}
+%        \item \label{itm:impl-1} The recognition component of the system should be implemented in Python.
+%        \item \label{itm:impl-2} The frontend of the system should be implemented using Vue 3 and Typescript.
+%        \item \label{itm:impl-3} The storage of data should be implemented using a NoSQL database.
+%        \item \label{itm:impl-4} The system should be implemented using a microservices architecture.
+%        \item \label{itm:impl-5} The system should be deployed using Docker.
+%    \end{enumerate}
 
     \subsection{Scenarios}
     The system can be used in various scenarios, depending on the user needs.
@@ -181,6 +181,24 @@
     %
     This implicitly leads to the use of a message broker (\textit{Kafka}) which guarantees better scalability and at least one message delivery policy.
 
+    Summing up, in the following is listed the implementation requirements.
+
+    \begin{enumerate}
+        \item \label{itm:impl-1} The recognition component of the system should be implemented in Python.
+        \item \label{itm:impl-2} The frontend of the system should be implemented using Vue 3 and Typescript.
+        \item \label{itm:impl-3} The storage of data should be implemented using a NoSQL database.
+        \item \label{itm:impl-4} The system should be implemented using a microservices architecture.
+        \item \label{itm:impl-5} The system should be deployed using Docker.
+    \end{enumerate}
+
+    Last considerations are briefly exposed below.
+
+    \begin{itemize}
+        \item Requirement \ref{itm:impl-1} is chosen to exploit the best libraries for video processing and object recognition, according to above considerations.
+        \item Requirements \ref{itm:impl-2}, \ref{itm:impl-3}, have been individuated because of Applications and Web Services exam requirements.
+        \item Requirement \ref{itm:impl-4} is chosen both for learning purposes and for addressing the Software Architecture course in the future.
+        \item Requirement \ref{itm:impl-5} is chosen to simplify the deployment process using an already known technology.
+    \end{itemize}
 
     \section{Design}
 
@@ -801,11 +819,11 @@
     %
     In particular, device management, which is currently part of the monitoring service, surely will be improved with the introduction of a dedicated service.
 
-    For the deployment of the system, the use of Kubernetes (in particulare k3s) will be considered to manage the containers in a more efficient way.
+    For the deployment of the system, the use of Kubernetes (in particular k3s) will be considered to manage the containers in a more efficient way.
     %
     The goal is to deploy the system in a Raspberry PI cluster.
 
-    \subsection{What did we learned}
+    \subsection{What did we learn}
 
     This project allowed us to deepen our knowledge of the microservices architecture and to understand the advantages and disadvantages of this approach.
 

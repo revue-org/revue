@@ -1,0 +1,61 @@
+components:
+    schemas:
+        DeviceId:
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: The unique identifier of the device
+        Device:
+            type: object
+            properties:
+                endpoint:
+                    type: object
+                    properties:
+                        ip:
+                            type: string
+                            description: The ip address of the device
+                        port:
+                            type: integer
+                            description: The port of the device
+                locationId:
+                    type: string
+                    description: The location in which the sensor is placed
+                description:
+                    type: string
+                    description: The description of the device
+                isEnabled:
+                    type: boolean
+                    description: The status of the device
+                capabilities:
+                    type: array
+                    items:
+                        type: string
+                    description: The capabilities of the device
+        DeviceInsert:
+            type: object
+            properties:
+                endpoint:
+                    type: object
+                    properties:
+                        ip:
+                            type: string
+                            description: The ip address of the device
+                        port:
+                            type: integer
+                            description: The port of the device
+                locationId:
+                    type: string
+                    description: The location in which the sensor is placed
+                description:
+                    type: string
+                    description: The description of the device
+
+        DeviceUpdate:
+            allOf:
+                - $ref: "#/components/schemas/DeviceInsert"
+                - type: object
+                - properties:
+                      isEnabled:
+                          type: boolean
+                          description: The status of the device

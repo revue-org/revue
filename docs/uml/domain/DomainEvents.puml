@@ -1,0 +1,57 @@
+@startuml
+
+interface DomainEventId {
+  + getValue(): string
+}
+
+interface DomainEvent {
+  + getId(): DomainEventId
+  + getTimestamp(): Date
+}
+
+interface DeviceEvent {
+  + getSourceDeviceId(): DeviceId
+}
+
+interface Detection {
+  + getObjectClass(): ObjectClass
+}
+interface Measurement {
+  + getMeasureType(): MeasureType
+  + getValue(): Object
+}
+
+interface NotificationCreated {
+  + getNotificationId(): NotificationId
+}
+
+interface NotificationDeleted {
+  + getNotificationId(): NotificationId
+}
+
+interface Anomaly
+interface Intrusion {
+  + getDetectionId(): DomainEventId
+  + getIntrusionRuleId(): string
+}
+
+interface Outlier {
+  + getMeasurementId(): DomainEventId
+  + getRangeRuleId(): string
+}
+
+DomainEvent *-left- DomainEventId
+
+DomainEvent <|-- DeviceEvent
+DomainEvent <|-- NotificationCreated
+DomainEvent <|-- NotificationDeleted
+
+DeviceEvent <|-- Measurement
+DeviceEvent <|-- Detection
+
+DomainEvent <|-- Anomaly
+Anomaly <|-- Intrusion
+Anomaly <|-- Outlier
+
+
+@enduml

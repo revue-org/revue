@@ -1,7 +1,8 @@
-import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { notificationModel } from '../../src/init.js'
-import { notificationSample } from '../resources/notificationSample.js'
+import { MongoMemoryServer } from 'mongodb-memory-server'
+import { intrusionSample, outlierSample } from '../resources/notificationSample.js'
+import { NotificationDBEntity } from '@/infrastructure/storage/models/NotificationModel'
+import { notificationSchema } from '@/infrastructure/storage/schemas/NotificationSchema'
 
 let mongoMock: any = null
 
@@ -20,6 +21,11 @@ export const disconnectFromMock = async (): Promise<void> => {
 }
 
 export const populateNotifications = async (): Promise<void> => {
-  await notificationModel.createCollection()
-  await notificationModel.create(notificationSample)
+  const _model = mongoose.model<NotificationDBEntity>(
+    'NotificationSchema',
+    notificationSchema,
+    'notification'
+  )
+  await _model.create(outlierSample)
+  await _model.create(intrusionSample)
 }

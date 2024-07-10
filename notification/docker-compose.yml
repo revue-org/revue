@@ -18,6 +18,10 @@ services:
       kompose.service.type: nodeport
       kompose.controller.type: deployment
       # kompose.image-pull-policy: IfNotPresent
+      traefik.enable: true
+    #  - traefik.http.routers.notification.rule=Host(`notification.localhost`)
+    #  - traefik.http.routers.notification.entrypoints=websecure
+    #  - traefik.http.routers.notification.tls.certresolver=myresolver
 
   revue-notification-db:
     image: mongo

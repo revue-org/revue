@@ -6,7 +6,7 @@
   "description": "Camera producer",
   "main": "dist/src/index.js",
   "scripts": {
-    "serve": "node .",
+    "serve": "NODE_ENV=production node .",
     "dev": "npm run build && NODE_ENV=develop CAMERA_CODE=cam-01 CAMERA_PORT=5001 node .",
     "build": "tsc && tsc-alias",
     "watch": "tsc -w & tsc-alias -w & nodemon .",
@@ -32,7 +32,6 @@
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "axios": "^1.6.7",
     "cors": "^2.8.5",
-    "domain": "file:../domain",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "fluent-ffmpeg": "^2.1.2",

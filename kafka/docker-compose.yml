@@ -25,6 +25,7 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_DEFAULT_REPLICATION_FACTOR=1
       - KAFKA_MESSAGE_MAX_BYTES=200000000
+      - KAFKA_DELETE_TOPIC_ENABLE=true
 #    volumes:
 #      - kafka_data:/bitnami/kafka
 #      - ~/kafka/data/zookeeper_data:/var/lib/zookeeper/data
@@ -33,6 +34,23 @@ services:
       - revue-zookeeper
     networks:
       - my-net
+
+  revue-kafka-ui:
+    container_name: revue-kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8082:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: revue-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: revue-kafka:9092
+    volumes:
+      - ./kafka/config.yml:/etc/kafkaui/dynamic_config.yaml
+    depends_on:
+      - revue-kafka
+    networks:
+      - my-net
+
 #volumes:
 #  kafka_data:
 #    driver: local

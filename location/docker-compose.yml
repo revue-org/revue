@@ -1,0 +1,45 @@
+services:
+
+  revue-location:
+    image: letsdothisshared/revue-location
+    container_name: ${LOCATION_HOST}
+    build:
+      context: .
+      dockerfile: ./location/Dockerfile
+    restart: on-failure
+    ports:
+      - ${LOCATION_PORT}:${LOCATION_PORT}
+    depends_on:
+      - revue-location-db
+    networks:
+      - my-net
+    labels:
+      - traefik.enable=true
+    #  - traefik.http.routers.location.rule=Host(`location.localhost`)
+    #  - traefik.http.routers.location.entrypoints=websecure
+    #  - traefik.http.routers.location.tls.certresolver=myresolver
+
+  revue-location-db:
+    image: mongo
+    container_name: ${LOCATION_DB_HOST}
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${LOCATION_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${LOCATION_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${LOCATION_DB_NAME}
+    ports:
+      - ${LOCATION_DB_PORT}:27017
+    volumes:
+      - location_data:/data/db
+      - ./location/db/location-init.js:/docker-entrypoint-initdb.d/location-init.js
+    networks:
+      - my-net
+
+volumes:
+  location_data:
+    driver: local
+
+networks:
+  my-net:
+    name: ork
+    external: true

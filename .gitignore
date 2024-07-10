@@ -174,4 +174,4 @@ docs/**/*.blg
 letsencrypt
 
 # K8s configurations generable files
-#k8s
+k8s

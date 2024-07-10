@@ -15,9 +15,9 @@ services:
       - my-net
     labels:
       - traefik.enable=true
-      - traefik.http.routers.monitoring.rule=Host(`monitoring.localhost`)
-      - traefik.http.routers.frontend.entrypoints=websecure
-      - traefik.http.routers.frontend.tls.certresolver=myresolver
+    #  - traefik.http.routers.monitoring.rule=Host(`monitoring.localhost`)
+    #  - traefik.http.routers.monitoring.entrypoints=websecure
+    #  - traefik.http.routers.monitoring.tls.certresolver=myresolver
 
 networks:
   my-net:

@@ -11,12 +11,11 @@ services:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
       - my-net
-
     labels:
       - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`frontend.localhost`)
-      - traefik.http.routers.frontend.entrypoints=websecure
-      - traefik.http.routers.frontend.tls.certresolver=myresolver
+    #  - traefik.http.routers.frontend.rule=Host(`frontend.localhost`)
+    #  - traefik.http.routers.frontend.entrypoints=websecure
+    #  - traefik.http.routers.frontend.tls.certresolver=myresolver
 
 networks:
   my-net:

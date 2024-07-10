@@ -36,36 +36,61 @@ const logout = () => {
       <q-btn class="menu" flat @click="navbarExpanded = !navbarExpanded" round dense icon="menu" />
     </div>
 
-    <router-link v-show="useUserStore().role === UserRole.GUARDIAN" to="/" :class="routeName == 'Home' ? 'selected home' : 'home'">Home</router-link>
-    <router-link v-show="useUserStore().role === UserRole.GUARDIAN" to="/monitoring" :class="routeName == 'Monitoring' ? 'selected' : ''"
+    <router-link
+      v-show="useUserStore().role === UserRole.GUARDIAN"
+      to="/"
+      :class="routeName == 'Home' ? 'selected home' : 'home'"
+      >Home</router-link
+    >
+    <router-link
+      v-show="useUserStore().role === UserRole.GUARDIAN"
+      to="/monitoring"
+      :class="routeName == 'Monitoring' ? 'selected' : ''"
       >Monitoring
     </router-link>
-    <router-link v-show="useUserStore().role === UserRole.GUARDIAN" to="/devices" :class="routeName == 'Devices' ? 'selected' : ''">Devices</router-link>
-    <router-link v-show="useUserStore().role === UserRole.GUARDIAN" to="/alarms" :class="routeName == 'Alarms' ? 'selected' : ''">Alarms</router-link>
-    <router-link v-show="useUserStore().role === UserRole.GUARDIAN" to="/notifications" :class="routeName == 'Notifications' ? 'selected' : ''"
+    <router-link
+      v-show="useUserStore().role === UserRole.GUARDIAN"
+      to="/devices"
+      :class="routeName == 'Devices' ? 'selected' : ''"
+      >Devices</router-link
+    >
+    <router-link
+      v-show="useUserStore().role === UserRole.GUARDIAN"
+      to="/alarms"
+      :class="routeName == 'Alarms' ? 'selected' : ''"
+      >Alarms</router-link
+    >
+    <router-link
+      v-show="useUserStore().role === UserRole.GUARDIAN"
+      to="/notifications"
+      :class="routeName == 'Notifications' ? 'selected' : ''"
       >Notifications
     </router-link>
-    <router-link v-show="useUserStore().role === UserRole.GUARDIAN" to="/history" :class="routeName == 'History' ? 'selected' : ''">History</router-link>
+    <router-link
+      v-show="useUserStore().role === UserRole.GUARDIAN"
+      to="/history"
+      :class="routeName == 'History' ? 'selected' : ''"
+      >History</router-link
+    >
     <router-link
       v-show="useUserStore().role === UserRole.ADMIN"
       to="/admin"
       :class="routeName == 'Creation' ? 'selected home' : 'home'"
-    >Creation
+      >Creation
     </router-link>
     <router-link
       v-show="useUserStore().role === UserRole.ADMIN"
       to="/users"
       :class="routeName == 'Users' ? 'selected' : ''"
-    >Users
+      >Users
     </router-link>
     <router-link
       v-show="useUserStore().role === UserRole.ADMIN"
       to="/locations"
       :class="routeName == 'Locations' ? 'selected' : ''"
-    >Locations
+      >Locations
     </router-link>
     <router-link to="/login" class="logout" @click="logout()">Logout</router-link>
-
   </nav>
 </template>
 

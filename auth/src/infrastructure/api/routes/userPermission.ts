@@ -53,11 +53,7 @@ userPermission.route('/:userId').put((req: Request, res: Response): void => {
 })
 
 userPermission.route('/:userId').delete((req: Request, res: Response): void => {
-  const permissions: string[] = req.query.permissions
-    ? req.query.permissions
-      .toString()
-      .split(',')
-    : []
+  const permissions: string[] = req.query.permissions ? req.query.permissions.toString().split(',') : []
   try {
     permissionController.deletePermissions(req.params.userId, permissions).then((): void => {
       res.status(HttpStatusCode.OK).send('Permission deleted')

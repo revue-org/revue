@@ -28,22 +28,15 @@ const deleteUser = () => {
   popDelete($q, `Confirm user deletion?`, () => emit('delete-user'))
 }
 
-const addPermissions = async (permissions: string[]) => {
-  await RequestHelper.post(`http://${authHost}:${authPort}/permissions/${prop.user.id}`, {
+const updatePermissions = async (permissions: string[]) => {
+  await RequestHelper.put(`http://${authHost}:${authPort}/permissions/${prop.user.id}`, {
+    name: prop.user.name,
+    surname: prop.user.surname,
     permissions: permissions
   }).then(() => {
-    popPositive($q, 'Permission added successfully')
+    popPositive($q, 'Permission updated successfully')
     prop.user.permissions = permissions
     console.log(prop.user.permissions, permissions)
-  })
-}
-
-const removePermission = async (permission: string): Promise<void> => {
-  await RequestHelper.delete(
-    `http://${authHost}:${authPort}/permissions/${prop.user.id}?permissions=${permission}`
-  ).then(() => {
-    popPositive($q, 'Permission removed successfully')
-    prop.user.permissions = prop.user.permissions.filter(p => p !== permission)
   })
 }
 
@@ -84,8 +77,7 @@ const removeContact = (contact: Contact) => {
       </q-card-section>
       <q-card-section class="q-pt-none contacts">
         <span class="">
-
-            <i>Contacts:</i>
+          <i>Contacts:</i>
           <q-btn
             class="btn-add"
             label="+"
@@ -93,7 +85,7 @@ const removeContact = (contact: Contact) => {
             color="primary"
             @click.prevent
             @click="contactPopup = true"
-            style="width: 5px; height:5px"
+            style="width: 5px; height: 5px"
           />
 
           <contact-badge
@@ -114,13 +106,13 @@ const removeContact = (contact: Contact) => {
             color="primary"
             @click.prevent
             @click="permissionPopup = true"
-            style="width: 5px; height:5px"
+            style="width: 5px; height: 5px"
           />
           <permission
             v-for="(permission, index) in user.permissions"
             :key="index"
             :permission="permission"
-            @delete-permission="removePermission(permission)"
+            :deletable="false"
           />
         </span>
       </q-card-section>
@@ -130,7 +122,11 @@ const removeContact = (contact: Contact) => {
     </div>
   </li>
   <new-contact-popup v-model="contactPopup" @add-contact="addContact"></new-contact-popup>
-  <new-permission-popup v-model="permissionPopup" @add-permissions="addPermissions" :userPermissions="prop.user.permissions"></new-permission-popup>
+  <new-permission-popup
+    v-model="permissionPopup"
+    @update-permissions="updatePermissions"
+    :userPermissions="prop.user.permissions"
+  ></new-permission-popup>
 </template>
 
 <style scoped lang="scss">

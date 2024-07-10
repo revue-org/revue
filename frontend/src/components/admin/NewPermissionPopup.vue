@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue'
 import { popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
-import RequestHelper, { authHost, authPort } from "@/utils/RequestHelper";
-import { useUserStore } from "@/stores/user";
+import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import { useUserStore } from '@/stores/user'
 
 const $q = useQuasar()
-const emit = defineEmits(['add-permissions'])
+const emit = defineEmits(['update-permissions'])
 
 const prop = defineProps<{
   userPermissions: string[]
@@ -35,16 +35,18 @@ const getPermissions = async (): Promise<void> => {
   )
 }
 
-const addNewPermission = () => {
+const updatePermission = () => {
   if (permissions.value.length === 0) {
     popNegative($q, 'Please fill all fields')
     return
   }
-  emit('add-permissions', permissions.value.map((permission: any) => permission.value))
+  emit(
+    'update-permissions',
+    permissions.value.map((permission: any) => permission.value)
+  )
   resetFields()
 }
 
-const blocked = ref<any>([])
 onMounted(() => {
   getPermissions()
   permissions.value = prop.userPermissions.map((permission: string) => {
@@ -53,9 +55,7 @@ onMounted(() => {
       value: permission
     }
   })
-  blocked.value = permissions.value
 })
-
 </script>
 
 <template>
@@ -78,7 +78,7 @@ onMounted(() => {
       </q-card-section>
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
-        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="addNewPermission" />
+        <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updatePermission" />
       </q-card-actions>
     </q-card>
   </q-dialog>

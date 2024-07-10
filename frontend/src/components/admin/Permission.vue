@@ -6,6 +6,7 @@ const $q = useQuasar()
 
 defineProps<{
   permission: string
+  deletable: boolean
 }>()
 const emit = defineEmits<{
   (e: 'delete-permission'): void
@@ -21,7 +22,15 @@ const deletePermission = () => {
     <div class="infos">
       <span class="type"><i>Room: </i>{{ permission }}</span>
     </div>
-    <q-btn class="delete" round color="red" style="font-size: 5px" icon="remove" @click="deletePermission" />
+    <q-btn
+      v-show="deletable"
+      class="delete"
+      round
+      color="red"
+      style="font-size: 5px"
+      icon="remove"
+      @click="deletePermission"
+    />
   </li>
 </template>
 

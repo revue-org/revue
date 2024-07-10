@@ -8,8 +8,8 @@ import DevicesView from '@/views/DevicesView.vue'
 import NotificationView from '@/views/NotificationView.vue'
 import SecurityRuleView from '@/views/SecurityRuleView.vue'
 import AdminView from '@/views/AdminView.vue'
-import UsersView from "@/views/UsersView.vue";
-import LocationsView from "@/views/LocationsView.vue";
+import UsersView from '@/views/UsersView.vue'
+import LocationsView from '@/views/LocationsView.vue'
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

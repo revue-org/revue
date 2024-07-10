@@ -67,6 +67,7 @@ onMounted(() => {
           :key="index"
           :permission="location"
           @delete-permission="removePermission(location)"
+          :deletable="true"
         />
       </ol>
     </div>

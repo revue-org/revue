@@ -5,7 +5,7 @@ import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/R
 import { useUserStore } from '@/stores/user'
 import type { Contact } from 'common/dist/domain/core'
 import { popNegative, popPositive } from '@/scripts/Popups'
-import NewContactPopup from "@/components/admin/NewContactPopup.vue";
+import NewContactPopup from '@/components/admin/NewContactPopup.vue'
 
 const $q = useQuasar()
 
@@ -158,7 +158,14 @@ onMounted(() => {
             hint="Contacts"
             style="width: 250px"
           />
-          <q-btn label="+" type="submit" color="primary" @click.prevent @click="contactPopup = true" style="align-self: center; margin-bottom: 20px; margin-left: 5px" />
+          <q-btn
+            label="+"
+            type="submit"
+            color="primary"
+            @click.prevent
+            @click="contactPopup = true"
+            style="align-self: center; margin-bottom: 20px; margin-left: 5px"
+          />
         </div>
         <q-input
           v-model="password"
@@ -177,13 +184,12 @@ onMounted(() => {
           :rules="[(val: string) => (val && val.length > 0) || 'Password confirmation required']"
         />
         <div class="buttons">
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" @click="onReset"/>
-          <q-btn label="Create" type="submit" color="primary" @click="addNewUser"/>
+          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" @click="onReset" />
+          <q-btn label="Create" type="submit" color="primary" @click="addNewUser" />
         </div>
       </div>
     </div>
     <new-contact-popup v-model="contactPopup" @add-contact="addContact"></new-contact-popup>
-
   </div>
 </template>
 <style scoped lang="scss">

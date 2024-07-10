@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: revue-gateway
+  name: revue-gateway
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: revue-gateway
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: revue-gateway
+    spec:
+      serviceAccountName: traefik-account
+      containers:
+        - args:
+            - --api.insecure=true
+            - --providers.kubernetesingress=true
+            - --entryPoints.web.address=:80
+            - --entryPoints.websecure.address=:443
+            - --certificatesresolvers.myresolver.acme.httpchallenge=true
+            - --certificatesresolvers.myresolver.acme.tlschallenge=true
+            - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+            - --certificatesresolvers.myresolver.acme.email=letsdothis.shared@gmail.com
+            - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+            - --log.level=DEBUG
+          image: traefik:v3.0
+          name: revue-gateway
+          ports:
+            - containerPort: 80
+              protocol: TCP
+            - containerPort: 443
+              protocol: TCP
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /letsencrypt
+              name: revue-gateway-cm0
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            name: revue-gateway-cm0
+          name: revue-gateway-cm0

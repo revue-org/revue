@@ -14,7 +14,13 @@ export const controller = {
   getUserById: async (id: string): Promise<User> => {
     return await service.getUserById(UserFactory.idOf(id))
   },
-  createUser: async (id: string, name: string, surname: string, mail: string, contacts: Contact[]): Promise<UserId> => {
+  createUser: async (
+    id: string,
+    name: string,
+    surname: string,
+    mail: string,
+    contacts: Contact[]
+  ): Promise<UserId> => {
     return service.createUser(UserFactory.idOf(id), name, surname, mail, contacts)
   },
   updateUser: async (id: string, name: string, surname: string, contacts: Contact[]): Promise<void> => {

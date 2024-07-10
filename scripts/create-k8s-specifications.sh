@@ -1,3 +1,10 @@
+if [ ! -d "k8s" ]; then
+  echo "Creating k8s directory"
+  mkdir k8s
+else
+  rm -f "k8s"/*
+fi
+
 docker compose \
     --project-name revue \
     --project-directory . \
@@ -17,8 +24,6 @@ docker compose \
     -f sensor/docker-compose.yml \
     -f user/docker-compose.yml \
     config > all-docker-compose.yml
-
-rm -f "k8s"/*
 
 kompose convert \
   --with-kompose-annotation=false \

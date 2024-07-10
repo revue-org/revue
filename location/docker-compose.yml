@@ -15,9 +15,9 @@ services:
       - my-net
     labels:
       - traefik.enable=true
-      - traefik.http.routers.location.rule=Host(`location.localhost`)
-      - traefik.http.routers.frontend.entrypoints=websecure
-      - traefik.http.routers.frontend.tls.certresolver=myresolver
+    #  - traefik.http.routers.location.rule=Host(`location.localhost`)
+    #  - traefik.http.routers.location.entrypoints=websecure
+    #  - traefik.http.routers.location.tls.certresolver=myresolver
 
   revue-location-db:
     image: mongo

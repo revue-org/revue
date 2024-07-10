@@ -22,27 +22,27 @@ services:
       kompose.controller.type: deployment
       kompose.image-pull-policy: IfNotPresent
 
-  revue-sensor-2:
-    image: letsdothisshared/revue-sensor
-    container_name: revue-sensor-2
-    build:
-      context: .
-      dockerfile: ./sensor/Dockerfile
-    restart: on-failure
-    environment:
-      - SENSOR_CODE=${SENSOR_CODE_2}
-      - SENSOR_PORT=${SENSOR_PORT_2}
-    ports:
-      - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
-    depends_on:
-      - ${KAFKA_HOST}
-      - ${MONITORING_HOST}
-    networks:
-      - my-net
-    labels:
-      kompose.service.type: clusterip
-      kompose.controller.type: deployment
-      kompose.image-pull-policy: IfNotPresent
+#  revue-sensor-2:
+#    image: letsdothisshared/revue-sensor
+#    container_name: revue-sensor-2
+#    build:
+#      context: .
+#      dockerfile: ./sensor/Dockerfile
+#    restart: on-failure
+#    environment:
+#      - SENSOR_CODE=${SENSOR_CODE_2}
+#      - SENSOR_PORT=${SENSOR_PORT_2}
+#    ports:
+#      - ${SENSOR_PORT_2}:${SENSOR_PORT_2}
+#    depends_on:
+#      - ${KAFKA_HOST}
+#      - ${MONITORING_HOST}
+#    networks:
+#      - my-net
+#    labels:
+#      kompose.service.type: clusterip
+#      kompose.controller.type: deployment
+#      kompose.image-pull-policy: IfNotPresent
 
 #  revue-sensor-3:
 #    image: letsdothisshared/revue-sensor

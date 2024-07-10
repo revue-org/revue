@@ -37,7 +37,6 @@ const addNewUser = () => {
       permissions: newPermissions
     })
       .then((userId: any) => {
-        console.log(userId.data)
         RequestHelper.post(`http://${userHost}:${userPort}/`, {
           id: userId.data.value,
           name: name.value,

@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
-import Permission from '@/components/admin/Permission.vue'
+import PermissionBadge from '@/components/admin/PermissionBadge.vue'
 import { popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 
@@ -29,7 +29,7 @@ const addPermission = async (): Promise<void> => {
   }
   await RequestHelper.post(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`, {
     permissions: [newRoom.value]
-  }).then((res: any) => {
+  }).then(() => {
     popPositive($q, 'Permission added successfully')
     getLocations()
     newRoom.value = ''
@@ -39,7 +39,7 @@ const addPermission = async (): Promise<void> => {
 const removePermission = async (permission: string): Promise<void> => {
   await RequestHelper.delete(
     `http://${authHost}:${authPort}/permissions/${useUserStore().id}?permissions=${permission}`
-  ).then((res: any) => {
+  ).then(() => {
     popPositive($q, 'Permission removed successfully')
     getLocations()
     newRoom.value = ''
@@ -62,7 +62,7 @@ onMounted(() => {
             <q-btn color="primary" label="Add" @click="addPermission" />
           </div>
         </li>
-        <permission
+        <permission-badge
           v-for="(location, index) in locations"
           :key="index"
           :permission="location"

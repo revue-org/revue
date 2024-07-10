@@ -3,7 +3,7 @@ import { useQuasar } from 'quasar'
 import type { User } from '@/domain/core/User'
 import { popDelete, popPositive } from '@/scripts/Popups'
 import ContactBadge from '@/components/admin/ContactBadge.vue'
-import Permission from '@/components/admin/Permission.vue'
+import PermissionBadge from '@/components/admin/PermissionBadge.vue'
 import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
 import NewContactPopup from '@/components/admin/NewContactPopup.vue'
 import { defineEmits, defineProps, ref } from 'vue'
@@ -108,7 +108,7 @@ const removeContact = (contact: Contact) => {
             @click="permissionPopup = true"
             style="width: 5px; height: 5px"
           />
-          <permission
+          <permission-badge
             v-for="(permission, index) in user.permissions"
             :key="index"
             :permission="permission"

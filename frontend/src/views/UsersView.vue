@@ -31,7 +31,7 @@ const getUsers = async (): Promise<void> => {
 
 const deleteUser = (user: User) => {
   RequestHelper.delete(`http://${authHost}:${authPort}/users/${user.id}`)
-    .then((res: any) => {
+    .then(() => {
       RequestHelper.delete(`http://${userHost}:${userPort}/${user.id}`)
         .then((res: any) => {
           console.log(res)

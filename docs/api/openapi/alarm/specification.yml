@@ -29,6 +29,7 @@ paths:
                     description: The rule was not found
     /rules/{id}/contacts/:
         get:
+
     /rules/ranges/:
         get:
             summary: Get all ranges rules
@@ -75,6 +76,16 @@ paths:
             responses:
                 200:
                     description: The rule was correctly updated
+                403:
+                    description: User is not authorized
+                404:
+                    description: The rule was not found
+        delete:
+            summary: Delete a range rule
+            tags: [Alarm]
+            responses:
+                200:
+                    description: The rule was correcty deleted
                 403:
                     description: User is not authorized
                 404:
@@ -127,3 +138,13 @@ paths:
                     description: The range rule was correctly updated
                 403:
                     description: User is not authorized
+        delete:
+            summary: Delete an intrusion rule
+            tags: [Alarm]
+            responses:
+                200:
+                    description: The rule was correctly deleted
+                403:
+                    description: User is not authorized
+                404:
+                    description: The rule was not found

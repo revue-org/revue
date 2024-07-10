@@ -53,9 +53,9 @@ components:
 
         DeviceUpdate:
             allOf:
-                - $ref: '#/components/schemas/DeviceInsert'
+                - $ref: "#/components/schemas/DeviceInsert"
                 - type: object
                 - properties:
-                    isEnabled:
-                        type: boolean
-                        description: The status of the device
+                      isEnabled:
+                          type: boolean
+                          description: The status of the device

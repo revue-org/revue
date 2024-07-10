@@ -1,45 +1,42 @@
 @startuml
 
-!startsub NotificationRoot
-
 interface NotificationService {
-  + getNotificationById(id: string): Promise<Notification>
-  + insertExceedingNotification(notification: Notification): Promise<string>
-  + insertIntrusionNotification(notification: Notification): Promise<string>
+  + getNotificationById(id: DomainEventId): Promise<Notification>
+  + insertAnomalyNotification(notification: Notification): Promise<string>
   + sendMailNotification(notification: Notification, contacts: Contact[]): void
   + deleteNotification(id: string): void
 }
-!endsub NotificationRoot
-
-NotificationService --> MailService : uses
-NotificationService --> NotificationRepository : uses
-NotificationService --> NotificationFactory : uses
 
 interface MailService {
   + sendMail(to: string, notification: Notification): void
 }
 
-interface NotificationRepository {
-  + getNotifications(): Promise<Notification[]>
-  + getNotificationById(notificationId: string): Promise<Notification>
-  + insertExceedingNotification(notification: Notification): Promise<string>
-  + insertIntrusionNotification(notification: Notification): Promise<string>
-  + deleteNotification(notificationId: string): Promise<void>
+interface Notification {
+  + getMessage(): string
+  + getEvent(): DomainEvent
 }
 
-NotificationRepository o-- Notification
-
-interface Notification {
-  + notificationId(): string
-  + timestamp(): Date
-  + anomaly(): Anomaly
+interface NotificationId {
+  + getValue(): string
 }
 
 interface NotificationFactory {
-  + createExceedingNotification(id: string, exceeding: Exceeding): Notification
-  + createIntrusionNotification(id: string, intrusion: Intrusion): Notification
+  + createNotification(id: string, event: DomainEvent): Notification
 }
 
-NotificationFactory -left-> Notification : creates
+interface DomainEvent {
+  + getId(): DomainEventId
+  + getTimestamp(): Date
+}
+
+Notification o-- DomainEvent
+Notification *- NotificationId
+
+NotificationFactory --> Notification : creates
+NotificationService --> MailService : uses
+NotificationService --> NotificationFactory : uses
+
+note left of Notification : Entity
+
 
 @enduml

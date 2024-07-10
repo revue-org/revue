@@ -4,14 +4,14 @@ info:
     description: User authentication and user permissions microservice API
     version: 1.0.0
 tags:
-    -   name: UserAuth
-        description: Operations related to user authentication and user permissions
+    - name: UserAuth
+      description: Operations related to user authentication and user permissions
 
 paths:
     /login:
         post:
             summary: Log into the application
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             requestBody:
                 required: true
                 content:
@@ -32,7 +32,7 @@ paths:
     /refresh:
         post:
             summary: Get a new token
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             requestBody:
                 required: true
                 content:
@@ -54,7 +54,7 @@ paths:
     /permissions:
         get:
             summary: Get the list of locations to which the user has access
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             responses:
                 200:
                     description: The list of locations to which the user has access
@@ -68,7 +68,7 @@ paths:
     /permissions/{userId}:
         get:
             summary: Get the list of locations to which a user has access
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             responses:
                 200:
                     description: The list of locations to which the user has access
@@ -82,7 +82,7 @@ paths:
                     description: User not found
         post:
             summary: Set user permissions
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             requestBody:
                 required: true
                 content:
@@ -100,7 +100,7 @@ paths:
                     description: User not found
         put:
             summary: Add user permissions
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             requestBody:
                 required: true
                 content:
@@ -118,7 +118,7 @@ paths:
                     description: User not found
         delete:
             summary: Remove user permissions
-            tags: [ UserAuth ]
+            tags: [UserAuth]
             requestBody:
                 required: true
                 content:
@@ -134,72 +134,36 @@ paths:
                     description: User not authorized
                 404:
                     description: User not found
-    /users:
+
+    /permissions/{userId}/{locationId}:
         get:
-            summary: Get all users
-            tags: [ UserAuth ]
+            summary: Check user permissions
+            tags: [UserAuth]
             responses:
                 200:
-                    description: The list of all users
+                    description: User has access permissions
                 403:
                     description: User not authorized
         post:
-            summary: Create a new user
-            tags: [ UserAuth ]
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "./schemas.yml#/components/schemas/User"
-            responses:
-                201:
-                    description: The user was created successfully
-                400:
-                    description: The request was invalid
-                403:
-                    description: User not authorized
-    /users/{userId}:
-        get:
-            summary: Get a user by ID
-            tags: [ UserAuth ]
+            summary: Add user permission
+            tags: [UserAuth]
             responses:
                 200:
-                    description: The user was found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "./schemas.yml#/components/schemas/User"
-                404:
-                    description: User not found
-                403:
-                    description: User not authorized
-        put:
-            summary: Update a user by ID
-            tags: [ UserAuth ]
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "./schemas.yml#/components/schemas/User"
-            responses:
-                200:
-                    description: The user was updated
+                    description: User have been correctly set
                 400:
-                    description: The request was invalid
+                    description: Invalid request
                 403:
                     description: User not authorized
                 404:
                     description: User not found
         delete:
-            summary: Delete a user by ID
-            tags: [ UserAuth ]
+            summary: Remove user permission
+            tags: [UserAuth]
             responses:
                 200:
-                    description: The user was deleted
+                    description: User permission deleted
                 400:
-                    description: The request was invalid
+                    description: Invalid request
                 403:
                     description: User not authorized
                 404:

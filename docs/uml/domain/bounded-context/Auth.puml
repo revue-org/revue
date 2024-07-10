@@ -1,0 +1,39 @@
+@startuml
+
+!startsub AuthRoot
+
+interface AuthService {
+  + login(username: string, password: string): Promise<User>
+  + register(username: string, password: string): Promise<User>
+  + logout(userId: string): Promise<void>
+  - generateAccessToken(userId: string): Promise<string>
+  - generateRefreshToken(userId: string): Promise<string>
+}
+
+!endsub AuthRoot
+
+AuthService --> UserRepository : uses
+
+interface UserRepository {
+  + getUsers(): Promise<User[]>
+  + getUser(username: string): Promise<User>
+  + insertUser(user: User): Promise<void>
+  + updateUser(user: User): Promise<void>
+  + deleteUser(username: string): Promise<void>
+}
+UserRepository o-- User
+
+interface UserFactory {
+      + createUser(): User
+}
+UserFactory -left-> User : creates
+
+interface User {
+ + getUsername(): String
+ + getPassword(): String
+ + getAccessToken(): String
+ + getRefreshToken(): String
+}
+note left of User : Entity
+
+@enduml

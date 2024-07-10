@@ -75,6 +75,28 @@ paths:
                 403:
                     description: User not authorized
     /rooms/{id}:
+        get:
+            summary: Get a room by id
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the room
+            responses:
+                200:
+                    description: The room with the specified ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Room"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+
         put:
             summary: Update a room
             tags: [Locations]
@@ -98,6 +120,24 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
+        delete:
+            summary: Delete a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the device
+            responses:
+                200:
+                    description: The resource was deleted successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+
     /buildings:
         get:
             summary: Get all buildings
@@ -126,10 +166,32 @@ paths:
                 201:
                     description: The building was created successfully
                 400:
-                    description: The request was invalid
+                    description: Invalid input
                 403:
                     description: User not authorized
     /buildings/{id}:
+        get:
+            summary: Get a building by id
+            tags: [Locations]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            responses:
+                200:
+                    description: The building with the specified ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Building"
+                400:
+                    description: Invalid input
+                403:
+                    description: User not authorized
+
         put:
             summary: Update a building
             tags: [Locations]
@@ -149,6 +211,23 @@ paths:
             responses:
                 200:
                     description: The building was updated successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+        delete:
+            summary: Delete a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: integer
+                      description: ID of the building
+            responses:
+                200:
+                    description: The resource was deleted successfully
                 400:
                     description: The request was invalid
                 403:

@@ -1,41 +1,46 @@
 @startuml
 
-!startsub LogRoot
 
 interface LogService <<aggregate root>> {
-  + getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]>
-  + getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]>
-  + insertEnvironmentData(environmentData: EnvironmentData): void
-}
-!endsub LogRoot
-LogService --> EnvironmentDataRepository : uses
-LogService --> EnvironmentDataFactory : uses
-
-interface EnvironmentDataRepository {
-  + getEnvironmentData(): Promise<EnvironmentData[]>
-  + getDataBySensorId(deviceId: DeviceId): Promise<EnvironmentData[]>
-  + getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<EnvironmentData[]>
-  + insertEnvironmentData(environmentData: EnvironmentData): Promise<void>
-  + deleteEnvironmentData(id: string): Promise<void>
-}
-EnvironmentDataRepository o-- EnvironmentData
-
-interface EnvironmentData {
- + getSourceDeviceId(): DeviceId
- + getValue(): Float
- + getMeasure(): Measure
- + getTimestamp(): Date
+  + getDataBySensorId(deviceId: DeviceId): Promise<Measurement[]>
+  + getLatestDataBySensorId(deviceId: DeviceId, quantity: number): Promise<Measurement[]>
+  + insertMeasurement(environmentData: Measurement): void
 }
 
-interface EnvironmentDataFactory {
-    + createEnvironmentData(
-      sourceDeviceId: DeviceId,
-      value: number,
-      measure: Measure,
-      unit: MeasureUnit,
-      timestamp: Date
-    ): EnvironmentData
+interface NotificationRepository {
+  + getNotifications(): Promise<Notification[]>
+  + getNotificationById(notificationId: string): Promise<Notification>
+  + insertExceedingNotification(notification: Notification): Promise<string>
+  + insertIntrusionNotification(notification: Notification): Promise<string>
+  + deleteNotification(notificationId: string): Promise<void>
 }
-EnvironmentDataFactory -left-> EnvironmentData : creates
+
+interface AnomalyRepository {
+    +getAnomalies(): Promise<Outlier[]>
+    +getAnomalyById(anomalyId: string): Promise<Anomaly>
+    +insertAnomaly(anomaly: Anomaly): Promise<AnomalyId>
+    +deleteAnomaly(anomalyId: string): Promise<void>
+}
+
+interface MeasurementRepository
+
+LogService --> MeasurementRepository : uses
+LogService --> MeasurementFactory : uses
+
+interface MeasurementRepository {
+  + getMeasurements(): Promise<Measurement[]>
+  + getMeasurementsBySensorId(deviceId: DeviceId): Promise<Measurement[]>
+  + getLatestMeasurementsBySensorId(deviceId: DeviceId, quantity: number): Promise<Measurement[]>
+  + insertMeasurement(environmentData: Measurement): Promise<void>
+  + deleteMeasurement(id: string): Promise<void>
+}
+MeasurementRepository --> Measurement : stores
+
+interface Measurement
+
+interface MeasurementFactory {
+    + createMeasurement(...): Measurement
+}
+MeasurementFactory -left-> Measurement : creates
 
 @enduml

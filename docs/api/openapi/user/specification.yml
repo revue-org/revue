@@ -36,7 +36,7 @@ paths:
     /users/{id}:
         get:
             summary: Get a user by ID
-            tags: [ Users ]
+            tags: [Users]
             parameters:
                 - name: id
                   in: path
@@ -57,7 +57,7 @@ paths:
                     description: User not authorized
         put:
             summary: Update a user by ID
-            tags: [ Users ]
+            tags: [Users]
             parameters:
                 - name: id
                   in: path
@@ -82,7 +82,7 @@ paths:
                     description: User not authorized
         delete:
             summary: Delete a user by ID
-            tags: [ Users ]
+            tags: [Users]
             parameters:
                 - name: id
                   in: path

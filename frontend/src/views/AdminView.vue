@@ -2,14 +2,12 @@
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
-import type { User } from '@/domain/core/User'
-import UserListElement from '@/components/admin/UserListElement.vue'
 import { useUserStore } from '@/stores/user'
 import type { Contact } from 'common/dist/domain/core'
 import { popNegative, popPositive } from '@/scripts/Popups'
+import NewContactPopup from "@/components/admin/NewContactPopup.vue";
 
 const $q = useQuasar()
-const users = ref<User[]>([])
 
 const name = ref('')
 const surname = ref('')
@@ -20,27 +18,7 @@ const username = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
-const getUsers = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/users`).then((access: any) => {
-    users.value = []
-    for (let i = 0; i < access.data.length; i++) {
-      console.log(access.data[i])
-      RequestHelper.get(`http://${userHost}:${userPort}/${access.data[i].id.value}`).then((registry: any) => {
-        console.log(registry.data)
-        users.value.push({
-          id: registry.data.id.value,
-          username: access.data[i].username,
-          role: access.data[i].role,
-          permissions: access.data[i].permissions,
-          name: registry.data.name,
-          surname: registry.data.surname,
-          mail: registry.data.mail,
-          contacts: registry.data.contacts
-        })
-      })
-    }
-  })
-}
+const contactPopup = ref<boolean>(false)
 
 const addNewUser = () => {
   if (checkPasswordCorrectness()) {
@@ -69,7 +47,7 @@ const addNewUser = () => {
         })
           .then((res: any) => {
             console.log(res)
-            getUsers()
+            onReset()
             popPositive($q, 'User created successfully')
           })
           .catch(e => {
@@ -91,23 +69,26 @@ const checkPasswordCorrectness = (): boolean => {
 }
 
 const optionsPermissions: ref<{ label: string; value: string }> = ref([])
-const getPermissions = async () => {
-  const permissions = useUserStore().permissions
-  for (let i = 0; i < permissions.length; i++) {
-    optionsPermissions.value.push({
-      label: 'Room: ' + permissions[i],
-      value: permissions[i]
-    })
-  }
+const getPermissions = async (): Promise<void> => {
+  await RequestHelper.get(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`).then(
+    (res: any) => {
+      optionsPermissions.value = []
+      res.value = []
+      for (let i = 0; i < res.data.length; i++) {
+        optionsPermissions.value.push({
+          label: 'Room: ' + res.data[i],
+          value: res.data[i]
+        })
+      }
+    }
+  )
 }
 
 const optionsContacts: ref<{ label: string; value: string }> = ref([])
-const getContacts = async () => {
-  useUserStore().contacts.forEach((contact: Contact) => {
-    optionsContacts.value.push({
-      label: contact.type + ': ' + contact.value,
-      value: contact.value
-    })
+const addContact = (contact: Contact) => {
+  optionsContacts.value.push({
+    label: contact.type + ': ' + contact.value,
+    value: contact.value
   })
 }
 
@@ -117,39 +98,21 @@ const onReset = () => {
   username.value = ''
   password.value = ''
   confirmPassword.value = ''
-}
-
-const deleteUser = (user: User) => {
-  RequestHelper.delete(`http://${authHost}:${authPort}/users/${user.id}`)
-    .then((res: any) => {
-      RequestHelper.delete(`http://${userHost}:${userPort}/${user.id}`)
-        .then((res: any) => {
-          console.log(res)
-          getUsers()
-          popPositive($q, 'User deleted successfully')
-        })
-        .catch(() => {
-          popNegative($q, 'Error while deleting user')
-        })
-    })
-    .catch((err: any) => {
-      console.log(err)
-      popNegative($q, 'Error while deleting user')
-    })
+  mail.value = ''
+  contacts.value = []
+  permissions.value = []
 }
 
 onMounted(() => {
-  getUsers()
   getPermissions()
-  getContacts()
 })
 </script>
 
 <template>
   <div class="container-insertion">
     <div class="new-user">
-      <h2>Create new user</h2>
-      <q-form @submit="addNewUser" @reset="onReset">
+      <h2>Create new user:</h2>
+      <div>
         <q-input
           v-model="name"
           label="Name"
@@ -185,15 +148,18 @@ onMounted(() => {
           style="width: 250px"
         />
         <label>Contacts</label>
-        <q-select
-          filled
-          v-model="contacts"
-          multiple
-          :options="optionsContacts"
-          counter
-          hint="Contacts"
-          style="width: 250px"
-        />
+        <div class="new-contacts">
+          <q-select
+            filled
+            v-model="contacts"
+            multiple
+            :options="optionsContacts"
+            counter
+            hint="Contacts"
+            style="width: 250px"
+          />
+          <q-btn label="+" type="submit" color="primary" @click.prevent @click="contactPopup = true" style="align-self: center; margin-bottom: 20px; margin-left: 5px" />
+        </div>
         <q-input
           v-model="password"
           type="password"
@@ -211,34 +177,23 @@ onMounted(() => {
           :rules="[(val: string) => (val && val.length > 0) || 'Password confirmation required']"
         />
         <div class="buttons">
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-          <q-btn label="Create" type="submit" color="primary" />
+          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" @click="onReset"/>
+          <q-btn label="Create" type="submit" color="primary" @click="addNewUser"/>
         </div>
-      </q-form>
+      </div>
     </div>
+    <new-contact-popup v-model="contactPopup" @add-contact="addContact"></new-contact-popup>
 
-    <div class="users-list">
-      <h2>Users:</h2>
-      <ol>
-        <user-list-element
-          v-for="user in users"
-          :key="user.username"
-          :user="user"
-          @delete-user="deleteUser(user)"
-          @get-users="getUsers"
-        />
-      </ol>
-    </div>
   </div>
 </template>
 <style scoped lang="scss">
 @import 'src/assets/variables.scss';
 
 .container-insertion {
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   justify-content: space-evenly;
-  padding: 20px;
+  padding: 5px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -246,15 +201,11 @@ onMounted(() => {
 
   h2 {
     text-align: center;
-    margin-bottom: 20px;
   }
 
-  .users-list {
-    ol {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
+  .new-contacts {
+    display: flex;
+    flex-direction: row;
   }
 
   div.buttons,

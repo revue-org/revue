@@ -12,6 +12,7 @@ defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'delete-user'): void
+  (e: 'delete-contact'): void
   (e: 'get-users'): void
 }>()
 
@@ -27,11 +28,14 @@ const deleteContact = () => {
 <template>
   <li>
     <div class="infos">
-      <q-badge outline color="orange" label="Guardian" style="width: 85px" />
-      <span class="name">{{ user.name }} {{ user.surname }}</span>
-      <span class="username"><i>Username:</i> {{ user.username }}</span>
-      <span class="mail"><i>Mail:</i> {{ user.mail }}</span>
-      <span class="contacts">
+      <q-card-section class="q-pt-none registry">
+        <q-badge outline color="orange" label="Guardian" style="width: 85px" />
+        <span class="name">{{ user.name }} {{ user.surname }}</span>
+        <span class="username"><i>Username:</i> {{ user.username }}</span>
+        <span class="mail"><i>Mail:</i> {{ user.mail }}</span>
+      </q-card-section>
+      <q-card-section class="q-pt-none contacts">
+         <span class="">
         <i>Contacts:</i>
         <contact
           v-for="(contact, index) in user.contacts"
@@ -40,11 +44,16 @@ const deleteContact = () => {
           @delete-contact="deleteContact"
         />
       </span>
-      <span class="permissions">
+      </q-card-section>
+      <q-card-section class="q-pt-none permissions">
+      <span class="">
         <i>Permissions:</i>
         <permission v-for="(permission, index) in user.permissions" :key="index" :permission="permission" />
       </span>
-      <q-btn color="red" style="font-size: 12px" icon="delete" @click="deleteUser" />
+      </q-card-section>
+      <q-card-section class="q-pt-none delete">
+      <q-btn color="red" style="font-size: 12px; height: 30px" icon="delete" @click="deleteUser" />
+      </q-card-section>
     </div>
   </li>
 </template>
@@ -65,10 +74,37 @@ li {
     .name {
       font-size: 18px;
     }
-
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 25%;
+    }
+
+    .permissions {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 25%;
+    }
+
+    .registry {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 165px;
+    }
+
+    .delete {
+      display: flex;
+      gap: 2px;
+      width: 25%;
+      align-content: center;
+      align-items: center;
+    }
   }
 }
 </style>

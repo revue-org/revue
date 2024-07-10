@@ -1,25 +1,61 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from "vue";
 import { popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
+import RequestHelper, { authHost, authPort } from "@/utils/RequestHelper";
+import { useUserStore } from "@/stores/user";
 
 const $q = useQuasar()
-const emit = defineEmits(['add-permission'])
+const emit = defineEmits(['add-permissions'])
 
-const room = ref<string>('')
+const prop = defineProps<{
+  userPermissions: string[]
+}>()
+
+const permissions = ref<any>([])
 
 const resetFields = () => {
-  room.value = ''
+  permissions.value = []
+}
+
+const optionsPermissions: ref<{ label: string; value: string }> = ref([])
+
+const getPermissions = async (): Promise<void> => {
+  await RequestHelper.get(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`).then(
+    (res: any) => {
+      optionsPermissions.value = []
+      res.value = []
+      for (let i = 0; i < res.data.length; i++) {
+        optionsPermissions.value.push({
+          label: 'Room: ' + res.data[i],
+          value: res.data[i]
+        })
+      }
+    }
+  )
 }
 
 const addNewPermission = () => {
-  if (!room.value) {
+  if (permissions.value.length === 0) {
     popNegative($q, 'Please fill all fields')
     return
   }
-  emit('add-permission', room.value)
+  emit('add-permissions', permissions.value.map((permission: any) => permission.value))
   resetFields()
 }
+
+const blocked = ref<any>([])
+onMounted(() => {
+  getPermissions()
+  permissions.value = prop.userPermissions.map((permission: string) => {
+    return {
+      label: 'Room: ' + permission,
+      value: permission
+    }
+  })
+  blocked.value = permissions.value
+})
+
 </script>
 
 <template>
@@ -30,7 +66,15 @@ const addNewPermission = () => {
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>Room</label>
-        <q-input dense v-model="room" />
+        <q-select
+          filled
+          v-model="permissions"
+          multiple
+          :options="optionsPermissions"
+          counter
+          hint="Rooms"
+          style="width: 250px"
+        />
       </q-card-section>
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />

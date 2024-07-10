@@ -2,12 +2,13 @@
 import { useQuasar } from 'quasar'
 import type { User } from '@/domain/core/User'
 import { popDelete, popPositive } from '@/scripts/Popups'
-import Contact from '@/components/admin/Contact.vue'
+import ContactBadge from '@/components/admin/ContactBadge.vue'
 import Permission from '@/components/admin/Permission.vue'
 import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
 import NewContactPopup from '@/components/admin/NewContactPopup.vue'
 import { defineEmits, defineProps, ref } from 'vue'
 import NewPermissionPopup from '@/components/admin/NewPermissionPopup.vue'
+import type { Contact } from 'common/dist/domain/core'
 
 const $q = useQuasar()
 
@@ -27,19 +28,20 @@ const deleteUser = () => {
   popDelete($q, `Confirm user deletion?`, () => emit('delete-user'))
 }
 
-const addPermission = async (permission: string) => {
+const addPermissions = async (permissions: string[]) => {
   await RequestHelper.post(`http://${authHost}:${authPort}/permissions/${prop.user.id}`, {
-    permissions: [permission]
-  }).then((res: any) => {
+    permissions: permissions
+  }).then(() => {
     popPositive($q, 'Permission added successfully')
-    prop.user.permissions.push(permission)
+    prop.user.permissions = permissions
+    console.log(prop.user.permissions, permissions)
   })
 }
 
 const removePermission = async (permission: string): Promise<void> => {
   await RequestHelper.delete(
     `http://${authHost}:${authPort}/permissions/${prop.user.id}?permissions=${permission}`
-  ).then((res: any) => {
+  ).then(() => {
     popPositive($q, 'Permission removed successfully')
     prop.user.permissions = prop.user.permissions.filter(p => p !== permission)
   })
@@ -53,13 +55,21 @@ const addContact = async (contact: any) => {
     name: prop.user.name,
     surname: prop.user.surname,
     contacts: prop.user.contacts
-  }).then((res: any) => {
+  }).then(() => {
     popPositive($q, 'Contact added successfully')
   })
 }
 
-const removeContact = () => {
-  popDelete($q, `Confirm contact deletion?`, () => emit('delete-contact'))
+const removeContact = (contact: Contact) => {
+  prop.user.contacts = prop.user.contacts.filter(c => c !== contact)
+  console.log(prop.user.contacts)
+  RequestHelper.put(`http://${userHost}:${userPort}/${prop.user.id}`, {
+    name: prop.user.name,
+    surname: prop.user.surname,
+    contacts: prop.user.contacts
+  }).then(() => {
+    popPositive($q, 'Contact removed successfully')
+  })
 }
 </script>
 
@@ -77,6 +87,7 @@ const removeContact = () => {
 
             <i>Contacts:</i>
           <q-btn
+            class="btn-add"
             label="+"
             type="submit"
             color="primary"
@@ -85,11 +96,11 @@ const removeContact = () => {
             style="width: 5px; height:5px"
           />
 
-          <contact
+          <contact-badge
             v-for="(contact, index) in user.contacts"
             :key="index"
             :contact="contact"
-            @delete-contact="removeContact"
+            @delete-contact="removeContact(contact)"
           />
         </span>
       </q-card-section>
@@ -97,6 +108,7 @@ const removeContact = () => {
         <span>
           <i>Permissions:</i>
           <q-btn
+            class="btn-add"
             label="+"
             type="submit"
             color="primary"
@@ -118,7 +130,7 @@ const removeContact = () => {
     </div>
   </li>
   <new-contact-popup v-model="contactPopup" @add-contact="addContact"></new-contact-popup>
-  <new-permission-popup v-model="permissionPopup" @add-permission="addPermission"></new-permission-popup>
+  <new-permission-popup v-model="permissionPopup" @add-permissions="addPermissions" :userPermissions="prop.user.permissions"></new-permission-popup>
 </template>
 
 <style scoped lang="scss">
@@ -138,6 +150,10 @@ li {
       font-size: 18px;
     }
 
+    .btn-add {
+      height: 3px;
+    }
+
     display: flex;
     flex-direction: row;
 
@@ -145,21 +161,21 @@ li {
       display: flex;
       flex-direction: column;
       gap: 2px;
-      width: 25%;
+      width: 30%;
     }
 
     .permissions {
       display: flex;
       flex-direction: column;
       gap: 2px;
-      width: 25%;
+      width: 30%;
     }
 
     .registry {
       display: flex;
       flex-direction: column;
       gap: 2px;
-      width: 165px;
+      width: 35%;
     }
 
     .delete {

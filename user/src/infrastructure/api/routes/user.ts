@@ -6,7 +6,6 @@ import { ContactType } from '@common/domain/core/ContactType.js'
 import { User } from '@/domain/core/User.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { UserId } from '@/domain/core/UserId.js'
-import { UserFactory } from "@/domain/factories/UserFactory";
 
 export const userRouter: Router = express.Router()
 

@@ -13,9 +13,7 @@ const getUsers = async (): Promise<void> => {
   await RequestHelper.get(`http://${authHost}:${authPort}/users`).then((access: any) => {
     users.value = []
     for (let i = 0; i < access.data.length; i++) {
-      console.log(access.data[i])
       RequestHelper.get(`http://${userHost}:${userPort}/${access.data[i].id.value}`).then((registry: any) => {
-        console.log(registry.data)
         users.value.push({
           id: registry.data.id.value,
           username: access.data[i].username,

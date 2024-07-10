@@ -1,3 +1,29 @@
+## [2.0.1](https://github.com/revue-org/revue/compare/v2.0.0...v2.0.1) (2024-07-10)
+
+### Documentation
+
+* align docs (api, uml, report) ([#80](https://github.com/revue-org/revue/issues/80)) ([b4879f6](https://github.com/revue-org/revue/commit/b4879f6cd4490058ef97c06200dde023e2b2d431))
+
+### Build and continuous integration
+
+* configure renovate ([7e862f1](https://github.com/revue-org/revue/commit/7e862f1358e7c669b5c722fa2aaedee1d88135d8))
+
+
+## [2.0.1](https://github.com/revue-org/revue/compare/v2.0.0...v2.0.1) (2024-07-10)
+
+## [2.0.1](https://github.com/revue-org/revue/compare/v2.0.0...v2.0.1) (2024-07-10)
+
+### Documentation
+
+* align docs (api, uml, report) ([#80](https://github.com/revue-org/revue/issues/80)) ([b4879f6](https://github.com/revue-org/revue/commit/b4879f6cd4490058ef97c06200dde023e2b2d431))
+
+### Build and continuous integration
+
+* configure renovate ([7e862f1](https://github.com/revue-org/revue/commit/7e862f1358e7c669b5c722fa2aaedee1d88135d8))
+
+
+## [2.0.1](https://github.com/revue-org/revue/compare/v2.0.0...v2.0.1) (2024-07-10)
+
 ## [2.0.0](https://github.com/revue-org/revue/compare/v1.8.5...v2.0.0) (2024-07-09)
 
 ### ⚠ BREAKING CHANGES

@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'revue'
+    static_configs:
+      - targets:
+          - 'revue-auth:4000'
+          - 'revue-alarm:4002'
+          - 'revue-monitoring:4001'
+          # Add more targets as needed

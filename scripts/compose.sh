@@ -16,4 +16,5 @@ docker compose \
     -f camera/docker-compose.yml \
     -f sensor/docker-compose.yml \
     -f recognition/docker-compose.yml \
+    -f prometheus/docker-compose.yml \
     "$@"

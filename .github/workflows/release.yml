@@ -3,11 +3,23 @@ name: Revue Release
 on:
   push:
     branches: [ "main" ]
-
   workflow_dispatch:
 
 jobs:
-
+  compute-next-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3.3.0
+      - name: Pre-compute the next version
+        id: compute-next-version
+        uses: nicolasfara/precompute-semantic-release-version-action@1.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use the next version
+        run: |
+          echo "Will release: ${{ steps.compute-next-version.outputs.will-release }}"
+          echo "The next version is ${{ steps.compute-next-version.outputs.next-version }}"
   release:
     runs-on: ubuntu-latest
     concurrency:
@@ -37,11 +49,56 @@ jobs:
 
       - name: Install dependencies
         run: npm clean-install
-
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
-
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+  docker:
+    name: Push ${{ matrix.image }} image to docker hub
+    needs:
+      - compute-next-version
+      - release
+    runs-on: ubuntu-latest
+    if: >-
+      !github.event.repository.fork
+      && (
+        github.event_name != 'pull_request'
+        || github.event.pull_request.head.repo.full_name == github.repository
+      ) && steps.compute-next-version.outputs.will-release == 'true'
+    strategy:
+      matrix:
+        image:
+          - alarm
+          - auth
+          - device
+          - frontend
+          - location
+          - log
+          - monitoring
+          - notification
+          - recognition
+          - user
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.image }}
+          platform: linux/amd64,linux/arm64
+          file: ./Dockerfile
+          push: true
+          tags: |
+            letsdothisshared/revue-${{ steps.compute-next-version.outputs.next-version }}
+            letsdothisshared/revue-${{ matrix.image }}:latest

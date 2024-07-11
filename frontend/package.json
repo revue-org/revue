@@ -7,7 +7,7 @@
   "main": "src/main.ts",
   "scripts": {
     "serve": "serve -s dist -l 8080",
-    "build": "vite build",
+    "build": "vite build || rm -rf node_modules && rm -rf package-lock.json && npm install && vite build",
     "preview": "vite build && vite preview",
     "dev": "vite",
     "host": "vite --host",

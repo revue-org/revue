@@ -38,7 +38,7 @@
     "mongodb-memory-server": "^9.1.6",
     "mongoose": "^8.0.1",
     "socket.io": "^4.7.4",
-    "supertest": "^6.3.4",
+    "supertest": "^7.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

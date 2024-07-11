@@ -2,7 +2,7 @@ services:
 
   revue-gateway:
     # The official v3 Traefik docker image
-    image: traefik:v3.0
+    image: traefik:v3.1
     container_name: revue-gateway
     # Enables the web UI and tells Traefik to listen to docker
     command:

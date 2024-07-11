@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Pre-compute the next version
         id: compute-next-version
         uses: nicolasfara/precompute-semantic-release-version-action@2.0.1

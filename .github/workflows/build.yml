@@ -114,11 +114,11 @@ jobs:
       - release
     runs-on: ubuntu-latest
     if: >-
-      ${{ !github.event.repository.fork
+      !github.event.repository.fork
       && (
         github.event_name != 'pull_request'
         || github.event.pull_request.head.repo.full_name == github.repository
-      ) && fromJSON(needs.compute-next-version.outputs.will-release) }}
+      ) && fromJSON(needs.compute-next-version.outputs.will-release)
     strategy:
       matrix:
         image:

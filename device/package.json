@@ -30,6 +30,8 @@
   },
   "homepage": "https://github.com/Mala1180/revue#readme",
   "dependencies": {
+    "@node-wot/binding-http": "^0.8.14",
+    "@node-wot/core": "^0.8.14",
     "axios": "^1.6.7",
     "common": "file:../common",
     "cors": "^2.8.5",

@@ -8,49 +8,85 @@ import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 import RequestHelper from '@common/utils/RequestHelper.js'
 import { DeviceEventsHub } from '@/application/services/DeviceEventsHub.js'
-import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
-import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 import { DeviceEventFactory } from '@common/domain/factories/DeviceEventFactory.js'
+import { Servient } from '@node-wot/core'
+import HttpClientFactory from '@node-wot/binding-http'
+
+const Server = HttpClientFactory.HttpClientFactory
 
 export class DeviceServiceImpl implements DeviceService {
   private readonly repository: DeviceRepository
   private readonly events: DeviceEventsHub
+  private readonly servient: Servient
 
   constructor(repository: DeviceRepository, events: DeviceEventsHub) {
     this.repository = repository
     this.events = events
+    this.servient = new Servient()
+    this.servient.addClientFactory(new Server(null))
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
     const device: Device = await this.repository.getDeviceById(deviceId)
-    return RequestHelper.get(
-      'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
-    )
-      .then((res: any): DeviceCapability[] => {
-        const capabilities: DeviceCapability[] = []
-        for (let i: number = 0; i < res.data.capabilities.length; i++) {
-          if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
-            capabilities.push(
-              CapabilityFactory.sensoringCapabilityOf(
-                res.data.capabilities[i].capturingInterval,
-                MeasureFactory.createMeasure(
-                  res.data.capabilities[i].measure.type,
-                  res.data.capabilities[i].measure.unit
-                )
-              )
-            )
-          } else if (res.data.capabilities[i].type == CapabilityType.VIDEO) {
-            capabilities.push(
-              CapabilityFactory.videoStreamingCapabilityOf(res.data.capabilities[i].resolution)
-            )
+    this.servient
+      .start()
+      .then(async (WoT: any) => {
+        const td = await WoT.requestThingDescription(
+          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`,
+          'application/td+json',
+          'GET',
+          {
+            "headers" : {
+              "authorization" : "Bearer apikey-dev"
+            }
           }
-        }
-        return capabilities
+        )
+        const thing = await WoT.consume(td)
+        await thing
+          .invokeAction('capabilities')
+          .then((capabilities: any) => {
+            console.log(capabilities)
+          })
+          .catch((err: any) => {
+            console.error(err)
+          })
+        this.servient.shutdown().then(() => console.info('Servient stopped'))
       })
-      .catch((error: any): DeviceCapability[] => {
-        console.log('Error while fetching capabilities for device: ' + deviceId.value + 'error:' + error)
-        return []
+      .catch((err: any) => {
+        console.error(err)
       })
+
+    const capabilities: DeviceCapability[] = []
+    return capabilities
+
+    /*    return RequestHelper.get(
+          'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
+        )
+          .then((res: any): DeviceCapability[] => {
+            const capabilities: DeviceCapability[] = []
+            for (let i: number = 0; i < res.data.capabilities.length; i++) {
+              if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
+                capabilities.push(
+                  CapabilityFactory.sensoringCapabilityOf(
+                    res.data.capabilities[i].capturingInterval,
+                    MeasureFactory.createMeasure(
+                      res.data.capabilities[i].measure.type,
+                      res.data.capabilities[i].measure.unit
+                    )
+                  )
+                )
+              } else if (res.data.capabilities[i].type == CapabilityType.VIDEO) {
+                capabilities.push(
+                  CapabilityFactory.videoStreamingCapabilityOf(res.data.capabilities[i].resolution)
+                )
+              }
+            }
+            return capabilities
+          })
+          .catch((error: any): DeviceCapability[] => {
+            console.log('Error while fetching capabilities for device: ' + deviceId.value + 'error:' + error)
+            return []
+          })*/
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Device } from '@/domain/core/Device'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
-import type { Capability } from '@/domain/core/Capability'
+import { type Capability, CapabilityType } from '@/domain/core/Capability'
 import { ref } from 'vue'
 import { MeasureType } from 'common/dist/domain/core'
 import { popNegative, popPositive } from '@/scripts/Popups'
@@ -31,13 +31,12 @@ const capabilities = ref<Capability[]>([])
 const retrieveThingInfos = () => {
   RequestHelper.get(`http://${ip.value}:${port.value}/infos`)
     .then(async (res: any) => {
-      console.log(res.data)
       locationId.value = res.data.locationId
       for (let i = 0; i < res.data.capabilities.length; i++) {
         const capability = res.data.capabilities[i]
         if (capability.type === 'sensor') {
           capabilities.value.push({
-            type: 'sensor',
+            type: CapabilityType.SENSOR,
             capturingInterval: capability.capturingInterval,
             measure: {
               type: MeasureType[capability.measure.type as keyof typeof MeasureType],
@@ -46,7 +45,7 @@ const retrieveThingInfos = () => {
           })
         } else if (capability.type === 'video') {
           capabilities.value.push({
-            type: 'video',
+            type: CapabilityType.VIDEO,
             resolution: capability.resolution
           })
         }

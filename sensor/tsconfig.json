@@ -3,11 +3,8 @@
     "rootDir": ".",
     "outDir": "./dist",
     "baseUrl": ".",
-    "include": [
-      "src/**/*",
-      "test/**/*"
-    ],
-    /* Visit https://aka.ms/tsconfig to read more about this file */
+    /* Visit https://aka.ms/tsconfig to read more about this file
+     */
     "composite": true,
     "target": "ESNext",
     "lib": [

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Capability, SensoringCapability } from '@/domain/core/Capability'
+import { type Capability, CapabilityType, type SensoringCapability } from "@/domain/core/Capability";
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
@@ -33,7 +33,7 @@ const retrieveThingInfos = () => {
         const capability = res.data.capabilities[i]
         if (capability.type === 'sensor') {
           capabilities.value.push({
-            type: 'sensor',
+            type: CapabilityType.SENSOR,
             capturingInterval: capability.capturingInterval,
             measure: {
               type: MeasureType[capability.measure.type as keyof typeof MeasureType],
@@ -42,7 +42,7 @@ const retrieveThingInfos = () => {
           })
         } else if (capability.type === 'video') {
           capabilities.value.push({
-            type: 'video',
+            type: CapabilityType.VIDEO,
             resolution: capability.resolution
           })
         }

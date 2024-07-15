@@ -11,6 +11,7 @@ import { DeviceEventsHub } from '@/application/services/DeviceEventsHub.js'
 import { DeviceEventFactory } from '@common/domain/factories/DeviceEventFactory.js'
 import { Servient } from '@node-wot/core'
 import HttpClientFactory from '@node-wot/binding-http'
+import * as console from 'node:console'
 
 const Server = HttpClientFactory.HttpClientFactory
 
@@ -23,34 +24,46 @@ export class DeviceServiceImpl implements DeviceService {
     this.repository = repository
     this.events = events
     this.servient = new Servient()
-    this.servient.addClientFactory(new Server(null))
+    this.servient.addClientFactory(
+      new Server(null)
+    )
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
     const device: Device = await this.repository.getDeviceById(deviceId)
-    this.servient
+/*    const credentials = {
+      'urn:dev:wot:thing-1': {
+        token: 'apikey-dev'
+      }
+    }
+    this.servient.addCredentials(credentials)*/
+    await this.servient
       .start()
       .then(async (WoT: any) => {
         const td = await WoT.requestThingDescription(
-          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`,
-          'application/td+json',
-          'GET',
-          {
-            "headers" : {
-              "authorization" : "Bearer apikey-dev"
-            }
-          }
+          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`
         )
         const thing = await WoT.consume(td)
-        await thing
-          .invokeAction('capabilities')
-          .then((capabilities: any) => {
-            console.log(capabilities)
+        //console.log(td.actions.capabilities)
+        //console.log(`http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`)
+        /*        await thing.observeProperty("status", async (data: any) => {
+                  console.log("status:", await data.value());
+                });*/
+
+        thing.readProperty('status').then(async (data: any) => {
+          console.log('status:', await data.value())
+
+        })
+
+/*          .then((capabilities: any) => {
+            for (let i = 0; i < capabilities.length; i++) {
+              console.log(capabilities[i])
+            }
           })
           .catch((err: any) => {
             console.error(err)
-          })
-        this.servient.shutdown().then(() => console.info('Servient stopped'))
+          })*/
+        //this.servient.shutdown().then(() => console.info('Servient stopped'))
       })
       .catch((err: any) => {
         console.error(err)

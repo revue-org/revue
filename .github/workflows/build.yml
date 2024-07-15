@@ -2,12 +2,10 @@ name: Revue CI
 
 on:
   push:
-    branches: [ '**', '!main' ]
   workflow_dispatch:
 defaults:
   run:
     shell: bash
-
 jobs:
   build:
     strategy:
@@ -31,7 +29,6 @@ jobs:
         run: ./gradlew build --info
       - name: Test
         run: ./gradlew auth:test user:test alarm:test device:test log:test notification:test location:test --info
-
   style:
     runs-on: ubuntu-latest
     steps:
@@ -45,14 +42,12 @@ jobs:
         run: ./gradlew format --info
       - name: Check lint
         run: ./gradlew lint --info
-
   compute-next-version:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
+      contents: write
+      issues: write
+      pull-requests: write
     outputs:
         will-release: ${{ steps.compute-next-version.outputs.will-release }}
         next-version: ${{ steps.compute-next-version.outputs.next-version }}
@@ -82,10 +77,10 @@ jobs:
       # Only one release job at a time per branch, strictly sequential.
       group: release-${{ github.event.number || github.ref }}
     permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     if: >-
       !github.event.repository.fork
       && (

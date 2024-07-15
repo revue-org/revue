@@ -163,3 +163,6 @@ jobs:
       - release
       - docker
       - compute-next-version
+    steps:
+        - name: None of the dependant jobs should fail
+          run: ${{ !contains(needs.*.result, 'failure') }}

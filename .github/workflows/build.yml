@@ -120,7 +120,6 @@ jobs:
           - notification
           - recognition
           - user
-    name: Push ${{ matrix.image }} image to docker hub
     needs:
       - compute-next-version
       - release
@@ -146,7 +145,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6.3.0
         with:
-          context: ${{ matrix.image }}
+          context: ./${{ matrix.image }}
           platforms: linux/amd64,linux/arm64
           file: ./Dockerfile
           push: true

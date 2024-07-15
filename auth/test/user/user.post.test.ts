@@ -20,6 +20,7 @@ describe('POST /users/', (): void => {
     const newUser = {
       username: 'test-username-1',
       password: 'test', // password: test
+      role: 'guardian',
       permissions: ['test-permission-1']
     }
 

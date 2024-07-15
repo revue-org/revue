@@ -7,7 +7,7 @@ export interface UserService {
 
   getUserById(id: UserId): Promise<User>
 
-  createUser(name: string, surname: string, mail: string, contacts: Contact[]): Promise<UserId>
+  createUser(id: UserId, name: string, surname: string, mail: string, contacts: Contact[]): Promise<UserId>
 
   updateUser(id: UserId, name: string, surname: string, contacts: Contact[]): Promise<void>
 

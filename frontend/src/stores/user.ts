@@ -13,6 +13,7 @@ export const useUserStore = defineStore(
     const mail = ref<string>('')
     const contacts = ref<Contact[]>([])
     const password = ref<string>('')
+    const role = ref<string>('')
     const permissions = ref<string[]>([])
     const accessToken = ref<string>('')
     const refreshToken = ref<string>('')
@@ -25,6 +26,7 @@ export const useUserStore = defineStore(
       mail.value = ''
       contacts.value = []
       password.value = ''
+      role.value = ''
       permissions.value = []
       accessToken.value = ''
       refreshToken.value = ''
@@ -39,6 +41,7 @@ export const useUserStore = defineStore(
       mail,
       contacts,
       password,
+      role,
       permissions,
       accessToken,
       refreshToken,

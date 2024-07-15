@@ -18,6 +18,7 @@ describe('POST /', (): void => {
 
   it('should create a new user', async (): Promise<void> => {
     const newUser = {
+      id: '1', // This should be a UUID, but for testing purposes we use "1"
       name: 'test-name-1',
       surname: 'test-surname-1',
       mail: 'test@test.test-1',

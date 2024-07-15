@@ -1,9 +1,10 @@
 import { User } from '../core/User.js'
 import { UserId } from '../core/UserId'
+import { v4 as uuidv4 } from 'uuid'
 
 export class UserFactory {
   static newId(): UserId {
-    return { value: 'test' }
+    return { value: uuidv4() }
   }
 
   static idOf(value: string): UserId {
@@ -14,6 +15,7 @@ export class UserFactory {
     id: UserId,
     username: string,
     password: string,
+    role: string,
     permissions: string[],
     accessToken: string,
     refreshToken: string
@@ -22,6 +24,7 @@ export class UserFactory {
       id,
       username,
       password,
+      role,
       permissions,
       accessToken,
       refreshToken
@@ -31,10 +34,11 @@ export class UserFactory {
   static createUser(
     username: string,
     password: string,
+    role: string,
     permissions: string[],
     accessToken: string,
     refreshToken: string
   ): User {
-    return this.userFrom(this.newId(), username, password, permissions, accessToken, refreshToken)
+    return this.userFrom(this.newId(), username, password, role, permissions, accessToken, refreshToken)
   }
 }

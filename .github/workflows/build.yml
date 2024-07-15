@@ -2,12 +2,10 @@ name: Revue CI
 
 on:
   push:
-    branches: [ '**', '!main' ]
   workflow_dispatch:
 defaults:
   run:
     shell: bash
-
 jobs:
   build:
     strategy:
@@ -31,7 +29,6 @@ jobs:
         run: ./gradlew build --info
       - name: Test
         run: ./gradlew auth:test user:test alarm:test device:test log:test notification:test location:test --info
-
   style:
     runs-on: ubuntu-latest
     steps:
@@ -45,3 +42,126 @@ jobs:
         run: ./gradlew format --info
       - name: Check lint
         run: ./gradlew lint --info
+  compute-next-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    outputs:
+        will-release: ${{ steps.compute-next-version.outputs.will-release }}
+        next-version: ${{ steps.compute-next-version.outputs.next-version }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4.1.7
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+          cache: 'npm'
+      - name: Pre-compute the next version
+        id: compute-next-version
+        uses: nicolasfara/precompute-semantic-release-version-action@2.0.1
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+      - name: Use the next version
+        run: |
+          echo "Will release: ${{ steps.compute-next-version.outputs.will-release }}"
+          echo "The next version is ${{ steps.compute-next-version.outputs.next-version }}"
+  release:
+    needs:
+      - build
+      - style
+    runs-on: ubuntu-latest
+    concurrency:
+      # Only one release job at a time per branch, strictly sequential.
+      group: release-${{ github.event.number || github.ref }}
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    if: >-
+      !github.event.repository.fork
+      && (
+        github.event_name != 'pull_request'
+        || github.event.pull_request.head.repo.full_name == github.repository
+      )
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
+  docker:
+    name: Push ${{ matrix.image }} image to docker hub
+    strategy:
+      matrix:
+        image:
+          - alarm
+          - auth
+          - device
+          - frontend
+          - location
+          - log
+          - monitoring
+          - notification
+          - recognition
+          - user
+    needs:
+      - compute-next-version
+      - release
+    runs-on: ubuntu-latest
+    if: >-
+      !github.event.repository.fork
+      && (
+        github.event_name != 'pull_request'
+        || github.event.pull_request.head.repo.full_name == github.repository
+      ) && fromJSON(needs.compute-next-version.outputs.will-release)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3.1.0
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.4.0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3.2.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v6.3.0
+        with:
+          context: ./${{ matrix.image }}
+          platforms: linux/amd64,linux/arm64
+          file: ./Dockerfile
+          push: true
+          tags: |
+            letsdothisshared/revue-${{ matrix.image }}:${{ needs.compute-next-version.outputs.next-version }}
+            letsdothisshared/revue-${{ matrix.image }}:latest
+  success:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - style
+      - release
+      - docker
+      - compute-next-version
+    # Always run this job, even if the previous jobs failed
+    if: >-
+      always() && (failure() || !contains(join(needs.*.result, ','), 'cancelled'))
+    steps:
+        - name: None of the dependant jobs should fail
+          run: ${{ !contains(join(needs.*.result, ','), 'failure') }}

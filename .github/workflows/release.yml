@@ -2,7 +2,6 @@ name: Revue Release
 
 on:
   push:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -11,6 +10,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4.1.7
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+          cache: 'npm'
       - name: Pre-compute the next version
         id: compute-next-version
         uses: nicolasfara/precompute-semantic-release-version-action@2.0.1
@@ -40,13 +44,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
       - name: Install dependencies
         run: npm clean-install
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
@@ -62,11 +64,11 @@ jobs:
       - release
     runs-on: ubuntu-latest
     if: >-
-      !github.event.repository.fork
+      ${{ !github.event.repository.fork
       && (
         github.event_name != 'pull_request'
         || github.event.pull_request.head.repo.full_name == github.repository
-      ) && steps.compute-next-version.outputs.will-release == 'true'
+      ) && fromJSON(needs.compute-next-version.outputs.will-release) }}
     strategy:
       matrix:
         image:

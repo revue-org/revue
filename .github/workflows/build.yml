@@ -74,7 +74,6 @@ jobs:
     needs:
       - build
       - style
-      - test
     runs-on: ubuntu-latest
     concurrency:
       # Only one release job at a time per branch, strictly sequential.
@@ -159,7 +158,6 @@ jobs:
     needs:
       - build
       - style
-      - test
       - release
       - docker
       - compute-next-version

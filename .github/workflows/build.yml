@@ -107,17 +107,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
   docker:
-    name: Push ${{ matrix.image }} image to docker hub
-    needs:
-      - compute-next-version
-      - release
-    runs-on: ubuntu-latest
-    if: >-
-      !github.event.repository.fork
-      && (
-        github.event_name != 'pull_request'
-        || github.event.pull_request.head.repo.full_name == github.repository
-      ) && fromJSON(needs.compute-next-version.outputs.will-release)
     strategy:
       matrix:
         image:
@@ -131,6 +120,17 @@ jobs:
           - notification
           - recognition
           - user
+    name: Push ${{ matrix.image }} image to docker hub
+    needs:
+      - compute-next-version
+      - release
+    runs-on: ubuntu-latest
+    if: >-
+      !github.event.repository.fork
+      && (
+        github.event_name != 'pull_request'
+        || github.event.pull_request.head.repo.full_name == github.repository
+      ) && fromJSON(needs.compute-next-version.outputs.will-release)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -147,7 +147,7 @@ jobs:
         uses: docker/build-push-action@v6.3.0
         with:
           context: ${{ matrix.image }}
-          platform: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           file: ./Dockerfile
           push: true
           tags: |

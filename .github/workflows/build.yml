@@ -53,6 +53,9 @@ jobs:
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
+    outputs:
+        will-release: ${{ steps.compute-next-version.outputs.will-release }}
+        next-version: ${{ steps.compute-next-version.outputs.next-version }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4.1.7
@@ -107,6 +110,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
   docker:
+    name: Push ${{ matrix.image }} image to docker hub
     strategy:
       matrix:
         image:

@@ -147,7 +147,6 @@ jobs:
         with:
           context: ./${{ matrix.image }}
           platforms: linux/amd64,linux/arm64
-          file: ./Dockerfile
           push: true
           tags: |
             letsdothisshared/revue-${{ matrix.image }}:${{ needs.compute-next-version.outputs.next-version }}

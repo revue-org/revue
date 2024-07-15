@@ -164,6 +164,9 @@ jobs:
       - release
       - docker
       - compute-next-version
+    # Always run this job, even if the previous jobs failed
+    if: >-
+      always() && (failure() || !contains(join(needs.*.result, ','), 'cancelled'))
     steps:
         - name: None of the dependant jobs should fail
-          run: ${{ !contains(needs.*.result, 'failure') }}
+          run: ${{ !contains(join(needs.*.result, ','), 'failure') }}

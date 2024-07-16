@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.9
 
-FROM python:3.12 as builder
+FROM python:3.12 AS builder
 
 WORKDIR /home/revue/recognition
 
@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root
 
 
-FROM python:3.12 as production
+FROM python:3.12 AS production
 
 # removes the configurations to delete cached files after a successful install
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache

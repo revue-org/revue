@@ -147,7 +147,7 @@ jobs:
         env:
           releaseTag: ${{ 
             fromJSON(needs.compute-next-version.outputs.will-release) 
-            && 'ci' || needs.compute-next-version.outputs.next-version 
+            && needs.compute-next-version.outputs.next-version || 'ci'  
             }}
         with:
           context: .

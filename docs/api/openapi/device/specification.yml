@@ -123,3 +123,38 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
+    /devices/{id}/enable:
+        post:
+            summary: Enable a device
+            tags: [ Devices ]
+            parameters:
+                -   in: path
+                    name: id
+                    required: true
+                    schema:
+                        $ref: "./schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: Device enabled successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /devices/{id}/disable:
+        post:
+            summary: Disable a device
+            tags: [ Devices ]
+            parameters:
+                -   in: path
+                    name: id
+                    required: true
+                    schema:
+                        $ref: "./schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: Device disabled successfully
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+

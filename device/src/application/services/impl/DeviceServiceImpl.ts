@@ -172,7 +172,7 @@ export class DeviceServiceImpl implements DeviceService {
 
   private async toggleDevice(deviceId: DeviceId, enabled: boolean): Promise<void> {
     const device: Device = await this.repository.getDeviceById(deviceId)
-    this.servient.start().then(async (WoT: any): Promise<void> => {
+    await this.servient.start().then(async (WoT: any): Promise<void> => {
       const td = await WoT.requestThingDescription(
         `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`
       )

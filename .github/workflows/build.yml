@@ -144,13 +144,18 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build and push
         uses: docker/build-push-action@v6.3.0
+        env:
+          releaseTag: $${{ 
+            fromJSON(needs.compute-next-version.outputs.will-release) 
+            && 'ci' || needs.compute-next-version.outputs.next-version 
+            }}
         with:
           context: .
           file: ./${{ matrix.image }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: ${{ fromJSON(needs.compute-next-version.outputs.will-release) }}
           tags: |
-            letsdothisshared/revue-${{ matrix.image }}:${{ needs.compute-next-version.outputs.next-version }}
+            letsdothisshared/revue-${{ matrix.image }}:${{ env.releaseTag }}
             letsdothisshared/revue-${{ matrix.image }}:latest
   success:
     runs-on: ubuntu-latest

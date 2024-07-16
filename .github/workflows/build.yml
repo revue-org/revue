@@ -107,6 +107,8 @@ jobs:
         run: npx semantic-release
   docker:
     name: Push ${{ matrix.image }} image to docker hub
+    concurrency:
+      group: release-${{ github.event.number || github.ref }}-docker-${{ matrix.image }}
     strategy:
       matrix:
         image:
@@ -129,7 +131,7 @@ jobs:
       && (
         github.event_name != 'pull_request'
         || github.event.pull_request.head.repo.full_name == github.repository
-      )
+      ) && fromJSON(needs.compute-next-version.outputs.will-release)
     steps:
       - name: Checkout
         uses: actions/checkout@v4

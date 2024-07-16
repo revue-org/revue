@@ -145,7 +145,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6.3.0
         env:
-          releaseTag: $${{ 
+          releaseTag: ${{ 
             fromJSON(needs.compute-next-version.outputs.will-release) 
             && 'ci' || needs.compute-next-version.outputs.next-version 
             }}

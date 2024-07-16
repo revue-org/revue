@@ -1,12 +1,11 @@
 import { DomainEventId } from '../core/DomainEventId'
 import { DeviceAdded } from '../core/DeviceAdded'
 import { DeviceRemoved } from '../core/DeviceRemoved'
+import { v4 as uuidv4 } from 'uuid';
 
 export class DeviceEventFactory {
   static newId(): DomainEventId {
-    return {
-      value: 'test'
-    }
+    return { value: uuidv4() };
   }
 
   static idOf(value: string): DomainEventId {

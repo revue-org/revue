@@ -12,9 +12,9 @@ components:
                 endpoint:
                     type: object
                     properties:
-                        ip:
+                        ipAddress:
                             type: string
-                            description: The ip address of the device
+                            description: The IP address of the device
                         port:
                             type: integer
                             description: The port of the device
@@ -38,9 +38,9 @@ components:
                 endpoint:
                     type: object
                     properties:
-                        ip:
+                        ipAddress:
                             type: string
-                            description: The ip address of the device
+                            description: The IP address of the device
                         port:
                             type: integer
                             description: The port of the device
@@ -50,7 +50,6 @@ components:
                 description:
                     type: string
                     description: The description of the device
-
         DeviceUpdate:
             allOf:
                 - $ref: "#/components/schemas/DeviceInsert"
@@ -59,3 +58,12 @@ components:
                       isEnabled:
                           type: boolean
                           description: The status of the device
+        DeviceCapability:
+            type: object
+            properties:
+                type:
+                    type: string
+                    description: The type of the capability
+                description:
+                    type: string
+                    description: The description of the capability

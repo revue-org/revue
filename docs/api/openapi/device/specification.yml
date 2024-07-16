@@ -40,10 +40,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "./schemas.yml#/components/schemas/Device"
+                            $ref: "./schemas.yml#/components/schemas/DeviceInsert"
             responses:
                 201:
-                    description: The camera was created successfully
+                    description: The device was created successfully
                 400:
                     description: The request was invalid
                 403:
@@ -84,7 +84,6 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
-
         put:
             summary: Update a device
             tags: [Devices]
@@ -99,7 +98,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "./schemas.yml#/components/schemas/Device"
+                            $ref: "./schemas.yml#/components/schemas/DeviceUpdate"
             responses:
                 200:
                     description: The device was updated successfully
@@ -115,7 +114,7 @@ paths:
                   name: id
                   required: true
                   schema:
-                      $ref: "./schemas.yml#/components/schemas/Device"
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             responses:
                 204:
                     description: The resource was deleted successfully
@@ -126,13 +125,13 @@ paths:
     /devices/{id}/enable:
         post:
             summary: Enable a device
-            tags: [ Devices ]
+            tags: [Devices]
             parameters:
-                -   in: path
-                    name: id
-                    required: true
-                    schema:
-                        $ref: "./schemas.yml#/components/schemas/DeviceId"
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             responses:
                 200:
                     description: Device enabled successfully
@@ -143,13 +142,13 @@ paths:
     /devices/{id}/disable:
         post:
             summary: Disable a device
-            tags: [ Devices ]
+            tags: [Devices]
             parameters:
-                -   in: path
-                    name: id
-                    required: true
-                    schema:
-                        $ref: "./schemas.yml#/components/schemas/DeviceId"
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
             responses:
                 200:
                     description: Device disabled successfully
@@ -157,4 +156,49 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
-
+    /devices/{id}/capabilities:
+        get:
+            summary: Get capabilities of a device
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: The capabilities of the specified device
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/DeviceCapability"
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized
+    /devices/locations/{id}:
+        get:
+            summary: Get devices by location
+            tags: [Devices]
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      $ref: "./schemas.yml#/components/schemas/DeviceId"
+            responses:
+                200:
+                    description: The devices at the specified location
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Device"
+                400:
+                    description: The request was invalid
+                403:
+                    description: User not authorized

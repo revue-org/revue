@@ -61,6 +61,28 @@ deviceRouter.route('/:id/capabilities').get((req: Request, res: Response): void 
     })
 })
 
+deviceRouter.route('/:id/enable').post((req: Request, res: Response): void => {
+  deviceController
+    .enableDevice(req.params.id)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send()
+    })
+    .catch((): void => {
+      res.send({ error: 'Error enabling device' })
+    })
+})
+
+deviceRouter.route('/:id/disable').post((req: Request, res: Response): void => {
+  deviceController
+    .disableDevice(req.params.id)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send()
+    })
+    .catch((): void => {
+      res.send({ error: 'Error disabling device' })
+    })
+})
+
 deviceRouter.route('/actives').get((_req: Request, res: Response): void => {
   deviceController
     .getActiveDevices()

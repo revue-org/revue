@@ -6,12 +6,12 @@ import { Device } from '@/domain/core/Device.js'
 import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint.js'
 import { DeviceFactory } from '@/domain/factories/DeviceFactory.js'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
-import RequestHelper from '@common/utils/RequestHelper.js'
 import { DeviceEventsHub } from '@/application/services/DeviceEventsHub.js'
 import { DeviceEventFactory } from '@common/domain/factories/DeviceEventFactory.js'
 import { Servient } from '@node-wot/core'
 import HttpClientFactory from '@node-wot/binding-http'
-import * as console from 'node:console'
+import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
+import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 
 const Server = HttpClientFactory.HttpClientFactory
 
@@ -24,82 +24,45 @@ export class DeviceServiceImpl implements DeviceService {
     this.repository = repository
     this.events = events
     this.servient = new Servient()
-    this.servient.addClientFactory(
-      new Server(null)
-    )
+    this.servient.addClientFactory(new Server(null))
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {
     const device: Device = await this.repository.getDeviceById(deviceId)
-/*    const credentials = {
-      'urn:dev:wot:thing-1': {
-        token: 'apikey-dev'
-      }
-    }
-    this.servient.addCredentials(credentials)*/
-    await this.servient
+    return await this.servient
       .start()
-      .then(async (WoT: any) => {
+      .then(async (WoT: any): Promise<DeviceCapability[]> => {
         const td = await WoT.requestThingDescription(
           `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`
         )
         const thing = await WoT.consume(td)
-        //console.log(td.actions.capabilities)
-        //console.log(`http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`)
-        /*        await thing.observeProperty("status", async (data: any) => {
-                  console.log("status:", await data.value());
-                });*/
-
-        thing.readProperty('status').then(async (data: any) => {
-          console.log('status:', await data.value())
-
-        })
-
-/*          .then((capabilities: any) => {
-            for (let i = 0; i < capabilities.length; i++) {
-              console.log(capabilities[i])
+        return thing.readProperty('status').then(async (data: any): Promise<DeviceCapability[]> => {
+          const deviceStatus = await data.value()
+          const capabilities: DeviceCapability[] = []
+          for (let i: number = 0; i < deviceStatus.capabilities.length; i++) {
+            if (deviceStatus.capabilities[i].type == CapabilityType.SENSOR) {
+              capabilities.push(
+                CapabilityFactory.sensoringCapabilityOf(
+                  deviceStatus.capabilities[i].capturingInterval,
+                  MeasureFactory.createMeasure(
+                    deviceStatus.capabilities[i].measure.type,
+                    deviceStatus.capabilities[i].measure.unit
+                  )
+                )
+              )
+            } else if (deviceStatus.capabilities[i].type == CapabilityType.VIDEO) {
+              capabilities.push(
+                CapabilityFactory.videoStreamingCapabilityOf(deviceStatus.capabilities[i].resolution)
+              )
             }
-          })
-          .catch((err: any) => {
-            console.error(err)
-          })*/
-        //this.servient.shutdown().then(() => console.info('Servient stopped'))
+          }
+          return capabilities
+        })
       })
       .catch((err: any) => {
         console.error(err)
+        return []
       })
-
-    const capabilities: DeviceCapability[] = []
-    return capabilities
-
-    /*    return RequestHelper.get(
-          'http://' + device.endpoint.ipAddress + ':' + device.endpoint.port + '/capabilities'
-        )
-          .then((res: any): DeviceCapability[] => {
-            const capabilities: DeviceCapability[] = []
-            for (let i: number = 0; i < res.data.capabilities.length; i++) {
-              if (res.data.capabilities[i].type == CapabilityType.SENSOR) {
-                capabilities.push(
-                  CapabilityFactory.sensoringCapabilityOf(
-                    res.data.capabilities[i].capturingInterval,
-                    MeasureFactory.createMeasure(
-                      res.data.capabilities[i].measure.type,
-                      res.data.capabilities[i].measure.unit
-                    )
-                  )
-                )
-              } else if (res.data.capabilities[i].type == CapabilityType.VIDEO) {
-                capabilities.push(
-                  CapabilityFactory.videoStreamingCapabilityOf(res.data.capabilities[i].resolution)
-                )
-              }
-            }
-            return capabilities
-          })
-          .catch((error: any): DeviceCapability[] => {
-            console.log('Error while fetching capabilities for device: ' + deviceId.value + 'error:' + error)
-            return []
-          })*/
   }
 
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {
@@ -123,29 +86,27 @@ export class DeviceServiceImpl implements DeviceService {
   private async getDeviceWithCapabilities(requiredCapabilities: CapabilityType[]): Promise<Device[]> {
     const devices: Device[] = await this.repository.getDevices()
     const admittedDevices: Device[] = []
-    for (const device of devices) {
-      if (device.isEnabled) {
-        try {
-          const res = await RequestHelper.get(
-            `http://${device.endpoint.ipAddress}:${device.endpoint.port}/capabilities`
-          )
-          const deviceCapabilityTypes: CapabilityType[] = res.data.capabilities.map(
-            (capability: any): CapabilityType => {
-              if (Object.values(CapabilityType).includes(capability.type as CapabilityType)) {
-                return capability.type as CapabilityType
-              } else {
-                throw new Error('Invalid capability')
-              }
-            }
-          )
 
-          if (requiredCapabilities.every(capability => deviceCapabilityTypes.includes(capability))) {
-            admittedDevices.push(device)
+    for (const device of devices) {
+      await this.servient.start().then(async (WoT: any): Promise<void> => {
+        const td = await WoT.requestThingDescription(
+          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${device.deviceId.value}`
+        )
+        const thing = await WoT.consume(td)
+        await thing.readProperty('status').then(async (data: any): Promise<void> => {
+          const deviceStatus = await data.value()
+          if (deviceStatus.enabled) {
+            const deviceCapabilityTypes: CapabilityType[] = deviceStatus.capabilities.map(
+              (capability: any): CapabilityType => {
+                return capability.type as CapabilityType
+              }
+            )
+            if (requiredCapabilities.every(capability => deviceCapabilityTypes.includes(capability))) {
+              admittedDevices.push(device)
+            }
           }
-        } catch (error) {
-          console.log(`Error while fetching capabilities from ${device.deviceId.value}: ${error}`)
-        }
-      }
+        })
+      })
     }
     return admittedDevices
   }
@@ -211,6 +172,17 @@ export class DeviceServiceImpl implements DeviceService {
 
   private async toggleDevice(deviceId: DeviceId, enabled: boolean): Promise<void> {
     const device: Device = await this.repository.getDeviceById(deviceId)
-    await this.repository.updateDevice({ ...device, isEnabled: enabled })
+    this.servient.start().then(async (WoT: any): Promise<void> => {
+      const td = await WoT.requestThingDescription(
+        `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`
+      )
+      const thing = await WoT.consume(td)
+      await thing.invokeAction('toggle', { enable: enabled })
+      await thing.readProperty('status').then(async (data: any): Promise<void> => {
+        const deviceStatus = await data.value()
+        await this.repository.updateDevice({ ...device, isEnabled: deviceStatus.enabled })
+      })
+    })
+
   }
 }

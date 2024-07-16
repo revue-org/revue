@@ -1,3 +1,49 @@
+## [2.1.1](https://github.com/revue-org/revue/compare/v2.1.0...v2.1.1) (2024-07-16)
+
+### Dependency updates
+
+* **deps:** update dependency @rushstack/eslint-patch to v1.10.3 ([6ff7d89](https://github.com/revue-org/revue/commit/6ff7d896ff4313cffcd8d2294cde6499451981af))
+* **deps:** update dependency dotenv to v16.3.2 ([c6e36e2](https://github.com/revue-org/revue/commit/c6e36e215f32bb64d9975f48236936d16e60383e))
+* **deps:** update dependency dotenv to v16.4.5 ([8a6bc88](https://github.com/revue-org/revue/commit/8a6bc881c0ba3dabdd5076e486d67a621ada7727))
+* **deps:** update dependency mongodb-memory-server to v9.1.8 ([e53d97d](https://github.com/revue-org/revue/commit/e53d97d3805f0ee4d1613ca605f5580d139a0884))
+* **deps:** update dependency mongoose to v8.5.1 ([1b46270](https://github.com/revue-org/revue/commit/1b462707571accc92187c1e56765512c5aae56db))
+* **deps:** update dependency prettier to v3.1.1 ([07a8893](https://github.com/revue-org/revue/commit/07a8893205272a5f73f18a3787ce6f596bd9012f))
+* **deps:** update dependency tsc-alias to v1.8.10 ([daf32aa](https://github.com/revue-org/revue/commit/daf32aa74e2aa399420bacbb7999126493f05c18))
+
+### Bug Fixes
+
+* **ci:** fix docker image publish step ([#185](https://github.com/revue-org/revue/issues/185)) ([2edaf99](https://github.com/revue-org/revue/commit/2edaf99818f5558e7d9689abb4aea57c49b7a663))
+
+
+## [2.1.1](https://github.com/revue-org/revue/compare/v2.1.0...v2.1.1) (2024-07-16)
+
+### Bug Fixes
+
+* **ci:** fix docker image publish step ([#185](https://github.com/revue-org/revue/issues/185)) ([2edaf99](https://github.com/revue-org/revue/commit/2edaf99818f5558e7d9689abb4aea57c49b7a663))
+
+## [2.1.1](https://github.com/revue-org/revue/compare/v2.1.0...v2.1.1) (2024-07-16)
+
+### Dependency updates
+
+* **deps:** update dependency @rushstack/eslint-patch to v1.10.3 ([6ff7d89](https://github.com/revue-org/revue/commit/6ff7d896ff4313cffcd8d2294cde6499451981af))
+* **deps:** update dependency dotenv to v16.3.2 ([c6e36e2](https://github.com/revue-org/revue/commit/c6e36e215f32bb64d9975f48236936d16e60383e))
+* **deps:** update dependency dotenv to v16.4.5 ([8a6bc88](https://github.com/revue-org/revue/commit/8a6bc881c0ba3dabdd5076e486d67a621ada7727))
+* **deps:** update dependency mongodb-memory-server to v9.1.8 ([e53d97d](https://github.com/revue-org/revue/commit/e53d97d3805f0ee4d1613ca605f5580d139a0884))
+* **deps:** update dependency mongoose to v8.5.1 ([1b46270](https://github.com/revue-org/revue/commit/1b462707571accc92187c1e56765512c5aae56db))
+* **deps:** update dependency prettier to v3.1.1 ([07a8893](https://github.com/revue-org/revue/commit/07a8893205272a5f73f18a3787ce6f596bd9012f))
+* **deps:** update dependency tsc-alias to v1.8.10 ([daf32aa](https://github.com/revue-org/revue/commit/daf32aa74e2aa399420bacbb7999126493f05c18))
+
+### Bug Fixes
+
+* **ci:** fix docker image publish step ([#185](https://github.com/revue-org/revue/issues/185)) ([2edaf99](https://github.com/revue-org/revue/commit/2edaf99818f5558e7d9689abb4aea57c49b7a663))
+
+
+## [2.1.1](https://github.com/revue-org/revue/compare/v2.1.0...v2.1.1) (2024-07-16)
+
+### Bug Fixes
+
+* **ci:** fix docker image publish step ([#185](https://github.com/revue-org/revue/issues/185)) ([2edaf99](https://github.com/revue-org/revue/commit/2edaf99818f5558e7d9689abb4aea57c49b7a663))
+
 ## [2.1.0](https://github.com/revue-org/revue/compare/v2.0.1...v2.1.0) (2024-07-15)
 
 ### Features

@@ -44,9 +44,6 @@ components:
                         port:
                             type: integer
                             description: The port of the device
-                locationId:
-                    type: string
-                    description: The location in which the sensor is placed
                 description:
                     type: string
                     description: The description of the device
@@ -58,6 +55,9 @@ components:
                       isEnabled:
                           type: boolean
                           description: The status of the device
+                      locationId:
+                          type: string
+                          description: The location in which the sensor is placed
         DeviceCapability:
             type: object
             properties:

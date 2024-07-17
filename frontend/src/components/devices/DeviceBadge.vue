@@ -106,10 +106,9 @@ const deleteDevice = () => {
               capability.type === 'sensor'
                 ? colorMap[(capability as SensoringCapability).measure.type]
                 : 'blue'
-
           }"
         >
-          {{ capability.type.toUpperCase() }}
+          {{ capability.type === 'sensor' ? (capability as SensoringCapability).measure.type.toUpperCase() : 'VIDEO' }}
           <capability-popup v-model="capabilityPopupVisible" :capability="capability"></capability-popup>
         </q-badge>
       </li>

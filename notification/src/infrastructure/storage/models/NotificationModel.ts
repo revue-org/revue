@@ -17,6 +17,7 @@ export interface NotificationDBEntity {
   type: string
   timestamp: Date
   event: {
+    id: string
     type: string
     timestamp: Date
     sourceDeviceId: string
@@ -39,7 +40,8 @@ export class NotificationDBAdapter {
     if (notification.type === 'outlier') {
       return NotificationFactory.notificationFrom(
         NotificationFactory.idOf(notification.id),
-        AnomalyFactory.createOutlier(
+        AnomalyFactory.outlierFrom(
+          AnomalyFactory.idOf(notification.event.id),
           notification.timestamp,
           MeasurementFactory.numericMeasurementFrom(
             MeasurementFactory.idOf(notification.event.measurementId!),
@@ -58,13 +60,14 @@ export class NotificationDBAdapter {
     } else {
       return NotificationFactory.notificationFrom(
         NotificationFactory.idOf(notification.id),
-        AnomalyFactory.createIntrusion(
+        AnomalyFactory.intrusionFrom(
+          AnomalyFactory.idOf(notification.event.id),
           notification.timestamp,
           DetectionFactory.detectionFrom(
             DetectionFactory.idOf(notification.event.detectionId!),
             notification.event.timestamp,
             notification.event.sourceDeviceId,
-            ObjectClass[notification.event.objectClass! as keyof typeof ObjectClass]
+            notification.event.objectClass! as ObjectClass
           ),
           notification.event.intrusionRuleId!
         ),
@@ -82,6 +85,7 @@ export class NotificationDBAdapter {
         type: notification.event.type,
         timestamp: notification.event.timestamp,
         event: {
+          id: outlier.id.value,
           type: 'measurement',
           timestamp: measurement.timestamp,
           sourceDeviceId: measurement.sourceDeviceId,
@@ -103,6 +107,7 @@ export class NotificationDBAdapter {
         type: notification.event.type,
         timestamp: notification.event.timestamp,
         event: {
+          id: intrusion.id.value,
           type: 'detection',
           sourceDeviceId: detection.sourceDeviceId,
           timestamp: detection.timestamp,

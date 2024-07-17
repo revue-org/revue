@@ -29,14 +29,15 @@ describe('GET /notifications/', (): void => {
   it('retrieve the notification with the current id', async (): Promise<void> => {
     // @ts-ignore
     const notification: Response = await notificationService
-      .get('/notifications/outlier-test-id')
+      .get('/notifications/outlier-notification-test-id')
       .set('Authorization', `Bearer ${TOKEN}`)
     expect(notification.status).toBe(HttpStatusCode.OK)
     expect(notification.type).toBe('application/json')
+    console.log(notification.body)
     expect(notification.body).toStrictEqual({
       event: {
         id: {
-          value: 'test'
+          value: 'outlier-test-id'
         },
         measurement: {
           id: {
@@ -56,7 +57,7 @@ describe('GET /notifications/', (): void => {
         type: 'outlier'
       },
       id: {
-        value: 'outlier-test-id'
+        value: 'outlier-notification-test-id'
       },
       message: 'outlier-test-message'
     })

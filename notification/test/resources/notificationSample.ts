@@ -1,8 +1,9 @@
 export const outlierSample = {
-  id: 'outlier-test-id',
+  id: 'outlier-notification-test-id',
   type: 'outlier',
   timestamp: '2020-01-01T10:00:00.000Z',
   event: {
+    id: 'outlier-test-id',
     measurementId: 'measurement-test-id',
     type: 'outlier',
     timestamp: '2020-01-01T10:00:00.000Z',
@@ -18,11 +19,11 @@ export const outlierSample = {
 }
 
 export const intrusionSample = {
-  id: 'intrusion-test-id',
+  id: 'intrusion-notification-test-id',
   type: 'intrusion',
   timestamp: '2020-01-01T10:00:00.000Z',
   event: {
-    intrusionId: 'intrusion-test-id',
+    id: 'intrusion-test-id',
     type: 'intrusion',
     timestamp: '2020-01-01T10:00:00.000Z',
     sourceDeviceId: 'source-device-test-id',

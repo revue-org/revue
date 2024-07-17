@@ -33,7 +33,7 @@ export class DeviceServiceImpl implements DeviceService {
       .start()
       .then(async (WoT: any): Promise<DeviceCapability[]> => {
         const td = await WoT.requestThingDescription(
-          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`
+          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device`
         )
         const thing = await WoT.consume(td)
         return thing.readProperty('status').then(async (data: any): Promise<DeviceCapability[]> => {
@@ -90,7 +90,7 @@ export class DeviceServiceImpl implements DeviceService {
     for (const device of devices) {
       await this.servient.start().then(async (WoT: any): Promise<void> => {
         const td = await WoT.requestThingDescription(
-          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${device.deviceId.value}`
+          `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device`
         )
         const thing = await WoT.consume(td)
         await thing.readProperty('status').then(async (data: any): Promise<void> => {
@@ -174,7 +174,7 @@ export class DeviceServiceImpl implements DeviceService {
     const device: Device = await this.repository.getDeviceById(deviceId)
     await this.servient.start().then(async (WoT: any): Promise<void> => {
       const td = await WoT.requestThingDescription(
-        `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device-${deviceId.value}`
+        `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device`
       )
       const thing = await WoT.consume(td)
       await thing.invokeAction('toggle', { enable: enabled })

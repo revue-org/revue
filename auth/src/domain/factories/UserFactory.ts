@@ -1,9 +1,10 @@
 import { User } from '../core/User.js'
 import { UserId } from '../core/UserId'
+import { v4 as uuidv4 } from 'uuid'
 
 export class UserFactory {
   static newId(): UserId {
-    return { value: 'test' }
+    return { value: uuidv4() }
   }
 
   static idOf(value: string): UserId {

@@ -25,22 +25,22 @@ const locationId = ref<string>()
 const capabilities = ref<Capability[]>([])
 
 const retrieveThingInfos = () => {
-  RequestHelper.get(`http://${ip.value}:${port.value}/infos`)
+  RequestHelper.get(`http://${ip.value}:${port.value}/device/properties/status`)
     .then(async (res: any) => {
       console.log(res.data)
-      locationId.value = res.data.locationId
+      locationId.value = res.data.location
       for (let i = 0; i < res.data.capabilities.length; i++) {
         const capability = res.data.capabilities[i]
-        if (capability.type === 'sensor') {
+        if (capability.type === CapabilityType.SENSOR) {
           capabilities.value.push({
             type: CapabilityType.SENSOR,
             capturingInterval: capability.capturingInterval,
             measure: {
-              type: MeasureType[capability.measure.type as keyof typeof MeasureType],
+              type: capability.measure.type as MeasureType,
               unit: capability.measure.unit
             }
           })
-        } else if (capability.type === 'video') {
+        } else if (capability.type === CapabilityType.VIDEO) {
           capabilities.value.push({
             type: CapabilityType.VIDEO,
             resolution: capability.resolution

@@ -106,6 +106,7 @@ const deleteDevice = () => {
               capability.type === 'sensor'
                 ? colorMap[(capability as SensoringCapability).measure.type]
                 : 'blue'
+
           }"
         >
           {{ capability.type.toUpperCase() }}

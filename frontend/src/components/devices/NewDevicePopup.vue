@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type Capability, CapabilityType, type SensoringCapability } from "@/domain/core/Capability";
+import { type Capability, CapabilityType, type SensoringCapability } from '@/domain/core/Capability'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'

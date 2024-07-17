@@ -2,11 +2,11 @@ import { DomainEventId } from '../core/DomainEventId.js'
 import { Outlier } from '../core/Outlier.js'
 import { Intrusion } from '../core/Intrusion.js'
 import { Detection, Measurement } from '../core'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 export class AnomalyFactory {
   static newId(): DomainEventId {
-    return { value: uuidv4() };
+    return { value: uuidv4() }
   }
 
   static idOf(value: string): DomainEventId {

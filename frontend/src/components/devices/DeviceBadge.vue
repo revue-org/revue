@@ -62,13 +62,12 @@ const getCapabilities = () => {
 const toggleDevice = async () => {
   const action = device.isEnabled ? 'disable' : 'enable'
   RequestHelper.post(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/${action}`)
-     .then(async (_res: any) => {
-       emit('get-devices')
-
-     })
-     .catch(_error => {
-       popNegative($q, 'Error while enabling device')
-     })
+    .then(async (_res: any) => {
+      emit('get-devices')
+    })
+    .catch(_error => {
+      popNegative($q, 'Error while enabling device')
+    })
 }
 
 onMounted(() => {
@@ -108,7 +107,11 @@ const deleteDevice = () => {
                 : 'blue'
           }"
         >
-          {{ capability.type === 'sensor' ? (capability as SensoringCapability).measure.type.toUpperCase() : 'VIDEO' }}
+          {{
+            capability.type === 'sensor'
+              ? (capability as SensoringCapability).measure.type.toUpperCase()
+              : 'VIDEO'
+          }}
           <capability-popup v-model="capabilityPopupVisible" :capability="capability"></capability-popup>
         </q-badge>
       </li>

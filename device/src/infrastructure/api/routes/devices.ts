@@ -110,11 +110,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
     req.body.endpoint.port = parseInt(req.body.endpoint.port)
     const message: DeviceInsertion = devicePresenter.parseInsertion(req.body)
     deviceController
-      .createDevice(
-        message.description,
-        message.endpoint.ipAddress,
-        message.endpoint.port
-      )
+      .createDevice(message.description, message.endpoint.ipAddress, message.endpoint.port)
       .then((id: DeviceId): void => {
         res.status(HttpStatusCode.CREATED).send({ success: id })
       })

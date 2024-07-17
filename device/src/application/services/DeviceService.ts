@@ -11,10 +11,7 @@ export interface DeviceService {
 
   getDeviceById(deviceId: DeviceId): Promise<Device>
 
-  createDevice(
-    description: string,
-    endpoint: DeviceEndpoint
-  ): Promise<DeviceId>
+  createDevice(description: string, endpoint: DeviceEndpoint): Promise<DeviceId>
 
   updateDevice(
     deviceId: DeviceId,

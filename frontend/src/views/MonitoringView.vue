@@ -10,7 +10,9 @@ const getDevices = async () => {
   await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=video`)
     .then((res: any): string[] =>
       res.data
-        .filter((device: any) => device.isEnabled && useUserStore().permissions.indexOf(device.locationId) >= 0)
+        .filter(
+          (device: any) => device.isEnabled && useUserStore().permissions.indexOf(device.locationId) >= 0
+        )
         .forEach((device: any) => {
           if (device.isEnabled) {
             videoDevices.value.push(composeDevice(device))
@@ -29,10 +31,7 @@ onMounted(async () => {
 
 <template>
   <div class="container">
-    <div
-      class="camera"
-      v-for="(camera, index) in videoDevices"
-      :key="index">
+    <div class="camera" v-for="(camera, index) in videoDevices" :key="index">
       <h3>
         {{ camera.deviceId }}
       </h3>

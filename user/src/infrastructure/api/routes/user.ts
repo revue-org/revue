@@ -38,7 +38,7 @@ userRouter.route('/').post(async (req: Request, res: Response): Promise<void> =>
       : ContactFactory.createSmsContact(contact.value)
   })
   controller
-    .createUser(req.body.name, req.body.surname, req.body.mail, contacts)
+    .createUser(req.body.id, req.body.name, req.body.surname, req.body.mail, contacts)
     .then((id: UserId): void => {
       res.status(HttpStatusCode.CREATED).send({ success: id })
     })

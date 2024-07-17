@@ -5,6 +5,7 @@ export interface UserDBEntity {
   id: string
   username: string
   password: string
+  role: string
   refreshToken: string
   permissions: string[]
 }
@@ -15,6 +16,7 @@ export class UserDBAdapter {
       UserFactory.idOf(user.id),
       user.username,
       user.password,
+      user.role,
       user.permissions,
       '',
       user.refreshToken
@@ -26,6 +28,7 @@ export class UserDBAdapter {
       id: user.id.value,
       username: user.username,
       password: user.password,
+      role: user.role,
       permissions: user.permissions,
       refreshToken: user.refreshToken
     }

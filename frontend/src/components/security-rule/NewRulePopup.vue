@@ -65,7 +65,6 @@ const insertRule = async () => {
     }
   }
 
-  console.log(url, body)
   await RequestHelper.post(url, body)
     .then(async (_res: any) => {
       type.value === 'range' ? emit('get-range-rules') : emit('get-intrusion-rules')

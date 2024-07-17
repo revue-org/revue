@@ -20,8 +20,14 @@ export class UserServiceImpl implements UserService {
     return this.repository.getUserById(userId)
   }
 
-  async createUser(name: string, surname: string, mail: string, contacts: Contact[]): Promise<UserId> {
-    const user: User = UserFactory.userFrom(UserFactory.newId(), name, surname, mail, contacts)
+  async createUser(
+    id: UserId,
+    name: string,
+    surname: string,
+    mail: string,
+    contacts: Contact[]
+  ): Promise<UserId> {
+    const user: User = UserFactory.userFrom(id, name, surname, mail, contacts)
     await this.repository.saveUser(user)
     return user.id
   }

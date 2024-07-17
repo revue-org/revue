@@ -15,11 +15,11 @@ export class ZodDevicePresenter implements DevicePresenter {
       endpoint: z.object({
         ipAddress: z.string().min(7).max(15),
         port: z.number().min(0).max(65535)
-      }),
-      locationId: z.string()
+      })
     })
     this.deviceUpdateSchema = this.deviceInsertionSchema.extend({
-      isEnabled: z.boolean()
+      isEnabled: z.boolean(),
+      locationId: z.string()
     })
     this.deviceSchema = this.deviceUpdateSchema.extend({
       deviceId: z.object({

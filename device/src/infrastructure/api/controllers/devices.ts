@@ -18,15 +18,11 @@ export const deviceController = {
   createDevice: async (
     description: string,
     address: string,
-    port: number,
-    locationId: string
+    port: number
   ): Promise<DeviceId> => {
     return await deviceService.createDevice(
       description,
-      DeviceFactory.endpointOf(address, port),
-      locationId,
-      true,
-      []
+      DeviceFactory.endpointOf(address, port)
     )
   },
   updateDevice: async (

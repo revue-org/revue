@@ -12,6 +12,7 @@ import { Servient } from '@node-wot/core'
 import HttpClientFactory from '@node-wot/binding-http'
 import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
+import * as console from 'node:console'
 
 const Server = HttpClientFactory.HttpClientFactory
 
@@ -115,25 +116,36 @@ export class DeviceServiceImpl implements DeviceService {
     return await this.repository.getActiveDevices()
   }
 
-  async createDevice(
-    description: string,
-    endpoint: DeviceEndpoint,
-    locationId: string,
-    enabled: boolean,
-    capabilities: DeviceCapability[]
-  ): Promise<DeviceId> {
-    const device: Device = DeviceFactory.deviceFrom(
-      DeviceFactory.newId(),
-      description,
-      endpoint.ipAddress,
-      endpoint.port,
-      locationId,
-      capabilities,
-      enabled
-    )
-    await this.repository.saveDevice(device)
-    this.events.publishDeviceAdded(DeviceEventFactory.createAddition(new Date(), device.deviceId.value))
-    return device.deviceId
+  async createDevice(description: string, endpoint: DeviceEndpoint): Promise<DeviceId> {
+    return await this.servient.start().then(async (WoT: any): Promise<DeviceId> => {
+      const td = await WoT.requestThingDescription(`http://${endpoint.ipAddress}:${endpoint.port}/device`)
+      const thing = await WoT.consume(td)
+      return await thing.readProperty('status').then(async (data: any): Promise<DeviceId> => {
+        const deviceStatus = await data.value()
+        console.log(deviceStatus)
+        const device: Device = DeviceFactory.deviceFrom(
+          DeviceFactory.idOf(deviceStatus.id),
+          description,
+          endpoint.ipAddress,
+          endpoint.port,
+          deviceStatus.location,
+          deviceStatus.capabilities,
+          deviceStatus.enabled
+        )
+        return await this.repository
+          .saveDevice(device)
+          .then(async (): Promise<DeviceId> => {
+            this.events.publishDeviceAdded(
+              DeviceEventFactory.createAddition(new Date(), device.deviceId.value)
+            )
+            return device.deviceId
+          })
+          .catch((err: any): DeviceId => {
+            console.error(err)
+            throw new Error('Error creating device')
+          })
+      })
+    })
   }
 
   updateDevice(
@@ -183,6 +195,5 @@ export class DeviceServiceImpl implements DeviceService {
         await this.repository.updateDevice({ ...device, isEnabled: deviceStatus.enabled })
       })
     })
-
   }
 }

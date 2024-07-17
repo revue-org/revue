@@ -113,8 +113,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
       .createDevice(
         message.description,
         message.endpoint.ipAddress,
-        message.endpoint.port,
-        message.locationId
+        message.endpoint.port
       )
       .then((id: DeviceId): void => {
         res.status(HttpStatusCode.CREATED).send({ success: id })

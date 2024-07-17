@@ -13,10 +13,7 @@ export interface DeviceService {
 
   createDevice(
     description: string,
-    endpoint: DeviceEndpoint,
-    locationId: string,
-    enabled: boolean,
-    capabilities: DeviceCapability[]
+    endpoint: DeviceEndpoint
   ): Promise<DeviceId>
 
   updateDevice(

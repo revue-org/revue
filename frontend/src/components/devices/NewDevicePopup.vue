@@ -11,6 +11,7 @@ const $q = useQuasar()
 const emit = defineEmits(['get-devices'])
 
 const resetFields = () => {
+  name.value = ''
   description.value = ''
   ip.value = ''
   port.value = 0
@@ -18,6 +19,7 @@ const resetFields = () => {
   capabilities.value = []
 }
 
+const name = ref<string>()
 const description = ref<string>()
 const ip = ref<string>()
 const port = ref<number>()
@@ -28,6 +30,7 @@ const retrieveThingInfos = () => {
   RequestHelper.get(`http://${ip.value}:${port.value}/device/properties/status`)
     .then(async (res: any) => {
       console.log(res.data)
+      name.value = res.data.id
       locationId.value = res.data.location
       for (let i = 0; i < res.data.capabilities.length; i++) {
         const capability = res.data.capabilities[i]
@@ -64,8 +67,7 @@ const addNewDevice = () => {
     endpoint: {
       ipAddress: ip.value,
       port: port.value
-    },
-    locationId: locationId.value
+    }
   })
     .then(async (_res: any) => {
       popPositive($q, 'Device added successfully')
@@ -94,6 +96,10 @@ const addNewDevice = () => {
       </q-card-section>
       <q-card-section class="q-pt-none">
         <q-btn label="Retrieve info" color="primary" @click="retrieveThingInfos" />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <label>Thing name</label>
+        <q-input disable dense v-model="name" autofocus />
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>Location</label>

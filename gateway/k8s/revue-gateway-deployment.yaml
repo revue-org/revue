@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: revue-gateway
+    app: revue-gateway
   name: revue-gateway
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: revue-gateway
+      app: revue-gateway
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.service: revue-gateway
+        app: revue-gateway
     spec:
       serviceAccountName: traefik-account
       containers:
@@ -33,12 +33,12 @@ spec:
           image: traefik:v3.0
           name: revue-gateway
           ports:
-            - containerPort: 80
-              protocol: TCP
-            - containerPort: 443
-              protocol: TCP
-            - containerPort: 8080
-              protocol: TCP
+            - name: ns-gateway
+              containerPort: 80
+            - name: s-gateway
+              containerPort: 443
+            - name: dashboard
+              containerPort: 8080
           volumeMounts:
             - mountPath: /letsencrypt
               name: revue-gateway-cm0

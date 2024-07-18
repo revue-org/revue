@@ -96,15 +96,13 @@ export class DeviceServiceImpl implements DeviceService {
         const thing = await WoT.consume(td)
         await thing.readProperty('status').then(async (data: any): Promise<void> => {
           const deviceStatus = await data.value()
-          if (deviceStatus.enabled) {
-            const deviceCapabilityTypes: CapabilityType[] = deviceStatus.capabilities.map(
-              (capability: any): CapabilityType => {
-                return capability.type as CapabilityType
-              }
-            )
-            if (requiredCapabilities.every(capability => deviceCapabilityTypes.includes(capability))) {
-              admittedDevices.push(device)
+          const deviceCapabilityTypes: CapabilityType[] = deviceStatus.capabilities.map(
+            (capability: any): CapabilityType => {
+              return capability.type as CapabilityType
             }
+          )
+          if (requiredCapabilities.every(capability => deviceCapabilityTypes.includes(capability))) {
+            admittedDevices.push(device)
           }
         })
       })

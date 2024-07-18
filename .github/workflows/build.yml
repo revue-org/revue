@@ -53,7 +53,9 @@ jobs:
         with:
           node-version-file: package.json
       - name: Build the website
-        run: npm run build          
+        run: | 
+          npm install
+          npm run build          
   compute-next-version:
     needs:
       - build

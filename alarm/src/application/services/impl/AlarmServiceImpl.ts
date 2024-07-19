@@ -85,8 +85,9 @@ export class AlarmServiceImpl implements AlarmService {
     return this.getActiveRangeRules().then(rules =>
       rules.find(
         (rule: RangeRule) =>
-          rule.activeOn === measurement.id.value &&
-          rule.measure === measurement.measure &&
+          rule.activeOn === measurement.sourceDeviceId &&
+          rule.measure.type === measurement.measure.type &&
+          rule.measure.unit === measurement.measure.unit &&
           (measurement.value < rule.min || measurement.value > rule.max)
       )
     )

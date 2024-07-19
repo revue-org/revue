@@ -26,6 +26,8 @@ deviceRouter.route('/').get((req: Request, res: Response): void => {
         })
     : []
 
+  console.log(capabilities)
+
   deviceController
     .getDevices(capabilities)
     .then((devices: Device[]): void => {

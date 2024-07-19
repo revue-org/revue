@@ -24,7 +24,9 @@ export class KafkaLogEventsHub implements LogEventsHub {
 
   private async getMeasurementTopics(): Promise<string[]> {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
-      .then((res: any): string[] => res.data.map((device: any): string => `measurements.${device.deviceId.value}`))
+      .then((res: any): string[] =>
+        res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
+      )
       .catch((e: any): string[] => {
         console.log('Error fetching devices, error: ' + e)
         return []
@@ -37,8 +39,8 @@ export class KafkaLogEventsHub implements LogEventsHub {
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const messageValue = JSON.parse(message.value?.toString());
-              messageValue.timestamp = new Date(messageValue.timestamp);
+              const messageValue = JSON.parse(message.value?.toString())
+              messageValue.timestamp = new Date(messageValue.timestamp)
               const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
               handler(measurement)
             } catch (e) {
@@ -63,9 +65,9 @@ export class KafkaLogEventsHub implements LogEventsHub {
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const messageValue = JSON.parse(message.value?.toString());
-            messageValue.timestamp = new Date(messageValue.timestamp);
-            messageValue.data.timestamp = new Date(messageValue.data.timestamp);
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
+            messageValue.data.timestamp = new Date(messageValue.data.timestamp)
             const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(messageValue)
             handler(anomaly)
           } catch (e) {
@@ -81,8 +83,8 @@ export class KafkaLogEventsHub implements LogEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const messageValue = JSON.parse(message.value?.toString());
-            messageValue.timestamp = new Date(messageValue.timestamp);
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
             const event: DeviceEvent = DevicePresenter.asDomainEvent(messageValue)
             handler(event)
           } catch (e) {

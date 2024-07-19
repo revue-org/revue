@@ -18,9 +18,9 @@ export class NotificationServiceImpl implements NotificationService {
   }
 
   private configureEvents() {
-    this.events.subscribeToAnomalies(async (anomaly: Anomaly) => {
+    this.events.subscribeToAnomalies(async (anomaly: Anomaly): Promise<void> => {
       const notificationId: NotificationId = await this.createNotification(anomaly, 'Anomaly detected')
-      this.getNotificationById(notificationId).then((notification: Notification) => {
+      this.getNotificationById(notificationId).then((notification: Notification): void => {
         this.events.publishNotification(notification)
       })
     })

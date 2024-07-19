@@ -40,11 +40,11 @@ onMounted(async () => {
   await getDevices()
 })
 
-if (notificationSocket?.listeners('notification').length === 0) {
-  notificationSocket?.on('notification', (anomaly: { type: string }) => {
-    switch (anomaly.type) {
-      case 'range':
-        showNotification('Exceeding notification')
+if (notificationSocket?.listeners('notifications').length === 0) {
+  notificationSocket?.on('notifications', (data: any) => {
+    switch (data.notification.event.type) {
+      case 'outlier':
+        showNotification('Outlier notification')
         break
       case 'intrusion':
         showNotification('Intrusion notification')

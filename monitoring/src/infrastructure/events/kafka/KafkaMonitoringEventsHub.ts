@@ -20,7 +20,9 @@ export class KafkaMonitoringEventsHub {
   private async getTopics(): Promise<string[]> {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
       .then((res: any): string[] =>
-        res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
+        res.data
+          .filter((device: any) => device.isEnabled)
+          .map((device: any): string => `measurements.${device.deviceId.value}`)
       )
       .catch((_e: any): string[] => {
         throw new Error('Error getting topics from device service')
@@ -30,7 +32,6 @@ export class KafkaMonitoringEventsHub {
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
     this.getTopics()
       .then((topics: string[]): void => {
-        console.log(topics)
         this.measurementsConsumer
           .startConsuming(topics, false, (message: KafkaMessage): void => {
             if (message.value) {

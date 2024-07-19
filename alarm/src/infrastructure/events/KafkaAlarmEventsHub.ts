@@ -29,7 +29,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
 
   private async getMeasurementTopics(): Promise<string[]> {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
-      .then((res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`))
+      .then((res: any): string[] =>
+        res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
+      )
       .catch((): string[] => {
         console.log('Error getting measurement topics')
         return []
@@ -38,7 +40,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
 
   private async getDetectionsTopics(): Promise<string[]> {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=video`)
-      .then((res: any): string[] => res.data.map((device: any): string => `detections.${device.id}`))
+      .then((res: any): string[] =>
+        res.data.map((device: any): string => `detections.${device.deviceId.value}`)
+      )
       .catch((): string[] => {
         console.log('Error getting detection topics')
         return []

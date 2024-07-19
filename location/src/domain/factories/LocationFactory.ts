@@ -1,9 +1,10 @@
 import { Location } from '../core/Location'
 import { LocationId } from '../core/LocationId'
+import { v4 as uuidv4 } from 'uuid'
 
 export class LocationFactory {
   static newId(): LocationId {
-    return { value: 'test' }
+    return { value: uuidv4() }
   }
 
   static idOf(id: string): LocationId {

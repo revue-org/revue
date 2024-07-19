@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Capability, SensoringCapability } from '@/domain/core/Capability'
+import { type Capability, CapabilityType, type SensoringCapability } from '@/domain/core/Capability'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
@@ -11,6 +11,7 @@ const $q = useQuasar()
 const emit = defineEmits(['get-devices'])
 
 const resetFields = () => {
+  name.value = ''
   description.value = ''
   ip.value = ''
   port.value = 0
@@ -18,6 +19,7 @@ const resetFields = () => {
   capabilities.value = []
 }
 
+const name = ref<string>()
 const description = ref<string>()
 const ip = ref<string>()
 const port = ref<number>()
@@ -25,24 +27,25 @@ const locationId = ref<string>()
 const capabilities = ref<Capability[]>([])
 
 const retrieveThingInfos = () => {
-  RequestHelper.get(`http://${ip.value}:${port.value}/infos`)
+  RequestHelper.get(`http://${ip.value}:${port.value}/device/properties/status`)
     .then(async (res: any) => {
       console.log(res.data)
-      locationId.value = res.data.locationId
+      name.value = res.data.id
+      locationId.value = res.data.location
       for (let i = 0; i < res.data.capabilities.length; i++) {
         const capability = res.data.capabilities[i]
-        if (capability.type === 'sensor') {
+        if (capability.type === CapabilityType.SENSOR) {
           capabilities.value.push({
-            type: 'sensor',
+            type: CapabilityType.SENSOR,
             capturingInterval: capability.capturingInterval,
             measure: {
-              type: MeasureType[capability.measure.type as keyof typeof MeasureType],
+              type: capability.measure.type as MeasureType,
               unit: capability.measure.unit
             }
           })
-        } else if (capability.type === 'video') {
+        } else if (capability.type === CapabilityType.VIDEO) {
           capabilities.value.push({
-            type: 'video',
+            type: CapabilityType.VIDEO,
             resolution: capability.resolution
           })
         }
@@ -64,8 +67,7 @@ const addNewDevice = () => {
     endpoint: {
       ipAddress: ip.value,
       port: port.value
-    },
-    locationId: locationId.value
+    }
   })
     .then(async (_res: any) => {
       popPositive($q, 'Device added successfully')
@@ -94,6 +96,10 @@ const addNewDevice = () => {
       </q-card-section>
       <q-card-section class="q-pt-none">
         <q-btn label="Retrieve info" color="primary" @click="retrieveThingInfos" />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <label>Thing name</label>
+        <q-input disable dense v-model="name" autofocus />
       </q-card-section>
       <q-card-section class="q-pt-none">
         <label>Location</label>

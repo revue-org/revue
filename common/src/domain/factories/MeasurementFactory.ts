@@ -1,10 +1,9 @@
 import { NumericMeasurement, DomainEventId, Measure } from '../core'
+import { v4 as uuidv4 } from 'uuid'
 
 export class MeasurementFactory {
   static newId(): DomainEventId {
-    return {
-      value: 'test'
-    }
+    return { value: uuidv4() }
   }
 
   static idOf(value: string): DomainEventId {

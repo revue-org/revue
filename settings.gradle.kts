@@ -8,7 +8,6 @@ val subprojects = listOf(
     "common",
     "alarm",
     "auth",
-    "camera",
     "device",
     "location",
     "notification",
@@ -16,7 +15,6 @@ val subprojects = listOf(
     "user",
     "monitoring",
     "recognition",
-    "sensor",
     "frontend",
 )
 subprojects.forEach { include(":$it") }

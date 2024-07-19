@@ -1,31 +1,41 @@
-<!--
 <script setup lang="ts">
-import { ref } from 'vue'
-import RequestHelper, { mediaServerHost, monitoringHost, monitoringPort } from '@/utils/RequestHelper'
-import { type AxiosResponse, HttpStatusCode } from 'axios'
+import { onMounted, ref } from 'vue'
+import RequestHelper, { deviceHost, devicePort, mediaServerHost } from '@/utils/RequestHelper'
+import { useUserStore } from '@/stores/user'
+import { composeDevice } from '@/presentation/ComposeDevice'
+import type { Device } from '@/domain/core/Device'
 
-const cameras = ref<{ isCapturing: boolean; code: string; src: string }[]>([])
+const videoDevices = ref<Device[]>([])
+const getDevices = async () => {
+  await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=video`)
+    .then((res: any): string[] =>
+      res.data
+        .filter(
+          (device: any) => device.isEnabled && useUserStore().permissions.indexOf(device.locationId) >= 0
+        )
+        .forEach((device: any) => {
+          if (device.isEnabled) {
+            videoDevices.value.push(composeDevice(device))
+          }
+        })
+    )
+    .catch((_e: any): string[] => {
+      throw new Error('Error getting cameras')
+    })
+}
 
-RequestHelper.get(`http://${monitoringHost}:${monitoringPort}/devices/cameras`).then((res: AxiosResponse) => {
-  if (res.status == HttpStatusCode.Ok) {
-    for (let i = 0; i < res.data.length; i++) {
-      cameras.value.push({ isCapturing: res.data[i].isCapturing, code: res.data[i]._id.code, src: '' })
-    }
-  }
+onMounted(async () => {
+  await getDevices()
 })
 </script>
 
 <template>
   <div class="container">
-    <div
-      class="camera"
-      v-for="(camera, index) in cameras.filter(_camera => _camera.isCapturing)"
-      :key="index"
-    >
+    <div class="camera" v-for="(camera, index) in videoDevices" :key="index">
       <h3>
-        {{ camera.code }}
+        {{ camera.deviceId }}
       </h3>
-      <iframe :src="`http://${mediaServerHost}:8889/${camera.code}/stream/`" allowfullscreen></iframe>
+      <iframe :src="`http://${mediaServerHost}:8889/${camera.deviceId}/stream/`" allowfullscreen></iframe>
     </div>
   </div>
 </template>
@@ -60,4 +70,3 @@ div.container {
 @include responsive-font-size(576px, 2);
 @include responsive-font-size(992px, 3);
 </style>
--->

@@ -4,7 +4,6 @@ import { deviceSchema } from './schemas/DeviceSchema.js'
 import { DeviceRepository } from '@/application/repositories/DeviceRepository.js'
 import { Device } from '@/domain/core/Device.js'
 import { DeviceId } from '@/domain/core/DeviceId.js'
-import * as console from 'node:console'
 
 export class MongoDBDeviceRepository implements DeviceRepository {
   private model = mongoose.model<DeviceDBEntity>('Device', deviceSchema, 'device')
@@ -14,7 +13,6 @@ export class MongoDBDeviceRepository implements DeviceRepository {
       .findOne({ id: deviceId.value })
       .lean()
       .then(device => {
-        console.log(device)
         return DeviceDBAdapter.toDomainEntity(device as DeviceDBEntity)
       })
   }

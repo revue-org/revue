@@ -4,7 +4,6 @@ export type DeviceInsertion = {
     ipAddress: string
     port: number
   }
-  locationId: string
 }
 
 export type DeviceUpdate = {

@@ -7,9 +7,9 @@ import { Detection, Measurement } from '@common/domain/core'
 export interface AnomalyService {
   getAnomalies(): Promise<Anomaly[]>
 
-  getOutliers(): Promise<Outlier[]>
+  getOutliers(limit: number): Promise<Outlier[]>
 
-  getIntrusions(): Promise<Intrusion[]>
+  getIntrusions(limit: number): Promise<Intrusion[]>
 
   getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>
 

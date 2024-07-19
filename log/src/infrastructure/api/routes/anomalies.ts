@@ -8,8 +8,9 @@ import { AnomalySchema } from 'common/dist/presentation/schemas/AnomalySchema.js
 export const anomalyRouter: Router = express.Router()
 
 anomalyRouter.route('/intrusions').get((req: Request, res: Response): void => {
+  const limit: number = parseInt(req.query.limit as string) || 200
   anomalyController
-    .getIntrusions()
+    .getIntrusions(limit)
     .then((intrusions: Intrusion[]): void => {
       intrusions.forEach(intrusion => {
         AnomalyPresenter.asIntrusionDomainEvent(intrusion)
@@ -22,8 +23,9 @@ anomalyRouter.route('/intrusions').get((req: Request, res: Response): void => {
 })
 
 anomalyRouter.route('/outliers').get((req: Request, res: Response): void => {
+  const limit: number = parseInt(req.query.limit as string) || 200
   anomalyController
-    .getOutliers()
+    .getOutliers(limit)
     .then((outliers: Outlier[]): void => {
       outliers.forEach((outlier: Outlier): void => {
         AnomalyPresenter.asOutlierDomainEvent(outlier)

@@ -9,11 +9,11 @@ export const anomalyController = {
   getAnomalyById: async (id: string): Promise<Anomaly> => {
     return anomalyService.getAnomalyById(AnomalyFactory.idOf(id))
   },
-  getOutliers: async (): Promise<Outlier[]> => {
-    return await anomalyService.getOutliers()
+  getOutliers: async (limit: number): Promise<Outlier[]> => {
+    return await anomalyService.getOutliers(limit)
   },
-  getIntrusions: async (): Promise<Intrusion[]> => {
-    return await anomalyService.getIntrusions()
+  getIntrusions: async (limit: number): Promise<Intrusion[]> => {
+    return await anomalyService.getIntrusions(limit)
   },
   deleteAnomaly: async (id: DomainEventId): Promise<void> => {
     await anomalyService.deleteAnomaly(id)

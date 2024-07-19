@@ -30,12 +30,12 @@ export class AnomalyServiceImpl implements AnomalyService {
     return this.repository.getAnomalies()
   }
 
-  async getIntrusions(): Promise<Intrusion[]> {
-    return this.repository.getIntrusions()
+  async getIntrusions(limit: number): Promise<Intrusion[]> {
+    return this.repository.getIntrusions(limit)
   }
 
-  async getOutliers(): Promise<Outlier[]> {
-    return this.repository.getOutliers()
+  async getOutliers(limit: number): Promise<Outlier[]> {
+    return this.repository.getOutliers(limit)
   }
 
   async getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly> {

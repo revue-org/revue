@@ -12,13 +12,11 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: nodeport
-      kompose.controller.type: deployment
-      # kompose.image-pull-policy: IfNotPresent
+      kompose.service.expose: "frontend.localhost"
       traefik.enable: true
-    #  - traefik.http.routers.frontend.rule=Host(`frontend.localhost`)
-    #  - traefik.http.routers.frontend.entrypoints=websecure
-    #  - traefik.http.routers.frontend.tls.certresolver=myresolver
+      traefik.http.routers.frontend.rule: Host(`frontend.localhost`)
+      traefik.http.routers.frontend.entrypoints: websecure
+      traefik.http.routers.frontend.tls.certresolver: myresolver
 
 networks:
   my-net:

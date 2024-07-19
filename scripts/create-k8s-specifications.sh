@@ -21,7 +21,6 @@ docker compose \
     -f notification/docker-compose.yml \
     -f prometheus/docker-compose.yml \
     -f recognition/docker-compose.yml \
-    -f sensor/docker-compose.yml \
     -f user/docker-compose.yml \
     config > all-docker-compose.yml
 
@@ -32,3 +31,4 @@ kompose convert \
   -o k8s
 
 rm all-docker-compose.yml
+rm k8s/revue-gateway-*

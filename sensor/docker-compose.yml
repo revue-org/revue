@@ -20,7 +20,6 @@ services:
     labels:
       kompose.service.type: clusterip
       kompose.controller.type: deployment
-      kompose.image-pull-policy: IfNotPresent
 
 #  revue-sensor-2:
 #    image: letsdothisshared/revue-sensor
@@ -42,7 +41,6 @@ services:
 #    labels:
 #      kompose.service.type: clusterip
 #      kompose.controller.type: deployment
-#      kompose.image-pull-policy: IfNotPresent
 
 #  revue-sensor-3:
 #    image: letsdothisshared/revue-sensor

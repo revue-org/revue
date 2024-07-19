@@ -14,13 +14,11 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: nodeport
-      kompose.controller.type: deployment
-        # kompose.image-pull-policy: IfNotPresent
+      kompose.service.expose: "monitoring.localhost"
       traefik.enable: true
-    #  - traefik.http.routers.monitoring.rule=Host(`monitoring.localhost`)
-    #  - traefik.http.routers.monitoring.entrypoints=websecure
-    #  - traefik.http.routers.monitoring.tls.certresolver=myresolver
+      traefik.http.routers.monitoring.rule: Host(`monitoring.localhost`)
+      traefik.http.routers.monitoring.entrypoints: websecure
+      traefik.http.routers.monitoring.tls.certresolver: myresolver
 
 networks:
   my-net:

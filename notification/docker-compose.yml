@@ -15,13 +15,12 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: nodeport
-      kompose.controller.type: deployment
-      # kompose.image-pull-policy: IfNotPresent
+      kompose.service.expose: "notification.localhost"
+     
       traefik.enable: true
-    #  - traefik.http.routers.notification.rule=Host(`notification.localhost`)
-    #  - traefik.http.routers.notification.entrypoints=websecure
-    #  - traefik.http.routers.notification.tls.certresolver=myresolver
+      traefik.http.routers.notification.rule: Host(`notification.localhost`)
+      traefik.http.routers.notification.entrypoints: websecure
+      traefik.http.routers.notification.tls.certresolver: myresolver
 
   revue-notification-db:
     image: mongo
@@ -41,7 +40,6 @@ services:
     labels:
       kompose.service.type: clusterip
       kompose.controller.type: deployment
-      kompose.image-pull-policy: IfNotPresent
 
 volumes:
   notification_data:

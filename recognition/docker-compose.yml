@@ -19,7 +19,6 @@ services:
     labels:
       kompose.service.type: clusterip
       kompose.controller.type: deployment
-      kompose.image-pull-policy: IfNotPresent
 
 networks:
   my-net:

@@ -37,9 +37,11 @@ case "$1" in
         echo "Minikube is already running."
       else
         echo "Starting Minikube..."
-        minikube start
+#        minikube start
       fi
-      kubectl apply -f k8s -f gateway/k8s
+      kubectl apply -f gateway/k8s # -f k8s
+      kubectl apply -f 'k8s/revue-*'
+      minikube tunnel
     else
       usage
     fi

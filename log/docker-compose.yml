@@ -15,13 +15,11 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: nodeport
-      kompose.controller.type: deployment
-      # kompose.image-pull-policy: IfNotPresent
+      kompose.service.expose: "log.localhost"
       traefik.enable: true
-    #  - traefik.http.routers.log.rule=Host(`log.localhost`)
-    #  - traefik.http.routers.log.entrypoints=websecure
-    #  - traefik.http.routers.log.tls.certresolver=myresolver
+      traefik.http.routers.log.rule: Host(`log.localhost`)
+      traefik.http.routers.log.entrypoints: websecure
+      traefik.http.routers.log.tls.certresolver: myresolver
 
   revue-log-db:
     image: mongo
@@ -41,7 +39,6 @@ services:
     labels:
       kompose.service.type: clusterip
       kompose.controller.type: deployment
-      kompose.image-pull-policy: IfNotPresent
 
 volumes:
   log_data:

@@ -27,8 +27,8 @@ case "$1" in
     ;;
   --k8s)
       if check_minikube; then
-        kubectl delete -f k8s -f gateway/k8s
-        minikube stop
+        kubectl delete -f gateway/k8s -f k8s
+#        minikube stop
         echo "Cluster stopped."
       else
         echo "Cluster already stopped."

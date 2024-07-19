@@ -14,13 +14,11 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: nodeport
-      kompose.controller.type: deployment
-      # kompose.image-pull-policy: IfNotPresent
+      kompose.service.expose: "auth.localhost"
       traefik.enable: true
-    ##  - traefik.http.routers.auth.rule=Host(`auth.localhost`)
-    #  - traefik.http.routers.auth.entrypoints=websecure
-    #  - traefik.http.routers.auth.tls.certresolver=myresolver
+      traefik.http.routers.auth.rule: Host(`auth.localhost`)
+      traefik.http.routers.auth.entrypoints: websecure
+      traefik.http.routers.auth.tls.certresolver: myresolver
 
   revue-auth-db:
     image: mongo
@@ -40,7 +38,6 @@ services:
     labels:
       kompose.service.type: clusterip
       kompose.controller.type: deployment
-      kompose.image-pull-policy: IfNotPresent
 
 volumes:
   auth_data:

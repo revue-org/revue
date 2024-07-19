@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-   app: revue-gateway-tcp
-  name: revue-gateway-tcp
+   app: revue-gateway
+  name: revue-gateway
 spec:
   ports:
     - name: "8081"

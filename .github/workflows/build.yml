@@ -207,6 +207,7 @@ jobs:
       - release
       - docker
       - compute-next-version
+      - deploy-website
     # Always run this job, even if the previous jobs failed
     if: >-
       always() && (failure() || !contains(join(needs.*.result, ','), 'cancelled'))

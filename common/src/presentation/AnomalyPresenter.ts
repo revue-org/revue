@@ -32,7 +32,7 @@ export class AnomalyPresenter {
           DetectionFactory.idOf(anomalyMessage.data.detectionId!),
           anomalyMessage.data.timestamp,
           anomalyMessage.data.sourceDeviceId,
-          ObjectClass[anomalyMessage.data.objectClass! as keyof typeof ObjectClass]
+          anomalyMessage.data.objectClass! as ObjectClass
         ),
         anomalyMessage.data.intrusionRuleId!
       )
@@ -44,8 +44,8 @@ export class AnomalyPresenter {
           anomalyMessage.data.timestamp,
           anomalyMessage.data.sourceDeviceId,
           MeasureFactory.createMeasure(
-            MeasureType[anomalyMessage.data.measure!.type as keyof typeof MeasureType],
-            MeasureUnit[anomalyMessage.data.measure!.unit as keyof typeof MeasureUnit]
+            anomalyMessage.data.measure!.type as MeasureType,
+            anomalyMessage.data.measure!.unit as MeasureUnit
           ),
           anomalyMessage.data.value!
         ),

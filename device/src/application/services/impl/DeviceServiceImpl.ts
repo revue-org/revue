@@ -12,7 +12,6 @@ import { Servient } from '@node-wot/core'
 import HttpClientFactory from '@node-wot/binding-http'
 import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
-import * as console from 'node:console'
 
 const Server = HttpClientFactory.HttpClientFactory
 
@@ -120,7 +119,6 @@ export class DeviceServiceImpl implements DeviceService {
       const thing = await WoT.consume(td)
       return await thing.readProperty('status').then(async (data: any): Promise<DeviceId> => {
         const deviceStatus = await data.value()
-        console.log(deviceStatus)
         const device: Device = DeviceFactory.deviceFrom(
           DeviceFactory.idOf(deviceStatus.id),
           description,

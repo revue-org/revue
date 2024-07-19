@@ -2,8 +2,10 @@ import { Consumer, EachMessagePayload, Kafka, KafkaMessage } from 'kafkajs'
 import { getLogLevel, KafkaOptions } from './KafkaOptions.js'
 
 export default class KafkaConsumer {
-  private readonly kafkaConsumer: Consumer
+  private kafkaConsumer: Consumer
   private readonly kafkaOptions: KafkaOptions
+  private topics: string[] = []
+  private config: any
 
   constructor(config: KafkaOptions) {
     this.kafkaOptions = config
@@ -16,31 +18,54 @@ export default class KafkaConsumer {
     consumeHandler: (_message: KafkaMessage) => void
   ): Promise<void> {
     try {
+      this.topics = topics
       await this.kafkaConsumer.connect()
       await this.kafkaConsumer.subscribe({
         topics: topics,
         fromBeginning: fromBeginning
       })
 
-      await this.kafkaConsumer.run({
+      this.config = {
         eachMessage: async (messagePayload: EachMessagePayload) => {
           const { topic, partition, message } = messagePayload
           const prefix: string = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
           console.log(`- ${prefix} ${message.key}#${message.value}`)
           consumeHandler(message)
         }
-      })
+      }
+
+      await this.kafkaConsumer.run(this.config)
     } catch (error) {
       console.log('Error: ', error)
     }
   }
 
-  public addTopics(topics: string[]): void {
-    this.kafkaConsumer.subscribe({ topics: topics })
+  public async addTopics(newTopics: string[]): Promise<void> {
+    console.log('Adding topics: ', newTopics, ' to topics: ', this.topics)
+    await this.kafkaConsumer.disconnect()
+    this.kafkaConsumer = this.createConsumer()
+    this.topics = this.topics.concat(newTopics)
+    this.kafkaConsumer.subscribe({ topics: this.topics }).then(() => {
+      this.kafkaConsumer.connect().then(() => {
+        this.kafkaConsumer.run(this.config).then(() => {
+          console.log('Topics added, current topics: ', this.topics)
+        })
+      })
+    })
   }
 
-  public async shutdown(): Promise<void> {
+  public async removeTopics(topicsToRemove: string[]): Promise<void> {
+    console.log('Removing topics: ', topicsToRemove, ' from topics: ', this.topics)
     await this.kafkaConsumer.disconnect()
+    this.kafkaConsumer = this.createConsumer()
+    this.topics = this.topics.filter((topic: string) => !topicsToRemove.includes(topic))
+    this.kafkaConsumer.subscribe({ topics: this.topics }).then(() => {
+      this.kafkaConsumer.connect().then(() => {
+        this.kafkaConsumer.run(this.config).then(() => {
+          console.log('Topics removed, current topics: ', this.topics)
+        })
+      })
+    })
   }
 
   private createConsumer(): Consumer {

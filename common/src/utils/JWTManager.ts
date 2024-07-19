@@ -28,7 +28,7 @@ class JWTManager {
     const token = authHeader && authHeader.split(' ')[1]
     if (token == null) return res.status(403)
 
-    console.log('Authentication token: ' + token)
+    console.log('Middleware: JWTManager.authenticate()')
     this.jwt.verify(token, this.secret, (err: any, _user: any) => {
       if (err) return res.sendStatus(401)
       next()

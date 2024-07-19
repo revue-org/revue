@@ -14,13 +14,13 @@ export class KafkaDeviceEventsHub implements DeviceEventsHub {
   }
 
   publishDeviceAdded(addition: DeviceAdded): void {
-    console.log(addition)
+    console.log("Addition:", addition)
     const additionMessage: DeviceMessage = DevicePresenter.asMessage(addition)
     this.deviceProducer.produce('devices', additionMessage)
   }
 
   publishDeviceRemoved(removal: DeviceRemoved): void {
-    console.log(removal)
+    console.log("Removal:", removal)
     const removalMessage: DeviceMessage = DevicePresenter.asMessage(removal)
     this.deviceProducer.produce('devices', removalMessage)
   }

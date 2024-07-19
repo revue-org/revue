@@ -6,9 +6,17 @@ export class DevicePresenter {
   static asDomainEvent(deviceObj: object): DeviceEvent {
     const deviceMessage: DeviceMessage = deviceSchema.parse(deviceObj)
     if (deviceMessage.type === 'addition') {
-      return DeviceEventFactory.createAddition(deviceMessage.timestamp, deviceMessage.data.additionDeviceId!)
+      return DeviceEventFactory.additionFrom(
+        DeviceEventFactory.idOf(deviceMessage.id),
+        deviceMessage.timestamp,
+        deviceMessage.data.additionDeviceId!
+      )
     } else if (deviceMessage.type === 'removal') {
-      return DeviceEventFactory.createRemoval(deviceMessage.timestamp, deviceMessage.data.removalDeviceId!)
+      return DeviceEventFactory.removalFrom(
+        DeviceEventFactory.idOf(deviceMessage.id),
+        deviceMessage.timestamp,
+        deviceMessage.data.removalDeviceId!
+      )
     } else {
       throw new Error('Device event type not supported')
     }

@@ -21,12 +21,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
 
-  console.log('Token: ' + token)
+  //console.log('Token: ' + token)
   if (token === process.env.DEV_API_KEY) return next()
   if (token === undefined)
     return res.status(HttpStatusCode.FORBIDDEN).send({ error: 'No authentication token' })
   else {
-    console.log('Authentication token: ' + token)
+    //console.log('Authentication token: ' + token)
     jwtManager.authenticate(req, res, next)
   }
 })

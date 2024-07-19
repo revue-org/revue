@@ -1,3 +1,35 @@
+## [2.2.1](https://github.com/revue-org/revue/compare/v2.2.0...v2.2.1) (2024-07-19)
+
+### Dependency updates
+
+* **deps:** update dependency axios to v1.7.2 ([082ea1f](https://github.com/revue-org/revue/commit/082ea1fb28dc736e692ba0b8a6796fc83fe1dc43))
+* **deps:** update dependency mongoose to v8.4.5 ([2bd8fae](https://github.com/revue-org/revue/commit/2bd8faee4891b77e047c40a83f47cf8d5f0929fd))
+* **deps:** update dependency nodemon to v3.1.4 ([5b1b2f5](https://github.com/revue-org/revue/commit/5b1b2f579356cc3c627449f8c3284e0577a678fc))
+* **deps:** update dependency vite to v5.3.4 ([3882ed1](https://github.com/revue-org/revue/commit/3882ed119b66996da5c7a0bcf23e39b6843a852a))
+
+### Documentation
+
+* **website:** add job to build website ([#189](https://github.com/revue-org/revue/issues/189)) ([fabd20a](https://github.com/revue-org/revue/commit/fabd20af9a3c16e475bc85487445ed57b4e53356))
+
+
+## [2.2.1](https://github.com/revue-org/revue/compare/v2.2.0...v2.2.1) (2024-07-19)
+
+## [2.2.1](https://github.com/revue-org/revue/compare/v2.2.0...v2.2.1) (2024-07-19)
+
+### Dependency updates
+
+* **deps:** update dependency axios to v1.7.2 ([082ea1f](https://github.com/revue-org/revue/commit/082ea1fb28dc736e692ba0b8a6796fc83fe1dc43))
+* **deps:** update dependency mongoose to v8.4.5 ([2bd8fae](https://github.com/revue-org/revue/commit/2bd8faee4891b77e047c40a83f47cf8d5f0929fd))
+* **deps:** update dependency nodemon to v3.1.4 ([5b1b2f5](https://github.com/revue-org/revue/commit/5b1b2f579356cc3c627449f8c3284e0577a678fc))
+* **deps:** update dependency vite to v5.3.4 ([3882ed1](https://github.com/revue-org/revue/commit/3882ed119b66996da5c7a0bcf23e39b6843a852a))
+
+### Documentation
+
+* **website:** add job to build website ([#189](https://github.com/revue-org/revue/issues/189)) ([fabd20a](https://github.com/revue-org/revue/commit/fabd20af9a3c16e475bc85487445ed57b4e53356))
+
+
+## [2.2.1](https://github.com/revue-org/revue/compare/v2.2.0...v2.2.1) (2024-07-19)
+
 ## [2.2.0](https://github.com/revue-org/revue/compare/v2.1.1...v2.2.0) (2024-07-19)
 
 ### Features

@@ -1,3 +1,63 @@
+## [2.2.0](https://github.com/revue-org/revue/compare/v2.1.1...v2.2.0) (2024-07-19)
+
+### Features
+
+* **device:** introduce web of things support ([#188](https://github.com/revue-org/revue/issues/188)) ([fda1f32](https://github.com/revue-org/revue/commit/fda1f32d924df239c3ce702beed523a560cf63be))
+
+### Dependency updates
+
+* **deps:** update dependency @typescript-eslint/eslint-plugin to v7.16.1 ([37e246a](https://github.com/revue-org/revue/commit/37e246afb1c1d52cfdc0df9243eca61226eaa418))
+* **deps:** update dependency mongodb-memory-server to v9.4.1 ([683b9bf](https://github.com/revue-org/revue/commit/683b9bf9832b90641bf12d2cd3ffa2fb6a3f856e))
+* **deps:** update dependency mongodb-memory-server to v9.4.1 ([acda6aa](https://github.com/revue-org/revue/commit/acda6aa30bdb6a6ef658cc6091240d4e7aee6fc1))
+* **deps:** update dependency mongoose to v8.5.1 ([e6caeb7](https://github.com/revue-org/revue/commit/e6caeb7bf13c2a4c3f822ca5980387d3c43e1c19))
+* **deps:** update dependency nodemon to v3.1.4 ([8516676](https://github.com/revue-org/revue/commit/851667615432e3d5e3c4196659c9732cff091a2e))
+* **deps:** update dependency prettier to v3.3.3 ([48e794f](https://github.com/revue-org/revue/commit/48e794fca3b628cd4f56e05bcf809a3f99d10bb3))
+* **deps:** update dependency prettier to v3.3.3 ([d1a94b9](https://github.com/revue-org/revue/commit/d1a94b936b6d6218599e04b0d966fe4dcf539145))
+* **deps:** update dependency vitest to v2.0.3 ([7b8da66](https://github.com/revue-org/revue/commit/7b8da6608c32ceb2f1b4c7648e9a0167b3962337))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.8 ([30ea451](https://github.com/revue-org/revue/commit/30ea45158d83d613861a10c660e8184226409436))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.4.1 ([9e16565](https://github.com/revue-org/revue/commit/9e1656583a75303e339be2d6daa1141ab19f74ec))
+* **docker:** only build images on release ([346bdfe](https://github.com/revue-org/revue/commit/346bdfe02e08a532af2ca9052e951b8ebe62aca8))
+
+
+## [2.2.0](https://github.com/revue-org/revue/compare/v2.1.1...v2.2.0) (2024-07-19)
+
+### Features
+
+* **device:** introduce web of things support ([#188](https://github.com/revue-org/revue/issues/188)) ([fda1f32](https://github.com/revue-org/revue/commit/fda1f32d924df239c3ce702beed523a560cf63be))
+
+## [2.2.0](https://github.com/revue-org/revue/compare/v2.1.1...v2.2.0) (2024-07-19)
+
+### Features
+
+* **device:** introduce web of things support ([#188](https://github.com/revue-org/revue/issues/188)) ([fda1f32](https://github.com/revue-org/revue/commit/fda1f32d924df239c3ce702beed523a560cf63be))
+
+### Dependency updates
+
+* **deps:** update dependency @typescript-eslint/eslint-plugin to v7.16.1 ([37e246a](https://github.com/revue-org/revue/commit/37e246afb1c1d52cfdc0df9243eca61226eaa418))
+* **deps:** update dependency mongodb-memory-server to v9.4.1 ([683b9bf](https://github.com/revue-org/revue/commit/683b9bf9832b90641bf12d2cd3ffa2fb6a3f856e))
+* **deps:** update dependency mongodb-memory-server to v9.4.1 ([acda6aa](https://github.com/revue-org/revue/commit/acda6aa30bdb6a6ef658cc6091240d4e7aee6fc1))
+* **deps:** update dependency mongoose to v8.5.1 ([e6caeb7](https://github.com/revue-org/revue/commit/e6caeb7bf13c2a4c3f822ca5980387d3c43e1c19))
+* **deps:** update dependency nodemon to v3.1.4 ([8516676](https://github.com/revue-org/revue/commit/851667615432e3d5e3c4196659c9732cff091a2e))
+* **deps:** update dependency prettier to v3.3.3 ([48e794f](https://github.com/revue-org/revue/commit/48e794fca3b628cd4f56e05bcf809a3f99d10bb3))
+* **deps:** update dependency prettier to v3.3.3 ([d1a94b9](https://github.com/revue-org/revue/commit/d1a94b936b6d6218599e04b0d966fe4dcf539145))
+* **deps:** update dependency vitest to v2.0.3 ([7b8da66](https://github.com/revue-org/revue/commit/7b8da6608c32ceb2f1b4c7648e9a0167b3962337))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.8 ([30ea451](https://github.com/revue-org/revue/commit/30ea45158d83d613861a10c660e8184226409436))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.4.1 ([9e16565](https://github.com/revue-org/revue/commit/9e1656583a75303e339be2d6daa1141ab19f74ec))
+* **docker:** only build images on release ([346bdfe](https://github.com/revue-org/revue/commit/346bdfe02e08a532af2ca9052e951b8ebe62aca8))
+
+
+## [2.2.0](https://github.com/revue-org/revue/compare/v2.1.1...v2.2.0) (2024-07-19)
+
+### Features
+
+* **device:** introduce web of things support ([#188](https://github.com/revue-org/revue/issues/188)) ([fda1f32](https://github.com/revue-org/revue/commit/fda1f32d924df239c3ce702beed523a560cf63be))
+
 ## [2.1.1](https://github.com/revue-org/revue/compare/v2.1.0...v2.1.1) (2024-07-16)
 
 ### Dependency updates

@@ -56,19 +56,25 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const measurement: Measurement = MeasurementPresenter.asDomainEvent(message.value)
+              const messageValue = JSON.parse(message.value?.toString())
+              messageValue.timestamp = new Date(messageValue.timestamp)
+              const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
               handler(measurement)
             } catch (e) {
               console.log('Error parsing measurement, message ignored because is not compliant to the schema')
             }
           }
         })
-        .then((): void => console.log('Consumer started'))
+        .then((): void => console.log('Measurements consumer started'))
     })
   }
 
   public addMeasurementTopics(topics: string[]): void {
     this.measurementsConsumer.addTopics(topics)
+  }
+
+  public removeMeasurementTopics(topics: string[]): void {
+    this.measurementsConsumer.removeTopics(topics)
   }
 
   subscribeToDetections(handler: (_detection: Detection) => void): void {
@@ -77,14 +83,16 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         .startConsuming(topics, false, (message: KafkaMessage): void => {
           if (message.value) {
             try {
-              const detection: Detection = DetectionPresenter.asDomainEvent(message.value)
+              const messageValue = JSON.parse(message.value?.toString())
+              messageValue.timestamp = new Date(messageValue.timestamp)
+              const detection: Detection = DetectionPresenter.asDomainEvent(messageValue)
               handler(detection)
             } catch (e) {
-              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+              console.log('Error parsing detections, message ignored because is not compliant to the schema')
             }
           }
         })
-        .then((): void => console.log('Consumer started'))
+        .then((): void => console.log('Detection consumer started'))
     })
   }
 
@@ -93,13 +101,15 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
+            const event: DeviceEvent = DevicePresenter.asDomainEvent(messageValue)
             handler(event)
           } catch (e) {
-            console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
+            console.log('Error parsing device event, message ignored because is not compliant to the schema')
           }
         }
       })
-      .then((): void => console.log('Consumer started'))
+      .then((): void => console.log('Device consumer started'))
   }
 }

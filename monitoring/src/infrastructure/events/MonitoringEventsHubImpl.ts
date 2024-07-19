@@ -20,6 +20,10 @@ export class MonitoringEventsHubImpl implements MonitoringEventsHub {
     this.kafkaEvents.addMeasurementTopics(topics)
   }
 
+  removeMeasurementTopics(topics: string[]): void {
+    this.kafkaEvents.removeMeasurementTopics(topics)
+  }
+
   async subscribeToDevices(handler: (event: DeviceEvent) => void): Promise<void> {
     this.kafkaEvents.subscribeToDevices(handler)
   }

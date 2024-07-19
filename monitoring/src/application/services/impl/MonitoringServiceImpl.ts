@@ -18,6 +18,8 @@ export class MonitoringServiceImpl implements MonitoringService {
     this.events.subscribeToDevices((event: DeviceEvent): void => {
       if (event.type === 'addition') {
         this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+      } else if (event.type === 'removal') {
+        this.events.removeMeasurementTopics([`measurements.${event.sourceDeviceId}`])
       }
     })
   }

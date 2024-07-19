@@ -8,5 +8,7 @@ export interface MonitoringEventsHub {
 
   addMeasurementTopics(topics: string[]): void
 
+  removeMeasurementTopics(topics: string[]): void
+
   publishMeasurement(measurement: Measurement): void
 }

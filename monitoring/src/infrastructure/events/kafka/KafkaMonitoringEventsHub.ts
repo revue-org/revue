@@ -35,7 +35,6 @@ export class KafkaMonitoringEventsHub {
           .startConsuming(topics, false, (message: KafkaMessage): void => {
             if (message.value) {
               try {
-                console.log('Message received')
                 const messageValue = JSON.parse(message.value?.toString())
                 messageValue.timestamp = new Date(messageValue.timestamp)
                 const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
@@ -58,6 +57,10 @@ export class KafkaMonitoringEventsHub {
 
   addMeasurementTopics(topics: string[]): void {
     this.measurementsConsumer.addTopics(topics)
+  }
+
+  removeMeasurementTopics(topics: string[]): void {
+    this.measurementsConsumer.removeTopics(topics)
   }
 
   subscribeToDevices(handler: (event: DeviceEvent) => void): void {

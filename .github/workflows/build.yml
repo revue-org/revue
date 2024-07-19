@@ -127,9 +127,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
   deploy-website:
-    defaults:
-      run:
-        working-directory: docs/website
     runs-on: ubuntu-latest
     needs:
       - build-website
@@ -146,6 +143,10 @@ jobs:
         with:
           name: website
           path: docs/website/build
+      - name: "Generate Swagger Docs"
+        run: |
+          ./gradlew generate-openapi-website
+          mv -r build/openapi docs/website/build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GH_TOKEN }}

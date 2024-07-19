@@ -92,7 +92,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
             }
           }
         })
-        .then((): void => console.log('Detection consumer started'))
+        .then((): void => console.log('Detections consumer started'))
     })
   }
 
@@ -110,6 +110,6 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
           }
         }
       })
-      .then((): void => console.log('Device consumer started'))
+      .then((): void => console.log('Devices consumer started'))
   }
 }

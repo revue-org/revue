@@ -30,7 +30,7 @@ export class KafkaNotificationEventsHub {
           }
         }
       })
-      .then((): void => console.log('Consumer started'))
+      .then((): void => console.log('Anomalies consumer started'))
   }
 
   publishNotification(notification: Notification): void {

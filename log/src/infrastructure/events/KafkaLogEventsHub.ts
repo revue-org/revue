@@ -46,7 +46,7 @@ export class KafkaLogEventsHub implements LogEventsHub {
             }
           }
         })
-        .then((): void => console.log('Measurement consumer started', topics))
+        .then((): void => console.log('Measurements consumer started', topics))
     })
   }
 
@@ -90,6 +90,6 @@ export class KafkaLogEventsHub implements LogEventsHub {
           }
         }
       })
-      .then((): void => console.log('Device event consumer started'))
+      .then((): void => console.log('Devices event consumer started'))
   }
 }

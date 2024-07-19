@@ -71,12 +71,12 @@ export class KafkaMonitoringEventsHub {
             const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
             handler(event)
           } catch (e) {
-            console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
+            console.log('Error parsing device event, message ignored because is not compliant to the schema')
           }
         }
       })
       .then((): void => {
-        console.log('Device event consumer started')
+        console.log('Devices event consumer started')
       })
   }
 }

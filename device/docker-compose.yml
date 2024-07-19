@@ -32,13 +32,13 @@ services:
     ports:
       - ${DEVICE_DB_PORT}:27017
     volumes:
-      - device_data:/data/db
+      - revue_device_data:/data/db
       - ./device/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
     networks:
       - my-net
 
 volumes:
-  device_data:
+  revue_device_data:
     driver: local
 
 networks:

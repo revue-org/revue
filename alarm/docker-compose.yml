@@ -32,7 +32,7 @@ services:
     ports:
       - ${ALARM_DB_PORT}:27017
     volumes:
-      - alarm_data:/data/db
+      - revue_alarm_data:/data/db
       - ./alarm/db/alarm-init.js:/docker-entrypoint-initdb.d/alarm-init.js
     networks:
       - my-net
@@ -41,7 +41,7 @@ services:
       kompose.controller.type: deployment
 
 volumes:
-  alarm_data:
+  revue_alarm_data:
     driver: local
 
 networks:

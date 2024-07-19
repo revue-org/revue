@@ -31,7 +31,7 @@ services:
     ports:
       - ${AUTH_DB_PORT}:27017
     volumes:
-      - auth_data:/data/db
+      - revue_auth_data:/data/db
       - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
     networks:
       - my-net
@@ -40,7 +40,7 @@ services:
       kompose.controller.type: deployment
 
 volumes:
-  auth_data:
+  revue_auth_data:
     driver: local
 
 networks:

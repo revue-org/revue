@@ -32,7 +32,7 @@ services:
     ports:
       - ${LOG_DB_PORT}:27017
     volumes:
-      - log_data:/data/db
+      - revue_log_data:/data/db
       - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
     networks:
       - my-net
@@ -41,7 +41,7 @@ services:
       kompose.controller.type: deployment
 
 volumes:
-  log_data:
+  revue_log_data:
     driver: local
 
 networks:

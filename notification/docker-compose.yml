@@ -16,7 +16,6 @@ services:
       - my-net
     labels:
       kompose.service.expose: "notification.localhost"
-     
       traefik.enable: true
       traefik.http.routers.notification.rule: Host(`notification.localhost`)
       traefik.http.routers.notification.entrypoints: websecure
@@ -33,7 +32,7 @@ services:
     ports:
       - ${NOTIFICATION_DB_PORT}:27017
     volumes:
-      - notification_data:/data/db
+      - revue_notification_data:/data/db
       - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
     networks:
       - my-net
@@ -42,7 +41,7 @@ services:
       kompose.controller.type: deployment
 
 volumes:
-  notification_data:
+  revue_notification_data:
     driver: local
 
 networks:

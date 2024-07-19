@@ -31,13 +31,13 @@ services:
     ports:
       - ${LOCATION_DB_PORT}:27017
     volumes:
-      - location_data:/data/db
+      - revue_location_data:/data/db
       - ./location/db/location-init.js:/docker-entrypoint-initdb.d/location-init.js
     networks:
       - my-net
 
 volumes:
-  location_data:
+  revue_location_data:
     driver: local
 
 networks:

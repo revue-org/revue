@@ -31,13 +31,13 @@ services:
     ports:
       - ${USER_DB_PORT}:27017
     volumes:
-      - user_data:/data/db
+      - revue_user_data:/data/db
       - ./user/db/user-init.js:/docker-entrypoint-initdb.d/user-init.js
     networks:
       - my-net
 
 volumes:
-  user_data:
+  revue_user_data:
     driver: local
 
 networks:

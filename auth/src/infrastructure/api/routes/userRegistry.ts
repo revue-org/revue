@@ -13,8 +13,8 @@ const userPresenter: UserPresenter = new ZodUserPresenter()
 userRegistry.route('/').get((req: Request, res: Response): void => {
   registryController
     .getUsers()
-    .then((token: any): void => {
-      res.status(HttpStatusCode.OK).send(token)
+    .then((users: User[]): void => {
+      res.status(HttpStatusCode.OK).send(users)
     })
     .catch((err: Error): void => {
       res.status(HttpStatusCode.BAD_REQUEST).send(err)

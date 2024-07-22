@@ -34,6 +34,12 @@ paths:
             responses:
                 200:
                     description: The rule's contacts
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "../user/schemas.yml#/components/schemas/Contact"
                 403:
                     description: User is not authorized
                 404:
@@ -46,6 +52,12 @@ paths:
             responses:
                 200:
                     description: The list of all the range rules
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/RangeRule"
                 403:
                     description: User not authorized
         post:
@@ -71,6 +83,10 @@ paths:
             responses:
                 200:
                     description: The range rule details
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/RangeRule"
                 403:
                     description: User is not authorized
         put:
@@ -97,6 +113,12 @@ paths:
             responses:
                 200:
                     description: The list of all the intrusion rules
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/IntrusionRule"
                 403:
                     description: User not authorized
         post:
@@ -122,6 +144,10 @@ paths:
             responses:
                 200:
                     description: The intrusion rule details
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/IntrusionRule"
                 403:
                     description: User is not authorized
         put:

@@ -30,7 +30,7 @@ class JWTManager {
 
     console.log('Middleware: JWTManager.authenticate()')
     this.jwt.verify(token, this.secret, (err: any, _user: any) => {
-      if (err) return res.sendStatus(401)
+      if (err) return res.status(401).send({ error: 'No authentication token' })
       next()
     })
   }

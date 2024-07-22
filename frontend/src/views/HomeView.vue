@@ -29,6 +29,9 @@ const getDevices = async () => {
             }
           }
         }
+        if(res.status === HttpStatusCode.UNAUTHORIZED) {
+          router.push('/login')
+        }
       })
       .catch((error: any) => {
         console.log(error)

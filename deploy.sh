@@ -39,9 +39,15 @@ case "$1" in
         echo "Starting Minikube..."
 #        minikube start
       fi
-      kubectl apply -f gateway/k8s # -f k8s
-      kubectl apply -f 'k8s/revue-*'
-      minikube tunnel
+#      kubectl apply -f gateway/k8s
+      helm repo add traefik https://traefik.github.io/charts
+      helm repo update
+      helm install traefik traefik/traefik --values gateway/traefik-values.yml
+      kubectl apply -f k8s
+#      kubectl apply -f 'k8s/revue-alarm-*' -f 'k8s/revue-auth-*' -f 'k8s/revue-device-*' -f 'k8s/revue-frontend-*' \
+#       -f 'k8s/revue-location-*' -f 'k8s/revue-log-*' -f 'k8s/revue-monitoring-*' -f 'k8s/revue-notification-*' \
+#       -f 'k8s/revue-recognition-*' -f 'k8s/revue-user-*'
+      sudo minikube tunnel
     else
       usage
     fi

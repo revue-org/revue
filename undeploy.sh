@@ -27,7 +27,8 @@ case "$1" in
     ;;
   --k8s)
       if check_minikube; then
-        kubectl delete -f gateway/k8s -f k8s
+        kubectl delete -f k8s
+        helm uninstall traefik
 #        minikube stop
         echo "Cluster stopped."
       else

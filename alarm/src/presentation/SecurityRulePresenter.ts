@@ -1,7 +1,8 @@
 import {
   IntrusionRuleInsertion,
   IntrusionRuleUpdate,
-  RangeRuleInsertion, RangeRuleUpdate
+  RangeRuleInsertion,
+  RangeRuleUpdate
 } from '@/presentation/schemas/SecurityRuleSchema'
 
 export interface SecurityRulePresenter {

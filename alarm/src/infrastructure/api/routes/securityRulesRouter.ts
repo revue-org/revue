@@ -6,7 +6,8 @@ import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Contact } from '@common/domain/core/Contact.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import {
-  IntrusionRuleInsertion, IntrusionRuleUpdate,
+  IntrusionRuleInsertion,
+  IntrusionRuleUpdate,
   RangeRuleInsertion,
   RangeRuleUpdate
 } from '@/presentation/schemas/SecurityRuleSchema.js'

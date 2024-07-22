@@ -145,7 +145,7 @@ jobs:
           path: docs/website/build
       - name: "Generate Swagger Docs"
         run: |
-          ./gradlew generate-openapi-website
+          ./gradlew generate-openapi-website generate-openapi-index-page
           mv -r build/openapi docs/website/build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:

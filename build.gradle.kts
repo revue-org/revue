@@ -1,4 +1,5 @@
 import com.github.gradle.node.npm.task.NpmTask
+import org.gradle.internal.extensions.stdlib.capitalized
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
 import java.io.FileOutputStream
@@ -68,6 +69,16 @@ tasks.register<DefaultTask>("download-swagger-ui") {
     outputs.dir(project.layout.buildDirectory.dir(swaggerUI))
 }
 
+val openApiPath = rootProject.layout.buildDirectory.dir("openapi")
+
+tasks.register<Copy>("generate-openapi-index-page") {
+    from(project.layout.projectDirectory.dir("src").dir("resources"))
+    into(openApiPath.get())
+    expand("microservices" to microservices.joinToString(separator = "\n") {
+        "<li><a href=\"$it\">${it.capitalized()}</a></li>"
+    })
+}
+
 allprojects {
     tasks.register<Delete>("clean") {
         delete("dist", "node_modules/", "tsconfig.tsbuildinfo", "build")
@@ -133,7 +144,7 @@ subprojects {
                     .files("schemas.yml", "specification.yml"),
                 rootProject.layout.buildDirectory.dir(swaggerUI).get()
             )
-            into(rootProject.layout.buildDirectory.dir("openapi").get().dir(project.name))
+            into(openApiPath.get().dir(project.name))
             doLast {
                 rootProject.layout.buildDirectory
                     .dir(openAPI)
@@ -146,8 +157,9 @@ subprojects {
                                     "https://petstore.swagger.io/v2/swagger.json",
                                     "specification.yml"
                                 )
-                            )
+                        )
                 }
+
             }
         }
     }

@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://mala1180.github.io',
+  url: 'https://revue-org.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/revue/',
@@ -18,7 +18,7 @@ const config: Config = {
   organizationName: 'Revue', // Usually your GitHub org/user name.
   projectName: 'revue', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -58,7 +58,7 @@ const config: Config = {
           label: 'Report',
         },
         {
-          href: 'https://github.com/mala1180/revue',
+          href: 'https://github.com/revue-org/revue',
           label: 'GitHub',
           position: 'right',
         },
@@ -71,9 +71,13 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Report',
               to: '/docs/intro',
             },
+            {
+              label: 'OpenAPI',
+              to: '/openapi',
+            }
           ],
         },
         {
@@ -81,7 +85,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/mala1180/revue',
+              href: 'https://github.com/revue-org/revue',
             },
           ],
         },

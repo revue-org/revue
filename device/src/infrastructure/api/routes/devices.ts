@@ -26,8 +26,6 @@ deviceRouter.route('/').get((req: Request, res: Response): void => {
         })
     : []
 
-  console.log(capabilities)
-
   deviceController
     .getDevices(capabilities)
     .then((devices: Device[]): void => {
@@ -148,8 +146,8 @@ deviceRouter.route('/:id').delete((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Device correctly deleted' })
     })
-    .catch((ee): void => {
-      console.log(ee)
+    .catch((e): void => {
+      console.log(e)
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not deleted' })
     })
 })

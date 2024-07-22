@@ -98,7 +98,7 @@ export const securityRuleController = {
       contacts,
       from,
       to,
-      ObjectClass[objectClass as keyof typeof ObjectClass]
+      objectClass as ObjectClass
     )
   },
 

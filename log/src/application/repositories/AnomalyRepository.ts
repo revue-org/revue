@@ -6,9 +6,9 @@ import { DomainEventId } from '@common/domain/core/DomainEventId.js'
 export interface AnomalyRepository {
   getAnomalies(): Promise<Anomaly[]>
 
-  getOutliers(): Promise<Outlier[]>
+  getOutliers(quantity: number): Promise<Outlier[]>
 
-  getIntrusions(): Promise<Intrusion[]>
+  getIntrusions(quantity: number): Promise<Intrusion[]>
 
   getAnomalyById(anomalyId: DomainEventId): Promise<Anomaly>
 

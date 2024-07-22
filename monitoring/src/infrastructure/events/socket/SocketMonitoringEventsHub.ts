@@ -10,7 +10,7 @@ export class SocketMonitoringEventsHub {
 
   public publishMeasurement(measurement: Measurement): void {
     const topic: string = `measurements.${measurement.sourceDeviceId}`
-    console.log(`Publishing measurement to topic: ${topic}`)
+    console.log(`Redirecting measurement to topic: ${topic}`)
     this.io.emit(topic, { measurement: measurement })
   }
 }

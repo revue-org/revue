@@ -5,8 +5,13 @@ import { RangeRule } from '@/domain/core/rules/RangeRule'
 import { IntrusionRule } from '@/domain/core/rules/IntrusionRule'
 import { Contact } from '@common/domain/core/Contact.js'
 import HttpStatusCode from '@common/utils/HttpStatusCode.js'
-import { IntrusionRuleInsertion, RangeRuleInsertion } from '@/presentation/schemas/SecurityRuleSchema.js'
-import { SecurityRulePresenter } from '@/presentation/SecurityRulePresenter'
+import {
+  IntrusionRuleInsertion,
+  IntrusionRuleUpdate,
+  RangeRuleInsertion,
+  RangeRuleUpdate
+} from '@/presentation/schemas/SecurityRuleSchema.js'
+import { SecurityRulePresenter } from '@/presentation/SecurityRulePresenter.js'
 import { SecurityRulePresenterImpl } from '@/presentation/impl/SecurityRulePresenterImpl.js'
 
 export const router: Router = express.Router()
@@ -75,15 +80,18 @@ router
       })
   })
   .put((req: Request, res: Response): void => {
+    req.body.validityStart = new Date(req.body.validityStart)
+    req.body.validityEnd = new Date(req.body.validityEnd)
+    const msg: RangeRuleUpdate = securityRulePresenter.parseRangeRuleUpdate(req.body)
     controller
       .updateRangeRule(
         req.params.id,
-        req.body.description,
-        req.body.min,
-        req.body.max,
-        req.body.from,
-        req.body.to,
-        req.body.contacts
+        msg.description,
+        msg.min,
+        msg.max,
+        msg.validityStart,
+        msg.validityEnd,
+        msg.contacts
       )
       .then(() => {
         res.status(HttpStatusCode.OK).send({ success: 'Range rule updated' })
@@ -142,14 +150,17 @@ router
       })
   })
   .put((req: Request, res: Response): void => {
+    req.body.validityStart = new Date(req.body.validityStart)
+    req.body.validityEnd = new Date(req.body.validityEnd)
+    const msg: IntrusionRuleUpdate = securityRulePresenter.parseIntrusionRuleUpdate(req.body)
     controller
       .updateIntrusionRule(
         req.params.id,
-        req.body.description,
-        req.body.objectClass,
-        new Date(req.body.from),
-        new Date(req.body.to),
-        req.body.contacts
+        msg.description,
+        msg.objectClass,
+        msg.validityStart,
+        msg.validityEnd,
+        msg.contacts
       )
       .then(() => {
         res.status(HttpStatusCode.OK).send({ success: 'Intrusion rule updated' })

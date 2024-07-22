@@ -68,3 +68,47 @@ export const intrusionRuleInsertionSchema: ZodType<IntrusionRuleInsertion> = z.o
   validityEnd: z.date(),
   objectClass: z.nativeEnum(ObjectClass)
 })
+
+export type RangeRuleUpdate = {
+  description: string
+  min: number
+  max: number
+  validityStart: Date
+  validityEnd: Date
+  contacts: Contact[]
+}
+
+export type IntrusionRuleUpdate = {
+  description: string
+  objectClass: ObjectClass
+  validityStart: Date
+  validityEnd: Date
+  contacts: Contact[]
+}
+
+export const rangeRuleUpdateSchema: ZodType<RangeRuleUpdate> = z.object({
+  description: z.string(),
+  min: z.number(),
+  max: z.number(),
+  validityStart: z.date(),
+  validityEnd: z.date(),
+  contacts: z.array(
+    z.object({
+      type: z.nativeEnum(ContactType),
+      value: z.string().min(5)
+    })
+  )
+})
+
+export const intrusionRuleUpdateSchema: ZodType<IntrusionRuleUpdate> = z.object({
+  description: z.string(),
+  objectClass: z.nativeEnum(ObjectClass),
+  validityStart: z.date(),
+  validityEnd: z.date(),
+  contacts: z.array(
+    z.object({
+      type: z.nativeEnum(ContactType),
+      value: z.string().min(5)
+    })
+  )
+})

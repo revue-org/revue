@@ -134,22 +134,62 @@ paths:
                     description: User not authorized
                 404:
                     description: User not found
-
-    /permissions/{userId}/{locationId}:
+    /users:
         get:
-            summary: Check user permissions
+            summary: Get the list of users
             tags: [UserAuth]
             responses:
                 200:
-                    description: User has access permissions
+                    description: The list of users
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/User"
                 403:
                     description: User not authorized
         post:
-            summary: Add user permission
+            summary: Add a new user
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/UserInsertion"
+            responses:
+                200:
+                    description: User added
+                400:
+                    description: Invalid request
+                403:
+                    description: User not authorized
+    /users/{userId}:
+        get:
+            summary: Get a user
             tags: [UserAuth]
             responses:
                 200:
-                    description: User have been correctly set
+                    description: The user
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/User"
+                403:
+                    description: User not authorized
+                404:
+                    description: User not found
+        put:
+            summary: Update a user
+            tags: [UserAuth]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "./schemas.yml#/components/schemas/UserUpdate"
+            responses:
+                200:
+                    description: User updated
                 400:
                     description: Invalid request
                 403:
@@ -157,11 +197,11 @@ paths:
                 404:
                     description: User not found
         delete:
-            summary: Remove user permission
+            summary: Delete a user
             tags: [UserAuth]
             responses:
                 200:
-                    description: User permission deleted
+                    description: User deleted
                 400:
                     description: Invalid request
                 403:

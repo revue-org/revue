@@ -14,7 +14,7 @@ export const app: Express = express()
 app.use(express.json())
 app.use(cors())
 
-const PORT: number = Number(process.env.ALARM_PORT) || 4002
+const PORT: number = Number(process.env.LOCATION_PORT) || 4008
 
 const server: HttpServer = http.createServer(app)
 
@@ -32,15 +32,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 app.use('/locations', router)
 
-const username: string = process.env.ALARM_DB_USERNAME || 'admin'
-const password: string = process.env.ALARM_DB_PASSWORD || 'admin'
+const username: string = process.env.LOCATION_DB_USERNAME || 'admin'
+const password: string = process.env.LOCATION_DB_PASSWORD || 'admin'
 const host: string =
-  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.ALARM_DB_HOST || 'localhost'
+  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.LOCATION_DB_HOST || 'localhost'
 const dbPort: string =
   process.env.NODE_ENV === 'develop'
-    ? process.env.ALARM_DB_PORT || '27017'
+    ? process.env.LOCATION_DB_PORT || '27017'
     : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.ALARM_DB_NAME || 'location'
+const dbName: string = process.env.LOCATION_DB_NAME || 'location'
 
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {

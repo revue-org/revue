@@ -24,7 +24,9 @@ export class KafkaLogEventsHub implements LogEventsHub {
 
   private async getMeasurementTopics(): Promise<string[]> {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
-      .then((res: any): string[] => res.data.map((device: any): string => `measurements.${device.id}`))
+      .then((res: any): string[] =>
+        res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
+      )
       .catch((e: any): string[] => {
         console.log('Error fetching devices, error: ' + e)
         return []
@@ -32,24 +34,37 @@ export class KafkaLogEventsHub implements LogEventsHub {
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
-    this.getMeasurementTopics().then((topics: string[]): void => {
-      this.measurementsConsumer
-        .startConsuming(topics, false, (message: KafkaMessage): void => {
-          if (message.value) {
-            try {
-              const measurement: Measurement = MeasurementPresenter.asDomainEvent(message.value)
-              handler(measurement)
-            } catch (e) {
-              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+    this.getMeasurementTopics()
+      .then((topics: string[]): void => {
+        this.measurementsConsumer
+          .startConsuming(topics, false, (message: KafkaMessage): void => {
+            if (message.value) {
+              try {
+                const messageValue = JSON.parse(message.value?.toString())
+                messageValue.timestamp = new Date(messageValue.timestamp)
+                const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
+                handler(measurement)
+              } catch (e) {
+                console.log(
+                  'Error parsing measurement, message ignored because is not compliant to the schema'
+                )
+              }
             }
-          }
-        })
-        .then((): void => console.log('Consumer started'))
-    })
+          })
+          .then((): void => console.log('Measurements consumer started', topics))
+      })
+      .catch((_e: any): void => {
+        console.log('Error getting measurements topics, retrying in 10 seconds')
+        setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
+      })
   }
 
   addMeasurementTopics(topics: string[]): void {
     this.measurementsConsumer.addTopics(topics)
+  }
+
+  removeMeasurementTopics(topics: string[]): void {
+    this.measurementsConsumer.removeTopics(topics)
   }
 
   subscribeToAnomalies(handler: (anomaly: Anomaly) => void): void {
@@ -57,14 +72,17 @@ export class KafkaLogEventsHub implements LogEventsHub {
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(message.value)
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
+            messageValue.data.timestamp = new Date(messageValue.data.timestamp)
+            const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(messageValue)
             handler(anomaly)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
       })
-      .then((): void => console.log('Consumer started'))
+      .then((): void => console.log('Anomalies consumer started'))
   }
 
   subscribeToDevices(handler: (event: DeviceEvent) => void): void {
@@ -72,13 +90,15 @@ export class KafkaLogEventsHub implements LogEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
+            const event: DeviceEvent = DevicePresenter.asDomainEvent(messageValue)
             handler(event)
           } catch (e) {
-            console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
+            console.log('Error parsing device event, message ignored because is not compliant to the schema')
           }
         }
       })
-      .then((): void => console.log('Consumer started'))
+      .then((): void => console.log('Devices event consumer started'))
   }
 }

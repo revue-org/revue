@@ -23,12 +23,6 @@ defineProps<{
         {{ outlier.measurement.measure.type }} in {{ outlier.measurement.measure.unit }}
       </i>
     </span>
-    <span>
-      <i>
-        Broken rule:
-        {{ outlier.rangeRuleId }}
-      </i>
-    </span>
     <span class="timestamp">Detection hour: {{ outlier.timestamp.toLocaleString().split(' ')[1] }}</span>
   </li>
 </template>

@@ -57,16 +57,18 @@ onMounted(() => {
   getOutliers()
   getIntrusions()
 })
+
+const optionsHistories = ['measurements', 'intrusions', 'outliers']
 </script>
 
 <template>
   <h2>History:</h2>
   <div>
-    <select v-model="selected">
-      <option value="measurements">Measurements</option>
-      <option value="intrusions">Intrusions</option>
-      <option value="outliers">Outliers</option>
-    </select>
+    <q-select
+      v-model="selected"
+      :options="optionsHistories"
+      style="font-size: 20px; width: 400px; margin-left: 10px"
+    />
   </div>
   <div v-if="selected === 'measurements'">
     <measurement-badge v-for="(measurement, index) in measurements" :key="index" :measurement="measurement" />

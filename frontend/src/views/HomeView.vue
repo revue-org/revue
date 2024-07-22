@@ -29,7 +29,7 @@ const getDevices = async () => {
             }
           }
         }
-        if(res.status === HttpStatusCode.UNAUTHORIZED) {
+        if (res.status === HttpStatusCode.UNAUTHORIZED) {
           router.push('/login')
         }
       })

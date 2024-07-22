@@ -51,7 +51,7 @@ export class KafkaMonitoringEventsHub {
           .then((): void => console.log('Measurements consumer started'))
       })
       .catch((_e: any): void => {
-        console.log('Error getting topics, retrying in 10 seconds')
+        console.log('Error getting measurements topics, retrying in 10 seconds')
         setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
       })
   }

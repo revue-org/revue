@@ -14,7 +14,10 @@ export class MongoDBMeasurementRepository implements MeasurementRepository {
   )
 
   async getMeasurements(quantity: number): Promise<Measurement[]> {
-    const measurements = await this.model.find().limit(quantity).lean()
+    const measurements = await this.model
+      .find({}, {}, { sort: { timestamp: -1 } })
+      .limit(quantity)
+      .lean()
     return measurements.map(measurement => NumericMeasurementDBAdapter.asDomainEntity(measurement))
   }
 

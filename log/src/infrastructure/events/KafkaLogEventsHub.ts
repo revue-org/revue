@@ -34,22 +34,29 @@ export class KafkaLogEventsHub implements LogEventsHub {
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
-    this.getMeasurementTopics().then((topics: string[]): void => {
-      this.measurementsConsumer
-        .startConsuming(topics, false, (message: KafkaMessage): void => {
-          if (message.value) {
-            try {
-              const messageValue = JSON.parse(message.value?.toString())
-              messageValue.timestamp = new Date(messageValue.timestamp)
-              const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
-              handler(measurement)
-            } catch (e) {
-              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+    this.getMeasurementTopics()
+      .then((topics: string[]): void => {
+        this.measurementsConsumer
+          .startConsuming(topics, false, (message: KafkaMessage): void => {
+            if (message.value) {
+              try {
+                const messageValue = JSON.parse(message.value?.toString())
+                messageValue.timestamp = new Date(messageValue.timestamp)
+                const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
+                handler(measurement)
+              } catch (e) {
+                console.log(
+                  'Error parsing measurement, message ignored because is not compliant to the schema'
+                )
+              }
             }
-          }
-        })
-        .then((): void => console.log('Measurements consumer started', topics))
-    })
+          })
+          .then((): void => console.log('Measurements consumer started', topics))
+      })
+      .catch((_e: any): void => {
+        console.log('Error getting measurements topics, retrying in 10 seconds')
+        setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
+      })
   }
 
   addMeasurementTopics(topics: string[]): void {

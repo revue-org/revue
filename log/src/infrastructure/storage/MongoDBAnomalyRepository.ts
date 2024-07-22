@@ -13,9 +13,13 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
 
   async getOutliers(quantity: number): Promise<Outlier[]> {
     const outliers = await this.model
-      .find({
-        type: 'outlier'
-      })
+      .find(
+        {
+          type: 'outlier'
+        },
+        {},
+        { sort: { timestamp: -1 } }
+      )
       .limit(quantity)
       .lean()
     return outliers.map(outlier => AnomalyDBAdapter.asDomainEntity(outlier) as Outlier)
@@ -23,9 +27,13 @@ export class MongoDBAnomalyRepository implements AnomalyRepository {
 
   async getIntrusions(quantity: number): Promise<Intrusion[]> {
     const intrusions = await this.model
-      .find({
-        type: 'intrusion'
-      })
+      .find(
+        {
+          type: 'intrusion'
+        },
+        {},
+        { sort: { timestamp: -1 } }
+      )
       .limit(quantity)
       .lean()
     return intrusions.map(intrusion => AnomalyDBAdapter.asDomainEntity(intrusion) as Intrusion)

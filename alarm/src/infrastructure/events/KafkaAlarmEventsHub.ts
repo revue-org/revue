@@ -33,8 +33,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
       )
       .catch((): string[] => {
-        console.log('Error getting measurement topics')
-        return []
+        throw new Error('Error getting measurements topics from device service')
       })
   }
 
@@ -44,8 +43,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         res.data.map((device: any): string => `detections.${device.deviceId.value}`)
       )
       .catch((): string[] => {
-        console.log('Error getting detection topics')
-        return []
+        throw new Error('Error getting detections topics from device service')
       })
   }
 
@@ -55,22 +53,29 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   }
 
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
-    this.getMeasurementTopics().then((topics: string[]): void => {
-      this.measurementsConsumer
-        .startConsuming(topics, false, (message: KafkaMessage): void => {
-          if (message.value) {
-            try {
-              const messageValue = JSON.parse(message.value?.toString())
-              messageValue.timestamp = new Date(messageValue.timestamp)
-              const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
-              handler(measurement)
-            } catch (e) {
-              console.log('Error parsing measurement, message ignored because is not compliant to the schema')
+    this.getMeasurementTopics()
+      .then((topics: string[]): void => {
+        this.measurementsConsumer
+          .startConsuming(topics, false, (message: KafkaMessage): void => {
+            if (message.value) {
+              try {
+                const messageValue = JSON.parse(message.value?.toString())
+                messageValue.timestamp = new Date(messageValue.timestamp)
+                const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
+                handler(measurement)
+              } catch (e) {
+                console.log(
+                  'Error parsing measurement, message ignored because is not compliant to the schema'
+                )
+              }
             }
-          }
-        })
-        .then((): void => console.log('Measurements consumer started'))
-    })
+          })
+          .then((): void => console.log('Measurements consumer started'))
+      })
+      .catch((_e: any): void => {
+        console.log('Error getting topics, retrying in 10 seconds')
+        setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
+      })
   }
 
   public addMeasurementTopics(topics: string[]): void {
@@ -82,22 +87,29 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   }
 
   subscribeToDetections(handler: (_detection: Detection) => void): void {
-    this.getDetectionsTopics().then((topics: string[]): void => {
-      this.detectionsConsumer
-        .startConsuming(topics, false, (message: KafkaMessage): void => {
-          if (message.value) {
-            try {
-              const messageValue = JSON.parse(message.value?.toString())
-              messageValue.timestamp = new Date(messageValue.timestamp)
-              const detection: Detection = DetectionPresenter.asDomainEvent(messageValue)
-              handler(detection)
-            } catch (e) {
-              console.log('Error parsing detections, message ignored because is not compliant to the schema')
+    this.getDetectionsTopics()
+      .then((topics: string[]): void => {
+        this.detectionsConsumer
+          .startConsuming(topics, false, (message: KafkaMessage): void => {
+            if (message.value) {
+              try {
+                const messageValue = JSON.parse(message.value?.toString())
+                messageValue.timestamp = new Date(messageValue.timestamp)
+                const detection: Detection = DetectionPresenter.asDomainEvent(messageValue)
+                handler(detection)
+              } catch (e) {
+                console.log(
+                  'Error parsing detections, message ignored because is not compliant to the schema'
+                )
+              }
             }
-          }
-        })
-        .then((): void => console.log('Detections consumer started'))
-    })
+          })
+          .then((): void => console.log('Detections consumer started'))
+      })
+      .catch((_e: any): void => {
+        console.log('Error getting topics, retrying in 10 seconds')
+        setTimeout((): void => this.subscribeToDetections(handler), 10000)
+      })
   }
 
   subscribeToDevices(handler: (event: DeviceEvent) => void): void {

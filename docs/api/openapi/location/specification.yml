@@ -22,6 +22,10 @@ paths:
             responses:
                 200:
                     description: The location with the specified ID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Room"
                 400:
                     description: The request was invalid
                 403:
@@ -120,23 +124,6 @@ paths:
                     description: The request was invalid
                 403:
                     description: User not authorized
-        delete:
-            summary: Delete a device
-            tags: [Devices]
-            parameters:
-                - in: path
-                  name: id
-                  required: true
-                  schema:
-                      type: integer
-                      description: ID of the device
-            responses:
-                200:
-                    description: The resource was deleted successfully
-                400:
-                    description: The request was invalid
-                403:
-                    description: User not authorized
 
     /buildings:
         get:
@@ -211,23 +198,6 @@ paths:
             responses:
                 200:
                     description: The building was updated successfully
-                400:
-                    description: The request was invalid
-                403:
-                    description: User not authorized
-        delete:
-            summary: Delete a device
-            tags: [Devices]
-            parameters:
-                - in: path
-                  name: id
-                  required: true
-                  schema:
-                      type: integer
-                      description: ID of the building
-            responses:
-                200:
-                    description: The resource was deleted successfully
                 400:
                     description: The request was invalid
                 403:

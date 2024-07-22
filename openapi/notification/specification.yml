@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+    title: Notification Service API
+    description: Notification microservice API
+    version: 1.0.0
+tags:
+    - name: Notifications
+      description: Notification related operations
+
+paths:
+    /notifications:
+        get:
+            description: Get all notifications
+            tags: [Notification]
+            responses:
+                200:
+                    description: The notifications
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Notification"
+                403:
+                    description: User not authorized
+
+    /notifications/{id}:
+        get:
+            description: Get a notification by Id
+            tags: [Notifications]
+            responses:
+                200:
+                    description: The notification
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Notification"
+                403:
+                    description: User not authorized
+                404:
+                    description: Notification not found
+        delete:
+            description: Delete a notification
+            tags: [Notification]
+            responses:
+                200:
+                    description: The notification has deleted
+                403:
+                    description: User not authorized
+                404:
+                    description: Notification not found
+    /notifications/types/{type}:
+        get:
+            description: Get all user's notifications by type
+            tags: [Notification]
+            responses:
+                200:
+                    description: The user notifications
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Notification"
+                403:
+                    description: User not authorized
+                404:
+                    description: Notification not found

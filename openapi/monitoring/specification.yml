@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+    title: Monitoring Service API
+    description: Device management and monitoring microservice API
+    version: 1.0.0
+tags:
+    - name: Devices
+      description: Operations related to devices
+paths:
+    /:
+        get:
+            responses:
+                404:
+                    description: Not found

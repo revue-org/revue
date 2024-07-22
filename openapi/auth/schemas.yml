@@ -1,0 +1,66 @@
+components:
+    schemas:
+        Token:
+            type: object
+            properties:
+                token:
+                    type: string
+                    description: The access or refresh token
+
+        Credentials:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+
+        Authorization:
+            type: object
+            properties:
+                accessToken:
+                    type: string
+                    description: The access token of the user
+                refreshToken:
+                    type: string
+                    description: The refresh token of the user
+
+        Permissions:
+            type: array
+            items:
+                type: string
+                description: a list of room location ids
+
+        User:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+                role:
+                    type: string
+                    description: The role of the user
+                permissions:
+                    $ref: "#/components/schemas/Permissions"
+
+        UserInsertion:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+                permissions:
+                    $ref: "#/components/schemas/Permissions"
+        UserUpdate:
+            type: object
+            properties:
+                permissions:
+                    $ref: "#/components/schemas/Permissions"

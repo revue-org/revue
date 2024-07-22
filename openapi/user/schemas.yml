@@ -1,0 +1,47 @@
+components:
+    schemas:
+        ContactType:
+            type: string
+            enum: [sms, email]
+            description: The type of the contact
+        Contact:
+            type: object
+            properties:
+                type:
+                    $ref: "#/components/schemas/ContactType"
+                value:
+                    type: string
+                    description: The value of the contact
+        User:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: The name of the user
+                surname:
+                    type: integer
+                    description: The surname of the user
+                mail:
+                    type: string
+                    description: The mail of the user
+                contacts:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Contact"
+
+        UserUpdate:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: The unique identifier of the user
+                name:
+                    type: string
+                    description: The name of the user
+                surname:
+                    type: integer
+                    description: The surname of the user
+                contacts:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Contact"

@@ -1,0 +1,111 @@
+components:
+    schemas:
+        RangeRule:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: The rule description
+                activeOn:
+                    type: string
+                    description: The id of the device in which the rule will be active on
+                contacts:
+                    type: array
+                    items:
+                        $ref: "../user/schemas.yml#/components/schemas/Contact"
+                author:
+                    type: string
+                    description: The user id of the creator of the rule
+                validityStart:
+                    type: time
+                    description: The activation starting time
+                validityEnd:
+                    type: time
+                    description: The activation end time
+                rule:
+                    type: object
+                    properties:
+                        measure:
+                            type: object
+                            description: The measure that will be checked
+                            properties:
+                                type:
+                                    type: string
+                                    description: The typee of the measure
+                                unit:
+                                    type: string
+                                    description: The unit of the measure
+                        minValue:
+                            type: double
+                            description: The minimum value accepted by the rule
+                        maxValue:
+                            type: double
+                            description: The maximum value accepted by the rule
+
+        RangeRuleUpdate:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: The rule description
+                contacts:
+                    type: array
+                    items:
+                        $ref: "../user/schemas.yml#/components/schemas/Contact"
+                validityStart:
+                    type: time
+                    description: The activation starting time
+                validityEnd:
+                    type: time
+                    description: The activation end time
+                min:
+                    type: double
+                    description: The minimum value accepted by the rule
+                max:
+                    type: double
+                    description: The maximum value accepted by the rule
+
+        IntrusionRule:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: The rule description
+                activeOn:
+                    type: string
+                    description: The id of the device in which the rule will be active on
+                contacts:
+                    type: array
+                    items:
+                        $ref: "../user/schemas.yml#/components/schemas/Contact"
+                author:
+                    type: string
+                    description: The user id of the creator of the rule
+                validityStart:
+                    type: time
+                    description: The activation starting time
+                validityEnd:
+                    type: time
+                    description: The activation end time
+                objectClass:
+                    type: string
+                    description: The object class that if recognized will trigger an intrusion anomaly
+        IntrusionRuleUpdate:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: The rule description
+                contacts:
+                    type: array
+                    items:
+                        $ref: "../user/schemas.yml#/components/schemas/Contact"
+                validityStart:
+                    type: time
+                    description: The activation starting time
+                validityEnd:
+                    type: time
+                    description: The activation end time
+                objectClass:
+                    type: string
+                    description: The object class that if recognized will trigger an intrusion anomaly

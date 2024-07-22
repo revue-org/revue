@@ -4,14 +4,14 @@ info:
     description: Device management and monitoring microservice API
     version: 1.0.0
 tags:
-    - name: Alarm
-      description: Operations related to devices
+    -   name: Alarm
+        description: Operations related to devices
 
 paths:
     /rules/{id}/:
         get:
             summary: Get a rule by Id
-            tags: [Alarm]
+            tags: [ Alarm ]
             responses:
                 200:
                     description: The rule details
@@ -19,7 +19,7 @@ paths:
                     description: User is not authorized
         delete:
             summary: Delete a rule
-            tags: [Alarm]
+            tags: [ Alarm ]
             responses:
                 200:
                     description: The rule was correctly deleted
@@ -29,11 +29,20 @@ paths:
                     description: The rule was not found
     /rules/{id}/contacts/:
         get:
+            summary: Get all contacts of a security rule
+            tags: [ Alarm ]
+            responses:
+                200:
+                    description: The rule's contacts
+                403:
+                    description: User is not authorized
+                404:
+                    description: The rule was not found
 
     /rules/ranges/:
         get:
             summary: Get all ranges rules
-            tags: [Alarm]
+            tags: [ Alarm ]
             responses:
                 200:
                     description: The list of all the range rules
@@ -41,7 +50,7 @@ paths:
                     description: User not authorized
         post:
             summary: Create a new range rule
-            tags: [Alarm]
+            tags: [ Alarm ]
             requestBody:
                 required: true
                 content:
@@ -58,7 +67,7 @@ paths:
     /rules/ranges/{id}:
         get:
             summary: Get a range rule by Id
-            tags: [Alarm]
+            tags: [ Alarm ]
             responses:
                 200:
                     description: The range rule details
@@ -66,13 +75,13 @@ paths:
                     description: User is not authorized
         put:
             summary: Edit a range rule
-            tags: [Alarm]
+            tags: [ Alarm ]
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: "./schemas.yml#/components/schemas/RangeRule"
+                            $ref: "./schemas.yml#/components/schemas/RangeRuleUpdate"
             responses:
                 200:
                     description: The rule was correctly updated
@@ -80,20 +89,11 @@ paths:
                     description: User is not authorized
                 404:
                     description: The rule was not found
-        delete:
-            summary: Delete a range rule
-            tags: [Alarm]
-            responses:
-                200:
-                    description: The rule was correcty deleted
-                403:
-                    description: User is not authorized
-                404:
-                    description: The rule was not found
+
     /rules/intrusions/:
         get:
             summary: Get all intrusion rules
-            tags: [Alarm]
+            tags: [ Alarm ]
             responses:
                 200:
                     description: The list of all the intrusion rules
@@ -101,7 +101,7 @@ paths:
                     description: User not authorized
         post:
             summary: Create a new intrusion rule
-            tags: [Alarm]
+            tags: [ Alarm ]
             requestBody:
                 required: true
                 content:
@@ -118,7 +118,7 @@ paths:
     /rules/intrusions/{id}:
         get:
             summary: Get an intrusion rule by Id
-            tags: [Alarm]
+            tags: [ Alarm ]
             responses:
                 200:
                     description: The intrusion rule details
@@ -126,25 +126,15 @@ paths:
                     description: User is not authorized
         put:
             summary: Edit an intrusion rule
-            tags: [Alarm]
+            tags: [ Alarm ]
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: "./schemas.yml#/components/schemas/IntrusionRule"
+                            $ref: "./schemas.yml#/components/schemas/IntrusionRuleUpdate"
             responses:
                 200:
                     description: The range rule was correctly updated
                 403:
                     description: User is not authorized
-        delete:
-            summary: Delete an intrusion rule
-            tags: [Alarm]
-            responses:
-                200:
-                    description: The rule was correctly deleted
-                403:
-                    description: User is not authorized
-                404:
-                    description: The rule was not found

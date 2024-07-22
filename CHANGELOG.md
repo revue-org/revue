@@ -1,3 +1,57 @@
+## [2.2.2](https://github.com/revue-org/revue/compare/v2.2.1...v2.2.2) (2024-07-22)
+
+### Dependency updates
+
+* **deps:** update dependency @types/node to v20.14.11 ([575fbc3](https://github.com/revue-org/revue/commit/575fbc35ebed3b2aac205dd7679b29d3a6fd6608))
+* **deps:** update dependency dependency-cruiser to v16.3.9 ([2d4cdcf](https://github.com/revue-org/revue/commit/2d4cdcf7ea6dbf7f3c341cb16318f38d1f0de9b7))
+* **deps:** update dependency mongodb-memory-server to v10 ([044992b](https://github.com/revue-org/revue/commit/044992b4df37c1a12641f71351838ee15832cefe))
+* **deps:** update dependency vue to v3.4.32 ([63cf248](https://github.com/revue-org/revue/commit/63cf248dcbe6df25f3468bc3d9a59e867cc5856f))
+
+### Documentation
+
+* **website:** generate swagger UI pages ([#207](https://github.com/revue-org/revue/issues/207)) ([de8722e](https://github.com/revue-org/revue/commit/de8722e1be20402d01db4978b6fb12eaeb780703))
+
+### Tests
+
+* add general tests & align docs ([#212](https://github.com/revue-org/revue/issues/212)) ([c64c471](https://github.com/revue-org/revue/commit/c64c4710950d9e9bf01bd5c67677fd49985899b9))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.5.0 ([bd679b4](https://github.com/revue-org/revue/commit/bd679b498bed1b5370021b72ae79d2c30198c7ce))
+* **deps:** update docker/login-action action to v3.3.0 ([b1c00fe](https://github.com/revue-org/revue/commit/b1c00fe86c8d3bbac2cf8f44bec701b0ffb1326b))
+* **deps:** update docker/setup-buildx-action action to v3.5.0 ([f9f9548](https://github.com/revue-org/revue/commit/f9f9548deb2c549e5bfc398c15dadd9544dee792))
+* **deps:** update docker/setup-qemu-action action to v3.2.0 ([eabdc41](https://github.com/revue-org/revue/commit/eabdc41e2a9c2a8e9ef742f5dae29726f101daa9))
+
+
+## [2.2.2](https://github.com/revue-org/revue/compare/v2.2.1...v2.2.2) (2024-07-22)
+
+## [2.2.2](https://github.com/revue-org/revue/compare/v2.2.1...v2.2.2) (2024-07-22)
+
+### Dependency updates
+
+* **deps:** update dependency @types/node to v20.14.11 ([575fbc3](https://github.com/revue-org/revue/commit/575fbc35ebed3b2aac205dd7679b29d3a6fd6608))
+* **deps:** update dependency dependency-cruiser to v16.3.9 ([2d4cdcf](https://github.com/revue-org/revue/commit/2d4cdcf7ea6dbf7f3c341cb16318f38d1f0de9b7))
+* **deps:** update dependency mongodb-memory-server to v10 ([044992b](https://github.com/revue-org/revue/commit/044992b4df37c1a12641f71351838ee15832cefe))
+* **deps:** update dependency vue to v3.4.32 ([63cf248](https://github.com/revue-org/revue/commit/63cf248dcbe6df25f3468bc3d9a59e867cc5856f))
+
+### Documentation
+
+* **website:** generate swagger UI pages ([#207](https://github.com/revue-org/revue/issues/207)) ([de8722e](https://github.com/revue-org/revue/commit/de8722e1be20402d01db4978b6fb12eaeb780703))
+
+### Tests
+
+* add general tests & align docs ([#212](https://github.com/revue-org/revue/issues/212)) ([c64c471](https://github.com/revue-org/revue/commit/c64c4710950d9e9bf01bd5c67677fd49985899b9))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.5.0 ([bd679b4](https://github.com/revue-org/revue/commit/bd679b498bed1b5370021b72ae79d2c30198c7ce))
+* **deps:** update docker/login-action action to v3.3.0 ([b1c00fe](https://github.com/revue-org/revue/commit/b1c00fe86c8d3bbac2cf8f44bec701b0ffb1326b))
+* **deps:** update docker/setup-buildx-action action to v3.5.0 ([f9f9548](https://github.com/revue-org/revue/commit/f9f9548deb2c549e5bfc398c15dadd9544dee792))
+* **deps:** update docker/setup-qemu-action action to v3.2.0 ([eabdc41](https://github.com/revue-org/revue/commit/eabdc41e2a9c2a8e9ef742f5dae29726f101daa9))
+
+
+## [2.2.2](https://github.com/revue-org/revue/compare/v2.2.1...v2.2.2) (2024-07-22)
+
 ## [2.2.1](https://github.com/revue-org/revue/compare/v2.2.0...v2.2.1) (2024-07-19)
 
 ### Dependency updates

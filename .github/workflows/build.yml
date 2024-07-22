@@ -54,6 +54,7 @@ jobs:
           node-version-file: package.json
       - name: "Generate Swagger Docs"
         run: |
+          cd ../..
           ./gradlew generate-openapi-website generate-openapi-index-page
           mv -r build/openapi docs/website/build
       - name: Build the website

@@ -35,6 +35,9 @@ val microservices = listOf(
     "user"
 )
 
+val swaggerUI = "swagger-ui"
+val openAPI = "openapi"
+
 tasks.register<DefaultTask>("download-swagger-ui") {
     val releaseUrl = "https://github.com/swagger-api/swagger-ui/archive/refs/tags/v5.17.14.zip"
     doLast {
@@ -46,7 +49,7 @@ tasks.register<DefaultTask>("download-swagger-ui") {
                         if (currentEntry.name.matches(Regex("swagger-ui-[0-9\\.]+/dist/.+"))) {
                             println("Extracting ${currentEntry.name}")
                             project.layout.buildDirectory.asFile.get().also {
-                                val destination = it.resolve("swagger-ui")
+                                val destination = it.resolve(swaggerUI)
                                 currentEntry?.name?.split("/")?.last()?.let { fileName ->
                                     val outFile = File(destination, fileName)
                                     outFile.parentFile.mkdirs()
@@ -62,7 +65,7 @@ tasks.register<DefaultTask>("download-swagger-ui") {
             }
         }
     }
-    outputs.dir(project.layout.buildDirectory.dir("swagger-ui"))
+    outputs.dir(project.layout.buildDirectory.dir(swaggerUI))
 }
 
 allprojects {
@@ -125,15 +128,15 @@ subprojects {
                 rootProject.layout.projectDirectory
                     .dir("docs")
                     .dir("api")
-                    .dir("openapi")
+                    .dir(openAPI)
                     .dir(project.name)
                     .files("schemas.yml", "specification.yml"),
-                rootProject.layout.buildDirectory.dir("swagger-ui").get()
+                rootProject.layout.buildDirectory.dir(swaggerUI).get()
             )
             into(rootProject.layout.buildDirectory.dir("openapi").get().dir(project.name))
             doLast {
                 rootProject.layout.buildDirectory
-                    .dir("openapi")
+                    .dir(openAPI)
                     .get()
                     .dir(project.name)
                     .file("swagger-initializer.js").asFile.also {

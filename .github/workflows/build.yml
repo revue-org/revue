@@ -52,6 +52,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
+      - name: "Generate Swagger Docs"
+        run: |
+          ./gradlew generate-openapi-website generate-openapi-index-page
+          mv -r build/openapi docs/website/build
       - name: Build the website
         run: | 
           npm install
@@ -143,10 +147,6 @@ jobs:
         with:
           name: website
           path: docs/website/build
-      - name: "Generate Swagger Docs"
-        run: |
-          ./gradlew generate-openapi-website generate-openapi-index-page
-          mv -r build/openapi docs/website/build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GH_TOKEN }}

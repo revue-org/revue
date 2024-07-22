@@ -54,13 +54,14 @@ jobs:
           node-version-file: package.json
       - name: "Generate Swagger Docs"
         run: |
-          cd ../..
-          ./gradlew generate-openapi-website generate-openapi-index-page
-          mv build/openapi docs/website/build
+
       - name: Build the website
         run: | 
           npm install
           npm run build
+          cd ../..
+          ./gradlew generate-openapi-website generate-openapi-index-page
+          mv build/openapi docs/website/build
       - uses: actions/upload-artifact@v4.3.4
         with:
           name: website

@@ -37,7 +37,7 @@ notificationRouter.route('/types/:type').get((req: Request, res: Response): void
   notificationController
     .getNotificationsByType(req.params.type)
     .then((notifications: Notification[]): void => {
-      notifications.forEach(notification => notificationPresenter.parse(notification))
+      notifications.forEach((notification: Notification) => notificationPresenter.parse(notification))
       res.status(HttpStatusCode.OK).send(notifications)
     })
     .catch((): void => {

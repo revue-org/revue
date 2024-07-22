@@ -5,30 +5,22 @@ info:
     version: 1.0.0
 tags:
     - name: Notifications
-      description: Notification relatated operations
+      description: Notification related operations
 
 paths:
     /notifications:
         get:
-            description: Get all user's notifications
+            description: Get all notifications
             tags: [Notification]
             responses:
                 200:
-                    description: The user notifications
-                403:
-                    description: User not authorized
-        post:
-            description: Add a new notification
-            tags: [Notifications]
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "./schemas.yml#/components/schemas/Notification"
-            responses:
-                201:
-                    description: The notification is correctly created
+                    description: The notifications
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Notification"
                 403:
                     description: User not authorized
 
@@ -38,7 +30,11 @@ paths:
             tags: [Notifications]
             responses:
                 200:
-                    description: The list of the user notifications
+                    description: The notification
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "./schemas.yml#/components/schemas/Notification"
                 403:
                     description: User not authorized
                 404:
@@ -60,6 +56,12 @@ paths:
             responses:
                 200:
                     description: The user notifications
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/Notification"
                 403:
                     description: User not authorized
                 404:

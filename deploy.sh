@@ -46,8 +46,10 @@ case "$1" in
 #      helm install kafka-ui appscode/kafka-ui
 
       helm repo add traefik https://traefik.github.io/charts
+      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       helm repo update
       helm install traefik traefik/traefik --values gateway/traefik-values.yml
+      helm install prometheus prometheus-community/prometheus
 
       kubectl apply -f k8s
 #      kubectl apply -f 'k8s/revue-alarm-*' -f 'k8s/revue-auth-*' -f 'k8s/revue-device-*' -f 'k8s/revue-frontend-*' \

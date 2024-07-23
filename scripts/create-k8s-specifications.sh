@@ -18,11 +18,11 @@ docker compose \
     -f media-server/docker-compose.yml \
     -f monitoring/docker-compose.yml \
     -f notification/docker-compose.yml \
-    -f prometheus/docker-compose.yml \
     -f recognition/docker-compose.yml \
     -f user/docker-compose.yml \
     config > all-docker-compose.yml
 #    -f gateway/docker-compose.yml \
+#    -f prometheus/docker-compose.yml \
 
 kompose convert \
   --with-kompose-annotation=false \

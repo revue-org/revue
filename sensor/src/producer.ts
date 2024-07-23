@@ -4,7 +4,7 @@ import { Measurement } from '@common/domain/core/Measurement.js'
 import { MeasurementFactory } from '@common/domain/factories/MeasurementFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
 
-import { KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
+import { getBrokersFromEnv, KafkaBroker, KafkaOptions } from '@common/infrastructure/events/KafkaOptions.js'
 import { MeasureUnit } from '@common/domain/core/MeasureUnit.js'
 
 const SENSOR_ID = process.env.SENSOR_ID_1
@@ -30,19 +30,24 @@ export const getSensorInfo = async (): Promise<void> => {
   }
 }
 
-let kafkaHost: string = process.env.KAFKA_HOST_1!
-let kafkaPort: string = process.env.KAFKA_PORT_1!
+
+const brokers: KafkaBroker[] = getBrokersFromEnv()
+
+let kafkaOptions: KafkaOptions = {
+  clientId: 'sen-01',
+  brokers: brokers,
+}
 
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
-  kafkaHost = process.env.KAFKA_EXTERNAL_HOST_1!
-  kafkaPort = process.env.KAFKA_EXTERNAL_PORT_1!
+  const kafkaHost = process.env.KAFKA_EXTERNAL_HOST_1!
+  const kafkaPort = process.env.KAFKA_EXTERNAL_PORT_1!
+  kafkaOptions = {
+    clientId: 'sensor',
+    brokers: [{ host: kafkaHost, port: kafkaPort }]
+  }
 }
 
-const kafkaOptions: KafkaOptions = {
-  clientId: 'sensor',
-  brokers: [{ host: kafkaHost, port: kafkaPort }]
-}
 
 export const produce = async (): Promise<void> => {
   const producer: KafkaProducer = new KafkaProducer(kafkaOptions)

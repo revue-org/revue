@@ -13,7 +13,7 @@ services:
     ports:
       - ${SENSOR_PORT_1}:${SENSOR_PORT_1}
     depends_on:
-      - ${KAFKA_HOST}
+      - ${KAFKA_HOST_1}
       - ${MONITORING_HOST}
     networks:
       - my-net

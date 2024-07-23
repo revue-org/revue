@@ -30,13 +30,13 @@ export const getSensorInfo = async (): Promise<void> => {
   }
 }
 
-let kafkaHost: string = process.env.KAFKA_HOST!
-let kafkaPort: string = process.env.KAFKA_PORT!
+let kafkaHost: string = process.env.KAFKA_HOST_1!
+let kafkaPort: string = process.env.KAFKA_PORT_1!
 
 if (process.env.NODE_ENV == 'develop') {
   console.log('INFO: SETTING UP KAFKA FOR DEVELOPMENT')
-  kafkaHost = process.env.KAFKA_EXTERNAL_HOST!
-  kafkaPort = process.env.KAFKA_EXTERNAL_PORT!
+  kafkaHost = process.env.KAFKA_EXTERNAL_HOST_1!
+  kafkaPort = process.env.KAFKA_EXTERNAL_PORT_1!
 }
 
 const kafkaOptions: KafkaOptions = {

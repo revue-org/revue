@@ -12,7 +12,6 @@ docker compose \
     -f auth/docker-compose.yml \
     -f device/docker-compose.yml \
     -f frontend/docker-compose.yml \
-    -f gateway/docker-compose.yml \
     -f kafka/docker-compose.yml \
     -f location/docker-compose.yml \
     -f log/docker-compose.yml \
@@ -23,6 +22,7 @@ docker compose \
     -f recognition/docker-compose.yml \
     -f user/docker-compose.yml \
     config > all-docker-compose.yml
+#    -f gateway/docker-compose.yml \
 
 kompose convert \
   --with-kompose-annotation=false \
@@ -31,4 +31,3 @@ kompose convert \
   -o k8s
 
 rm all-docker-compose.yml
-rm k8s/revue-gateway-*

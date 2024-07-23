@@ -9,8 +9,8 @@ services:
     restart: on-failure
     ports:
       - ${MONITORING_PORT}:${MONITORING_PORT}
-    depends_on:
-      - ${KAFKA_HOST}
+#    depends_on:
+#      - ${KAFKA_HOST}
     networks:
       - my-net
     labels:

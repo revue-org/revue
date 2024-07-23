@@ -11,7 +11,7 @@ services:
       - ${ALARM_PORT}:${ALARM_PORT}
     depends_on:
       - revue-alarm-db
-      - ${KAFKA_HOST}
+#      - ${KAFKA_HOST}
     networks:
       - my-net
     labels:

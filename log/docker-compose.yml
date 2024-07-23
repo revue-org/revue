@@ -11,7 +11,7 @@ services:
       - ${LOG_PORT}:${LOG_PORT}
     depends_on:
       - revue-log-db
-      - ${KAFKA_HOST}
+#      - ${KAFKA_HOST}
     networks:
       - my-net
     labels:

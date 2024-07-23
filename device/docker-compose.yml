@@ -11,7 +11,7 @@ services:
       - ${DEVICE_PORT}:${DEVICE_PORT}
     depends_on:
       - revue-device-db
-      - ${KAFKA_HOST}
+#      - ${KAFKA_HOST}
     networks:
       - my-net
     labels:

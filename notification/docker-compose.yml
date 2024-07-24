@@ -11,7 +11,8 @@ services:
       - ${NOTIFICATION_PORT}:${NOTIFICATION_PORT}
     depends_on:
       - revue-notification-db
-#      - ${KAFKA_HOST}
+      - ${KAFKA_HOST_1}
+      - ${KAFKA_HOST_2}
     networks:
       - my-net
     labels:

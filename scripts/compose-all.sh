@@ -48,7 +48,7 @@ fi
 compose_files=("-fkafka/docker-compose.yml" "-fgateway/docker-compose.yml" "-fauth/docker-compose.yml" "-fuser/docker-compose.yml" "-fmonitoring/docker-compose.yml"
 "-fdevice/docker-compose.yml" "-falarm/docker-compose.yml" "-ffrontend/docker-compose.yml" "-flog/docker-compose.yml" "-flocation/docker-compose.yml"
 "-fnotification/docker-compose.yml" "-fcamera/docker-compose.yml" "-fsensor/docker-compose.yml"
-"-fmedia-server/docker-compose.yml" "-frecognition/docker-compose.yml" "-fprometheus/docker-compose.yml")
+"-fmedia-server/docker-compose.yml" "-frecognition/docker-compose.yml")
 
 if [ "$command" == "--down" ]; then
   eval docker compose --project-directory . "${compose_files[@]}" "${command:2}" "${volume}"

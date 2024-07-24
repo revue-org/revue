@@ -17,7 +17,18 @@ dashboardProviders:
 
 dashboards:
   default:
-    kubernetes-stats:
-      gnetId: 6417
-      revision: 1
-      datasource: Prometheus
+    kubernetes-views-global:
+      gnetId: 15757
+      revision: 37
+
+    kubernetes-views-nodes:
+      gnetId: 15759
+      revision: 29
+
+    kubernetes-views-pods:
+      gnetId: 15760
+      revision: 28
+
+    kubernetes-api-server:
+      gnetId: 15761
+      revision: 17

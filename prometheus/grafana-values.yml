@@ -1,0 +1,23 @@
+persistence:
+  type: pvc
+  enabled: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    kubernetes-stats:
+      gnetId: 6417
+      revision: 1
+      datasource: Prometheus

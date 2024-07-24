@@ -29,6 +29,8 @@ case "$1" in
       if check_minikube; then
         kubectl delete -f k8s
         helm uninstall traefik
+        helm uninstall prometheus
+        helm uninstall grafana
 #        minikube stop
         echo "Cluster stopped."
       else

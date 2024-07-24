@@ -31,7 +31,7 @@ case "$1" in
         helm uninstall traefik
         helm uninstall prometheus
         helm uninstall grafana
-#        minikube stop
+        minikube stop
         echo "Cluster stopped."
       else
         echo "Cluster already stopped."

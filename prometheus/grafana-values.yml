@@ -1,3 +1,6 @@
+# https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+# If you want to customize Grafana instance
+
 persistence:
   type: pvc
   enabled: true

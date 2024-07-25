@@ -3,7 +3,7 @@ import os
 import cv2 as cv
 import numpy as np
 
-from app.recognizer.Producer import Producer
+from app.infrastructure.events.Producer import Producer
 from app.utils.interval import set_timeout
 
 

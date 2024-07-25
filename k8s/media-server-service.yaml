@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: media-server
+  name: media-server
+spec:
+  ports:
+    - name: "8554"
+      port: 8554
+      targetPort: 8554
+    - name: "1935"
+      port: 1935
+      targetPort: 1935
+    - name: "8888"
+      port: 8888
+      targetPort: 8888
+    - name: "8889"
+      port: 8889
+      targetPort: 8889
+    - name: "8890"
+      port: 8890
+      protocol: UDP
+      targetPort: 8890
+    - name: "8189"
+      port: 8189
+      protocol: UDP
+      targetPort: 8189
+  selector:
+    io.kompose.service: media-server

@@ -1,0 +1,31 @@
+apiVersion: v1
+data:
+  user-init.js: |
+    db = new Mongo().getDB('user')
+    db.createCollection('user')
+
+    db.user.insertMany([
+      {
+        id: 'id-1',
+        name: 'John',
+        surname: 'Doe',
+        mail: 'test@test.it',
+        contacts: [
+          {
+            type: 'sms',
+            value: '1234567890'
+          },
+          {
+            type: 'email',
+            value: 'test@test.it'
+          }
+        ]
+      }
+    ])
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: revue-user-db
+  name: revue-user-db-cm1

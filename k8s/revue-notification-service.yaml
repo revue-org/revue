@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.notification.entrypoints: websecure
+    traefik.http.routers.notification.rule: Host(`notification.localhost`)
+    traefik.http.routers.notification.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-notification
+  name: revue-notification
+spec:
+  ports:
+    - name: "4004"
+      port: 4004
+      targetPort: 4004
+  selector:
+    io.kompose.service: revue-notification

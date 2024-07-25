@@ -6,7 +6,7 @@ import { MeasurementPresenter } from '@presentation/MeasurementPresenter.js'
 import RequestHelper, { deviceHost, devicePort } from '@utils/RequestHelper.js'
 import { DevicePresenter } from '@presentation/DevicePresenter.js'
 
-export class KafkaMonitowringEventsHub {
+export class KafkaMonitoringEventsHub {
   private readonly measurementsConsumer: KafkaConsumer
   private readonly deviceConsumer: KafkaConsumer
 

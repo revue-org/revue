@@ -170,8 +170,5 @@ docs/**/*.blg
 
 .vscode/
 
-# Traefik
+# Traefik certificates
 letsencrypt
-
-# K8s configurations generable files
-/k8s/

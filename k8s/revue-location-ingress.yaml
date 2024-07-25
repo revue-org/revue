@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.location.entrypoints: websecure
+    traefik.http.routers.location.rule: Host(`location.localhost`)
+    traefik.http.routers.location.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-location
+  name: revue-location
+spec:
+  rules:
+    - host: location.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: revue-location
+                port:
+                  number: 4008
+            path: /
+            pathType: Prefix

@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.notification.entrypoints: websecure
+    traefik.http.routers.notification.rule: Host(`notification.localhost`)
+    traefik.http.routers.notification.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-notification
+  name: revue-notification
+spec:
+  rules:
+    - host: notification.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: revue-notification
+                port:
+                  number: 4004
+            path: /
+            pathType: Prefix

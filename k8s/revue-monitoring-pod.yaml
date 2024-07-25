@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.monitoring.entrypoints: websecure
+    traefik.http.routers.monitoring.rule: Host(`monitoring.localhost`)
+    traefik.http.routers.monitoring.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-monitoring
+  name: revue-monitoring
+spec:
+  containers:
+    - image: letsdothisshared/revue-monitoring
+      name: revue-monitoring
+      ports:
+        - containerPort: 4001
+          protocol: TCP
+  restartPolicy: OnFailure

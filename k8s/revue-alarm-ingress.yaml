@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.alarm.entrypoints: websecure
+    traefik.http.routers.alarm.rule: Host(`alarm.localhost`)
+    traefik.http.routers.alarm.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-alarm
+  name: revue-alarm
+spec:
+  rules:
+    - host: alarm.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: revue-alarm
+                port:
+                  number: 4002
+            path: /
+            pathType: Prefix

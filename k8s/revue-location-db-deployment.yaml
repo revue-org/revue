@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: revue-location-db
+  name: revue-location-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: revue-location-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: revue-location-db
+    spec:
+      containers:
+        - env:
+            - name: MONGO_INITDB_DATABASE
+              value: location
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: example
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+          image: mongo
+          name: revue-location-db
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data/db
+              name: revue-location-data
+            - mountPath: /docker-entrypoint-initdb.d/location-init.js
+              name: revue-location-db-claim1
+      restartPolicy: Always
+      volumes:
+        - name: revue-location-data
+          persistentVolumeClaim:
+            claimName: revue-location-data
+        - name: revue-location-db-claim1
+          persistentVolumeClaim:
+            claimName: revue-location-db-claim1

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.user.entrypoints: websecure
+    traefik.http.routers.user.rule: Host(`user.localhost`)
+    traefik.http.routers.user.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-user
+  name: revue-user
+spec:
+  containers:
+    - image: letsdothisshared/revue-user
+      name: revue-user
+      ports:
+        - containerPort: 4006
+          protocol: TCP
+  restartPolicy: OnFailure

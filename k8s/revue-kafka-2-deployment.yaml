@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: revue-kafka-2
+  name: revue-kafka-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: revue-kafka-2
+  template:
+    metadata:
+      labels:
+        io.kompose.service: revue-kafka-2
+    spec:
+      containers:
+        - env:
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes"
+            - name: KAFKA_BROKER_ID
+              value: "2"
+            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: PLAINTEXT://revue-kafka-2:9093,EXTERNAL://localhost:9095
+            - name: KAFKA_CFG_LISTENERS
+              value: PLAINTEXT://:9093,EXTERNAL://:9095
+            - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+              value: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+            - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+              value: revue-zookeeper-1:2181,revue-zookeeper-2:2182
+            - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+              value: "2"
+            - name: KAFKA_DELETE_TOPIC_ENABLE
+              value: "true"
+            - name: KAFKA_MESSAGE_MAX_BYTES
+              value: "200000000"
+          image: bitnami/kafka:latest
+          name: revue-kafka-2
+          ports:
+            - containerPort: 9093
+              protocol: TCP
+            - containerPort: 9095
+              protocol: TCP
+      restartPolicy: Always

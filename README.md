@@ -96,7 +96,7 @@ You can deploy the system on a Kubernetes cluster by running
 where `<driver>` is the driver to be used by Minikube (e.g., `docker`, `qemu`, `virtualbox`, etc.).
 See the [Minikube documentation](https://minikube.sigs.k8s.io/docs/drivers/) for more information.
 
-Note that to make the `LoadBalancer` work, the `deploy.sh` script runs the `minikube tunnel` command that requires root
+Note that to make the `LoadBalancer` work, the `deploy.sh` script will run the `minikube tunnel` command that requires root
 privileges. It is also required to keep the terminal open to keep the tunneling active.
 
 To stop the system, you have to interrupt the tunneling process and then run

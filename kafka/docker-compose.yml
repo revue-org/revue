@@ -36,10 +36,6 @@ services:
       - KAFKA_DEFAULT_REPLICATION_FACTOR=2
       - KAFKA_MESSAGE_MAX_BYTES=200000000
       - KAFKA_DELETE_TOPIC_ENABLE=true
-#    volumes:
-#      - kafka_data:/bitnami/kafka
-#      - ~/kafka/data/zookeeper_data:/var/lib/zookeeper/data
-#      - ~/kafka/data/zookeeper_log:/var/lib/zookeeper/log
     depends_on:
       - revue-zookeeper-1
       - revue-zookeeper-2
@@ -65,10 +61,6 @@ services:
       - KAFKA_DEFAULT_REPLICATION_FACTOR=2
       - KAFKA_MESSAGE_MAX_BYTES=200000000
       - KAFKA_DELETE_TOPIC_ENABLE=true
-    #    volumes:
-    #      - kafka_data:/bitnami/kafka
-    #      - ~/kafka/data/zookeeper_data:/var/lib/zookeeper/data
-    #      - ~/kafka/data/zookeeper_log:/var/lib/zookeeper/log
     depends_on:
       - revue-zookeeper-1
       - revue-zookeeper-2
@@ -86,20 +78,17 @@ services:
     environment:
       DYNAMIC_CONFIG_ENABLED: 'true'
       KAFKA_CLUSTERS_0_NAME: revue-cluster
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: revue-kafka-1:9092,revue-kafka-2:9093
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${KAFKA_HOST_1}:${KAFKA_PORT_1},${KAFKA_HOST_2}:${KAFKA_PORT_2}
     volumes:
       - ./kafka/config.yml:/etc/kafkaui/dynamic_config.yaml
     depends_on:
-      - revue-kafka-1
-      - revue-kafka-2
+      - ${KAFKA_HOST_1}
+      - ${KAFKA_HOST_2}
     networks:
       - my-net
     labels:
       kompose.service.type: NodePort
-
-#volumes:
-#  kafka_data:
-#    driver: local
+      kompose.controller.type: deployment
 
 networks:
   my-net:

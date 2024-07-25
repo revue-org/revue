@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.location.entrypoints: websecure
+    traefik.http.routers.location.rule: Host(`location.localhost`)
+    traefik.http.routers.location.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-location
+  name: revue-location
+spec:
+  ports:
+    - name: "4008"
+      port: 4008
+      targetPort: 4008
+  selector:
+    io.kompose.service: revue-location

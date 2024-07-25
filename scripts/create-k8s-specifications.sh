@@ -21,8 +21,6 @@ docker compose \
     -f recognition/docker-compose.yml \
     -f user/docker-compose.yml \
     config > all-docker-compose.yml
-#    -f gateway/docker-compose.yml \
-#    -f prometheus/docker-compose.yml \
 
 kompose convert \
   --with-kompose-annotation=false \

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: revue-kafka-ui
+  name: revue-kafka-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: revue-kafka-ui
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: revue-kafka-ui
+    spec:
+      containers:
+        - env:
+            - name: DYNAMIC_CONFIG_ENABLED
+              value: "true"
+            - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+              value: revue-kafka-1:9092,revue-kafka-2:9093
+            - name: KAFKA_CLUSTERS_0_NAME
+              value: revue-cluster
+          image: provectuslabs/kafka-ui:latest
+          name: revue-kafka-ui
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /etc/kafkaui/dynamic_config.yaml
+              name: revue-kafka-ui-cm0
+              subPath: dynamic_config.yaml
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            items:
+              - key: config.yml
+                path: dynamic_config.yaml
+            name: revue-kafka-ui-cm0
+          name: revue-kafka-ui-cm0

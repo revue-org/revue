@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.alarm.entrypoints: websecure
+    traefik.http.routers.alarm.rule: Host(`alarm.localhost`)
+    traefik.http.routers.alarm.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-alarm
+  name: revue-alarm
+spec:
+  containers:
+    - image: letsdothisshared/revue-alarm
+      name: revue-alarm
+      ports:
+        - containerPort: 4002
+          protocol: TCP
+  restartPolicy: OnFailure

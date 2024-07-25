@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.frontend.entrypoints: websecure
+    traefik.http.routers.frontend.rule: Host(`frontend.localhost`)
+    traefik.http.routers.frontend.tls.certresolver: myresolver
+  labels:
+    io.kompose.service: revue-frontend
+  name: revue-frontend
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    io.kompose.service: revue-frontend

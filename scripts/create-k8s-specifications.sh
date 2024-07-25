@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ ! -d "k8s" ]; then
   echo "Creating k8s directory"
   mkdir k8s

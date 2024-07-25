@@ -6,6 +6,8 @@ export interface LogEventsHub {
 
   addMeasurementTopics(topics: string[]): void
 
+  removeMeasurementTopics(topics: string[]): void
+
   subscribeToAnomalies(handler: (anomaly: Anomaly) => void): void
 
   subscribeToDevices(handler: (device: DeviceEvent) => void): void

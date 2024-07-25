@@ -11,7 +11,7 @@ export class CapabilityFactory {
     }
   }
 
-  static videoStreamingCapabilityOf(resolution: '720p' | '1080p' | '4k') {
+  static videoStreamingCapabilityOf(resolution: '576p' | '720p' | '1080p' | '4k') {
     return {
       type: CapabilityType.VIDEO,
       resolution

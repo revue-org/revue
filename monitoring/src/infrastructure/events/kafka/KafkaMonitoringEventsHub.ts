@@ -20,7 +20,9 @@ export class KafkaMonitoringEventsHub {
   private async getTopics(): Promise<string[]> {
     return await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=sensor`)
       .then((res: any): string[] =>
-        res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
+        res.data
+          .filter((device: any) => device.isEnabled)
+          .map((device: any): string => `measurements.${device.deviceId.value}`)
       )
       .catch((_e: any): string[] => {
         throw new Error('Error getting topics from device service')
@@ -30,12 +32,10 @@ export class KafkaMonitoringEventsHub {
   subscribeToMeasurements(handler: (_measurement: Measurement) => void): void {
     this.getTopics()
       .then((topics: string[]): void => {
-        console.log(topics)
         this.measurementsConsumer
           .startConsuming(topics, false, (message: KafkaMessage): void => {
             if (message.value) {
               try {
-                console.log('Message received')
                 const messageValue = JSON.parse(message.value?.toString())
                 messageValue.timestamp = new Date(messageValue.timestamp)
                 const measurement: Measurement = MeasurementPresenter.asDomainEvent(messageValue)
@@ -51,13 +51,17 @@ export class KafkaMonitoringEventsHub {
           .then((): void => console.log('Measurements consumer started'))
       })
       .catch((_e: any): void => {
-        console.log('Error getting topics, retrying in 10 seconds')
+        console.log('Error getting measurements topics, retrying in 10 seconds')
         setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
       })
   }
 
   addMeasurementTopics(topics: string[]): void {
     this.measurementsConsumer.addTopics(topics)
+  }
+
+  removeMeasurementTopics(topics: string[]): void {
+    this.measurementsConsumer.removeTopics(topics)
   }
 
   subscribeToDevices(handler: (event: DeviceEvent) => void): void {
@@ -68,12 +72,12 @@ export class KafkaMonitoringEventsHub {
             const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
             handler(event)
           } catch (e) {
-            console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
+            console.log('Error parsing device event, message ignored because is not compliant to the schema')
           }
         }
       })
       .then((): void => {
-        console.log('Device event consumer started')
+        console.log('Devices event consumer started')
       })
   }
 }

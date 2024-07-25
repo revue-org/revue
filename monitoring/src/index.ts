@@ -25,21 +25,6 @@ const io: SocketIOServer = new SocketIOServer(server, {
   }
 })
 
-/*io.use(async function (socket, next): Promise<void> {
-  //TODO NB, to test
-  if (socket.handshake.query && socket.handshake.query.token) {
-    console.log('middleware socket validation: ' + socket.handshake.query.token)
-    if (
-      await jwtManager.verify(socket.handshake.query.token as string, async (err: any): Promise<boolean> => {
-        return !err
-      })
-    )
-      next()
-  } else {
-    next(new Error('Authentication error'))
-  }
-})*/
-
 app.use(express.json())
 
 const PORT: number = Number(process.env.MONITORING_PORT) || 4000
@@ -74,12 +59,5 @@ new MonitoringServiceImpl(monitoringEventsHub)
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Monitoring server listening on ${process.env.MONITORING_PORT}`)
-    // monitoringEventsHub.subscribeToMeasurements((measurement: Measurement): void => {
-    //   console.log('Measurement received: ' + JSON.stringify(measurement))
-    //   monitoringService.sendMeasurementToUser(measurement)
-    // })
-    // monitoringEventsHub.subscribeToDevices((event): void => {
-    // })
-    //TODO: here or where we want we have to trigger the broker client to start consuming and sending to the user the measurements
   })
 }

@@ -2,12 +2,11 @@ import { DeviceCapability } from '../core/capabilities/DeviceCapability'
 import { Device } from '../core/Device'
 import { DeviceEndpoint } from '../core/DeviceEndpoint'
 import { DeviceId } from '../core/DeviceId'
+import { v4 as uuidv4 } from 'uuid'
 
 export class DeviceFactory {
   static newId(): DeviceId {
-    return {
-      value: 'test'
-    }
+    return { value: uuidv4() }
   }
 
   static idOf(id: string): DeviceId {

@@ -42,5 +42,25 @@ components:
                 password:
                     type: string
                     description: The password of the user
+                role:
+                    type: string
+                    description: The role of the user
+                permissions:
+                    $ref: "#/components/schemas/Permissions"
+
+        UserInsertion:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: The username of the user
+                password:
+                    type: string
+                    description: The password of the user
+                permissions:
+                    $ref: "#/components/schemas/Permissions"
+        UserUpdate:
+            type: object
+            properties:
                 permissions:
                     $ref: "#/components/schemas/Permissions"

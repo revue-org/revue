@@ -35,8 +35,8 @@ const updateRule = async (rule: SecurityRule) => {
   })
   const commonBody: any = {
     description: description.value,
-    from: new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'),
-    to: new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z'),
+    validityStart: new Date('1970-01-01T' + from.value.slice(0, 5) + ':00.000Z'),
+    validityEnd: new Date('2030-01-01T' + to.value.slice(0, 5) + ':00.000Z'),
     contacts: updatedContacts
   }
   if (rule.type === 'range') {

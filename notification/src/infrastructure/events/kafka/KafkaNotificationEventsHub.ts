@@ -20,17 +20,20 @@ export class KafkaNotificationEventsHub {
       .startConsuming(['anomalies'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(message.value)
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
+            messageValue.data.timestamp = new Date(messageValue.data.timestamp)
+            const anomaly: Anomaly = AnomalyPresenter.asDomainEvent(messageValue)
             handler(anomaly)
           } catch (e) {
             console.log('Error parsing anomaly, message ignored because is not compliant to the schema')
           }
         }
       })
-      .then((): void => console.log('Consumer started'))
+      .then((): void => console.log('Anomalies consumer started'))
   }
 
-  publishNotification(notification: Notification) {
+  publishNotification(notification: Notification): void {
     this.notificationProducer.produce('notifications', notification)
   }
 }

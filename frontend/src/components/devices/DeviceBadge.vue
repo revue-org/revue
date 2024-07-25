@@ -59,15 +59,15 @@ const getCapabilities = () => {
     })
 }
 
-const enableDevice = async () => {
-  //TODO TO TEST
-  /* RequestHelper.put(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/enable`, {})
-     .then(async (_res: any) => {
-       emit('get-devices')
-     })
-     .catch(_error => {
-       popNegative($q, 'Error while enabling device')
-     })*/
+const toggleDevice = async () => {
+  const action = device.isEnabled ? 'disable' : 'enable'
+  RequestHelper.post(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/${action}`)
+    .then(async (_res: any) => {
+      emit('get-devices')
+    })
+    .catch(_error => {
+      popNegative($q, 'Error while enabling device')
+    })
 }
 
 onMounted(() => {
@@ -107,7 +107,11 @@ const deleteDevice = () => {
                 : 'blue'
           }"
         >
-          {{ capability.type.toUpperCase() }}
+          {{
+            capability.type === 'sensor'
+              ? (capability as SensoringCapability).measure.type.toUpperCase()
+              : 'VIDEO'
+          }}
           <capability-popup v-model="capabilityPopupVisible" :capability="capability"></capability-popup>
         </q-badge>
       </li>
@@ -116,7 +120,7 @@ const deleteDevice = () => {
           <q-btn
             :name="device.isEnabled ? 'toggle_on' : 'toggle_off'"
             :icon="device.isEnabled ? 'toggle_on' : 'toggle_off'"
-            @click="enableDevice"
+            @click="toggleDevice"
           />
           <q-tooltip :offset="[0, 8]">Enable</q-tooltip>
         </div>

@@ -14,7 +14,7 @@ const outliers: Ref<Outlier[]> = ref([])
 const selected = ref('measurements')
 
 function getMeasurements() {
-  RequestHelper.get(`http://${logHost}:${logPort}/measurements`)
+  RequestHelper.get(`http://${logHost}:${logPort}/measurements?limit=50`)
     .then(async (res: any) => {
       measurements.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
@@ -27,7 +27,7 @@ function getMeasurements() {
 }
 
 function getOutliers() {
-  RequestHelper.get(`http://${logHost}:${logPort}/anomalies/outliers`)
+  RequestHelper.get(`http://${logHost}:${logPort}/anomalies/outliers?limit=50`)
     .then(async (res: any) => {
       outliers.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
@@ -40,7 +40,7 @@ function getOutliers() {
 }
 
 function getIntrusions() {
-  RequestHelper.get(`http://${logHost}:${logPort}/anomalies/intrusions`)
+  RequestHelper.get(`http://${logHost}:${logPort}/anomalies/intrusions?limit=50`)
     .then(async (res: any) => {
       intrusions.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
@@ -57,16 +57,18 @@ onMounted(() => {
   getOutliers()
   getIntrusions()
 })
+
+const optionsHistories = ['measurements', 'intrusions', 'outliers']
 </script>
 
 <template>
   <h2>History:</h2>
   <div>
-    <select v-model="selected">
-      <option value="measurements">Measurements</option>
-      <option value="intrusions">Intrusions</option>
-      <option value="outliers">Outliers</option>
-    </select>
+    <q-select
+      v-model="selected"
+      :options="optionsHistories"
+      style="font-size: 20px; width: 400px; margin-left: 10px"
+    />
   </div>
   <div v-if="selected === 'measurements'">
     <measurement-badge v-for="(measurement, index) in measurements" :key="index" :measurement="measurement" />

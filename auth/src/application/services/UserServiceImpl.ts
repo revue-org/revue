@@ -24,6 +24,7 @@ export class UserServiceImpl implements UserService {
       user.id,
       user.username,
       user.password,
+      user.role,
       user.permissions,
       accessToken,
       refreshToken
@@ -36,7 +37,7 @@ export class UserServiceImpl implements UserService {
     const user: User = await this.repository.getUserByUsername(username)
     if (!user) throw new Error('User not found')
     return await this.repository.updateUser(
-      UserFactory.userFrom(user.id, user.username, user.password, user.permissions, '', '')
+      UserFactory.userFrom(user.id, user.username, user.password, user.role, user.permissions, '', '')
     )
   }
 
@@ -48,6 +49,7 @@ export class UserServiceImpl implements UserService {
         user.id,
         user.username,
         user.password,
+        user.role,
         user.permissions,
         jwtManager.generateAccessToken(user),
         refreshToken
@@ -83,6 +85,7 @@ export class UserServiceImpl implements UserService {
       UserFactory.newId(),
       username,
       hashedPassword,
+      'guardian',
       permissions,
       '',
       ''

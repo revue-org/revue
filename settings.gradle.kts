@@ -1,6 +1,6 @@
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
-    id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.3"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.8"
 }
 
 rootProject.name = "revue"
@@ -8,7 +8,6 @@ val subprojects = listOf(
     "common",
     "alarm",
     "auth",
-    "camera",
     "device",
     "location",
     "notification",
@@ -16,7 +15,6 @@ val subprojects = listOf(
     "user",
     "monitoring",
     "recognition",
-    "sensor",
     "frontend",
 )
 subprojects.forEach { include(":$it") }

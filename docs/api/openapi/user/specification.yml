@@ -15,6 +15,12 @@ paths:
             responses:
                 200:
                     description: The list of all users
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "./schemas.yml#/components/schemas/User"
                 403:
                     description: User not authorized
         post:

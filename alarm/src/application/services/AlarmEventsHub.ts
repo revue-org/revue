@@ -12,5 +12,7 @@ export interface AlarmEventsHub {
 
   addMeasurementTopics(topics: string[]): void
 
+  removeMeasurementTopics(topics: string[]): void
+
   subscribeToDevices(handler: (deviceEvent: DeviceEvent) => void): void
 }

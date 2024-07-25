@@ -4,12 +4,11 @@ import { RangeRule } from '../core/rules/RangeRule.js'
 import { SecurityRuleId } from '../core/rules/SecurityRuleId.js'
 import { Contact } from 'common/dist/domain/core/Contact.js'
 import { Measure, ObjectClass } from '@common/domain/core'
+import { v4 as uuidv4 } from 'uuid'
 
 export class SecurityRulesFactory {
   static newId(): SecurityRuleId {
-    return {
-      value: 'test'
-    }
+    return { value: uuidv4() }
   }
 
   static idOf(id: string): SecurityRuleId {

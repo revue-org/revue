@@ -1,6 +1,6 @@
-# syntax = docker/dockerfile:1.2
+# syntax = docker/dockerfile:1.9
 
-FROM gradle as build
+FROM gradle AS build
 LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 # Move to the directory where the application will be built
@@ -22,7 +22,7 @@ COPY . .
 RUN gradle auth:build --no-daemon --info --parallel
 
 
-FROM node:20-alpine as production
+FROM node:20-alpine AS production
 LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue

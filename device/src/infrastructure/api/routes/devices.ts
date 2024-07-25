@@ -61,6 +61,28 @@ deviceRouter.route('/:id/capabilities').get((req: Request, res: Response): void 
     })
 })
 
+deviceRouter.route('/:id/enable').post((req: Request, res: Response): void => {
+  deviceController
+    .enableDevice(req.params.id)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send()
+    })
+    .catch((): void => {
+      res.send({ error: 'Error enabling device' })
+    })
+})
+
+deviceRouter.route('/:id/disable').post((req: Request, res: Response): void => {
+  deviceController
+    .disableDevice(req.params.id)
+    .then((): void => {
+      res.status(HttpStatusCode.OK).send()
+    })
+    .catch((): void => {
+      res.send({ error: 'Error disabling device' })
+    })
+})
+
 deviceRouter.route('/actives').get((_req: Request, res: Response): void => {
   deviceController
     .getActiveDevices()
@@ -88,12 +110,7 @@ deviceRouter.route('/').post((req: Request, res: Response): void => {
     req.body.endpoint.port = parseInt(req.body.endpoint.port)
     const message: DeviceInsertion = devicePresenter.parseInsertion(req.body)
     deviceController
-      .createDevice(
-        message.description,
-        message.endpoint.ipAddress,
-        message.endpoint.port,
-        message.locationId
-      )
+      .createDevice(message.description, message.endpoint.ipAddress, message.endpoint.port)
       .then((id: DeviceId): void => {
         res.status(HttpStatusCode.CREATED).send({ success: id })
       })
@@ -129,8 +146,8 @@ deviceRouter.route('/:id').delete((req: Request, res: Response): void => {
     .then((): void => {
       res.status(HttpStatusCode.OK).send({ success: 'Device correctly deleted' })
     })
-    .catch((ee): void => {
-      console.log(ee)
+    .catch((e): void => {
+      console.log(e)
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ error: 'Device not deleted' })
     })
 })

@@ -13,7 +13,5 @@ docker compose \
     -f log/docker-compose.yml \
     -f location/docker-compose.yml \
     -f notification/docker-compose.yml \
-    -f camera/docker-compose.yml \
-    -f sensor/docker-compose.yml \
     -f recognition/docker-compose.yml \
     "$@"

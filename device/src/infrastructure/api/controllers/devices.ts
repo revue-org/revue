@@ -15,19 +15,8 @@ export const deviceController = {
   getActiveDevices: async (): Promise<Device[]> => {
     return await deviceService.getActiveDevices()
   },
-  createDevice: async (
-    description: string,
-    address: string,
-    port: number,
-    locationId: string
-  ): Promise<DeviceId> => {
-    return await deviceService.createDevice(
-      description,
-      DeviceFactory.endpointOf(address, port),
-      locationId,
-      true,
-      []
-    )
+  createDevice: async (description: string, address: string, port: number): Promise<DeviceId> => {
+    return await deviceService.createDevice(description, DeviceFactory.endpointOf(address, port))
   },
   updateDevice: async (
     id: string,

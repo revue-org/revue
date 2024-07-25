@@ -1,6 +1,6 @@
 <script lang="ts"></script>
 <script setup lang="ts">
-import { type Ref, onMounted, ref } from 'vue'
+import { onMounted, type Ref, ref } from 'vue'
 import DeviceBadge from '@/components/devices/DeviceBadge.vue'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
 import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
@@ -19,12 +19,12 @@ const getDevices = async () => {
   useUserStore().permissions.forEach((location: string) => {
     RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/locations/${location}`)
       .then(async (res: any) => {
+        console.log(res.data)
         if (res.status == HttpStatusCode.OK) {
           for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].isEnabled) {
-              devices.value.push(composeDevice(res.data[i]))
-            }
+            devices.value.push(composeDevice(res.data[i]))
           }
+          console.log(devices.value)
         }
       })
       .catch((error: any) => {

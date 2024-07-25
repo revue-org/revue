@@ -8,6 +8,7 @@ import { popNegative } from '@/scripts/Popups'
 import { setupSocketServers } from '@/socket'
 import { type Contact, ContactType } from 'common/dist/domain/core'
 import { ContactFactory } from 'common/dist/domain/factories/ContactFactory'
+import { UserRole } from '@/domain/core/UserRole'
 
 const username = ref('')
 const password = ref('')
@@ -21,10 +22,12 @@ const login = () => {
     password: password.value
   })
     .then((res: any) => {
+      console.log(res.data)
       userStore.isLoggedIn = true
       userStore.id = res.data.id.value
       userStore.username = res.data.username
       userStore.password = res.data.password
+      userStore.role = res.data.role
       userStore.accessToken = res.data.accessToken
       userStore.refreshToken = res.data.refreshToken
       userStore.permissions = res.data.permissions
@@ -41,8 +44,12 @@ const login = () => {
         userStore.surname = res.data.surname
         userStore.mail = res.data.mail
         userStore.contacts = contacts
-        setupSocketServers(userStore.accessToken)
-        router.push('/home')
+        if (userStore.role === UserRole.ADMIN) {
+          router.push('/admin')
+        } else {
+          setupSocketServers(userStore.accessToken)
+          router.push('/home')
+        }
       })
     })
     .catch(() => {

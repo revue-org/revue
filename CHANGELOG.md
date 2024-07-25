@@ -1,3 +1,41 @@
+## [2.2.3](https://github.com/revue-org/revue/compare/v2.2.2...v2.2.3) (2024-07-25)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.92 ([f53e58f](https://github.com/revue-org/revue/commit/f53e58f27d8d9e704deeae6bcf3abee72f0fedc7))
+* **deps:** update dependency @rushstack/eslint-patch to v1.10.3 ([6fd726e](https://github.com/revue-org/revue/commit/6fd726e78d53910bdbe8c57d271a91d03a2c83b2))
+* **deps:** update dependency dotenv to v16.4.5 ([28827e4](https://github.com/revue-org/revue/commit/28827e46527bce005f6516935ed589557b201da9))
+* **deps:** update dependency mongoose to v8.5.1 ([714da97](https://github.com/revue-org/revue/commit/714da97cb5129c1efb0363f2983a45746df66915))
+* **deps:** update dependency nodemon to v3.1.4 ([ba5e2c3](https://github.com/revue-org/revue/commit/ba5e2c32578ea74d85fc41e58d469802b0f676a3))
+* **deps:** update dependency numpy to v2.0.1 ([bfcf281](https://github.com/revue-org/revue/commit/bfcf281164cf67ffaa4a5e12dc10227189415390))
+* **deps:** update dependency prettier to v3.3.3 ([8af30ba](https://github.com/revue-org/revue/commit/8af30bab0f4e9892e2cb3d50d3c7d80c67bc3c59))
+* **deps:** update dependency prettier to v3.3.3 ([f1d13b3](https://github.com/revue-org/revue/commit/f1d13b386643f94baa71a31d85b6951ae80e3709))
+* **deps:** update dependency rollup to v4.19.0 ([eba2d96](https://github.com/revue-org/revue/commit/eba2d96f62d831955c9f21d2839fc70324897e03))
+* **deps:** update dependency tsc-alias to v1.8.10 ([5fea2df](https://github.com/revue-org/revue/commit/5fea2df1c1f7817063228fcfeb88c94e68fa2464))
+* **deps:** update dependency vitest to v2.0.4 ([6653441](https://github.com/revue-org/revue/commit/6653441a054123efed9a21758fc7b0b9fc7cbe16))
+
+
+## [2.2.3](https://github.com/revue-org/revue/compare/v2.2.2...v2.2.3) (2024-07-25)
+
+## [2.2.3](https://github.com/revue-org/revue/compare/v2.2.2...v2.2.3) (2024-07-25)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.92 ([f53e58f](https://github.com/revue-org/revue/commit/f53e58f27d8d9e704deeae6bcf3abee72f0fedc7))
+* **deps:** update dependency @rushstack/eslint-patch to v1.10.3 ([6fd726e](https://github.com/revue-org/revue/commit/6fd726e78d53910bdbe8c57d271a91d03a2c83b2))
+* **deps:** update dependency dotenv to v16.4.5 ([28827e4](https://github.com/revue-org/revue/commit/28827e46527bce005f6516935ed589557b201da9))
+* **deps:** update dependency mongoose to v8.5.1 ([714da97](https://github.com/revue-org/revue/commit/714da97cb5129c1efb0363f2983a45746df66915))
+* **deps:** update dependency nodemon to v3.1.4 ([ba5e2c3](https://github.com/revue-org/revue/commit/ba5e2c32578ea74d85fc41e58d469802b0f676a3))
+* **deps:** update dependency numpy to v2.0.1 ([bfcf281](https://github.com/revue-org/revue/commit/bfcf281164cf67ffaa4a5e12dc10227189415390))
+* **deps:** update dependency prettier to v3.3.3 ([8af30ba](https://github.com/revue-org/revue/commit/8af30bab0f4e9892e2cb3d50d3c7d80c67bc3c59))
+* **deps:** update dependency prettier to v3.3.3 ([f1d13b3](https://github.com/revue-org/revue/commit/f1d13b386643f94baa71a31d85b6951ae80e3709))
+* **deps:** update dependency rollup to v4.19.0 ([eba2d96](https://github.com/revue-org/revue/commit/eba2d96f62d831955c9f21d2839fc70324897e03))
+* **deps:** update dependency tsc-alias to v1.8.10 ([5fea2df](https://github.com/revue-org/revue/commit/5fea2df1c1f7817063228fcfeb88c94e68fa2464))
+* **deps:** update dependency vitest to v2.0.4 ([6653441](https://github.com/revue-org/revue/commit/6653441a054123efed9a21758fc7b0b9fc7cbe16))
+
+
+## [2.2.3](https://github.com/revue-org/revue/compare/v2.2.2...v2.2.3) (2024-07-25)
+
 ## [2.2.2](https://github.com/revue-org/revue/compare/v2.2.1...v2.2.2) (2024-07-22)
 
 ### Dependency updates

@@ -1,5 +1,5 @@
 import { Consumer, EachMessagePayload, Kafka, KafkaMessage, logLevel } from 'kafkajs'
-import { getLogLevel, KafkaOptions } from './KafkaOptions.js'
+import { KafkaOptions } from './KafkaOptions.js'
 
 export default class KafkaConsumer {
   private readonly kafkaConsumer: Consumer
@@ -21,7 +21,7 @@ export default class KafkaConsumer {
         topics: topics,
         fromBeginning: fromBeginning
       })
-      console.log("Consumer subscribed to topics: ", topics)
+      console.log('Consumer subscribed to topics: ', topics)
       await this.kafkaConsumer.run({
         eachMessage: async (messagePayload: EachMessagePayload) => {
           const { topic, partition, message } = messagePayload
@@ -47,7 +47,7 @@ export default class KafkaConsumer {
     const kafka: Kafka = new Kafka({
       clientId: this.kafkaOptions.clientId,
       brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`),
-      logLevel: logLevel.INFO//getLogLevel() TODO: remove comment
+      logLevel: logLevel.INFO //getLogLevel() TODO: remove comment
     })
     return kafka.consumer({ groupId: this.kafkaOptions.groupId! })
   }

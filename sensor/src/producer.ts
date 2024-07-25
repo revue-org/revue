@@ -30,12 +30,11 @@ export const getSensorInfo = async (): Promise<void> => {
   }
 }
 
-
 const brokers: KafkaBroker[] = getBrokersFromEnv()
 
 let kafkaOptions: KafkaOptions = {
   clientId: 'sen-01',
-  brokers: brokers,
+  brokers: brokers
 }
 
 if (process.env.NODE_ENV == 'develop') {
@@ -47,7 +46,6 @@ if (process.env.NODE_ENV == 'develop') {
     brokers: [{ host: kafkaHost, port: kafkaPort }]
   }
 }
-
 
 export const produce = async (): Promise<void> => {
   const producer: KafkaProducer = new KafkaProducer(kafkaOptions)

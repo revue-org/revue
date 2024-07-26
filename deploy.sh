@@ -50,6 +50,7 @@ while [ $# -gt 0 ]; do
       fi
       ;;
     --k8s)
+      ./scripts/create-k8s-specifications.sh
       if [[ "$2" == --driver=* ]]; then
         driver="${2#*=}"
         shift

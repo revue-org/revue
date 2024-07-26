@@ -1,4 +1,5 @@
 import os
+from typing import Callable
 
 import cv2 as cv
 import numpy as np
@@ -13,8 +14,8 @@ class Recognizer:
         yolo_resource: str = "app/resources/yolov3"
         with open(f"{yolo_resource}/coco.names", "r") as f:
             self.classes: [str] = [line.strip() for line in f.readlines()]
-        self._camera_code: str = camera_code
-        self._rtsp_stream_url: str = rtsp_stream_url
+        self.camera_code: str = camera_code
+        self.rtsp_stream_url: str = rtsp_stream_url
         self._is_recognizing: bool = False
         self._recognized_objects: [str] = []
         if os.environ["TEST"] != "true":
@@ -27,12 +28,12 @@ class Recognizer:
             self._net.setInputScale(1.0 / 255)
             self._net.setInputSwapRB(True)
 
-    def start_recognizing(self) -> None:
+    def start_recognizing(self, recognition_handler: Callable[[str], None]) -> None:
         if os.environ["TEST"] != "true":
             os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
             # load capture
-            capture = cv.VideoCapture(self._rtsp_stream_url, cv.CAP_FFMPEG)
+            capture = cv.VideoCapture(self.rtsp_stream_url, cv.CAP_FFMPEG)
             capture.set(cv.CAP_PROP_FRAME_WIDTH, 640)
             capture.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
 
@@ -62,9 +63,10 @@ class Recognizer:
                         recognized_object: str = self.classes[classId]
                         if recognized_object not in self._recognized_objects:
                             self._recognized_objects.append(recognized_object)
-                            self._producer.produce(
-                                "CAMERA_" + self._camera_code, recognized_object
-                            )
+                            recognition_handler(recognized_object)
+                            # self._producer.produce(
+                            #     "CAMERA_" + self.camera_code, recognized_object
+                            # ) # TODO remove
                             set_timeout(
                                 lambda: self._recognized_objects.remove(
                                     recognized_object

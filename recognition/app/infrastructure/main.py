@@ -1,21 +1,22 @@
+import os
 from typing import List
 
 import requests
-import os
-from flask import Flask
-
+from app.application import RecognitionService
+from app.application.impl import RecognitionServiceImpl
 from app.domain.securityrule.core import IntrusionRule
 from app.domain.securityrule.utils.utils import is_intrusion_rule_active
+from app.infrastructure.events.RecognitionEventsHubImpl import RecognitionEventsHubImpl
 from app.presentation.securityrule.IntrusionRuleSerializer import (
     IntrusionRuleSerializer,
 )
-from app.recognizer.RecognizersManager import RecognizersManager
 from app.utils.Logger import logger
 from app.utils.env import RECOGNITION_BEARER_TOKEN, ALARM_PORT, ALARM_HOST
 from app.utils.interval import set_interval
+from flask import Flask
 
 intrusion_rules: List[IntrusionRule] = []
-manager = RecognizersManager()
+recognition_service: RecognitionService = RecognitionServiceImpl(RecognitionEventsHubImpl())
 
 os.environ["TEST"] = "false"
 
@@ -49,18 +50,18 @@ def get_intrusion_rules() -> List[IntrusionRule]:
 def enable_intrusion_rules() -> None:
     for intrusion_rule in intrusion_rules:
         if is_intrusion_rule_active(intrusion_rule):
-            manager.add_camera(intrusion_rule.device_id.code)
+            recognition_service.add_camera(intrusion_rule.device_id.code)
 
 
 def check_rule_update() -> None:
     new_intrusion_rules = get_intrusion_rules()
     intrusion_rules.clear()
     intrusion_rules.append(*new_intrusion_rules)
-    manager.remove_all_cameras()
+    recognition_service.remove_all_cameras()
     enable_intrusion_rules()
 
 
 def check_rule_validity() -> None:
     for intrusion_rule in intrusion_rules:
         if not is_intrusion_rule_active(intrusion_rule):
-            manager.remove_camera(intrusion_rule.device_id.code)
+            recognition_service.remove_camera(intrusion_rule.device_id.code)

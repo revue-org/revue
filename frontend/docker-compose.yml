@@ -12,10 +12,11 @@ services:
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    #  - traefik.http.routers.frontend.rule=Host(`frontend.localhost`)
-    #  - traefik.http.routers.frontend.entrypoints=websecure
-    #  - traefik.http.routers.frontend.tls.certresolver=myresolver
+      kompose.service.expose: "frontend.localhost"
+      traefik.enable: true
+      traefik.http.routers.frontend.rule: Host(`frontend.localhost`)
+      traefik.http.routers.frontend.entrypoints: websecure
+      traefik.http.routers.frontend.tls.certresolver: myresolver
 
 networks:
   my-net:

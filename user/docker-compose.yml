@@ -14,10 +14,11 @@ services:
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    #  - traefik.http.routers.user.rule=Host(`user.localhost`)
-    #  - traefik.http.routers.user.entrypoints=websecure
-    #  - traefik.http.routers.user.tls.certresolver=myresolver
+      kompose.service.expose: "user.localhost"
+      traefik.enable: true
+      traefik.http.routers.user.rule: Host(`user.localhost`)
+      traefik.http.routers.user.entrypoints: websecure
+      traefik.http.routers.user.tls.certresolver: myresolver
 
   revue-user-db:
     image: mongo
@@ -30,13 +31,13 @@ services:
     ports:
       - ${USER_DB_PORT}:27017
     volumes:
-      - user_data:/data/db
+      - revue_user_data:/data/db
       - ./user/db/user-init.js:/docker-entrypoint-initdb.d/user-init.js
     networks:
       - my-net
 
 volumes:
-  user_data:
+  revue_user_data:
     driver: local
 
 networks:

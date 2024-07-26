@@ -11,14 +11,16 @@ services:
       - ${LOG_PORT}:${LOG_PORT}
     depends_on:
       - revue-log-db
-      - ${KAFKA_HOST}
+      - ${KAFKA_HOST_1}
+      - ${KAFKA_HOST_2}
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    #  - traefik.http.routers.log.rule=Host(`log.localhost`)
-    #  - traefik.http.routers.log.entrypoints=websecure
-    #  - traefik.http.routers.log.tls.certresolver=myresolver
+      kompose.service.expose: "log.localhost"
+      traefik.enable: true
+      traefik.http.routers.log.rule: Host(`log.localhost`)
+      traefik.http.routers.log.entrypoints: websecure
+      traefik.http.routers.log.tls.certresolver: myresolver
 
   revue-log-db:
     image: mongo
@@ -31,13 +33,16 @@ services:
     ports:
       - ${LOG_DB_PORT}:27017
     volumes:
-      - log_data:/data/db
+      - revue_log_data:/data/db
       - ./log/db/history-init.js:/docker-entrypoint-initdb.d/history-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
 
 volumes:
-  log_data:
+  revue_log_data:
     driver: local
 
 networks:

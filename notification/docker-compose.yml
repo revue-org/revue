@@ -11,14 +11,16 @@ services:
       - ${NOTIFICATION_PORT}:${NOTIFICATION_PORT}
     depends_on:
       - revue-notification-db
-      - ${KAFKA_HOST}
+      - ${KAFKA_HOST_1}
+      - ${KAFKA_HOST_2}
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    #  - traefik.http.routers.notification.rule=Host(`notification.localhost`)
-    #  - traefik.http.routers.notification.entrypoints=websecure
-    #  - traefik.http.routers.notification.tls.certresolver=myresolver
+      kompose.service.expose: "notification.localhost"
+      traefik.enable: true
+      traefik.http.routers.notification.rule: Host(`notification.localhost`)
+      traefik.http.routers.notification.entrypoints: websecure
+      traefik.http.routers.notification.tls.certresolver: myresolver
 
   revue-notification-db:
     image: mongo
@@ -31,13 +33,16 @@ services:
     ports:
       - ${NOTIFICATION_DB_PORT}:27017
     volumes:
-      - notification_data:/data/db
+      - revue_notification_data:/data/db
       - ./notification/db/notification-init.js:/docker-entrypoint-initdb.d/notification-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
 
 volumes:
-  notification_data:
+  revue_notification_data:
     driver: local
 
 networks:

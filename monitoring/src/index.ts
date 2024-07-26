@@ -47,7 +47,7 @@ const kafkaOptions: KafkaOptions = {
   brokers: brokers,
   groupId: 'monitoringConsumer'
 }
-
+console.log('BROKERS: ', brokers)
 const kafkaMonitoring: KafkaMonitoringEventsHub = new KafkaMonitoringEventsHub(kafkaOptions)
 const socketMonitoring: SocketMonitoringEventsHub = new SocketMonitoringEventsHub(io)
 const monitoringEventsHub: MonitoringEventsHub = new MonitoringEventsHubImpl(

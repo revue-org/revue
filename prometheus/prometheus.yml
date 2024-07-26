@@ -1,7 +1,0 @@
-global:
-  scrape_interval: 5s # Scrape metrics from targets every 5 seconds, TODO: change for production
-
-scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['revue-prometheus:9090'] # Scrape Prometheus (itself) on http://revue-prometheus:9090/metrics

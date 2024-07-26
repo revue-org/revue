@@ -14,10 +14,11 @@ services:
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    ##  - traefik.http.routers.auth.rule=Host(`auth.localhost`)
-    #  - traefik.http.routers.auth.entrypoints=websecure
-    #  - traefik.http.routers.auth.tls.certresolver=myresolver
+      kompose.service.expose: "auth.localhost"
+      traefik.enable: true
+      traefik.http.routers.auth.rule: Host(`auth.localhost`)
+      traefik.http.routers.auth.entrypoints: websecure
+      traefik.http.routers.auth.tls.certresolver: myresolver
 
   revue-auth-db:
     image: mongo
@@ -30,13 +31,16 @@ services:
     ports:
       - ${AUTH_DB_PORT}:27017
     volumes:
-      - auth_data:/data/db
+      - revue_auth_data:/data/db
       - ./auth/db/auth-init.js:/docker-entrypoint-initdb.d/auth-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
 
 volumes:
-  auth_data:
+  revue_auth_data:
     driver: local
 
 networks:

@@ -11,14 +11,16 @@ services:
       - ${DEVICE_PORT}:${DEVICE_PORT}
     depends_on:
       - revue-device-db
-      - ${KAFKA_HOST}
+      - ${KAFKA_HOST_1}
+      - ${KAFKA_HOST_2}
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    #  - traefik.http.routers.device.rule=Host(`device.localhost`)
-    #  - traefik.http.routers.device.entrypoints=websecure
-    #  - traefik.http.routers.device.tls.certresolver=myresolver
+      kompose.service.expose: "device.localhost"
+      traefik.enable: true
+      traefik.http.routers.device.rule: Host(`device.localhost`)
+      traefik.http.routers.device.entrypoints: websecure
+      traefik.http.routers.device.tls.certresolver: myresolver
 
   revue-device-db:
     image: mongo
@@ -31,13 +33,13 @@ services:
     ports:
       - ${DEVICE_DB_PORT}:27017
     volumes:
-      - device_data:/data/db
+      - revue_device_data:/data/db
       - ./device/db/device-init.js:/docker-entrypoint-initdb.d/device-init.js
     networks:
       - my-net
 
 volumes:
-  device_data:
+  revue_device_data:
     driver: local
 
 networks:

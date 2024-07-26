@@ -16,6 +16,9 @@ services:
 #      - revue-camera-2
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
 
 networks:
   my-net:

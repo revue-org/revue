@@ -11,14 +11,16 @@ services:
       - ${ALARM_PORT}:${ALARM_PORT}
     depends_on:
       - revue-alarm-db
-      - ${KAFKA_HOST}
+      - ${KAFKA_HOST_1}
+      - ${KAFKA_HOST_2}
     networks:
       - my-net
     labels:
-      - traefik.enable=true
-    #  - traefik.http.routers.alarm.rule=Host(`alarm.localhost`)
-    #  - traefik.http.routers.alarm.entrypoints=websecure
-    #  - traefik.http.routers.alarm.tls.certresolver=myresolver
+      kompose.service.expose: "alarm.localhost"
+      traefik.enable: true
+      traefik.http.routers.alarm.rule: Host(`alarm.localhost`)
+      traefik.http.routers.alarm.entrypoints: websecure
+      traefik.http.routers.alarm.tls.certresolver: myresolver
 
   revue-alarm-db:
     image: mongo
@@ -31,13 +33,16 @@ services:
     ports:
       - ${ALARM_DB_PORT}:27017
     volumes:
-      - alarm_data:/data/db
+      - revue_alarm_data:/data/db
       - ./alarm/db/alarm-init.js:/docker-entrypoint-initdb.d/alarm-init.js
     networks:
       - my-net
+    labels:
+      kompose.service.type: clusterip
+      kompose.controller.type: deployment
 
 volumes:
-  alarm_data:
+  revue_alarm_data:
     driver: local
 
 networks:

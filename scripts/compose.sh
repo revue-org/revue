@@ -14,5 +14,4 @@ docker compose \
     -f location/docker-compose.yml \
     -f notification/docker-compose.yml \
     -f recognition/docker-compose.yml \
-    -f prometheus/docker-compose.yml \
     "$@"

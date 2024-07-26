@@ -16,7 +16,9 @@ from app.utils.interval import set_interval
 from flask import Flask
 
 intrusion_rules: List[IntrusionRule] = []
-recognition_service: RecognitionService = RecognitionServiceImpl(RecognitionEventsHubImpl())
+recognition_service: RecognitionService = RecognitionServiceImpl(
+    RecognitionEventsHubImpl()
+)
 
 os.environ["TEST"] = "false"
 
@@ -34,7 +36,7 @@ def create_app():
 
 
 def get_intrusion_rules() -> List[IntrusionRule]:
-    url: str = f"http://{ALARM_HOST}:{ALARM_PORT}/security-rules/intrusions"
+    url: str = f"http://{ALARM_HOST}:{ALARM_PORT}/rules/intrusions"
     logger.debug("URL: " + url)
     headers = {"Authorization": f"Bearer {RECOGNITION_BEARER_TOKEN}"}
     res = requests.get(url, headers=headers)

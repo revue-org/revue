@@ -89,6 +89,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
   subscribeToDetections(handler: (_detection: Detection) => void): void {
     this.getDetectionsTopics()
       .then((topics: string[]): void => {
+        console.log(topics)
         this.detectionsConsumer
           .startConsuming(topics, false, (message: KafkaMessage): void => {
             if (message.value) {

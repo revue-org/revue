@@ -1,4 +1,3 @@
-import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import Set
 
@@ -21,6 +20,7 @@ class RecognitionServiceImpl(RecognitionService):
         :param camera_code: the camera code of the camera to start recognizing
         """
         if camera_code not in list(map(lambda r: r.camera_code, self.recognizers)):
+
             def publish_detection(object_class: str):
                 logger.info(f"Detected {object_class} in camera {camera_code}")
                 self._events.publish_detection(camera_code, object_class)
@@ -39,7 +39,9 @@ class RecognitionServiceImpl(RecognitionService):
         :param camera_code: the camera code of the camera to stop recognizing
         """
         if camera_code in list(map(lambda r: r.camera_code, self.recognizers)):
-            recognizer = next(filter(lambda r: r.camera_code == camera_code, self.recognizers))
+            recognizer = next(
+                filter(lambda r: r.camera_code == camera_code, self.recognizers)
+            )
             recognizer.stop_recognizing()
             self.recognizers.remove(recognizer)
 

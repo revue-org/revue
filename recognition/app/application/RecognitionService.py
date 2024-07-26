@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class RecognitionService(ABC):
 
     @abstractmethod
-    def start_recognizing(self, camera_code: str):
+    def start_recognizing(self, camera_code: str) -> None:
         """
         It starts to recognize the video stream produced by a camera.
         If it is already recognizing the camera, it does nothing.
@@ -12,7 +12,7 @@ class RecognitionService(ABC):
         """
         pass
 
-    def stop_recognizing(self, camera_code: str):
+    def stop_recognizing(self, camera_code: str) -> None:
         """
         It stops recognizing the video stream produced by a camera.
         If it is not recognizing the camera, it does nothing.

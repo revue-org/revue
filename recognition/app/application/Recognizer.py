@@ -3,8 +3,6 @@ from typing import Callable
 
 import cv2 as cv
 import numpy as np
-
-from app.infrastructure.events.Producer import Producer
 from app.utils.interval import set_timeout
 
 
@@ -19,8 +17,6 @@ class Recognizer:
         self._is_recognizing: bool = False
         self._recognized_objects: [str] = []
         if os.environ["TEST"] != "true":
-            self._producer = Producer()
-
             self._net = cv.dnn_DetectionModel(
                 f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
             )
@@ -64,9 +60,6 @@ class Recognizer:
                         if recognized_object not in self._recognized_objects:
                             self._recognized_objects.append(recognized_object)
                             recognition_handler(recognized_object)
-                            # self._producer.produce(
-                            #     "CAMERA_" + self.camera_code, recognized_object
-                            # ) # TODO remove
                             set_timeout(
                                 lambda: self._recognized_objects.remove(
                                     recognized_object

@@ -1,3 +1,43 @@
+## [2.3.0](https://github.com/revue-org/revue/compare/v2.2.3...v2.3.0) (2024-07-26)
+
+### Features
+
+* add infrastructure components (traefik, prometheus, grafana) add one more broker and coordinator ([#223](https://github.com/revue-org/revue/issues/223)) ([6c6ba41](https://github.com/revue-org/revue/commit/6c6ba4188c4587000a79bdcd96133b100fe652fe))
+
+### Dependency updates
+
+* **deps:** update dependency @types/jsonwebtoken to v9.0.6 ([#166](https://github.com/revue-org/revue/issues/166)) ([f5a1a64](https://github.com/revue-org/revue/commit/f5a1a64affe0368e3bef1850b1ecdb5f3e0f3a12))
+* **deps:** update dependency @typescript-eslint/eslint-plugin to v7.17.0 ([e7307fc](https://github.com/revue-org/revue/commit/e7307fc74d5388bc159744ef445fdf6aed95856f))
+* **deps:** update dependency typescript to v5.5.4 ([cacd4ad](https://github.com/revue-org/revue/commit/cacd4ad6e9b067644a180fb691b0285c1f5d68bd))
+* **deps:** update dependency typescript to v5.5.4 ([1e28fed](https://github.com/revue-org/revue/commit/1e28fed5de7f44cf4b841de39ec4b5582a8664e1))
+
+
+## [2.3.0](https://github.com/revue-org/revue/compare/v2.2.3...v2.3.0) (2024-07-26)
+
+### Features
+
+* add infrastructure components (traefik, prometheus, grafana) add one more broker and coordinator ([#223](https://github.com/revue-org/revue/issues/223)) ([6c6ba41](https://github.com/revue-org/revue/commit/6c6ba4188c4587000a79bdcd96133b100fe652fe))
+
+## [2.3.0](https://github.com/revue-org/revue/compare/v2.2.3...v2.3.0) (2024-07-26)
+
+### Features
+
+* add infrastructure components (traefik, prometheus, grafana) add one more broker and coordinator ([#223](https://github.com/revue-org/revue/issues/223)) ([6c6ba41](https://github.com/revue-org/revue/commit/6c6ba4188c4587000a79bdcd96133b100fe652fe))
+
+### Dependency updates
+
+* **deps:** update dependency @types/jsonwebtoken to v9.0.6 ([#166](https://github.com/revue-org/revue/issues/166)) ([f5a1a64](https://github.com/revue-org/revue/commit/f5a1a64affe0368e3bef1850b1ecdb5f3e0f3a12))
+* **deps:** update dependency @typescript-eslint/eslint-plugin to v7.17.0 ([e7307fc](https://github.com/revue-org/revue/commit/e7307fc74d5388bc159744ef445fdf6aed95856f))
+* **deps:** update dependency typescript to v5.5.4 ([cacd4ad](https://github.com/revue-org/revue/commit/cacd4ad6e9b067644a180fb691b0285c1f5d68bd))
+* **deps:** update dependency typescript to v5.5.4 ([1e28fed](https://github.com/revue-org/revue/commit/1e28fed5de7f44cf4b841de39ec4b5582a8664e1))
+
+
+## [2.3.0](https://github.com/revue-org/revue/compare/v2.2.3...v2.3.0) (2024-07-26)
+
+### Features
+
+* add infrastructure components (traefik, prometheus, grafana) add one more broker and coordinator ([#223](https://github.com/revue-org/revue/issues/223)) ([6c6ba41](https://github.com/revue-org/revue/commit/6c6ba4188c4587000a79bdcd96133b100fe652fe))
+
 ## [2.2.3](https://github.com/revue-org/revue/compare/v2.2.2...v2.2.3) (2024-07-25)
 
 ### Dependency updates

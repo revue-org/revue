@@ -105,11 +105,6 @@ nav {
   max-height: 50px;
   overflow: hidden;
   transition: max-height 200ms linear;
-
-  &.expanded {
-    max-height: 300px;
-  }
-
   background-color: $primary-color;
   padding: 10px;
 
@@ -117,6 +112,10 @@ nav {
   justify-content: flex-start;
   align-items: center;
   gap: 0.3rem;
+
+  &.expanded {
+    max-height: 300px;
+  }
 
   div.title {
     display: flex;

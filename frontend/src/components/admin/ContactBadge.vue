@@ -40,13 +40,13 @@ li {
   }
 
   .infos {
-    .name {
-      font-size: 18px;
-    }
-
     display: flex;
     flex-direction: column;
     gap: 2px;
+
+    .name {
+      font-size: 18px;
+    }
   }
 
   .delete {

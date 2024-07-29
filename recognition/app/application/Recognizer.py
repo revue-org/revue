@@ -26,7 +26,7 @@ class Recognizer:
             self._net.setInputSwapRB(True)
 
     def start_recognizing(self, recognition_handler: Callable[[str], None]) -> None:
-        if os.environ["TEST"] != "true":
+        if ENV != "test":
             os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
             # load capture

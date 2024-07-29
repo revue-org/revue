@@ -1,5 +1,3 @@
-import os
-import pprint
 from typing import List
 
 import requests
@@ -11,6 +9,7 @@ from app.domain.core.rules import IntrusionRule
 from app.domain.core.utils import is_intrusion_rule_active
 from app.infrastructure.events.RecognitionEventsHubImpl import RecognitionEventsHubImpl
 from app.presentation import deserialize
+from app.presentation.presentation import transform_keys, camel_to_snake
 from app.utils.Logger import logger
 from app.utils.env import RECOGNITION_BEARER_TOKEN, ALARM_PORT, ALARM_HOST
 from app.utils.interval import set_interval
@@ -38,8 +37,9 @@ def get_intrusion_rules() -> List[IntrusionRule]:
     res = requests.get(url, headers=headers)
     rules: List[IntrusionRule] = []
     for intrusion_rule_dict in res.json():
-        pprint.pp(intrusion_rule_dict)
-        intrusion_rule = deserialize(intrusion_rule_dict, IntrusionRule)
+        snake_rule_dict = transform_keys(intrusion_rule_dict, camel_to_snake)
+        snake_rule_dict["validity"]["from_"] = snake_rule_dict["validity"]["from"]
+        intrusion_rule = deserialize(snake_rule_dict, IntrusionRule)
         rules.append(intrusion_rule)
 
     return rules
@@ -48,18 +48,18 @@ def get_intrusion_rules() -> List[IntrusionRule]:
 def enable_intrusion_rules() -> None:
     for intrusion_rule in intrusion_rules:
         if is_intrusion_rule_active(intrusion_rule):
-            recognition_service.add_camera(intrusion_rule.device_id.code)
+            recognition_service.start_recognizing(intrusion_rule.active_on)
 
 
 def check_rule_update() -> None:
     new_intrusion_rules = get_intrusion_rules()
     intrusion_rules.clear()
     intrusion_rules.append(*new_intrusion_rules)
-    recognition_service.remove_all_cameras()
+    recognition_service.stop_all_recognizing()
     enable_intrusion_rules()
 
 
 def check_rule_validity() -> None:
     for intrusion_rule in intrusion_rules:
         if not is_intrusion_rule_active(intrusion_rule):
-            recognition_service.remove_camera(intrusion_rule.device_id.code)
+            recognition_service.stop_recognizing(intrusion_rule.active_on)

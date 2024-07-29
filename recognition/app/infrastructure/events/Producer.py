@@ -2,9 +2,8 @@ import json
 from datetime import datetime
 
 from app.utils.Logger import logger
-from kafka3 import KafkaProducer
-
 from app.utils.env import KAFKA_HOST, KAFKA_PORT
+from kafka3 import KafkaProducer
 
 
 class Producer:

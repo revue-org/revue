@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, time
 
-from app.domain.anomaly.core.ObjectClass import ObjectClass
+from app.domain.core.ObjectClass import ObjectClass
 from app.domain.device.core.DeviceId import DeviceId
 from app.domain.device.core.enum.DeviceType import DeviceType
 from app.domain.monitoring.core.Contact import Contact

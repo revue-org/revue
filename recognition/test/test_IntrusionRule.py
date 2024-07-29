@@ -4,17 +4,17 @@ from datetime import datetime, time
 from app.domain.core.ObjectClass import ObjectClass
 from app.domain.core.rules import IntrusionRule
 from app.domain.core.utils import is_intrusion_rule_active
-from app.domain.factories import SecurityRulesFactory
+from app.domain.factories import SecurityRuleFactory
 
 
 class IntrusionRuleTest(unittest.TestCase):
 
     def setUp(self):
-        self.time_slot = SecurityRulesFactory.new_time_slot(
+        self.time_slot = SecurityRuleFactory.new_time_slot(
             from_=datetime(2022, 1, 1, 1, 0, 0),
             to=datetime(2022, 1, 1, 5, 0, 0),
         )
-        self.intrusion_rule: IntrusionRule = SecurityRulesFactory.create_intrusion_rule(
+        self.intrusion_rule: IntrusionRule = SecurityRuleFactory.create_intrusion_rule(
             active_on="2022-01-01",
             creator_id="creator_id",
             object_class=ObjectClass.PERSON,

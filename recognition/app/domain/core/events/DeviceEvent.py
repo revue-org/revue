@@ -2,4 +2,4 @@ from app.domain.core.events import DomainEvent
 
 
 class DeviceEvent(DomainEvent):
-    sourceDeviceId: str
+    source_device_id: str

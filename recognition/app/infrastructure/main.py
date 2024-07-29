@@ -22,7 +22,8 @@ recognition_service: RecognitionService = RecognitionServiceImpl(
 
 def create_app():
     app = Flask(__name__)
-    intrusion_rules.append(*get_intrusion_rules())
+    intrusion_rules.extend(get_intrusion_rules())
+    logger.info("Intrusion Rules: ", intrusion_rules)
     enable_intrusion_rules()
 
     set_interval(check_rule_update, seconds=60)
@@ -32,7 +33,7 @@ def create_app():
 
 def get_intrusion_rules() -> List[IntrusionRule]:
     url: str = f"http://{ALARM_HOST}:{ALARM_PORT}/rules/intrusions"
-    logger.debug("URL: " + url)
+    logger.info("URL: " + url)
     headers = {"Authorization": f"Bearer {RECOGNITION_BEARER_TOKEN}"}
     res = requests.get(url, headers=headers)
     rules: List[IntrusionRule] = []

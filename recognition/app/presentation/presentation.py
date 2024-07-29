@@ -33,16 +33,18 @@ def deserialize(obj: dict, klass: Type[T]) -> T:
 
 
 def camel_to_snake(name):
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+    return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
 
 
 def snake_to_camel(name):
-    components = name.split('_')
-    return components[0] + ''.join(x.title() for x in components[1:])
+    components = name.split("_")
+    return components[0] + "".join(x.title() for x in components[1:])
 
 
-def transform_keys(obj: dict | List[dict], transform_func: Callable[[str], str]) -> dict | List[dict]:
+def transform_keys(
+    obj: dict | List[dict], transform_func: Callable[[str], str]
+) -> dict | List[dict]:
     """
     Transform keys of a dictionary or a list of dictionaries
     :param obj: the object to transform

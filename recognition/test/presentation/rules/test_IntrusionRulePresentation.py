@@ -4,7 +4,7 @@ from typing import List
 
 from app.domain.core import ObjectClass
 from app.domain.core.rules import IntrusionRule, Contact, TimeSlot
-from app.domain.factories import SecurityRulesFactory
+from app.domain.factories import SecurityRuleFactory
 from app.presentation import serialize, deserialize
 
 
@@ -27,12 +27,12 @@ class IntrusionRuleSerializerTest(unittest.TestCase):
         self.contacts: List[Contact] = [
             Contact(type="email", value="email@email.com"),
         ]
-        self.time_slot: TimeSlot = SecurityRulesFactory.new_time_slot(
+        self.time_slot: TimeSlot = SecurityRuleFactory.new_time_slot(
             from_=self.from_,
             to=self.to,
         )
-        self.intrusion_rule: IntrusionRule = SecurityRulesFactory.intrusion_rule_of(
-            id_=SecurityRulesFactory.id_of("intrusion-rule-1"),
+        self.intrusion_rule: IntrusionRule = SecurityRuleFactory.intrusion_rule_of(
+            id_=SecurityRuleFactory.id_of("intrusion-rule-1"),
             active_on="device-1",
             creator_id="creator",
             object_class=ObjectClass.PERSON,

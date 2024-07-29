@@ -5,5 +5,5 @@ from app.domain.core.events import DeviceEvent
 
 
 class Detection(DeviceEvent):
-    objectClass: ObjectClass
+    object_class: ObjectClass
     type: Literal["detection"]

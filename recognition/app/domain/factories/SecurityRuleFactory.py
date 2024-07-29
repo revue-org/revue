@@ -6,7 +6,7 @@ from app.domain.core import ObjectClass
 from app.domain.core.rules import SecurityRuleId, Contact, TimeSlot, IntrusionRule
 
 
-class SecurityRulesFactory:
+class SecurityRuleFactory:
 
     @staticmethod
     def new_id() -> SecurityRuleId:
@@ -49,8 +49,8 @@ class SecurityRulesFactory:
         validity: TimeSlot,
         enabled: bool,
     ) -> IntrusionRule:
-        return SecurityRulesFactory.intrusion_rule_of(
-            SecurityRulesFactory.new_id(),
+        return SecurityRuleFactory.intrusion_rule_of(
+            SecurityRuleFactory.new_id(),
             active_on,
             creator_id,
             object_class,

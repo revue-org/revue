@@ -4,6 +4,7 @@ from typing import Callable
 import cv2 as cv
 import numpy as np
 from app.utils.interval import set_timeout
+from app.utils.env import ENV
 
 
 class Recognizer:
@@ -16,7 +17,7 @@ class Recognizer:
         self.rtsp_stream_url: str = rtsp_stream_url
         self._is_recognizing: bool = False
         self._recognized_objects: [str] = []
-        if os.environ["TEST"] != "true":
+        if ENV != "test":
             self._net = cv.dnn_DetectionModel(
                 f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
             )

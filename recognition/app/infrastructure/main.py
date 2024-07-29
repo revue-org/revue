@@ -3,31 +3,26 @@ import pprint
 from typing import List
 
 import requests
+from flask import Flask
+
 from app.application import RecognitionService
 from app.application.impl import RecognitionServiceImpl
-from app.domain.securityrule.core import IntrusionRule
-from app.domain.securityrule.utils.utils import is_intrusion_rule_active
+from app.domain.core.rules import IntrusionRule
+from app.domain.core.utils import is_intrusion_rule_active
 from app.infrastructure.events.RecognitionEventsHubImpl import RecognitionEventsHubImpl
-from app.presentation.securityrule.IntrusionRuleSerializer import (
-    IntrusionRuleSerializer,
-)
+from app.presentation import deserialize
 from app.utils.Logger import logger
 from app.utils.env import RECOGNITION_BEARER_TOKEN, ALARM_PORT, ALARM_HOST
 from app.utils.interval import set_interval
-from flask import Flask
 
 intrusion_rules: List[IntrusionRule] = []
 recognition_service: RecognitionService = RecognitionServiceImpl(
     RecognitionEventsHubImpl()
 )
 
-os.environ["TEST"] = "false"
-
 
 def create_app():
-    logger.info(f"ENV: {os.environ.get('FLASK_ENV')}")
     app = Flask(__name__)
-    logger.info(os.environ.get("FLASK_ENV"))
     intrusion_rules.append(*get_intrusion_rules())
     enable_intrusion_rules()
 
@@ -44,7 +39,7 @@ def get_intrusion_rules() -> List[IntrusionRule]:
     rules: List[IntrusionRule] = []
     for intrusion_rule_dict in res.json():
         pprint.pp(intrusion_rule_dict)
-        intrusion_rule = IntrusionRuleSerializer().deserialize(intrusion_rule_dict)
+        intrusion_rule = deserialize(intrusion_rule_dict, IntrusionRule)
         rules.append(intrusion_rule)
 
     return rules

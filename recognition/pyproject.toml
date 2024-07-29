@@ -24,9 +24,12 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
-test = "python run_tests.py"
 format-check = "black --check ."
 format = "black ."
+
+[tool.poe.tasks.test]
+shell = "python -m unittest discover -v -t . -s test -p 'test_*.py'"
+env = { ENV = "test" }
 
 [tool.poe.tasks.dev]
 shell = "FLASK_ENV=develop flask --app app/infrastructure/main.py run -h localhost -p $port"

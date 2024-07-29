@@ -4,7 +4,7 @@ from app.application.impl import RecognitionServiceImpl
 from app.infrastructure.events.RecognitionEventsHubImpl import RecognitionEventsHubImpl
 
 
-class TestRecognizersManager(unittest.TestCase):
+class TestRecognitionService(unittest.TestCase):
 
     def setUp(self):
         self.recognizers_manager = RecognitionServiceImpl(RecognitionEventsHubImpl())

@@ -23,7 +23,7 @@ recognition_service: RecognitionService = RecognitionServiceImpl(
 def create_app():
     app = Flask(__name__)
     intrusion_rules.extend(get_intrusion_rules())
-    logger.info("Intrusion Rules: ", intrusion_rules)
+    logger.info("Intrusion Rules: " + str(intrusion_rules))
     enable_intrusion_rules()
 
     set_interval(check_rule_update, seconds=60)

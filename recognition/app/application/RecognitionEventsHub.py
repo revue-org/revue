@@ -10,4 +10,3 @@ class RecognitionEventsHub(ABC):
         :param camera_code: the camera code on which the object was detected
         :param object_class: the class of the detected object
         """
-        pass

@@ -10,7 +10,6 @@ class RecognitionService(ABC):
         If it is already recognizing the camera, it does nothing.
         :param camera_code: the camera code of the camera to start recognizing
         """
-        pass
 
     @abstractmethod
     def stop_recognizing(self, camera_code: str) -> None:
@@ -19,11 +18,9 @@ class RecognitionService(ABC):
         If it is not recognizing the camera, it does nothing.
         :param camera_code: the camera code of the camera to stop recognizing
         """
-        pass
 
     @abstractmethod
     def stop_all_recognizing(self):
         """
         It stops recognizing the video stream produced by all cameras.
         """
-        pass

@@ -190,7 +190,6 @@ ul {
     }
   }
 
-
   li {
     margin-bottom: 0.2rem;
 

@@ -4,5 +4,5 @@ from pydantic import BaseModel
 
 
 class Contact(BaseModel):
-    value: str
     type: Literal["email", "sms"]
+    value: str

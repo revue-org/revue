@@ -10,4 +10,3 @@ class DomainEvent(BaseModel):
     id: DomainEventId
     type: Any
     timestamp: datetime
-    

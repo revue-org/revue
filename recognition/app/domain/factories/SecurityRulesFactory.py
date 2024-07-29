@@ -30,9 +30,9 @@ class SecurityRulesFactory:
         return IntrusionRule(
             id=id_,
             type="intrusion",
-            activeOn=active_on,
-            creatorId=creator_id,
-            objectClass=object_class,
+            active_on=active_on,
+            creator_id=creator_id,
+            object_class=object_class,
             contacts=contacts,
             description=description,
             validity=validity,

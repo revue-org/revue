@@ -14,6 +14,6 @@ def is_intrusion_rule_active(intrusion_rule: IntrusionRule, time_to_check=None) 
         time_to_check: time = time(
             datetime.now().hour, datetime.now().minute, datetime.now().second
         )
-    start: time = time.fromisoformat(intrusion_rule.from_date.time().isoformat())
-    end: time = time.fromisoformat(intrusion_rule.to_date.time().isoformat())
+    start: time = time.fromisoformat(intrusion_rule.validity.from_.time().isoformat())
+    end: time = time.fromisoformat(intrusion_rule.validity.to.time().isoformat())
     return start <= time_to_check <= end

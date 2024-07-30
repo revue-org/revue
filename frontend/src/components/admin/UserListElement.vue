@@ -142,6 +142,9 @@ li {
   }
 
   .infos {
+    display: flex;
+    flex-direction: row;
+
     .name {
       font-size: 18px;
     }
@@ -149,9 +152,6 @@ li {
     .btn-add {
       height: 3px;
     }
-
-    display: flex;
-    flex-direction: row;
 
     .contacts {
       display: flex;

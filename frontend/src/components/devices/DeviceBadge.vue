@@ -177,17 +177,18 @@ button {
 }
 
 ul {
-  @media (min-width: 576px) {
-    &.device {
-      height: 150px;
-    }
-  }
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   margin-left: 7px;
   list-style-type: none;
   padding: 0;
+
+  @media (min-width: 576px) {
+    &.device {
+      height: 150px;
+    }
+  }
 
   li {
     margin-bottom: 0.2rem;

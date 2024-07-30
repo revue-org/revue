@@ -1,1 +1,0 @@
-from .IntrusionRuleSerializer import IntrusionRuleSerializer

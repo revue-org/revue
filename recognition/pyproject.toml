@@ -2,18 +2,19 @@
 name = "recognition"
 version = "0.1.0"
 description = "Recognition service of Revue"
-authors = ["Mattia Matteini <matteinimattia@gmail.com>", "Alberto Paganelli <alberto.paganelli3@studio.unibo.it>"]
+authors = ["Mattia Matteini <matteinimattia@gmail.com>", "Kelvin Olaiya <kelvin.olaiya15@gmail.com>", "Alberto Paganelli <alberto.paganelli3@studio.unibo.it>"]
 packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 flask = "^3.0.2"
 numpy = "^2.0.0"
-opencv-python = "^4.9.0.80"
+opencv-python = "^4.10.0.84"
 requests = "^2.31.0"
 waitress = "^3.0.0"
 python-dotenv = "^1.0.1"
 kafka-python3 = "^3.0.0"
+pydantic = "^2.8.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
@@ -23,14 +24,19 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
-test = "python run_tests.py"
 format-check = "black --check ."
 format = "black ."
 
+[tool.poe.tasks.test]
+shell = "python -m unittest discover -v -t . -s test -p 'test_*.py'"
+env = { ENV = "test" }
+
 [tool.poe.tasks.dev]
-shell = "FLASK_ENV=develop flask --app app/main.py run -h localhost -p $port"
+shell = "FLASK_ENV=develop flask --app app/infrastructure/main.py run -h localhost -p $port"
 args = ["port"]
+env = { ENV = "DEVELOP" }
 
 [tool.poe.tasks.serve]
-shell = "waitress-serve --port $port --call app.main:create_app"
+shell = "waitress-serve --port $port --call app.infrastructure.main:create_app"
 args = ["port"]
+env = { ENV = "PRODUCTION" }

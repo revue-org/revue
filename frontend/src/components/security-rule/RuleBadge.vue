@@ -112,6 +112,14 @@ button {
 }
 
 ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 25px;
+  margin-left: 7px;
+  list-style-type: none;
+  padding: 0;
+
   @media (min-width: 576px) {
     &.range {
       height: 150px;
@@ -121,13 +129,6 @@ ul {
       height: 130px;
     }
   }
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin-top: 25px;
-  margin-left: 7px;
-  list-style-type: none;
-  padding: 0;
 
   li {
     margin-bottom: 0.2rem;

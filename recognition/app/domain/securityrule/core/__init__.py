@@ -1,1 +1,0 @@
-from .IntrusionRule import IntrusionRule

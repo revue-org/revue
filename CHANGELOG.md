@@ -1,3 +1,55 @@
+## [3.0.0](https://github.com/revue-org/revue/compare/v2.3.2...v3.0.0) (2024-07-30)
+
+### ⚠ BREAKING CHANGES
+
+* **recognition:** refactor whole recognition service (#236)
+
+### Dependency updates
+
+* **deps:** update dependency @rushstack/eslint-patch to v1.10.4 ([9ccdc9e](https://github.com/revue-org/revue/commit/9ccdc9eb3634d619eec11b5741c7db679c16d793))
+* **deps:** update dependency rollup to v4.19.1 ([dfb8ab3](https://github.com/revue-org/revue/commit/dfb8ab3da2f6bddfcbb28720bf4fd5a160a7d541))
+
+### Refactoring
+
+* **recognition:** refactor whole recognition service ([#236](https://github.com/revue-org/revue/issues/236)) ([710934d](https://github.com/revue-org/revue/commit/710934d0fb1f0e4214d801f8af4bb55b9817f237))
+
+
+## [3.0.0](https://github.com/revue-org/revue/compare/v2.3.2...v3.0.0) (2024-07-30)
+
+### ⚠ BREAKING CHANGES
+
+* **recognition:** refactor whole recognition service (#236)
+
+### Code Refactoring
+
+* **recognition:** refactor whole recognition service ([#236](https://github.com/revue-org/revue/issues/236)) ([710934d](https://github.com/revue-org/revue/commit/710934d0fb1f0e4214d801f8af4bb55b9817f237))
+
+## [3.0.0](https://github.com/revue-org/revue/compare/v2.3.2...v3.0.0) (2024-07-30)
+
+### ⚠ BREAKING CHANGES
+
+* **recognition:** refactor whole recognition service (#236)
+
+### Dependency updates
+
+* **deps:** update dependency @rushstack/eslint-patch to v1.10.4 ([9ccdc9e](https://github.com/revue-org/revue/commit/9ccdc9eb3634d619eec11b5741c7db679c16d793))
+* **deps:** update dependency rollup to v4.19.1 ([dfb8ab3](https://github.com/revue-org/revue/commit/dfb8ab3da2f6bddfcbb28720bf4fd5a160a7d541))
+
+### Refactoring
+
+* **recognition:** refactor whole recognition service ([#236](https://github.com/revue-org/revue/issues/236)) ([710934d](https://github.com/revue-org/revue/commit/710934d0fb1f0e4214d801f8af4bb55b9817f237))
+
+
+## [3.0.0](https://github.com/revue-org/revue/compare/v2.3.2...v3.0.0) (2024-07-30)
+
+### ⚠ BREAKING CHANGES
+
+* **recognition:** refactor whole recognition service (#236)
+
+### Code Refactoring
+
+* **recognition:** refactor whole recognition service ([#236](https://github.com/revue-org/revue/issues/236)) ([710934d](https://github.com/revue-org/revue/commit/710934d0fb1f0e4214d801f8af4bb55b9817f237))
+
 ## [2.3.2](https://github.com/revue-org/revue/compare/v2.3.1...v2.3.2) (2024-07-30)
 
 ### Dependency updates

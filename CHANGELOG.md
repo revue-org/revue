@@ -1,3 +1,45 @@
+## [2.3.1](https://github.com/revue-org/revue/compare/v2.3.0...v2.3.1) (2024-07-30)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.93 ([dd948da](https://github.com/revue-org/revue/commit/dd948da6a6442994f3fd45e54728a5dc9ce934b9))
+* **deps:** update dependency @types/node to v20.14.12 ([a527ede](https://github.com/revue-org/revue/commit/a527ede243c51bbfe9035d954625b6023f280a18))
+* **deps:** update dependency @vitejs/plugin-vue to v5.1.0 ([37ffba9](https://github.com/revue-org/revue/commit/37ffba9f6a5e8d07bab0ca9a7440860a8e399707))
+* **deps:** update dependency dependency-cruiser to v16.3.10 ([ba44f93](https://github.com/revue-org/revue/commit/ba44f934b9b8d7daa55f19bdf599819c339739e6))
+* **deps:** update dependency pinia to v2.2.0 ([425f2c5](https://github.com/revue-org/revue/commit/425f2c51a3ee079d6d46a80471356d7aa641450d))
+* **deps:** update dependency vite to v5.3.5 ([5b8a5f1](https://github.com/revue-org/revue/commit/5b8a5f1c060da8ce977706fbec20e21e9d8b9caf))
+* **deps:** update dependency vue to v3.4.34 ([a2f6636](https://github.com/revue-org/revue/commit/a2f663688ad2b0ee293ba09ede209310eac90e32))
+* **deps:** update dependency vue-tsc to v2.0.29 ([4d28de7](https://github.com/revue-org/revue/commit/4d28de787902f9a7699c3371016658a31fd82acb))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-buildx-action action to v3.6.0 ([f15a1d1](https://github.com/revue-org/revue/commit/f15a1d18f1fbc93f205400d035593dd936e19147))
+* **deps:** update docker/setup-buildx-action action to v3.6.1 ([a415a90](https://github.com/revue-org/revue/commit/a415a90426f2c864807aa763bb2e4bbdc6c3a8ac))
+
+
+## [2.3.1](https://github.com/revue-org/revue/compare/v2.3.0...v2.3.1) (2024-07-30)
+
+## [2.3.1](https://github.com/revue-org/revue/compare/v2.3.0...v2.3.1) (2024-07-30)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.93 ([dd948da](https://github.com/revue-org/revue/commit/dd948da6a6442994f3fd45e54728a5dc9ce934b9))
+* **deps:** update dependency @types/node to v20.14.12 ([a527ede](https://github.com/revue-org/revue/commit/a527ede243c51bbfe9035d954625b6023f280a18))
+* **deps:** update dependency @vitejs/plugin-vue to v5.1.0 ([37ffba9](https://github.com/revue-org/revue/commit/37ffba9f6a5e8d07bab0ca9a7440860a8e399707))
+* **deps:** update dependency dependency-cruiser to v16.3.10 ([ba44f93](https://github.com/revue-org/revue/commit/ba44f934b9b8d7daa55f19bdf599819c339739e6))
+* **deps:** update dependency pinia to v2.2.0 ([425f2c5](https://github.com/revue-org/revue/commit/425f2c51a3ee079d6d46a80471356d7aa641450d))
+* **deps:** update dependency vite to v5.3.5 ([5b8a5f1](https://github.com/revue-org/revue/commit/5b8a5f1c060da8ce977706fbec20e21e9d8b9caf))
+* **deps:** update dependency vue to v3.4.34 ([a2f6636](https://github.com/revue-org/revue/commit/a2f663688ad2b0ee293ba09ede209310eac90e32))
+* **deps:** update dependency vue-tsc to v2.0.29 ([4d28de7](https://github.com/revue-org/revue/commit/4d28de787902f9a7699c3371016658a31fd82acb))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-buildx-action action to v3.6.0 ([f15a1d1](https://github.com/revue-org/revue/commit/f15a1d18f1fbc93f205400d035593dd936e19147))
+* **deps:** update docker/setup-buildx-action action to v3.6.1 ([a415a90](https://github.com/revue-org/revue/commit/a415a90426f2c864807aa763bb2e4bbdc6c3a8ac))
+
+
+## [2.3.1](https://github.com/revue-org/revue/compare/v2.3.0...v2.3.1) (2024-07-30)
+
 ## [2.3.0](https://github.com/revue-org/revue/compare/v2.2.3...v2.3.0) (2024-07-26)
 
 ### Features

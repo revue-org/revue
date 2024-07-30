@@ -29,10 +29,6 @@ ALARM_HOST = (
     "localhost" if FLASK_ENV == "develop" else _get_env_var_or_fail("ALARM_HOST")
 )
 ALARM_PORT = _get_env_var_or_fail("ALARM_PORT")
-KAFKA_HOST = (
-    "localhost" if FLASK_ENV == "develop" else _get_env_var_or_fail("KAFKA_HOST")
-)
-KAFKA_PORT = "9094" if FLASK_ENV == "develop" else _get_env_var_or_fail("KAFKA_PORT")
 RECOGNITION_BEARER_TOKEN = _get_env_var_or_fail("RECOGNITION_BEARER_TOKEN")
 MEDIA_SERVER_HOST = _get_env_var_or_fail("MEDIA_SERVER_HOST")
 MEDIA_SERVER_RTSP_PORT = _get_env_var_or_fail("MEDIA_SERVER_RTSP_PORT")

@@ -1,18 +1,21 @@
 import json
+from typing import List
 
 from kafka3 import KafkaProducer
 
+from app.infrastructure.events import KafkaBroker, get_brokers_from_env
 from app.utils.Logger import logger
-from app.utils.env import KAFKA_HOST, KAFKA_PORT, ENV
+from app.utils.env import ENV
 
 
 class Producer:
 
     def __init__(self):
         if ENV != "test":
-            logger.info(f"Connecting to Kafka at {KAFKA_HOST}:{KAFKA_PORT}")
+            brokers: List[KafkaBroker] = get_brokers_from_env()
+            logger.info(f"Connecting to Kafka brokers: {brokers}")
             self._producer = KafkaProducer(
-                bootstrap_servers=f"{KAFKA_HOST}:{KAFKA_PORT}"
+                bootstrap_servers=list(map(lambda broker: f"{broker.host}:{broker.port}", brokers)),
             )
 
     def produce(self, topic: str, message: dict):

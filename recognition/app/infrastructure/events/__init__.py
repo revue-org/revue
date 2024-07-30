@@ -1,2 +1,3 @@
+from app.infrastructure.events.KafkaOptions import KafkaBroker, get_brokers_from_env
 from app.infrastructure.events.Producer import Producer
 from app.infrastructure.events.RecognitionEventsHubImpl import RecognitionEventsHubImpl

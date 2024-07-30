@@ -40,6 +40,7 @@ services:
 
 volumes:
   revue_device_data:
+    name: revue-device-data
     driver: local
 
 networks:

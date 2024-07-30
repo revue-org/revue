@@ -38,6 +38,7 @@ services:
 
 volumes:
   revue_location_data:
+    name: revue-location-data
     driver: local
 
 networks:

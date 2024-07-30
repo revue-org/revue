@@ -43,6 +43,7 @@ services:
 
 volumes:
   revue_alarm_data:
+    name: revue-alarm-data
     driver: local
 
 networks:

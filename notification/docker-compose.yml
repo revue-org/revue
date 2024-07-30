@@ -43,6 +43,7 @@ services:
 
 volumes:
   revue_notification_data:
+    name: revue-notification-data
     driver: local
 
 networks:

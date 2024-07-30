@@ -41,6 +41,7 @@ services:
 
 volumes:
   revue_auth_data:
+    name: revue-auth-data
     driver: local
 
 networks:

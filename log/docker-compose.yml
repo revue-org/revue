@@ -43,6 +43,7 @@ services:
 
 volumes:
   revue_log_data:
+    name: revue-log-data
     driver: local
 
 networks:

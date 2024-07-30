@@ -38,6 +38,7 @@ services:
 
 volumes:
   revue_user_data:
+    name: revue-user-data
     driver: local
 
 networks:

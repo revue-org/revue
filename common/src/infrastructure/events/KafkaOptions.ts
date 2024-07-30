@@ -19,22 +19,26 @@ export type KafkaOptions = {
 export const getBrokersFromEnv = (): KafkaBroker[] => {
   const brokerHosts: string[] = []
   const brokerPorts: string[] = []
+
+  const hostPrefix: string = process.env.NODE_ENV == 'develop' ? 'KAFKA_EXTERNAL_HOST' : 'KAFKA_HOST'
+  const portPrefix: string = process.env.NODE_ENV == 'develop' ? 'KAFKA_EXTERNAL_PORT' : 'KAFKA_PORT'
+
   if (process.env.NODE_ENV == 'develop') {
     console.log('INFO: KAFKA DEVELOPMENT MODE')
-    brokerHosts.push(process.env.KAFKA_EXTERNAL_HOST!)
-    brokerPorts.push(process.env.KAFKA_EXTERNAL_PORT!)
-  } else {
-    for (const variable of Object.keys(process.env)) {
-      if (variable.startsWith('KAFKA_HOST')) {
-        brokerHosts.push(process.env[variable]!)
-      } else if (variable.startsWith('KAFKA_PORT')) {
-        brokerPorts.push(process.env[variable]!)
-      }
-    }
-    if (brokerHosts.length != brokerPorts.length) {
-      throw new Error('Invalid configuration for Kafka brokers')
+  }
+
+  for (const variable of Object.keys(process.env)) {
+    if (variable.startsWith(hostPrefix)) {
+      brokerHosts.push(process.env[variable]!)
+    } else if (variable.startsWith(portPrefix)) {
+      brokerPorts.push(process.env[variable]!)
     }
   }
+
+  if (brokerHosts.length != brokerPorts.length) {
+    throw new Error('Invalid configuration for Kafka brokers')
+  }
+
   return brokerHosts.map((host: string, index: number): KafkaBroker => {
     return { host: host, port: brokerPorts[index] }
   })

@@ -42,7 +42,7 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: NodePort
+      kompose.service.type: LoadBalancer
       kompose.controller.type: deployment
 
   revue-kafka-2:
@@ -67,7 +67,7 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: NodePort
+      kompose.service.type: LoadBalancer
       kompose.controller.type: deployment
 
   revue-kafka-ui:

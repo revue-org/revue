@@ -41,6 +41,7 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 [![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)](https://prometheus.io/)
 
 ### DevOps
+
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions)
 [![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)](https://gradle.org/)
 [![Docker Hub](https://img.shields.io/badge/Docker_Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/)
@@ -50,7 +51,6 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 [![Renovate](https://img.shields.io/badge/Renovate-1A1F6C?style=for-the-badge&logo=renovate&logoColor=white)](https://renovatebot.com/)
 [![SonarCloud](https://img.shields.io/badge/SonarCloud-F3702A?style=for-the-badge&logo=sonarcloud&logoColor=white)](https://sonarcloud.io/)
 [![Mergify](https://img.shields.io/badge/Mergify-1E90FF?style=for-the-badge&logo=mergify&logoColor=white)](https://mergify.com/)
-
 
 ### Machine Learning
 
@@ -96,7 +96,8 @@ You can deploy the system on a Kubernetes cluster by running
 where `<driver>` is the driver to be used by Minikube (e.g., `docker`, `qemu`, `virtualbox`, etc.).
 See the [Minikube documentation](https://minikube.sigs.k8s.io/docs/drivers/) for more information.
 
-Note that to make the `LoadBalancer` work, the `deploy.sh` script will run the `minikube tunnel` command that requires root
+Note that to make the `LoadBalancer` work, the `deploy.sh` script will run the `minikube tunnel` command that requires
+root
 privileges. It is also required to keep the terminal open to keep the tunneling active.
 
 To stop the system, you have to interrupt the tunneling process and then run
@@ -125,21 +126,21 @@ To stop the system, you have to interrupt the tunneling process and then run
             - Username: _admin_
             - Password: Get the password by
               running `kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
-        - Configuring Data Source:
-            - _Connections > Add new connection > Prometheus > Add new data source_
-            - Insert as Prometheus server URL `http://<CLUSTER-IP>:80`. You can get the prometheus-server CLUSTER-IP by
-              running `kubectl get services`
-            - Click on Save & Test and proceed to the _Dashboard_ section (there are some pre-configured dashboards).
+        - Accessing to the dashboard clicking on _Dashboards_ (there are some pre-configured dashboards)
 
 ### Monitoring with devices (WoT)
 
-Go to the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) repository and follow the instructions in the README to set up your own WoT device.
+Go to the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) repository and follow the instructions
+in the README to set up your own WoT device.
 Once the device is up and running, you can add it to the system through the Revue Web Interface.
 
 - Go to [https://frontend.localhost](https://frontend.localhost) and log in
 - Go to the _Devices_ section
 - Click on the _Add Device_ button
-- Fill in the form with the device URL (`localhost` if it is running on the same machine as the system) and test the connection. If the connection is successful, it will retrieve automatically the device capabilities.
+- Fill in the form with the device URL (`localhost` if it is running on the same machine as the system) and test the
+  connection.
+  If the connection is successful, it will automatically retrieve the device capabilities.
+  Eventually, give a description and click _Ok_ to add the device to the system.
 - Monitor the device data through the various sections depending on the device capabilities.
 
 ## Authors

@@ -35,6 +35,7 @@ val microservices = listOf(
     "notification",
     "user"
 )
+val images = microservices + listOf("frontend", "kafka", "media-server")
 
 val swaggerUI = "swagger-ui"
 val openAPI = "openapi"
@@ -77,6 +78,69 @@ tasks.register<Copy>("generate-openapi-index-page") {
     expand("microservices" to microservices.joinToString(separator = "\n") {
         "<li><a href=\"$it\">${it.capitalized()}</a></li>"
     })
+}
+
+data class K8sConfiguration (
+    val scriptName: String = "kompose",
+) {
+    val kompose: RegularFile = project.layout.buildDirectory.file(scriptName).get()
+    val komposeFile = kompose.asFile
+    val compose: RegularFile = rootProject.layout.buildDirectory.file("all-docker-compose.yml").get()
+    val composeFile = compose.asFile
+    val directory: Directory = rootProject.layout.buildDirectory.dir("k8s").get()
+    val directoryFile = directory.asFile
+}
+
+val k8sConfig = K8sConfiguration()
+
+val downloadKompose = tasks.register<Exec>("download-kompose") {
+    val systemOs = System.getProperty("os.name")
+    val releaseFile = when {
+        systemOs.startsWith("Linux") -> "linux"
+        systemOs.startsWith("Mac") -> "darwin"
+        else -> throw IllegalStateException("Unsupported OS")
+    }.let { "kompose-$it-${System.getProperty("os.arch")}" }
+    val releaseUrl = "https://github.com/kubernetes/kompose/releases/download/v1.34.0/$releaseFile"
+    commandLine("curl", "-L", releaseUrl, "-o", k8sConfig.komposeFile.absolutePath)
+    outputs.file(k8sConfig.kompose)
+}
+
+val generateOverallComposeFile = tasks.register<Exec>("generate-overall-compose-file") {
+    commandLine(
+        "docker", "compose",
+        "--project-name", "revue",
+        "--project-directory", rootProject.layout.projectDirectory.asFile.absoluteFile,
+        *images.flatMap {
+            listOf("-f", rootProject.layout.projectDirectory.dir(it).file("docker-compose.yml").asFile.absoluteFile)
+        }.toTypedArray(),
+        "config",
+        "-o", k8sConfig.composeFile.absolutePath
+    )
+    outputs.file(k8sConfig.compose)
+}
+
+tasks.register<Exec>("generate-k8s-specifications") {
+    dependsOn(downloadKompose, generateOverallComposeFile)
+    mustRunAfter(generateOverallComposeFile)
+    commandLine("kompose", "convert",
+        "--with-kompose-annotation=false",
+        "--volumes", "persistentVolumeClaim",
+        "-f", k8sConfig.composeFile.absolutePath,
+        "-o", k8sConfig.directoryFile.absolutePath
+    )
+    outputs.dir(k8sConfig.directory)
+    for (i in 1 .. 2) {
+        doLast {
+            val sourceFile = k8sConfig.directory.file("revue-kafka-$i-tcp-service.yaml").asFile
+            val destinationFile = k8sConfig.directory.file("revue-kafka-$i-service.yaml").asFile
+            sourceFile.renameTo(destinationFile)
+            exec {
+                commandLine("sed", "-i",
+                    "s/-tcp//g", k8sConfig.directory.file("revue-kafka-$i-service.yaml")
+                        .asFile.absoluteFile)
+            }
+        }
+    }
 }
 
 allprojects {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, type Ref, ref } from 'vue'
-import RequestHelper, { logHost, logPort } from '@/utils/RequestHelper'
+import RequestHelper, { logHost } from '@/utils/RequestHelper'
 import MeasurementBadge from '@/components/history/MeasurementBadge.vue'
 import OutlierBadge from '@/components/history/OutlierBadge.vue'
 import IntrusionBadge from '@/components/history/IntrusionBadge.vue'
@@ -14,7 +14,7 @@ const outliers: Ref<Outlier[]> = ref([])
 const selected = ref('measurements')
 
 function getMeasurements() {
-  RequestHelper.get(`http://${logHost}:${logPort}/measurements?limit=50`)
+  RequestHelper.get(`http://${logHost}/measurements?limit=50`)
     .then(async (res: any) => {
       measurements.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
@@ -27,7 +27,7 @@ function getMeasurements() {
 }
 
 function getOutliers() {
-  RequestHelper.get(`http://${logHost}:${logPort}/anomalies/outliers?limit=50`)
+  RequestHelper.get(`http://${logHost}/anomalies/outliers?limit=50`)
     .then(async (res: any) => {
       outliers.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {
@@ -40,7 +40,7 @@ function getOutliers() {
 }
 
 function getIntrusions() {
-  RequestHelper.get(`http://${logHost}:${logPort}/anomalies/intrusions?limit=50`)
+  RequestHelper.get(`http://${logHost}/anomalies/intrusions?limit=50`)
     .then(async (res: any) => {
       intrusions.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {

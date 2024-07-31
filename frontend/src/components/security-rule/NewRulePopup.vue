@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RequestHelper, { alarmHost, alarmPort, deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { alarmHost, deviceHost } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 import { onMounted, ref, watch } from 'vue'
 import { type Contact, MeasureType, MeasureUnit, ObjectClass } from 'common/dist/domain/core'
@@ -27,7 +27,7 @@ const measureUnit = ref<MeasureUnit>()
 const objectClass = ref<ObjectClass>(ObjectClass.PERSON)
 
 const insertRule = async () => {
-  let url: string = `http://${alarmHost}:${alarmPort}/rules/`
+  let url: string = `http://${alarmHost}/rules/`
   let body: any
   let updatedContacts = contacts.value.map((contact: any) => {
     return {
@@ -112,7 +112,7 @@ const optionsDeviceIds: ref<{ label: string; value: string }> = ref([])
 const getDeviceIds = async () => {
   const locations = useUserStore().permissions
   for (let i = 0; i < locations.length; i++) {
-    await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/locations/${locations[i]}`)
+    await RequestHelper.get(`http://${deviceHost}/devices/locations/${locations[i]}`)
       .then((res: any) => {
         console.log(res.data)
         for (let j = 0; j < res.data.length; j++) {

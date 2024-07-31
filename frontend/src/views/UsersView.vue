@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost, userHost } from '@/utils/RequestHelper'
 import type { User } from '@/domain/core/User'
 import UserListElement from '@/components/admin/UserListElement.vue'
 import { popNegative, popPositive } from '@/scripts/Popups'
@@ -10,10 +10,10 @@ const $q = useQuasar()
 const users = ref<User[]>([])
 
 const getUsers = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/users`).then((access: any) => {
+  await RequestHelper.get(`http://${authHost}/users`).then((access: any) => {
     users.value = []
     for (let i = 0; i < access.data.length; i++) {
-      RequestHelper.get(`http://${userHost}:${userPort}/${access.data[i].id.value}`).then((registry: any) => {
+      RequestHelper.get(`http://${userHost}/${access.data[i].id.value}`).then((registry: any) => {
         users.value.push({
           id: registry.data.id.value,
           username: access.data[i].username,
@@ -30,9 +30,9 @@ const getUsers = async (): Promise<void> => {
 }
 
 const deleteUser = (user: User) => {
-  RequestHelper.delete(`http://${authHost}:${authPort}/users/${user.id}`)
+  RequestHelper.delete(`http://${authHost}/users/${user.id}`)
     .then(() => {
-      RequestHelper.delete(`http://${userHost}:${userPort}/${user.id}`)
+      RequestHelper.delete(`http://${userHost}/${user.id}`)
         .then((res: any) => {
           console.log(res)
           getUsers()

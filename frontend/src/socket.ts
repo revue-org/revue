@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { io, Socket } from 'socket.io-client'
-import { monitoringHost, monitoringPort, notificationHost, notificationPort } from '@/utils/RequestHelper'
+import { monitoringHost, notificationHost } from '@/utils/RequestHelper'
 
 export const monitoringSocketState = reactive({
   connected: false
@@ -9,8 +9,8 @@ export const notificationSocketState = reactive({
   connected: false
 })
 
-const monitoringUrl: string = `http://${monitoringHost}:${monitoringPort}`
-const notificationUrl: string = `http://${notificationHost}:${notificationPort}`
+const monitoringUrl: string = `http://${monitoringHost}`
+const notificationUrl: string = `http://${notificationHost}`
 export let monitoringSocket: Socket | undefined
 export let notificationSocket: Socket | undefined
 

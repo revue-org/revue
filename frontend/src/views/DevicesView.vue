@@ -3,7 +3,7 @@
 import { onMounted, type Ref, ref } from 'vue'
 import DeviceBadge from '@/components/devices/DeviceBadge.vue'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import { useQuasar } from 'quasar'
 import { composeDevice } from '@/presentation/ComposeDevice'
 import type { Device } from '@/domain/core/Device'
@@ -17,7 +17,7 @@ const $q = useQuasar()
 const getDevices = async () => {
   devices.value = []
   useUserStore().permissions.forEach((location: string) => {
-    RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/locations/${location}`)
+    RequestHelper.get(`http://${deviceHost}/devices/locations/${location}`)
       .then(async (res: any) => {
         console.log(res.data)
         if (res.status == HttpStatusCode.OK) {
@@ -34,7 +34,7 @@ const getDevices = async () => {
 }
 
 const deleteDevice = async (device: Device) => {
-  await RequestHelper.delete(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/`)
+  await RequestHelper.delete(`http://${deviceHost}/devices/${device.deviceId}/`)
     .then((res: any) => {
       getDevices()
       popPositive($q, 'Device deleted successfully')

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IntrusionRule, RangeRule, SecurityRule } from '@/domain/core/SecurityRule'
-import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
+import RequestHelper, { alarmHost } from '@/utils/RequestHelper'
 import { onMounted, ref } from 'vue'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'

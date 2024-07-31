@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { type Capability, CapabilityType, type SensoringCapability } from '@/domain/core/Capability'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import { MeasureType } from 'common/dist/domain/core'
@@ -62,7 +62,7 @@ const addNewDevice = () => {
     popNegative($q, 'Please fill all fields')
     return
   }
-  RequestHelper.post(`http://${deviceHost}:${devicePort}/devices`, {
+  RequestHelper.post(`http://${deviceHost}/devices`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,

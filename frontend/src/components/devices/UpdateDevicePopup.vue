@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Device } from '@/domain/core/Device'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import { type Capability, CapabilityType } from '@/domain/core/Capability'
 import { ref } from 'vue'
 import { MeasureType } from 'common/dist/domain/core'
@@ -68,7 +68,7 @@ const updateDevice = () => {
     console.log('Error while retrieving thing infos')
   }
 
-  RequestHelper.put(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}`, {
+  RequestHelper.put(`http://${deviceHost}/devices/${device.deviceId}`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,

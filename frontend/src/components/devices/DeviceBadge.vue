@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import { popDelete, popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import type { Device } from '@/domain/core/Device'
@@ -30,7 +30,7 @@ const capabilityPopupVisible = ref<boolean>(false)
 const $q = useQuasar()
 
 const getCapabilities = () => {
-  RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/capabilities`)
+  RequestHelper.get(`http://${deviceHost}/devices/${device.deviceId}/capabilities`)
     .then(async (res: any) => {
       for (let i = 0; i < res.data.length; i++) {
         const capability = res.data[i]
@@ -61,7 +61,7 @@ const getCapabilities = () => {
 
 const toggleDevice = async () => {
   const action = device.isEnabled ? 'disable' : 'enable'
-  RequestHelper.post(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}/${action}`)
+  RequestHelper.post(`http://${deviceHost}/devices/${device.deviceId}/${action}`)
     .then(async (_res: any) => {
       emit('get-devices')
     })

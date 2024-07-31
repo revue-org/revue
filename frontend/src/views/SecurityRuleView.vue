@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import NewRulePopup from '@/components/security-rule/NewRulePopup.vue'
 import RuleBadge from '@/components/security-rule/RuleBadge.vue'
-import RequestHelper, { alarmHost, alarmPort } from '@/utils/RequestHelper'
+import RequestHelper, { alarmHost } from '@/utils/RequestHelper'
 import { composeIntrusionRule, composeRangeRule } from '@/presentation/ComposeSecurityRule.js'
 import { popNegative, popPositive } from '@/scripts/Popups.js'
 import { useQuasar } from 'quasar'
@@ -13,7 +13,7 @@ const intrusionRules: ref<IntrusionRule[]> = ref([])
 const $q = useQuasar()
 
 const getRangeRules = async () => {
-  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/rules/ranges`)
+  await RequestHelper.get(`http://${alarmHost}/rules/ranges`)
     .then((res: any) => {
       rangeRules.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -26,7 +26,7 @@ const getRangeRules = async () => {
 }
 
 const getIntrusionRules = async () => {
-  await RequestHelper.get(`http://${alarmHost}:${alarmPort}/rules/intrusions`)
+  await RequestHelper.get(`http://${alarmHost}/rules/intrusions`)
     .then((res: any) => {
       console.log(res.data)
       intrusionRules.value = []
@@ -41,7 +41,7 @@ const getIntrusionRules = async () => {
 
 const deleteRule = async (rule: SecurityRule) => {
   console.log(rule)
-  await RequestHelper.delete(`http://${alarmHost}:${alarmPort}/rules/` + rule.id)
+  await RequestHelper.delete(`http://${alarmHost}/rules/` + rule.id)
     .then(async (_res: any) => {
       popPositive($q, 'Rule deleted successfully')
       rule.type === 'range' ? await getRangeRules() : await getIntrusionRules()

@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
 import router from '@/router'
 import { computed, ref } from 'vue'
-import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost } from '@/utils/RequestHelper'
 import { HttpStatusCode as AxiosHttpStatusCode } from 'axios'
 import { useUserStore } from '@/stores/user'
 import { closeSocketServers } from '@/socket'
@@ -14,9 +14,9 @@ const navbarExpanded = ref(false)
 
 const userStore = useUserStore()
 const logout = () => {
-  RequestHelper.post(`http://${authHost}:${authPort}/logout`, {
+  RequestHelper.post(`http://${authHost}/logout`, {
     username: userStore.username
-  }).then((res): void => {
+  }).then((res: any): void => {
     if (res.status == AxiosHttpStatusCode.Ok) {
       useUserStore().clearFields()
       closeSocketServers()

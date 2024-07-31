@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 import PermissionBadge from '@/components/admin/PermissionBadge.vue'
 import { popPositive } from '@/scripts/Popups'
@@ -12,7 +12,7 @@ const locations = ref<string[]>([])
 const newRoom = ref<string>('')
 
 const getLocations = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`).then(
+  await RequestHelper.get(`http://${authHost}/permissions/${useUserStore().id}`).then(
     (res: any) => {
       locations.value = []
       res.value = []
@@ -27,7 +27,7 @@ const addPermission = async (): Promise<void> => {
   if (newRoom.value.length == 0) {
     return
   }
-  await RequestHelper.post(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`, {
+  await RequestHelper.post(`http://${authHost}/permissions/${useUserStore().id}`, {
     permissions: [newRoom.value]
   }).then(() => {
     popPositive($q, 'Permission added successfully')
@@ -38,7 +38,7 @@ const addPermission = async (): Promise<void> => {
 
 const removePermission = async (permission: string): Promise<void> => {
   await RequestHelper.delete(
-    `http://${authHost}:${authPort}/permissions/${useUserStore().id}?permissions=${permission}`
+    `http://${authHost}/permissions/${useUserStore().id}?permissions=${permission}`
   ).then(() => {
     popPositive($q, 'Permission removed successfully')
     getLocations()

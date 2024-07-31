@@ -108,9 +108,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
           })
           .then((): void => console.log('Detections consumer started'))
       })
-      .catch((_e: any): void => {
+      .catch((e: any): void => {
         console.log('Error getting detections topics, retrying in 10 seconds')
-        console.log(_e)
+        console.log(e)
         setTimeout((): void => this.subscribeToDetections(handler), 10000)
       })
   }

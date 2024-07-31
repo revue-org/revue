@@ -31,19 +31,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/devices', deviceRouter)
 
-const username: string = process.env.DEVICE_DB_USERNAME || 'admin'
-const password: string = process.env.DEVICE_DB_PASSWORD || 'admin'
-const host: string =
-  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.DEVICE_DB_HOST || 'localhost'
-const dbPort: string =
-  process.env.NODE_ENV === 'develop'
-    ? process.env.DEVICE_DB_PORT || '27017'
-    : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.DEVICE_DB_NAME || 'device'
-
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Device server listening on port ${PORT}`)
-    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
+    await mongoConnect(mongoose, "device")
   })
 }

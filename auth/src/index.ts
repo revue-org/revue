@@ -39,19 +39,9 @@ app.use('/', userAccess)
 app.use('/users', userRegistry)
 app.use('/permissions', userPermission)
 
-const username: string = process.env.AUTH_DB_USERNAME || 'admin'
-const password: string = process.env.AUTH_DB_PASSWORD || 'admin'
-const host: string =
-  process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.AUTH_DB_HOST || 'localhost'
-const dbPort: string =
-  process.env.NODE_ENV === 'develop'
-    ? process.env.AUTH_DB_PORT || '27017'
-    : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.AUTH_DB_NAME || 'auth'
-
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Auth server listening on port ${PORT}`)
-    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
+    await mongoConnect(mongoose, "auth")
   })
 }

@@ -15,7 +15,9 @@ class Producer:
             brokers: List[KafkaBroker] = get_brokers_from_env()
             logger.info(f"Connecting to Kafka brokers: {brokers}")
             self._producer = KafkaProducer(
-                bootstrap_servers=list(map(lambda broker: f"{broker.host}:{broker.port}", brokers)),
+                bootstrap_servers=list(
+                    map(lambda broker: f"{broker.host}:{broker.port}", brokers)
+                ),
             )
 
     def produce(self, topic: str, message: dict):

@@ -25,7 +25,7 @@ export class DeviceServiceImpl implements DeviceService {
     this.events = events
     const servient: Servient = new Servient()
     servient.addClientFactory(new Server(null))
-    servient.start().then((WoT: any): any => this.wot = WoT)
+    servient.start().then((WoT: any): any => (this.wot = WoT))
   }
 
   async getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]> {

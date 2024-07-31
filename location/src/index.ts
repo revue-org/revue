@@ -35,6 +35,6 @@ app.use('/locations', router)
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Location server listening on port ${PORT}`)
-    await mongoConnect(mongoose, "location")
+    await mongoConnect(mongoose, 'location')
   })
 }

@@ -82,6 +82,6 @@ export const notificationService: NotificationService = new NotificationServiceI
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Notification server listening on port ${PORT}`)
-    await mongoConnect(mongoose, "notification")
+    await mongoConnect(mongoose, 'notification')
   })
 }

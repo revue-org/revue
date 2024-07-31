@@ -35,6 +35,6 @@ app.use('/', userRouter)
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`User management server listening on port ${PORT}`)
-    await mongoConnect(mongoose, "user")
+    await mongoConnect(mongoose, 'user')
   })
 }

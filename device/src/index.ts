@@ -34,6 +34,6 @@ app.use('/devices', deviceRouter)
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async (): Promise<void> => {
     console.log(`Device server listening on port ${PORT}`)
-    await mongoConnect(mongoose, "device")
+    await mongoConnect(mongoose, 'device')
   })
 }

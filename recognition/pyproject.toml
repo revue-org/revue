@@ -34,9 +34,9 @@ env = { ENV = "test" }
 [tool.poe.tasks.dev]
 shell = "FLASK_ENV=develop flask --app app/infrastructure/main.py run -h localhost -p $port"
 args = ["port"]
-env = { ENV = "DEVELOP" }
+env = { ENV = "develop" }
 
 [tool.poe.tasks.serve]
 shell = "waitress-serve --port $port --call app.infrastructure.main:create_app"
 args = ["port"]
-env = { ENV = "PRODUCTION" }
+env = { ENV = "production" }

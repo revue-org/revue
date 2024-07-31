@@ -12,15 +12,13 @@ const locations = ref<string[]>([])
 const newRoom = ref<string>('')
 
 const getLocations = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}/permissions/${useUserStore().id}`).then(
-    (res: any) => {
-      locations.value = []
-      res.value = []
-      for (let i = 0; i < res.data.length; i++) {
-        locations.value.push(res.data[i])
-      }
+  await RequestHelper.get(`http://${authHost}/permissions/${useUserStore().id}`).then((res: any) => {
+    locations.value = []
+    res.value = []
+    for (let i = 0; i < res.data.length; i++) {
+      locations.value.push(res.data[i])
     }
-  )
+  })
 }
 
 const addPermission = async (): Promise<void> => {

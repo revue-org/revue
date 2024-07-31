@@ -35,6 +35,6 @@ app.use('/rules', router)
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Alarm server listening on port ${PORT}`)
-    await mongoConnect(mongoose, "alarm")
+    await mongoConnect(mongoose, 'alarm')
   })
 }

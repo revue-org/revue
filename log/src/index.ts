@@ -36,6 +36,6 @@ app.use('/anomalies', anomalyRouter)
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Log server listening on ${process.env.LOG_PORT}`)
-    await mongoConnect(mongoose, "log")
+    await mongoConnect(mongoose, 'log')
   })
 }

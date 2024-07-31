@@ -21,18 +21,16 @@ const resetFields = () => {
 const optionsPermissions: ref<{ label: string; value: string }> = ref([])
 
 const getPermissions = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}/permissions/${useUserStore().id}`).then(
-    (res: any) => {
-      optionsPermissions.value = []
-      res.value = []
-      for (let i = 0; i < res.data.length; i++) {
-        optionsPermissions.value.push({
-          label: 'Room: ' + res.data[i],
-          value: res.data[i]
-        })
-      }
+  await RequestHelper.get(`http://${authHost}/permissions/${useUserStore().id}`).then((res: any) => {
+    optionsPermissions.value = []
+    res.value = []
+    for (let i = 0; i < res.data.length; i++) {
+      optionsPermissions.value.push({
+        label: 'Room: ' + res.data[i],
+        value: res.data[i]
+      })
     }
-  )
+  })
 }
 
 const updatePermission = () => {

@@ -104,6 +104,10 @@ val downloadKompose = tasks.register<Exec>("download-kompose") {
     val releaseUrl = "https://github.com/kubernetes/kompose/releases/download/v1.34.0/$releaseFile"
     commandLine("curl", "-L", releaseUrl, "-o", k8sConfig.komposeFile.absolutePath)
     outputs.file(k8sConfig.kompose)
+
+    doLast {
+        k8sConfig.komposeFile.setExecutable(true)
+    }
 }
 
 val generateOverallComposeFile = tasks.register<Exec>("generate-overall-compose-file") {

@@ -95,16 +95,20 @@ val k8sConfig = K8sConfiguration()
 
 fun osIs(os: String) = System.getProperty("os.name").startsWith(os)
 
+val archs = mapOf(
+    "amd64" to setOf("x86_64", "amd64", "x64", "i386"),
+    "arm64" to setOf("aarch64", "arm64", "armv8", "armv8l"),
+).flatMap { it.value.map { a -> a to it.key } }.toMap()
+
 val downloadKompose = tasks.register<Exec>("download-kompose") {
     val releaseFile = when {
         osIs("Linux") -> "linux"
         osIs("Mac") -> "darwin"
         else -> throw IllegalStateException("Unsupported OS")
-    }.let { "kompose-$it-${System.getProperty("os.arch")}" }
+    }.let { "kompose-$it-${archs[System.getProperty("os.arch")]}" }
     val releaseUrl = "https://github.com/kubernetes/kompose/releases/download/v1.34.0/$releaseFile"
     commandLine("curl", "-L", releaseUrl, "-o", k8sConfig.komposeFile.absolutePath)
     outputs.file(k8sConfig.kompose)
-
     doLast {
         k8sConfig.komposeFile.setExecutable(true)
     }

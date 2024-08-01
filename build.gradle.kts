@@ -95,12 +95,11 @@ val k8sConfig = K8sConfiguration()
 
 fun osIs(os: String) = System.getProperty("os.name").startsWith(os)
 
-val archs = mapOf(
-    "amd64" to setOf("x86_64", "amd64", "x64", "i386"),
-    "arm64" to setOf("aarch64", "arm64", "armv8", "armv8l"),
-).flatMap { it.value.map { a -> a to it.key } }.toMap()
-
 val downloadKompose = tasks.register<Exec>("download-kompose") {
+    val archs = mapOf(
+        "amd64" to setOf("x86_64", "amd64", "x64", "i386"),
+        "arm64" to setOf("aarch64", "arm64", "armv8", "armv8l"),
+    ).flatMap { it.value.map { a -> a to it.key } }.toMap()
     val releaseFile = when {
         osIs("Linux") -> "linux"
         osIs("Mac") -> "darwin"

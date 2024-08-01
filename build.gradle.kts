@@ -93,11 +93,12 @@ data class K8sConfiguration (
 
 val k8sConfig = K8sConfiguration()
 
+fun osIs(os: String) = System.getProperty("os.name").startsWith(os)
+
 val downloadKompose = tasks.register<Exec>("download-kompose") {
-    val systemOs = System.getProperty("os.name")
     val releaseFile = when {
-        systemOs.startsWith("Linux") -> "linux"
-        systemOs.startsWith("Mac") -> "darwin"
+        osIs("Linux") -> "linux"
+        osIs("Mac") -> "darwin"
         else -> throw IllegalStateException("Unsupported OS")
     }.let { "kompose-$it-${System.getProperty("os.arch")}" }
     val releaseUrl = "https://github.com/kubernetes/kompose/releases/download/v1.34.0/$releaseFile"
@@ -122,7 +123,7 @@ val generateOverallComposeFile = tasks.register<Exec>("generate-overall-compose-
 tasks.register<Exec>("generate-k8s-specifications") {
     dependsOn(downloadKompose, generateOverallComposeFile)
     mustRunAfter(generateOverallComposeFile)
-    commandLine("kompose", "convert",
+    commandLine(k8sConfig.kompose.asFile.absolutePath, "convert",
         "--with-kompose-annotation=false",
         "--volumes", "persistentVolumeClaim",
         "-f", k8sConfig.composeFile.absolutePath,
@@ -135,7 +136,7 @@ tasks.register<Exec>("generate-k8s-specifications") {
             val destinationFile = k8sConfig.directory.file("revue-kafka-$i-service.yaml").asFile
             sourceFile.renameTo(destinationFile)
             exec {
-                commandLine("sed", "-i",
+                commandLine("sed", "-i", *listOf("''").filter { osIs("Mac") }.toTypedArray(),
                     "s/-tcp//g", k8sConfig.directory.file("revue-kafka-$i-service.yaml")
                         .asFile.absoluteFile)
             }

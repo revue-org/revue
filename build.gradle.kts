@@ -114,6 +114,9 @@ val downloadKompose = tasks.register<Exec>("download-kompose") {
 }
 
 val generateOverallComposeFile = tasks.register<Exec>("generate-overall-compose-file") {
+    images.forEach {
+        inputs.file(rootProject.layout.projectDirectory.dir(it).file("docker-compose.yml"))
+    }
     commandLine(
         "docker", "compose",
         "--project-name", "revue",
@@ -128,6 +131,7 @@ val generateOverallComposeFile = tasks.register<Exec>("generate-overall-compose-
 }
 
 tasks.register<Exec>("generate-k8s-specifications") {
+    inputs.files(k8sConfig.compose)
     dependsOn(downloadKompose, generateOverallComposeFile)
     mustRunAfter(generateOverallComposeFile)
     commandLine(k8sConfig.kompose.asFile.absolutePath, "convert",

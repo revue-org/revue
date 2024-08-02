@@ -12,13 +12,17 @@ services:
       - "8189:8189/udp"
     environment:
       - MTX_PROTOCOLS=tcp
-      - MTX_WEBRTCADDITIONALHOSTS=localhost
+      - MTX_WEBRTCADDITIONALHOSTS=0.0.0.0
+#      - MTX_WEBRTCLOCALTCPADDRESS=:8189
     restart: always
     networks:
       my-net:
         ipv4_address: ${MEDIA_SERVER_HOST}
+    labels:
+      kompose.service.type: NodePort
+      kompose.controller.type: deployment
 
 networks:
-    my-net:
-      name: revue-network
-      external: true
+  my-net:
+    name: revue-network
+    external: true

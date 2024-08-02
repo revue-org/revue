@@ -12,6 +12,7 @@ import { Servient } from '@node-wot/core'
 import HttpClientFactory from '@node-wot/binding-http'
 import { CapabilityFactory } from '@/domain/factories/CapabilityFactory.js'
 import { MeasureFactory } from '@common/domain/factories/MeasureFactory.js'
+import { DeviceState } from '@/domain/core/DeviceState.js'
 
 const Server = HttpClientFactory.HttpClientFactory
 
@@ -65,6 +66,21 @@ export class DeviceServiceImpl implements DeviceService {
   async getDeviceLocation(deviceId: DeviceId): Promise<string> {
     const device: Device = await this.repository.getDeviceById(deviceId)
     return device.locationId
+  }
+
+  async getDeviceStatus(deviceEndpoint: DeviceEndpoint): Promise<DeviceState> {
+    try {
+      const td = await this.wot.requestThingDescription(
+        `http://${deviceEndpoint.ipAddress}:${deviceEndpoint.port}/device`
+      )
+      const thing = await this.wot.consume(td)
+      const data: any = await thing.readProperty('status')
+      return await data.value()
+    } catch (err) {
+      console.log('Error fetching the thing')
+      console.error(err)
+      throw new Error('Error fetching status thing')
+    }
   }
 
   async getDevicesByLocationId(locationId: string): Promise<Device[]> {

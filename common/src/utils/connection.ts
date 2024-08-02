@@ -22,7 +22,7 @@ const getDatabaseConfig = (serviceName: string): DatabaseConfig => {
     process.env.NODE_ENV === 'develop' ? 'localhost' : process.env[`${serviceName.toUpperCase()}_DB_HOST`]!
   const port: string =
     process.env.NODE_ENV === 'develop' || process.env.KUBERNETES_SERVICE_HOST
-      ? process.env.AUTH_DB_PORT!
+      ? process.env[`${serviceName.toUpperCase()}_DB_PORT`]!
       : process.env.DEFAULT_DB_PORT!
   const name: string = process.env[`${serviceName.toUpperCase()}_DB_NAME`]!
   return { host, port, name }

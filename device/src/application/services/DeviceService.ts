@@ -3,6 +3,7 @@ import { Device } from '@/domain/core/Device'
 import { DeviceEndpoint } from '@/domain/core/DeviceEndpoint'
 import { DeviceId } from '@/domain/core/DeviceId'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType'
+import { DeviceState } from '@/domain/core/DeviceState'
 
 export interface DeviceService {
   getDevices(capabilities: CapabilityType[]): Promise<Device[]>
@@ -27,6 +28,8 @@ export interface DeviceService {
   getDeviceCapabilities(deviceId: DeviceId): Promise<DeviceCapability[]>
 
   getDeviceLocation(deviceId: DeviceId): Promise<string>
+
+  getDeviceStatus(deviceEndpoint: DeviceEndpoint): Promise<DeviceState>
 
   getDevicesByLocationId(locationId: string): Promise<Device[]>
 

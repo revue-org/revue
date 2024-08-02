@@ -102,9 +102,6 @@ const updateDevice = () => {
         <label>Port</label>
         <q-input dense v-model="port" />
       </q-card-section>
-      <!--      <q-card-section class="q-pt-none">
-              <q-btn label="Retrieve info" color="primary" @click="retrieveThingInfos" />
-            </q-card-section>-->
       <q-card-section class="q-pt-none">
         <label>Location</label>
         <q-input disable dense v-model="locationId" autofocus />
@@ -113,22 +110,6 @@ const updateDevice = () => {
         <label>Description</label>
         <q-input dense v-model="description" />
       </q-card-section>
-      <!--      <q-card-section class="q-pt-none">
-              Capabilities:
-              <q-badge
-                v-for="capability in capabilities"
-                :key="capability.type"
-                :style="{
-                  backgroundColor:
-                    capability.type === 'sensor'
-                      ? colorMap[(capability as SensoringCapability).measure.type]
-                      : 'blue'
-                }"
-              >
-                {{ capability.type.toUpperCase() }}
-              </q-badge>
-            </q-card-section>-->
-
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
         <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updateDevice" />

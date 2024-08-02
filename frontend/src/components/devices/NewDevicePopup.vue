@@ -32,6 +32,7 @@ const retrieveThingInfos = () => {
       console.log(res.data)
       name.value = res.data.id
       locationId.value = res.data.location
+      capabilities.value = []
       for (let i = 0; i < res.data.capabilities.length; i++) {
         const capability = res.data.capabilities[i]
         if (capability.type === CapabilityType.SENSOR) {

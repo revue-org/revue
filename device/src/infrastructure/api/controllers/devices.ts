@@ -4,6 +4,7 @@ import { DeviceId } from '@/domain/core/DeviceId.js'
 import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability.js'
 import { CapabilityType } from '@/domain/core/capabilities/CapabilityType.js'
 import { deviceService } from '@/setup.js'
+import { DeviceState } from '@/domain/core/DeviceState.js'
 
 export const deviceController = {
   getDeviceById: async (id: string): Promise<Device> => {
@@ -40,6 +41,9 @@ export const deviceController = {
   },
   getDeviceCapabilities: async (id: string): Promise<DeviceCapability[]> => {
     return await deviceService.getDeviceCapabilities(DeviceFactory.idOf(id))
+  },
+  getDeviceStatus: async (host: string, port: number): Promise<DeviceState> => {
+    return await deviceService.getDeviceStatus(DeviceFactory.endpointOf(host, port))
   },
   getDeviceLocation: async (id: string): Promise<string> => {
     return await deviceService.getDeviceLocation(DeviceFactory.idOf(id))

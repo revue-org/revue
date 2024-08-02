@@ -8,6 +8,7 @@ import { DeviceCapability } from '@/domain/core/capabilities/DeviceCapability'
 import { DevicePresenter } from '@/presentation/api/DevicePresenter'
 import { ZodDevicePresenter } from '@/presentation/api/impl/ZodDevicePresenter.js'
 import { DeviceInsertion, DeviceUpdate } from '@/presentation/api/schemas/DeviceSchemas'
+import { DeviceState } from '@/domain/core/DeviceState'
 
 export const deviceRouter: Router = express.Router()
 const devicePresenter: DevicePresenter = new ZodDevicePresenter()
@@ -55,6 +56,17 @@ deviceRouter.route('/:id/capabilities').get((req: Request, res: Response): void 
     .getDeviceCapabilities(req.params.id)
     .then((capabilities: DeviceCapability[]): void => {
       res.status(HttpStatusCode.OK).send(capabilities)
+    })
+    .catch((): void => {
+      res.send({ error: 'No device found' })
+    })
+})
+
+deviceRouter.route('/:endpoint/status').get((req: Request, res: Response): void => {
+  deviceController
+    .getDeviceStatus(req.params.endpoint.split(':')[0], parseInt(req.params.endpoint.split(':')[1]))
+    .then((status: DeviceState): void => {
+      res.status(HttpStatusCode.OK).send(status)
     })
     .catch((): void => {
       res.send({ error: 'No device found' })

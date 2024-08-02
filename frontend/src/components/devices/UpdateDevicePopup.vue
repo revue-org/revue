@@ -29,7 +29,7 @@ const locationId = ref<string>(device.locationId)
 const capabilities = ref<Capability[]>([])
 
 const retrieveThingInfos = () => {
-  RequestHelper.get(`http://${ip.value}:${port.value}/device/properties/status`)
+  RequestHelper.get(`http://${deviceHost}/devices/${ip.value}:${port.value}/status`)
     .then(async (res: any) => {
       locationId.value = res.data.locationId
       for (let i = 0; i < res.data.capabilities.length; i++) {

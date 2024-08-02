@@ -50,7 +50,6 @@ while [ $# -gt 0 ]; do
       fi
       ;;
     --k8s)
-#      ./scripts/create-k8s-specifications.sh
       ./gradlew generate-k8s-specifications
       if [[ "$2" == --driver=* ]]; then
         driver="${2#*=}"

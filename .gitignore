@@ -172,6 +172,3 @@ docs/**/*.blg
 
 # Traefik certificates
 letsencrypt
-
-# k8s specifications
-k8s/

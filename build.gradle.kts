@@ -1,4 +1,5 @@
-import com.github.gradle.node.npm.task.NpmTask
+import io.github.kelvindev15.gradle.NpmScriptTask
+import io.github.kelvindev15.gradle.NpmTask
 import org.gradle.internal.extensions.stdlib.capitalized
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
@@ -14,13 +15,8 @@ repositories {
 }
 
 plugins {
-    id("com.github.node-gradle.node") version "7.0.2"
+    id("io.github.kelvindev15.npm-gradle-plugin") version "3.0.0"
 }
-
-class Task(
-    val name: String,
-    val command: List<String>
-)
 
 val Project.isNodeProject get() = file("package.json").exists()
 
@@ -80,6 +76,14 @@ tasks.register<Copy>("generate-openapi-index-page") {
 }
 
 allprojects {
+    apply(plugin = "io.github.kelvindev15.npm-gradle-plugin")
+    packageJson {
+        version = "0.1.0"
+        repository = ("git" to "git+https://github.com/revue-org/revue.git")
+        author = "Mattia Matteini, Kelvin Olaiya, Alberto Paganelli"
+        license = "MIT"
+        homepage = "https://github.com/revue-org/revue#readme"
+    }
     tasks.register<Delete>("clean") {
         delete("dist", "node_modules/", "tsconfig.tsbuildinfo", "build")
     }
@@ -87,50 +91,19 @@ allprojects {
 
 subprojects {
     if (project.isNodeProject) {
-        apply(plugin = "com.github.node-gradle.node")
-
-        node {
-            download = false
-        }
-
-        val install = tasks.register<NpmTask>("install") {
-            args = listOf("install")
-        }
-
-        val build = tasks.register<NpmTask>("build") {
-            dependsOn(install)
-            mustRunAfter(install)
-            args = listOf("run", "build")
+        /*val build = tasks.named<NpmScriptTask>("npmLintooo") {
             inputs.dir("src")
             inputs.dir(fileTree("node_modules").exclude(".cache"))
             outputs.dir("dist")
-        }
-
-        tasks.register<NpmTask>("test") {
-            dependsOn(build)
-            args = listOf("run", "test")
-        }
-
-        listOf(
-            Task("testArchitecture", listOf("run", "test:architecture")),
-            Task("format", listOf("run", "format")),
-            Task("lint", listOf("run", "lint")),
-            Task("format-fix", listOf("run", "format:fix")),
-            Task("lint-fix", listOf("run", "lint:fix")),
-        ).forEach { task ->
-            tasks.register<NpmTask>(task.name) {
-                args = task.command
-                dependsOn(install)
-            }
-        }
+        }*/
     }
 
-    if (project.name != "common") {
+    /*if (project.name != "common") {
         tasks.forEach {
             it.dependsOn(":common:build")
             it.mustRunAfter(":common:build")
         }
-    }
+    }*/
 
     if (project.name in microservices) {
         tasks.register<Copy>("generate-openapi-website") {

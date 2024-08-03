@@ -3,12 +3,15 @@ packageJson {
     description = "Frontend microservice"
     main = "src/main.ts"
     scripts {
-        script("serve" runs "serve -s dist -l 8080")
-        script("build" runs "vite build || rm -rf node_modules && rm -rf package-lock.json && npm install && vite build")
-        script("preview" runs "vite build && vite preview")
-        script("dev" runs "vite")
-        script("host" runs "vite --host")
-        script("test" runs "echo \"Error: no test specified\" && exit 1")
+        val scriptDeps = listOf(npmScript("build") inProject "common")
+        listOf(
+            "serve" runs "serve -s dist -l 8080",
+            "build" runs "vite build || rm -rf node_modules && rm -rf package-lock.json && npm install && vite build",
+            "preview" runs "vite build && vite preview",
+            "dev" runs "vite",
+            "host" runs "vite --host",
+            "test" runs "echo \"Error: no test specified\" && exit 1",
+        ).forEach { script(it dependingOn scriptDeps) }
     }
     dependencies {
         "@quasar/extras" version "^1.16.9"

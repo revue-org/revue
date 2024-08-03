@@ -3,7 +3,7 @@ packageJson {
     description = "Log microservice"
     main = "dist/src/index.js"
     scripts {
-        script("test" runs "vitest --run")
+        script("test" runs "vitest --run" dependingOn listOf(npmScript("build", "common")))
     }
     dependencies {
         "mongodb-memory-server" version "^10.0.0"

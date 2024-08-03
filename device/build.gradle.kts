@@ -3,9 +3,12 @@ packageJson {
     description = "Device microservice"
     main = "dist/src/index.js"
     scripts {
-        script("test" runs "vitest --exclude \"test/tolerance/**\" --run")
-        script("testToleranceNotification" runs "vitest --run tolerance.notification")
-        script("coverage" runs "vitest --run --coverage")
+        val scriptDeps = listOf(npmScript("build") inProject "common")
+        listOf(
+            "test" runs "vitest --exclude \"test/tolerance/**\" --run",
+            "testToleranceNotification" runs "vitest --run tolerance.notification",
+            "coverage" runs "vitest --run --coverage",
+        ).forEach { script(it dependingOn scriptDeps) }
     }
     dependencies {
         "@node-wot/binding-http" version "^0.8.14"

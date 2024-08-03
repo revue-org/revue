@@ -3,9 +3,12 @@ packageJson {
     description = "Notification microservice"
     main = "dist/src/index.js"
     scripts {
-        script("testToleranceAuth" runs "vitest --run tolerance.auth")
-        script("test" runs "vitest --exclude \"test/tolerance/**\" --run")
-        script("coverage" runs "vitest --run --coverage")
+        val scriptDeps = listOf(npmScript("build") inProject "common")
+        listOf(
+            "testToleranceAuth" runs "vitest --run tolerance.auth",
+            "test" runs "vitest --exclude \"test/tolerance/**\" --run",
+            "coverage" runs "vitest --run --coverage",
+        ).forEach { script(it dependingOn scriptDeps) }
     }
     dependencies {
         "nodemailer" version "^6.9.13"

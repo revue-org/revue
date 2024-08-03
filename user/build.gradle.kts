@@ -3,7 +3,7 @@ packageJson {
     description = "User microservice"
     main = "dist/src/index.js"
     scripts {
-        script("test" runs "vitest --run")
+        script("test" runs "vitest --run" dependingOn listOf(npmScript("build", "common")))
     }
     dependencies {
         "@rollup/plugin-commonjs" version "^26.0.1"

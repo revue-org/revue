@@ -3,7 +3,7 @@ packageJson {
     description = "Common module"
     main = "src/index.ts"
     scripts {
-        script("testArchitecture" runs "npx depcruise src")
+        script("testArchitecture" runs "npx depcruise src" dependingOn listOf(npmScript("build")))
     }
     devDependencies {
         "dependency-cruiser" version "^16.3.3"

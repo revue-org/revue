@@ -93,12 +93,14 @@ subprojects {
     if (project.isNodeProject) {
         packageJson {
             scripts {
-                if(project.name != "common") {
+                if(project.name !in setOf("common", "frontend")) {
                     script("serve" runs "NODE_ENV=production node .")
                 }
-                script("build" runs "tsc && tsc-alias")
+                if (project.name != "frontend") {
+                    script("build" runs "tsc && tsc-alias")
+                    script("dev" runs "npm run build && NODE_ENV=develop node .")
+                }
                 script("watch" runs "tsc -w & tsc-alias -w & nodemon .")
-                script("dev" runs "npm run build && NODE_ENV=develop node .")
                 script("lintFix" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix")
                 script("lint" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts")
                 script("formatFix" runs "prettier --write src test")

@@ -46,7 +46,7 @@ packageJson {
         "@vue/tsconfig" version "^0.5.0"
         "eslint-plugin-vue" version "^9.18.1"
         "sass" version "^1.69.7"
-        "vite" version "^5.0.11" // TODO: check other packages version
+        "vite" version "^5.0.11"
         "vite-plugin-node-polyfills" version "^0.22.0"
         "vue-tsc" version "^2.0.0"
     }

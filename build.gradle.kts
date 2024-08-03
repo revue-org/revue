@@ -84,7 +84,7 @@ subprojects {
     if (project.isNodeProject) {
         packageJson {
             version = "0.1.0"
-            repository = ("git" to "git+https://github.com/revue-org/revue.git")
+            repository = "git" to "git+https://github.com/revue-org/revue.git"
             author = "Mattia Matteini, Kelvin Olaiya, Alberto Paganelli"
             license = "MIT"
             homepage = "https://github.com/revue-org/revue#readme"

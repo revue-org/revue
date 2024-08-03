@@ -1,5 +1,3 @@
-import io.github.kelvindev15.gradle.NpmScriptTask
-import io.github.kelvindev15.gradle.NpmTask
 import org.gradle.internal.extensions.stdlib.capitalized
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
@@ -76,22 +74,20 @@ tasks.register<Copy>("generate-openapi-index-page") {
 }
 
 allprojects {
-    apply(plugin = "io.github.kelvindev15.npm-gradle-plugin")
-    packageJson {
-        version = "0.1.0"
-        repository = ("git" to "git+https://github.com/revue-org/revue.git")
-        author = "Mattia Matteini, Kelvin Olaiya, Alberto Paganelli"
-        license = "MIT"
-        homepage = "https://github.com/revue-org/revue#readme"
-    }
     tasks.register<Delete>("clean") {
         delete("dist", "node_modules/", "tsconfig.tsbuildinfo", "build")
     }
 }
 
 subprojects {
+    apply(plugin = "io.github.kelvindev15.npm-gradle-plugin")
     if (project.isNodeProject) {
         packageJson {
+            version = "0.1.0"
+            repository = ("git" to "git+https://github.com/revue-org/revue.git")
+            author = "Mattia Matteini, Kelvin Olaiya, Alberto Paganelli"
+            license = "MIT"
+            homepage = "https://github.com/revue-org/revue#readme"
             scripts {
                 val scriptDeps = listOf(npmScript("build") inProject "common")
                 if(project.name !in setOf("common", "frontend")) {

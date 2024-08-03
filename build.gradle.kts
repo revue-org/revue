@@ -93,18 +93,25 @@ subprojects {
     if (project.isNodeProject) {
         packageJson {
             scripts {
+                val scriptDeps = listOf(npmScript("build") inProject "common")
                 if(project.name !in setOf("common", "frontend")) {
-                    script("serve" runs "NODE_ENV=production node .")
+                    script("serve" runs "NODE_ENV=production node ." dependingOn scriptDeps)
                 }
                 if (project.name != "frontend") {
-                    script("build" runs "tsc && tsc-alias")
-                    script("dev" runs "npm run build && NODE_ENV=develop node .")
+                    script("build" runs "tsc && tsc-alias" dependingOn scriptDeps.filter {
+                        it.projectName != project.name
+                    })
+                    script("dev" runs "npm run build && NODE_ENV=develop node ." dependingOn scriptDeps)
                 }
-                script("watch" runs "tsc -w & tsc-alias -w & nodemon .")
-                script("lintFix" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix")
-                script("lint" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts")
-                script("formatFix" runs "prettier --write src test")
-                script("format" runs "prettier --check src test")
+                listOf(
+                    "watch" runs "tsc -w & tsc-alias -w & nodemon .",
+                    "lintFix" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
+                    "lint" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
+                    "formatFix" runs "prettier --write src test",
+                    "format" runs "prettier --check src test"
+                ).forEach {
+                    script(it dependingOn scriptDeps)
+                }
             }
             dependencies {
                 if (project.name != "common") {
@@ -139,19 +146,8 @@ subprojects {
                 "vitest" version "^2.0.0"
             }
         }
-        /*val build = tasks.named<NpmScriptTask>("npmLintooo") {
-            inputs.dir("src")
-            inputs.dir(fileTree("node_modules").exclude(".cache"))
-            outputs.dir("dist")
-        }*/
-    }
 
-    /*if (project.name != "common") {
-        tasks.forEach {
-            it.dependsOn(":common:build")
-            it.mustRunAfter(":common:build")
-        }
-    }*/
+    }
 
     if (project.name in microservices) {
         tasks.register<Copy>("generate-openapi-website") {

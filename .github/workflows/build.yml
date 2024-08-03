@@ -41,7 +41,7 @@ jobs:
       - name: Check format
         run: ./gradlew format npmFormat --info
       - name: Check lint
-        run: ./gradlew lint npmFormat --info
+        run: ./gradlew npmLint --info
   build-website:
     defaults:
       run:

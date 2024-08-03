@@ -17,15 +17,15 @@
   "scripts": {
     "lint": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
     "format:fix": "prettier --write src",
+    "lintFix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
+    "dev": "npm run build \u0026\u0026 NODE_ENV\u003ddevelop node .",
+    "formatFix": "prettier --write src",
+    "testArchitecture": "npx depcruise src",
     "build": "tsc \u0026\u0026 tsc-alias",
     "watch": "tsc -w \u0026 tsc-alias -w \u0026 nodemon .",
-    "format": "prettier --check src test",
+    "format": "prettier --check src",
     "test:architecture": "npx depcruise src",
-    "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
-    "dev": "npm run build \u0026\u0026 NODE_ENV\u003ddevelop node .",
-    "lintFix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
-    "formatFix": "prettier --write src test",
-    "testArchitecture": "npx depcruise src"
+    "lint:fix": "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix"
   },
   "dependencies": {
     "jsonwebtoken": "^9.0.2",

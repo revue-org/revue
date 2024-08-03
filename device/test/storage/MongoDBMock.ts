@@ -1,8 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { deviceSample, deviceSample1 } from "../resources/deviceSample.js";
-import { DeviceDBEntity } from "@/infrastructure/storage/models/DeviceModel";
-import { deviceSchema } from "@/infrastructure/storage/schemas/DeviceSchema";
+import { deviceSample, deviceSample1 } from '../resources/deviceSample.js'
+import { DeviceDBEntity } from '@/infrastructure/storage/models/DeviceModel'
+import { deviceSchema } from '@/infrastructure/storage/schemas/DeviceSchema'
 
 let mongoMock: any = null
 

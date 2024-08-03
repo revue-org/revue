@@ -90,6 +90,7 @@ subprojects {
             homepage = "https://github.com/revue-org/revue#readme"
             scripts {
                 val scriptDeps = listOf(npmScript("build") inProject "common")
+                val formatSourceSet = if (project.name !in setOf("common", "frontend", "monitoring")) "src test" else "src"
                 if(project.name !in setOf("common", "frontend")) {
                     script("serve" runs "NODE_ENV=production node ." dependingOn scriptDeps)
                 }
@@ -103,8 +104,8 @@ subprojects {
                     "watch" runs "tsc -w & tsc-alias -w & nodemon .",
                     "lintFix" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts --fix",
                     "lint" runs "eslint src/ --ext .js,.cjs,.mjs,.ts,.cts",
-                    "formatFix" runs "prettier --write src test",
-                    "format" runs "prettier --check src test"
+                    "formatFix" runs "prettier --write $formatSourceSet",
+                    "format" runs "prettier --check $formatSourceSet"
                 ).forEach {
                     script(it dependingOn scriptDeps)
                 }

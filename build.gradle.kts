@@ -13,7 +13,7 @@ repositories {
 }
 
 plugins {
-    id("io.github.kelvindev15.npm-gradle-plugin") version "3.0.0"
+    id("io.github.kelvindev15.npm-gradle-plugin") version "3.1.0"
 }
 
 val Project.isNodeProject get() = file("package.json").exists()
@@ -97,7 +97,13 @@ subprojects {
                 if (project.name != "frontend") {
                     script("build" runs "tsc && tsc-alias" dependingOn scriptDeps.filter {
                         it.projectName != project.name
-                    })
+                    }) {
+                        with(it) {
+                            inputs.dir("src")
+                            inputs.dir(fileTree("node_modules").exclude(".cache"))
+                            outputs.dir("dist")
+                        }
+                    }
                     script("dev" runs "npm run build && NODE_ENV=develop node ." dependingOn scriptDeps)
                 }
                 listOf(

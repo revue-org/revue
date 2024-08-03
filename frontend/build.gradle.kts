@@ -11,7 +11,17 @@ packageJson {
             "dev" runs "vite",
             "host" runs "vite --host",
             "test" runs "echo \"Error: no test specified\" && exit 1",
-        ).forEach { script(it dependingOn scriptDeps) }
+        ).forEach {
+            script(it dependingOn scriptDeps) { task ->
+                if (it.scriptName == "build") {
+                    with(task) {
+                        inputs.dir("src")
+                        inputs.dir(fileTree("node_modules").exclude(".cache"))
+                        outputs.dir("dist")
+                    }
+                }
+            }
+        }
     }
     dependencies {
         "@quasar/extras" version "^1.16.9"

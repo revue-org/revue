@@ -16,7 +16,7 @@
     {
       "datasourceTemplate": "npm",
       "customType": "regex",
-      "fileMatch": ["(^|/)build\\.gradle\\.kts$"],
+      "fileMatch": ["(^|\\/).*\\.gradle\\.kts$"],
       "matchStrings": [
         "(?:\"(?<packageName>[^\\s\"]+)\"\\s*version\\s*\"(?<currentValue>.+)\")",
         "(?:\"(?<packageName>[^\\s\"]+)\"\\s*[.]\\s*version\\s*\\(\\s*\"(?<currentValue>.+)\"\\s*\\))"

@@ -81,7 +81,7 @@ allprojects {
 
 subprojects {
     apply(plugin = "io.github.kelvindev15.npm-gradle-plugin")
-    if (project.name in (microservices - "recognition")) {
+    if (project.name in (microservices - "recognition" + "common")) {
         packageJson {
             version = "0.1.0"
             repository = "git" to "git+https://github.com/revue-org/revue.git"

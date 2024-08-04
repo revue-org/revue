@@ -1,3 +1,7 @@
+plugins {
+    id("configure-npm")
+}
+
 packageJson {
     name = "auth"
     description = "Authentication microservice"

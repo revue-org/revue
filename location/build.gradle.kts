@@ -1,3 +1,7 @@
+plugins {
+    id("configure-npm")
+}
+
 packageJson {
     name = "location"
     description = "Location microservice"

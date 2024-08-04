@@ -1,3 +1,7 @@
+plugins {
+    id("configure-npm")
+}
+
 packageJson {
     name = "log"
     description = "Log microservice"

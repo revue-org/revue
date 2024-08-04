@@ -1,8 +1,11 @@
 {
-  "name": "revue",
   "version": "1.0.0",
-  "private": true,
+  "keywords": [],
+  "homepage": "kelvin-olaiya.github.io",
+  "author": "Kelvin Olaiya",
   "devDependencies": {
     "semantic-release-preconfigured-conventional-commits": "1.1.95"
-  }
+  },
+  "private": true,
+  "type": "module"
 }

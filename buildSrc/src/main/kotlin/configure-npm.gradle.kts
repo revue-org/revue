@@ -1,6 +1,10 @@
+import Microservices.FRONTEND
+import Microservices.MONITORING
+
 plugins {
     id("io.github.kelvindev15.npm-gradle-plugin")
 }
+val common = "common"
 
 packageJson {
     version = "0.1.0"
@@ -10,11 +14,11 @@ packageJson {
     homepage = "https://github.com/revue-org/revue#readme"
     scripts {
         val scriptDeps = listOf(npmScript("build") inProject "common")
-        val formatSourceSet = if (project.name !in setOf("common", "frontend", "monitoring")) "src test" else "src"
-        if(project.name !in setOf("common", "frontend")) {
+        val formatSourceSet = if (project.name !in setOf(common, FRONTEND, MONITORING)) "src test" else "src"
+        if(project.name !in setOf(common, FRONTEND)) {
             script("serve" runs "NODE_ENV=production node ." dependingOn scriptDeps)
         }
-        if (project.name != "frontend") {
+        if (project.name != FRONTEND.path) {
             script("build" runs "tsc && tsc-alias" dependingOn scriptDeps.filter {
                 it.projectName != project.name
             }) {
@@ -37,7 +41,7 @@ packageJson {
         }
     }
     dependencies {
-        if (project.name != "common") {
+        if (project.name != common) {
             "common" version "file:../common"
         }
         "axios" version "^1.6.7"

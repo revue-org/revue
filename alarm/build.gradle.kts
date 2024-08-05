@@ -9,7 +9,7 @@ packageJson {
     scripts {
         val scriptDeps = listOf(npmScript("build") inProject "common")
         listOf(
-            "test" runs "vitest --exclude \"test/tolerance/**\" --run",
+            "test" runs "vitest --run",
             "testToleranceNotification" runs "vitest --run tolerance.notification",
             "coverage" runs "vitest --run --coverage",
         ).forEach { script(it dependingOn scriptDeps) }

@@ -17,6 +17,5 @@ enum class Microservices(
 
     companion object {
         fun isAMicroservice(tester: String) = tester.lowercase() in values().map { it.path }
-        val String.isAMicroservice get() = isAMicroservice(this)
     }
 }

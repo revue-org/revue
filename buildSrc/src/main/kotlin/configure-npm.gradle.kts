@@ -14,8 +14,8 @@ packageJson {
     homepage = "https://github.com/revue-org/revue#readme"
     scripts {
         val scriptDeps = listOf(npmScript("build") inProject "common")
-        val formatSourceSet = if (project.name !in setOf(common, FRONTEND, MONITORING)) "src test" else "src"
-        if(project.name !in setOf(common, FRONTEND)) {
+        val formatSourceSet = if (project.name !in setOf(common, FRONTEND.path, MONITORING.path)) "src test" else "src"
+        if(project.name !in setOf(common, FRONTEND.path)) {
             script("serve" runs "NODE_ENV=production node ." dependingOn scriptDeps)
         }
         if (project.name != FRONTEND.path) {

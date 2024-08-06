@@ -50,7 +50,7 @@ while [ $# -gt 0 ]; do
       fi
       ;;
     --k8s)
-      ./scripts/create-k8s-specifications.sh
+      ./gradlew generate-k8s-specifications
       if [[ "$2" == --driver=* ]]; then
         driver="${2#*=}"
         shift
@@ -71,7 +71,7 @@ while [ $# -gt 0 ]; do
         helm install prometheus prometheus-community/prometheus -f prometheus/prometheus-values.yml
         helm install grafana grafana/grafana -f prometheus/grafana-values.yml
 
-        kubectl apply -f k8s
+        kubectl apply -f build/k8s
         sudo minikube tunnel
         exit 0
       else

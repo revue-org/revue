@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Device } from '@/domain/core/Device'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import { type Capability, CapabilityType } from '@/domain/core/Capability'
 import { ref } from 'vue'
 import { MeasureType } from 'common/dist/domain/core'
@@ -29,7 +29,7 @@ const locationId = ref<string>(device.locationId)
 const capabilities = ref<Capability[]>([])
 
 const retrieveThingInfos = () => {
-  RequestHelper.get(`http://${ip.value}:${port.value}/device/properties/status`)
+  RequestHelper.get(`${deviceHost}/devices/${ip.value}:${port.value}/status`)
     .then(async (res: any) => {
       locationId.value = res.data.locationId
       for (let i = 0; i < res.data.capabilities.length; i++) {
@@ -68,7 +68,7 @@ const updateDevice = () => {
     console.log('Error while retrieving thing infos')
   }
 
-  RequestHelper.put(`http://${deviceHost}:${devicePort}/devices/${device.deviceId}`, {
+  RequestHelper.put(`${deviceHost}/devices/${device.deviceId}`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,
@@ -102,9 +102,6 @@ const updateDevice = () => {
         <label>Port</label>
         <q-input dense v-model="port" />
       </q-card-section>
-      <!--      <q-card-section class="q-pt-none">
-              <q-btn label="Retrieve info" color="primary" @click="retrieveThingInfos" />
-            </q-card-section>-->
       <q-card-section class="q-pt-none">
         <label>Location</label>
         <q-input disable dense v-model="locationId" autofocus />
@@ -113,22 +110,6 @@ const updateDevice = () => {
         <label>Description</label>
         <q-input dense v-model="description" />
       </q-card-section>
-      <!--      <q-card-section class="q-pt-none">
-              Capabilities:
-              <q-badge
-                v-for="capability in capabilities"
-                :key="capability.type"
-                :style="{
-                  backgroundColor:
-                    capability.type === 'sensor'
-                      ? colorMap[(capability as SensoringCapability).measure.type]
-                      : 'blue'
-                }"
-              >
-                {{ capability.type.toUpperCase() }}
-              </q-badge>
-            </q-card-section>-->
-
       <q-card-actions align="right">
         <q-btn flat label="Cancel" v-close-popup class="text-primary" />
         <q-btn flat label="OK" v-close-popup class="bg-white text-teal" @click="updateDevice" />

@@ -173,9 +173,6 @@ docs/**/*.blg
 # Traefik certificates
 letsencrypt
 
-# k8s specifications
-k8s/
-
 # Microservices package.json files
 alarm/**/package.json
 alarm/**/package-lock.json

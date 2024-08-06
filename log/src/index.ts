@@ -33,18 +33,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/measurements', measurementRouter)
 app.use('/anomalies', anomalyRouter)
 
-const username: string = process.env.LOG_DB_USERNAME || 'admin'
-const password: string = process.env.LOG_DB_PASSWORD || 'admin'
-const host: string = process.env.NODE_ENV === 'develop' ? 'localhost' : process.env.LOG_DB_HOST || 'localhost'
-const dbPort: string =
-  process.env.NODE_ENV === 'develop'
-    ? process.env.LOG_DB_PORT || '27017'
-    : process.env.DEFAULT_DB_PORT || '27017'
-const dbName: string = process.env.LOG_DB_NAME || 'log'
-
 if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, async (): Promise<void> => {
     console.log(`Log server listening on ${process.env.LOG_PORT}`)
-    await mongoConnect(mongoose, username, password, host, dbPort, dbName)
+    await mongoConnect(mongoose, 'log')
   })
 }

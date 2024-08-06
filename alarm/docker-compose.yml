@@ -19,8 +19,8 @@ services:
       kompose.service.expose: "alarm.localhost"
       traefik.enable: true
       traefik.http.routers.alarm.rule: Host(`alarm.localhost`)
-      traefik.http.routers.alarm.entrypoints: websecure
-      traefik.http.routers.alarm.tls.certresolver: myresolver
+      traefik.http.routers.alarm.entrypoints: web # websecure
+      # traefik.http.routers.alarm.tls.certresolver: myresolver
 
   revue-alarm-db:
     image: mongo
@@ -43,6 +43,7 @@ services:
 
 volumes:
   revue_alarm_data:
+    name: revue-alarm-data
     driver: local
 
 networks:

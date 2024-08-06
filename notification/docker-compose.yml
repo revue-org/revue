@@ -19,8 +19,8 @@ services:
       kompose.service.expose: "notification.localhost"
       traefik.enable: true
       traefik.http.routers.notification.rule: Host(`notification.localhost`)
-      traefik.http.routers.notification.entrypoints: websecure
-      traefik.http.routers.notification.tls.certresolver: myresolver
+      traefik.http.routers.notification.entrypoints: web # websecure
+      # traefik.http.routers.notification.tls.certresolver: myresolver
 
   revue-notification-db:
     image: mongo
@@ -43,6 +43,7 @@ services:
 
 volumes:
   revue_notification_data:
+    name: revue-notification-data
     driver: local
 
 networks:

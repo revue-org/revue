@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import RequestHelper, { deviceHost, devicePort, mediaServerHost } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost, mediaServerHost } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 import { composeDevice } from '@/presentation/ComposeDevice'
 import type { Device } from '@/domain/core/Device'
 
 const videoDevices = ref<Device[]>([])
 const getDevices = async () => {
-  await RequestHelper.get(`http://${deviceHost}:${devicePort}/devices?capabilities=video`)
+  await RequestHelper.get(`${deviceHost}/devices?capabilities=video`)
     .then((res: any): string[] =>
       res.data
         .filter(

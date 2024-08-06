@@ -27,7 +27,7 @@ case "$1" in
     ;;
   --k8s)
       if check_minikube; then
-        kubectl delete -f k8s
+        kubectl delete -f build/k8s
         helm uninstall traefik
         helm uninstall prometheus
         helm uninstall grafana

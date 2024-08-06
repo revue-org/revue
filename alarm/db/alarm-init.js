@@ -6,7 +6,7 @@ db.securityRule.insertMany([
     id: 'test-range-rule-1',
     type: 'range',
     author: 'user',
-    activeOn: 'device',
+    activeOn: 'thing-1',
     description: 'Test range rule 1',
     validity: {
       from: new Date('2021-01-01T00:00:00Z'),
@@ -32,7 +32,7 @@ db.securityRule.insertMany([
     id: 'test-intrusion-rule-1',
     type: 'intrusion',
     author: 'user',
-    activeOn: 'device',
+    activeOn: 'thing-1',
     description: 'Test intrusion rule 1',
     validity: {
       from: new Date('2021-01-01T00:00:00Z'),

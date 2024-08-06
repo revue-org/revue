@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { popNegative } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
-import RequestHelper, { authHost, authPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 
 const $q = useQuasar()
@@ -21,18 +21,16 @@ const resetFields = () => {
 const optionsPermissions: ref<{ label: string; value: string }> = ref([])
 
 const getPermissions = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`).then(
-    (res: any) => {
-      optionsPermissions.value = []
-      res.value = []
-      for (let i = 0; i < res.data.length; i++) {
-        optionsPermissions.value.push({
-          label: 'Room: ' + res.data[i],
-          value: res.data[i]
-        })
-      }
+  await RequestHelper.get(`${authHost}/permissions/${useUserStore().id}`).then((res: any) => {
+    optionsPermissions.value = []
+    res.value = []
+    for (let i = 0; i < res.data.length; i++) {
+      optionsPermissions.value.push({
+        label: 'Room: ' + res.data[i],
+        value: res.data[i]
+      })
     }
-  )
+  })
 }
 
 const updatePermission = () => {

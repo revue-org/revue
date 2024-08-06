@@ -17,8 +17,8 @@ services:
       kompose.service.expose: "user.localhost"
       traefik.enable: true
       traefik.http.routers.user.rule: Host(`user.localhost`)
-      traefik.http.routers.user.entrypoints: websecure
-      traefik.http.routers.user.tls.certresolver: myresolver
+      traefik.http.routers.user.entrypoints: web # websecure
+      # traefik.http.routers.user.tls.certresolver: myresolver
 
   revue-user-db:
     image: mongo
@@ -38,6 +38,7 @@ services:
 
 volumes:
   revue_user_data:
+    name: revue-user-data
     driver: local
 
 networks:

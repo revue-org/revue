@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { type Capability, CapabilityType, type SensoringCapability } from '@/domain/core/Capability'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import { MeasureType } from 'common/dist/domain/core'
@@ -27,11 +27,12 @@ const locationId = ref<string>()
 const capabilities = ref<Capability[]>([])
 
 const retrieveThingInfos = () => {
-  RequestHelper.get(`http://${ip.value}:${port.value}/device/properties/status`)
+  RequestHelper.get(`${deviceHost}/devices/${ip.value}:${port.value}/status`)
     .then(async (res: any) => {
       console.log(res.data)
       name.value = res.data.id
       locationId.value = res.data.location
+      capabilities.value = []
       for (let i = 0; i < res.data.capabilities.length; i++) {
         const capability = res.data.capabilities[i]
         if (capability.type === CapabilityType.SENSOR) {
@@ -62,7 +63,7 @@ const addNewDevice = () => {
     popNegative($q, 'Please fill all fields')
     return
   }
-  RequestHelper.post(`http://${deviceHost}:${devicePort}/devices`, {
+  RequestHelper.post(`${deviceHost}/devices`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,

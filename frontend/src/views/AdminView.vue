@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import RequestHelper, { authHost, authPort, userHost, userPort } from '@/utils/RequestHelper'
+import RequestHelper, { authHost, userHost } from '@/utils/RequestHelper'
 import { useUserStore } from '@/stores/user'
 import type { Contact } from 'common/dist/domain/core'
 import { popNegative, popPositive } from '@/scripts/Popups'
@@ -31,13 +31,13 @@ const addNewUser = () => {
         value: contact.value
       }
     })
-    RequestHelper.post(`http://${authHost}:${authPort}/users`, {
+    RequestHelper.post(`${authHost}/users`, {
       username: username.value,
       password: password.value,
       permissions: newPermissions
     })
       .then((userId: any) => {
-        RequestHelper.post(`http://${userHost}:${userPort}/`, {
+        RequestHelper.post(`${userHost}/`, {
           id: userId.data.value,
           name: name.value,
           surname: surname.value,
@@ -69,18 +69,16 @@ const checkPasswordCorrectness = (): boolean => {
 
 const optionsPermissions: ref<{ label: string; value: string }> = ref([])
 const getPermissions = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}:${authPort}/permissions/${useUserStore().id}`).then(
-    (res: any) => {
-      optionsPermissions.value = []
-      res.value = []
-      for (let i = 0; i < res.data.length; i++) {
-        optionsPermissions.value.push({
-          label: 'Room: ' + res.data[i],
-          value: res.data[i]
-        })
-      }
+  await RequestHelper.get(`${authHost}/permissions/${useUserStore().id}`).then((res: any) => {
+    optionsPermissions.value = []
+    res.value = []
+    for (let i = 0; i < res.data.length; i++) {
+      optionsPermissions.value.push({
+        label: 'Room: ' + res.data[i],
+        value: res.data[i]
+      })
     }
-  )
+  })
 }
 
 const optionsContacts: ref<{ label: string; value: string }> = ref([])

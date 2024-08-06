@@ -31,9 +31,9 @@ services:
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:${KAFKA_PORT_1},EXTERNAL://:${KAFKA_EXTERNAL_PORT_1}
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_HOST_1}:${KAFKA_PORT_1},EXTERNAL://localhost:${KAFKA_EXTERNAL_PORT_1}
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=revue-zookeeper-1:2181,revue-zookeeper-2:2182
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=revue-zookeeper-1:2181,revue-zookeeper-2:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_DEFAULT_REPLICATION_FACTOR=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
       - KAFKA_MESSAGE_MAX_BYTES=200000000
       - KAFKA_DELETE_TOPIC_ENABLE=true
     depends_on:
@@ -42,7 +42,7 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: NodePort
+      kompose.service.type: LoadBalancer
       kompose.controller.type: deployment
 
   revue-kafka-2:
@@ -56,9 +56,9 @@ services:
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:${KAFKA_PORT_2},EXTERNAL://:${KAFKA_EXTERNAL_PORT_2}
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_HOST_2}:${KAFKA_PORT_2},EXTERNAL://localhost:${KAFKA_EXTERNAL_PORT_2}
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=revue-zookeeper-1:2181,revue-zookeeper-2:2182
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=revue-zookeeper-1:2181,revue-zookeeper-2:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_DEFAULT_REPLICATION_FACTOR=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
       - KAFKA_MESSAGE_MAX_BYTES=200000000
       - KAFKA_DELETE_TOPIC_ENABLE=true
     depends_on:
@@ -67,7 +67,7 @@ services:
     networks:
       - my-net
     labels:
-      kompose.service.type: NodePort
+      kompose.service.type: LoadBalancer
       kompose.controller.type: deployment
 
   revue-kafka-ui:

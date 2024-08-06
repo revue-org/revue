@@ -5,7 +5,7 @@ import { useQuasar } from 'quasar'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import HttpStatusCode from '@utils/HttpStatusCode'
-import RequestHelper, { deviceHost, devicePort } from '@/utils/RequestHelper'
+import RequestHelper, { deviceHost } from '@/utils/RequestHelper'
 import type { Device } from '@/domain/core/Device'
 import { composeDevice } from '@/presentation/ComposeDevice'
 import SensorData from '@/components/devices/SensorData.vue'
@@ -20,7 +20,7 @@ if (monitoringSocket == undefined || notificationSocket == undefined) {
 
 const getDevices = async () => {
   useUserStore().permissions.forEach((location: string) => {
-    RequestHelper.get(`http://${deviceHost}:${devicePort}/devices/locations/${location}`)
+    RequestHelper.get(`${deviceHost}/devices/locations/${location}`)
       .then(async (res: any) => {
         if (res.status == HttpStatusCode.OK) {
           for (let i = 0; i < res.data.length; i++) {

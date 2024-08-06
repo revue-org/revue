@@ -33,7 +33,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         res.data.map((device: any): string => `measurements.${device.deviceId.value}`)
       )
       .catch((): string[] => {
-        throw new Error('Error getting measurements topics from device service')
+        throw new Error('Error getting sensor devices from device service')
       })
   }
 
@@ -43,7 +43,7 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
         res.data.map((device: any): string => `detections.${device.deviceId.value}`)
       )
       .catch((): string[] => {
-        throw new Error('Error getting detections topics from device service')
+        throw new Error('Error getting video devices topics from device service')
       })
   }
 
@@ -72,8 +72,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
           })
           .then((): void => console.log('Measurements consumer started'))
       })
-      .catch((_e: any): void => {
-        console.log('Error getting topics, retrying in 10 seconds')
+      .catch((e: any): void => {
+        console.log('Error getting measurements topics, retrying in 10 seconds')
+        console.error(e)
         setTimeout((): void => this.subscribeToMeasurements(handler), 10000)
       })
   }
@@ -107,8 +108,9 @@ export class KafkaAlarmEventsHub implements AlarmEventsHub {
           })
           .then((): void => console.log('Detections consumer started'))
       })
-      .catch((_e: any): void => {
-        console.log('Error getting topics, retrying in 10 seconds')
+      .catch((e: any): void => {
+        console.log('Error getting detections topics, retrying in 10 seconds')
+        console.log(e)
         setTimeout((): void => this.subscribeToDetections(handler), 10000)
       })
   }

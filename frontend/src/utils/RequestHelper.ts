@@ -12,23 +12,40 @@ type Headers = {
   }
 }
 
-export const authHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_AUTH_HOST
-export const authPort = import.meta.env.DEV ? '4000' : import.meta.env.VITE_AUTH_PORT
-export const userHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_USER_HOST
-export const userPort = import.meta.env.DEV ? '4006' : import.meta.env.VITE_USER_PORT
-export const locationHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_LOCATION_HOST
-export const locationPort = import.meta.env.DEV ? '4008' : import.meta.env.VITE_LOCATION_PORT
-export const deviceHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_DEVICE_HOST
-export const devicePort = import.meta.env.DEV ? '4007' : import.meta.env.VITE_DEVICE_PORT
-export const monitoringHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MONITORING_HOST
-export const monitoringPort = import.meta.env.DEV ? '4001' : import.meta.env.VITE_MONITORING_PORT
-export const alarmHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_ALARM_HOST
-export const alarmPort = import.meta.env.DEV ? '4002' : import.meta.env.VITE_ALARM_PORT
-export const logHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_LOG_HOST
-export const logPort = import.meta.env.DEV ? '4003' : import.meta.env.VITE_LOG_PORT
-export const notificationHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_NOTIFICATION_HOST
-export const notificationPort = import.meta.env.DEV ? '4004' : import.meta.env.VITE_NOTIFICATION_PORT
-export const mediaServerHost = import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MEDIA_SERVER_HOST
+const protocol: string = 'http://'
+
+export const authHost =
+  protocol +
+  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_AUTH_PORT : import.meta.env.VITE_AUTH_HOST)
+export const userHost =
+  protocol +
+  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_USER_PORT : import.meta.env.VITE_USER_HOST)
+export const locationHost =
+  protocol +
+  (import.meta.env.DEV
+    ? 'localhost:' + import.meta.env.VITE_LOCATION_PORT
+    : import.meta.env.VITE_LOCATION_HOST)
+export const deviceHost =
+  protocol +
+  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_DEVICE_PORT : import.meta.env.VITE_DEVICE_HOST)
+export const monitoringHost =
+  protocol +
+  (import.meta.env.DEV
+    ? 'localhost:' + import.meta.env.VITE_MONITORING_PORT
+    : import.meta.env.VITE_MONITORING_HOST)
+export const alarmHost =
+  protocol +
+  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_ALARM_PORT : import.meta.env.VITE_ALARM_HOST)
+export const logHost =
+  protocol +
+  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_LOG_PORT : import.meta.env.VITE_LOG_HOST)
+export const notificationHost =
+  protocol +
+  (import.meta.env.DEV
+    ? 'localhost:' + import.meta.env.VITE_NOTIFICATION_PORT
+    : import.meta.env.VITE_NOTIFICATION_HOST)
+export const mediaServerHost =
+  protocol + (import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MEDIA_SERVER_HOST)
 
 export default class RequestHelper {
   static getHeaders(): Headers {

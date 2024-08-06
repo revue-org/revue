@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import RequestHelper, { notificationHost, notificationPort } from '@/utils/RequestHelper'
+import RequestHelper, { notificationHost } from '@/utils/RequestHelper'
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 import { useQuasar } from 'quasar'
 import { popNegative, popPositive } from '@/scripts/Popups'
@@ -11,7 +11,7 @@ const $q = useQuasar()
 const notifications: ref<Notification[]> = ref([])
 
 async function getNotifications() {
-  await RequestHelper.get(`http://${notificationHost}:${notificationPort}/notifications`)
+  await RequestHelper.get(`${notificationHost}/notifications`)
     .then(async (res: any) => {
       notifications.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {

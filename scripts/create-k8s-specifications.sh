@@ -31,3 +31,8 @@ kompose convert \
   -o k8s
 
 rm all-docker-compose.yml
+mv k8s/revue-kafka-1-tcp-service.yaml k8s/revue-kafka-1-service.yaml
+mv k8s/revue-kafka-2-tcp-service.yaml k8s/revue-kafka-2-service.yaml
+
+sed -i '' 's/-tcp//g' k8s/revue-kafka-1-service.yaml
+sed -i '' 's/-tcp//g' k8s/revue-kafka-2-service.yaml

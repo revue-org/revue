@@ -11,5 +11,16 @@
       ],
       "semanticCommitScope": "core-deps"
     }
+  ],
+  "customManagers": [
+    {
+      "datasourceTemplate": "npm",
+      "customType": "regex",
+      "fileMatch": ["(^|\\/).*\\.gradle\\.kts$"],
+      "matchStrings": [
+        "(?:\"(?<packageName>[^\\s\"]+)\"\\s*version\\s*\"(?<currentValue>.+)\")",
+        "(?:\"(?<packageName>[^\\s\"]+)\"\\s*[.]\\s*version\\s*\\(\\s*\"(?<currentValue>.+)\"\\s*\\))"
+      ]
+    }
   ]
 }

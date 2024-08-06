@@ -1,4 +1,3 @@
-import com.github.gradle.node.npm.task.NpmTask
 import org.gradle.internal.extensions.stdlib.capitalized
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
@@ -12,15 +11,6 @@ version = "0.1.0"
 repositories {
     mavenCentral()
 }
-
-plugins {
-    id("com.github.node-gradle.node") version "7.0.2"
-}
-
-class Task(
-    val name: String,
-    val command: List<String>
-)
 
 val Project.isNodeProject get() = file("package.json").exists()
 
@@ -86,52 +76,6 @@ allprojects {
 }
 
 subprojects {
-    if (project.isNodeProject) {
-        apply(plugin = "com.github.node-gradle.node")
-
-        node {
-            download = false
-        }
-
-        val install = tasks.register<NpmTask>("install") {
-            args = listOf("install")
-        }
-
-        val build = tasks.register<NpmTask>("build") {
-            dependsOn(install)
-            mustRunAfter(install)
-            args = listOf("run", "build")
-            inputs.dir("src")
-            inputs.dir(fileTree("node_modules").exclude(".cache"))
-            outputs.dir("dist")
-        }
-
-        tasks.register<NpmTask>("test") {
-            dependsOn(build)
-            args = listOf("run", "test")
-        }
-
-        listOf(
-            Task("testArchitecture", listOf("run", "test:architecture")),
-            Task("format", listOf("run", "format")),
-            Task("lint", listOf("run", "lint")),
-            Task("format-fix", listOf("run", "format:fix")),
-            Task("lint-fix", listOf("run", "lint:fix")),
-        ).forEach { task ->
-            tasks.register<NpmTask>(task.name) {
-                args = task.command
-                dependsOn(install)
-            }
-        }
-    }
-
-    if (project.name != "common") {
-        tasks.forEach {
-            it.dependsOn(":common:build")
-            it.mustRunAfter(":common:build")
-        }
-    }
-
     if (project.name in microservices) {
         tasks.register<Copy>("generate-openapi-website") {
             dependsOn(":download-swagger-ui")
@@ -159,7 +103,6 @@ subprojects {
                                 )
                         )
                 }
-
             }
         }
     }

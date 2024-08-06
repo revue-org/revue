@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
-RUN gradle notification:build --no-daemon --info --parallel
+RUN gradle notification:npmBuild --no-daemon --info --parallel
 
 
 FROM node:20-alpine AS production

@@ -1,8 +1,8 @@
-import mongoose, { model, Model } from "mongoose";
+import mongoose, { model, Model } from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { userSample } from '../resources/userSample.js'
-import { userSchema } from "@/infrastructure/storage/schemas/UserSchema";
-import { User } from "@/domain/core/User";
+import { userSchema } from '@/infrastructure/storage/schemas/UserSchema'
+import { User } from '@/domain/core/User'
 
 let mongoMock: any = null
 

@@ -11,7 +11,7 @@ const $q = useQuasar()
 const notifications: ref<Notification[]> = ref([])
 
 async function getNotifications() {
-  await RequestHelper.get(`http://${notificationHost}/notifications`)
+  await RequestHelper.get(`${notificationHost}/notifications`)
     .then(async (res: any) => {
       notifications.value = []
       for (let i = res.data.length - 1; i >= 0; i--) {

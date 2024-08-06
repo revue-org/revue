@@ -7,7 +7,7 @@ import type { Device } from '@/domain/core/Device'
 
 const videoDevices = ref<Device[]>([])
 const getDevices = async () => {
-  await RequestHelper.get(`http://${deviceHost}/devices?capabilities=video`)
+  await RequestHelper.get(`${deviceHost}/devices?capabilities=video`)
     .then((res: any): string[] =>
       res.data
         .filter(

@@ -10,10 +10,10 @@ const $q = useQuasar()
 const users = ref<User[]>([])
 
 const getUsers = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}/users`).then((access: any) => {
+  await RequestHelper.get(`${authHost}/users`).then((access: any) => {
     users.value = []
     for (let i = 0; i < access.data.length; i++) {
-      RequestHelper.get(`http://${userHost}/${access.data[i].id.value}`).then((registry: any) => {
+      RequestHelper.get(`${userHost}/${access.data[i].id.value}`).then((registry: any) => {
         users.value.push({
           id: registry.data.id.value,
           username: access.data[i].username,

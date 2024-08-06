@@ -31,13 +31,13 @@ const addNewUser = () => {
         value: contact.value
       }
     })
-    RequestHelper.post(`http://${authHost}/users`, {
+    RequestHelper.post(`${authHost}/users`, {
       username: username.value,
       password: password.value,
       permissions: newPermissions
     })
       .then((userId: any) => {
-        RequestHelper.post(`http://${userHost}/`, {
+        RequestHelper.post(`${userHost}/`, {
           id: userId.data.value,
           name: name.value,
           surname: surname.value,
@@ -69,7 +69,7 @@ const checkPasswordCorrectness = (): boolean => {
 
 const optionsPermissions: ref<{ label: string; value: string }> = ref([])
 const getPermissions = async (): Promise<void> => {
-  await RequestHelper.get(`http://${authHost}/permissions/${useUserStore().id}`).then((res: any) => {
+  await RequestHelper.get(`${authHost}/permissions/${useUserStore().id}`).then((res: any) => {
     optionsPermissions.value = []
     res.value = []
     for (let i = 0; i < res.data.length; i++) {

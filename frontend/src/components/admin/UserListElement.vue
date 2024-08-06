@@ -29,7 +29,7 @@ const deleteUser = () => {
 }
 
 const updatePermissions = async (permissions: string[]) => {
-  await RequestHelper.put(`http://${authHost}/permissions/${prop.user.id}`, {
+  await RequestHelper.put(`${authHost}/permissions/${prop.user.id}`, {
     name: prop.user.name,
     surname: prop.user.surname,
     permissions: permissions
@@ -44,7 +44,7 @@ const addContact = async (contact: any) => {
   prop.user.contacts.push(contact)
 
   console.log(prop.user.contacts)
-  await RequestHelper.put(`http://${userHost}/${prop.user.id}`, {
+  await RequestHelper.put(`${userHost}/${prop.user.id}`, {
     name: prop.user.name,
     surname: prop.user.surname,
     contacts: prop.user.contacts
@@ -56,7 +56,7 @@ const addContact = async (contact: any) => {
 const removeContact = (contact: Contact) => {
   prop.user.contacts = prop.user.contacts.filter(c => c !== contact)
   console.log(prop.user.contacts)
-  RequestHelper.put(`http://${userHost}/${prop.user.id}`, {
+  RequestHelper.put(`${userHost}/${prop.user.id}`, {
     name: prop.user.name,
     surname: prop.user.surname,
     contacts: prop.user.contacts

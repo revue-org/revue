@@ -27,7 +27,7 @@ const locationId = ref<string>()
 const capabilities = ref<Capability[]>([])
 
 const retrieveThingInfos = () => {
-  RequestHelper.get(`http://${deviceHost}/devices/${ip.value}:${port.value}/status`)
+  RequestHelper.get(`${deviceHost}/devices/${ip.value}:${port.value}/status`)
     .then(async (res: any) => {
       console.log(res.data)
       name.value = res.data.id
@@ -63,7 +63,7 @@ const addNewDevice = () => {
     popNegative($q, 'Please fill all fields')
     return
   }
-  RequestHelper.post(`http://${deviceHost}/devices`, {
+  RequestHelper.post(`${deviceHost}/devices`, {
     description: description.value,
     endpoint: {
       ipAddress: ip.value,

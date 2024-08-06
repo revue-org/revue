@@ -20,7 +20,7 @@ if (monitoringSocket == undefined || notificationSocket == undefined) {
 
 const getDevices = async () => {
   useUserStore().permissions.forEach((location: string) => {
-    RequestHelper.get(`http://${deviceHost}/devices/locations/${location}`)
+    RequestHelper.get(`${deviceHost}/devices/locations/${location}`)
       .then(async (res: any) => {
         if (res.status == HttpStatusCode.OK) {
           for (let i = 0; i < res.data.length; i++) {

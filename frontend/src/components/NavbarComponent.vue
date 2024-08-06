@@ -14,7 +14,7 @@ const navbarExpanded = ref(false)
 
 const userStore = useUserStore()
 const logout = () => {
-  RequestHelper.post(`http://${authHost}/logout`, {
+  RequestHelper.post(`${authHost}/logout`, {
     username: userStore.username
   }).then((res: any): void => {
     if (res.status == AxiosHttpStatusCode.Ok) {

@@ -112,7 +112,7 @@ const optionsDeviceIds: ref<{ label: string; value: string }> = ref([])
 const getDeviceIds = async () => {
   const locations = useUserStore().permissions
   for (let i = 0; i < locations.length; i++) {
-    await RequestHelper.get(`http://${deviceHost}/devices/locations/${locations[i]}`)
+    await RequestHelper.get(`${deviceHost}/devices/locations/${locations[i]}`)
       .then((res: any) => {
         console.log(res.data)
         for (let j = 0; j < res.data.length; j++) {

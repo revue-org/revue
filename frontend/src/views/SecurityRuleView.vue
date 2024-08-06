@@ -13,7 +13,7 @@ const intrusionRules: ref<IntrusionRule[]> = ref([])
 const $q = useQuasar()
 
 const getRangeRules = async () => {
-  await RequestHelper.get(`http://${alarmHost}/rules/ranges`)
+  await RequestHelper.get(`${alarmHost}/rules/ranges`)
     .then((res: any) => {
       rangeRules.value = []
       for (let i = 0; i < res.data.length; i++) {
@@ -26,7 +26,7 @@ const getRangeRules = async () => {
 }
 
 const getIntrusionRules = async () => {
-  await RequestHelper.get(`http://${alarmHost}/rules/intrusions`)
+  await RequestHelper.get(`${alarmHost}/rules/intrusions`)
     .then((res: any) => {
       console.log(res.data)
       intrusionRules.value = []

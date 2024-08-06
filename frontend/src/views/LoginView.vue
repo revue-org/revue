@@ -17,7 +17,7 @@ const userStore = useUserStore()
 const $q = useQuasar()
 
 const login = () => {
-  RequestHelper.post(`http://${authHost}/login`, {
+  RequestHelper.post(`${authHost}/login`, {
     username: username.value,
     password: password.value
   })
@@ -31,7 +31,7 @@ const login = () => {
       userStore.accessToken = res.data.accessToken
       userStore.refreshToken = res.data.refreshToken
       userStore.permissions = res.data.permissions
-      RequestHelper.get(`http://${userHost}/${userStore.id}`).then((res: any) => {
+      RequestHelper.get(`${userHost}/${userStore.id}`).then((res: any) => {
         const contacts: Contact[] = []
         for (let i = 0; i < res.data.contacts.length; i++) {
           if (res.data.contacts[i].type === ContactType.EMAIL) {

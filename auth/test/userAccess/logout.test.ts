@@ -11,7 +11,9 @@ describe('POST /logout/', (): void => {
 
   it('responds with a OK http status code', async (): Promise<void> => {
     // @ts-ignore
-    const login: Response = await authService.post('/login').send({ username: 'test-username', password: 'test' })
+    const login: Response = await authService
+      .post('/login')
+      .send({ username: 'test-username', password: 'test' })
 
     console.log(login.body)
 

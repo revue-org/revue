@@ -31,7 +31,6 @@ describe('GET /anomalies/', (): void => {
   })
 
   describe('GET /anomalies/intrusions', (): void => {
-
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const intrusions: Response = await logService.get('/anomalies/intrusions')
@@ -46,12 +45,9 @@ describe('GET /anomalies/', (): void => {
       expect(intrusions.status).toBe(HttpStatusCode.OK)
       expect(intrusions.type).toBe('application/json')
     })
-
   })
 
-
   describe('GET /anomalies/outliers', (): void => {
-
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const outliers: Response = await logService.get('/anomalies/outliers')
@@ -66,11 +62,9 @@ describe('GET /anomalies/', (): void => {
       expect(outliers.status).toBe(HttpStatusCode.OK)
       expect(outliers.type).toBe('application/json')
     })
-
   })
 
   describe('GET /measurements', (): void => {
-
     it('responds with a forbidden status if no auth token is provided', async (): Promise<void> => {
       // @ts-ignore
       const measurements: Response = await logService.get('/measurements')
@@ -87,7 +81,6 @@ describe('GET /anomalies/', (): void => {
     })
 
     describe('GET /measurements/:deviceId', (): void => {
-
       it('responds with the measurements taken by the device specified', async (): Promise<void> => {
         // @ts-ignore
         const measurements: Response = await logService
@@ -112,7 +105,6 @@ describe('GET /anomalies/', (): void => {
         ])
       })
     })
-
   })
 
   afterAll(async (): Promise<void> => {

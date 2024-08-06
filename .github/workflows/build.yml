@@ -26,9 +26,9 @@ jobs:
         with:
           python-version: '3.10'
       - name: Build
-        run: ./gradlew build --info
+        run: ./gradlew npmBuild build --info
       - name: Test
-        run: ./gradlew auth:test user:test alarm:test device:test log:test notification:test location:test --info --parallel
+        run: ./gradlew auth:npmTest user:npmTest alarm:npmTest device:npmTest log:npmTest notification:npmTest location:npmTest --info --parallel
   style:
     runs-on: ubuntu-latest
     steps:
@@ -39,9 +39,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Check format
-        run: ./gradlew format --info
+        run: ./gradlew format npmFormat --info
       - name: Check lint
-        run: ./gradlew lint --info
+        run: ./gradlew npmLint --info
   build-website:
     defaults:
       run:
@@ -59,7 +59,7 @@ jobs:
           cd ../..
           ./gradlew generate-openapi-website generate-openapi-index-page
           mv build/openapi docs/website/build
-      - uses: actions/upload-artifact@v4.3.4
+      - uses: actions/upload-artifact@v4.3.5
         with:
           name: website
           path: docs/website/build              

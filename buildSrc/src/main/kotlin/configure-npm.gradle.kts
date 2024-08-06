@@ -59,7 +59,7 @@ packageJson {
         "@types/cors" version "^2.8.17"
         "@types/express" version "^4.17.17"
         "@types/jsonwebtoken" version "^9.0.5"
-        "@types/node" version "^20.0.0"
+        "@types/node" version "^22.0.0"
         "@types/supertest" version "^6.0.2"
         "@types/uuid" version "^10.0.0"
         "@typescript-eslint/eslint-plugin" version "^7.0.0"

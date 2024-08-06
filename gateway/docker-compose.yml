@@ -10,15 +10,15 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
       - --entryPoints.web.address=:80
-      - --entryPoints.websecure.address=:443
-      - --certificatesresolvers.myresolver.acme.httpchallenge=true
-      - --certificatesresolvers.myresolver.acme.tlschallenge=true
-      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.myresolver.acme.email=letsdothis.shared@gmail.com
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-      # These are only for test purpose
-      - --log.level=DEBUG
+#      - --entryPoints.websecure.address=:443
+#      - --certificatesresolvers.myresolver.acme.httpchallenge=true
+#      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+#      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
 #      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+#      - --certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+#      - --certificatesresolvers.myresolver.acme.email=letsdothis.shared@gmail.com
+#      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --log.level=DEBUG
     ports:
       - "80:80"
       - "443:443"

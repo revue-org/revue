@@ -17,8 +17,7 @@ services:
       kompose.service.expose: "auth.localhost"
       traefik.enable: true
       traefik.http.routers.auth.rule: Host(`auth.localhost`)
-      traefik.http.routers.auth.entrypoints: websecure
-      traefik.http.routers.auth.tls.certresolver: myresolver
+      traefik.http.routers.auth.entrypoints: web # websecure
 
   revue-auth-db:
     image: mongo

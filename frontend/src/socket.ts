@@ -9,8 +9,8 @@ export const notificationSocketState = reactive({
   connected: false
 })
 
-const monitoringUrl: string = `http://${monitoringHost}`
-const notificationUrl: string = `http://${notificationHost}`
+const monitoringUrl: string = `${monitoringHost}`
+const notificationUrl: string = `${notificationHost}`
 export let monitoringSocket: Socket | undefined
 export let notificationSocket: Socket | undefined
 

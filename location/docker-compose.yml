@@ -17,8 +17,8 @@ services:
       kompose.service.expose: "location.localhost"
       traefik.enable: true
       traefik.http.routers.location.rule: Host(`location.localhost`)
-      traefik.http.routers.location.entrypoints: websecure
-      traefik.http.routers.location.tls.certresolver: myresolver
+      traefik.http.routers.location.entrypoints: web # websecure
+      #traefik.http.routers.location.tls.certresolver: myresolver
 
   revue-location-db:
     image: mongo

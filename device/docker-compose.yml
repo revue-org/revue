@@ -19,8 +19,8 @@ services:
       kompose.service.expose: "device.localhost"
       traefik.enable: true
       traefik.http.routers.device.rule: Host(`device.localhost`)
-      traefik.http.routers.device.entrypoints: websecure
-      traefik.http.routers.device.tls.certresolver: myresolver
+      traefik.http.routers.device.entrypoints: web # websecure
+      # traefik.http.routers.device.tls.certresolver: myresolver
 
   revue-device-db:
     image: mongo

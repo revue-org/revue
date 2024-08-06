@@ -59,7 +59,7 @@ jobs:
           cd ../..
           ./gradlew generate-openapi-website generate-openapi-index-page
           mv build/openapi docs/website/build
-      - uses: actions/upload-artifact@v4.3.5
+      - uses: actions/upload-artifact@v4.3.6
         with:
           name: website
           path: docs/website/build              

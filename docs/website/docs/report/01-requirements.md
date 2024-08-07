@@ -3,14 +3,13 @@
 ## Business Requirements
 
 In this section, we will define the business requirements of the system due to the user roles and prospective
-functionalities. 
+functionalities.
 There are two main roles: the **Admin** and the **Guardian**,
 where not specified the role is referred to the **Guardian**.
 
-
 ### User Creation
 
-A registered Admin can create a new user in the system. 
+A registered Admin can create a new user in the system.
 The user will have access to the system and will be able to consult the devices depending on the location permissions.
 
 ![Admin User Management Use Case](./img/AdminGuardianUseCase.png)
@@ -19,17 +18,18 @@ The user will have access to the system and will be able to consult the devices 
 
 - **Actor**: Admin
 - **Precondition**: The admin is logged in the system, and the user is not registered yet.
-- **Post condition**: The user is created in the system, can access the system and consult the devices depending on his permissions.
+- **Post condition**: The user is created in the system, can access the system and consult the devices depending on his
+  permissions.
 - **Flow**:
-   1. The admin moves to the "Create User" section.
-   2. The admin fills the user information.
-   3. The admin selects the locations that the user can access.
-   4. The system after precise checks creates the user.
+    1. The admin moves to the "Create User" section.
+    2. The admin fills the user information.
+    3. The admin selects the locations that the user can access.
+    4. The system after precise checks creates the user.
 - **Main Success Scenario**:
-   1. The user is created in the system.
+    1. The user is created in the system.
 - **Extensions**:
-   1. The user already exists in the system.
-   2. The user information is not filled correctly.
+    1. The user already exists in the system.
+    2. The user information is not filled correctly.
 
 2. Modify user information and permissions.
 
@@ -37,15 +37,16 @@ The user will have access to the system and will be able to consult the devices 
 - **Precondition**: The admin is logged in the system, and the user is registered.
 - **Post condition**: The user information is updated in the system.
 - **Flow**:
-   1. The admin moves to the "Update User" section.
-   2. The admin selects the user to update.
-   3. The admin updates the user information.
-   4. The admin updates the user permissions.
-   5. The system after precise checks updates the user.
+    1. The admin moves to the "Update User" section.
+    2. The admin selects the user to update.
+    3. The admin updates the user information.
+    4. The admin updates the user permissions.
+    5. The system after precise checks updates the user.
 - **Main Success Scenario**:
-   1. The user information is updated in the system.
+    1. The user information is updated in the system.
 - **Extensions**:
-   1. The information is not filled correctly, in this case, the system will not update the user information and will show an error message.
+    1. The information is not filled correctly, in this case, the system will not update the user information and will
+       show an error message.
 
 3. Modify user contact information.
 
@@ -53,12 +54,12 @@ The user will have access to the system and will be able to consult the devices 
 - **Precondition**: The admin is logged in the system, and the user is registered.
 - **Post condition**: The user contact information is updated in the system.
 - **Flow**:
-   1. The admin moves to the "Update User" section.
-   2. The admin selects the user to update.
-   3. The admin updates the user contact information.
-   4. The system updates the user.
+    1. The admin moves to the "Update User" section.
+    2. The admin selects the user to update.
+    3. The admin updates the user contact information.
+    4. The system updates the user.
 - **Main Success Scenario**:
-   1. The user contact information is updated in the system.
+    1. The user contact information is updated in the system.
 
 4. Delete user.
 
@@ -66,20 +67,19 @@ The user will have access to the system and will be able to consult the devices 
 - **Precondition**: The admin is logged in the system, and the user is registered.
 - **Post condition**: The user is deleted from the system.
 - **Flow**:
-   1. The admin moves to the "Delete User" section.
-   2. The admin selects the user to delete.
-   3. The system after precise checks deletes the user.
+    1. The admin moves to the "Delete User" section.
+    2. The admin selects the user to delete.
+    3. The system after precise checks deletes the user.
 - **Main Success Scenario**:
-   1. The user is deleted from the system.
+    1. The user is deleted from the system.
 
 ### Location Management
 
-A registered Admin can create a new location in the system. 
-Every device resides in a location. 
+A registered Admin can create a new location in the system.
+Every device resides in a location.
 The final user can consult it only if he has access to the location.
 
 ![Admin Location Management Use Case](./img/AdminLocationUseCase.png)
-
 
 1. Create a new location.
 
@@ -87,14 +87,14 @@ The final user can consult it only if he has access to the location.
 - **Precondition**: The admin is logged in the system, and the location is not present yet.
 - **Post condition**: The location is created in the system.
 - **Flow**:
-   1. The admin moves to the "Location" section and opens the "Create Location" popup.
-   2. The admin fills the location information.
-   3. The system creates the location.
+    1. The admin moves to the "Location" section and opens the "Create Location" popup.
+    2. The admin fills the location information.
+    3. The system creates the location.
 - **Main Success Scenario**:
-   1. The location is created in the system.
-   2. The admin can see the location in the location list.
+    1. The location is created in the system.
+    2. The admin can see the location in the location list.
 - **Extensions**:
-   1. The location already exists in the system (error message).
+    1. The location already exists in the system (error message).
 
 2. Remove location.
 
@@ -102,129 +102,131 @@ The final user can consult it only if he has access to the location.
 - **Precondition**: The admin is logged in the system, and the location is present.
 - **Post condition**: The location is deleted from the system.
 - **Flow**:
-   1. The admin moves to the "Location" section and selects the location to delete.
-   2. The admin click on the remove icon.
-   3. The system deletes the location.
+    1. The admin moves to the "Location" section and selects the location to delete.
+    2. The admin click on the remove icon.
+    3. The system deletes the location.
 - **Main Success Scenario**:
-   1. The location is deleted from the system, and the admin can't see it in the location list.
+    1. The location is deleted from the system, and the admin can't see it in the location list.
 
 ### Device Management
 
-A registered User can federate a device in the system. The user can consult the device information and consult real-time data. Morehover the user can modify the device description.
+A registered User can federate a device in the system. The user can consult the device information and consult real-time
+data. Morehover the user can modify the device description.
 
 ![Guardian Device Management Use Case](./img/GuardianDeviceUseCase.png)
-
 
 1. Federate a device.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device has an exposed IP address.
-   3. The device adheres to the system protocol.
-   4. The device exposes some capabilities.
-   5. The device is not federated yet.
+    1. The user is logged in the system.
+    2. The device has an exposed IP address.
+    3. The device adheres to the system protocol.
+    4. The device exposes some capabilities.
+    5. The device is not federated yet.
 - **Post condition**:
-   1. The device is federated in the system.
-   2. The user can consult the device information.
-   3. The user can consult the real-time data.
+    1. The device is federated in the system.
+    2. The user can consult the device information.
+    3. The user can consult the real-time data.
 - **Flow**:
-   1. The user moves to the "Device" section and opens the "Add Device" popup.
-   2. The user fills the device's IP address and port.
-   3. The user selects the "Retrieve Device Information" button.
-   4. The system retrieves the device information and fills the device information fields.
-   5. The user fills the device description and sees the device's capabilities.
-   6. The user finally selects the "Create" button.
-   7. The system after retrieving device's information federates the device.
+    1. The user moves to the "Device" section and opens the "Add Device" popup.
+    2. The user fills the device's IP address and port.
+    3. The user selects the "Retrieve Device Information" button.
+    4. The system retrieves the device information and fills the device information fields.
+    5. The user fills the device description and sees the device's capabilities.
+    6. The user finally selects the "Create" button.
+    7. The system after retrieving device's information federates the device.
 - **Main Success Scenario**:
-   1. The device is federated in the system.
-   2. The user can see the device in the device list.
-   3. The user can consult the device information.
-   4. The user can consult the real-time data due to device capabilities.
-   5. The user can see precise information about device capabilities.
+    1. The device is federated in the system.
+    2. The user can see the device in the device list.
+    3. The user can consult the device information.
+    4. The user can consult the real-time data due to device capabilities.
+    5. The user can see precise information about device capabilities.
 - **Extensions**:
-   1. The device is not reachable (error message).
-   2. The device is not compliant with the system protocol (error message).
-   3. The device is already federated in the system (error message).
-   4. The device is reachable and compliant but doesn't expose any capabilities (error message).
+    1. The device is not reachable (error message).
+    2. The device is not compliant with the system protocol (error message).
+    3. The device is already federated in the system (error message).
+    4. The device is reachable and compliant but doesn't expose any capabilities (error message).
 
 2. Modify device description.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device is federated in the system.
+    1. The user is logged in the system.
+    2. The device is federated in the system.
 - **Post condition**:
-   1. The device description is updated in the system.
+    1. The device description is updated in the system.
 - **Flow**:
-   1. The user moves to the "Device" section and selects the device to update.
-   2. The user clicks on the "Update" button.
-   3. The user updates the device description.
-   4. The system updates the device description.
+    1. The user moves to the "Device" section and selects the device to update.
+    2. The user clicks on the "Update" button.
+    3. The user updates the device description.
+    4. The system updates the device description.
 - **Main Success Scenario**:
-   1. The device description is updated in the system.
+    1. The device description is updated in the system.
 - **Extensions**:
-   1. The device is not reachable (error message).
+    1. The device is not reachable (error message).
 
 3. Remove device.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device is federated in the system.
+    1. The user is logged in the system.
+    2. The device is federated in the system.
 - **Post condition**:
-   1. The device is removed from the system.
+    1. The device is removed from the system.
 - **Flow**:
-   1. The user moves to the "Device" section and selects the device to remove.
-   2. The user clicks on the "Remove" button.
-   3. The system removes the device.
+    1. The user moves to the "Device" section and selects the device to remove.
+    2. The user clicks on the "Remove" button.
+    3. The system removes the device.
 - **Main Success Scenario**:
-   1. The device is removed from the system.
+    1. The device is removed from the system.
 
 ![Guardian Monitoring Use Case](./img/GuardianMonitoringUseCase.png)
 
 ### Environment Data Monitoring
 
-A registered User can consult the environment data in real-time. The user can select a monitoring measure and consult the measure information. It's possible only if the user has access to the device depending on the location permissions.
+A registered User can consult the environment data in real-time. The user can select a monitoring measure and consult
+the measure information. It's possible only if the user has access to the device depending on the location permissions.
 
 1. Consult real-time environment data.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device is federated in the system.
-   3. The device exposes some capabilities; in particular, the sensing capabilities are required in this case.
-   4. The device is providing real-time data.
+    1. The user is logged in the system.
+    2. The device is federated in the system.
+    3. The device exposes some capabilities; in particular, the sensing capabilities are required in this case.
+    4. The device is providing real-time data.
 - **Post condition**:
-   1. The user can see the real-time data and choose the desired monitoring measure.
+    1. The user can see the real-time data and choose the desired monitoring measure.
 - **Flow**:
-   1. The user moves to the "Monitoring" section and select the device to monitor.
-   2. The user selects the monitoring measure.
-   3. The system retrieves the real-time data and shows it to the user.
+    1. The user moves to the "Monitoring" section and select the device to monitor.
+    2. The user selects the monitoring measure.
+    3. The system retrieves the real-time data and shows it to the user.
 - **Main Success Scenario**:
-   1. The user can see the real-time data with an interval that depends on the device capabilities (intervalMillis property of the Sensing capabilities).
-   2. The user can see the monitoring measure and unit in a graph.
-   3. The user can see the last value of the monitoring measure.
+    1. The user can see the real-time data with an interval that depends on the device capabilities (intervalMillis
+       property of the Sensing capabilities).
+    2. The user can see the monitoring measure and unit in a graph.
+    3. The user can see the last value of the monitoring measure.
 - **Extensions**:
-   1. The device is not providing real-time data (error message).
-   2. The system shows only measures supported by device capabilities.
+    1. The device is not providing real-time data (error message).
+    2. The system shows only measures supported by device capabilities.
 
 
 2. Consult monitoring measure history.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device is federated in the system.
-   3. The device has provided some data to the system.
+    1. The user is logged in the system.
+    2. The device is federated in the system.
+    3. The device has provided some data to the system.
 - **Post condition**:
-   1. The user can see the monitoring measure history.
+    1. The user can see the monitoring measure history.
 - **Flow**:
-   1. The user moves to the "History."
-   3. The user selects the "Measurement" property to consult.
-   4. The system retrieves the monitoring measure history and shows it to the user.
+    1. The user moves to the "History."
+    3. The user selects the "Measurement" property to consult.
+    4. The system retrieves the monitoring measure history and shows it to the user.
 - **Main Success Scenario**:
-   1. The user can see the monitoring measure and unit history.
+    1. The user can see the monitoring measure and unit history.
 
 ### Video Streaming Monitoring
 
@@ -235,23 +237,25 @@ The user can see the video streaming only if he has access to the device dependi
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device is federated in the system.
-   3. The device exposes some capabilities; in particular, the video streaming capabilities are required in this case.
-   4. The device is active and providing video streaming.
+    1. The user is logged in the system.
+    2. The device is federated in the system.
+    3. The device exposes some capabilities; in particular, the video streaming capabilities are required in this case.
+    4. The device is active and providing video streaming.
 - **Post condition**:
-   1. The user can see the video streaming produced by the camera.
-   2. The produced video streaming is in real-time and available for the alarm service in case of security rules.
+    1. The user can see the video streaming produced by the camera.
+    2. The produced video streaming is in real-time and available for the alarm service in case of security rules.
 - **Flow**:
-   1. The user moves to the "Video Streaming" section and selects the camera to monitor.
-   2. The system retrieves the video streaming and shows it to the user.
+    1. The user moves to the "Video Streaming" section and selects the camera to monitor.
+    2. The system retrieves the video streaming and shows it to the user.
 - **Main Success Scenario**:
-   1. The user can see the video streaming produced by the camera in real-time.
+    1. The user can see the video streaming produced by the camera in real-time.
 
 ### Alarm Management
 
-A registered User can consult the alarm history and create security rules. The user can define the conditions that trigger an alarm and update/delete the security rules.
-A component of the alarm service will check the security rules and trigger an alarm if the conditions are satisfied, notifying the user.
+A registered User can consult the alarm history and create security rules. The user can define the conditions that
+trigger an alarm and update/delete the security rules.
+A component of the alarm service will check the security rules and trigger an alarm if the conditions are satisfied,
+notifying the user.
 
 ![Guardian Alarm Use Case](./img/GuardianAlarmUseCase.png)
 
@@ -259,130 +263,249 @@ A component of the alarm service will check the security rules and trigger an al
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The alarm service has triggered some alarms.
+    1. The user is logged in the system.
+    2. The alarm service has triggered some alarms.
 - **Post condition**:
-   1. The user can see the alarm history.
+    1. The user can see the alarm history.
 - **Flow**:
-   1. The user moves to the "History" section.
-   2. The user selects the alarm property to consult: "Intrusions" or "Outliers."
-   3. The system retrieves the alarm history and shows it to the user due to his choice.
+    1. The user moves to the "History" section.
+    2. The user selects the alarm property to consult: "Intrusions" or "Outliers."
+    3. The system retrieves the alarm history and shows it to the user due to his choice.
 - **Main Success Scenario**:
-   1. The user can see the alarm history.
-   2. The user can see the alarm type, the device that triggered the alarm, the date and time of the alarm.
-      **Extensions**:
-   1. The alarm service has not triggered any alarm yet.
+    1. The user can see the alarm history.
+    2. The user can see the alarm type, the device that triggered the alarm, the date and time of the alarm.
+       **Extensions**:
+    1. The alarm service has not triggered any alarm yet.
 
 2. Create security rule.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The device is federated in the system.
-   3. The device exposes some capabilities.
-   4. The device is providing real-time data (streaming or environment data).
+    1. The user is logged in the system.
+    2. The device is federated in the system.
+    3. The device exposes some capabilities.
+    4. The device is providing real-time data (streaming or environment data).
 - **Post condition**:
-   1. The user can see the security rule in the security rule list.
-   2. The alarm service will check the security rule and trigger an alarm if the conditions are satisfied (also a notification will be sent).
-   3. The user can see the alarm in the alarm history.
+    1. The user can see the security rule in the security rule list.
+    2. The alarm service will check the security rule and trigger an alarm if the conditions are satisfied (also a
+       notification will be sent).
+    3. The user can see the alarm in the alarm history.
 - **Flow**:
-   1. The user moves to the "Security Rule" section and open the "Add Security Rule" popup.
-   2. The user fills the security rule description.
-   3. The user selects the device to monitor.
-   4. The user selects the monitoring measure or the object class to monitor and recognize.
-   5. The user fills the threshold value in case of measure monitoring.
-   6. The user selects the time interval to check the condition.
-   7. The user selects the contacts to notify in case of alarm.
-   8. The user selects the "Create" button.
-   9. The system creates the security rule, and the alarm service will start checking the security rule due to his properties.
+    1. The user moves to the "Security Rule" section and open the "Add Security Rule" popup.
+    2. The user fills the security rule description.
+    3. The user selects the device to monitor.
+    4. The user selects the monitoring measure or the object class to monitor and recognize.
+    5. The user fills the threshold value in case of measure monitoring.
+    6. The user selects the time interval to check the condition.
+    7. The user selects the contacts to notify in case of alarm.
+    8. The user selects the "Create" button.
+    9. The system creates the security rule, and the alarm service will start checking the security rule due to his
+       properties.
 - **Main Success Scenario**:
-   1. The security rule is created in the system.
-   2. The user can see the security rule in the security rule list.
-   3. The alarm service will check the security rule and trigger an alarm if the conditions are satisfied.
-   4. The user can see if the rule is currently active or not.
-   5. The user can see the contacts to notify in case of alarm.
+    1. The security rule is created in the system.
+    2. The user can see the security rule in the security rule list.
+    3. The alarm service will check the security rule and trigger an alarm if the conditions are satisfied.
+    4. The user can see if the rule is currently active or not.
+    5. The user can see the contacts to notify in case of alarm.
 - **Extensions**:
-   1. The device is not providing real-time data, so nothing will be monitored.
+    1. The device is not providing real-time data, so nothing will be monitored.
 
 3. Update security rule.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The security rule is created.
-   3. The user can see the security rule in the security rule list.
+    1. The user is logged in the system.
+    2. The security rule is created.
+    3. The user can see the security rule in the security rule list.
 - **Post condition**:
-   1. The user can see the updated security rule in the security rule list.
-   2. The alarm service will check the updated security rule and trigger an alarm if the conditions are satisfied (also a notification will be sent).
+    1. The user can see the updated security rule in the security rule list.
+    2. The alarm service will check the updated security rule and trigger an alarm if the conditions are satisfied (also
+       a notification will be sent).
 - **Flow**:
-   1. The user moves to the "Security Rule" section and selects the security rule to update.
-   2. The user clicks on the "Update" icon.
-   3. The user updates the security rule description, time interval or contacts to notify.
-   4. The user selects the "Update" button.
-   5. The system updates the security rule and the alarm service will start checking the security rule due to his new properties.
+    1. The user moves to the "Security Rule" section and selects the security rule to update.
+    2. The user clicks on the "Update" icon.
+    3. The user updates the security rule description, time interval or contacts to notify.
+    4. The user selects the "Update" button.
+    5. The system updates the security rule and the alarm service will start checking the security rule due to his new
+       properties.
 - **Main Success Scenario**:
-   1. The security rule is updated in the system.
-   2. The user can see the updated security rule in the security rule list.
-   3. The alarm service will check the updated security rule and trigger an alarm if the conditions are satisfied.
+    1. The security rule is updated in the system.
+    2. The user can see the updated security rule in the security rule list.
+    3. The alarm service will check the updated security rule and trigger an alarm if the conditions are satisfied.
 
 4. Delete security rule.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
-   2. The security rule is created.
-   3. The user can see the security rule in the security rule list.
+    1. The user is logged in the system.
+    2. The security rule is created.
+    3. The user can see the security rule in the security rule list.
 - **Post condition**:
-   2. The alarm service will not check the deleted security rule anymore.
+    2. The alarm service will not check the deleted security rule anymore.
 - **Flow**:
-   1. The user moves to the "Security Rule" section and selects the security rule to delete.
-   2. The user clicks on the "Delete" icon.
-   3. The system deletes the security rule.
+    1. The user moves to the "Security Rule" section and selects the security rule to delete.
+    2. The user clicks on the "Delete" icon.
+    3. The system deletes the security rule.
 - **Main Success Scenario**:
-   1. The security rule is deleted from the system.
-   2. The user can't see the deleted security rule in the security rule list.
-   3. The alarm service will not check the deleted security rule anymore.
+    1. The security rule is deleted from the system.
+    2. The user can't see the deleted security rule in the security rule list.
+    3. The alarm service will not check the deleted security rule anymore.
 
 ### Notification Management
 
-A registered User can consult the notification history. 
+A registered User can consult the notification history.
 The user can see the notifications that have been sent by the system.
-Moreover, the user can see the notification type, the date and other notification properties. 
-When an alarm is triggered, the system will send a notification to the contacts specified in the security rule and in real-time if some users are logged in the system.
+Moreover, the user can see the notification type, the date and other notification properties.
+When an alarm is triggered, the system will send a notification to the contacts specified in the security rule and in
+real-time if some users are logged in the system.
 
 1. Consult notification history.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system.
+    1. The user is logged in the system.
 - **Post condition**:
-   1. The user can see the notification history.
+    1. The user can see the notification history.
 - **Flow**:
-   1. The user moves to the "Notification" section.
-   3. The system retrieves the notification history and shows it to the user.
+    1. The user moves to the "Notification" section.
+    3. The system retrieves the notification history and shows it to the user.
 - **Main Success Scenario**:
-   1. The user can see the notification history.
-   2. The user can see the notification type, the date and other notification properties.
+    1. The user can see the notification history.
+    2. The user can see the notification type, the date and other notification properties.
 - **Extensions**:
-   1. The system has not sent any notification yet.
+    1. The system has not sent any notification yet.
 
 2. Consult real-time notification.
 
 - **Actor**: User
 - **Precondition**:
-   1. The user is logged in the system and online.
-   2. An alarm is triggered.
+    1. The user is logged in the system and online.
+    2. An alarm is triggered.
 - **Post condition**:
-   1. The user can see the real-time notification.
+    1. The user can see the real-time notification.
 - **Flow**:
-   1. The user is logged in the system.
-   2. The system sends a notification to the user.
-   3. The user can see the notification in real-time and consult it.
+    1. The user is logged in the system.
+    2. The system sends a notification to the user.
+    3. The user can see the notification in real-time and consult it.
 - **Main Success Scenario**:
-   1. The user can see the real-time notification.
-   2. The user can see the notification type, the date and other notification properties.
-  3. 
-## User Requirements
+    1. The user can see the real-time notification.
+    2. The user can see the notification type, the date and other notification properties.
+    3.
+
+## Functional Requirements
+
+1. User Management
+    1. The system should allow two types of users: **Admin** and **Guardian**.
+    2. Users can log in to the system.
+    3. Admin possibility to create a new user of type Guardian.
+    4. Admin possibility to modify Guardians information.
+    5. Possibility to remove a Guardian.
+    6. Permission and Contact management by the Admin.
+2. Location Management
+    1. Admin possibility to create a new location.
+    2. Admin possibility to remove a location.
+3. Device Management
+    1. Guardian possibility to federate a device.
+    2. Guardian possibility to modify device description.
+    3. Guardian possibility to enable and disable a device.
+    4. Guardian possibility to remove a device.
+4. Monitoring
+    1. Consult real-time environment data through a graph.
+    2. Consult video streaming.
+5. Alarm Management
+    1. Possibility to create a security rule.
+    2. Possibility to update a security rule.
+    3. Possibility to delete a security rule.
+6. Notification Management
+    1. Consult all the notifications sent by the system.
+    2. Possibility to receive real-time notifications.
+    3. Possibility to receive notifications when an alarm is triggered due to a security rule.
+7. History
+    1. Consult the history of produced data.
+    2. Consult the history of alarms triggered (**Intrusions** or **Outliers**).
+
+### User Stories
+
+- **User**:
+  1. As an **Admin**,\
+  \[I want to\] create a new user in the system,\
+  \[so that\] the user can access the system and consult the system.
+
+  2. As an **Admin**,\
+  \[I want to\] modify user contacts information,\
+  \[so that\] the user contacts are updated in the system.
+
+  3. As an **Admin**,\
+  \[I want to\] modify (add/remove) user permissions,\
+  \[so that\] the user permissions are updated in the system.
+
+  4. As an **Admin**,\
+  \[I want to\] delete a user from the system,\
+  \[so that\] the user is removed from the system.
+
+- **Location**:
+  1. As an **Admin**,\
+  \[I want to\] create a new location in the system,\
+  \[so that\] the location is created in the system and i can assign Guardians to it.
+
+  2. As an **Admin**,\
+  \[I want to\] delete a location from the system,\
+  \[so that\] the location is removed from the system and Guardians can't access it anymore.
+
+- **Device**:
+  1. As a **Guardian**,\
+  \[I want to\] federate a device in the system,\
+  \[so that\] the device is federated in the system, and I can consult the device information and real-time data due to its capabilities.
+
+  2. As a **Guardian**,\
+  \[I want to\] modify the device description,\
+  \[so that\] the device description is updated in the system.
+
+  3. As a **Guardian**,\
+  \[I want to\] enable or disable a device in the system,\
+  \[so that\] the device is enabled or disabled in the system, producing or not real-time data.
+
+  4. As a **Guardian**,\
+  \[I want to\] delete a device from the system,\
+  \[so that\] the device is removed from the system.
+
+- **Monitoring**:
+  1. As a **Guardian**,\
+  \[I want to\] consult the real-time environment data produced by a specific device with some sensing capabilities,\
+  \[so that\] I can see some data, choose the desired monitoring measure and consult the measurement value and unit.
+
+  2. As a **Guardian**,\
+  \[I want to\] consult the video streaming produced by a specific device with some video streaming capabilities,\
+  \[so that\] I can see the video streaming produced by the device.
+
+- **Security Rule Management**:
+  1. As a **Guardian**,\
+  \[I want to\] create a security rule in the system,\
+  \[so that\] the alarm service will check the security rule and trigger an alarm if the conditions are satisfied.
+
+  2. As a **Guardian**,\
+  \[I want to\] update a security rule in the system,\
+  \[so that\] the alarm service will check the updated security rule and trigger an alarm if the new conditions are satisfied.
+
+  3. As a **Guardian**,\
+  \[I want to\] delete a security rule from the system,\
+  \[so that\] the alarm service will not check the deleted security rule anymore.
+
+- **Notification**:
+  1. As a **Guardian**,\
+  \[I want to\] consult the notifications sent by the system,\
+  \[so that\] I can see the notification type, the date and other notification properties.
+
+  2. As a **Guardian**,\
+  \[I want to\] receive real-time notifications through broken security rule's specified contacts, when an alarm is triggered,\
+  - \[so that\] I can see the notification in real-time and consult it.
+
+- **History**:
+  1. As a **Guardian**,\
+  \[I want to\] consult the history of produced data and alarms triggered,\
+  \[so that\] I can see the history and eventually take some actions.
+
+## OLD User Requirements, not removed for now
 
 1. The user can authenticate to the system through a web interface.
 2. The user can monitor the environment data produced by the sensors.

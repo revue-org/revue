@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+actor "Guardian" as guardian
+actor "User" as user
+rectangle "Environment Data Monitoring" {
+  usecase "Consult real-time data" as UC3
+  usecase "Consult measures history" as UC2
+  usecase "Select measure to monitor" as UC1
+}
+
+rectangle "Video Streaming Monitoring " {
+  usecase "Consult real-time video stream" as UC4
+}
+
+user <|-- guardian
+guardian --> UC1
+guardian --> UC2
+guardian --> UC3
+guardian --> UC4
+@enduml

@@ -190,7 +190,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build and push
-        uses: docker/build-push-action@v6.5.0
+        uses: docker/build-push-action@v6.6.1
         env:
           releaseTag: ${{ 
             fromJSON(needs.compute-next-version.outputs.will-release) 

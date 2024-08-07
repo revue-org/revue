@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+actor "Admin" as admin
+actor "User" as user
+rectangle "Revue User" {
+  usecase "Register new Guardian user" as UC1
+  usecase "Modify Guardians' registry info" as UC2
+  usecase "Modify Guardians' contacts" as UC3
+  usecase "Remove Guardian" as UC4
+}
+
+user <|-- admin
+admin --> UC1
+admin --> UC2
+admin --> UC3
+admin --> UC4
+@enduml

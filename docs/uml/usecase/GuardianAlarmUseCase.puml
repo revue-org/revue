@@ -1,0 +1,16 @@
+@startuml
+left to right direction
+actor "Guardian" as guardian
+actor "User" as user
+rectangle "Revue Alarm System" {
+  usecase "Consult Alarm History" as UC3
+  usecase "Create Security Rule" as UC2
+  usecase "Update Security Rule" as UC1
+  usecase "Delete Security Rule" as UC4
+}
+user <|-- guardian
+guardian --> UC1
+guardian --> UC2
+guardian --> UC3
+guardian --> UC4
+@enduml

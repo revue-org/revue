@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor "Guardian" as guardian
+actor "User" as user
+rectangle "Revue Device" {
+  usecase "Federate New Device" as UC3
+  usecase "Modify Device Description" as UC2
+  usecase "Remove Device" as UC1
+}
+user <|-- guardian
+guardian --> UC1
+guardian --> UC2
+guardian --> UC3
+@enduml

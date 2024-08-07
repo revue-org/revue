@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor "Admin" as admin
+actor "User" as user
+rectangle "Revue Location" {
+  usecase "Create New Location" as UC3
+  usecase "Remove Location" as UC2
+  usecase "Assign permission to Guardian" as UC1
+}
+user <|-- admin
+admin --> UC1
+admin --> UC2
+admin --> UC3
+@enduml

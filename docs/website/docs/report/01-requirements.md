@@ -427,83 +427,250 @@ real-time if some users are logged in the system.
 ### User Stories
 
 - **User**:
-  1. As an **Admin**,\
-  \[I want to\] create a new user in the system,\
-  \[so that\] the user can access the system and consult the system.
+    1. As an **Admin**,\
+       \[I want to\] create a new user in the system,\
+       \[so that\] the user can access the system and consult the system.
 
-  2. As an **Admin**,\
-  \[I want to\] modify user contacts information,\
-  \[so that\] the user contacts are updated in the system.
+    2. As an **Admin**,\
+       \[I want to\] modify user contacts information,\
+       \[so that\] the user contacts are updated in the system.
 
-  3. As an **Admin**,\
-  \[I want to\] modify (add/remove) user permissions,\
-  \[so that\] the user permissions are updated in the system.
+    3. As an **Admin**,\
+       \[I want to\] modify (add/remove) user permissions,\
+       \[so that\] the user permissions are updated in the system.
 
-  4. As an **Admin**,\
-  \[I want to\] delete a user from the system,\
-  \[so that\] the user is removed from the system.
+    4. As an **Admin**,\
+       \[I want to\] delete a user from the system,\
+       \[so that\] the user is removed from the system.
 
 - **Location**:
-  1. As an **Admin**,\
-  \[I want to\] create a new location in the system,\
-  \[so that\] the location is created in the system and i can assign Guardians to it.
+    1. As an **Admin**,\
+       \[I want to\] create a new location in the system,\
+       \[so that\] the location is created in the system and i can assign Guardians to it.
 
-  2. As an **Admin**,\
-  \[I want to\] delete a location from the system,\
-  \[so that\] the location is removed from the system and Guardians can't access it anymore.
+    2. As an **Admin**,\
+       \[I want to\] delete a location from the system,\
+       \[so that\] the location is removed from the system and Guardians can't access it anymore.
 
 - **Device**:
-  1. As a **Guardian**,\
-  \[I want to\] federate a device in the system,\
-  \[so that\] the device is federated in the system, and I can consult the device information and real-time data due to its capabilities.
+    1. As a **Guardian**,\
+       \[I want to\] federate a device in the system,\
+       \[so that\] the device is federated in the system, and I can consult the device information and real-time data
+       due to its capabilities.
 
-  2. As a **Guardian**,\
-  \[I want to\] modify the device description,\
-  \[so that\] the device description is updated in the system.
+    2. As a **Guardian**,\
+       \[I want to\] modify the device description,\
+       \[so that\] the device description is updated in the system.
 
-  3. As a **Guardian**,\
-  \[I want to\] enable or disable a device in the system,\
-  \[so that\] the device is enabled or disabled in the system, producing or not real-time data.
+    3. As a **Guardian**,\
+       \[I want to\] enable or disable a device in the system,\
+       \[so that\] the device is enabled or disabled in the system, producing or not real-time data.
 
-  4. As a **Guardian**,\
-  \[I want to\] delete a device from the system,\
-  \[so that\] the device is removed from the system.
+    4. As a **Guardian**,\
+       \[I want to\] delete a device from the system,\
+       \[so that\] the device is removed from the system.
 
 - **Monitoring**:
-  1. As a **Guardian**,\
-  \[I want to\] consult the real-time environment data produced by a specific device with some sensing capabilities,\
-  \[so that\] I can see some data, choose the desired monitoring measure and consult the measurement value and unit.
+    1. As a **Guardian**,\
+       \[I want to\] consult the real-time environment data produced by a specific device with some sensing
+       capabilities,\
+       \[so that\] I can see some data, choose the desired monitoring measure and consult the measurement value and
+       unit.
 
-  2. As a **Guardian**,\
-  \[I want to\] consult the video streaming produced by a specific device with some video streaming capabilities,\
-  \[so that\] I can see the video streaming produced by the device.
+    2. As a **Guardian**,\
+       \[I want to\] consult the video streaming produced by a specific device with some video streaming capabilities,\
+       \[so that\] I can see the video streaming produced by the device.
 
 - **Security Rule Management**:
-  1. As a **Guardian**,\
-  \[I want to\] create a security rule in the system,\
-  \[so that\] the alarm service will check the security rule and trigger an alarm if the conditions are satisfied.
+    1. As a **Guardian**,\
+       \[I want to\] create a security rule in the system,\
+       \[so that\] the alarm service will check the security rule and trigger an alarm if the conditions are satisfied.
 
-  2. As a **Guardian**,\
-  \[I want to\] update a security rule in the system,\
-  \[so that\] the alarm service will check the updated security rule and trigger an alarm if the new conditions are satisfied.
+    2. As a **Guardian**,\
+       \[I want to\] update a security rule in the system,\
+       \[so that\] the alarm service will check the updated security rule and trigger an alarm if the new conditions are
+       satisfied.
 
-  3. As a **Guardian**,\
-  \[I want to\] delete a security rule from the system,\
-  \[so that\] the alarm service will not check the deleted security rule anymore.
+    3. As a **Guardian**,\
+       \[I want to\] delete a security rule from the system,\
+       \[so that\] the alarm service will not check the deleted security rule anymore.
 
 - **Notification**:
-  1. As a **Guardian**,\
-  \[I want to\] consult the notifications sent by the system,\
-  \[so that\] I can see the notification type, the date and other notification properties.
+    1. As a **Guardian**,\
+       \[I want to\] consult the notifications sent by the system,\
+       \[so that\] I can see the notification type, the date and other notification properties.
 
-  2. As a **Guardian**,\
-  \[I want to\] receive real-time notifications through broken security rule's specified contacts, when an alarm is triggered,\
-  - \[so that\] I can see the notification in real-time and consult it.
+    2. As a **Guardian**,\
+       \[I want to\] receive real-time notifications through broken security rule's specified contacts, when an alarm is
+       triggered,\
+
+    - \[so that\] I can see the notification in real-time and consult it.
 
 - **History**:
-  1. As a **Guardian**,\
-  \[I want to\] consult the history of produced data and alarms triggered,\
-  \[so that\] I can see the history and eventually take some actions.
+    1. As a **Guardian**,\
+       \[I want to\] consult the history of produced data and alarms triggered,\
+       \[so that\] I can see the history and eventually take some actions.
+
+## Quality Attributes
+
+Quality attributes are non-functional requirements that define the system's main properties exploited for
+guiding architectural decisions to ensure and meet the properties below.
+
+### Overview
+
+The system should be designed to meet the following quality attributes.
+In particular:
+
+- Runtime
+  1. The system should be modular and reliable:
+      - The system should work even though some component is down or not deployed.
+      - The system should work even though some component responsible for the storage of the data is down or not deployed.
+      - The system should work even though the component responsible for the authentication is down.
+  2. The system should be as much as possible available (and also replicable).
+  3. The system should support many users at the same time.
+  4. The system should be scalable and support many devices.
+  5. The system should be secure guaranteeing the user's data privacy and system integrity.
+  6. The system should be observable, providing real-time monitoring, dashboards and logs.
+
+- Development
+  1. The system should be usable with a user-friendly and minimal interface.
+  2. The system should be testable, with automated unit and integration tests.
+  3. The system should be maintainable, with the possibility to fix bugs and add new features without affecting the
+     system's overall functionality.
+  4. The system should be deployable, with the possibility to deploy a new version of the software with zero downtime,
+     without affecting active users and without manual intervention.
+  5. The system should be modifiable, with the possibility to add new features or modify existing ones without affecting
+     all modules or the overall system functionality.
+
+### Identified Quality Scenarios
+
+#### Scalability
+
+**Stimulus**: An unexpected increase in the number of users accessing the system.\
+**Stimulus Source**: Many users access the system simultaneously.\
+**Environment**: During peak usage hours.\
+**Artifact**: The main service parts, such as the frontend and monitoring services.\
+**Response**: The system should scale horizontally by adding more instances of the frontend servient and monitoring
+service to handle the increased load.
+**Response Measure**:
+The system maintains response times under 5 seconds for 90% of the requests even under increased load.
+
+#### Availability
+
+**Stimulus**: A critical failure occurs and a service becomes unavailable.\
+**Stimulus Source**: A hardware failure or a network outage.\
+**Environment**: The system in its normal operational state.\
+**Artifact**: The service that becomes unavailable.\
+**Response**: The system automatically detects the failure and redirects traffic to a redundant service.\
+**Response Measure**: The system remains available with a downtime of less than 5 minutes.\
+
+#### Data processing
+
+**Stimulus**: Thousands of WoT devices send data to the system.\
+**Stimulus Source**: Devices distributed across various locations.\
+**Environment**: The system is in real-time data processing mode (normal production operational state).\
+**Artifact**: The data ingestion and processing pipeline.
+**Response**: The system ingests and processes the data from all devices in real-time.
+**Response Measure**: The system processes 99% of the devices' data within 100 milliseconds of receipt.
+
+#### Reliability
+
+**Stimulus**: A software fault occurs in one of the system’s services.
+**Stimulus Source**: An unexpected software bug causes a service to fail.
+**Environment**: The system is running in a production environment in its normal operational state.
+**Artifact**: The affected service(s).
+**Response**: The system automatically detects the failure and restarts the affected service,
+while maintaining overall system stability.
+**Response Measure**: The affected service is restored immediately after the failure is detected,
+and no data should be lost or corrupted as a result of the failure.
+
+#### Observability
+
+**Stimulus**: Something goes wrong in the system.
+**Stimulus Source**: The monitoring system detects the anomaly.
+**Environment**: The system is in its normal operational state.
+**Artifact**: The system’s monitoring infrastructure.
+**Response**:
+The system automatically logs detailed diagnostic information and provides real-time dashboards for investigation.
+**Response Measure**: The cause can be identified analyzing the logs and dashboards at any time.
+
+#### Security
+
+**Stimulus**: An unauthorized user attempts to directly access restricted services.
+**Stimulus Source**: A malicious user.
+**Environment**: The system in its normal operational state.
+**Artifact**: The gateway service that controls access to services.
+**Response**: The system blocks the access attempt.
+**Response Measure**: The unauthorized access is blocked immediately.
+
+#### Testability
+
+**Stimulus**: A new feature is added to the system.
+**Stimulus Source**: The development team or an external contribution.
+**Environment**: The system in an active development phase.
+**Artifact**: The newly added feature.
+**Response**: Automated tests are executed to verify the functionality of the new feature.
+**Response Measure**: Automated tests (integration and unit) that provide results within few minutes.
+
+#### Maintainability
+
+**Stimulus**: An issue is reported in the GitHub issue tracker.
+**Stimulus Source**: A user submits an issue report.
+**Environment**: The system is in its normal operational state but with a reported bug.
+**Artifact**: The affected component.
+**Response**: The development team identifies the bug, applies a fix, tests the corrected component and deploys the fix.
+**Response Measure**: The bug is resolved and deployed to production following the gravity of the issue.
+
+#### Deployability
+
+**Stimulus**: A new version of the software is ready for deployment.
+**Stimulus Source**: The development team has completed all necessary updates or features.
+**Environment**: The system is in its normal operational state and a new version is ready for deployment.
+**Artifact**: The entire system, including all components and services.
+**Response**: The new version is deployed with zero downtime and without affecting active users. No manual intervention is required.
+**Response Measure**: The deployment is completed within minutes with no incidents or the deployment is rolled back (failed).
+
+#### Modularity
+
+**Stimulus**: A new feature to a module or an entire module needs to be added to the system.
+**Stimulus Source**: A product enhancement, a change in requirements, a bug fix or a new feature.
+**Environment**: The system is in its normal operational state, and the new part of the system is ready for deployment.
+**Artifact**: The specific module that will be modified and their dependencies.
+**Response**:
+The development team implements the new feature without affecting other modules or the overall system functionality,
+helped from integration tests.
+**Response Measure**: The feature is added with no changes required in other modules,
+and the implementation is completed within the estimated time frame.
+
+#### User-Friendliness
+
+**Stimulus**: A new user attempts to complete a specific task or a non-technical user interacting with the system.
+**Stimulus Source**: A not particularly expert user.
+**Environment**: The system is running in its normal operational state.
+**Artifact**: The frontend (user interface), specifically the portion related to the task.
+**Response**: The frontend is designed to be intuitive and easy to use, with clear instructions and minimal complexity.
+**Response Measure**: The user completes the task successfully with a positive rates in a eventual survey.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## OLD User Requirements, not removed for now
 
@@ -597,3 +764,10 @@ prevent problems.
 <p align="center">
     <img src="../ds-report/img/advanced-use-case.png" style={{ "width": "50%" }} alt="Advanced scenario"/>
 </p>
+
+## Self-assessment policy
+
+The project can be considered completed when all requirements are satisfied.
+In particular, non-functional requirements aim to grant a good general quality of the system. This will be achieved also
+using automated tests that will ensure, among other
+things, the quality of code production.

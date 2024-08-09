@@ -1,11 +1,18 @@
-name: Revue CI
+name: Revue CI and CD
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'renovate.json'
   workflow_dispatch:
 defaults:
   run:
     shell: bash
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: ${{ !contains(github.ref, 'main') }}
 jobs:
   build:
     strategy:

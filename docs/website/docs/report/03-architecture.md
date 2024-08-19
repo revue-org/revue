@@ -29,6 +29,11 @@ The main access to the service however is through a **REST Api**. The REST Api i
 
 ![Module view](img/revue_modules_view.png)
 
+Each microservice is in a separate module. They all depend on a `common` module. Finally, there is a additional module, the `frontend` module, that is the one provided to the user via the API gateway.
+
+
 ### Deployment view
 
 ![Deployment view](img/revue_deployment.png)
+
+Each microservice is containerized. Additional containers are used for the database and the event message broker. The API Gateway is also containerized. Container orchestration will be a responsability of *docker compose* or *kubernetes*.

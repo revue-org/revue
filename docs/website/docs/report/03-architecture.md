@@ -1,6 +1,7 @@
 # Architecture
 
-We choosed to use a **microservices** architecture for the system. This architecture is a way to design software applications as suites of independently deployable services. Each service runs in its own process and communicates with other services through a well-defined interface. The decomposition strategy that we used is by *bounded contexts*. Here are the services that we identified:
+We chose to use a **microservices** architecture for the system. 
+This architecture is a way to design software applications as suites of independently deployable services. Each service runs in its own process and communicates with other services through a well-defined interface. The decomposition strategy that we used is by *bounded contexts*. Here are the services that we identified:
 
 - **Auth**: responsible for authentication and authorization.
 - **Alarm**: responsible for analyzing the data coming from sensors and cameras and consequently notifying anomalies.

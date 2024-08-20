@@ -155,10 +155,8 @@ Responsible for the location management of the system.
 The Location bounded context does not receive any event from the other contexts.
 
 ##### Inbound Events
-- *NewBuildingAdded*: sent when a new building is added 
-- *BuildingRemoved*: sent when a building is removed
-- *NewRoomAdded*: sent when a new room is added
-- *RoomRemoved*: sent when a room is removed
+- *NewLocationAdded*: sent when a new location is added 
+- *LocationRemoved*: sent when a location is removed
 
 ### Log
 Responsible for managing the logs of the system. Every main event that occurs in the system will be logged in this context.

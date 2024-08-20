@@ -202,3 +202,16 @@ Feature: Data and Alarm History Consultation
 
 ## Clean Architecture
 
+![Clean Architecture](../img/clean_architecture.png)
+
+The design of all relevant microservices follow the **Clean Architecture** pattern. This helped us
+in mantaining a core domain design that abstracts away from all technical issues. As showed in the 
+picture above we made use of the following layers:
+
+* **Domain**: DDD entities, value objects, factories, ...
+* **Application**: DDD services, repositories interfaces, ...
+* **Presentation**: Machinery to translate external data representation to domain entities and viceversa.
+* **Infrastructure**: Mostly external service implementation, DB interfaces, REST apis, Events managers, ...
+
+![Module view](../img/clean_architecture_modules.png)
+

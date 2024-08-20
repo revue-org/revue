@@ -1,0 +1,10 @@
+position: 3
+label: Architecture
+collapsible: true
+collapsed: false
+className: red
+link:
+    type: generated-index
+    title: Tutorial overview
+customProps:
+    description: Architecture documentation

@@ -3,7 +3,7 @@
 ## Introduction
 
 Revue is born with the aim of being as much as possible a flexible and scalable system.
-With this prospective, the system has been designed to be compliant with the **Web of Things** standards.
+With this perspective, the system has been designed to be compliant with the **Web of Things** (WoT) standards.
 WoT is a paradigm that standardizes the interactions between Internet of Things (IoT) devices, enabling them to integrate with the web, and in this case, with the Revue system. 
 
 ## Thing Descriptor
@@ -30,7 +30,7 @@ Like in all communication protocols, the data schemas are a key point to ensure 
 
 ### Security
 Defines the security mechanisms that can be used to interact with the devices.
-In Revue, the sample thing descriptor uses the 'nosec' security scheme that is only a placeholder for the security definition,
+In Revue, the sample thing descriptor uses the 'nosec' security scheme that is just a placeholder for the security definition,
 but in a real scenario, it should be replaced with a real security scheme like a JWT token.
 If no security scheme is defined, the Thing is considered as public and free to use.
 
@@ -59,7 +59,7 @@ Using this framework, all low-level details are abstracted, permitting to focus 
 
 With the Revue system, a [Sample Thing](https://github.com/revue-org/revue-sample-thing) has been created.
 This sample thing is a device that can be managed by the Revue system and is compliant with the WoT standards.
-In this case, the sample thing is a device with more than one capability, a Sensing capability and a VideoStreaming one.
+In this case, the sample thing is a device with two capabilities: _Sensing_ and _VideoStreaming_.
 
 ### Static Metadata
 
@@ -216,7 +216,7 @@ Note the protocol binding specifying that the data will be sent to a Kafka broke
 ## Conclusion
 
 In conclusion, the Revue system is compliant with the Web of Things standards, allowing the interaction with the devices in a simple and flexible way.
-The system for now is able to interact only with devices with a simple behavior and with limited capabilities to Sensing and VideoStreaming.
+The system for now is able to interact only with devices with a simple behavior and with limited capabilities to _Sensing_ and _VideoStreaming_.
 
 ## Future Work
 

@@ -1,6 +1,6 @@
 position: 0
 label: Report
-collapsible: true
+collapsible: false
 collapsed: false
 className: red
 link:

@@ -1,7 +1,7 @@
 position: 30
 label: Design
 collapsible: true
-collapsed: false
+collapsed: true
 className: red
 link:
     type: generated-index

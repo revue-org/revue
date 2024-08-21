@@ -1,3 +1,65 @@
+## [3.0.1](https://github.com/revue-org/revue/compare/v3.0.0...v3.0.1) (2024-08-21)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.98 ([847d06c](https://github.com/revue-org/revue/commit/847d06ccf12e78d87958f4ef8fe9ef4ad34f6a19))
+* **deps:** update dependency @types/node to v20.14.13 ([7891e0b](https://github.com/revue-org/revue/commit/7891e0bc91a5824d49f23d422d9097a81d0c80f2))
+* **deps:** update dependency @types/node to v20.14.14 ([ce91827](https://github.com/revue-org/revue/commit/ce918271330e8af230cfabb3f87fdd7884f0d085))
+* **deps:** update dependency @types/node to v22 ([e3476e6](https://github.com/revue-org/revue/commit/e3476e6de4dfeb1994447ace4e56f5231807a528))
+* **deps:** update dependency @typescript-eslint/eslint-plugin to v7.18.0 ([5642a1e](https://github.com/revue-org/revue/commit/5642a1ed7f22e3c0abc73b0d4c4f4832621f18b0))
+* **deps:** update dependency @vitejs/plugin-vue to v5.1.1 ([903b2c0](https://github.com/revue-org/revue/commit/903b2c0cb0d4e9d6f5a8e4359c4b44e25896f6d4))
+* **deps:** update dependency @vitejs/plugin-vue to v5.1.2 ([b27c119](https://github.com/revue-org/revue/commit/b27c119b8dd199a0a50719117b17ba3dfd85c2bf))
+* **deps:** update dependency axios to v1.7.3 ([9239423](https://github.com/revue-org/revue/commit/923942394c67465d9ade23cf22f612c7fca4a47b))
+* **deps:** update dependency black to v24.8.0 ([aeaa9c6](https://github.com/revue-org/revue/commit/aeaa9c627432ae25550ee98d64d3feac605ea450))
+* **deps:** update dependency mongoose to v8.5.2 ([af97cc6](https://github.com/revue-org/revue/commit/af97cc6ab53e607278c5052577d48312f675259d))
+* **deps:** update dependency rollup to v4.19.2 ([1bbe64d](https://github.com/revue-org/revue/commit/1bbe64dbf648edeb9db3fdd5dedcf1e721bc28f0))
+* **deps:** update dependency rollup to v4.20.0 ([dbffc0e](https://github.com/revue-org/revue/commit/dbffc0e055c834f27503858ecf1f9b03aca4d1e3))
+* **deps:** update dependency vitest to v2.0.5 ([b1be01e](https://github.com/revue-org/revue/commit/b1be01edf1159737ea76e2973595cdd1c6cf4a07))
+* **deps:** update dependency vue to v3.4.35 ([1a8d5f5](https://github.com/revue-org/revue/commit/1a8d5f5ee8043f5a37c3e9f7d0a9d66df957b9f9))
+* **deps:** update dependency vue-router to v4.4.1 ([d8c25a2](https://github.com/revue-org/revue/commit/d8c25a29d2a6f564255a2dd40671c30d1fb4c388))
+* **deps:** update dependency vue-router to v4.4.2 ([52fa07b](https://github.com/revue-org/revue/commit/52fa07b1c5cc7a43b88da17f463f54366546a9c3))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.3.5 ([9f189be](https://github.com/revue-org/revue/commit/9f189bef6a8ea01234743c5b823e668d6231bca3))
+* **deps:** update actions/upload-artifact action to v4.3.6 ([69b7d4e](https://github.com/revue-org/revue/commit/69b7d4e3c026aa62c883f224aa7abd1c569fa4bf))
+* **deps:** update docker/build-push-action action to v6.6.1 ([34e00d8](https://github.com/revue-org/revue/commit/34e00d8f778a26047b31a4a6b14fb2109da29d8c))
+* use npm gradle plugin ([#248](https://github.com/revue-org/revue/issues/248)) ([4d1259a](https://github.com/revue-org/revue/commit/4d1259a54c9567285b78f459c17ab7015a55ccf5))
+
+
+## [3.0.1](https://github.com/revue-org/revue/compare/v3.0.0...v3.0.1) (2024-08-21)
+
+## [3.0.1](https://github.com/revue-org/revue/compare/v3.0.0...v3.0.1) (2024-08-21)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.98 ([847d06c](https://github.com/revue-org/revue/commit/847d06ccf12e78d87958f4ef8fe9ef4ad34f6a19))
+* **deps:** update dependency @types/node to v20.14.13 ([7891e0b](https://github.com/revue-org/revue/commit/7891e0bc91a5824d49f23d422d9097a81d0c80f2))
+* **deps:** update dependency @types/node to v20.14.14 ([ce91827](https://github.com/revue-org/revue/commit/ce918271330e8af230cfabb3f87fdd7884f0d085))
+* **deps:** update dependency @types/node to v22 ([e3476e6](https://github.com/revue-org/revue/commit/e3476e6de4dfeb1994447ace4e56f5231807a528))
+* **deps:** update dependency @typescript-eslint/eslint-plugin to v7.18.0 ([5642a1e](https://github.com/revue-org/revue/commit/5642a1ed7f22e3c0abc73b0d4c4f4832621f18b0))
+* **deps:** update dependency @vitejs/plugin-vue to v5.1.1 ([903b2c0](https://github.com/revue-org/revue/commit/903b2c0cb0d4e9d6f5a8e4359c4b44e25896f6d4))
+* **deps:** update dependency @vitejs/plugin-vue to v5.1.2 ([b27c119](https://github.com/revue-org/revue/commit/b27c119b8dd199a0a50719117b17ba3dfd85c2bf))
+* **deps:** update dependency axios to v1.7.3 ([9239423](https://github.com/revue-org/revue/commit/923942394c67465d9ade23cf22f612c7fca4a47b))
+* **deps:** update dependency black to v24.8.0 ([aeaa9c6](https://github.com/revue-org/revue/commit/aeaa9c627432ae25550ee98d64d3feac605ea450))
+* **deps:** update dependency mongoose to v8.5.2 ([af97cc6](https://github.com/revue-org/revue/commit/af97cc6ab53e607278c5052577d48312f675259d))
+* **deps:** update dependency rollup to v4.19.2 ([1bbe64d](https://github.com/revue-org/revue/commit/1bbe64dbf648edeb9db3fdd5dedcf1e721bc28f0))
+* **deps:** update dependency rollup to v4.20.0 ([dbffc0e](https://github.com/revue-org/revue/commit/dbffc0e055c834f27503858ecf1f9b03aca4d1e3))
+* **deps:** update dependency vitest to v2.0.5 ([b1be01e](https://github.com/revue-org/revue/commit/b1be01edf1159737ea76e2973595cdd1c6cf4a07))
+* **deps:** update dependency vue to v3.4.35 ([1a8d5f5](https://github.com/revue-org/revue/commit/1a8d5f5ee8043f5a37c3e9f7d0a9d66df957b9f9))
+* **deps:** update dependency vue-router to v4.4.1 ([d8c25a2](https://github.com/revue-org/revue/commit/d8c25a29d2a6f564255a2dd40671c30d1fb4c388))
+* **deps:** update dependency vue-router to v4.4.2 ([52fa07b](https://github.com/revue-org/revue/commit/52fa07b1c5cc7a43b88da17f463f54366546a9c3))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.3.5 ([9f189be](https://github.com/revue-org/revue/commit/9f189bef6a8ea01234743c5b823e668d6231bca3))
+* **deps:** update actions/upload-artifact action to v4.3.6 ([69b7d4e](https://github.com/revue-org/revue/commit/69b7d4e3c026aa62c883f224aa7abd1c569fa4bf))
+* **deps:** update docker/build-push-action action to v6.6.1 ([34e00d8](https://github.com/revue-org/revue/commit/34e00d8f778a26047b31a4a6b14fb2109da29d8c))
+* use npm gradle plugin ([#248](https://github.com/revue-org/revue/issues/248)) ([4d1259a](https://github.com/revue-org/revue/commit/4d1259a54c9567285b78f459c17ab7015a55ccf5))
+
+
+## [3.0.1](https://github.com/revue-org/revue/compare/v3.0.0...v3.0.1) (2024-08-21)
+
 ## [3.0.0](https://github.com/revue-org/revue/compare/v2.3.2...v3.0.0) (2024-07-30)
 
 ### ⚠ BREAKING CHANGES

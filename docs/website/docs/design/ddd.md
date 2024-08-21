@@ -1,3 +1,7 @@
+---
+sidebar_position: 20
+---
+
 # Domain Driven Design
 
 ## Event Storming
@@ -207,4 +211,4 @@ scalable.
 In two cases, a conformist relationship is present between contexts.
 The following image shows the context map of the system:
 
-![Revue Context Map](./img/ContextMap.png)
+![Revue Context Map](../img/ContextMap.png)

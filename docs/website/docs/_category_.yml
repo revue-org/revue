@@ -1,0 +1,10 @@
+position: 0
+label: Report
+collapsible: true
+collapsed: false
+className: red
+link:
+    type: generated-index
+    title: Revue report
+customProps:
+    description: Project report

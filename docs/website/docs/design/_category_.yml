@@ -1,0 +1,10 @@
+position: 30
+label: Design
+collapsible: true
+collapsed: false
+className: red
+link:
+    type: generated-index
+    title: Design process
+customProps:
+    description: A description of the design process

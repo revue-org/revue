@@ -1,3 +1,6 @@
+---
+sidebar_position: 10
+---
 # Introduction
 
 Revue is a real-time video surveillance and environment monitoring system.

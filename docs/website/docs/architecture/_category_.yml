@@ -1,10 +1,10 @@
-position: 3
+position: 40
 label: Architecture
 collapsible: true
 collapsed: false
 className: red
 link:
     type: generated-index
-    title: Tutorial overview
+    title: Software Architecture
 customProps:
     description: Architecture documentation

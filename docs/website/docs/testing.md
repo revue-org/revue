@@ -1,3 +1,7 @@
+---
+sidebar_position: 70
+---
+
 # Self-assessment / Validation
 
 To ensure a high-quality product, a series of tests that cover different aspects of the system has been implemented.
@@ -116,3 +120,5 @@ Two main tools have been used to ensure the quality of the code produced:
 **ESLint** is a tool that statically analyses code to find suboptimal patterns and errors.
 
 Both tools have been integrated into the Continuous Integration pipeline to keep the high-quality code production.
+
+## TODO: Sonarcloud e tutte le tue minchiate

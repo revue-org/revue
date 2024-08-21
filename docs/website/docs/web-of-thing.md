@@ -1,3 +1,7 @@
+---
+sidebar_position: 80
+---
+
 # Web of Things
 
 ## Introduction

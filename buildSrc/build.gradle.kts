@@ -7,5 +7,5 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.kelvindev15:npm-gradle-plugin:3.1.1")
+    implementation("io.github.kelvindev15:npm-gradle-plugin:3.1.2")
 }

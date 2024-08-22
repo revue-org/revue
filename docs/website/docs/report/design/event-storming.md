@@ -14,11 +14,11 @@ sidebar_position: 10
 
 ## Pivotal Events and Pain Points
 
-![Pivotal Events and Pain Points](../img/event-storming/actors-commands-policies-read.png)
+![Pivotal Events and Pain Points](../img/event-storming/pivotal-pain.png)
 
 ## Actors, Commands, Policies and Read Models
 
-![Actors, Commands, Policies and Read Models](../img/event-storming/unstructured.png)
+![Actors, Commands, Policies and Read Models](../img/event-storming/actors-commands-policies-read.png)
 
 ## Aggregates
 

@@ -4,8 +4,6 @@ sidebar_position: 20
 
 # Bounded Contexts
 
-## Event Storming
-
 After the event storming session, the following contexts have been identified:
 
 - Auth
@@ -202,11 +200,17 @@ when particular events occur.
 
 - *NotificationSent*: sent when a notification is sent
 
-## Context Map
+## Model Integrity Patterns
 
-Each isolated bounded context is connected to the others through events, in this way, the system is more resilient and
-scalable.
-In two cases, a conformist relationship is present between contexts.
-The following image shows the context map of the system:
+Each bounded context is isolated and has its own vision of domain entities. For this reason, 
+is necessary to define model integrity patterns to ensure that the data is consistent across the contexts.
+
+In the following are listed the DDD patterns used in the system:
+
+- **Shared Kernel**: that collects the shared entities between the contexts (Domain Events and some common Entities)
+- **Conformist**: that allows the contexts to share the same entity but with different representations
+
+## Context Map
+The following context map shows the relationships between the contexts.
 
 ![Revue Context Map](../img/ContextMap.png)

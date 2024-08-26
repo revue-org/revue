@@ -10,9 +10,8 @@ After the event storming session, the following contexts have been identified:
 
 - Auth
 - User
-- Device Monitoring
-- Alarm & Recognition
-- Log
+- Monitoring
+- Alarm
 - Notification
 - Location
 
@@ -43,7 +42,7 @@ The Auth bounded context does not receive any event from the other contexts.
 
 - *LocationMonitoringGranted*: event that is sent when a user is granted permission to monitor a location
 - *LocationMonitoringDenied*: event that is sent when a user is denied permission to monitor a location
-- *UserAuthenticated*: event that is sent when a user is authenticated
+- *UserLoggedIn*: event that is sent when a user is authenticated
 
 ## Users
 
@@ -69,11 +68,9 @@ The Users bounded context does not receive any event from the other contexts.
 - *UserAdded*: sent when a user is created
 - *UserDeleted*: sent when a user is updated
 - *UserUpdated*: sent when a user is updated
-- *ContactUserDetailsAdded*: sent when a contact is added to a user
-- *ContactUserDetailsRemoved*: sent when a contact is deleted from a user
-- *ContactUserDetailsUpdated*: sent when a contact is updated from a user
+- *UserContactsModified*: sent when a user contact is modified
 
-## Device Monitoring
+## Monitoring
 
 It is responsible for managing the devices and the data they produce.
 This context is responsible for consulting the data produced by the devices,
@@ -105,8 +102,8 @@ their configurations and all about the WoT interactions.
 
 #### Inbound Events
 
-- *Measurement*: sent by a device to notify a new measurement
-- *VideoFrameReceived*: sent by a camera to notify a new video frame
+- *MeasurementReceived*: triggered when a device sends a new measurement
+- *VideoStreamReceived*: triggered when a camera sends the video stream
 
 #### Outbound Events
 
@@ -115,8 +112,9 @@ their configurations and all about the WoT interactions.
 - *DeviceSettingsModified*: sent when some device settings are modified
 - *DeviceEnabled*: sent when a device is enabled
 - *DeviceDisabled*: sent when a device is disabled
+- *MeasurementStored*: sent when a measurement is stored
 
-## Alarm & Recognition
+## Alarm
 
 Responsible for managing the alarms in the overall system. It is also responsible for the object recognition feature of
 the system.
@@ -138,8 +136,8 @@ the system.
 
 #### Inbound Events
 
-- *Measurement*: sent by a device to notify a new measurement
-- *VideoFrameReceived*: sent by a camera to notify a new video frame
+- *MeasurementReceived*: triggered when a device sends a new measurement
+- *VideoStreamReceived*: triggered when a camera sends the video stream
 
 #### Outbound Events
 
@@ -148,7 +146,11 @@ the system.
 - *SecurityRuleModified*: sent when a security rule is modified
 - *SecurityRuleEnabled*: sent when a security rule is enabled
 - *SecurityRuleDisabled*: sent when a security rule is disabled
+- *SecurityRuleViolation*: sent when a security rule is violated
+- *AnalyzingStarted*: sent when the system starts analyzing a video stream
 - *ObjectDetected*: sent when an object is detected in a video frame
+- *AnomalyDetected*: sent when an anomaly is detected
+- *AnomalyStored*: sent when an anomaly is stored
 
 ## Location
 
@@ -170,32 +172,8 @@ The Location bounded context does not receive any event from the other contexts.
 
 #### Inbound Events
 
-- *NewLocationAdded*: sent when a new location is added
+- *LocationAdded*: sent when a new location is added
 - *LocationRemoved*: sent when a location is removed
-
-## Log
-
-Responsible for managing the logs of the system. Every main event that occurs in the system will be logged in this
-context.
-
-### Ubiquitous Language
-
-| Term        | Meaning                                                | Synonyms                      |
-|-------------|--------------------------------------------------------|-------------------------------|
-| Anomaly     | Is either an occurred intrusion or an occurred outlier | -                             |
-| Log         | Record of an event in the system                       | -                             |
-| Measurement | Data produced by a sensor in a precise timestamp       | Environment data, Sensor data |
-
-### Events
-
-#### Inbound Events
-
-- *Measurement*: received by a device to notify a new measurement, the measurement will be stored
-- *AnomalyDetected*: received when an anomaly is detected, the anomaly will be stored
-
-#### Outbound Events
-
-The Log bounded context does not send any event to the other contexts.
 
 ## Notification
 
@@ -218,7 +196,7 @@ when particular events occur.
 
 #### Inbound Events
 
-- *AnomalyDetected*: received when an anomaly is detected, a notification will be sent
+- *AnomalyDetected*: received when an anomaly is detected
 
 #### Outbound Events
 

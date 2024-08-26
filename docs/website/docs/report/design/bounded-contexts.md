@@ -2,15 +2,9 @@
 sidebar_position: 20
 ---
 
-# Domain Driven Design
+# Bounded Contexts
 
 ## Event Storming
-
-An event storming approach has been used to identify the main domain events and the main domain entities.
-This division is the output of an event storming session
-in which we have analyzed the main business domain and strategy of the overall system
-to identify the main contexts' decomposition.
-In this way, also the code will reflect the business domain, and it will be easier to understand and maintain.
 
 After the event storming session, the following contexts have been identified:
 
@@ -22,13 +16,14 @@ After the event storming session, the following contexts have been identified:
 - Notification
 - Location
 
-## Bounded Contexts
+In the following sections, each context will be described in detail.
 
-### Auth
+## Auth
+
 Responsible for managing the authentication and authorization of the users, however, it is responsible for managing
 the permissions of the users.
 
-#### Ubiquitous Language
+### Ubiquitous Language
 
 | Term       | Meaning                                                                                                      | Synonyms |
 |------------|--------------------------------------------------------------------------------------------------------------|----------|
@@ -38,21 +33,24 @@ the permissions of the users.
 | User       | Either an admin or a guardian                                                                                | -        |
 | Permission | A grant to view streams and data from devices in a particular location                                       | -        |
 
+### Events
 
-#### Events
-##### Inbound Events
+#### Inbound Events
+
 The Auth bounded context does not receive any event from the other contexts.
 
-##### Outbound Events
+#### Outbound Events
+
 - *LocationMonitoringGranted*: event that is sent when a user is granted permission to monitor a location
 - *LocationMonitoringDenied*: event that is sent when a user is denied permission to monitor a location
-- *UserAuthenticated*: event that is sent when a user is authenticated    
+- *UserAuthenticated*: event that is sent when a user is authenticated
 
-### Users
+## Users
+
 This context is responsible for managing the users of the system,
 in particular, nothing regarding the authentication process but only the management of the user registry.
 
-#### Ubiquitous Language
+### Ubiquitous Language
 
 | Term         | Meaning                                                                      | Synonyms |
 |--------------|------------------------------------------------------------------------------|----------|
@@ -60,13 +58,14 @@ in particular, nothing regarding the authentication process but only the managem
 | Contact      | Contact on which the specific user will be notified when one anomaly occours | -        |
 | Contact Type | Contact type of a single contact, two values are admitted: SMS and EMAIL     | -        |
 
+### Events
 
-#### Events
+#### Inbound Events
 
-##### Inbound Events
 The Users bounded context does not receive any event from the other contexts.
 
-##### Outbound Events
+#### Outbound Events
+
 - *UserAdded*: sent when a user is created
 - *UserDeleted*: sent when a user is updated
 - *UserUpdated*: sent when a user is updated
@@ -74,12 +73,13 @@ The Users bounded context does not receive any event from the other contexts.
 - *ContactUserDetailsRemoved*: sent when a contact is deleted from a user
 - *ContactUserDetailsUpdated*: sent when a contact is updated from a user
 
-### Device Monitoring
+## Device Monitoring
+
 It is responsible for managing the devices and the data they produce.
 This context is responsible for consulting the data produced by the devices,
 their configurations and all about the WoT interactions.
 
-#### Ubiquitous Language
+### Ubiquitous Language
 
 | Term                   | Meaning                                                                     | Synonyms                      |
 |------------------------|-----------------------------------------------------------------------------|-------------------------------|
@@ -101,23 +101,27 @@ their configurations and all about the WoT interactions.
 | Numerical measurement  | A `Measurement` with a single numerical value and a `Measurement Type`      | -                             |
 | Measurement Type       | A physical dimension with its unit of measure (e.g. temperature in Celsius) | -                             |
 
-#### Events
-##### Inbound Events
+### Events
+
+#### Inbound Events
+
 - *Measurement*: sent by a device to notify a new measurement
 - *VideoFrameReceived*: sent by a camera to notify a new video frame
- 
-##### Outbound Events
+
+#### Outbound Events
+
 - *DeviceAdded*: sent when a device is added
 - *DeviceDeleted*: sent when a device is deleted
 - *DeviceSettingsModified*: sent when some device settings are modified
 - *DeviceEnabled*: sent when a device is enabled
 - *DeviceDisabled*: sent when a device is disabled
 
-### Alarm & Recognition
+## Alarm & Recognition
+
 Responsible for managing the alarms in the overall system. It is also responsible for the object recognition feature of
 the system.
 
-#### Ubiquitous Language
+### Ubiquitous Language
 
 | Term           | Meaning                                                                                                       | Synonyms         |
 |----------------|---------------------------------------------------------------------------------------------------------------|------------------|
@@ -130,12 +134,15 @@ the system.
 | Intrusion      | Detection of an object in contrast with a particular `Intrusion rule`                                         | -                |
 | Outlier        | Numerical measurement with a value in contrast with a particular `Range rule`                                 | -                |
 
-#### Events
-##### Inbound Events
+### Events
+
+#### Inbound Events
+
 - *Measurement*: sent by a device to notify a new measurement
 - *VideoFrameReceived*: sent by a camera to notify a new video frame
 
-##### Outbound Events
+#### Outbound Events
+
 - *SecurityRuleAdded*: sent when a security rule is added
 - *SecurityRuleDeleted*: sent when a security rule is deleted
 - *SecurityRuleModified*: sent when a security rule is modified
@@ -143,10 +150,11 @@ the system.
 - *SecurityRuleDisabled*: sent when a security rule is disabled
 - *ObjectDetected*: sent when an object is detected in a video frame
 
-### Location
+## Location
+
 Responsible for the location management of the system.
 
-#### Ubiquitous Language
+### Ubiquitous Language
 
 | Term     | Meaning                                                                                         | Synonyms |
 |----------|-------------------------------------------------------------------------------------------------|----------|
@@ -154,18 +162,23 @@ Responsible for the location management of the system.
 | Room     | Fine grained concept of location referring to a single space (e.g. living room, entrance, exit) | -        |
 | Location | Generic term to refer to a place                                                                | -        |
 
-#### Events
-##### Inbound Events
+### Events
+
+#### Inbound Events
+
 The Location bounded context does not receive any event from the other contexts.
 
-##### Inbound Events
-- *NewLocationAdded*: sent when a new location is added 
+#### Inbound Events
+
+- *NewLocationAdded*: sent when a new location is added
 - *LocationRemoved*: sent when a location is removed
 
-### Log
-Responsible for managing the logs of the system. Every main event that occurs in the system will be logged in this context.
+## Log
 
-#### Ubiquitous Language
+Responsible for managing the logs of the system. Every main event that occurs in the system will be logged in this
+context.
+
+### Ubiquitous Language
 
 | Term        | Meaning                                                | Synonyms                      |
 |-------------|--------------------------------------------------------|-------------------------------|
@@ -173,20 +186,24 @@ Responsible for managing the logs of the system. Every main event that occurs in
 | Log         | Record of an event in the system                       | -                             |
 | Measurement | Data produced by a sensor in a precise timestamp       | Environment data, Sensor data |
 
-#### Events
-##### Inbound Events
+### Events
+
+#### Inbound Events
+
 - *Measurement*: received by a device to notify a new measurement, the measurement will be stored
 - *AnomalyDetected*: received when an anomaly is detected, the anomaly will be stored
 
-##### Outbound Events
+#### Outbound Events
+
 The Log bounded context does not send any event to the other contexts.
 
-### Notification
+## Notification
+
 Responsible for managing the notifications of the system.
 It is responsible for sending notifications to the users
 when particular events occur.
 
-#### Ubiquitous Language
+### Ubiquitous Language
 
 | Term                   | Meaning                                         | Synonyms |
 |------------------------|-------------------------------------------------|----------|
@@ -197,17 +214,20 @@ when particular events occur.
 | Real-time Notification | Notification sent in real-time to the frontend  | -        |
 | Recipient              | The notification target user's contact          |          |
 
-#### Events
-##### Inbound Events
+### Events
+
+#### Inbound Events
+
 - *AnomalyDetected*: received when an anomaly is detected, a notification will be sent
 
-##### Outbound Events
+#### Outbound Events
+
 - *NotificationSent*: sent when a notification is sent
 
-### Context Map
+## Context Map
 
 Each isolated bounded context is connected to the others through events, in this way, the system is more resilient and
-scalable. 
+scalable.
 In two cases, a conformist relationship is present between contexts.
 The following image shows the context map of the system:
 

@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "user"
     description = "User microservice"
     main = "dist/src/index.js"

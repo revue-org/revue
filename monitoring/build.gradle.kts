@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "monitoring"
     description = "Monitoring microservice"
     main = "dist/src/index.js"

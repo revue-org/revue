@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "common"
     description = "Common module"
     main = "src/index.ts"

@@ -16,7 +16,16 @@ sidebar_position: 59
 
 #### Conventional commits
 
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) to ensure that the commit messages are consistent and informative.
+
 #### Semantic versioning and release
+
+We use [Semantic Versioning](https://semver.org/) to version the software. 
+The version number is computed automatically by the CI/CD pipeline. In particular we use 
+the [Semantic Release](https://github.com/semantic-release/semantic-release) plugin to automate the release process. The
+plugin looks at the (conventional) commit messages and determines the next version of the software based on the changes introduced in the codebase.
+It also generates a changelog and creates a new release on GitHub.
+
 
 ## Quality Assurance
 

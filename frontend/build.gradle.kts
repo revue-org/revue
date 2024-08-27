@@ -37,7 +37,7 @@ packageJson {
         "serve" version "^14.2.1"
         "socket.io" version "^4.7.4"
         "socket.io-client" version "^4.7.4"
-        "vite-tsconfig-paths" version "^4.2.3"
+        "vite-tsconfig-paths" version "^5.0.0"
         "vue" version "^3.3.4"
         "vue-chartjs" version "^5.3.0"
         "vue-router" version "^4.2.5"

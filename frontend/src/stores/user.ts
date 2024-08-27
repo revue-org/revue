@@ -19,6 +19,7 @@ export const useUserStore = defineStore(
     const refreshToken = ref<string>('')
 
     function clearFields() {
+      isLoggedIn.value = false
       id.value = ''
       name.value = ''
       surname.value = ''

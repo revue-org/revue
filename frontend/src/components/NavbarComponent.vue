@@ -4,7 +4,7 @@ import { symSharpControlCamera } from '@quasar/extras/material-symbols-sharp'
 import router from '@/router'
 import { computed, ref } from 'vue'
 import RequestHelper, { authHost } from '@/utils/RequestHelper'
-import { HttpStatusCode as AxiosHttpStatusCode } from 'axios'
+import HttpStatusCode from '@common/utils/HttpStatusCode.js'
 import { useUserStore } from '@/stores/user'
 import { closeSocketServers } from '@/socket'
 import { UserRole } from '@/domain/core/UserRole'
@@ -17,7 +17,7 @@ const logout = () => {
   RequestHelper.post(`${authHost}/logout`, {
     username: userStore.username
   }).then((res: any): void => {
-    if (res.status == AxiosHttpStatusCode.Ok) {
+    if (res.status == HttpStatusCode.OK) {
       useUserStore().clearFields()
       closeSocketServers()
       router.push('/login')

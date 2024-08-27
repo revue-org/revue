@@ -73,3 +73,13 @@ packageJson {
         "vitest" version "^2.0.0"
     }
 }
+
+tasks.named("clean") {
+    doLast {
+        delete("package-lock.json", "package.json")
+    }
+}
+
+tasks.register("build") {
+    dependsOn("npmBuild")
+}

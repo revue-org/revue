@@ -1,3 +1,37 @@
+## [3.0.5](https://github.com/revue-org/revue/compare/v3.0.4...v3.0.5) (2024-08-27)
+
+### Bug Fixes
+
+* **frontend:** fix logout ([d9eda20](https://github.com/revue-org/revue/commit/d9eda20037a90145f1f5b2327fce11210e1908c3))
+
+### Build and continuous integration
+
+* add type module to package json files ([50b0ef8](https://github.com/revue-org/revue/commit/50b0ef88afed962447ab5720d72f5c524e6bdf9b))
+
+
+## [3.0.5](https://github.com/revue-org/revue/compare/v3.0.4...v3.0.5) (2024-08-27)
+
+### Bug Fixes
+
+* **frontend:** fix logout ([d9eda20](https://github.com/revue-org/revue/commit/d9eda20037a90145f1f5b2327fce11210e1908c3))
+
+## [3.0.5](https://github.com/revue-org/revue/compare/v3.0.4...v3.0.5) (2024-08-27)
+
+### Bug Fixes
+
+* **frontend:** fix logout ([d9eda20](https://github.com/revue-org/revue/commit/d9eda20037a90145f1f5b2327fce11210e1908c3))
+
+### Build and continuous integration
+
+* add type module to package json files ([50b0ef8](https://github.com/revue-org/revue/commit/50b0ef88afed962447ab5720d72f5c524e6bdf9b))
+
+
+## [3.0.5](https://github.com/revue-org/revue/compare/v3.0.4...v3.0.5) (2024-08-27)
+
+### Bug Fixes
+
+* **frontend:** fix logout ([d9eda20](https://github.com/revue-org/revue/commit/d9eda20037a90145f1f5b2327fce11210e1908c3))
+
 ## [3.0.4](https://github.com/revue-org/revue/compare/v3.0.3...v3.0.4) (2024-08-27)
 
 ### Dependency updates

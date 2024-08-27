@@ -49,4 +49,12 @@ the website artifact is uploaded and stored available for any future needs.
 - `deploy_website`: Downloads the previously built website artifact and deploys it to the [GitHub Pages](https://revue-org.github.io/revue/).
 - `docker`: If a release is triggered, builds the Docker image for all microservices and pushes them to the [Docker Hub](https://hub.docker.com/u/letsdothisshared).
 
+```mermaid
+flowchart LR
+    A[build-matrix] & B[style] & C[build-website] -- ✅--> F[Compute-next-version] --> G[release]
+    G --> H[deploy-website]
+    G --> I[docker-matrix]
+    H & I -- ✅ --> J[success]
+```
+
 ## License

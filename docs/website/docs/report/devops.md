@@ -8,7 +8,75 @@ sidebar_position: 59
 
 ### NPM gradle plugin
 
-#### Dependencies management
+We use this gradle [plugin](https://github.com/kelvindev15/npm-gradle-plugin) as an empowerment of the *Node package manager*.
+This enabled us to manage npm project via gradle and thus leveraging some of this latter build tool. The plugin is configured
+via its `packageJson` extension in which you can specify some of the most common *package.json* properties that include 
+**dependencies**, **devDependencies** and **scripts**.
+
+Here's an example
+
+```kotlin
+packageJson {
+
+    packageJson {
+        author = "Developer"
+        name = "test-package"
+        version = "1.0.0"
+        description = "This is just a test package"
+        main = "index.js"
+        license = "MIT"
+        scripts {
+            script("script1" runs "echo script1")
+            script("script2" runs "echo script2")
+            script("dependantScript" runs "echo dependantScript" dependingOn listOf(npmScript("script2")))
+        }
+        dependencies {
+            "express" version "^4.17.1"
+        }
+        devDependencies {
+            "nodemon" version "^2.0.7"
+        }
+        repository = "git" to "https://github.com/kelvindev15/npm-gradle-plugin"
+        homepage = "page.github.io"
+    }
+}
+```
+The plugin the provides some task to work with npm. For each declared *script* a correspondent `npmScript` is created.
+It gives the possibility to declare dependencies among scripts and tasks. It also give the possibility to declare script **inputs**
+**outputs** for task execution optimization. Feature that are available in gradle and not npm.
+
+The previous example will generate the following task graph:
+
+```mermaid
+flowchart TD
+    B[generatePackageLock] --> A[generatePackageJson]
+    C[npmInstall] --> A
+    D[npmScript1] & E[npmScript2] --> C
+    F[npmDependantScript] --> E
+```
+
+### Dependencies management
+
+We used [Renovate](https://docs.renovatebot.com/) in order to keep all dependencies automatically up-to-date.
+Since for most the subproject we are using the `npm-gradle-plugin` we had to define a custom manager:
+
+```json
+{
+  "customManagers": [
+    {
+      "datasourceTemplate": "npm",
+      "customType": "regex",
+      "fileMatch": [
+        "(^|\\/).*\\.gradle\\.kts$"
+      ],
+      "matchStrings": [
+        "(?:\"(?<packageName>[^\\s\"]+)\"\\s*version\\s*\"(?<currentValue>.+)\")",
+        "(?:\"(?<packageName>[^\\s\"]+)\"\\s*[.]\\s*version\\s*\\(\\s*\"(?<currentValue>.+)\"\\s*\\))"
+      ]
+    }
+  ]
+}
+```
 
 ## Version control
 

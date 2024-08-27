@@ -162,6 +162,7 @@ jobs:
     concurrency:
       group: release-${{ github.event.number || github.ref }}-docker-${{ matrix.image }}
     strategy:
+      fail-fast: false
       matrix:
         image:
           - alarm

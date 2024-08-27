@@ -1,3 +1,43 @@
+## [3.0.3](https://github.com/revue-org/revue/compare/v3.0.2...v3.0.3) (2024-08-27)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.100 ([64826e5](https://github.com/revue-org/revue/commit/64826e56d1a97983d01b2fb7574ebc4f5e283078))
+* **deps:** update dependency gradle to v8.10 ([14bac30](https://github.com/revue-org/revue/commit/14bac30cbe54ea95f2b2a39892f59647b65fad39))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.1.1 ([f569194](https://github.com/revue-org/revue/commit/f5691944e4c58806516884e0bc02b623cbce27c2))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.1.2 ([2cbe153](https://github.com/revue-org/revue/commit/2cbe1537cab9389746489acc78bf7a87d0e34061))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.0 ([ce9d542](https://github.com/revue-org/revue/commit/ce9d542eb7141d389f5dcb283fdc542be68b7494))
+* **deps:** update dependency numpy to v2.1.0 ([acacd53](https://github.com/revue-org/revue/commit/acacd531768b36aae5a2428fd2f69a2dac842b54))
+* **deps:** update docusaurus monorepo to v3.5.2 ([e68464a](https://github.com/revue-org/revue/commit/e68464a95e0eb53faf72824a54375ea2d94f1b60))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.9 ([ec91c1d](https://github.com/revue-org/revue/commit/ec91c1d50e37916d77a62c61f1b2c56c23a95a16))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.7.0 ([c0ca2f1](https://github.com/revue-org/revue/commit/c0ca2f1eb6171b525dfe3f992818c9e04a34099e))
+
+
+## [3.0.3](https://github.com/revue-org/revue/compare/v3.0.2...v3.0.3) (2024-08-27)
+
+## [3.0.3](https://github.com/revue-org/revue/compare/v3.0.2...v3.0.3) (2024-08-27)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.100 ([64826e5](https://github.com/revue-org/revue/commit/64826e56d1a97983d01b2fb7574ebc4f5e283078))
+* **deps:** update dependency gradle to v8.10 ([14bac30](https://github.com/revue-org/revue/commit/14bac30cbe54ea95f2b2a39892f59647b65fad39))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.1.1 ([f569194](https://github.com/revue-org/revue/commit/f5691944e4c58806516884e0bc02b623cbce27c2))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.1.2 ([2cbe153](https://github.com/revue-org/revue/commit/2cbe1537cab9389746489acc78bf7a87d0e34061))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.0 ([ce9d542](https://github.com/revue-org/revue/commit/ce9d542eb7141d389f5dcb283fdc542be68b7494))
+* **deps:** update dependency numpy to v2.1.0 ([acacd53](https://github.com/revue-org/revue/commit/acacd531768b36aae5a2428fd2f69a2dac842b54))
+* **deps:** update docusaurus monorepo to v3.5.2 ([e68464a](https://github.com/revue-org/revue/commit/e68464a95e0eb53faf72824a54375ea2d94f1b60))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.9 ([ec91c1d](https://github.com/revue-org/revue/commit/ec91c1d50e37916d77a62c61f1b2c56c23a95a16))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.7.0 ([c0ca2f1](https://github.com/revue-org/revue/commit/c0ca2f1eb6171b525dfe3f992818c9e04a34099e))
+
+
+## [3.0.3](https://github.com/revue-org/revue/compare/v3.0.2...v3.0.3) (2024-08-27)
+
 ## [3.0.2](https://github.com/revue-org/revue/compare/v3.0.1...v3.0.2) (2024-08-21)
 
 ### Dependency updates

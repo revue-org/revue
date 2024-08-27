@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "notification"
     description = "Notification microservice"
     main = "dist/src/index.js"

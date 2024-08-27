@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "frontend"
     description = "Frontend microservice"
     main = "src/main.ts"

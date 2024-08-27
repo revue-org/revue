@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "auth"
     description = "Authentication microservice"
     main = "dist/src/index.js"

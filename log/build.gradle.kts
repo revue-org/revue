@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "log"
     description = "Log microservice"
     main = "dist/src/index.js"

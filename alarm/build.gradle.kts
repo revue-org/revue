@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "alarm"
     description = "Alarm microservice"
     main = "dist/src/index.js"

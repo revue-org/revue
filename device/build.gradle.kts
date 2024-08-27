@@ -3,6 +3,7 @@ plugins {
 }
 
 packageJson {
+    type = "module"
     name = "device"
     description = "Device microservice"
     main = "dist/src/index.js"

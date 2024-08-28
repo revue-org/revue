@@ -9,7 +9,7 @@ sidebar_position: 59
 ### NPM gradle plugin
 
 We use this gradle [plugin](https://github.com/kelvindev15/npm-gradle-plugin) as an empowerment of the *Node package manager*.
-This enabled us to manage npm project via gradle and thus leveraging some of this latter build tool. The plugin is configured
+This enabled us to manage npm projects via gradle and thus leveraging some of this latter build tool. The plugin is configured
 via its `packageJson` extension in which you can specify some of the most common *package.json* properties that include 
 **dependencies**, **devDependencies** and **scripts**.
 
@@ -42,7 +42,7 @@ packageJson {
 }
 ```
 The plugin the provides some task to work with npm. For each declared *script* a correspondent `npmScript` is created.
-It gives the possibility to declare dependencies among scripts and tasks. It also give the possibility to declare script **inputs**
+It gives the possibility to declare dependencies among scripts and tasks. It also give the possibility to declare script **inputs** and
 **outputs** for task execution optimization. Feature that are available in gradle and not npm.
 
 The previous example will generate the following task graph:
@@ -78,9 +78,16 @@ Since for most the subproject we are using the `npm-gradle-plugin` we had to def
 }
 ```
 
+In this way we instructed Renovate to look for **npm** dependencies in the `gradle.kts` files and update them accordingly.
+
 ## Version control
 
 #### DVCS workflow
+
+We choosed to mantain a single stable branch, the `main` branch. In contains the working code. 
+Changes are made in dedicated branches (*feature/name*, *fix/name*, *chore/what*, etc.) and then merged into the `main` 
+branch via pull requests. The pull requests are reviewed and approved by at least one other developer before being merged.
+Release are made on the `main` branch.
 
 #### Conventional commits
 
@@ -96,6 +103,14 @@ It also generates a changelog and creates a new release on GitHub.
 
 
 ## Quality Assurance
+
+The following tool are run over the codebase on every CI workflow:
+
+* [**Prettier**](https://prettier.io/): a code formatter with support for many languages.
+* [**ESLint**](https://eslint.org/): a static code analysis tool for identifying problematic patterns found in JavaScript code.
+* [**Codefactor**](https://www.codefactor.io/): a tool that automatically reviews code style, security, duplication, complexity, and coverage on every pull request.
+* [**SonarCloud**](https://www.sonarsource.com/products/sonarcloud/): a cloud-based code quality and security service that finds bugs and vulnerabilities in your code.
+* [**Codacy**](https://www.codacy.com/): an automated code review tool that helps developers to save time in code reviews and to tackle technical debt efficiently.
 
 ## Continuous Integration and Delivery
 
@@ -123,6 +138,16 @@ flowchart LR
     G --> H[deploy-website]
     G --> I[docker-matrix]
     H & I -- ✅ --> J[success]
+    A & B & C & G -- ✅ --> J
 ```
+
+#### Mergify
+
+We use [Mergify](https://mergify.io/) to automatically merge pull requests when all the checks are passed. 
+We also the following features:
+
+* **Merge queue**: Mergify will stack new PR in a queue and merge them all together if all status check pass.
+* **Branch protection**: Mergify provides a github status check that will fail is some defined rules and conditions are not met.
+* **Automatic rebasing**: Mergify will automatically rebase the pull requests when the base branch is updated.
 
 ## License

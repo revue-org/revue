@@ -51,7 +51,7 @@ note top of SecurityRuleRepository : Repository
 
 
 interface SecurityRuleId {
-  + value: String
+  + value: string
 }
 
 interface SecurityRule {

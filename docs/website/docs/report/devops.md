@@ -84,7 +84,7 @@ In this way we instructed Renovate to look for **npm** dependencies in the `grad
 
 #### DVCS workflow
 
-We choosed to mantain a single stable branch, the `main` branch. In contains the working code. 
+We chose to maintain a single stable branch, the `main` branch. It contains the working code. 
 Changes are made in dedicated branches (*feature/name*, *fix/name*, *chore/what*, etc.) and then merged into the `main` 
 branch via pull requests. The pull requests are reviewed and approved by at least one other developer before being merged.
 Release are made on the `main` branch.

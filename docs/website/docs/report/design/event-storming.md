@@ -16,7 +16,7 @@ For conciseness, some steps have been collapsed into a single section.
 ## Unstructured Exploration
 
 Firstly, the domain is explored in an unstructured way.
-The goal is to identify the main events (<span style="color: orange;">orange notes</span>), without any particular
+The goal is to identify the main events (<span style={{ color: 'orange' }}>orange notes</span>), without any particular
 order.
 
 ![Unstructured Exploration](../img/event-storming/unstructured.png)
@@ -29,10 +29,10 @@ Then, the events are ordered in a timeline.
 
 ## Pivotal Events and Pain Points
 
-At this point, the team has discussed critical points that require attention (<span style="color: pink;">pink
+At this point, the team has discussed critical points that require attention (<span style={{ color: 'pink' }}>pink
 notes</span>).
 
-Also, the team reasoned about the pivotal events (<span style="color: orange;">orange notes</span> with black line),
+Also, the team reasoned about the pivotal events (<span style={{ color: 'orange' }}>orange notes</span> with black line),
 which are events with a significant impact on the domain, they are a possible symptom of a bounded context division.
 
 ![Pivotal Events and Pain Points](../img/event-storming/pivotal-pain.png)
@@ -40,10 +40,10 @@ which are events with a significant impact on the domain, they are a possible sy
 ## Actors, Commands, Policies and Read Models
 
 In these steps, the team has identified the following elements:
-- **Commands** (<span style="color: blue;">blue notes</span>): actions that trigger events.
-- **Actors** (<span style="color: yellow;">yellow notes</span>): entities that perform commands.
-- **Policies** (<span style="color: purple;">purple notes</span>): rules that trigger events, no actor is involved.
-- **Read Models** (<span style="color: green;">green notes</span>): data that is read in a particular context.
+- **Commands** (<span style={{ color: 'blue' }}>blue notes</span>): actions that trigger events.
+- **Actors** (<span style={{ color: 'yellow' }}>yellow notes</span>): entities that perform commands.
+- **Policies** (<span style={{ color: 'purple' }}>purple notes</span>): rules that trigger events, no actor is involved.
+- **Read Models** (<span style={{ color: 'green' }}>green notes</span>): data that is read in a particular context.
 
 ![Actors, Commands, Policies and Read Models](../img/event-storming/actors-commands-policies-read.png)
 

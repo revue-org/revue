@@ -20,7 +20,7 @@ interface UserRepository {
   + removeUser(userId: UserId): void
 }
 note top of UserRepository : Repository
-UserRepository o-- User
+UserRepository --> User: uses
 
 interface UserFactory {
   + userFrom(...): User

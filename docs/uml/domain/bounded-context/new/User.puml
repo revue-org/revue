@@ -1,0 +1,63 @@
+@startuml
+
+interface UserService {
+  + getUsers(): User[]
+  + getUserById(id: UserId): User
+  + createUser(...): UserId
+  + updateUser(...): void
+  + deleteUser(id: UserId): void
+}
+note right of UserService : Service
+
+UserService -left-> UserRepository : uses
+UserService --> UserFactory : uses
+
+interface UserRepository {
+  + getUserById(userId: UserId): User
+  + getUsers(): User[]
+  + saveUser(user: User): void
+  + updateUser(user: User): void
+  + removeUser(userId: UserId): void
+}
+note top of UserRepository : Repository
+UserRepository o-- User
+
+interface UserFactory {
+  + userFrom(...): User
+  + createUser(...): User
+}
+note right of UserFactory : Factory
+UserFactory -left-> User : creates
+
+
+interface User {
+  + id: UserId
+  + name: string
+  + surname: string
+  + mail: string
+  + contacts: Contact[]
+}
+note bottom of User : Entity
+User o-left- Contact
+
+interface Contact {
+  + value: string
+  + type: ContactType
+}
+note left of Contact : Value Object
+
+interface ContactFactory {
+  + createMailContact(value: string): Contact
+  + createSmsContact(value: string): Contact
+}
+note left of ContactFactory : Factory
+
+enum ContactType {
+  EMAIL
+  SMS
+}
+
+Contact o-- ContactType
+ContactFactory --> Contact : creates
+
+@enduml

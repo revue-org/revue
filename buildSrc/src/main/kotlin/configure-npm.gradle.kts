@@ -1,5 +1,6 @@
 import Microservices.FRONTEND
 import Microservices.MONITORING
+import io.github.kelvindev15.gradle.NpmTask
 
 plugins {
     id("io.github.kelvindev15.npm-gradle-plugin")
@@ -82,4 +83,10 @@ tasks.named("clean") {
 
 tasks.register("build") {
     dependsOn("npmBuild")
+}
+
+tasks.withType<NpmTask>().configureEach {
+    if(System.getenv("DOCKER_RELEASE") == "true") {
+        doNotTrackState("docker multiplatform build messes up with inputs and outputs")
+    }
 }

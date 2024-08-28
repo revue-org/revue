@@ -180,6 +180,8 @@ jobs:
       - compute-next-version
       - release
     runs-on: ubuntu-latest
+    env:
+      DOCKER_RELEASE: true
     if: >-
       !github.event.repository.fork
       && (

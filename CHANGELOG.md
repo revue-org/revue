@@ -1,3 +1,49 @@
+## [3.0.6](https://github.com/revue-org/revue/compare/v3.0.5...v3.0.6) (2024-08-28)
+
+### Dependency updates
+
+* **deps:** update dependency vite-tsconfig-paths to v5 ([1d5ce2f](https://github.com/revue-org/revue/commit/1d5ce2f55b31e130b3664578583903e34897bf5a))
+
+### Bug Fixes
+
+* **docker:** do not track state on npm tasks when docker images are released ([#281](https://github.com/revue-org/revue/issues/281)) ([5c318a6](https://github.com/revue-org/revue/commit/5c318a6acc27ffb85c7cfcac82ea2990691995e1))
+
+### Build and continuous integration
+
+* do not fail fast on matrix jobs ([#280](https://github.com/revue-org/revue/issues/280)) ([9bae2d5](https://github.com/revue-org/revue/commit/9bae2d54eaf77bf720c08beaf988a6c74af7d0ed))
+* make the build task run all the npm build task also ([#278](https://github.com/revue-org/revue/issues/278)) ([e213f54](https://github.com/revue-org/revue/commit/e213f549962d3eeaa7181e7328f85a3130ad25dc))
+* rename workflow and and minimal refactor ([#263](https://github.com/revue-org/revue/issues/263)) ([27f841d](https://github.com/revue-org/revue/commit/27f841db1f6fc48eabc324271916d8ab2810749d))
+
+
+## [3.0.6](https://github.com/revue-org/revue/compare/v3.0.5...v3.0.6) (2024-08-28)
+
+### Bug Fixes
+
+* **docker:** do not track state on npm tasks when docker images are released ([#281](https://github.com/revue-org/revue/issues/281)) ([5c318a6](https://github.com/revue-org/revue/commit/5c318a6acc27ffb85c7cfcac82ea2990691995e1))
+
+## [3.0.6](https://github.com/revue-org/revue/compare/v3.0.5...v3.0.6) (2024-08-28)
+
+### Dependency updates
+
+* **deps:** update dependency vite-tsconfig-paths to v5 ([1d5ce2f](https://github.com/revue-org/revue/commit/1d5ce2f55b31e130b3664578583903e34897bf5a))
+
+### Bug Fixes
+
+* **docker:** do not track state on npm tasks when docker images are released ([#281](https://github.com/revue-org/revue/issues/281)) ([5c318a6](https://github.com/revue-org/revue/commit/5c318a6acc27ffb85c7cfcac82ea2990691995e1))
+
+### Build and continuous integration
+
+* do not fail fast on matrix jobs ([#280](https://github.com/revue-org/revue/issues/280)) ([9bae2d5](https://github.com/revue-org/revue/commit/9bae2d54eaf77bf720c08beaf988a6c74af7d0ed))
+* make the build task run all the npm build task also ([#278](https://github.com/revue-org/revue/issues/278)) ([e213f54](https://github.com/revue-org/revue/commit/e213f549962d3eeaa7181e7328f85a3130ad25dc))
+* rename workflow and and minimal refactor ([#263](https://github.com/revue-org/revue/issues/263)) ([27f841d](https://github.com/revue-org/revue/commit/27f841db1f6fc48eabc324271916d8ab2810749d))
+
+
+## [3.0.6](https://github.com/revue-org/revue/compare/v3.0.5...v3.0.6) (2024-08-28)
+
+### Bug Fixes
+
+* **docker:** do not track state on npm tasks when docker images are released ([#281](https://github.com/revue-org/revue/issues/281)) ([5c318a6](https://github.com/revue-org/revue/commit/5c318a6acc27ffb85c7cfcac82ea2990691995e1))
+
 ## [3.0.5](https://github.com/revue-org/revue/compare/v3.0.4...v3.0.5) (2024-08-27)
 
 ### Bug Fixes

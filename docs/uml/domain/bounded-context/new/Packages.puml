@@ -1,0 +1,45 @@
+@startuml
+
+package Domain {
+
+  package Core {
+    entity Entity {}
+
+    entity EntityId {}
+  }
+  package Factories {
+    entity EntityFactory
+  }
+
+  package Repositories {
+    entity EntityRepository
+  }
+}
+
+package Application {
+  entity EntityService
+  entity BusinessLogicEvents
+}
+
+package Presentation {
+  entity EntityPresenter
+}
+
+package Infrastructure {
+  package Storage {
+    entity EntityRepositoryImpl
+  }
+  package Api {}
+  package Events {
+    entity BusinessLogicEventsImpl
+  }
+}
+
+EntityId -left-* Entity
+EntityFactory -down-> Entity : creates
+EntityRepository -down-> Entity : stores
+EntityService -right-> Domain : uses
+EntityPresenter -up-> Domain : uses
+EntityRepositoryImpl --|> EntityRepository
+BusinessLogicEventsImpl --|> BusinessLogicEvents
+@enduml

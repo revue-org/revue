@@ -1,6 +1,7 @@
 ---
 sidebar_position: 20
 ---
+
 # Analysis
 
 ## Glossary
@@ -36,8 +37,11 @@ where not specified the role is referred to the **Guardian**.
 A registered Admin can create a new user in the system.
 The user will have access to the system and will be able to consult the devices depending on the location permissions.
 
-![Admin User Management Use Case](./img/AdminGuardianUseCase.png)
-
+<Image
+    src={require('./img/AdminGuardianUseCase.png').default}
+    align="center"
+    width="500px"
+/>
 1. Register a new user in the system.
 
     - **Actor**: Admin
@@ -105,7 +109,11 @@ A registered Admin can create a new location in the system.
 Every device resides in a location.
 The final user can consult it only if he has access to the location.
 
-![Admin Location Management Use Case](./img/AdminLocationUseCase.png)
+<Image
+    src={require('./img/AdminLocationUseCase.png').default}
+    align="center"
+    width="500px"
+/>
 
 1. Create a new location.
 
@@ -139,7 +147,11 @@ The final user can consult it only if he has access to the location.
 A registered User can federate a device in the system. The user can consult the device information and consult real-time
 data. Morehover the user can modify the device description.
 
-![Guardian Device Management Use Case](./img/GuardianDeviceUseCase.png)
+<Image
+    src={require('./img/GuardianDeviceUseCase.png').default}
+    align="center"
+    width="500px"
+/>
 
 1. Federate a device.
 
@@ -207,7 +219,11 @@ data. Morehover the user can modify the device description.
     - **Main Success Scenario**:
         1. The device is removed from the system.
 
-![Guardian Monitoring Use Case](./img/GuardianMonitoringUseCase.png)
+<Image
+    src={require('./img/GuardianMonitoringUseCase.png').default}
+    align="center"
+    width="500px"
+/>
 
 ### Environment Data Monitoring
 
@@ -283,7 +299,11 @@ trigger an alarm and update/delete the security rules.
 A component of the alarm service will check the security rules and trigger an alarm if the conditions are satisfied,
 notifying the user.
 
-![Guardian Alarm Use Case](./img/GuardianAlarmUseCase.png)
+<Image
+    src={require('./img/GuardianAlarmUseCase.png').default}
+    align="center"
+    width="500px"
+/>
 
 1. Consult alarm history.
 

@@ -86,7 +86,8 @@ tasks.register("build") {
 }
 
 tasks.withType<NpmTask>().configureEach {
-    if(System.getenv("DOCKER_RELEASE") == "true") {
+    if(System.getenv()["DOCKER_BUILD"].equals("true")) {
+        logger.debug("Setting doNotTrackState for $name")
         doNotTrackState("docker multiplatform build messes up with inputs and outputs")
     }
 }

@@ -19,7 +19,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Add source code
 COPY . .
 
-RUN gradle device:npmBuild --no-daemon --info --parallel
+ENV DOCKER_BUILD=true
+RUN gradle device:npmBuild --no-daemon --info --parallel --stacktrace
 
 
 FROM node:20-alpine AS production

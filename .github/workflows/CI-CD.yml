@@ -181,7 +181,7 @@ jobs:
       - release
     runs-on: ubuntu-latest
     env:
-      DOCKER_RELEASE: true
+      DOCKER_BUILD: true
     if: >-
       !github.event.repository.fork
       && (

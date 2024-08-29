@@ -1,3 +1,29 @@
+## [3.0.7](https://github.com/revue-org/revue/compare/v3.0.6...v3.0.7) (2024-08-29)
+
+### Bug Fixes
+
+* **docker-release:** set the DOCKER_BUILD env on the dockerfiles instead of the gh-action ([#282](https://github.com/revue-org/revue/issues/282)) ([25d3e29](https://github.com/revue-org/revue/commit/25d3e29cf990fc9ff533387ff442c5d7c7f4f049))
+
+
+## [3.0.7](https://github.com/revue-org/revue/compare/v3.0.6...v3.0.7) (2024-08-29)
+
+### Bug Fixes
+
+* **docker-release:** set the DOCKER_BUILD env on the dockerfiles instead of the gh-action ([#282](https://github.com/revue-org/revue/issues/282)) ([25d3e29](https://github.com/revue-org/revue/commit/25d3e29cf990fc9ff533387ff442c5d7c7f4f049))
+
+## [3.0.7](https://github.com/revue-org/revue/compare/v3.0.6...v3.0.7) (2024-08-29)
+
+### Bug Fixes
+
+* **docker-release:** set the DOCKER_BUILD env on the dockerfiles instead of the gh-action ([#282](https://github.com/revue-org/revue/issues/282)) ([25d3e29](https://github.com/revue-org/revue/commit/25d3e29cf990fc9ff533387ff442c5d7c7f4f049))
+
+
+## [3.0.7](https://github.com/revue-org/revue/compare/v3.0.6...v3.0.7) (2024-08-29)
+
+### Bug Fixes
+
+* **docker-release:** set the DOCKER_BUILD env on the dockerfiles instead of the gh-action ([#282](https://github.com/revue-org/revue/issues/282)) ([25d3e29](https://github.com/revue-org/revue/commit/25d3e29cf990fc9ff533387ff442c5d7c7f4f049))
+
 ## [3.0.6](https://github.com/revue-org/revue/compare/v3.0.5...v3.0.6) (2024-08-28)
 
 ### Dependency updates

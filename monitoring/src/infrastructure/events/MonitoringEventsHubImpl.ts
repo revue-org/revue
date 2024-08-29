@@ -12,19 +12,19 @@ export class MonitoringEventsHubImpl implements MonitoringEventsHub {
     this.socketEvents = socketMonitoring
   }
 
-  async subscribeToMeasurements(handler: (_measurement: Measurement) => void): Promise<void> {
+  async listenToMeasurements(handler: (_measurement: Measurement) => void): Promise<void> {
     this.kafkaEvents.subscribeToMeasurements(handler)
   }
 
-  addMeasurementTopics(topics: string[]): void {
-    this.kafkaEvents.addMeasurementTopics(topics)
+  registerDevices(deviceIds: string[]): void {
+    this.kafkaEvents.addMeasurementTopics(deviceIds.map((id) => `measurements.${id}`))
   }
 
-  removeMeasurementTopics(topics: string[]): void {
-    this.kafkaEvents.removeMeasurementTopics(topics)
+  unregisterDevices(deviceIds: string[]): void {
+    this.kafkaEvents.removeMeasurementTopics(deviceIds.map((id) => `measurements.${id}`))
   }
 
-  async subscribeToDevices(handler: (event: DeviceEvent) => void): Promise<void> {
+  async listenToDeviceEvents(handler: (event: DeviceEvent) => void): Promise<void> {
     this.kafkaEvents.subscribeToDevices(handler)
   }
 

@@ -11,20 +11,20 @@ export class MonitoringServiceImpl implements MonitoringService {
   }
 
   private configureEvents(): void {
-    this.events.subscribeToMeasurements((measurement: Measurement): void => {
-      this.sendMeasurementToUser(measurement)
+    this.events.listenToMeasurements((measurement: Measurement): void => {
+      this.notifyMeasurement(measurement)
     })
 
-    this.events.subscribeToDevices((event: DeviceEvent): void => {
+    this.events.listenToDeviceEvents((event: DeviceEvent): void => {
       if (event.type === 'addition') {
-        this.events.addMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+        this.events.registerDevices([event.sourceDeviceId])
       } else if (event.type === 'removal') {
-        this.events.removeMeasurementTopics([`measurements.${event.sourceDeviceId}`])
+        this.events.unregisterDevices([event.sourceDeviceId])
       }
     })
   }
 
-  public sendMeasurementToUser(measurement: Measurement): void {
+  public notifyMeasurement(measurement: Measurement): void {
     this.events.publishMeasurement(measurement)
   }
 }

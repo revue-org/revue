@@ -1,0 +1,54 @@
+@startuml
+
+enum MeasureType {
+  TEMPERATURE
+  HUMIDITY
+  PRESSURE
+}
+
+enum MeasureUnit {
+  CELSIUS
+  FAHRENHEIT
+  PERCENTAGE
+  PASCAL
+  BAR
+}
+
+interface Measure {
+  + type: MeasureType
+  + unit: MeasureUnit
+}
+note right of Measure: Value Object
+Measure o-- MeasureType
+Measure o-- MeasureUnit
+
+interface Measurement {
+  + measure: Measure
+  + value: any
+}
+note left of Measurement: Domain Event
+Measurement o- Measure
+
+
+
+
+
+interface MonitoringService {
+  notifyMeasurement(measurement: Measurement): void
+}
+note top of MonitoringService: Service
+
+interface MonitoringEventsHub {
+  listenToMeasurements(handler: (Measurement) => void): void
+  listenToDeviceEvents(handler: (DeviceEvent) => void): void
+  registerDevice(deviceId: string): void
+  unregisterDevice(deviceId: string): void
+  publishMeasurement(measurement: Measurement): void
+}
+note top of MonitoringEventsHub: Service
+
+MonitoringService --> Measurement : sends
+MonitoringEventsHub --> Measurement : uses
+MonitoringService o-- MonitoringEventsHub
+
+@enduml

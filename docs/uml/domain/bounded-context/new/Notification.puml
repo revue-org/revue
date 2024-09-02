@@ -30,7 +30,7 @@ interface NotificationRepository {
   + saveNotification(notification: Notification): NotificationId
   + removeNotification(notificationId: NotificationId): void
 }
-note top of NotificationRepository : Repository
+note left of NotificationRepository : Repository
 NotificationRepository --> Notification : uses
 
 
@@ -42,10 +42,10 @@ interface NotificationService {
   + deleteNotification(id: NotificationId): void
   + sendMailNotification(notification: Notification, emails: string[]): void
 }
-note right of NotificationService : Service
+note top of NotificationService : Service
 NotificationService --> NotificationRepository : uses
 NotificationService --> NotificationFactory : uses
-NotificationService --> MailService : uses
+NotificationService -right-> MailService : uses
 
 interface Anomaly
 note right of Anomaly : Domain Event

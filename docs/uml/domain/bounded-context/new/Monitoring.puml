@@ -49,6 +49,6 @@ note top of MonitoringEventsHub: Service
 
 MonitoringService --> Measurement : sends
 MonitoringEventsHub --> Measurement : uses
-MonitoringService o-- MonitoringEventsHub
+MonitoringService --> MonitoringEventsHub : uses
 
 @enduml

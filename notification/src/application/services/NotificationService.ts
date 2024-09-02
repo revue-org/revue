@@ -12,4 +12,6 @@ export interface NotificationService {
   createNotification(event: DomainEvent, message: string): Promise<NotificationId>
 
   deleteNotification(id: NotificationId): Promise<void>
+
+  sendMailNotification(notification: Notification, emails: string[]): void
 }

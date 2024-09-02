@@ -1,11 +1,21 @@
 import { MailService } from '../MailService.js'
 import { Notification } from '@/domain/core/Notification'
+import nodemailer from 'nodemailer'
 
 export class MailServiceImpl implements MailService {
   private readonly transporter
 
-  constructor(transporter: any) {
-    this.transporter = transporter
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'revue.noreply@gmail.com',
+        pass: ''
+      }
+    })
   }
 
   sendMail(to: string, notification: Notification): void {

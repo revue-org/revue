@@ -1,0 +1,51 @@
+@startuml
+
+interface DomainEventId {
+  + value: string
+}
+
+interface DomainEvent {
+  + id: DomainEventId
+  + timestamp: Date
+}
+note left of DomainEvent: Domain Event
+DomainEvent *- DomainEventId
+
+interface DeviceEvent extends DomainEvent {
+  + sourceDeviceId: string
+}
+
+interface Anomaly extends DomainEvent
+
+interface Outlier extends Anomaly {
+  + measurement: Measurement
+  + rangeRuleId: string
+}
+
+interface Intrusion extends Anomaly {
+  + detection: Detection
+  + intrusionRuleId: string
+}
+
+interface Measurement extends DeviceEvent {
+  + measure: Measure
+  + value: any
+}
+Outlier o-- Measurement
+Intrusion o-- Detection
+
+interface NumericMeasurement extends Measurement {
+  + value: number
+}
+
+interface Detection extends DeviceEvent {
+  + objectClass: ObjectClass
+}
+
+interface DeviceAdded
+DeviceEvent <|-- DeviceAdded
+
+interface DeviceRemoved
+DeviceEvent <|-- DeviceRemoved
+
+@enduml

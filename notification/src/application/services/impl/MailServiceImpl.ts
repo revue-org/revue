@@ -12,8 +12,8 @@ export class MailServiceImpl implements MailService {
       port: 465,
       secure: true,
       auth: {
-        user: 'revue.noreply@gmail.com',
-        pass: ''
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
       }
     })
   }

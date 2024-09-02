@@ -1,35 +1,5 @@
 @startuml
 
-'interface DomainEvent {
-'  + id: DomainEventId
-'  + timestamp: Date
-'}
-'
-'interface DeviceEvent {
-'  + sourceDeviceId: string
-'}
-'
-'interface Measurement {
-'  + measure: Measure
-'  + value: any
-'}
-'
-'interface MonitoringService {
-' + getCapturingDevices(): Device[]
-' + startMonitoring(deviceId: DeviceId): void
-' + stopMonitoring(deviceId: DeviceId): void
-'}
-'
-'interface DeviceState {
-'  + id: string
-'  + location: string
-'  + enabled: boolean
-'  + capabilities: DeviceCapability[]
-'}
-'
-'DomainEvent <|-- DeviceEvent
-'DeviceEvent <|-- Measurement
-
 
 enum MeasureType {
   TEMPERATURE
@@ -49,7 +19,7 @@ interface Measure {
   + type: MeasureType
   + unit: MeasureUnit
 }
-note right of Measure: Value Object
+note left of Measure: Value Object
 Measure o-- MeasureType
 Measure o-- MeasureUnit
 
@@ -78,14 +48,14 @@ enum CapabilityType {
 interface DeviceCapability {
   + type: CapabilityType
 }
-note right of DeviceCapability: Value Object
-DeviceCapability o-- CapabilityType
+note left of DeviceCapability: Value Object
+DeviceCapability o- CapabilityType
 
 interface VideoStreamingCapability {
   + resolution: Resolution
 }
 VideoStreamingCapability -up-|> DeviceCapability
-VideoStreamingCapability o-- Resolution
+VideoStreamingCapability o- Resolution
 
 enum Resolution {
   576p
@@ -99,16 +69,16 @@ interface SensoringCapability {
   + measure: Measure
 }
 SensoringCapability -up-|> DeviceCapability
-SensoringCapability o-- Measure
+SensoringCapability o-left- Measure
 
 interface CapabilityFactory {
   + sensoringCapabilityOf(...): SensoringCapability
   + videoStreamingCapabilityOf(...): VideoStreamingCapability
 }
-note left of CapabilityFactory: Factory
+note right of CapabilityFactory: Factory
 
-CapabilityFactory --> SensoringCapability: creates
-CapabilityFactory --> VideoStreamingCapability: creates
+CapabilityFactory -up-> SensoringCapability: creates
+CapabilityFactory -up-> VideoStreamingCapability: creates
 
 interface Device {
   + deviceId: DeviceId
@@ -164,7 +134,7 @@ DeviceRepository --> Device : stores
 DeviceService -left-> DeviceRepository: uses
 DeviceService --> DeviceFactory: use
 
-note bottom of Device: Entity
+note left of Device: Entity
 
 
 

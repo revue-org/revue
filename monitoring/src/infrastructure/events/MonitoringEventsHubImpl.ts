@@ -17,11 +17,11 @@ export class MonitoringEventsHubImpl implements MonitoringEventsHub {
   }
 
   registerDevices(deviceIds: string[]): void {
-    this.kafkaEvents.addMeasurementTopics(deviceIds.map((id) => `measurements.${id}`))
+    this.kafkaEvents.addMeasurementTopics(deviceIds.map(id => `measurements.${id}`))
   }
 
   unregisterDevices(deviceIds: string[]): void {
-    this.kafkaEvents.removeMeasurementTopics(deviceIds.map((id) => `measurements.${id}`))
+    this.kafkaEvents.removeMeasurementTopics(deviceIds.map(id => `measurements.${id}`))
   }
 
   async listenToDeviceEvents(handler: (event: DeviceEvent) => void): Promise<void> {

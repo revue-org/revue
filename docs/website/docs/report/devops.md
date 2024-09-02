@@ -13,7 +13,7 @@ This enabled us to manage npm projects via gradle and thus leveraging some of th
 via its `packageJson` extension in which you can specify some of the most common *package.json* properties that include 
 **dependencies**, **devDependencies** and **scripts**.
 
-Here's an example
+<Summary title="Example of usage">
 
 ```kotlin
 packageJson {
@@ -41,6 +41,10 @@ packageJson {
     }
 }
 ```
+
+</Summary>
+
+
 The plugin the provides some task to work with npm. For each declared *script* a correspondent `npmScript` is created.
 It gives the possibility to declare dependencies among scripts and tasks. It also give the possibility to declare script **inputs** and
 **outputs** for task execution optimization. Feature that are available in gradle and not npm.
@@ -60,6 +64,8 @@ flowchart TD
 We used [Renovate](https://docs.renovatebot.com/) in order to keep all dependencies automatically up-to-date.
 Since for most the subproject we are using the `npm-gradle-plugin` we had to define a custom manager:
 
+<Summary title="Renovate custom manager">
+
 ```json
 {
   "customManagers": [
@@ -77,6 +83,8 @@ Since for most the subproject we are using the `npm-gradle-plugin` we had to def
   ]
 }
 ```
+
+</Summary>
 
 In this way we instructed Renovate to look for **npm** dependencies in the `gradle.kts` files and update them accordingly.
 

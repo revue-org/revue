@@ -2,13 +2,13 @@ import { Measurement } from '@common/domain/core/Measurement'
 import { DeviceEvent } from 'common/dist/domain/core'
 
 export interface MonitoringEventsHub {
-  subscribeToMeasurements(handler: (measurement: Measurement) => void): void
+  listenToMeasurements(handler: (measurement: Measurement) => void): void
 
-  subscribeToDevices(handler: (device: DeviceEvent) => void): void
+  listenToDeviceEvents(handler: (device: DeviceEvent) => void): void
 
-  addMeasurementTopics(topics: string[]): void
+  registerDevices(deviceIds: string[]): void
 
-  removeMeasurementTopics(topics: string[]): void
+  unregisterDevices(deviceIds: string[]): void
 
   publishMeasurement(measurement: Measurement): void
 }

@@ -1,0 +1,16 @@
+@startuml
+
+interface Detection
+
+interface RecognitionEventsHub {
+  + publishDetection(cameraCode: string, objectClass: string): void
+}
+
+interface RecognitionService {
+  + startRecognizing(cameraCode: string): void
+  + stopRecognizing(cameraCode: string): void
+}
+
+RecognitionService --> RecognitionEventsHub : uses
+RecognitionEventsHub --> Detection : uses
+@enduml

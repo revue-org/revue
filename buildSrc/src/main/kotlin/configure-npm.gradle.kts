@@ -72,6 +72,8 @@ packageJson {
         "typescript" version "5.5.4"
         "vite" version "^5.0.0"
         "vitest" version "^2.0.0"
+        "mongodb-memory-server" version "10.0.0"
+        "@cucumber/cucumber" version "10.9.0"
     }
 }
 

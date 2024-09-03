@@ -37,9 +37,6 @@ from each other, and they can be scaled independently. Containers images are lig
 For containerization, we used **Docker**.
 * **Database per service**: each microservice has its own database. Services communicate only via APIs favoring a more loosely
 coupled architecture. This allows to have a database schema that is optimized for the microservice. 
-* **Service discovery**: each microservice registers itself to a service registry. This allows to have a dynamic 
-  environment, where the microservices can be added or removed without the need to change the configuration of the 
-  other microservices.
 * **Externalized configuration**: instead of hard-wiring or hard-coding a configuration for a particular environment in which the system 
 would run, configuration property values are supplied at runtime. We used the **Push model** approache, where the configuration
 values are passed to service using the operating system environment variables or configuration files.

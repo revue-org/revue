@@ -25,7 +25,7 @@ Feature: Authentication
 ```
 </Summary>
 
-[OpenAPI Specification](https://revue-org.github.io/revue/openapi/alarm/)
+[OpenAPI Specification](https://revue-org.github.io/revue/openapi/auth/)
 
 ### Alarm service
 

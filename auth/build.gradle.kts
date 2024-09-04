@@ -10,7 +10,6 @@ packageJson {
     scripts {
         val commonBuild = npmScript("build", "common")
         script("test" runs "vitest --run" dependingOn listOf(commonBuild))
-        script("acceptanceTest" runs "npx cucumber-js test/features" dependingOn listOf(commonBuild))
     }
     dependencies {
         "@rollup/plugin-commonjs" version "^26.0.1"

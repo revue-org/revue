@@ -14,6 +14,9 @@ packageJson {
             "testToleranceNotification" runs "vitest --run tolerance.notification",
             "coverage" runs "vitest --run --coverage",
         ).forEach { script(it dependingOn scriptDeps) }
+        script("acceptanceTest" runs "NODE_ENV=test npx cucumber-js test/features -f 'html':'build/bdd/cucumber-output.html'"
+                dependingOn scriptDeps + npmScript("build")
+        )
     }
     devDependencies {
         "mongodb-memory-server" version "^10.0.0"

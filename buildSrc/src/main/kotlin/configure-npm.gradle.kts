@@ -25,6 +25,9 @@ packageJson {
             }) {
                 with(it) {
                     inputs.dir("src")
+                    (project.layout.projectDirectory.dir("test")).also { testDir ->
+                        if(testDir.asFile.exists()) { inputs.dir(testDir) }
+                    }
                     inputs.dir(fileTree("node_modules").exclude(".cache"))
                     outputs.dir("dist")
                 }

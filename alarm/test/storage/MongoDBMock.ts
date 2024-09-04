@@ -1,8 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
 import { rangeRuleSample, intrusionRuleSample } from '../resources/securityRuleSamples.js'
-import { SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel'
-import { securityRuleSchema } from '@/infrastructure/storage/schemas/SecurityRuleSchema'
+import { SecurityRuleDBEntity } from '@/infrastructure/storage/models/SecurityRuleModel.js'
+import { securityRuleSchema } from '@/infrastructure/storage/schemas/SecurityRuleSchema.js'
 
 let mongoMock: any = null
 

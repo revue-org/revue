@@ -1,0 +1,125 @@
+---
+sidebar_position: 50
+---
+
+# Detailed Design
+
+N.B. In the diagrams of this section, interface notation has been used to represent the main concepts, however this will
+then be encoded appropriately based on the microservice technology.
+
+## Packages
+
+Each microservice has a package structure that is similar to the following:
+
+<Image
+    src={require('./img/uml/packages.png').default}
+    align="center"
+    width="70%"
+/>
+
+## Domain Events
+
+All domain events are part of the **Shared Kernel** and are used by all microservices.
+The following diagram shows the domain events used in the system:
+
+<Image
+    src={require('./img/uml/domain-events.png').default}
+    align="center"
+    width="70%"
+/>
+
+## Microservices
+
+### Auth
+
+The Auth microservice is responsible for managing the authentication and authorization of users.
+**User** entity here, has a focus on the authentication and authorization mechanisms.
+
+<Image
+    src={require('./img/uml/microservices/auth.png').default}
+    align="center"
+    width="70%"
+/>
+
+### User
+
+The User microservice is responsible for managing user data.
+The vision of the **User** entity here is different from the Auth microservice, as it focuses on the user's personal
+data.
+
+<Image
+    src={require('./img/uml/microservices/user.png').default}
+    align="center"
+    width="70%"
+/>
+
+### Device
+
+The Device microservice is responsible for managing the devices.
+The focus here is on the **Capability** concept, which allows the device to have multiple and flexible types of
+functionalities.
+
+Moreover, **DeviceService** has an important role because it encapsulates the business logic for the device management
+and connection using Web of Things (WoT) standard.
+
+<Image
+    src={require('./img/uml/microservices/device.png').default}
+    align="center"
+    width="70%"
+/>
+
+### Monitoring
+
+The Monitoring microservice has the responsibility of continuously listening to the devices and collecting the data.
+
+<Image
+    src={require('./img/uml/microservices/monitoring.png').default}
+    align="center"
+    width="70%"
+/>
+
+### Alarm
+
+The Alarm microservice is responsible for managing security rules and for triggering anomalies when a rule is violated.
+Each `SecurityRule` has a time slot in which it is active.
+
+When a `SecurityRule` is violated, an `Anomaly` is created and published.
+<Image
+    src={require('./img/uml/microservices/alarm.png').default}
+    align="center"
+    width="70%"
+/>
+
+### Recognition
+
+The Recognition microservice is an ad-hoc service used to perform object recognition on cameras' video streams.
+
+<Image
+    src={require('./img/uml/microservices/recognition.png').default}
+    align="center"
+    width="50%"
+/>
+
+### Notification
+
+In the Notification microservice, the focus is on the `Notification` entity, which is created whenever a `DomainEvent`
+is triggered.
+In this way, the system can notify the user about all possible events that occur.
+
+<Image
+    src={require('./img/uml/microservices/notification.png').default}
+    align="center"
+    width="70%"
+/>
+
+### Log
+
+Log microservice is an ad-hoc service used to store the major part of the system's events.
+In particular, it stores all the `Anomalies` detected by the Alarm microservice and all the `Measurements` collected by
+the Monitoring microservice.
+
+<Image
+    src={require('./img/uml/microservices/log.png').default}
+    align="center"
+    width="70%"
+/>

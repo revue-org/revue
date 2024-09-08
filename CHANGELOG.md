@@ -1,3 +1,47 @@
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.102 ([d48c6dc](https://github.com/revue-org/revue/commit/d48c6dc4614fabe2ccb35565df8a27c5caf5e245))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.1 ([2c02115](https://github.com/revue-org/revue/commit/2c02115416a555469a26fa010a5c9319a895e86e))
+* **deps:** update dependency numpy to v2.1.1 ([99db89b](https://github.com/revue-org/revue/commit/99db89bdd5031ddf7712c8226cefe810b90dc1aa))
+* **deps:** update dependency pinia-plugin-persistedstate to v4 ([339b4cb](https://github.com/revue-org/revue/commit/339b4cba3c4f2bb231954db64ca30170e0399bb1))
+* **deps:** update dependency poethepoet to v0.28.0 ([857d5c8](https://github.com/revue-org/revue/commit/857d5c8c70293498f756da8b4ef527e26d2dd0b7))
+* **deps:** update dependency prism-react-renderer to v2.4.0 ([1d1fcf2](https://github.com/revue-org/revue/commit/1d1fcf226a96dc7e3ef864df1ac8aaee9179873f))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.4.0 ([162caae](https://github.com/revue-org/revue/commit/162caae50f81d7dcd750f11efa56910cdce52012))
+
+### Refactoring
+
+* **frontend:** change interfaces method names ([#284](https://github.com/revue-org/revue/issues/284)) ([f45fadc](https://github.com/revue-org/revue/commit/f45fadce7ccd289e1124d4a4b03c6ae0dd9d26f6))
+
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.102 ([d48c6dc](https://github.com/revue-org/revue/commit/d48c6dc4614fabe2ccb35565df8a27c5caf5e245))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.1 ([2c02115](https://github.com/revue-org/revue/commit/2c02115416a555469a26fa010a5c9319a895e86e))
+* **deps:** update dependency numpy to v2.1.1 ([99db89b](https://github.com/revue-org/revue/commit/99db89bdd5031ddf7712c8226cefe810b90dc1aa))
+* **deps:** update dependency pinia-plugin-persistedstate to v4 ([339b4cb](https://github.com/revue-org/revue/commit/339b4cba3c4f2bb231954db64ca30170e0399bb1))
+* **deps:** update dependency poethepoet to v0.28.0 ([857d5c8](https://github.com/revue-org/revue/commit/857d5c8c70293498f756da8b4ef527e26d2dd0b7))
+* **deps:** update dependency prism-react-renderer to v2.4.0 ([1d1fcf2](https://github.com/revue-org/revue/commit/1d1fcf226a96dc7e3ef864df1ac8aaee9179873f))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.4.0 ([162caae](https://github.com/revue-org/revue/commit/162caae50f81d7dcd750f11efa56910cdce52012))
+
+### Refactoring
+
+* **frontend:** change interfaces method names ([#284](https://github.com/revue-org/revue/issues/284)) ([f45fadc](https://github.com/revue-org/revue/commit/f45fadce7ccd289e1124d4a4b03c6ae0dd9d26f6))
+
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
 ## [3.0.7](https://github.com/revue-org/revue/compare/v3.0.6...v3.0.7) (2024-08-29)
 
 ### Bug Fixes

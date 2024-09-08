@@ -32,7 +32,7 @@ packageJson {
         "@quasar/extras" version "^1.16.9"
         "chart.js" version "^4.4.1"
         "pinia" version "^2.1.7"
-        "pinia-plugin-persistedstate" version "^3.2.1"
+        "pinia-plugin-persistedstate" version "^4.0.0"
         "quasar" version "^2.14.2"
         "serve" version "^14.2.1"
         "socket.io" version "^4.7.4"

@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from kafka3 import KafkaProducer
+from kafka import KafkaProducer
 
 from app.infrastructure.events import KafkaBroker, get_brokers_from_env
 from app.utils.Logger import logger

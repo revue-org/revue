@@ -1,3 +1,41 @@
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Dependency updates
+
+* **deps:** update dependency pydantic to v2.9.0 ([7a2cb2d](https://github.com/revue-org/revue/commit/7a2cb2d14ce48e5f67481573fb921eabc287e9cf))
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Dependency updates
+
+* **deps:** update dependency pydantic to v2.9.0 ([7a2cb2d](https://github.com/revue-org/revue/commit/7a2cb2d14ce48e5f67481573fb921eabc287e9cf))
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
 ## [3.0.9](https://github.com/revue-org/revue/compare/v3.0.8...v3.0.9) (2024-09-08)
 
 ### Dependency updates

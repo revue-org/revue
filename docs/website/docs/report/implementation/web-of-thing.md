@@ -1,5 +1,6 @@
 ---
-sidebar_position: 80
+title: Web of Things
+position: 1
 ---
 
 # Web of Things

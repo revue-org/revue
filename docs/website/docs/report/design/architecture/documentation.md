@@ -1,5 +1,6 @@
 ---
 title: Documentation
+position: 1
 ---
 
 # Architecture
@@ -25,7 +26,7 @@ In the following sections, we will describe the software architecture of the sys
 
 ### Components & Connectors
 
-![Components & Connectors](../img/revue_components_and_connectors.png)
+![Components & Connectors](../../img/revue_components_and_connectors.png)
 
 Each service has a *subcomponent* that contains the core **business logic (BL)** of the service. In order to do its
 work, the BL may make use of other components that are mainly: a *database* (when needed) and an *event message broker*.
@@ -36,18 +37,18 @@ The main access to the service however is through a **REST Api**. The REST Api i
 *API Gateway**. The Gateway is responsible for routing the requests to the correct service. The API Gateway is also
 responsible for the authentication and authorization of the requests.
 
-![Interaction components](../img/revue_interaction_cAc.png)
+![Interaction components](../../img/revue_interaction_cAc.png)
 
 ### Module view
 
-![Module view](../img/revue_modules_view.png)
+![Module view](../../img/revue_modules_view.png)
 
 Each microservice is in a separate module. They all depend on a `common` module. Finally, there is a additional module,
 the `frontend` module, that is the one provided to the user via the API gateway.
 
 ### Deployment view
 
-![Deployment view](../img/revue_deployment.png)
+![Deployment view](../../img/revue_deployment.png)
 
 Each microservice is containerized. Additional containers are used for the database and the event message broker. The
 API Gateway is also containerized. Container orchestration will be a responsability of *docker compose* or *kubernetes*.

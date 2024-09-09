@@ -20,7 +20,7 @@ These parts are **Zookeeper**, **Kafka** as the broker and a **Media Server** fo
 while other containers can be deployed to simulate the device management section. 
 
 ### Prerequisites 
-- Docker running on the machine
+- Docker
 
 ### Step-by-step guide
 

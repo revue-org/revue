@@ -6,7 +6,7 @@ packageJson {
     type = "module"
     name = "location"
     description = "Location microservice"
-    main = "dist/src/main.js"
+    main = "dist/src/index.js"
     scripts {
         val scriptDeps = listOf(npmScript("build") inProject "common")
         listOf(

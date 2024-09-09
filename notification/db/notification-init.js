@@ -21,14 +21,14 @@ db.notification.insertMany([
     message: 'test-range-message'
   },
   {
-    id: 'test-intrusion-notification-id',
+    id: {value: 'test-intrusion-notification-id'},
     type: 'intrusion',
     timestamp: new Date(),
     event: {
       type: 'detection',
       timestamp: new Date(),
       sourceDeviceId: 'test-source-device-id',
-      detectionId: 'test-detection-id',
+      id: 'test-detection-id',
       objectClass: 'person',
       intrusionRuleId: 'test-intrusion-rule-id'
     },

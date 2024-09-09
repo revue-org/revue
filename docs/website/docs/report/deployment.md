@@ -90,9 +90,9 @@ Kubernetes components:
 
 ### Prerequisites
  
-- A Kubernetes cluster running on the machine
-- kubectl installed on the machine
-- Helm installed on the machine
+- A Kubernetes cluster running
+- kubectl installed 
+- Helm installed 
 
 With Revue, 
 also a guide to creating a K3s cluster on Raspberry PIs 5 is provided 
@@ -101,6 +101,34 @@ and can be found [here](https://github.com/revue-org/revue-k3s-deployment/specif
 ### Step-by-step guide
 
 First of all, Revue configuration files are needed.  
+After that, the system can be deployed but requires an active cluster component, the Load Balancer. 
+This component can be provided by the cloud infrastructure provider or manually installed in a bare-metal environment.
+
+Moreover, to monitor the system, Grafana and Prometheus are provided.
+So, to deploy the system, these preparative steps are needed and for each component, Helm has to be used.
+
+1. Install the Ingress Controller, in this case, Traefik: 
+  ```bash
+  helm repo add traefik https://traefik.github.io/charts
+  helm repo update
+  helm install traefik traefik/traefik --values gateway/traefik-values.yml
+  ```
+2. Install Grafana.
+  ```bash
+    helm repo add grafana https://grafana.github.io/helm-charts
+    helm repo update
+    helm install GRAFANA_NAME grafana/grafana -f prometheus/grafana-values.yml --namespace YOUR_NAMESPACE
+  ```
+3. Install Prometheus.
+  ```bash
+  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  helm repo update
+  helm install prometheus prometheus-community/prometheus -f prometheus/prometheus-values.yml
+  ```
+4. Install or ask your cloud provider for a Load Balancer. You can also check if the Load Balancer is already installed in the cluster. In the [guide](https://github.com/revue-org/revue-k3s-deployment) a full explanation and tutorial for the installation of the Load Balancer ([MetalLB](https://metallb.universe.tf/installation/)) on Raspberry PIs 5 is provided.
+
+
+Now the entire system can be easily deployed:
 
 1. Download YAML configurations file [here](https://github.com/revue-org/revue-k3s-deployment/tree/main/specifications/k3s).
 2. Enter the folder where the files are downloaded.
@@ -114,17 +142,12 @@ For core services of the system, the following configurations are provided:
 - **Persistent Volume Claim**: to persist database data.
 - **ConfigMap**: to store database initialization scripts.
 
-due to the presence of the Ingress Controller, [Traefik](https://traefik.io/traefik/) in this case.
 N.B. Every service is accessible only through an Ingress Controller,
-[Traefik](https://traefik.io/traefik/) in this case.
-In this case, the Ingress Controller is used as a modern HTTP **reverse proxy**.
-Moreover,
-the LoadBalancer service type requires an external load balancer
+[Traefik](https://traefik.io/traefik/) in this case, used as a modern HTTP **reverse proxy**.
+As already expected, the LoadBalancer service type requires an external load balancer
 that can be provided by the cloud infrastructure provider
-or manually installed in a bare-metal environment like in the Raspberry PIs guide.
-
-
-
+or manually installed in a bare-metal environment like in the previous and linked Raspberry PIs guide.
+This notation can be misleading.
 
 
 ## Configuration file

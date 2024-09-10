@@ -33,8 +33,9 @@ The credentials of the example user are:
    
 To shut down the system, run the `undeploy.sh` script.
 
-The system deploys containers for microservices and essential components like Zookeeper 
-(for Kafka) and MediaMTX Media Server. Additionally, a container is deployed to simulate device management,
+The system deploys containers for microservices and essential components like **Zookeeper** 
+(for **Kafka**) and **MediaMTX Media Server**. 
+Additionally, a container is deployed to simulate device management,
 which can be explored in the [Sample Thing](https://github.com/revue-org/revue-sample-thing)
 
 #### Deploy a subset of the system
@@ -55,14 +56,14 @@ NB: Every script has to be launched from the root of the project
 
 These scripts are useful for testing or debugging specific services.
 ## Kubernetes
-For production environments, Revue can be deployed using Kubernetes. 
-The system is mapped to Kubernetes components like Deployments, 
-Services, Ingress, Persistent Volume Claims, and ConfigMaps.
+For production environments, Revue can be deployed using **Kubernetes**. 
+The system is mapped to Kubernetes components like **Deployments**,
+**Services**, **Ingress**, **Persistent Volume Claims**, and **ConfigMaps**.
 ### Prerequisites
  
 - A Kubernetes cluster running
-- kubectl installed 
-- Helm installed 
+- `kubectl` installed 
+- `Helm Charts` installed 
 
 With Revue, 
 also a guide to creating a K3s cluster on Raspberry PIs 5 is provided 
@@ -73,23 +74,23 @@ Before deployment, you'll need the Revue configuration files and an active Load 
 provided either by your cloud provider or installed manually on bare-metal environments.
 
 1. Install the Ingress Controller, in this case, Traefik: 
-  ```bash
-  helm repo add traefik https://traefik.github.io/charts
-  helm repo update
-  helm install traefik traefik/traefik --values gateway/traefik-values.yml
-  ```
+      ```bash
+      helm repo add traefik https://traefik.github.io/charts
+      helm repo update
+      helm install traefik traefik/traefik --values gateway/traefik-values.yml
+      ```
 2. Install Grafana.
-  ```bash
-    helm repo add grafana https://grafana.github.io/helm-charts
-    helm repo update
-    helm install GRAFANA_NAME grafana/grafana -f prometheus/grafana-values.yml --namespace YOUR_NAMESPACE
-  ```
+      ```bash
+        helm repo add grafana https://grafana.github.io/helm-charts
+        helm repo update
+        helm install GRAFANA_NAME grafana/grafana -f prometheus/grafana-values.yml --namespace YOUR_NAMESPACE
+      ````
 3. Install Prometheus.
-  ```bash
-  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-  helm repo update
-  helm install prometheus prometheus-community/prometheus -f prometheus/prometheus-values.yml
-  ```
+      ```bash
+      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      helm repo update
+      helm install prometheus prometheus-community/prometheus -f prometheus/prometheus-values.yml
+      ```
 4. Install or check for a Load Balancer, such as ([MetalLB](https://metallb.universe.tf/installation/)).
    A guide for Raspberry Pi deployment can be found here.
 
@@ -102,15 +103,7 @@ provided either by your cloud provider or installed manually on bare-metal envir
  kubectl apply -f .
 ```
 
-This deploys core services, each with its Deployment, Service (ClusterIP for internal exposure), Ingress, Persistent Volume Claims, and ConfigMaps.
-
-For core services of the system, the following configurations are provided:
-- **Deployment**: for the core services, one for the database and one for the service itself
-- **Service**: 
-    - **ClusterIP**, to expose the service and the database inside the cluster. 
-- **Ingress**: to expose the services through the Ingress Controller.
-- **Persistent Volume Claim**: to persist database data.
-- **ConfigMap**: to store database initialization scripts.
+This deploys core services, each with its **Deployment**, **Service** (**ClusterIP** for internal exposure), **Ingress**, **Persistent Volume Claims**, and **ConfigMaps**.
 
 #### Notes
 

@@ -24,6 +24,8 @@ fi
 case "$1" in
   --docker)
     ./scripts/compose-all.sh --down
+    docker stop revue-thing
+    docker rm revue-thing
     ;;
   --k8s)
       if check_minikube; then

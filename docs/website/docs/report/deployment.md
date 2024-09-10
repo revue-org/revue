@@ -4,30 +4,21 @@ sidebar_position: 90
 
 # Deployment 
 
-To deploy the system, two different approaches are provided: **Docker Compose** and **Kubernetes**.
-While Kubernetes is more suitable for production environments, 
-Docker Compose is lightweight for the development phase.
-For this reason, a list of prerequisites, 
-a step-by-step guide and a description of the components are provided for each section.
-
+Revue offers two deployment methods: **Docker Compose** to simplify the development phase and **Kubernetes** for production. 
+Each method comes with prerequisites, a guide, and component details.
 ## Docker
-
-In this section, the Docker Compose deployment is described.
-Since Revue has a microservices architecture, it is necessary to decompose the system into multiple containers.
-In particular,
-it is necessary to create a container for each service and other components needed by the system to work correctly.
-These parts are **Zookeeper**, **Kafka** as the broker and a **Media Server** for the video streaming part,
-while other containers can be deployed to simulate the device management section. 
+This section explains how to deploy Revue using Docker Compose, 
+breaking down the system into containers for each service,
+plus additional components such as **Zookeeper**, **Kafka** (broker), and a **Media Server** for video streaming.
 
 ### Prerequisites 
 - Docker
 
 ### Step-by-step guide
 
-#### Deploy the entire system 
-
-There are multiple scripts helping to deploy the system. 
-The main script is `deploy.sh` that deploys the whole system.  
+#### Deploy the entire system
+To deploy the system, use the provided `deploy.sh` script.
+Here's how to do it:
 
 Starting the system:
 1. Clone the project from [Revue](https://github.com/revue-org/revue). 
@@ -40,17 +31,11 @@ The credentials of the example user are:
    - Username: `user` 
    - Password: `user`
    
-While to tear down the system, run the `undeploy.sh` script.
+To shut down the system, run the `undeploy.sh` script.
 
-With these scripts not only the containers related to the only microservices are managed
-because other system components are needed to let the system work properly.
-
-In addiction to expected containers, 
-a Zookeeper container (necessary for Kafka) and a MediaMTX Media Server are present.
-
-Instead, for the device part, a single container will be deployed.
-More info about the sample thing can be found here: [Sample Thing](https://github.com/revue-org/revue-sample-thing)
-
+The system deploys containers for microservices and essential components like Zookeeper 
+(for Kafka) and MediaMTX Media Server. Additionally, a container is deployed to simulate device management,
+which can be explored in the [Sample Thing](https://github.com/revue-org/revue-sample-thing)
 
 #### Deploy a subset of the system
 
@@ -68,26 +53,11 @@ Usage examples:
 
 NB: Every script has to be launched from the root of the project
 
-These scripts are provided to help devs in the development phase, 
-to test the system in a more controlled way or to debug a specific service.
-
+These scripts are useful for testing or debugging specific services.
 ## Kubernetes
-
-Another deployment scenario is provided with the usage of Kubernetes, for a production-ready environment.
-In this case, due to the Revue microservices nature, 
-a series of configuration files are being produced for each service following their specific requirements.
-Before the guide, is necessary to understand the system components mapping to the Kubernetes abstractions.
-
-Kubernetes components:
-
-- **Deployment**: responsible for creating pods and managing their lifecycle.
-- **Service**: 
-    - **ClusterIP**, with no need to be exposed outside the cluster.
-    - **LoadBalancer**, with the need to be exposed outside the cluster.
-- **Ingress**: to expose the service inside the cluster through the Ingress Controller.
-- **Persistent Volume Claim**: to store data that needs to persist even after the pod is deleted.
-- **ConfigMap**: to store configuration data and database initialization scripts.
-
+For production environments, Revue can be deployed using Kubernetes. 
+The system is mapped to Kubernetes components like Deployments, 
+Services, Ingress, Persistent Volume Claims, and ConfigMaps.
 ### Prerequisites
  
 - A Kubernetes cluster running
@@ -99,13 +69,8 @@ also a guide to creating a K3s cluster on Raspberry PIs 5 is provided
 and can be found [here](https://github.com/revue-org/revue-k3s-deployment/specifications).
 
 ### Step-by-step guide
-
-First of all, Revue configuration files are needed.  
-After that, the system can be deployed but requires an active cluster component, the Load Balancer. 
-This component can be provided by the cloud infrastructure provider or manually installed in a bare-metal environment.
-
-Moreover, to monitor the system, Grafana and Prometheus are provided.
-So, to deploy the system, these preparative steps are needed and for each component, Helm has to be used.
+Before deployment, you'll need the Revue configuration files and an active Load Balancer, 
+provided either by your cloud provider or installed manually on bare-metal environments.
 
 1. Install the Ingress Controller, in this case, Traefik: 
   ```bash
@@ -125,14 +90,19 @@ So, to deploy the system, these preparative steps are needed and for each compon
   helm repo update
   helm install prometheus prometheus-community/prometheus -f prometheus/prometheus-values.yml
   ```
-4. Install or ask your cloud provider for a Load Balancer. You can also check if the Load Balancer is already installed in the cluster. In the [guide](https://github.com/revue-org/revue-k3s-deployment) a full explanation and tutorial for the installation of the Load Balancer ([MetalLB](https://metallb.universe.tf/installation/)) on Raspberry PIs 5 is provided.
+4. Install or check for a Load Balancer, such as ([MetalLB](https://metallb.universe.tf/installation/)).
+   A guide for Raspberry Pi deployment can be found here.
 
+### Deploy the System
 
-Now the entire system can be easily deployed:
-
-1. Download YAML configurations file [here](https://github.com/revue-org/revue-k3s-deployment/tree/main/specifications/k3s).
+1. Download the YAML configurations file [here](https://github.com/revue-org/revue-k3s-deployment/tree/main/specifications/k3s).
 2. Enter the folder where the files are downloaded.
-3. Run the `kubectl apply -f .` command to deploy the system.
+3. Run:
+```bash
+ kubectl apply -f .
+```
+
+This deploys core services, each with its Deployment, Service (ClusterIP for internal exposure), Ingress, Persistent Volume Claims, and ConfigMaps.
 
 For core services of the system, the following configurations are provided:
 - **Deployment**: for the core services, one for the database and one for the service itself
@@ -142,16 +112,7 @@ For core services of the system, the following configurations are provided:
 - **Persistent Volume Claim**: to persist database data.
 - **ConfigMap**: to store database initialization scripts.
 
-N.B. Every service is accessible only through an Ingress Controller,
-[Traefik](https://traefik.io/traefik/) in this case, used as a modern HTTP **reverse proxy**.
-As already expected, the LoadBalancer service type requires an external load balancer
-that can be provided by the cloud infrastructure provider
-or manually installed in a bare-metal environment like in the previous and linked Raspberry PIs guide.
-This notation can be misleading.
+#### Notes
 
-
-## Configuration file
-In the root of the project,
-there is a .env that contains the environment variables needed to correctly configure the system. 
-Without modifying the .env file, the services will be exposed on different ports. 
-Ports can be changed according to the user's needs.
+- The system uses [Traefik](https://traefik.io/traefik/) as the Ingress Controller and reverse proxy.
+- LoadBalancer services require either an external load balancer from a cloud provider or manual installation on bare-metal.

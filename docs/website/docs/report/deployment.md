@@ -59,6 +59,10 @@ These scripts are useful for testing or debugging specific services.
 For production environments, Revue can be deployed using **Kubernetes**. 
 The system is mapped to Kubernetes components like **Deployments**,
 **Services**, **Ingress**, **Persistent Volume Claims**, and **ConfigMaps**.
+
+![Kubernetes](./img/kubernetes-deployment.png)
+
+
 ### Prerequisites
  
 - A Kubernetes cluster running

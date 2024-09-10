@@ -10,14 +10,17 @@ It is also possible to configure security rules, to get notified when a sensor d
 
 ## Scenarios
 
-The system can be used in various scenarios, depending on the user needs.
-This system is designed to be used by multiple types of users, from a private user to a company director.
+The system can be used in various scenarios, designed for multiple types of users, and depending on the user needs
 In the sections below, are explained two main possible scenarios in which the system can be used.
 In the simplest scenario, the system is used by a private user, who wants just to monitor his home or a particular environment without the necessity to recognize the objects in the video. 
 In this case, the user can just rely on the camera, monitoring the home or a proprietary field. 
 The user is free to monitor the live video by the camera whenever and wherever he/she wants, using the browser on the smartphone. 
 The user can also set up sensors to monitor data from the environment.
+
 A more complex scenario could involve both sensor and camera usages with the support of an intelligent feature to detect intrusion. 
 For example, the director of food wholesale could monitor the temperature of the warehouse and the presence of unauthorized people during the night. 
 In this case, the recognition part of the system is necessary to detect whenever an intrusion occurs.
-Moreover, supply chain monitoring can be done for who’s needs to ensure that the temperature of the warehouse is always in the right range and be alerted whenever the temperature exceeds a certain range to detect or prevent problems.
+
+Moreover, supply chain monitoring can another usage, 
+to ensure that the temperature of a warehouse is always in the right range (cold-chain) 
+and be alerted whenever the temperature exceeds a certain range to detect or prevent problems.

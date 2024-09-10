@@ -35,7 +35,7 @@ onMounted(async () => {
       <h3>
         {{ camera.deviceId }}
       </h3>
-      <iframe :src="`http://${mediaServerHost}:8889/${camera.deviceId}/stream/`" allowfullscreen></iframe>
+      <iframe :src="`${mediaServerHost}:8889/${camera.deviceId}/stream/`" allowfullscreen></iframe>
     </div>
   </div>
 </template>

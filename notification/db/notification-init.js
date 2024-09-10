@@ -10,7 +10,7 @@ db.notification.insertMany([
       type: 'measurement',
       timestamp: new Date(),
       sourceDeviceId: 'test-source-device-id',
-      measurementId: 'test-measurement-id',
+      id: 'test-measurement-id',
       measure: {
         type: 'temperature',
         unit: 'celsius'
@@ -28,7 +28,7 @@ db.notification.insertMany([
       type: 'detection',
       timestamp: new Date(),
       sourceDeviceId: 'test-source-device-id',
-      detectionId: 'test-detection-id',
+      id: 'test-detection-id',
       objectClass: 'person',
       intrusionRuleId: 'test-intrusion-rule-id'
     },

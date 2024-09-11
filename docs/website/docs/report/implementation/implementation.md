@@ -4,95 +4,131 @@
 
 ### Dependency Inversion Principle
 
-The [**Dependency Inversion Principle**](https://en.wikipedia.org/wiki/Dependency_inversion_principle) (DIP) has been applied to the system to decouple the high-level modules from the low-level modules.
-This principle states that high-level modules should not depend on low-level modules, but both should depend on abstractions.
-Every module in the system depends on interfaces, to let the implementation be changed without affecting the other modules.
+The [**Dependency Inversion Principle**](https://en.wikipedia.org/wiki/Dependency_inversion_principle) (DIP) has been
+applied to the system to decouple the high-level modules from the low-level modules.
+This principle states that high-level modules should not depend on low-level modules, but both should depend on
+abstractions.
+Every module in the system depends on interfaces, to let the implementation be changed without affecting the other
+modules.
 
-This type of principle has been applied to the entire system, from the message broker to the databases, to allow rapid changes or evolutions.
+This type of principle has been applied to the entire system, from the message broker to the databases, to allow rapid
+changes or evolutions.
 
 An example of AlarmEventsHub interface is shown below:
-```javascript 
+
+```typescript 
 export interface AlarmEventsHub {
     publishAnomaly(anomaly: Anomaly): void
+
     subscribeToMeasurements(handler: (measurement: Measurement) => void): void
+
     subscribeToDetections(handler: (detection: Detection) => void): void
+
     subscribeToDevices(handler: (deviceEvent: DeviceEvent) => void): void
+
     addMeasurementTopics(topics: string[]): void
+
     removeMeasurementTopics(topics: string[]): void
 } 
 ```
+
 Or simply a Repository management interface:
-```javascript
+
+```typescript
 export interface SecurityRuleRepository {
-  getSecurityRules(): Promise<SecurityRule[]>
-  getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
-  saveSecurityRule(securityRule: SecurityRule): Promise<void>
-  updateSecurityRule(securityRule: SecurityRule): Promise<void>
-  removeSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
-  getRangeRules(): Promise<RangeRule[]>
-  getIntrusionRules(): Promise<IntrusionRule[]>
-  enableSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
-  disableSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
+    getSecurityRules(): Promise<SecurityRule[]>
+
+    getSecurityRuleById(id: SecurityRuleId): Promise<SecurityRule>
+
+    saveSecurityRule(securityRule: SecurityRule): Promise<void>
+
+    updateSecurityRule(securityRule: SecurityRule): Promise<void>
+
+    removeSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
+
+    getRangeRules(): Promise<RangeRule[]>
+
+    getIntrusionRules(): Promise<IntrusionRule[]>
+
+    enableSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
+
+    disableSecurityRule(securityRuleId: SecurityRuleId): Promise<void>
 }
 ```
-These interfaces are implemented by the classes that need to use them, and they can be changed without affecting the core modules.
+
+These interfaces are implemented by the classes that need to use them, and they can be changed without affecting the
+core modules.
 
 ## Multiplatform
+
 Kelvin Olaiya's bombs are waiting for you here. You have to defuse them before they explode.
 
 ## Technologies
 
 ### JWT: JSON Web Token
-The Auth service is responsible for the authentication of the user and the generation of the [Json Web Token](https://jwt.io/) (JWT) token that will be used to authenticate the user in the other services. 
-The generated token can be validated from each microservice to ensure that the user is authenticated. 
-Following this approach, in case of failure of the authentication service, the user can still access the system until its token validity expires. 
+
+The Auth service is responsible for the authentication of the user and the generation of
+the [Json Web Token](https://jwt.io/) (JWT) token that will be used to authenticate the user in the other services.
+The generated token can be validated from each microservice to ensure that the user is authenticated.
+Following this approach, in case of failure of the authentication service, the user can still access the system until
+its token validity expires.
 
 ### Kafka
-[Apache Kafka](https://kafka.apache.org) is the technology chosen to handle intra-system real-time communications. 
-In particular, [KafkaJS](https://kafka.js.org) and [kafka-python](https://kafka-python.readthedocs.io/en/master/) clients have been used respectively for the
+
+[Apache Kafka](https://kafka.apache.org) is the technology chosen to handle intra-system real-time communications.
+In particular, [KafkaJS](https://kafka.js.org) and [kafka-python](https://kafka-python.readthedocs.io/en/master/)
+clients have been used respectively for the
 [Node.js](https://nodejs.org/en) and [Flask](https://flask.palletsprojects.com/en/3.0.x/) services.
 Kafka is an open-source distributed event streaming platform capable of handling
 plenty of events per second.
 
-```javascript 
+```typescript 
 this.consumer
-  .startConsuming(topics, false, (message: KafkaMessage): void => {
-  // Message arrived!
-})
-.then((): void => console.log('Consumer started'))
+    .startConsuming(topics, false, (message: KafkaMessage): void => {
+        // Message arrived!
+    })
+    .then((): void => console.log('Consumer started'))
 ```
 
 ```python 
 def publish_detection(self, camera: str, object_class: str):
-detection: Detection = DetectionFactory.create_detection(
-    datetime.now(), camera_code, object_class
-)
+    detection: Detection = DetectionFactory.create_detection(
+        datetime.now(), camera_code, object_class
+    )
+
+
 detection_to_publish = transform_keys(
     json.loads(detection.model_dump_json()), snake_to_camel
 )
 self._producer.produce("detections." + camera_code, detection_to_publish)
 ```
 
-### Socket.io 
+### Socket.io
 
-[Socket IO](https://socket.io/) is a library that enables real-time, bidirectional and event-based communication between the browser and the server. 
-It has been exploited to implement the real-time communication between the user and the system, in particular for pushing notifications or sending the environment data to the user. 
-A security layer has been added to socket servers to ensure secure connections. Also for this feature, the JWT token generated when the user logs in has been used.
+[Socket IO](https://socket.io/) is a library that enables real-time, bidirectional and event-based communication between
+the browser and the server.
+It has been exploited to implement the real-time communication between the user and the system, in particular for
+pushing notifications or sending the environment data to the user.
+A security layer has been added to socket servers to ensure secure connections. Also for this feature, the JWT token
+generated when the user logs in has been used.
 
-```javascript 
-io.use(function (socket , next): void {
-  if (socket.handshake.query && socket.handshake.query.token) {
-    if (jwtManager.verify(socket.handshake.query.token as string)) next()
-  } else {
-    //Authentication error
-  }
+```typescript 
+io.use(function (socket, next): void {
+    if (socket.handshake.query && socket.handshake.query.token) {
+        if (jwtManager.verify(socket.handshake.query.token as string)) next()
+    } else {
+        //Authentication error
+    }
 })
 ```
 
 ### Object Recognition with YOLO
-[You only look once](https://pjreddie.com/darknet/yolo) (YOLO) is the newest, efficient real-time object detection algorithm. 
-YOLO is able to recognize classes of objects and its position in the video.
-This algorithm is used within the **Recognition** service to perform object recognition on video stream produced by the devices, according to active security rules.
+
+[You Only Look Once](https://pjreddie.com/darknet/yolo) (YOLO) is a state-of-the-art, efficient real-time object
+detection algorithm. 
+YOLO can identify object classes and their positions within a video.
+This algorithm is utilized by the **Recognition** service to perform object detection on video streams generated by the
+devices, in accordance with active security rules.
 
 ```python 
 class RecognitionService(ABC):
@@ -122,14 +158,19 @@ class RecognitionService(ABC):
 
 ### Media Server
 
-[MediaMTX](https://github.com/bluenviron/mediamtx) has been implemented to enable the system to support multiple protocols without requiring a separate procedure for each one. 
-All cameras connect to the media server, which facilitates the retrieval of video streams using various protocols. 
-In this setup, the cameras use the RTSP protocol to send video streams and by the **Recognition** component to consume them. 
-Meanwhile, the **Frontend** exploits the WebRTC protocol to consume video streams.
+[MediaMTX](https://github.com/bluenviron/mediamtx) has been used to allow the system to support multiple
+protocols without needing a separate process for each one.
+All cameras connect to the media server, which handles video stream distribution across different protocols.
+In this configuration, the cameras use the RTSP protocol to send video streams, which are then consumed
+by the **Recognition** component.
+Simultaneously, the **Frontend** utilizes the WebRTC protocol to access the video streams.
 
 ### WebRTC
 
-To simulate the camera streams, the [WebRTC](https://webrtc.org/) protocol takes place.
-It has been selected for its ability to stream video and audio in real-time with simplicity.
-It does not require any plugin or software installation, it is supported by all the major browsers, and it is open-source.
-Developed by Google, it implements the [Google Congestion Control](https://www.researchgate.net/publication/316684665_Congestion_Control_for_Real-Time_Communication) (GCC) algorithm that allows to stream video and audio in real-time with a low latency.
+The [WebRTC](https://webrtc.org/) protocol is used to simulate camera streams, chosen for its ability to stream video
+and audio in real-time with ease.
+It requires no plugins or software installation, is supported by all major browsers,
+and is open-source.
+Developed by Google, WebRTC implements
+the [Google Congestion Control](https://www.researchgate.net/publication/316684665_Congestion_Control_for_Real-Time_Communication)
+(GCC) algorithm, which enables real-time streaming of video and audio with low latency.

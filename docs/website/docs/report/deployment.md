@@ -76,6 +76,7 @@ In particular, for core services of the system, the following configurations are
 - **Ingress**: to expose the service outside the cluster through the Ingress Controller.
 - **Persistent Volume Claim**: to store data that needs to persist even after the pod is deleted.
 - **ConfigMap**: to store configuration data and database initialization scripts.
+- **Horizontal Pod Autoscaler**: to automatically adjust the number of Pods in a workload based on current demand.
 
 Every service is accessible through the Ingress Controller,
 which is responsible for routing the requests to the correct service.
@@ -138,3 +139,11 @@ This deploys core services, each with its **Deployment**, **Service** (**Cluster
 - The system uses [Traefik](https://traefik.io/traefik/) as the Ingress Controller and reverse proxy.
 - LoadBalancer services require either an external load balancer from a cloud provider or manual installation on
   bare-metal.
+
+### Horizontal pod autoscaling 
+
+A [HorizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) (HPA)
+in Kubernetes automatically adjusts the number of Pods in a workload based on current demand.
+It scales the workload horizontally by increasing or decreasing the number of Pods in response to load changes. 
+The scaling is based on specific configurations file where limits of resources are defined.
+This helped us to meet QA requirements and to optimize the resources used by the system, limiting the costs.

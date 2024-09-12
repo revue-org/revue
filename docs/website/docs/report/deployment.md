@@ -69,6 +69,19 @@ For production environments, Revue can be deployed using **Kubernetes**.
 The system is mapped to Kubernetes components like **Deployments**,
 **Services**, **Ingress**, **Persistent Volume Claims**, and **ConfigMaps**.
 
+In particular, for core services of the system, the following configurations are provided:
+
+- **Deployment**: responsible for creating pods and managing their lifecycle.
+- **Service**: type ClusterIP, with no need to be exposed outside the cluster due to the presence of the Ingress Controller (API Gateway).
+- **Ingress**: to expose the service outside the cluster through the Ingress Controller.
+- **Persistent Volume Claim**: to store data that needs to persist even after the pod is deleted.
+- **ConfigMap**: to store configuration data and database initialization scripts.
+
+Every service is accessible through the Ingress Controller,
+which is responsible for routing the requests to the correct service.
+In this case, the Ingress Controller is [Traefik](https://traefik.io/),
+a modern HTTP reverse proxy and load balancer that can be used to expose services outside the cluster.
+
 ![Kubernetes](./img/kubernetes-deployment.png)
 
 ### Prerequisites

@@ -1,3 +1,27 @@
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.105 ([bb12ab7](https://github.com/revue-org/revue/commit/bb12ab7ae706c72e21cd556c4dfc6401c3e74388))
+* **deps:** update dependency gradle to v8.10.1 ([ad29263](https://github.com/revue-org/revue/commit/ad292635be6d98ba60bec86c3dff9a9ae5f3e7b5))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.2 ([da6e60a](https://github.com/revue-org/revue/commit/da6e60a4577bc43944a0304fb790ada7f8d333b5))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.10 ([1d16160](https://github.com/revue-org/revue/commit/1d1616090c31e776f7cd46a0da561578cbaa02c7))
+
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.105 ([bb12ab7](https://github.com/revue-org/revue/commit/bb12ab7ae706c72e21cd556c4dfc6401c3e74388))
+* **deps:** update dependency gradle to v8.10.1 ([ad29263](https://github.com/revue-org/revue/commit/ad292635be6d98ba60bec86c3dff9a9ae5f3e7b5))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.2 ([da6e60a](https://github.com/revue-org/revue/commit/da6e60a4577bc43944a0304fb790ada7f8d333b5))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.10 ([1d16160](https://github.com/revue-org/revue/commit/1d1616090c31e776f7cd46a0da561578cbaa02c7))
+
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
 ## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
 
 ### Dependency updates

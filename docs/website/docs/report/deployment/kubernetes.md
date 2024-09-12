@@ -95,3 +95,10 @@ Example of a configuration file targeting CPU usage:
           type: Utilization
           averageUtilization: 60             # Target 60% CPU utilization
 ```
+
+#### Benchmark
+
+The system has been tested with a load of 1000 requests per second, 
+and the autoscaling feature has been able to manage the workload efficiently. 
+Every service can scale up to 5 replicas.
+In the specification [repository](https://github.com/revue-org/revue-k3s-deployment) are available bash scripts to test the system with different loads.

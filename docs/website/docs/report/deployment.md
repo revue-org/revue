@@ -145,5 +145,19 @@ This deploys core services, each with its **Deployment**, **Service** (**Cluster
 A [HorizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) (HPA)
 in Kubernetes automatically adjusts the number of Pods in a workload based on current demand.
 It scales the workload horizontally by increasing or decreasing the number of Pods in response to load changes. 
+
+![HPA](./img/hpa-kubernetes.png)
+
 The scaling is based on specific configurations file where limits of resources are defined.
 This helped us to meet QA requirements and to optimize the resources used by the system, limiting the costs.
+
+Example of a configuration file targeting CPU usage:
+```yaml
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu                            # Scale based on CPU usage
+        target:
+          type: Utilization
+          averageUtilization: 60             # Target 60% CPU utilization
+```

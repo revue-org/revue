@@ -15,7 +15,6 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 ### Frontend
 
 [![Vue](https://img.shields.io/badge/Vue-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white)](https://vuejs.org/)
-[![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 ### Backend
@@ -35,6 +34,7 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
 [![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
 [![Traefik](https://img.shields.io/badge/Traefik-24A1C1?style=for-the-badge&logo=traefikproxy&logoColor=white)](https://doc.traefik.io/traefik/)
+[![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
 [![Minikube](https://img.shields.io/badge/Minikube-F7B93E?style=for-the-badge&logo=kubernetes&logoColor=white)](https://minikube.sigs.k8s.io/docs/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![Helm](https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white)](https://helm.sh/)
@@ -59,8 +59,7 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 ## Prerequisites
 
 - [Docker](https://docker.com) (for development mode)
-- [Minikube](https://minikube.sigs.k8s.io/docs/), [Kubectl](https://kubernetes.io/docs/tasks/tools/)
-  and [Helm](https://helm.sh/) (for production mode)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/) and [Helm](https://helm.sh/) (for production mode)
 
 ## Getting Started
 

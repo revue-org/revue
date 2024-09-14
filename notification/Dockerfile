@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.9
+# syntax = docker/dockerfile:1.10
 
 FROM gradle AS build
 LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"

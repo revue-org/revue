@@ -222,16 +222,3 @@ Note the protocol binding specifying that the data will be sent to a Kafka broke
 
 In conclusion, the Revue system is compliant with the Web of Things standards, allowing the interaction with the devices in a simple and flexible way.
 The system for now is able to interact only with devices with a simple behavior and with limited capabilities to _Sensing_ and _VideoStreaming_.
-
-## Future Work
-
-Here are some possible future improvements that can be made to the Revue system:
-
-- **Security**: Implement a real security scheme to protect the devices and the system.
-- **Protocol Bindings**: Implement more protocol bindings to support different communication protocols.
-- **Discovery**: Implement a discovery mechanism to automatically discover and interact with new devices.
-- **Dynamic Metadata**: Implement dynamic metadata to allow the devices to update their metadata during their lifetime.
-- **Interactions**: Implement more complex interactions between devices and the system.
-- **Model**: Implement a model to manage the devices and their interactions in a more structured way.
-- **ThingDirectory**: Implement a ThingDirectory to store and manage the TDs of the devices, possibly due to his location.
-- **Capability**: Implement more capabilities to support more complex devices.

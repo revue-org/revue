@@ -27,7 +27,7 @@ const measureUnit = ref<MeasureUnit>()
 const objectClass = ref<ObjectClass>(ObjectClass.PERSON)
 
 const insertRule = async () => {
-  let url: string = `http://${alarmHost}/rules/`
+  let url: string = `${alarmHost}/rules/`
   let body: any
   let updatedContacts = contacts.value.map((contact: any) => {
     return {

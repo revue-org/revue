@@ -64,8 +64,7 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 
 ## Getting Started
 
-- Download the [Latest Release](https://github.com/revue-org/revue/releases/latest)
-- Unzip the archive
+- Clone the repository including the submodules: `git clone --recurse-submodules git@github.com:revue-org/revue.git`
 - Modify the `.env` file to fit your needs, e.g., the ports and the credentials to be used (the default ones should be
   fine)
 
@@ -110,7 +109,7 @@ e.g. [revue-sample-thing](https://github.com/revue-org/revue-sample-thing)).
 
 ### Web interfaces
 
-- [Revue Web Interface](#web-interface) : The interface through which you can interact with the
+- **Revue Web Interface**: The interface through which you can interact with the
   system. The default credentials for the login are `user` and `user` (editable
   in [auth/db/auth-init.js](auth/db/auth-init.js)
   file).
@@ -143,7 +142,7 @@ in the README to set up your own WoT device.
 Note that if you are running the system with Docker Compose, a sample containerised device is already deployed.
 Once the device is up and running, you can add it to the system through the Revue Web Interface.
 
-- Go to [Revue Web Interface](#web-interface) and log in
+- Go to [Revue Web Interface](#web-interfaces) and log in
 - Go to the _Devices_ section
 - Click on the _Add Device_ button
 - Fill in the form with the device URI

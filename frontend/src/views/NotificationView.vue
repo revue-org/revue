@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import RequestHelper, { notificationHost } from '@/utils/RequestHelper'
-import { notificationPort } from '@common/utils/RequestHelper.js'
 import NotificationBadge from '@/components/notification/NotificationBadge.vue'
 import { useQuasar } from 'quasar'
 import { popNegative, popPositive } from '@/scripts/Popups'
@@ -25,7 +24,7 @@ async function getNotifications() {
 }
 
 const deleteNotification = async (notification: Notification) => {
-  await RequestHelper.delete(`${notificationHost}:${notificationPort}/notifications/${notification.id}`)
+  await RequestHelper.delete(`${notificationHost}/notifications/${notification.id}`)
     .then((_res: any) => {
       getNotifications()
       popPositive($q, 'Notification deleted successfully')

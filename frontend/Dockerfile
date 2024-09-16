@@ -36,7 +36,5 @@ RUN apk add dumb-init && apk add --update npm
 
 WORKDIR /home/revue/frontend
 
-EXPOSE $CAMERA_PORT
-
 # Run dumb-init as first process, which will have PID 1, then run node command to start the application
-CMD ["dumb-init", "npm", "run", "serve" ]
+CMD ["dumb-init", "npm", "run", "serve"]

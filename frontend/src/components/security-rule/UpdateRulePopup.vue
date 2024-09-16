@@ -6,7 +6,6 @@ import { popNegative, popPositive } from '@/scripts/Popups'
 import { useQuasar } from 'quasar'
 import { type Contact } from 'common/dist/domain/core'
 import { useUserStore } from '@/stores/user'
-import { alarmPort } from 'common/dist/utils/RequestHelper'
 
 const $q = useQuasar()
 
@@ -26,7 +25,7 @@ const min = ref<number>((rule as RangeRule).min)
 const max = ref<number>((rule as RangeRule).max)
 
 const updateRule = async (rule: SecurityRule) => {
-  let url: string = `${alarmHost}:${alarmPort}/rules/`
+  let url: string = `${alarmHost}/rules/`
   let body: any
   let updatedContacts = contacts.value.map((contact: any) => {
     return {

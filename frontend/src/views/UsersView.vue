@@ -30,9 +30,9 @@ const getUsers = async (): Promise<void> => {
 }
 
 const deleteUser = (user: User) => {
-  RequestHelper.delete(`http://${authHost}/users/${user.id}`)
+  RequestHelper.delete(`${authHost}/users/${user.id}`)
     .then(() => {
-      RequestHelper.delete(`http://${userHost}/${user.id}`)
+      RequestHelper.delete(`${userHost}/${user.id}`)
         .then((res: any) => {
           console.log(res)
           getUsers()

@@ -1,0 +1,3 @@
+[submodule "kubernetes"]
+	path = kubernetes
+	url = https://github.com/revue-org/revue-kubernetes.git

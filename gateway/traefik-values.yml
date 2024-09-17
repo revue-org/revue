@@ -10,11 +10,3 @@ ports:
     expose:
       default: true
     exposedPort: 8081
-
-certificatesResolvers:
-  myresolver:
-    acme:
-      email: letsdothis.shared@gmail.com
-      storage: letsencrypt/acme.json
-      httpChallenge:
-        entryPoint: web # Use HTTP challenge

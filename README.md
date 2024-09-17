@@ -102,8 +102,7 @@ And similarly, to stop the system
 ./undeploy.sh --k8s
 ```
 
-Once the system is up and running, you have to setup your own WoT device (
-e.g. [revue-sample-thing](https://github.com/revue-org/revue-sample-thing)).
+Once the system is up and running, you have to set up your own WoT device (E.g. [revue-sample-thing](https://github.com/revue-org/revue-sample-thing)).
 
 ## Interacting with the system
 
@@ -115,26 +114,29 @@ e.g. [revue-sample-thing](https://github.com/revue-org/revue-sample-thing)).
   file).
     - [https://frontend.localhost](https://frontend.localhost) or [https://localhost:8080](https://localhost:8080) if
       running with Docker Compose
-    - [???:???]() if running with Kubernetes
+    - [https://revue-frontend]() if running with Kubernetes
 - **Reverse Proxy**: Traefik dashboard
     - [https://localhost:8081](https://localhost:8081) if running with Docker Compose
-    - [???:???]() if running with Kubernetes
+    - [https://revue-traefik]() if running with Kubernetes
 - **Kafka UI**: The interface to monitor the Kafka topics, messages and
   consumers
     - [https://localhost:8082](https://localhost:8082) if running with Docker Compose
-    - [???:???]() if running with Kubernetes
+    - [https://revue-kafka-ui]() if running with Kubernetes,
 
 #### On Kubernetes environment
 
 - **Prometheus and Grafana**: The interfaces to monitor the system
-    - Prometheus Server dashboard: accessible at [???:9090]()
-    - Grafana dashboard: accessible at [???:???]()
+    - Prometheus Server dashboard: accessible at [https://revue-prometheus](https://192.168.5.206:9090)
+    - Grafana dashboard: accessible at [https://revue-grafana](https://revue-grafana)
         - Credentials:
             - Username: _admin_
             - Password: Get the password by
               running `kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
         - Accessing to the dashboard clicking on _Dashboards_ (there are some pre-configured dashboards)
 
+Note that kubernetes IPs depend on your cluster's network-specific configuration.
+Edit configuration files in [kubernetes/specifications/metallb/](kubernetes/specifications/metallb/) folder
+to adhere to your case.
 ### Monitoring with devices (WoT)
 
 Go to the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) repository and follow the instructions

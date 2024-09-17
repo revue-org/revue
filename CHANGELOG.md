@@ -1,3 +1,21 @@
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.106 ([1f84cb0](https://github.com/revue-org/revue/commit/1f84cb0fcf9a5cda6154d0d289b6d0da11f93137))
+
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.106 ([1f84cb0](https://github.com/revue-org/revue/commit/1f84cb0fcf9a5cda6154d0d289b6d0da11f93137))
+
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
 ## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
 
 ### Bug Fixes

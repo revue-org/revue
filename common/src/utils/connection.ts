@@ -31,7 +31,7 @@ const getDatabaseConfig = (serviceName: string): DatabaseConfig => {
 export const mongoConnect = async (mongoose: Mongoose, serviceName: string): Promise<void> => {
   const { host, port, name } = getDatabaseConfig(serviceName)
   const { username, password } = getDatabaseCredentials(serviceName)
-  let connectionString: string =
+  const connectionString: string =
     process.env.NODE_ENV === 'develop'
       ? `mongodb://${username}:${password}@${host}:${port}/${name}?authSource=admin`
       : `mongodb://${username}:${password}@${host}/${name}?authSource=admin`

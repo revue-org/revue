@@ -1,3 +1,5 @@
+# Kubernetes
+
 Revue can be deployed using **Kubernetes**.
 The system is mapped to Kubernetes components like **Deployments**,
 **Services**, **Ingress**, **Persistent Volume Claims**, and **ConfigMaps**.
@@ -5,10 +7,11 @@ The system is mapped to Kubernetes components like **Deployments**,
 In particular, for core microservices of the system, the following k8s configuration files are provided:
 
 - **Deployment**: it is responsible for creation and the licycle of pods.
-- **Service**: 
-  - ClusterIP: when there's no need to expose the service outside the cluster.
-  - LoadBalancer: to expose the service outside the cluster.
-- **Ingress**: An API object that manages external access to the services in a cluster, typically HTTP. An ingress lets you map traffic to different backends based on rules you define via the Kubernetes API.
+- **Service**:
+    - ClusterIP: when there's no need to expose the service outside the cluster.
+    - LoadBalancer: to expose the service outside the cluster.
+- **Ingress**: An API object that manages external access to the services in a cluster, typically HTTP. An ingress lets
+  you map traffic to different backends based on rules you define via the Kubernetes API.
 - **Horizontal Pod Autoscaler**: to automatically adjust the number of pods based on the current service's workload.
 
 For those services that need to store data, also the following configuration files are provided:
@@ -45,12 +48,14 @@ that can be found [here](https://github.com/revue-org/revue-kubernetes).
 
 #### Notes
 
-- This guide assumes that cluster is running on a on-premise environment. In particular `MetalLB` is used to expose services outside the cluster.
+- This guide assumes that cluster is running on a on-premise environment. In particular `MetalLB` is used to expose
+  services outside the cluster.
 
 ### Horizontal pod autoscaling
 
 A [HorizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) (HPA)
-in Kubernetes scales the workload horizontally by increasing or decreasing the number of Pods in response to load changes.
+in Kubernetes scales the workload horizontally by increasing or decreasing the number of Pods in response to load
+changes.
 
 ![HPA](../img/hpa-kubernetes.png)
 
@@ -58,6 +63,7 @@ The scaling is based on specific configurations file in which resources limits a
 This helped us to meet QA requirements and to optimize the resources used by the system, limiting the costs.
 
 Example of a configuration file targeting CPU usage:
+
 ```yaml
   metrics:
     - type: Resource
@@ -70,7 +76,8 @@ Example of a configuration file targeting CPU usage:
 
 #### Benchmark
 
-The system has been tested with a load of 1000 requests per second, 
-and the autoscaling feature has been able to manage the workload efficiently. 
+The system has been tested with a load of 1000 requests per second,
+and the autoscaling feature has been able to manage the workload efficiently.
 Every service can scale up to 5 replicas.
-In the specification [repository](https://github.com/revue-org/revue-kubernetes) are available bash scripts to test the system with different loads.
+In the specification [repository](https://github.com/revue-org/revue-kubernetes) are available bash scripts to test the
+system with different loads.

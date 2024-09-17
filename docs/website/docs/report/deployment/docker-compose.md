@@ -2,13 +2,11 @@
 sidebar_position: 90
 ---
 
-# Deployment
+# Docker Compose
 
 Revue offers two deployment methods: **Docker Compose** to simplify the development phase and **Kubernetes** for
 production.
 Each method comes with prerequisites, a guide, and component details.
-
-## Docker Compose
 
 This section explains how to deploy Revue using Docker Compose,
 breaking down the system into containers for each service,

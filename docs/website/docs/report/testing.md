@@ -16,6 +16,7 @@ Essentially, the configured rules check that:
 - The Application layer can access only the Domain layer.
 - Presentation layer can access only Domain and Application layers.
 
+<Summary title="Dependency Cruiser rules">
 
 ```javascript
 forbidden: [
@@ -55,9 +56,13 @@ forbidden: [
 ]
 ```
 
+</Summary>
+
 ## API Testing
 
 API testing has been performed using the Vitest framework.
+
+<Summary title="Example: testing the PUT /devices endpoint">
 
 ```javascript
 describe('PUT /devices', (): void => {
@@ -94,9 +99,13 @@ describe('PUT /devices', (): void => {
 })
 ```
 
+</Summary>
+
 To be able to execute the tests,
 the database has been mocked using MongoDB Memory Server that allows to run a MongoDB instance in memory.
 With this configuration, every integration test is isolated from the others, resetting the database after each test.
+
+<Summary title="Example: connecting to the mock database">
 
 ```javascript
 export const connectToMock = async (): Promise<void> => {
@@ -112,6 +121,7 @@ export const populateUsers = async (): Promise<void> => {
 }
 ```
 
+</Summary>
 
 ## Code Quality
 
@@ -120,5 +130,3 @@ Two main tools have been used to ensure the quality of the code produced:
 **ESLint** is a tool that statically analyses code to find suboptimal patterns and errors.
 
 Both tools have been integrated into the Continuous Integration pipeline to keep the high-quality code production.
-
-## TODO: Sonarcloud e tutte le tue minchiate

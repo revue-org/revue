@@ -49,7 +49,8 @@ The Revue WoT Component is a core part of the system that allows the interaction
 To implement this component, Revue makes use of the [node-wot](https://github.com/eclipse-thingweb/node-wot) framework written in Node.js
 that with a good level of abstraction simplifies the interaction with the devices.
 
-Example of code retrieving the status *property* of a device:
+<Summary title="Example: retrieving the status property of a device">
+
 ```javascript
 const td = await this.wot.requestThingDescription(
   `http://${device.endpoint.ipAddress}:${device.endpoint.port}/device`
@@ -58,6 +59,9 @@ const thing = await this.wot.consume(td)
 const data: any = await thing.readProperty('status')
 const deviceStatus = await data.value()
 ```
+
+</Summary>
+
 Using this framework, all low-level details are abstracted, permitting to focus on the business logic of the system.
 
 ## Revue Sample Thing
@@ -70,6 +74,8 @@ In this case, the sample thing is a device with two capabilities: _Sensing_ and 
 
 Static metadata is the metadata not expected to change during the lifetime of the device and contains high-level information about the device and its TD.
 In the sample thing, the static metadata contains the device id, the device type, the device title and a human-readable description.
+
+<Summary title="Sample thing static metadata">
 
 ```javascript
 {
@@ -92,12 +98,17 @@ In the sample thing, the static metadata contains the device id, the device type
     security: ['nosec_sc']
 }
 ```
+
+</Summary>
+
 The **Context** field is important in JSON-LD documents to define the used vocabulary in the TD. 
 In this case, the [WoT TD v1.1](https://www.w3.org/TR/wot-thing-description11/) has been used.
 
 ### Main Features I: Properties
 Properties represent dynamic attributes of the Thing.
 In Revue, a fundamental property is the status of the device.
+
+<Summary title="Example: properties of a device">
 
 ```javascript
 properties: {
@@ -167,10 +178,14 @@ properties: {
 }
 ```
 
+</Summary>
+
 With the keyword *anyOf* it is possible to define a property that can have different but supported data schemas.
 
 ### Actions
 Actions represent operations that can be invoked on the Thing.
+
+<Summary title="Example: actions of a device">
 
 ```javascript
 actions: {
@@ -196,11 +211,16 @@ actions: {
   }
 }
 ```
+
+</Summary>
+
 In the sample thing, an action called *toggle* has been defined that allows enabling or disabling the device.
 The level of abstraction used in this TD permits supporting every device with a two-state behavior (on/off, active/inactive, producing/not producing etc.).
 
 ### Events
 Events represent asynchronous notifications that can be emitted by the Thing.
+
+<Summary title="Example: events of a device">
 
 ```javascript
 events: {
@@ -215,6 +235,9 @@ events: {
   }
 }
 ```
+
+</Summary>
+
 In the sample thing, an event called *produce* has been defined that emits the data produced by the sensors.
 Note the protocol binding specifying that the data will be sent to a Kafka broker using the Kafka protocol, on a topic named *measurements.thing-1*.
 

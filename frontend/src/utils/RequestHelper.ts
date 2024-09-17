@@ -14,25 +14,25 @@ type Headers = {
 
 const protocol: string = 'http://'
 
-const getHost = (locationHref: string, service: string): string => {
+const getHost = (service: string): string => {
   if (import.meta.env.DEV) {
     return protocol + 'localhost:' + import.meta.env[`VITE_${service.toUpperCase().replace('-', '_')}_PORT`]
-  } else if (locationHref.includes('localhost')) {
+  } else if (window.location.href.includes('localhost')) {
     return protocol + service + '.localhost'
   } else {
     return protocol + 'revue-' + service
   }
 }
 
-export const authHost = getHost(window.location.href, import.meta.env.VITE_AUTH_HOST)
-export const userHost = getHost(window.location.href, import.meta.env.VITE_USER_HOST)
-export const locationHost = getHost(window.location.href, import.meta.env.VITE_LOCATION_HOST)
-export const deviceHost = getHost(window.location.href, import.meta.env.VITE_DEVICE_HOST)
-export const monitoringHost = getHost(window.location.href, import.meta.env.VITE_MONITORING_HOST)
-export const alarmHost = getHost(window.location.href, import.meta.env.VITE_ALARM_HOST)
-export const logHost = getHost(window.location.href, import.meta.env.VITE_LOG_HOST)
-export const notificationHost = getHost(window.location.href, import.meta.env.VITE_NOTIFICATION_HOST)
-export const mediaServerHost = getHost(window.location.href, import.meta.env.VITE_MEDIA_SERVER_HOST)
+export const authHost = getHost(import.meta.env.VITE_AUTH_HOST)
+export const userHost = getHost(import.meta.env.VITE_USER_HOST)
+export const locationHost = getHost(import.meta.env.VITE_LOCATION_HOST)
+export const deviceHost = getHost(import.meta.env.VITE_DEVICE_HOST)
+export const monitoringHost = getHost(import.meta.env.VITE_MONITORING_HOST)
+export const alarmHost = getHost(import.meta.env.VITE_ALARM_HOST)
+export const logHost = getHost(import.meta.env.VITE_LOG_HOST)
+export const notificationHost = getHost(import.meta.env.VITE_NOTIFICATION_HOST)
+export const mediaServerHost = getHost(import.meta.env.VITE_MEDIA_SERVER_HOST)
 
 export default class RequestHelper {
   static getHeaders(): Headers {

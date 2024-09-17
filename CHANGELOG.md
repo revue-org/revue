@@ -1,3 +1,95 @@
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Dependency updates
+
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.3 ([8fbf179](https://github.com/revue-org/revue/commit/8fbf1795eb926b72941523e3483c46974b9ec3a3))
+* **deps:** update dependency pydantic to v2.9.1 ([41e9041](https://github.com/revue-org/revue/commit/41e9041fa43aa71d40e3d3d64fc9fc443da4b955))
+* **deps:** update dependency typescript to v5.6.2 ([f10c7ae](https://github.com/revue-org/revue/commit/f10c7ae3ae1c4d5acfa08c4b61ffddb00c3a83d7))
+* **deps:** update docker/dockerfile docker tag to v1.10 ([44a1682](https://github.com/revue-org/revue/commit/44a16823d413e1bbeadb74c8376c29b16e6bc47e))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.12 ([6394595](https://github.com/revue-org/revue/commit/6394595faf3c63671346ed61d4532d3344c46821))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+### Build and continuous integration
+
+* add revue-thing to docker compose deploy ([9041a26](https://github.com/revue-org/revue/commit/9041a264e09184514410f0b0b6e1ceb38948e879))
+
+### General maintenance
+
+* update readme and submodule ([c92ba82](https://github.com/revue-org/revue/commit/c92ba8226f29fe5a581390986dd8db476463fe9f))
+* update README, remove todos ([291af59](https://github.com/revue-org/revue/commit/291af59bcae70ae72f636516aed1c7bf12f63ee4))
+
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Dependency updates
+
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.3 ([8fbf179](https://github.com/revue-org/revue/commit/8fbf1795eb926b72941523e3483c46974b9ec3a3))
+* **deps:** update dependency pydantic to v2.9.1 ([41e9041](https://github.com/revue-org/revue/commit/41e9041fa43aa71d40e3d3d64fc9fc443da4b955))
+* **deps:** update dependency typescript to v5.6.2 ([f10c7ae](https://github.com/revue-org/revue/commit/f10c7ae3ae1c4d5acfa08c4b61ffddb00c3a83d7))
+* **deps:** update docker/dockerfile docker tag to v1.10 ([44a1682](https://github.com/revue-org/revue/commit/44a16823d413e1bbeadb74c8376c29b16e6bc47e))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.12 ([6394595](https://github.com/revue-org/revue/commit/6394595faf3c63671346ed61d4532d3344c46821))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+### Build and continuous integration
+
+* add revue-thing to docker compose deploy ([9041a26](https://github.com/revue-org/revue/commit/9041a264e09184514410f0b0b6e1ceb38948e879))
+
+### General maintenance
+
+* update readme and submodule ([c92ba82](https://github.com/revue-org/revue/commit/c92ba8226f29fe5a581390986dd8db476463fe9f))
+* update README, remove todos ([291af59](https://github.com/revue-org/revue/commit/291af59bcae70ae72f636516aed1c7bf12f63ee4))
+
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
 ## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
 
 ### Dependency updates

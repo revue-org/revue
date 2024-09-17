@@ -1,3 +1,29 @@
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
 ## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
 
 ### Features

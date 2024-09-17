@@ -14,38 +14,25 @@ type Headers = {
 
 const protocol: string = 'http://'
 
-export const authHost =
-  protocol +
-  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_AUTH_PORT : import.meta.env.VITE_AUTH_HOST)
-export const userHost =
-  protocol +
-  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_USER_PORT : import.meta.env.VITE_USER_HOST)
-export const locationHost =
-  protocol +
-  (import.meta.env.DEV
-    ? 'localhost:' + import.meta.env.VITE_LOCATION_PORT
-    : import.meta.env.VITE_LOCATION_HOST)
-export const deviceHost =
-  protocol +
-  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_DEVICE_PORT : import.meta.env.VITE_DEVICE_HOST)
-export const monitoringHost =
-  protocol +
-  (import.meta.env.DEV
-    ? 'localhost:' + import.meta.env.VITE_MONITORING_PORT
-    : import.meta.env.VITE_MONITORING_HOST)
-export const alarmHost =
-  protocol +
-  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_ALARM_PORT : import.meta.env.VITE_ALARM_HOST)
-export const logHost =
-  protocol +
-  (import.meta.env.DEV ? 'localhost:' + import.meta.env.VITE_LOG_PORT : import.meta.env.VITE_LOG_HOST)
-export const notificationHost =
-  protocol +
-  (import.meta.env.DEV
-    ? 'localhost:' + import.meta.env.VITE_NOTIFICATION_PORT
-    : import.meta.env.VITE_NOTIFICATION_HOST)
-export const mediaServerHost =
-  protocol + (import.meta.env.DEV ? 'localhost' : import.meta.env.VITE_MEDIA_SERVER_HOST)
+const getHost = (locationHref: string, service: string): string => {
+  if (import.meta.env.DEV) {
+    return protocol + 'localhost:' + import.meta.env[`VITE_${service.toUpperCase().replace('-', '_')}_PORT`]
+  } else if (locationHref.includes('localhost')) {
+    return protocol + service + '.localhost'
+  } else {
+    return protocol + 'revue-' + service
+  }
+}
+
+export const authHost = getHost(window.location.href, import.meta.env.VITE_AUTH_HOST)
+export const userHost = getHost(window.location.href, import.meta.env.VITE_USER_HOST)
+export const locationHost = getHost(window.location.href, import.meta.env.VITE_LOCATION_HOST)
+export const deviceHost = getHost(window.location.href, import.meta.env.VITE_DEVICE_HOST)
+export const monitoringHost = getHost(window.location.href, import.meta.env.VITE_MONITORING_HOST)
+export const alarmHost = getHost(window.location.href, import.meta.env.VITE_ALARM_HOST)
+export const logHost = getHost(window.location.href, import.meta.env.VITE_LOG_HOST)
+export const notificationHost = getHost(window.location.href, import.meta.env.VITE_NOTIFICATION_HOST)
+export const mediaServerHost = getHost(window.location.href, import.meta.env.VITE_MEDIA_SERVER_HOST)
 
 export default class RequestHelper {
   static getHeaders(): Headers {

@@ -1,3 +1,45 @@
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+### Build and continuous integration
+
+* update deploy scripts to call kubernetes scripts ([aafc4da](https://github.com/revue-org/revue/commit/aafc4daac1cdf396b9bdbf4067e223d448f2a7da))
+
+### General maintenance
+
+* remove grafana and prometheus configuration files ([e31210d](https://github.com/revue-org/revue/commit/e31210d2eb7fa5e4e5f4f0a3ae7fe72582cc2890))
+
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+### Build and continuous integration
+
+* update deploy scripts to call kubernetes scripts ([aafc4da](https://github.com/revue-org/revue/commit/aafc4daac1cdf396b9bdbf4067e223d448f2a7da))
+
+### General maintenance
+
+* remove grafana and prometheus configuration files ([e31210d](https://github.com/revue-org/revue/commit/e31210d2eb7fa5e4e5f4f0a3ae7fe72582cc2890))
+
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
 ## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
 
 ### Dependency updates

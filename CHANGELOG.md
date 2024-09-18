@@ -1,3 +1,21 @@
+## [3.1.6](https://github.com/revue-org/revue/compare/v3.1.5...v3.1.6) (2024-09-18)
+
+### Dependency updates
+
+* **core-deps:** update node.js to 20.17 ([0d7eec5](https://github.com/revue-org/revue/commit/0d7eec59f86b5ea507406d07f86a6225d79a473a))
+
+
+## [3.1.6](https://github.com/revue-org/revue/compare/v3.1.5...v3.1.6) (2024-09-18)
+
+## [3.1.6](https://github.com/revue-org/revue/compare/v3.1.5...v3.1.6) (2024-09-18)
+
+### Dependency updates
+
+* **core-deps:** update node.js to 20.17 ([0d7eec5](https://github.com/revue-org/revue/commit/0d7eec59f86b5ea507406d07f86a6225d79a473a))
+
+
+## [3.1.6](https://github.com/revue-org/revue/compare/v3.1.5...v3.1.6) (2024-09-18)
+
 ## [3.1.5](https://github.com/revue-org/revue/compare/v3.1.4...v3.1.5) (2024-09-18)
 
 ### Documentation

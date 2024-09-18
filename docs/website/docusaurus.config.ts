@@ -6,7 +6,10 @@ const config: Config = {
   title: 'Revue',
   tagline: 'A monitoring and survaillance system',
   favicon: 'img/favicon.ico',
-
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
   // Set the production url of your site here
   url: 'https://revue-org.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served

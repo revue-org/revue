@@ -1,0 +1,111 @@
+@startuml
+
+interface DomainEvent
+
+interface AlarmEventsHub {
+  +publishAnomaly(anomaly: Anomaly): void
+  +subscribeToMeasurements(handler: Runnable): void
+  +subscribeToDetections(handler: Runnable)): void
+  +addMeasurementTopics(topics: string[]): void
+  +removeMeasurementTopics(topics: string[]): void
+  +subscribeToDevices(handler: Runnable): void
+}
+note left of AlarmEventsHub : Service
+AlarmEventsHub -right-> SecurityRule : uses
+AlarmEventsHub --> DomainEvent : uses
+note right of DomainEvent : Anomaly,\nDeviceEvent,\nDetection,\nMeasurement
+
+
+
+interface AlarmService {
+  +getSecurityRuleById(id: SecurityRuleId): SecurityRule
+  +getRangeRules(): RangeRule[]
+  +getIntrusionRules(): IntrusionRule[]
+  +createRangeRule(...): SecurityRuleId
+  +createIntrusionRule(...): SecurityRuleId
+  +updateRangeRule(...): void
+  +updateIntrusionRule(...): void
+  +enableSecurityRule(id: SecurityRuleId): void
+  +disableSecurityRule(id: SecurityRuleId): void
+  +deleteSecurityRule(id: SecurityRuleId): void
+  +getSecurityRuleContacts(id: SecurityRuleId): Contact[]
+}
+note top of AlarmService : Service
+
+
+AlarmService -left-> SecurityRuleRepository : uses
+AlarmService --> SecurityRuleFactory : uses
+
+interface SecurityRuleRepository {
+  getSecurityRules(): SecurityRule[]
+  getSecurityRuleById(id: SecurityRuleId): SecurityRule
+  saveSecurityRule(securityRule: SecurityRule): void
+  updateSecurityRule(securityRule: SecurityRule): void
+  removeSecurityRule(securityRuleId: SecurityRuleId): void
+  getRangeRules(): RangeRule[]
+  getIntrusionRules(): IntrusionRule[]
+  enableSecurityRule(securityRuleId: SecurityRuleId): void
+  disableSecurityRule(securityRuleId: SecurityRuleId): void
+}
+note top of SecurityRuleRepository : Repository
+
+
+interface SecurityRuleId {
+  + value: string
+}
+
+interface SecurityRule {
+  + type: SecurityRuleType
+  + id: SecurityRuleId
+  + creatorId: string
+  + activeOn: string
+  + description: string
+  + contacts: Contact[]
+  + enabled: boolean
+  + validity: TimeSlot
+}
+
+note left of SecurityRule : Entity
+
+SecurityRuleRepository --> SecurityRule: uses
+
+interface TimeSlot {
+  + from: Date
+  + to: Date
+}
+note right of TimeSlot : Value Object
+
+interface SecurityRuleFactory {
+  + intrusionRuleOf(...): IntrusionRule
+  + createIntrusionRule(...): IntrusionRule
+  + rangeRuleOf(...): RangeRule
+  + createRangeRule(...): RangeRule
+}
+note right of SecurityRuleFactory : Factory
+
+SecurityRuleFactory -left-> SecurityRule : creates
+SecurityRule *-- SecurityRuleId
+
+interface IntrusionRule {
+  + objectClass: ObjectClass
+}
+IntrusionRule o-- ObjectClass
+
+interface RangeRule {
+  + min: Float
+  + max: Float
+  + measure: Measure
+}
+
+enum ObjectClass {
+  PERSON
+  BICYCLE
+  CAR
+  ...
+}
+
+SecurityRule <|-- RangeRule
+SecurityRule <|-- IntrusionRule
+SecurityRule *-- TimeSlot
+
+@enduml

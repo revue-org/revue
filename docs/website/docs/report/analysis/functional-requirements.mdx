@@ -1,0 +1,123 @@
+---
+title: Functional Requirements
+position: 2
+---
+
+# Functional Requirements
+
+1. User Management
+    1. The system should allow two types of users: **Admin** and **Guardian**.
+    2. Users can log in to the system.
+    3. Admin possibility to create a new user of type Guardian.
+    4. Admin possibility to modify Guardians information.
+    5. Possibility to remove a Guardian.
+    6. Permission and Contact management by the Admin.
+2. Location Management
+    1. Admin possibility to create a new location.
+    2. Admin possibility to remove a location.
+3. Device Management
+    1. Guardian possibility to federate a device.
+    2. Guardian possibility to modify device description.
+    3. Guardian possibility to enable and disable a device.
+    4. Guardian possibility to remove a device.
+4. Monitoring
+    1. Consult real-time environment data through a chart.
+    2. Consult video streaming.
+5. Alarm Management
+    1. Possibility to create a security rule.
+    2. Possibility to update a security rule.
+    3. Possibility to delete a security rule.
+6. Notification Management
+    1. Consult all the notifications sent by the system.
+    2. Possibility to receive real-time notifications.
+    3. Possibility to receive notifications when an alarm is triggered due to a security rule.
+7. History
+    1. Consult the history of produced data.
+    2. Consult the history of triggered alarms (**Intrusions** or **Outliers**).
+
+## User Stories
+
+- **User**:
+    1. As an **Admin**,\
+       \[I want to\] create a new user in the system,\
+       \[so that\] the user can access the system and consult it.
+
+    2. As an **Admin**,\
+       \[I want to\] modify user contacts information,\
+       \[so that\] the user contacts are updated in the system.
+
+    3. As an **Admin**,\
+       \[I want to\] add/remove user permissions,\
+       \[so that\] the user permissions are updated in the system.
+
+    4. As an **Admin**,\
+       \[I want to\] delete a user from the system,\
+       \[so that\] the user is removed from the system.
+
+- **Location**:
+    1. As an **Admin**,\
+       \[I want to\] create a new location in the system,\
+       \[so that\] the location is created in the system and I can grant the access to Guardians.
+
+    2. As an **Admin**,\
+       \[I want to\] delete a location from the system,\
+       \[so that\] the location is removed from the system and Guardians can't access it anymore.
+
+- **Device**:
+    1. As a **Guardian**,\
+       \[I want to\] federate a device in the system,\
+       \[so that\] the device is federated in the system, and I can consult the device information and real-time data
+       according to its capabilities.
+
+    2. As a **Guardian**,\
+       \[I want to\] modify the device description,\
+       \[so that\] the device description is updated in the system.
+
+    3. As a **Guardian**,\
+       \[I want to\] enable or disable a device in the system,\
+       \[so that\] the device is producing or not real-time data.
+
+    4. As a **Guardian**,\
+       \[I want to\] delete a device from the system,\
+       \[so that\] the device is removed from the system.
+
+- **Monitoring**:
+    1. As a **Guardian**,\
+       \[I want to\] consult the real-time measurements produced by a specific device with some sensing
+       capabilities,\
+       \[so that\] I can see some data, choose the desired monitoring measure and consult the measurement value and
+       unit.
+
+    2. As a **Guardian**,\
+       \[I want to\] consult the video streaming produced by a specific device with some video streaming capabilities,\
+       \[so that\] I can see the video streaming produced by the device.
+
+- **Security Rule Management**:
+    1. As a **Guardian**,\
+       \[I want to\] create a security rule in the system,\
+       \[so that\] the alarm service will check the security rule and trigger an alarm when certain conditions are meet.
+
+    2. As a **Guardian**,\
+       \[I want to\] update a security rule in the system,\
+       \[so that\] the alarm service will check the updated security rule and trigger an alarm when the new conditions are
+       satisfied.
+
+    3. As a **Guardian**,\
+       \[I want to\] delete a security rule from the system,\
+       \[so that\] the alarm service will not consider the deleted security rule anymore.
+
+- **Notification**:
+    1. As a **Guardian**,\
+       \[I want to\] consult the notifications sent by the system,\
+       \[so that\] I can see the notification type, the date and other notification properties.
+
+    2. As a **Guardian**,\
+       \[I want to\] receive real-time notifications through broken security rule's specified contacts, when an alarm is
+       triggered,\
+    - \[so that\] I can consult it.
+
+- **History**:
+    1. As a **Guardian**,\
+       \[I want to\] consult the history of produced data and alarms triggered,\
+       \[so that\] I can see the history and eventually take some actions.
+

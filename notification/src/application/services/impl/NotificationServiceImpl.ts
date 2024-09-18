@@ -6,14 +6,21 @@ import { DomainEvent } from '@common/domain/core/DomainEvent'
 import { NotificationFactory } from '@/domain/factories/NotificationFactory.js'
 import { NotificationEventsHub } from '@/application/services/NotificationEventsHub'
 import { Anomaly } from '@common/domain/core'
+import { MailService } from '@/application/services/MailService'
 
 export class NotificationServiceImpl implements NotificationService {
   private repository: NotificationRepository
   private events: NotificationEventsHub
+  private mailService: MailService
 
-  constructor(notificationRepository: NotificationRepository, eventsHub: NotificationEventsHub) {
+  constructor(
+    notificationRepository: NotificationRepository,
+    eventsHub: NotificationEventsHub,
+    mailService: MailService
+  ) {
     this.repository = notificationRepository
     this.events = eventsHub
+    this.mailService = mailService
     this.configureEvents()
   }
 
@@ -49,7 +56,7 @@ export class NotificationServiceImpl implements NotificationService {
   sendMailNotification(notification: Notification, emails: string[]): void {
     emails.forEach((email: string): void => {
       console.log(`Sending email to ${email}`)
-      //this.mailService.sendMail(contact.value, notification)
+      this.mailService.sendMail(email, notification)
     })
   }
 }

@@ -1,0 +1,141 @@
+@startuml
+
+
+enum MeasureType {
+  TEMPERATURE
+  HUMIDITY
+  PRESSURE
+}
+
+enum MeasureUnit {
+  CELSIUS
+  FAHRENHEIT
+  PERCENTAGE
+  PASCAL
+  BAR
+}
+
+interface Measure {
+  + type: MeasureType
+  + unit: MeasureUnit
+}
+note left of Measure: Value Object
+Measure o-- MeasureType
+Measure o-- MeasureUnit
+
+
+
+
+
+'------------ DEVICES ------------
+
+
+interface DeviceId {
+  + value: string
+}
+
+interface DeviceEndpoint {
+  + ipAddress: string
+  + port: number
+}
+note right of DeviceEndpoint: Value Object
+
+enum CapabilityType {
+  VIDEO
+  SENSOR
+}
+
+interface DeviceCapability {
+  + type: CapabilityType
+}
+note left of DeviceCapability: Value Object
+DeviceCapability o- CapabilityType
+
+interface VideoStreamingCapability {
+  + resolution: Resolution
+}
+VideoStreamingCapability -up-|> DeviceCapability
+VideoStreamingCapability o- Resolution
+
+enum Resolution {
+  576p
+  720p
+  1080p
+  4k
+}
+
+interface SensoringCapability {
+  + capturingInterval: number
+  + measure: Measure
+}
+SensoringCapability -up-|> DeviceCapability
+SensoringCapability o-left- Measure
+
+interface CapabilityFactory {
+  + sensoringCapabilityOf(...): SensoringCapability
+  + videoStreamingCapabilityOf(...): VideoStreamingCapability
+}
+note right of CapabilityFactory: Factory
+
+CapabilityFactory -up-> SensoringCapability: creates
+CapabilityFactory -up-> VideoStreamingCapability: creates
+
+interface Device {
+  + deviceId: DeviceId
+  + description: string
+  + endpoint: DeviceEndpoint
+  + isEnabled: boolean
+  + locationId: string
+  + capabilities: DeviceCapability[]
+}
+Device *-left- DeviceId
+Device *-- DeviceEndpoint
+Device *-- DeviceCapability
+
+
+interface DeviceFactory {
+  + endpointOf(...): DeviceEndpoint
+  + deviceFrom(...): Device
+  + createDevice(...): Device
+}
+note right of DeviceFactory: Factory
+
+interface DeviceRepository {
+  + getDeviceById(deviceId: DeviceId): Device
+  + getDevices(): Device[]
+  + getDevicesByLocationId(locationId: string): Device[]
+  + getActiveDevices(): Device[]
+  + getDevice(deviceId: DeviceId): Device
+  + saveDevice(device: Device): void
+  + updateDevice(device: Device): void
+  + removeDevice(deviceId: DeviceId): void
+}
+note left of DeviceRepository: Repository
+
+interface DeviceService {
+  + getDevices(capabilities: CapabilityType[]): Device[]
+  + getActiveDevices(): Device[]
+  + getDeviceById(deviceId: DeviceId): Device
+  + createDevice(...): DeviceId
+  + updateDevice(...): void
+  + deleteDevice(deviceId: DeviceId): void
+  + getDeviceCapabilities(deviceId: DeviceId): DeviceCapability[]
+  + getDeviceLocation(deviceId: DeviceId): string
+  + getDeviceStatus(deviceEndpoint: DeviceEndpoint): DeviceState
+  + getDevicesByLocationId(locationId: string): Device[]
+  + enableDevice(deviceId: DeviceId): void
+  + disableDevice(deviceId: DeviceId): void
+}
+note right of DeviceService: Service
+
+DeviceFactory -left-> Device: creates
+DeviceFactory --> DeviceEndpoint: creates
+DeviceRepository --> Device : stores
+DeviceService -left-> DeviceRepository: uses
+DeviceService --> DeviceFactory: use
+
+note left of Device: Entity
+
+
+
+@enduml

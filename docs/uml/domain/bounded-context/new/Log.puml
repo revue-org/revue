@@ -1,0 +1,56 @@
+@startuml
+
+interface AnomalyService {
+  + getAnomalies(): Anomaly[]
+  + getOutliers(limit: number): Outlier[]
+  + getIntrusions(limit: number): Intrusion[]
+  + getAnomalyById(anomalyId: DomainEventId): Anomaly
+  + createOutlier(timestamp: Date, measurement: Measurement, rangeRuleId: string): void
+  + createIntrusion(timestamp: Date, detection: Detection, intrusionRuleId: string): void
+  + deleteAnomaly(anomalyId: DomainEventId): void
+}
+note right of AnomalyService: Service
+
+interface LogEventsHub {
+  + subscribeToMeasurements(handler: (Measurement) => void): void
+  + addMeasurementTopics(topics: string[]): void
+  + removeMeasurementTopics(topics: string[]): void
+  + subscribeToAnomalies(handler: (Anomaly) => void): void
+  + subscribeToDevices(handler: (DeviceEvent) => void): void
+}
+note right of LogEventsHub: Service
+
+
+interface MeasurementService {
+  + getMeasurements(limit: number): Measurement[]
+  + getMeasurementsBySourceDeviceId(deviceId: string, limit: number): Measurement[]
+  + createNumericMeasurement(...): void
+  + removeNumericMeasurement(measurementId: DomainEventId): void
+}
+note left of MeasurementService: Service
+
+
+interface AnomalyRepository {
+  + getAnomalies(): Anomaly[]
+  + getOutliers(quantity: number): Outlier[]
+  + getIntrusions(quantity: number): Intrusion[]
+  + getAnomalyById(anomalyId: DomainEventId): Anomaly
+  + saveAnomaly(anomaly: Anomaly): void
+  + removeAnomaly(anomalyId: DomainEventId): void
+}
+note right of AnomalyRepository: Repository
+
+interface MeasurementRepository {
+  + getMeasurements(quantity: number): Measurement[]
+  + getMeasurementsBySourceDeviceId(deviceId: string, quantity: number): Measurement[]
+  + saveMeasurement(measurement: Measurement): void
+  + removeMeasurement(measurementId: DomainEventId): void
+}
+note bottom of MeasurementRepository: Repository
+
+AnomalyService --> AnomalyRepository : uses
+AnomalyService --> LogEventsHub : uses
+MeasurementService -right-> MeasurementRepository : uses
+MeasurementService -up-> LogEventsHub : uses
+
+@enduml

@@ -1,0 +1,62 @@
+@startuml
+
+interface LocationId {
+  + value: string
+}
+
+interface Location {
+  + id: LocationId
+  + description: string
+  + buildingId: Optional<LocationId>
+  + address: Optional<string>
+  + external: Optional<boolean>
+  + isRoom: boolean
+}
+note right of Location : Entity
+
+
+LocationId -* Location
+
+
+interface LocationService {
+  + getLocationById(locationId: LocationId): Location
+  + getBuildings(): Location[]
+  + createBuilding(...): void
+  + updateBuilding(...): void
+  + getBuildingRooms(buildingId: LocationId): Location[]
+  + getRooms(): Location[]
+  + createRoom(description: string, buildingId: LocationId): void
+  + updateRoom(id: LocationId, description: string): void
+  + getExternalRooms(): Location[]
+  + getExternalBuildings(): Location[]
+  + deleteLocation(locationId: LocationId): void
+}
+note right of LocationService : Service
+
+interface LocationRepository {
+  + getBuildings(): Location[]
+  + getExternalBuildings(): Location[]
+  + getBuildingRooms(buildingId: LocationId): Location[]
+  + getRooms(): Location[]
+  + getExternalRooms(): Location[]
+  + getLocationById(locationId: LocationId): Location
+  + saveLocation(location: Location): void
+  + updateLocation(location: Location): void
+  + removeLocation(location: LocationId): void
+}
+note right of LocationRepository : Repository
+
+interface LocationFactory {
+  + roomFrom(...): Location
+  + createRoom(...): Location
+  + buildingFrom(...): Location
+  + createBuilding(...): Location
+}
+note right of LocationFactory : Factory
+
+LocationService --> LocationRepository : uses
+LocationService --> LocationFactory : uses
+LocationFactory --> Location : creates
+LocationRepository --> Location : uses
+
+@enduml

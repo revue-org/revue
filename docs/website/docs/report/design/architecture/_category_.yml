@@ -1,0 +1,10 @@
+position: 35
+label: Architecture
+collapsible: true
+collapsed: true
+className: red
+link:
+    type: generated-index
+    title: Software Architecture
+customProps:
+    description: Architecture documentation

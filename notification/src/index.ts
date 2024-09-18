@@ -16,6 +16,8 @@ import { NotificationServiceImpl } from '@/application/services/impl/Notificatio
 import { NotificationEventsHubImpl } from '@/infrastructure/events/NotificationEventsHubImpl.js'
 import { NotificationService } from '@/application/services/NotificationService'
 import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBNotificationRepository.js'
+import { MailService } from '@/application/services/MailService'
+import { MailServiceImpl } from '@/application/services/impl/MailServiceImpl'
 
 config({ path: process.cwd() + '/../.env' })
 
@@ -55,13 +57,16 @@ const kafkaOptions: KafkaOptions = {
 
 const kafkaNotification: KafkaNotificationEventsHub = new KafkaNotificationEventsHub(kafkaOptions)
 const socketNotification: SocketNotificationEventsHub = new SocketNotificationEventsHub(io)
+const mailService: MailService = new MailServiceImpl()
+
 const notificationEventsHub: NotificationEventsHub = new NotificationEventsHubImpl(
   kafkaNotification,
   socketNotification
 )
 export const notificationService: NotificationService = new NotificationServiceImpl(
   new MongoDBNotificationRepository(),
-  notificationEventsHub
+  notificationEventsHub,
+  mailService
 )
 
 if (process.env.NODE_ENV !== 'test') {

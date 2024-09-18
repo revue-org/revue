@@ -1,0 +1,61 @@
+@startuml
+
+interface UserService {
+  + login(username: string, password: string): User
+  + logout(username: string): void
+  + refreshToken(refreshToken: string): User
+  + getUsers(): User[]
+  + getPermissions(): string[]
+  + getUserById(userId: UserId): User
+  + getUserByUsername(username: string): User
+  + getPermissionsByUserId(userId: UserId): string[]
+  + createUser(...): UserId
+  + updateUser(id: UserId, permissions: string[]): void
+  + deleteUser(userId: UserId): void
+}
+
+note right of UserService : Service
+
+UserService -left-> UserRepository : uses
+
+interface UserRepository {
+  + getUsers(): User[]
+  + getPermissions(): string[]
+  + getUserById(userId: UserId): User
+  + getUserByUsername(username: string): User
+  + getPermissionsByUserId(userId: UserId): string[]
+  + saveUser(user: User): void
+  + updateUser(user: User): void
+  + removeUser(userId: UserId): void
+}
+note left of UserRepository : Repository
+UserRepository --> User: uses
+
+interface UserFactory {
+  + userFrom(...): User
+  + createUser(...): User
+}
+note right of UserFactory : Factory
+
+UserService --> UserFactory : uses
+
+UserFactory -left-> User : creates
+
+interface UserId {
+  + value: string
+}
+
+interface User {
+  + id: UserId
+  + username: string
+  + password: string
+  + role: string
+  + permissions: string[]
+  + accessToken: string
+  + refreshToken: string
+}
+note left of User : Entity
+
+User *-- UserId
+
+@enduml

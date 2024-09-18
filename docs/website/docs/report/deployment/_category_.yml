@@ -1,0 +1,10 @@
+position: 60
+label: Deployment
+collapsible: true
+collapsed: true
+className: red
+link:
+    type: generated-index
+    title: Deployment
+customProps:
+    description: Deployment details

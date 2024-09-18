@@ -1,0 +1,10 @@
+position: 40
+label: Implementation
+collapsible: true
+collapsed: true
+className: red
+link:
+    type: generated-index
+    title: Implementation
+customProps:
+    description: Non-trivial implementation details

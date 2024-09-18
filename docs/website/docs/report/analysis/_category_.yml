@@ -1,0 +1,10 @@
+position: 20
+label: Analysis
+collapsible: true
+collapsed: true
+className: red
+link:
+    type: generated-index
+    title: Analysis
+customProps:
+    description: Analysis breakdown

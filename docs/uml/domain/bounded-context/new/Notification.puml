@@ -1,0 +1,67 @@
+@startuml
+
+interface DomainEvent
+note right of DomainEvent : Domain Event
+
+interface NotificationId {
+  + value: string
+}
+
+interface Notification {
+  + id: NotificationId
+  + event: DomainEvent
+  + message: string
+}
+note bottom of Notification : Entity
+Notification *- NotificationId
+Notification o-- DomainEvent
+
+interface NotificationFactory {
+  + createNotification(...): Notification
+  + notificationFrom(...): Notification
+}
+note right of NotificationFactory : Factory
+NotificationFactory --> Notification : creates
+
+interface NotificationRepository {
+  + getNotifications(): Notification[]
+  + getNotificationById(notificationId: NotificationId): Notification
+  + getNotificationsByType(type: string): Notification[]
+  + saveNotification(notification: Notification): NotificationId
+  + removeNotification(notificationId: NotificationId): void
+}
+note left of NotificationRepository : Repository
+NotificationRepository --> Notification : uses
+
+
+interface NotificationService {
+  + getNotifications(): Notification[]
+  + getNotificationById(id: NotificationId): Notification
+  + getNotificationsByType(type: any): Notification[]
+  + createNotification(event: DomainEvent, message: string): NotificationId
+  + deleteNotification(id: NotificationId): void
+  + sendMailNotification(notification: Notification, emails: string[]): void
+}
+note top of NotificationService : Service
+NotificationService --> NotificationRepository : uses
+NotificationService --> NotificationFactory : uses
+NotificationService -right-> MailService : uses
+
+interface Anomaly
+note right of Anomaly : Domain Event
+
+interface NotificationEventsHub {
+  + subscribeToAnomalies(handler: (Anomaly) => void): void
+  + publishNotification(notification: Notification): void
+}
+note left of NotificationEventsHub : Service
+NotificationEventsHub --> Anomaly : uses
+NotificationEventsHub -right-> Notification : uses
+
+interface MailService {
+  + sendMail(to: string, notification: Notification): void
+}
+note top of MailService : Service
+MailService --> Notification : uses
+
+@enduml

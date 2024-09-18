@@ -1,7 +1,3 @@
-/'
-<? extends Element>'//'
-
-
 @startuml
 left to right direction
 actor "User" as fc

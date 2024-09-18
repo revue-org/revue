@@ -10,7 +10,7 @@ The goal of Event Storming is to create a shared understanding of a domain and t
 opportunities.
 
 Event Storming is composed of a series of activities that are performed in a specific order.
-In the following, are presented the results of these activities.
+The results of these activities are presented in the following sections. 
 For conciseness, some steps have been collapsed into a single section.
 
 ## Unstructured Exploration
@@ -33,7 +33,7 @@ At this point, the team has discussed critical points that require attention (<s
 notes</span>).
 
 Also, the team reasoned about the pivotal events (<span style={{ color: 'orange' }}>orange notes</span> with black line),
-which are events with a significant impact on the domain, they are a possible symptom of a bounded context division.
+which are events with a significant impact on the domain. These are possible symptoms of a bounded context division.
 
 ![Pivotal Events and Pain Points](../img/event-storming/pivotal-pain.png)
 
@@ -55,7 +55,7 @@ The team collected related events and grouped them into aggregates.
 
 ## Bounded Contexts
 
-Finally, the team has identified the bounded contexts basing on the aggregates and interactions between them.
+Finally, the team has identified the bounded contexts based on the aggregates and interactions between them.
 
 ![Bounded Contexts](../img/event-storming/bounded-contexts.png)
 

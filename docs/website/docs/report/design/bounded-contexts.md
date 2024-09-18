@@ -17,18 +17,18 @@ In the following sections, each context will be described in detail.
 
 ## Auth
 
-Responsible for managing the authentication and authorization of the users, however, it is responsible for managing
-the permissions of the users.
+Responsible for managing the authentication and authorization of the users.
+It also is responsible for managing the permissions of the users.
 
 ### Ubiquitous Language
 
 | Term       | Meaning                                                                                                      | Synonyms |
 |------------|--------------------------------------------------------------------------------------------------------------|----------|
 | Role       | Role assigned to a specific user, only two values are admitted: Admin and Guardian                           | -        |
-| Admin      | A user with the maximum level of authority, it can manage permissions of other Guardian users                | -        |
+| Admin      | A user with the maximum level of authority. It can manage permissions of other Guardian users                | -        |
 | Guardian   | A user that can only view the video stream and visualize the data produced by sensors to which he has access | Monitor  |
 | User       | Either an admin or a guardian                                                                                | -        |
-| Permission | A grant to view streams and data from devices in a particular location                                       | -        |
+| Permission | A grant to consult devices in a particular location                                                          | -        |
 
 ### Events
 
@@ -49,11 +49,11 @@ in particular, nothing regarding the authentication process but only the managem
 
 ### Ubiquitous Language
 
-| Term         | Meaning                                                                      | Synonyms |
-|--------------|------------------------------------------------------------------------------|----------|
-| User         | Generic term to refer to anyone registered to the system                     | -        |
-| Contact      | Contact on which the specific user will be notified when one anomaly occours | -        |
-| Contact Type | Contact type of a single contact, two values are admitted: SMS and EMAIL     | -        |
+| Term         | Meaning                                                                       | Synonyms |
+|--------------|-------------------------------------------------------------------------------|----------|
+| User         | Generic term to refer to anyone registered to the system                      | -        |
+| Contact      | Contact on which the specific user will be notified when one anomaly occurs   | -        |
+| Contact Type | Contact type of a single contact, two values are admitted: SMS and EMAIL      | -        |
 
 ### Events
 
@@ -72,24 +72,17 @@ The Users bounded context does not receive any event from the other contexts.
 
 It is responsible for managing the devices and the data they produce.
 This context is responsible for consulting the data produced by the devices,
-their configurations and all about the WoT interactions.
+their configurations and everything regarding the WoT interactions.
 
 ### Ubiquitous Language
 
 | Term                   | Meaning                                                                     | Synonyms                      |
 |------------------------|-----------------------------------------------------------------------------|-------------------------------|
 | Camera                 | Device that records an environment and transmit the stream to the system    | Video Camera                  |
-| Device                 | Device sensing data from an environment (e.g. temperature)                  | -                             |
-| Device                 | Either a Camera or a Device                                                 | -                             |
-| Device/Camera settings | User-modifiable configuration of data relative to a specific device         | -                             |
-| Transmission interval  | The amount of time between to consecutive measurement transmission          | -                             |
-| Capability             | What a sensor is able to perceive and transmit                              | -                             |
-| Video Stream           | Stream of video data produced by a camera                                   | Stream, Transmission          |
-| Measurement            | Data produced by a sensor                                                   | Environment data, Device data |
 | Sensor                 | Device sensing data from an environment (e.g. temperature)                  | -                             |
 | Device                 | Either a Camera or a Sensor                                                 | -                             |
 | Sensor/Camera settings | User-modifiable configuration of data relative to a specific device         | -                             |
-| Transmission interval  | The amount of time between to consecutive measurement transmission          | -                             |
+| Transmission interval  | The amount of time between to consecutive measurement transmission in ms    | -                             |
 | Capability             | What a sensor is able to perceive and transmit                              | -                             |
 | Video Stream           | Stream of video data produced by a camera                                   | Stream, Transmission          |
 | Measurement            | Data produced by a sensor                                                   | Environment data, Sensor data |
@@ -100,8 +93,8 @@ their configurations and all about the WoT interactions.
 
 #### Inbound Events
 
-- *MeasurementReceived*: triggered when a device sends a new measurement
-- *VideoStreamReceived*: triggered when a camera sends the video stream
+- *MeasurementReceived*: triggered when a new measurement is received
+- *VideoStreamReceived*: triggered when a new video stream is received 
 
 #### Outbound Events
 
@@ -119,16 +112,16 @@ the system.
 
 ### Ubiquitous Language
 
-| Term           | Meaning                                                                                                       | Synonyms         |
-|----------------|---------------------------------------------------------------------------------------------------------------|------------------|
-| Security rule  | A condition that if not satisfied will trigger an anomaly                                                     | Rule             |
-| Intrusion rule | A condition that specify that in a video stream no object of a specific object class can be recognized        | -                |
-| Object class   | Type of object that the system is able to recognize                                                           | Category, Object |
-| Range rule     | A condition that will trigger an Outlier if the value of a Numerical measurement is out of a determined range | -                |
-| Anomaly        | Is either an intrusion or an outlier                                                                          | -                |
-| Detection      | Recognition of an object                                                                                      | -                |
-| Intrusion      | Detection of an object in contrast with a particular `Intrusion rule`                                         | -                |
-| Outlier        | Numerical measurement with a value in contrast with a particular `Range rule`                                 | -                |
+| Term           | Meaning                                                                                                     | Synonyms         |
+|----------------|-------------------------------------------------------------------------------------------------------------|------------------|
+| Security rule  | A condition that if not satisfied will trigger an anomaly                                                   | Rule             |
+| Intrusion rule | A condition that specify that in a video stream no object of a specific object class can be recognized      | -                |
+| Object class   | Type of object that the system is able to recognize                                                         | Category, Object |
+| Range rule     | A condition that will trigger an outlier if the value of a numerical measurement is out of a specific range | -                |
+| Anomaly        | Is either an intrusion or an outlier                                                                        | -                |
+| Detection      | Recognition of an object                                                                                    | -                |
+| Intrusion      | Detection of an object in contrast with a particular intrusion rule                                         | -                |
+| Outlier        | Numerical measurement with a value in contrast with a particular range rule                                 | -                |
 
 ### Events
 
@@ -168,7 +161,7 @@ Responsible for the location management of the system.
 
 The Location bounded context does not receive any event from the other contexts.
 
-#### Inbound Events
+#### Outbound Events
 
 - *LocationAdded*: sent when a new location is added
 - *LocationRemoved*: sent when a location is removed
@@ -181,14 +174,14 @@ when particular events occur.
 
 ### Ubiquitous Language
 
-| Term                   | Meaning                                         | Synonyms |
-|------------------------|-------------------------------------------------|----------|
-| Notification           | Message sent to a `User` using its `Recipient`s | Alert    |
-| Outlier Notification   | Notification regarding an Outlier anomaly       | -        |
-| Intrusion Notification | Notification regarding an Intrusion anomaly     | -        |
-| Notification Type      | Type of notification                            | -        |
-| Real-time Notification | Notification sent in real-time to the frontend  | -        |
-| Recipient              | The notification target user's contact          |          |
+| Term                   | Meaning                                      | Synonyms |
+|------------------------|----------------------------------------------|----------|
+| Notification           | Message sent to a user using its recipient's | Alert    |
+| Outlier Notification   | Notification regarding an Outlier anomaly    | -        |
+| Intrusion Notification | Notification regarding an Intrusion anomaly  | -        |
+| Notification Type      | Type of notification                         | -        |
+| Real-time Notification | Notification sent in real-time to the user   | -        |
+| Recipient              | The notification target user's contact       |          |
 
 ### Events
 

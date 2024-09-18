@@ -57,6 +57,6 @@ Usage examples:
 
 where `<SERVICES>` is a list of services separated by a space (e.g. `auth user monitoring`).
 
-NB: Every script has to be launched from the root of the project
+NB: Every script has to be launched from the root of the project.
 
 These scripts are useful for testing or debugging specific services.

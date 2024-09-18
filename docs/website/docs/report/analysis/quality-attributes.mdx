@@ -15,9 +15,7 @@ In particular:
 
 - Runtime
     1. The system should be modular and reliable:
-        - The system should work even though some component is down or not deployed.
-        - The system should work even though some component responsible for the storage of the data is down or not
-          deployed.
+        - The system should work even though some components are faulty or not deployed.
         - The system should work with authenticated users even though the component responsible for the authentication
           is down.
     2. The system should be as much as possible available (and also replicable).
@@ -30,11 +28,11 @@ In particular:
 
 - Development Time
     1. The system should be usable with a user-friendly and minimal interface.
-    2. The system should be testable, with automated unit and integration tests.
+    2. The system should be testable, with automated tests.
     3. The system should be maintainable, with the possibility to fix bugs and add new features without affecting the
        system's overall functionality.
     4. The system should be deployable, with the possibility to deploy a new version of the software with zero downtime,
-       without affecting active users and without manual intervention.
+       without affecting active users.
     5. The system should be modifiable, with the possibility to add new features or modify existing ones without
        affecting
        all modules or the overall system functionality.
@@ -50,25 +48,25 @@ In particular:
 **Response**: The system should scale horizontally by adding more instances of the frontend servient and monitoring
 service to handle the increased load.\
 **Response Measure**:
-The system maintains response times under 5 seconds for 90% of the requests even under increased load.
+The system maintain an acceptable response times (under 5 seconds for 90%) of the requests even under increased load.
 
 ### Availability
 
 **Stimulus**: A critical failure occurs and a service becomes unavailable.\
-**Stimulus Source**: A hardware failure or a network outage.\
-**Environment**: The system in its normal operational state.\
+**Stimulus Source**: An hardware failure or a network outage.\
+**Environment**: The system is in its normal operational state.\
 **Artifact**: The service that becomes unavailable.\
-**Response**: The system automatically detects the failure and redirects traffic to a redundant service.\
+**Response**: The system automatically detects the failure and redirects traffic to a service replica.\
 **Response Measure**: The system remains available with a downtime of less than 5 minutes.
 
 ### Data processing
 
 **Stimulus**: Thousands of WoT devices send data to the system.\
 **Stimulus Source**: Devices distributed across various locations.\
-**Environment**: The system is in real-time data processing mode (normal production operational state).\
+**Environment**: The system is in its normal operational state. \
 **Artifact**: The data ingestion and processing pipeline.\
 **Response**: The system ingests and processes the data from all devices in real-time.\
-**Response Measure**: The system processes 99% of the devices' data within 100 milliseconds of receipt.
+**Response Measure**: The system processes most of the device data in a reasonable amount of time.
 
 ### Reliability
 
@@ -95,7 +93,7 @@ The system automatically logs detailed diagnostic information and provides real-
 
 **Stimulus**: An unauthorized user attempts to directly access restricted services.\
 **Stimulus Source**: A malicious user.\
-**Environment**: The system in its normal operational state.\
+**Environment**: The system is in its normal operational state.\
 **Artifact**: The gateway service that controls access to services.\
 **Response**: The system blocks the access attempt.\
 **Response Measure**: The unauthorized access is blocked immediately.
@@ -107,7 +105,7 @@ The system automatically logs detailed diagnostic information and provides real-
 **Environment**: The system in an active development phase.\
 **Artifact**: The newly added feature.\
 **Response**: Automated tests are executed to verify the functionality of the new feature.\
-**Response Measure**: Automated tests (integration and unit) that provide results within few minutes.
+**Response Measure**: Automated tests that provide results within few minutes.
 
 ### Maintainability
 
@@ -124,8 +122,7 @@ The system automatically logs detailed diagnostic information and provides real-
 **Stimulus Source**: The development team has completed all necessary updates or features.\
 **Environment**: The system is in its normal operational state and a new version is ready for deployment.\
 **Artifact**: The entire system, including all components and services.\
-**Response**: The new version is deployed with zero downtime and without affecting active users.\ No manual intervention
-is required.\
+**Response**: The new version is deployed with zero downtime and without affecting active users.\
 **Response Measure**: The deployment is completed within minutes with no incidents or the deployment is rolled back (
 failed).
 
@@ -148,7 +145,7 @@ and the implementation is completed within the estimated time frame.
 **Environment**: The system is running in its normal operational state.\
 **Artifact**: The frontend (user interface), specifically the portion related to the task.\
 **Response**: The frontend is designed to be intuitive and easy to use, with clear instructions and minimal complexity.\
-**Response Measure**: The user completes the task successfully with a positive rates in a eventual survey.
+**Response Measure**: The user completes the task successfully with a positive rates in an eventual survey.
 
 ### Energy Efficiency
 
@@ -157,4 +154,4 @@ and the implementation is completed within the estimated time frame.
 **Environment**: The system is running in a normal state.\
 **Artifact**: The system hardware.\
 **Response**: The system is deployed on a cluster of low-consuming machines.\
-**Response Measure**: The system consumes up to 10W of power and 5V of voltage (per machine).
+**Response Measure**: The system require a power supply of 5.1V and 5A (per raspberry pi 5).

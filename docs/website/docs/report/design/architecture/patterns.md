@@ -7,38 +7,44 @@ position: 3
 
 ## Communication patterns
 
-Having opted for a microservice architecture, that components weakly coupled in nature, it was necessary to reason 
-about **inter-process communication** modes. Depending on the situation, different are the modes of interaction. 
-Specifically, if a microservice needs to communicate with another component to obtain information essential for completing 
+Having opted for a microservice architecture, 
+which means that components are intrinsically weakly coupled, it was necessary to reason 
+about **inter-process communication** modes. 
+Depending on the situation, there are the modes of interaction. 
+Specifically, 
+if a microservice needs to communicate with another component to retrieve essential information for completing 
 a business operation, the **Remote Procedure Invocation** (*request/response*) pattern will be preferred. 
 It will therefore be a *one-to-one* communication. 
 Whereas, the **Asynchronous messaging** pattern (*publish/subscribe*, *one-way notifications*) will be preferred in situations 
 where a microservice needs to communicate with other components simply to notify the occurrence of an event, a new state, 
-or action taken by a user, etc.  In this case it could be either *one-to-one* or *one-to-many* communication.
+or action taken by a user, etc.  
+In this case it could be either *one-to-one* or *one-to-many* communication.
 
-In case of RPC, the communication will be implemented using the **REST** mechanism, using the *HTTP* protocol.
-In case of asynchronous messaging, the communication will be based on **events**.
+In the case of RPC, the communication will be implemented using the **REST** mechanism, using the *HTTP* protocol.
+In the case of asynchronous messaging, the communication will be based on **events**.
 
-In both cases the messages format will be **text-based** such as *JSON*.
+In both cases, the message format will be **text-based** such as *JSON*.
 
 ## External API patterns
 
 ### API Gateway
 
-The API Gateway pattern provides a single entry point, a facade, for all clients. 
-It routes requests to the appropriate microservice by encapsulating the service decomposition and APIs. Clients, 
-rather than calling the services directly, call the API Gateway. When used in combination with the appropriate 
-deployment platform, it provides the opportunity to load balance the requests among the microservices. 
+The specific use of the API Gateway pattern will be the one of reverse proxy.
+This pattern provides a single entry point, a facade, for all clients. 
+It routes requests to the appropriate microservice by encapsulating the service decomposition and APIs. 
+Clients, rather than calling the services directly, call the API Gateway. 
+When used in combination with the appropriate deployment platform, 
+it provides the opportunity to load balance the requests among the microservices.
 
 ## Deployment patterns
 
 * **Service as a container**: each microservice is deployed as a container. In this way, the microservices are isolated 
-from each other, and they can be scaled independently. Containers images are lightweight and fast to build and start
+from each other, and they can be scaled independently. Container images are lightweight and fast to build and start.
 For containerization, we used **Docker**.
 * **Database per service**: each microservice has its own database. Services communicate only via APIs favoring a more loosely
-coupled architecture. This allows to have a database schema that is optimized for the microservice. 
+coupled architecture. This allows having a database schema optimized for the microservice. 
 * **Externalized configuration**: instead of hard-wiring or hard-coding a configuration for a particular environment in which the system 
-would run, configuration property values are supplied at runtime. We used the **Push model** approache, where the configuration
+would run, configuration property values are supplied at runtime. We used the **Push model** approach, where the configuration
 values are passed to service using the operating system environment variables or configuration files.
 
 ## Security patterns

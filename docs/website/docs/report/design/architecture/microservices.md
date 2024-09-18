@@ -7,20 +7,18 @@ position: 2
 
 ## Decomposition Strategy
 
-The system is decomposed into microservices based using the **bounded context** decomposition strategy.
+The system is decomposed into microservices using the **bounded context** decomposition strategy.
 Other relevant characteristics that have been taken into account are: 
 
 * **Scalability**: Each microservice can be scaled independently.
 * **Technology**: Each microservice can be implemented using different technologies.
-* **Autonomy**: Each microservice can be developed, deployed, and maintained independently.
-* **Evolution**: Each microservice can be updated independently without affecting the entire system.
-* **Deployment**: Each microservice can be deployed independently.
-
+* **Modularity**: Each microservice can be developed, deployed, and maintained independently.
+* **Maintainability**: Each microservice can be updated independently without affecting the entire system.
 
 ## API Design
 
-Starting from the use cases, we defined the API for each microservice. The API is defined using the OpenAPI
-Specification.
+Starting from the use cases, we defined the APIs for each microservice. 
+The APIs are defined using the OpenAPI Specification.
 
 ### Auth service
 
@@ -50,7 +48,8 @@ Feature: Authentication
 ### Alarm service
 
 This microservice is responsible for analyzing the data coming from sensors and cameras and consequently notifying
-anomalies. In order to recognize anomalies some rule must be defined.
+anomalies. 
+To recognize anomalies, some rule must be defined.
 The main operations of this service are those to manage the *security rules*.
 
 <Summary title="Feature: Security Rule Management">
@@ -111,7 +110,8 @@ Feature: User Management
 
 ### Location service
 
-Devices can be located in different locations. The system provides the possibility to manage rooms and buildings.
+Devices can be located in different locations. 
+The system provides the possibility to manage rooms and buildings.
 
 <Summary title="Feature: Location Management">
 
@@ -133,14 +133,12 @@ Feature: Location Management
 
 </Summary>
 
-This microservice is responsible for managing location data.
-
 [OpenAPI Specification](https://revue-org.github.io/revue/openapi/location/)
 
 ### Device service
 
 This microservice is responsible for managing devices. It can federate a device, modify their description, enable or
-disable them, and delete them.
+disable, and delete them.
 
 <Summary title="Feature: Device Management">
 
@@ -262,8 +260,8 @@ picture above, we made use of the following layers:
 
 * **Domain**: DDD entities, value objects, factories, ...
 * **Application**: DDD services, repositories, ...
-* **Presentation**: Machinery to translate external data representation to domain entities and viceversa.
-* **Infrastructure**: Mostly external service implementation, DB interfaces, REST apis, Events managers, ...
+* **Presentation**: Machinery to translate external data representation to domain entities and vice versa.
+* **Infrastructure**: Mostly external service implementation, DB interfaces, REST APIs, Events managers, ...
 
 ![Module view](../../img/clean_architecture_modules.png)
 

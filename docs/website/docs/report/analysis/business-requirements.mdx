@@ -144,7 +144,7 @@ The final user can consult it only if he has access to the location.
 ## Device Management
 
 A registered User can federate a device in the system. The user can consult the device information and consult real-time
-data. Morehover the user can modify the device description.
+data. Moreover the user can modify the device description.
 
 <Image
     src={require('../img/GuardianDeviceUseCase.png').default}
@@ -168,7 +168,7 @@ data. Morehover the user can modify the device description.
     - **Flow**:
         1. The user moves to the "Device" section and opens the "Add Device" popup.
         2. The user fills the device's IP address and port.
-        3. The user selects the "Retrieve Device Information" button.
+        3. The user clicks the "Retrieve Device Information" button.
         4. The system retrieves the device information and fills the device information fields.
         5. The user fills the device description and sees the device's capabilities.
         6. The user finally selects the "Create" button.
@@ -177,7 +177,7 @@ data. Morehover the user can modify the device description.
         1. The device is federated in the system.
         2. The user can see the device in the device list.
         3. The user can consult the device information.
-        4. The user can consult the real-time data due to device capabilities.
+        4. The user can consult the real-time data according to the device capabilities.
         5. The user can see precise information about device capabilities.
     - **Extensions**:
         1. The device is not reachable (error message).
@@ -227,7 +227,7 @@ data. Morehover the user can modify the device description.
 ## Environment Data Monitoring
 
 A registered User can consult the environment data in real-time. The user can select a monitoring measure and consult
-the measure information. It's possible only if the user has access to the device depending on the location permissions.
+the measure information. This is possible only if the user has access to the device depending on the location permissions.
 
 1. Consult real-time environment data.
 
@@ -235,8 +235,9 @@ the measure information. It's possible only if the user has access to the device
     - **Precondition**:
         1. The user is logged in the system.
         2. The device is federated in the system.
-        3. The device exposes some capabilities; in particular, the sensing capabilities are required in this case.
+        3. The device exposes some capabilities; in particular, the sensing capabilities.
         4. The device is providing real-time data.
+        5. The user has access to the location in which the device is located
     - **Post condition**:
         1. The user can see the real-time data and choose the desired monitoring measure.
     - **Flow**:
@@ -244,15 +245,14 @@ the measure information. It's possible only if the user has access to the device
         2. The user selects the monitoring measure.
         3. The system retrieves the real-time data and shows it to the user.
     - **Main Success Scenario**:
-        1. The user can see the real-time data with an interval that depends on the device capabilities (intervalMillis
-           property of the Sensing capabilities).
-        2. The user can see the monitoring measure and unit in a graph.
+        1. The user can see the real-time data with an interval that depends on the device capabilities.
+        2. The user can see the monitoring measure and unit in a chart.
         3. The user can see the last value of the monitoring measure.
     - **Extensions**:
         1. The device is not providing real-time data (error message).
         2. The system shows only measures supported by device capabilities.
 
-2. Consult monitoring measure history.
+2. Consult measurements history.
 
     - **Actor**: User
     - **Precondition**:
@@ -260,13 +260,13 @@ the measure information. It's possible only if the user has access to the device
         2. The device is federated in the system.
         3. The device has provided some data to the system.
     - **Post condition**:
-        1. The user can see the monitoring measure history.
+        1. The user can see the measurements history.
     - **Flow**:
         1. The user moves to the "History."
-        2. The user selects the "Measurement" property to consult.
-        3. The system retrieves the monitoring measure history and shows it to the user.
+        2. The user selects measurements on the drop down menu.
+        3. The system retrieves the measurements history and shows it to the user.
     - **Main Success Scenario**:
-        1. The user can see the monitoring measure and unit history.
+        1. The user can see the measurements history.
 
 ## Video Streaming Monitoring
 
@@ -279,9 +279,9 @@ The user can see the video streaming only if he has access to the device dependi
     - **Precondition**:
         1. The user is logged in the system.
         2. The device is federated in the system.
-        3. The device exposes some capabilities; in particular, the video streaming capabilities are required in this
-           case.
+        3. The device exposes some capabilities; in particular, the video streaming capability.
         4. The device is active and providing video streaming.
+        5. The user has access to the location in which the device is located.
     - **Post condition**:
         1. The user can see the video streaming produced by the camera.
         2. The produced video streaming is in real-time and available for the alarm service in case of security rules.
@@ -314,8 +314,8 @@ notifying the user.
         1. The user can see the alarm history.
     - **Flow**:
         1. The user moves to the "History" section.
-        2. The user selects the alarm property to consult: "Intrusions" or "Outliers."
-        3. The system retrieves the alarm history and shows it to the user due to his choice.
+        2. The user selects from the drop down menu the alarm property to consult: "Intrusions" or "Outliers."
+        3. The system retrieves the alarm history and shows it to the user according to his choice.
     - **Main Success Scenario**:
         1. The user can see the alarm history.
         2. The user can see the alarm type, the device that triggered the alarm, the date and time of the alarm.
@@ -339,12 +339,13 @@ notifying the user.
         1. The user moves to the "Security Rule" section and open the "Add Security Rule" popup.
         2. The user fills the security rule description.
         3. The user selects the device to monitor.
-        4. The user selects the monitoring measure or the object class to monitor and recognize.
-        5. The user fills the threshold value in case of measure monitoring.
-        6. The user selects the time interval to check the condition.
-        7. The user selects the contacts to notify in case of alarm.
-        8. The user selects the "Create" button.
-        9. The system creates the security rule, and the alarm service will start checking the security rule due to his
+        4. The user fills the security rule settings, by either:
+            1. Selecting the monitoring measure or the object class to monitor and recognize.
+            2. Setting the accepted range value.
+        5. The user selects the time interval to check the condition.
+        6. The user selects the contacts to notify in case of alarm.
+        7. The user selects the "Create" button.
+        8. The system creates the security rule, and the alarm service will start checking the security rule due to his
            properties.
     - **Main Success Scenario**:
         1. The security rule is created in the system.
@@ -364,17 +365,13 @@ notifying the user.
         3. The user can see the security rule in the security rule list.
     - **Post condition**:
         1. The user can see the updated security rule in the security rule list.
-        2. The alarm service will check the updated security rule and trigger an alarm if the conditions are satisfied (
-           also
-           a notification will be sent).
+        2. The alarm service will check the updated security rule and trigger an alarm if the conditions are satisfied (also a notification will be sent).
     - **Flow**:
         1. The user moves to the "Security Rule" section and selects the security rule to update.
         2. The user clicks on the "Update" icon.
-        3. The user updates the security rule description, time interval or contacts to notify.
-        4. The user selects the "Update" button.
-        5. The system updates the security rule and the alarm service will start checking the security rule due to his
-           new
-           properties.
+        3. The user updates the security rule description, time slot or contacts to notify.
+        4. The user clicks the "Update" button.
+        5. The system updates the security rule and the alarm service will start checking the security rule according to its new property
     - **Main Success Scenario**:
         1. The security rule is updated in the system.
         2. The user can see the updated security rule in the security rule list.
@@ -388,7 +385,7 @@ notifying the user.
         2. The security rule is created.
         3. The user can see the security rule in the security rule list.
     - **Post condition**:
-        2. The alarm service will not check the deleted security rule anymore.
+        1. The alarm service will not consider the deleted security rule anymore.
     - **Flow**:
         1. The user moves to the "Security Rule" section and selects the security rule to delete.
         2. The user clicks on the "Delete" icon.
@@ -396,12 +393,12 @@ notifying the user.
     - **Main Success Scenario**:
         1. The security rule is deleted from the system.
         2. The user can't see the deleted security rule in the security rule list.
-        3. The alarm service will not check the deleted security rule anymore.
+        3. The alarm service will not consider the deleted security rule anymore.
 
 ## Notification Management
 
 A registered User can consult the notification history.
-The user can see the notifications that have been sent by the system.
+The user can see the notifications sent by the system.
 Moreover, the user can see the notification type, the date and other notification properties.
 When an alarm is triggered, the system will send a notification to the contacts specified in the security rule and in
 real-time if some users are logged in the system.
@@ -415,12 +412,12 @@ real-time if some users are logged in the system.
         1. The user can see the notification history.
     - **Flow**:
         1. The user moves to the "Notification" section.
-        2. The system retrieves the notification history and shows it to the user.
+        2. The system retrieves the notification history.
     - **Main Success Scenario**:
         1. The user can see the notification history.
         2. The user can see the notification type, the date and other notification properties.
     - **Extensions**:
-        1. The system has not sent any notification yet.
+        1. No notification has been sent yet.
 
 2. Consult real-time notification.
 

@@ -6,7 +6,7 @@ The system is mapped to Kubernetes components like **Deployments**,
 
 In particular, for core microservices of the system, the following k8s configuration files are provided:
 
-- **Deployment**: it is responsible for creation and the licycle of pods.
+- **Deployment**: it is responsible for creation and the lifecycle of pods.
 - **Service**:
     - ClusterIP: when there's no need to expose the service outside the cluster.
     - LoadBalancer: to expose the service outside the cluster.
@@ -19,7 +19,7 @@ For those services that need to store data, also the following configuration fil
 - **Persistent Volume Claim**: to store data that needs to persist even after the pod is deleted.
 - **ConfigMap**: to store configuration data and database initialization scripts.
 
-We choosed to use [Traefik](https://traefik.io/) as the Ingress Controller and reverse proxy.
+We chose to use [Traefik](https://traefik.io/) as the Ingress Controller and reverse proxy.
 Traefik is a modern HTTP reverse proxy and load balancer that can be used to expose services outside the cluster.
 Each request to a microservice will pass through Traefik, which will route the request to the correct service.
 
@@ -40,7 +40,7 @@ that can be found [here](https://github.com/revue-org/revue-kubernetes).
 1. Log in to your cluster's master node.
 2. Clone the [revue-kubernetes](https://github.com/revue-org/revue-kubernetes/) repository.
 3. Move to the cloned repository
-3. Run:
+4. Run:
 
 ```bash
  ./deploy.sh

@@ -10,11 +10,12 @@ Moreover, to ensure also a high-quality code production, Code Quality tools have
 
 ## Architectural Testing
 
-To ensure that layers’ dependencies are respected, Dependency Cruiser framework has been exploited.
+To ensure that layers’ dependencies are respected, [Dependency Cruiser](https://github.com/sverweij/dependency-cruiser) framework has been exploited.
 Essentially, the configured rules check that:
-- The Domain layer does not access to any other layer.
-- The Application layer can access only the Domain layer.
-- Presentation layer can access only Domain and Application layers.
+- The **Domain** layer does not access to any other layer.
+- The **Application** layer can access only the Domain layer.
+- **Presentation** layer can access only Domain and Application layers.
+- **Infrastructure** layer can access to the above layers.
 
 <Summary title="Dependency Cruiser rules">
 
@@ -60,7 +61,7 @@ forbidden: [
 
 ## API Testing
 
-API testing has been performed using the Vitest framework.
+API testing has been performed using the [Vitest framework](https://vitest.dev/).
 
 <Summary title="Example: testing the PUT /devices endpoint">
 
@@ -102,8 +103,8 @@ describe('PUT /devices', (): void => {
 </Summary>
 
 To be able to execute the tests,
-the database has been mocked using MongoDB Memory Server that allows to run a MongoDB instance in memory.
-With this configuration, every integration test is isolated from the others, resetting the database after each test.
+the database has been mocked using **MongoDB Memory Server** that allows to run a MongoDB instance in memory.
+With this configuration, each integration test is isolated from the others, resetting the database after each test.
 
 <Summary title="Example: connecting to the mock database">
 

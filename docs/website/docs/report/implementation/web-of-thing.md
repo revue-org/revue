@@ -20,7 +20,6 @@ To be compliant with the WoT standards, Revue in his Device Management module co
 This interaction model has been possible thanks to the flexibility of the WoT standards that exploit the RESTful APIs at level 3 of the Richardson Maturity Model.
 Interactions are based on the **Hypermedia As The Engine Of the Application State** (HATEOAS) principle.
 
-
 ## Fundamental Concepts 
 
 ### Affordance
@@ -41,7 +40,8 @@ If no security scheme is defined, the Thing is considered as public and free to 
 
 ### Protocol Bindings
 The protocol bindings define the communication protocols that can be used to interact with the devices.
-In Revue, the protocol binding used is the HTTP protocol for simple interactions, but in case of sensor, the Kafka protocol (binary over TCP) is used to stream the data.
+In Revue, the protocol binding used is the HTTP protocol for simple interactions, 
+but in the case of sensor, the Kafka protocol (binary over TCP) is used to stream the data.
 
 ## Revue WoT Component
 
@@ -104,7 +104,9 @@ In the sample thing, the static metadata contains the device id, the device type
 The **Context** field is important in JSON-LD documents to define the used vocabulary in the TD. 
 In this case, the [WoT TD v1.1](https://www.w3.org/TR/wot-thing-description11/) has been used.
 
-### Main Features I: Properties
+### Main Features
+
+#### Properties
 Properties represent dynamic attributes of the Thing.
 In Revue, a fundamental property is the status of the device.
 
@@ -182,7 +184,7 @@ properties: {
 
 With the keyword *anyOf* it is possible to define a property that can have different but supported data schemas.
 
-### Actions
+#### Actions
 Actions represent operations that can be invoked on the Thing.
 
 <Summary title="Example: actions of a device">
@@ -215,9 +217,8 @@ actions: {
 </Summary>
 
 In the sample thing, an action called *toggle* has been defined that allows enabling or disabling the device.
-The level of abstraction used in this TD permits supporting every device with a two-state behavior (on/off, active/inactive, producing/not producing etc.).
 
-### Events
+#### Events
 Events represent asynchronous notifications that can be emitted by the Thing.
 
 <Summary title="Example: events of a device">
@@ -244,4 +245,4 @@ Note the protocol binding specifying that the data will be sent to a Kafka broke
 ## Conclusion
 
 In conclusion, the Revue system is compliant with the Web of Things standards, allowing the interaction with the devices in a simple and flexible way.
-The system for now is able to interact only with devices with a simple behavior and with limited capabilities to _Sensing_ and _VideoStreaming_.
+The system for now is able to interact only with devices with a simple behavior and with limited capabilities.

@@ -81,7 +81,6 @@ The Monitoring microservice has the responsibility of continuously listening to 
 ### Alarm
 
 The Alarm microservice is responsible for managing security rules and for triggering anomalies when a rule is violated.
-Each `SecurityRule` has a time slot in which it is active.
 
 When a `SecurityRule` is violated, an `Anomaly` is created and published.
 <Image
@@ -92,7 +91,7 @@ When a `SecurityRule` is violated, an `Anomaly` is created and published.
 
 ### Recognition
 
-The Recognition microservice is an ad-hoc service used to perform object recognition on cameras' video streams.
+The Recognition microservice is an ad-hoc service used to perform object recognition on devices' video streams.
 
 <Image
     src={require('../img/uml/microservices/recognition.png').default}
@@ -114,7 +113,7 @@ In this way, the system can notify the user about all possible events that occur
 
 ### Log
 
-Log microservice is an ad-hoc service used to store the major part of the system's events.
+Log microservice is an ad-hoc service used to store the major part of the system's data.
 In particular, it stores all the `Anomalies` detected by the Alarm microservice and all the `Measurements` collected by
 the physical devices.
 

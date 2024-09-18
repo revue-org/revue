@@ -69,9 +69,12 @@ export class KafkaMonitoringEventsHub {
       .startConsuming(['devices'], false, (message: KafkaMessage): void => {
         if (message.value) {
           try {
-            const event: DeviceEvent = DevicePresenter.asDomainEvent(message.value)
+            const messageValue = JSON.parse(message.value?.toString())
+            messageValue.timestamp = new Date(messageValue.timestamp)
+            const event: DeviceEvent = DevicePresenter.asDomainEvent(messageValue)
             handler(event)
           } catch (e) {
+            console.log(e)
             console.log('Error parsing device event, message ignored because is not compliant to the schema')
           }
         }

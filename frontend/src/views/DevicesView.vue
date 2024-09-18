@@ -34,7 +34,7 @@ const getDevices = async () => {
 }
 
 const deleteDevice = async (device: Device) => {
-  await RequestHelper.delete(`http://${deviceHost}/devices/${device.deviceId}/`)
+  await RequestHelper.delete(`${deviceHost}/devices/${device.deviceId}/`)
     .then((res: any) => {
       getDevices()
       popPositive($q, 'Device deleted successfully')

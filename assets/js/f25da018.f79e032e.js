@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksite=self.webpackChunksite||[]).push([[6664],{9320:e=>{e.exports=JSON.parse('{"categoryGeneratedIndex":{"title":"Revue report","slug":"/category/report","permalink":"/revue/docs/category/report","sidebar":"tutorialSidebar","navigation":{"next":{"title":"Introduction","permalink":"/revue/docs/report/introduction"}}}}')}}]);

@@ -15,11 +15,11 @@ info:
 
 servers:
     firstKafkaServer:
-        host: kafka-broker-1:8092
+        host: kafka-broker-1:9094
         description: First instance of Kafka
         protocol: kafka
     secondKafkaServer:
-        host: kafka-broker-2:8092
+        host: kafka-broker-2:9095
         description: Second instance of Kafka
         protocol: kafka
     notificationSocketServer:

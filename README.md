@@ -114,14 +114,14 @@ Once the system is up and running, you have to set up your own WoT device (E.g. 
   file).
     - [https://frontend.localhost](https://frontend.localhost) or [https://localhost:8080](https://localhost:8080) if
       running with Docker Compose
-    - [https://revue-frontend]() if running with Kubernetes
+    - [https://revue-frontend](https://revue-frontend) if running with Kubernetes
 - **Reverse Proxy**: Traefik dashboard
     - [https://localhost:8081](https://localhost:8081) if running with Docker Compose
-    - [https://revue-traefik]() if running with Kubernetes
+    - [https://revue-traefik/dashboard/#/](https://revue-traefik/dashboard/#/) if running with Kubernetes
 - **Kafka UI**: The interface to monitor the Kafka topics, messages and
   consumers
     - [https://localhost:8082](https://localhost:8082) if running with Docker Compose
-    - [https://revue-kafka-ui]() if running with Kubernetes,
+    - [https://revue-kafka-ui](https://revue-kafka-ui) if running with Kubernetes,
 
 #### On Kubernetes environment
 

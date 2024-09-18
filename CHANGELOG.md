@@ -1,3 +1,361 @@
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Dependency updates
+
+* **deps:** update kubernetes digest to 7dd2db6 ([9130296](https://github.com/revue-org/revue/commit/9130296cda21b3a07a5890b15f54d56207aa3d14))
+* **deps:** update kubernetes digest to 9fa6f7a ([dad9ba9](https://github.com/revue-org/revue/commit/dad9ba9dfefd5b16d6a92a516567656bab1cec71))
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+### Documentation
+
+* add link to web interfaces section ([a2869e5](https://github.com/revue-org/revue/commit/a2869e56ba0b69b4397d50878e12651d8057ee48))
+
+### General maintenance
+
+* monitoring dashboard links in web interfaces ([564fc66](https://github.com/revue-org/revue/commit/564fc66d6eb9520fe90a5698f2fdc3483fc6a9a9))
+
+
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Dependency updates
+
+* **deps:** update kubernetes digest to 7dd2db6 ([9130296](https://github.com/revue-org/revue/commit/9130296cda21b3a07a5890b15f54d56207aa3d14))
+* **deps:** update kubernetes digest to 9fa6f7a ([dad9ba9](https://github.com/revue-org/revue/commit/dad9ba9dfefd5b16d6a92a516567656bab1cec71))
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+### Documentation
+
+* add link to web interfaces section ([a2869e5](https://github.com/revue-org/revue/commit/a2869e56ba0b69b4397d50878e12651d8057ee48))
+
+### General maintenance
+
+* monitoring dashboard links in web interfaces ([564fc66](https://github.com/revue-org/revue/commit/564fc66d6eb9520fe90a5698f2fdc3483fc6a9a9))
+
+
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+### Build and continuous integration
+
+* update deploy scripts to call kubernetes scripts ([aafc4da](https://github.com/revue-org/revue/commit/aafc4daac1cdf396b9bdbf4067e223d448f2a7da))
+
+### General maintenance
+
+* remove grafana and prometheus configuration files ([e31210d](https://github.com/revue-org/revue/commit/e31210d2eb7fa5e4e5f4f0a3ae7fe72582cc2890))
+
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+### Build and continuous integration
+
+* update deploy scripts to call kubernetes scripts ([aafc4da](https://github.com/revue-org/revue/commit/aafc4daac1cdf396b9bdbf4067e223d448f2a7da))
+
+### General maintenance
+
+* remove grafana and prometheus configuration files ([e31210d](https://github.com/revue-org/revue/commit/e31210d2eb7fa5e4e5f4f0a3ae7fe72582cc2890))
+
+
+## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
+
+### Bug Fixes
+
+* fix database connection in kubernetes cluster ([3e69671](https://github.com/revue-org/revue/commit/3e696716c45bcec9c9c15e74668dbc63459dfa7e))
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.106 ([1f84cb0](https://github.com/revue-org/revue/commit/1f84cb0fcf9a5cda6154d0d289b6d0da11f93137))
+
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.106 ([1f84cb0](https://github.com/revue-org/revue/commit/1f84cb0fcf9a5cda6154d0d289b6d0da11f93137))
+
+
+## [3.1.2](https://github.com/revue-org/revue/compare/v3.1.1...v3.1.2) (2024-09-17)
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+
+## [3.1.1](https://github.com/revue-org/revue/compare/v3.1.0...v3.1.1) (2024-09-17)
+
+### Bug Fixes
+
+* **frontend:** fix requests to services ([#306](https://github.com/revue-org/revue/issues/306)) ([073bc18](https://github.com/revue-org/revue/commit/073bc18d7cc665f47e18dd4d25e1adf43fc88390))
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Dependency updates
+
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.3 ([8fbf179](https://github.com/revue-org/revue/commit/8fbf1795eb926b72941523e3483c46974b9ec3a3))
+* **deps:** update dependency pydantic to v2.9.1 ([41e9041](https://github.com/revue-org/revue/commit/41e9041fa43aa71d40e3d3d64fc9fc443da4b955))
+* **deps:** update dependency typescript to v5.6.2 ([f10c7ae](https://github.com/revue-org/revue/commit/f10c7ae3ae1c4d5acfa08c4b61ffddb00c3a83d7))
+* **deps:** update docker/dockerfile docker tag to v1.10 ([44a1682](https://github.com/revue-org/revue/commit/44a16823d413e1bbeadb74c8376c29b16e6bc47e))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.12 ([6394595](https://github.com/revue-org/revue/commit/6394595faf3c63671346ed61d4532d3344c46821))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+### Build and continuous integration
+
+* add revue-thing to docker compose deploy ([9041a26](https://github.com/revue-org/revue/commit/9041a264e09184514410f0b0b6e1ceb38948e879))
+
+### General maintenance
+
+* update readme and submodule ([c92ba82](https://github.com/revue-org/revue/commit/c92ba8226f29fe5a581390986dd8db476463fe9f))
+* update README, remove todos ([291af59](https://github.com/revue-org/revue/commit/291af59bcae70ae72f636516aed1c7bf12f63ee4))
+
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Dependency updates
+
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.3 ([8fbf179](https://github.com/revue-org/revue/commit/8fbf1795eb926b72941523e3483c46974b9ec3a3))
+* **deps:** update dependency pydantic to v2.9.1 ([41e9041](https://github.com/revue-org/revue/commit/41e9041fa43aa71d40e3d3d64fc9fc443da4b955))
+* **deps:** update dependency typescript to v5.6.2 ([f10c7ae](https://github.com/revue-org/revue/commit/f10c7ae3ae1c4d5acfa08c4b61ffddb00c3a83d7))
+* **deps:** update docker/dockerfile docker tag to v1.10 ([44a1682](https://github.com/revue-org/revue/commit/44a16823d413e1bbeadb74c8376c29b16e6bc47e))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.12 ([6394595](https://github.com/revue-org/revue/commit/6394595faf3c63671346ed61d4532d3344c46821))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+### Build and continuous integration
+
+* add revue-thing to docker compose deploy ([9041a26](https://github.com/revue-org/revue/commit/9041a264e09184514410f0b0b6e1ceb38948e879))
+
+### General maintenance
+
+* update readme and submodule ([c92ba82](https://github.com/revue-org/revue/commit/c92ba8226f29fe5a581390986dd8db476463fe9f))
+* update README, remove todos ([291af59](https://github.com/revue-org/revue/commit/291af59bcae70ae72f636516aed1c7bf12f63ee4))
+
+
+## [3.1.0](https://github.com/revue-org/revue/compare/v3.0.11...v3.1.0) (2024-09-17)
+
+### Features
+
+* add kubernetes submodule ([94c91d0](https://github.com/revue-org/revue/commit/94c91d0090b06fb15cc2cd719d804c1e81562669))
+
+### Bug Fixes
+
+* fix notification init data, add location room-1 ([a17b119](https://github.com/revue-org/revue/commit/a17b119a2dc36bbab7a9aa3714adbb203a90d862))
+* **frontend:** fix frontend iframe link ([7852862](https://github.com/revue-org/revue/commit/78528629c6053ed39d4d1e976d8913b9a0d9b638))
+* **frontend:** fix http typos ([7b768aa](https://github.com/revue-org/revue/commit/7b768aa1b88ec6c043798367ea53905a21102078))
+* **frontend:** remove port from axios requests ([dcda7fd](https://github.com/revue-org/revue/commit/dcda7fded1fe88f86d8edd6212774235fbb4e19e))
+* **media-server:** fix additionale host to make it work with docker compose ([98ba798](https://github.com/revue-org/revue/commit/98ba7981e9a76c3e984b2a706ce225d85eeeaf3d))
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.105 ([bb12ab7](https://github.com/revue-org/revue/commit/bb12ab7ae706c72e21cd556c4dfc6401c3e74388))
+* **deps:** update dependency gradle to v8.10.1 ([ad29263](https://github.com/revue-org/revue/commit/ad292635be6d98ba60bec86c3dff9a9ae5f3e7b5))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.2 ([da6e60a](https://github.com/revue-org/revue/commit/da6e60a4577bc43944a0304fb790ada7f8d333b5))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.10 ([1d16160](https://github.com/revue-org/revue/commit/1d1616090c31e776f7cd46a0da561578cbaa02c7))
+
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.105 ([bb12ab7](https://github.com/revue-org/revue/commit/bb12ab7ae706c72e21cd556c4dfc6401c3e74388))
+* **deps:** update dependency gradle to v8.10.1 ([ad29263](https://github.com/revue-org/revue/commit/ad292635be6d98ba60bec86c3dff9a9ae5f3e7b5))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.2 ([da6e60a](https://github.com/revue-org/revue/commit/da6e60a4577bc43944a0304fb790ada7f8d333b5))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.10 ([1d16160](https://github.com/revue-org/revue/commit/1d1616090c31e776f7cd46a0da561578cbaa02c7))
+
+
+## [3.0.11](https://github.com/revue-org/revue/compare/v3.0.10...v3.0.11) (2024-09-12)
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Dependency updates
+
+* **deps:** update dependency pydantic to v2.9.0 ([7a2cb2d](https://github.com/revue-org/revue/commit/7a2cb2d14ce48e5f67481573fb921eabc287e9cf))
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Dependency updates
+
+* **deps:** update dependency pydantic to v2.9.0 ([7a2cb2d](https://github.com/revue-org/revue/commit/7a2cb2d14ce48e5f67481573fb921eabc287e9cf))
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+
+## [3.0.10](https://github.com/revue-org/revue/compare/v3.0.9...v3.0.10) (2024-09-09)
+
+### Bug Fixes
+
+* **location:** fix main file name ([ed18f90](https://github.com/revue-org/revue/commit/ed18f908065eb9be98116aabcef7eb99283d0ec0))
+* **recognition:** change kafka client dependency ([b0d2521](https://github.com/revue-org/revue/commit/b0d25219c190ac1a275b8717d46b9bc376a77ce8))
+
+## [3.0.9](https://github.com/revue-org/revue/compare/v3.0.8...v3.0.9) (2024-09-08)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.104 ([96436ff](https://github.com/revue-org/revue/commit/96436ff29c83eb72ba58ade1b01b064fdb0fbd1f))
+
+
+## [3.0.9](https://github.com/revue-org/revue/compare/v3.0.8...v3.0.9) (2024-09-08)
+
+## [3.0.9](https://github.com/revue-org/revue/compare/v3.0.8...v3.0.9) (2024-09-08)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.104 ([96436ff](https://github.com/revue-org/revue/commit/96436ff29c83eb72ba58ade1b01b064fdb0fbd1f))
+
+
+## [3.0.9](https://github.com/revue-org/revue/compare/v3.0.8...v3.0.9) (2024-09-08)
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.102 ([d48c6dc](https://github.com/revue-org/revue/commit/d48c6dc4614fabe2ccb35565df8a27c5caf5e245))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.1 ([2c02115](https://github.com/revue-org/revue/commit/2c02115416a555469a26fa010a5c9319a895e86e))
+* **deps:** update dependency numpy to v2.1.1 ([99db89b](https://github.com/revue-org/revue/commit/99db89bdd5031ddf7712c8226cefe810b90dc1aa))
+* **deps:** update dependency pinia-plugin-persistedstate to v4 ([339b4cb](https://github.com/revue-org/revue/commit/339b4cba3c4f2bb231954db64ca30170e0399bb1))
+* **deps:** update dependency poethepoet to v0.28.0 ([857d5c8](https://github.com/revue-org/revue/commit/857d5c8c70293498f756da8b4ef527e26d2dd0b7))
+* **deps:** update dependency prism-react-renderer to v2.4.0 ([1d1fcf2](https://github.com/revue-org/revue/commit/1d1fcf226a96dc7e3ef864df1ac8aaee9179873f))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.4.0 ([162caae](https://github.com/revue-org/revue/commit/162caae50f81d7dcd750f11efa56910cdce52012))
+
+### Refactoring
+
+* **frontend:** change interfaces method names ([#284](https://github.com/revue-org/revue/issues/284)) ([f45fadc](https://github.com/revue-org/revue/commit/f45fadce7ccd289e1124d4a4b03c6ae0dd9d26f6))
+
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.102 ([d48c6dc](https://github.com/revue-org/revue/commit/d48c6dc4614fabe2ccb35565df8a27c5caf5e245))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.1 ([2c02115](https://github.com/revue-org/revue/commit/2c02115416a555469a26fa010a5c9319a895e86e))
+* **deps:** update dependency numpy to v2.1.1 ([99db89b](https://github.com/revue-org/revue/commit/99db89bdd5031ddf7712c8226cefe810b90dc1aa))
+* **deps:** update dependency pinia-plugin-persistedstate to v4 ([339b4cb](https://github.com/revue-org/revue/commit/339b4cba3c4f2bb231954db64ca30170e0399bb1))
+* **deps:** update dependency poethepoet to v0.28.0 ([857d5c8](https://github.com/revue-org/revue/commit/857d5c8c70293498f756da8b4ef527e26d2dd0b7))
+* **deps:** update dependency prism-react-renderer to v2.4.0 ([1d1fcf2](https://github.com/revue-org/revue/commit/1d1fcf226a96dc7e3ef864df1ac8aaee9179873f))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.4.0 ([162caae](https://github.com/revue-org/revue/commit/162caae50f81d7dcd750f11efa56910cdce52012))
+
+### Refactoring
+
+* **frontend:** change interfaces method names ([#284](https://github.com/revue-org/revue/issues/284)) ([f45fadc](https://github.com/revue-org/revue/commit/f45fadce7ccd289e1124d4a4b03c6ae0dd9d26f6))
+
+
+## [3.0.8](https://github.com/revue-org/revue/compare/v3.0.7...v3.0.8) (2024-09-08)
+
 ## [3.0.7](https://github.com/revue-org/revue/compare/v3.0.6...v3.0.7) (2024-08-29)
 
 ### Bug Fixes

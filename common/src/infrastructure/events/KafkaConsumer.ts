@@ -71,7 +71,7 @@ export default class KafkaConsumer {
     const kafka: Kafka = new Kafka({
       clientId: this.kafkaOptions.clientId,
       brokers: this.kafkaOptions.brokers.map(broker => `${broker.host}:${broker.port}`),
-      logLevel: logLevel.INFO //getLogLevel() TODO: remove comment
+      logLevel: logLevel.INFO
     })
     return kafka.consumer({ groupId: this.kafkaOptions.groupId! })
   }

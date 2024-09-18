@@ -25,7 +25,7 @@ const min = ref<number>((rule as RangeRule).min)
 const max = ref<number>((rule as RangeRule).max)
 
 const updateRule = async (rule: SecurityRule) => {
-  let url: string = `http://${alarmHost}:${alarmPort}/rules/`
+  let url: string = `${alarmHost}/rules/`
   let body: any
   let updatedContacts = contacts.value.map((contact: any) => {
     return {

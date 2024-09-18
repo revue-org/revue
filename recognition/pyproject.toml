@@ -13,8 +13,8 @@ opencv-python = "^4.10.0.84"
 requests = "^2.31.0"
 waitress = "^3.0.0"
 python-dotenv = "^1.0.1"
-kafka-python3 = "^3.0.0"
 pydantic = "^2.8.2"
+kafka-python-ng = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"

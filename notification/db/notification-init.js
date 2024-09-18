@@ -10,7 +10,7 @@ db.notification.insertMany([
       type: 'measurement',
       timestamp: new Date(),
       sourceDeviceId: 'test-source-device-id',
-      measurementId: 'test-measurement-id',
+      id: 'test-measurement-id',
       measure: {
         type: 'temperature',
         unit: 'celsius'

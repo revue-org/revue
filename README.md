@@ -63,8 +63,7 @@ the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) reposi
 
 ## Getting Started
 
-- Download the latest version from [Releases](https://github.com/Mala1180/revue/releases)
-- Unzip the archive
+- Clone the repository including the submodules: `git clone --recurse-submodules git@github.com:revue-org/revue.git`
 - Modify the `.env` file to fit your needs, e.g., the ports and the credentials to be used (the default ones should be
   fine)
 
@@ -84,62 +83,75 @@ and stop it by running
 ./undeploy.sh --docker
 ```
 
-### Going to Production
+This running mode includes the deployment of a (WoT) containerised thing.
+To see more details about it, check the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing)
+repository.
 
-You can deploy the system on a Kubernetes cluster by running
+### Running with Kubernetes
+
+In a Kubernetes cluster, on your master node, run the following command to deploy the system:
 
 ```bash
-./deploy.sh --k8s --driver=<driver>
+./deploy.sh --k8s
 ```
 
-where `<driver>` is the driver to be used by Minikube (e.g., `docker`, `qemu`, `virtualbox`, etc.).
-See the [Minikube documentation](https://minikube.sigs.k8s.io/docs/drivers/) for more information.
-
-Note that to make the `LoadBalancer` work, the `deploy.sh` script will run the `minikube tunnel` command that requires
-root
-privileges. It is also required to keep the terminal open to keep the tunneling active.
-
-To stop the system, you have to interrupt the tunneling process and then run
+And similarly, to stop the system
 
 ```bash
 ./undeploy.sh --k8s
 ```
+
+Once the system is up and running, you have to set up your own WoT device (E.g. [revue-sample-thing](https://github.com/revue-org/revue-sample-thing)).
 
 ## Interacting with the system
 
 ### Web interfaces
 
 - **Revue Web Interface**: The interface through which you can interact with the
-  system ([https://frontend.localhost](https://frontend.localhost) or [https://localhost:8080](https://localhost:8080))
-    - The default credentials for the login are `user` and `user` (editable
-      in [auth/db/auth-init.js](auth/db/auth-init.js)
-      file).
-- **API Gateway**: Traefik dashboard ([https://localhost:8081](https://localhost:8081))
+  system. The default credentials for the login are `user` and `user` (editable
+  in [auth/db/auth-init.js](auth/db/auth-init.js)
+  file).
+    - [https://frontend.localhost](https://frontend.localhost) or [https://localhost:8080](https://localhost:8080) if
+      running with Docker Compose
+    - [https://revue-frontend](https://revue-frontend) if running with Kubernetes
+- **Reverse Proxy**: Traefik dashboard
+    - [https://localhost:8081](https://localhost:8081) if running with Docker Compose
+    - [https://revue-traefik/dashboard/#/](https://revue-traefik/dashboard/#/) if running with Kubernetes
 - **Kafka UI**: The interface to monitor the Kafka topics, messages and
-  consumers ([https://localhost:8082](https://localhost:8082))
-    - In production mode, you have to access it by running `minikube service kafka-ui`
-- **Prometheus and Grafana**: The interfaces to monitor the system **(only in production mode)**
-    - Prometheus Server dashboard: accessible by running `minikube service prometheus-server`
-    - Grafana dashboard: accessible by running `minikube service grafana`
+  consumers
+    - [https://localhost:8082](https://localhost:8082) if running with Docker Compose
+    - [https://revue-kafka-ui](https://revue-kafka-ui) if running with Kubernetes,
+
+#### On Kubernetes environment
+
+- **Prometheus and Grafana**: The interfaces to monitor the system
+    - Prometheus Server dashboard: accessible at [https://revue-prometheus](https://192.168.5.206:9090)
+    - Grafana dashboard: accessible at [https://revue-grafana](https://revue-grafana)
         - Credentials:
             - Username: _admin_
             - Password: Get the password by
               running `kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
         - Accessing to the dashboard clicking on _Dashboards_ (there are some pre-configured dashboards)
 
+Note that kubernetes IPs depend on your cluster's network-specific configuration.
+Edit configuration files in [kubernetes/specifications/metallb/](kubernetes/specifications/metallb/) folder
+to adhere to your case.
 ### Monitoring with devices (WoT)
 
 Go to the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) repository and follow the instructions
 in the README to set up your own WoT device.
+Note that if you are running the system with Docker Compose, a sample containerised device is already deployed.
 Once the device is up and running, you can add it to the system through the Revue Web Interface.
 
-- Go to [https://frontend.localhost](https://frontend.localhost) and log in
+- Go to [Revue Web Interface](#web-interfaces) and log in
 - Go to the _Devices_ section
 - Click on the _Add Device_ button
-- Fill in the form with the device URL (`localhost` if it is running on the same machine as the system) and test the
-  connection.
-  If the connection is successful, it will automatically retrieve the device capabilities.
-  Eventually, give a description and click _Ok_ to add the device to the system.
+- Fill in the form with the device URI
+    - `<container-name>:<exposed-port>` if revue is running with Docker Compose
+        - The already deployed sample device is exposed at `revue-thing:6000`
+    - Test the connection.
+    - If the connection is successful, it will automatically retrieve the device's capabilities.
+      Eventually, give a description and click _Ok_ to add the device to the system.
 - Monitor the device data through the various sections depending on the device capabilities.
 
 ## Authors

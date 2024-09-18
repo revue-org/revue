@@ -41,7 +41,7 @@ const getIntrusionRules = async () => {
 
 const deleteRule = async (rule: SecurityRule) => {
   console.log(rule)
-  await RequestHelper.delete(`http://${alarmHost}/rules/` + rule.id)
+  await RequestHelper.delete(`${alarmHost}/rules/` + rule.id)
     .then(async (_res: any) => {
       popPositive($q, 'Rule deleted successfully')
       rule.type === 'range' ? await getRangeRules() : await getIntrusionRules()

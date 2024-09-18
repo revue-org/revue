@@ -1,6 +1,7 @@
 LICENSE
 README.md
 docs
+kubernetes
 **/tsconfig.tsbuildinfo
 **/Dockerfile
 **/docker-compose.yml

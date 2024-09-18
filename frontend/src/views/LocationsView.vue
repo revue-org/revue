@@ -35,13 +35,13 @@ const addPermission = async (): Promise<void> => {
 }
 
 const removePermission = async (permission: string): Promise<void> => {
-  await RequestHelper.delete(
-    `http://${authHost}/permissions/${useUserStore().id}?permissions=${permission}`
-  ).then(() => {
-    popPositive($q, 'Permission removed successfully')
-    getLocations()
-    newRoom.value = ''
-  })
+  await RequestHelper.delete(`${authHost}/permissions/${useUserStore().id}?permissions=${permission}`).then(
+    () => {
+      popPositive($q, 'Permission removed successfully')
+      getLocations()
+      newRoom.value = ''
+    }
+  )
 }
 
 onMounted(() => {

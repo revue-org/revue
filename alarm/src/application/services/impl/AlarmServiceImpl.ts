@@ -122,7 +122,6 @@ export class AlarmServiceImpl implements AlarmService {
   }
 
   private checkIfDateIsInRange = (date: Date, from: Date, to: Date): boolean => {
-    // TODO: unit testing this function could be a good idea :D
     date.setHours(date.getHours() + 1) // correction due to timezone
     return (
       (date.getHours() > from.getHours() ||

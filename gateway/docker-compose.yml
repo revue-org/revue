@@ -26,8 +26,8 @@ services:
       - "8081:8080"
     volumes:
       # So that Traefik can listen to the Docker events
-      - ./letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - ./letsencrypt:/letsencrypt
     networks:
       - my-net
 

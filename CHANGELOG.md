@@ -1,3 +1,59 @@
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Dependency updates
+
+* **deps:** update kubernetes digest to 7dd2db6 ([9130296](https://github.com/revue-org/revue/commit/9130296cda21b3a07a5890b15f54d56207aa3d14))
+* **deps:** update kubernetes digest to 9fa6f7a ([dad9ba9](https://github.com/revue-org/revue/commit/dad9ba9dfefd5b16d6a92a516567656bab1cec71))
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+### Documentation
+
+* add link to web interfaces section ([a2869e5](https://github.com/revue-org/revue/commit/a2869e56ba0b69b4397d50878e12651d8057ee48))
+
+### General maintenance
+
+* monitoring dashboard links in web interfaces ([564fc66](https://github.com/revue-org/revue/commit/564fc66d6eb9520fe90a5698f2fdc3483fc6a9a9))
+
+
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Dependency updates
+
+* **deps:** update kubernetes digest to 7dd2db6 ([9130296](https://github.com/revue-org/revue/commit/9130296cda21b3a07a5890b15f54d56207aa3d14))
+* **deps:** update kubernetes digest to 9fa6f7a ([dad9ba9](https://github.com/revue-org/revue/commit/dad9ba9dfefd5b16d6a92a516567656bab1cec71))
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
+### Documentation
+
+* add link to web interfaces section ([a2869e5](https://github.com/revue-org/revue/commit/a2869e56ba0b69b4397d50878e12651d8057ee48))
+
+### General maintenance
+
+* monitoring dashboard links in web interfaces ([564fc66](https://github.com/revue-org/revue/commit/564fc66d6eb9520fe90a5698f2fdc3483fc6a9a9))
+
+
+## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
+
+### Bug Fixes
+
+* **frontend:** remove https typo ([1dbe6cb](https://github.com/revue-org/revue/commit/1dbe6cb31d94665c4e390d0049928301c63e5358))
+* **monitoring:** add timestamp parsing on device event subscription ([6fd30d8](https://github.com/revue-org/revue/commit/6fd30d806e437b12d03a47cbc60ebda280c64614))
+
 ## [3.1.3](https://github.com/revue-org/revue/compare/v3.1.2...v3.1.3) (2024-09-17)
 
 ### Bug Fixes

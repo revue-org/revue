@@ -79,5 +79,5 @@ Example of a configuration file targeting CPU usage:
 The system has been tested with a load of 1000 requests per second,
 and the autoscaling feature has been able to manage the workload efficiently.
 Every service can scale up to 5 replicas.
-In the specification [repository](https://github.com/revue-org/revue-kubernetes) are available bash scripts to test the
-system with different loads.
+You can find the bash scripts to stress the system with different workloads in
+the [revue-kubernetes](https://github.com/revue-org/revue-kubernetes) repository.

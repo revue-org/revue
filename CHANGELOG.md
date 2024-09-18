@@ -1,3 +1,21 @@
+## [3.1.5](https://github.com/revue-org/revue/compare/v3.1.4...v3.1.5) (2024-09-18)
+
+### Documentation
+
+* **website:** finalize report ([#279](https://github.com/revue-org/revue/issues/279)) ([ba70b5c](https://github.com/revue-org/revue/commit/ba70b5c50b58a374676cb4813f0ba05faa837fb9))
+
+
+## [3.1.5](https://github.com/revue-org/revue/compare/v3.1.4...v3.1.5) (2024-09-18)
+
+## [3.1.5](https://github.com/revue-org/revue/compare/v3.1.4...v3.1.5) (2024-09-18)
+
+### Documentation
+
+* **website:** finalize report ([#279](https://github.com/revue-org/revue/issues/279)) ([ba70b5c](https://github.com/revue-org/revue/commit/ba70b5c50b58a374676cb4813f0ba05faa837fb9))
+
+
+## [3.1.5](https://github.com/revue-org/revue/compare/v3.1.4...v3.1.5) (2024-09-18)
+
 ## [3.1.4](https://github.com/revue-org/revue/compare/v3.1.3...v3.1.4) (2024-09-18)
 
 ### Dependency updates

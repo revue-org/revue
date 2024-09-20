@@ -17,7 +17,7 @@ import { NotificationEventsHubImpl } from '@/infrastructure/events/NotificationE
 import { NotificationService } from '@/application/services/NotificationService'
 import { MongoDBNotificationRepository } from '@/infrastructure/storage/MongoDBNotificationRepository.js'
 import { MailService } from '@/application/services/MailService'
-import { MailServiceImpl } from '@/application/services/impl/MailServiceImpl'
+import { MailServiceImpl } from '@/application/services/impl/MailServiceImpl.js'
 
 config({ path: process.cwd() + '/../.env' })
 

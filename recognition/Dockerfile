@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.10
 
-FROM python:3.12 AS builder
+FROM python:3.12 AS build
 
 WORKDIR /home/revue/recognition
 
@@ -33,12 +33,17 @@ WORKDIR /home/revue/recognition
 
 COPY .env /home/revue/.env
 COPY recognition/app app
-COPY recognition/requirements.txt ./requirements.txt
-COPY recognition/pyproject.toml ./pyproject.toml
+COPY --from=build /home/revue/recognition/app/resources/yolov3 app/resources/yolov3
+COPY --from=build /home/revue/recognition/requirements.txt ./requirements.txt
+COPY --from=build /home/revue/recognition/pyproject.toml ./pyproject.toml
+
+RUN chmod 400 app/resources/yolov3/yolov3.weights
+RUN chmod 400 app/resources/yolov3/yolov3.cfg
+RUN chmod 400 app/resources/yolov3/coco.names
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 CMD ["sh", "-c", "poe serve --port $RECOGNITION_PORT"]

@@ -3,6 +3,7 @@ from typing import Callable
 
 import cv2 as cv
 import numpy as np
+
 from app.utils.interval import set_timeout
 from app.utils.env import ENV
 
@@ -19,7 +20,7 @@ class Recognizer:
         self._recognized_objects: [str] = []
         if ENV != "test":
             self._net = cv.dnn_DetectionModel(
-                f"{yolo_resource}/yolov3.weights", f"{yolo_resource}/yolov3.cfg"
+                os.path.abspath(f"{yolo_resource}/yolov3.weights"), os.path.abspath(f"{yolo_resource}/yolov3.cfg")
             )
             self._net.setInputSize(320, 320)
             self._net.setInputScale(1.0 / 255)

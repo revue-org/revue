@@ -12,9 +12,9 @@ fi
 # Determine the deployment type
 case "$1" in
   --docker)
-    ./scripts/compose-all.sh --down
     docker stop revue-thing
     docker rm revue-thing
+    ./scripts/compose-all.sh --down
     ;;
   --k8s)
     ./kubernetes/undeploy.sh

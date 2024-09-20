@@ -30,5 +30,9 @@ ALARM_HOST = (
 )
 ALARM_PORT = _get_env_var_or_fail("ALARM_PORT")
 RECOGNITION_BEARER_TOKEN = _get_env_var_or_fail("RECOGNITION_BEARER_TOKEN")
-MEDIA_SERVER_HOST = _get_env_var_or_fail("MEDIA_SERVER_HOST")
+MEDIA_SERVER_HOST = (
+    _get_env_var_or_fail("MEDIA_SERVER_HOST")
+    if "KUBERNETES_SERVICE_PORT" not in os.environ
+    else "revue-media-server"
+)
 MEDIA_SERVER_RTSP_PORT = _get_env_var_or_fail("MEDIA_SERVER_RTSP_PORT")

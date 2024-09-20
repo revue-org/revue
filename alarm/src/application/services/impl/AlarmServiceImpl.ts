@@ -77,7 +77,9 @@ export class AlarmServiceImpl implements AlarmService {
 
   private async checkIntrusion(detection: Detection): Promise<IntrusionRule | undefined> {
     return this.getActiveIntrusionRules().then(rules =>
-      rules.find(rule => rule.activeOn === detection.sourceDeviceId && rule.objectClass === detection.objectClass)
+      rules.find(
+        rule => rule.activeOn === detection.sourceDeviceId && rule.objectClass === detection.objectClass
+      )
     )
   }
 

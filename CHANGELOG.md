@@ -1,3 +1,61 @@
+## [3.1.8](https://github.com/revue-org/revue/compare/v3.1.7...v3.1.8) (2024-09-21)
+
+### Bug Fixes
+
+* **alarm:** fix check intrusion ([dab0d47](https://github.com/revue-org/revue/commit/dab0d4783a69d7549cfcb84b6ba6b0d5e4649ba3))
+* **notification:** fix import ([5133c5c](https://github.com/revue-org/revue/commit/5133c5c195f74a4587a8fe5bb18361b1ece5495d))
+* **recognition:** media server host env var ([e123660](https://github.com/revue-org/revue/commit/e1236600b808041bcc4510968185992776d09621))
+
+### Build and continuous integration
+
+* **recognition:** fix dockerfile build and add absolute path files for yolo weights ([22be9b7](https://github.com/revue-org/revue/commit/22be9b7695599cb15e23a36c71e769cb4027a5e6))
+
+### General maintenance
+
+* tear down revue-thing first ([28843b8](https://github.com/revue-org/revue/commit/28843b8fe8602c7b788b84d92112df7030bf9f26))
+
+### Style improvements
+
+* format ([bc9df42](https://github.com/revue-org/revue/commit/bc9df426933a674004ece5945050fc8f42d49705))
+
+
+## [3.1.8](https://github.com/revue-org/revue/compare/v3.1.7...v3.1.8) (2024-09-21)
+
+### Bug Fixes
+
+* **alarm:** fix check intrusion ([dab0d47](https://github.com/revue-org/revue/commit/dab0d4783a69d7549cfcb84b6ba6b0d5e4649ba3))
+* **notification:** fix import ([5133c5c](https://github.com/revue-org/revue/commit/5133c5c195f74a4587a8fe5bb18361b1ece5495d))
+* **recognition:** media server host env var ([e123660](https://github.com/revue-org/revue/commit/e1236600b808041bcc4510968185992776d09621))
+
+## [3.1.8](https://github.com/revue-org/revue/compare/v3.1.7...v3.1.8) (2024-09-21)
+
+### Bug Fixes
+
+* **alarm:** fix check intrusion ([dab0d47](https://github.com/revue-org/revue/commit/dab0d4783a69d7549cfcb84b6ba6b0d5e4649ba3))
+* **notification:** fix import ([5133c5c](https://github.com/revue-org/revue/commit/5133c5c195f74a4587a8fe5bb18361b1ece5495d))
+* **recognition:** media server host env var ([e123660](https://github.com/revue-org/revue/commit/e1236600b808041bcc4510968185992776d09621))
+
+### Build and continuous integration
+
+* **recognition:** fix dockerfile build and add absolute path files for yolo weights ([22be9b7](https://github.com/revue-org/revue/commit/22be9b7695599cb15e23a36c71e769cb4027a5e6))
+
+### General maintenance
+
+* tear down revue-thing first ([28843b8](https://github.com/revue-org/revue/commit/28843b8fe8602c7b788b84d92112df7030bf9f26))
+
+### Style improvements
+
+* format ([bc9df42](https://github.com/revue-org/revue/commit/bc9df426933a674004ece5945050fc8f42d49705))
+
+
+## [3.1.8](https://github.com/revue-org/revue/compare/v3.1.7...v3.1.8) (2024-09-21)
+
+### Bug Fixes
+
+* **alarm:** fix check intrusion ([dab0d47](https://github.com/revue-org/revue/commit/dab0d4783a69d7549cfcb84b6ba6b0d5e4649ba3))
+* **notification:** fix import ([5133c5c](https://github.com/revue-org/revue/commit/5133c5c195f74a4587a8fe5bb18361b1ece5495d))
+* **recognition:** media server host env var ([e123660](https://github.com/revue-org/revue/commit/e1236600b808041bcc4510968185992776d09621))
+
 ## [3.1.7](https://github.com/revue-org/revue/compare/v3.1.6...v3.1.7) (2024-09-21)
 
 ### Dependency updates

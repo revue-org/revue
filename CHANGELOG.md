@@ -1,3 +1,29 @@
+## [3.1.7](https://github.com/revue-org/revue/compare/v3.1.6...v3.1.7) (2024-09-21)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.107 ([467882b](https://github.com/revue-org/revue/commit/467882b69e6dacea7bea7615106904d93d30c180))
+* **deps:** update dependency pydantic to v2.9.2 ([f9396b5](https://github.com/revue-org/revue/commit/f9396b50082aeba0327b0c53619673e73c2b8b28))
+* **deps:** update kubernetes digest to 1bb4d80 ([d28ecf1](https://github.com/revue-org/revue/commit/d28ecf1064ca66ab01a3c7d1a9ca332d247e2304))
+* **deps:** update kubernetes digest to 4d272d6 ([8126dab](https://github.com/revue-org/revue/commit/8126dabdf048735d19f86240724d7e2e864ca3b6))
+* **deps:** update kubernetes digest to d57ebc0 ([92aa78d](https://github.com/revue-org/revue/commit/92aa78d7a8fb59a12417de127203696a64f24204))
+
+
+## [3.1.7](https://github.com/revue-org/revue/compare/v3.1.6...v3.1.7) (2024-09-21)
+
+## [3.1.7](https://github.com/revue-org/revue/compare/v3.1.6...v3.1.7) (2024-09-21)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.107 ([467882b](https://github.com/revue-org/revue/commit/467882b69e6dacea7bea7615106904d93d30c180))
+* **deps:** update dependency pydantic to v2.9.2 ([f9396b5](https://github.com/revue-org/revue/commit/f9396b50082aeba0327b0c53619673e73c2b8b28))
+* **deps:** update kubernetes digest to 1bb4d80 ([d28ecf1](https://github.com/revue-org/revue/commit/d28ecf1064ca66ab01a3c7d1a9ca332d247e2304))
+* **deps:** update kubernetes digest to 4d272d6 ([8126dab](https://github.com/revue-org/revue/commit/8126dabdf048735d19f86240724d7e2e864ca3b6))
+* **deps:** update kubernetes digest to d57ebc0 ([92aa78d](https://github.com/revue-org/revue/commit/92aa78d7a8fb59a12417de127203696a64f24204))
+
+
+## [3.1.7](https://github.com/revue-org/revue/compare/v3.1.6...v3.1.7) (2024-09-21)
+
 ## [3.1.6](https://github.com/revue-org/revue/compare/v3.1.5...v3.1.6) (2024-09-18)
 
 ### Dependency updates

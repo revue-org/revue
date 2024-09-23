@@ -1,0 +1,11 @@
+{
+    "name": "revue-asyncapi",
+    "version": "1.0.0",
+    "private": true,
+    "engines": {
+        "node": ">=20.17"
+    },
+    "dependencies": {
+        "@asyncapi/cli": "^2.3.13"
+    }
+}

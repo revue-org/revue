@@ -25,7 +25,7 @@ Each request to a microservice will pass through Traefik, which will route the r
 
 ![Kubernetes](../img/kubernetes-deployment.png)
 
-### Prerequisites
+## Prerequisites
 
 - A Kubernetes cluster running
 - `kubectl` installed
@@ -35,7 +35,7 @@ Each request to a microservice will pass through Traefik, which will route the r
 With Revue, it is also provided a guide to creating a K3s cluster on Raspberry PIs 5
 that can be found [here](https://github.com/revue-org/revue-kubernetes).
 
-### How to deploy the system
+## How to deploy the system
 
 1. Log in to your cluster's master node.
 2. Clone the [revue-kubernetes](https://github.com/revue-org/revue-kubernetes/) repository.
@@ -46,12 +46,12 @@ that can be found [here](https://github.com/revue-org/revue-kubernetes).
  ./deploy.sh
 ```
 
-#### Notes
+### Notes
 
 - This guide assumes that cluster is running on a on-premise environment. In particular `MetalLB` is used to expose
   services outside the cluster.
 
-### Horizontal pod autoscaling
+## Horizontal Pod Autoscaling
 
 A [HorizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) (HPA)
 in Kubernetes scales the workload horizontally by increasing or decreasing the number of Pods in response to load
@@ -74,10 +74,35 @@ Example of a configuration file targeting CPU usage:
           averageUtilization: 60             # Target 60% CPU utilization
 ```
 
-#### Benchmark
+### Benchmark
 
 The system has been tested with a load of 1000 requests per second,
 and the autoscaling feature has been able to manage the workload efficiently.
 Every service can scale up to 5 replicas.
 You can find the bash scripts to stress the system with different workloads in
 the [revue-kubernetes](https://github.com/revue-org/revue-kubernetes) repository.
+
+## Monitoring
+
+The system is monitored using two powerful tools:
+
+- **[Prometheus](https://prometheus.io/)**
+- **[Grafana](https://grafana.com/)**
+
+Prometheus and Grafana are widely used tools for monitoring and visualization in cloud-native environments.
+
+Prometheus is a powerful time-series database specifically designed for reliability and performance in capturing
+real-time metrics.
+It excels at **scraping** metrics from a variety of endpoints, such as servers, applications, and infrastructure
+components, using a _pull-based model_.
+Prometheus also supports alerting based on flexible queries, enabling users to identify and
+act on issues quickly.
+
+Grafana complements Prometheus by providing a user-friendly platform for **data visualization**.
+It allows users to create customizable dashboards to monitor system performance, track trends, and troubleshoot problems
+visually.
+
+In the [README](https://github.com/revue-org/revue/blob/main/README.md) of the main repository, is explained how to
+access Prometheus and Grafana dashboards.
+
+![Grafana Dashboard](../img/monitoring/grafana-monitoring.png)

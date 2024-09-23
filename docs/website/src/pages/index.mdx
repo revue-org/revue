@@ -1,0 +1,66 @@
+---
+title: Revue
+---
+
+## Interacting with the system
+
+### Web interfaces
+
+- **Revue Web Interface**: The interface through which you can interact with the
+  system. The default credentials for the login are `user` and `user` (editable
+  in [auth/db/auth-init.js](auth/db/auth-init.js)
+  file).
+    - [https://frontend.localhost](https://frontend.localhost) or [https://localhost:8080](https://localhost:8080) if
+      running with Docker Compose
+    - [https://revue-frontend](https://revue-frontend) if running with Kubernetes
+- **Reverse Proxy**: Traefik dashboard
+    - [https://localhost:8081](https://localhost:8081) if running with Docker Compose
+    - [https://revue-traefik/dashboard/#/](https://revue-traefik/dashboard/#/) if running with Kubernetes
+- **Kafka UI**: The interface to monitor the Kafka topics, messages and
+  consumers
+    - [https://localhost:8082](https://localhost:8082) if running with Docker Compose
+    - [https://revue-kafka-ui](https://revue-kafka-ui) if running with Kubernetes,
+
+#### On Kubernetes environment
+
+- **Prometheus and Grafana**: The interfaces to monitor the system
+    - Prometheus Server dashboard: accessible at [https://revue-prometheus](https://192.168.5.206:9090)
+    - Grafana dashboard: accessible at [https://revue-grafana](https://revue-grafana)
+        - Credentials:
+            - Username: _admin_
+            - Password: Get the password by
+              running `kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
+        - Accessing to the dashboard clicking on _Dashboards_ (there are some pre-configured dashboards)
+
+Note that kubernetes IPs depend on your cluster's network-specific configuration.
+Edit configuration files in [kubernetes/specifications/metallb/](kubernetes/specifications/metallb/) folder
+to adhere to your case.
+### Monitoring with devices (WoT)
+
+Go to the [revue-sample-thing](https://github.com/revue-org/revue-sample-thing) repository and follow the instructions
+in the README to set up your own WoT device.
+Note that if you are running the system with Docker Compose, a sample containerised device is already deployed.
+Once the device is up and running, you can add it to the system through the Revue Web Interface.
+
+- Go to [Revue Web Interface](#web-interfaces) and log in
+- Go to the _Devices_ section
+- Click on the _Add Device_ button
+- Fill in the form with the device URI
+    - `<container-name>:<exposed-port>` if revue is running with Docker Compose
+        - The already deployed sample device is exposed at `revue-thing:6000`
+    - Test the connection.
+    - If the connection is successful, it will automatically retrieve the device's capabilities.
+      Eventually, give a description and click _Ok_ to add the device to the system.
+- Monitor the device data through the various sections depending on the device capabilities.
+
+# Videos
+
+- [Admin section](https://drive.google.com/file/d/1ShF8LTKKHmPBhOYIZlXwhwVAcFYBwshR/view?usp=drive_link)
+- [Demo](https://drive.google.com/file/d/1L57DSljybMTp1Jry4c3XNgfSZjdSxvl8/view?usp=drive_link)
+- [Prometheus & Grafana](https://drive.google.com/file/d/1V0MAL25WxUhD4fEXlBPjgdFFGlZHtoFG/view?usp=drive_link)
+
+## Authors
+
+- Mattia Matteini ([Mala1180](https://github.com/Mala1180))
+- Kelvin Olaiya ([kelvin-olaiya](https://github.com/kelvin-olaiya))
+- Alberto Paganelli ([paga16-hash](https://github.com/paga16-hash))

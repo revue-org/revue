@@ -1,3 +1,45 @@
+## [3.1.9](https://github.com/revue-org/revue/compare/v3.1.8...v3.1.9) (2024-09-23)
+
+### Documentation
+
+* **asyncapi:** fix path ([ffd2e9e](https://github.com/revue-org/revue/commit/ffd2e9edce6bba13f3f158a8701bdca2360524d3))
+* **asyncapi:** update port and some stuff ([1351bcc](https://github.com/revue-org/revue/commit/1351bcc155b3799a594cfde39f66bf9513049eab))
+* modify sections order ([d4d3e64](https://github.com/revue-org/revue/commit/d4d3e642b2c83a97e81c1a592ecd9fee7e128949))
+* **website:** monitoring section ([e31cb08](https://github.com/revue-org/revue/commit/e31cb08c9b3b6f85867a57bcece78f8f8e2afb53))
+* **website:** update frontpage ([737141e](https://github.com/revue-org/revue/commit/737141e19e52df0b1be64ab4a256a855d1b0274f))
+
+### Build and continuous integration
+
+* **website:** build asyncapi web ([3cda409](https://github.com/revue-org/revue/commit/3cda409336b0633744377b0ac62f10eb4611f04c))
+
+### General maintenance
+
+* fix arrow in kubernetes deployment ([3803616](https://github.com/revue-org/revue/commit/3803616414ca013afc6e00c38fc38a6c1900e35e))
+
+
+## [3.1.9](https://github.com/revue-org/revue/compare/v3.1.8...v3.1.9) (2024-09-23)
+
+## [3.1.9](https://github.com/revue-org/revue/compare/v3.1.8...v3.1.9) (2024-09-23)
+
+### Documentation
+
+* **asyncapi:** fix path ([ffd2e9e](https://github.com/revue-org/revue/commit/ffd2e9edce6bba13f3f158a8701bdca2360524d3))
+* **asyncapi:** update port and some stuff ([1351bcc](https://github.com/revue-org/revue/commit/1351bcc155b3799a594cfde39f66bf9513049eab))
+* modify sections order ([d4d3e64](https://github.com/revue-org/revue/commit/d4d3e642b2c83a97e81c1a592ecd9fee7e128949))
+* **website:** monitoring section ([e31cb08](https://github.com/revue-org/revue/commit/e31cb08c9b3b6f85867a57bcece78f8f8e2afb53))
+* **website:** update frontpage ([737141e](https://github.com/revue-org/revue/commit/737141e19e52df0b1be64ab4a256a855d1b0274f))
+
+### Build and continuous integration
+
+* **website:** build asyncapi web ([3cda409](https://github.com/revue-org/revue/commit/3cda409336b0633744377b0ac62f10eb4611f04c))
+
+### General maintenance
+
+* fix arrow in kubernetes deployment ([3803616](https://github.com/revue-org/revue/commit/3803616414ca013afc6e00c38fc38a6c1900e35e))
+
+
+## [3.1.9](https://github.com/revue-org/revue/compare/v3.1.8...v3.1.9) (2024-09-23)
+
 ## [3.1.8](https://github.com/revue-org/revue/compare/v3.1.7...v3.1.8) (2024-09-21)
 
 ### Bug Fixes

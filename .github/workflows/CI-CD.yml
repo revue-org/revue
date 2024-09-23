@@ -72,7 +72,7 @@ jobs:
           cd ../api/asyncapi
           npm install
           npx -p @asyncapi/cli asyncapi generate fromTemplate ./specification.yml @asyncapi/html-template -o ./build/asyncapi --force-write
-          mv ./build/asyncapi/ docs/website/build    
+          mv ./build/asyncapi/ ../../website/build    
       - uses: actions/upload-artifact@v4.4.0
         with:
           name: website

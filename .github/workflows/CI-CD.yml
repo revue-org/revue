@@ -91,7 +91,7 @@ jobs:
         next-version: ${{ steps.compute-next-version.outputs.next-version }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:

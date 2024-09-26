@@ -11,7 +11,7 @@ packageJson {
         script("test" runs "vitest --run" dependingOn listOf(npmScript("build", "common")))
     }
     dependencies {
-        "@rollup/plugin-commonjs" version "^27.0.0"
+        "@rollup/plugin-commonjs" version "^28.0.0"
         "@rollup/plugin-node-resolve" version "^15.2.3"
         "mongodb-memory-server" version "^10.0.0"
         "rollup" version "^4.18.1"

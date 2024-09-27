@@ -1,3 +1,45 @@
+## [3.1.10](https://github.com/revue-org/revue/compare/v3.1.9...v3.1.10) (2024-09-27)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.108 ([babac35](https://github.com/revue-org/revue/commit/babac3551b401715fa73064acc1c72a56a3c7fd9))
+* **deps:** update dependency @asyncapi/cli to v2.4.0 ([5901e31](https://github.com/revue-org/revue/commit/5901e3185bdbc1831be2967f09cdfb8e60aaa7a7))
+* **deps:** update dependency @asyncapi/cli to v2.5.0 ([8cb0e73](https://github.com/revue-org/revue/commit/8cb0e73274955801e354b7c0ea7fcfd5e5c74bb1))
+* **deps:** update dependency @rollup/plugin-commonjs to v27 ([6dcdbd5](https://github.com/revue-org/revue/commit/6dcdbd5b0e146c8173e7402bbf04771f4f331450))
+* **deps:** update dependency @rollup/plugin-commonjs to v28 ([210f5ab](https://github.com/revue-org/revue/commit/210f5ab78a954bbc45402825e71da4ba67314b84))
+* **deps:** update dependency gradle to v8.10.2 ([f57aece](https://github.com/revue-org/revue/commit/f57aece7eebf770d73f1494cdb7854685ce77eb7))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.4 ([c8f8d11](https://github.com/revue-org/revue/commit/c8f8d11fd5608810edb4d7def754c10806322de7))
+* **deps:** update dependency poethepoet to v0.29.0 ([924be43](https://github.com/revue-org/revue/commit/924be4370114fa1f8e6bdba8297a0c81f75a2f4b))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.13 ([746db46](https://github.com/revue-org/revue/commit/746db46f3e9f7ec4dc44833092af75c6974f30cb))
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v4.2.0 ([5df19a2](https://github.com/revue-org/revue/commit/5df19a22ed9c728cc11b2fb361babe21927401a0))
+
+
+## [3.1.10](https://github.com/revue-org/revue/compare/v3.1.9...v3.1.10) (2024-09-27)
+
+## [3.1.10](https://github.com/revue-org/revue/compare/v3.1.9...v3.1.10) (2024-09-27)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.108 ([babac35](https://github.com/revue-org/revue/commit/babac3551b401715fa73064acc1c72a56a3c7fd9))
+* **deps:** update dependency @asyncapi/cli to v2.4.0 ([5901e31](https://github.com/revue-org/revue/commit/5901e3185bdbc1831be2967f09cdfb8e60aaa7a7))
+* **deps:** update dependency @asyncapi/cli to v2.5.0 ([8cb0e73](https://github.com/revue-org/revue/commit/8cb0e73274955801e354b7c0ea7fcfd5e5c74bb1))
+* **deps:** update dependency @rollup/plugin-commonjs to v27 ([6dcdbd5](https://github.com/revue-org/revue/commit/6dcdbd5b0e146c8173e7402bbf04771f4f331450))
+* **deps:** update dependency @rollup/plugin-commonjs to v28 ([210f5ab](https://github.com/revue-org/revue/commit/210f5ab78a954bbc45402825e71da4ba67314b84))
+* **deps:** update dependency gradle to v8.10.2 ([f57aece](https://github.com/revue-org/revue/commit/f57aece7eebf770d73f1494cdb7854685ce77eb7))
+* **deps:** update dependency io.github.kelvindev15:npm-gradle-plugin to v3.2.4 ([c8f8d11](https://github.com/revue-org/revue/commit/c8f8d11fd5608810edb4d7def754c10806322de7))
+* **deps:** update dependency poethepoet to v0.29.0 ([924be43](https://github.com/revue-org/revue/commit/924be4370114fa1f8e6bdba8297a0c81f75a2f4b))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.13 ([746db46](https://github.com/revue-org/revue/commit/746db46f3e9f7ec4dc44833092af75c6974f30cb))
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v4.2.0 ([5df19a2](https://github.com/revue-org/revue/commit/5df19a22ed9c728cc11b2fb361babe21927401a0))
+
+
+## [3.1.10](https://github.com/revue-org/revue/compare/v3.1.9...v3.1.10) (2024-09-27)
+
 ## [3.1.9](https://github.com/revue-org/revue/compare/v3.1.8...v3.1.9) (2024-09-23)
 
 ### Documentation

@@ -1,3 +1,31 @@
+## [3.1.11](https://github.com/revue-org/revue/compare/v3.1.10...v3.1.11) (2024-09-30)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.109 ([26124a3](https://github.com/revue-org/revue/commit/26124a374c929052217597f728cf06b49adbb193))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.8.0 ([93fd671](https://github.com/revue-org/revue/commit/93fd67104501696657e069972defb747d9f14d93))
+* **deps:** update docker/build-push-action action to v6.9.0 ([e893b5b](https://github.com/revue-org/revue/commit/e893b5b2f5941ef1647ce5fbe03658545492922d))
+
+
+## [3.1.11](https://github.com/revue-org/revue/compare/v3.1.10...v3.1.11) (2024-09-30)
+
+## [3.1.11](https://github.com/revue-org/revue/compare/v3.1.10...v3.1.11) (2024-09-30)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.109 ([26124a3](https://github.com/revue-org/revue/commit/26124a374c929052217597f728cf06b49adbb193))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action action to v6.8.0 ([93fd671](https://github.com/revue-org/revue/commit/93fd67104501696657e069972defb747d9f14d93))
+* **deps:** update docker/build-push-action action to v6.9.0 ([e893b5b](https://github.com/revue-org/revue/commit/e893b5b2f5941ef1647ce5fbe03658545492922d))
+
+
+## [3.1.11](https://github.com/revue-org/revue/compare/v3.1.10...v3.1.11) (2024-09-30)
+
 ## [3.1.10](https://github.com/revue-org/revue/compare/v3.1.9...v3.1.10) (2024-09-27)
 
 ### Dependency updates

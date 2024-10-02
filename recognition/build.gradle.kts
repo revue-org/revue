@@ -3,7 +3,7 @@ class Task(
     val command: List<String>
 )
 
-val setup = tasks.register<Exec>("setup") {
+val setup by tasks.registering<Exec> {
     commandLine = listOf("pip", "install", "-r", "requirements.txt")
 }
 

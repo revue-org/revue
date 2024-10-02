@@ -6,6 +6,7 @@ on:
       - 'README.md'
       - 'CHANGELOG.md'
       - 'renovate.json'
+  pull_request:    
   workflow_dispatch:
 defaults:
   run:

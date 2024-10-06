@@ -1,3 +1,37 @@
+## [3.1.13](https://github.com/revue-org/revue/compare/v3.1.12...v3.1.13) (2024-10-06)
+
+### Dependency updates
+
+* **core-deps:** update node.js to 20.18 ([f38941b](https://github.com/revue-org/revue/commit/f38941b3282647add6009bbadbd84b871e647aa5))
+* **deps:** update dependency @asyncapi/cli to v2.6.0 ([007fb02](https://github.com/revue-org/revue/commit/007fb021e77cbd391d8365722bf9390f27b479cf))
+* **deps:** update dependency kafka-python-ng to v2.2.3 ([71249e1](https://github.com/revue-org/revue/commit/71249e163c9851ed61191917c8300910482ba21c))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-buildx-action action to v3.7.0 ([be6a308](https://github.com/revue-org/revue/commit/be6a3088be476dca66a2f285af730acaa870265a))
+* **deps:** update docker/setup-buildx-action action to v3.7.1 ([db0c88f](https://github.com/revue-org/revue/commit/db0c88f630deb49b0ab81b2f8c1d0732b3275a8f))
+* run ci on PRs ([5c991d9](https://github.com/revue-org/revue/commit/5c991d948766cacf3c7be8ee2e0045e26551fb76))
+
+
+## [3.1.13](https://github.com/revue-org/revue/compare/v3.1.12...v3.1.13) (2024-10-06)
+
+## [3.1.13](https://github.com/revue-org/revue/compare/v3.1.12...v3.1.13) (2024-10-06)
+
+### Dependency updates
+
+* **core-deps:** update node.js to 20.18 ([f38941b](https://github.com/revue-org/revue/commit/f38941b3282647add6009bbadbd84b871e647aa5))
+* **deps:** update dependency @asyncapi/cli to v2.6.0 ([007fb02](https://github.com/revue-org/revue/commit/007fb021e77cbd391d8365722bf9390f27b479cf))
+* **deps:** update dependency kafka-python-ng to v2.2.3 ([71249e1](https://github.com/revue-org/revue/commit/71249e163c9851ed61191917c8300910482ba21c))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-buildx-action action to v3.7.0 ([be6a308](https://github.com/revue-org/revue/commit/be6a3088be476dca66a2f285af730acaa870265a))
+* **deps:** update docker/setup-buildx-action action to v3.7.1 ([db0c88f](https://github.com/revue-org/revue/commit/db0c88f630deb49b0ab81b2f8c1d0732b3275a8f))
+* run ci on PRs ([5c991d9](https://github.com/revue-org/revue/commit/5c991d948766cacf3c7be8ee2e0045e26551fb76))
+
+
+## [3.1.13](https://github.com/revue-org/revue/compare/v3.1.12...v3.1.13) (2024-10-06)
+
 ## [3.1.12](https://github.com/revue-org/revue/compare/v3.1.11...v3.1.12) (2024-10-01)
 
 ### Dependency updates

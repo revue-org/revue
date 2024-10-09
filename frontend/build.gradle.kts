@@ -45,7 +45,7 @@ packageJson {
     devDependencies {
         "@quasar/vite-plugin" version "^1.6.0"
         "@vitejs/plugin-vue" version "^5.0.0"
-        "@vue/eslint-config-prettier" version "^9.0.0"
+        "@vue/eslint-config-prettier" version "^10.0.0"
         "@vue/eslint-config-typescript" version "^13.0.0"
         "@vue/test-utils" version "^2.4.1"
         "@vue/tsconfig" version "^0.5.0"

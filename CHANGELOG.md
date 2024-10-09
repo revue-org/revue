@@ -1,3 +1,39 @@
+## [3.1.14](https://github.com/revue-org/revue/compare/v3.1.13...v3.1.14) (2024-10-09)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.111 ([96faa99](https://github.com/revue-org/revue/commit/96faa99e80e9f585c9295f4f6e5863e23f76ae2d))
+* **deps:** update dependency @vue/eslint-config-prettier to v10 ([3ec3058](https://github.com/revue-org/revue/commit/3ec3058f07fab8a1f0eb8d6050ac785e9d86d811))
+* **deps:** update dependency numpy to v2.1.2 ([7dcd82b](https://github.com/revue-org/revue/commit/7dcd82b9a1a75b8acea295e9befa4430d993504d))
+* **deps:** update traefik docker tag to v3.2 ([0b5990f](https://github.com/revue-org/revue/commit/0b5990fc6a64c3e55106aa5f86ebd4e8a85a28e4))
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v4.2.1 ([e05891b](https://github.com/revue-org/revue/commit/e05891b47138ecfcb53ed62e38c16e806b0e0984))
+* **deps:** update actions/upload-artifact action to v4.4.1 ([bf7d18a](https://github.com/revue-org/revue/commit/bf7d18a99fb38e486c4def9f44a6a81d24e8dbd6))
+* **deps:** update actions/upload-artifact action to v4.4.2 ([0e68dc6](https://github.com/revue-org/revue/commit/0e68dc623c60352197b95169d741fc815aa8383f))
+
+
+## [3.1.14](https://github.com/revue-org/revue/compare/v3.1.13...v3.1.14) (2024-10-09)
+
+## [3.1.14](https://github.com/revue-org/revue/compare/v3.1.13...v3.1.14) (2024-10-09)
+
+### Dependency updates
+
+* **core-deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.111 ([96faa99](https://github.com/revue-org/revue/commit/96faa99e80e9f585c9295f4f6e5863e23f76ae2d))
+* **deps:** update dependency @vue/eslint-config-prettier to v10 ([3ec3058](https://github.com/revue-org/revue/commit/3ec3058f07fab8a1f0eb8d6050ac785e9d86d811))
+* **deps:** update dependency numpy to v2.1.2 ([7dcd82b](https://github.com/revue-org/revue/commit/7dcd82b9a1a75b8acea295e9befa4430d993504d))
+* **deps:** update traefik docker tag to v3.2 ([0b5990f](https://github.com/revue-org/revue/commit/0b5990fc6a64c3e55106aa5f86ebd4e8a85a28e4))
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v4.2.1 ([e05891b](https://github.com/revue-org/revue/commit/e05891b47138ecfcb53ed62e38c16e806b0e0984))
+* **deps:** update actions/upload-artifact action to v4.4.1 ([bf7d18a](https://github.com/revue-org/revue/commit/bf7d18a99fb38e486c4def9f44a6a81d24e8dbd6))
+* **deps:** update actions/upload-artifact action to v4.4.2 ([0e68dc6](https://github.com/revue-org/revue/commit/0e68dc623c60352197b95169d741fc815aa8383f))
+
+
+## [3.1.14](https://github.com/revue-org/revue/compare/v3.1.13...v3.1.14) (2024-10-09)
+
 ## [3.1.13](https://github.com/revue-org/revue/compare/v3.1.12...v3.1.13) (2024-10-06)
 
 ### Dependency updates

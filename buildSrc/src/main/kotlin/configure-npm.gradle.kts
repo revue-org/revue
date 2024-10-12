@@ -69,7 +69,7 @@ packageJson {
         "prettier" version "^3.0.3"
         "supertest" version "^7.0.0"
         "tsc-alias" version "^1.8.8"
-        "typescript" version "5.6.2"
+        "typescript" version "5.6.3"
         "vite" version "^5.0.0"
         "vitest" version "^2.0.0"
     }

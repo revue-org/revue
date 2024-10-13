@@ -64,7 +64,7 @@ packageJson {
         "@types/supertest" version "^6.0.2"
         "@types/uuid" version "^10.0.0"
         "@typescript-eslint/eslint-plugin" version "^7.0.0"
-        "eslint" version "^8.49.0"
+        "eslint" version "^9.0.0"
         "nodemon" version "^3.0.1"
         "prettier" version "^3.0.3"
         "supertest" version "^7.0.0"

@@ -58,7 +58,7 @@ packageJson {
     devDependencies {
         "@rushstack/eslint-patch" version "^1.3.3"
         "@types/cors" version "^2.8.17"
-        "@types/express" version "^4.17.17"
+        "@types/express" version "^5.0.0"
         "@types/jsonwebtoken" version "^9.0.5"
         "@types/node" version "^22.0.0"
         "@types/supertest" version "^6.0.2"

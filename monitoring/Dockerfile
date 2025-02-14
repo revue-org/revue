@@ -23,7 +23,7 @@ ENV DOCKER_BUILD=true
 RUN gradle monitoring:npmBuild --no-daemon --info --parallel --stacktrace
 
 
-FROM node:20-alpine AS production
+FROM node:22-alpine AS production
 LABEL maintainer="matteinimattia@gmail.com, albi1600@gmail.com"
 
 WORKDIR /home/revue

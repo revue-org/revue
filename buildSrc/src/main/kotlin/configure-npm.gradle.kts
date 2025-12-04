@@ -48,7 +48,7 @@ packageJson {
         "axios" version "^1.6.7"
         "cors" version "^2.8.5"
         "dotenv" version "^16.3.1"
-        "express" version "^4.18.2"
+        "express" version "^5.0.0"
         "jsonwebtoken" version "^9.0.2"
         "kafkajs" version "^2.2.4"
         "mongoose" version "^8.0.1"
@@ -58,7 +58,7 @@ packageJson {
     devDependencies {
         "@rushstack/eslint-patch" version "^1.3.3"
         "@types/cors" version "^2.8.17"
-        "@types/express" version "^4.17.17"
+        "@types/express" version "^5.0.0"
         "@types/jsonwebtoken" version "^9.0.5"
         "@types/node" version "^22.0.0"
         "@types/supertest" version "^6.0.2"

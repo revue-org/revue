@@ -53,7 +53,7 @@ packageJson {
         "kafkajs" version "^2.2.4"
         "mongoose" version "^8.0.1"
         "zod" version "^3.23.8"
-        "uuid" version "^10.0.0"
+        "uuid" version "^11.0.0"
     }
     devDependencies {
         "@rushstack/eslint-patch" version "^1.3.3"

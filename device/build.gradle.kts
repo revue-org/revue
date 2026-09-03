@@ -17,7 +17,7 @@ packageJson {
     }
     dependencies {
         "@node-wot/binding-http" version "^0.8.14"
-        "@node-wot/core" version "^0.8.14"
+        "@node-wot/core" version "^0.9.0"
     }
     devDependencies {
         "mongodb-memory-server" version "^10.0.0"

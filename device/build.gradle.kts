@@ -16,7 +16,7 @@ packageJson {
         ).forEach { script(it dependingOn scriptDeps) }
     }
     dependencies {
-        "@node-wot/binding-http" version "^0.8.14"
+        "@node-wot/binding-http" version "^0.9.0"
         "@node-wot/core" version "^0.8.14"
     }
     devDependencies {

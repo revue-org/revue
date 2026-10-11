@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.10
+# syntax = docker/dockerfile:1.28
 
 FROM python:3.13 AS build
 

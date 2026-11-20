@@ -48,7 +48,7 @@ packageJson {
         "@vue/eslint-config-prettier" version "^10.0.0"
         "@vue/eslint-config-typescript" version "^13.0.0"
         "@vue/test-utils" version "^2.4.1"
-        "@vue/tsconfig" version "^0.5.0"
+        "@vue/tsconfig" version "^0.9.0"
         "eslint-plugin-vue" version "^9.18.1"
         "sass" version "^1.69.7"
         "vite" version "^5.0.11"

@@ -100,7 +100,7 @@ jobs:
           cache: 'npm'
       - name: Pre-compute the next version
         id: compute-next-version
-        uses: nicolasfara/precompute-semantic-release-version-action@2.0.1
+        uses: nicolasfara/precompute-semantic-release-version-action@2.0.2
         with:
           github-token: ${{ secrets.GH_TOKEN }}
       - name: Use the next version
